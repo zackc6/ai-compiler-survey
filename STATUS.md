@@ -16,7 +16,8 @@ Last updated: **2026-07-31**
 | Tiered REPOS/PRODUCTS | Done (v3) | TritorX/KernelEvolve/Helion/AutoKernel |
 | Publication digests | Done (v4) | **95** digests (+10 wave) |
 | Validate script | Done | `python3 scripts/validate_survey.py` |
-| GitHub remote | Available | push via agent workflow |
+| **PDF publish** | Done | `publish/` → `publish/out/next-gen-ai-compiler-survey.pdf` |
+| GitHub remote | Available | work on `main` and push |
 
 ## Coverage checklist
 
@@ -42,9 +43,10 @@ Last updated: **2026-07-31**
 |---|---|
 | 2026-07-31 | Initial scaffold through prediction refocus (C1–C8, §5, tiers) |
 | 2026-07-31 | Roadmap + stack reshape + HW codesign (job d); C9–C10; +10 digests; CLAIMS/WORKFLOW/validate |
+| 2026-07-31 | Add `publish/` PDF pipeline; export `next-gen-ai-compiler-survey.pdf` |
 
 ## Next actions
 
-1. Watch C1/C2/C9 settlements; update CLAIMS/ROADMAP.
+1. Watch C1/C2/C9 settlements; update CLAIMS/ROADMAP; rebuild PDF after narrative edits.
 2. Prefer new Tier A codesign/agentic-compile sources; skip pure EDA.
 3. Deepen Wave E digests; keep `validate_survey.py` green.

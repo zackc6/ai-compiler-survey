@@ -6,3 +6,7 @@ Thumbs.db
 __pycache__/
 .env
 .env.*
+
+# publish intermediates (PDF artifact is tracked)
+publish/out/survey-bundle.md
+publish/out/survey.html
