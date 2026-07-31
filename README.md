@@ -32,6 +32,7 @@ publish/
   build_pdf.py            # assemble docs → PDF
   out/next-gen-ai-compiler-survey.pdf
 scripts/validate_survey.py
+.cursor/skills/survey/    # Cursor skill: methodology + experience
 ```
 
 ## Quick start

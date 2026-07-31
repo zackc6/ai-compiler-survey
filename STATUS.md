@@ -17,6 +17,7 @@ Last updated: **2026-07-31**
 | Publication digests | Done (v4) | **95** digests (+10 wave) |
 | Validate script | Done | `python3 scripts/validate_survey.py` |
 | **PDF publish** | Done | `publish/` → `publish/out/next-gen-ai-compiler-survey.pdf` |
+| **Survey skill** | Done | `.cursor/skills/survey/` (+ personal `~/.cursor/skills/survey/`) |
 | GitHub remote | Available | work on `main` and push |
 
 ## Coverage checklist
@@ -44,6 +45,7 @@ Last updated: **2026-07-31**
 | 2026-07-31 | Initial scaffold through prediction refocus (C1–C8, §5, tiers) |
 | 2026-07-31 | Roadmap + stack reshape + HW codesign (job d); C9–C10; +10 digests; CLAIMS/WORKFLOW/validate |
 | 2026-07-31 | Add `publish/` PDF pipeline; export `next-gen-ai-compiler-survey.pdf` |
+| 2026-07-31 | Distill methodology into `.cursor/skills/survey` skill |
 
 ## Next actions
 
