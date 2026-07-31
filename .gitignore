@@ -1,0 +1,8 @@
+.DS_Store
+Thumbs.db
+*.tmp
+.idea/
+.vscode/
+__pycache__/
+.env
+.env.*
