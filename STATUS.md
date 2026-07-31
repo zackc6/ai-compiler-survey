@@ -12,7 +12,7 @@ Last updated: **2026-07-31**
 | Taxonomy / stack diagram | Done (v1) | `docs/TAXONOMY.md` |
 | Publication digests | Done (Wave A–D v1) | **65** digests under `publications/` |
 | Publication INDEX | Done | `publications/INDEX.md` |
-| GitHub remote + progressive pushes | Blocked on auth | Need successful `gh auth login` |
+| GitHub remote + progressive pushes | Blocked on auth | Local commit ready; see `docs/SETUP_GITHUB.md` |
 | Interactive canvas sync | Optional | Mirror of chat canvas; not required for GitHub |
 
 ## Coverage checklist
