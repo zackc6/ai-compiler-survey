@@ -10,9 +10,10 @@ Last updated: **2026-07-31**
 | Expanded survey narrative (Q1–Q4) | Done (v2) | `docs/SURVEY.md` includes §1b + full §4 gaps |
 | Traditional vs trends comparison | Done | `docs/SURVEY.md` §1b + `docs/COMPARISON.md` |
 | Gaps (10 items, detailed) | Done | Production, correctness, cost, interop, interfaces, FMware, data, HITL, security, benchmarks |
+| Source-control repos map | Done | `docs/REPOS.md` + SCM digests (Archer, Gerrit plugins, OpenEvolve, …) |
 | System comparison table | Done (v1) | `docs/SYSTEMS.md` |
 | Taxonomy / stack diagram | Done (v1) | `docs/TAXONOMY.md` |
-| Publication digests | Done (Wave A–D v1) | **65** digests under `publications/` |
+| Publication digests | Done (Wave A–D + SCM) | **78** digests under `publications/` |
 | Publication INDEX | Done | `publications/INDEX.md` |
 | GitHub remote + progressive pushes | Blocked on auth | Local commits ready; see `docs/SETUP_GITHUB.md` |
 | Interactive canvas sync | Optional | Mirror of chat canvas; not required for GitHub |
@@ -77,6 +78,7 @@ Last updated: **2026-07-31**
 |---|---|
 | 2026-07-31 | Initial repository scaffold; goals; status; survey docs; 65 publication digests |
 | 2026-07-31 | Added §1b traditional vs trends comparison; fully expanded §4 ten gaps |
+| 2026-07-31 | Added GitHub/Gerrit repo map (`docs/REPOS.md`) + SCM/review digests (Archer, Gerrit AI plugins, OpenEvolve, HeuriGym, KernelAgent, …) |
 
 ## Next actions
 

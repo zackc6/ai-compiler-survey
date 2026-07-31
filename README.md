@@ -22,6 +22,7 @@ STATUS.md                 # Living status tracker
 docs/
   SURVEY.md               # Expanded survey narrative (Q1–Q4 + §1b comparison)
   COMPARISON.md           # Pointer to traditional vs trends section
+  REPOS.md                # GitHub/Gerrit repos mapped to survey context
   SYSTEMS.md              # System comparison table
   TAXONOMY.md             # Selector / Translator / Generator + stack layers
   SETUP_GITHUB.md         # How to auth + push remote

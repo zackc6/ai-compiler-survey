@@ -354,7 +354,7 @@ Dialects, Triton, CUDA Tile IR, PTX, and LLVM IR remain siloed; an agent tuned o
 
 ### 4.5 Hardware-native agent interfaces
 
-**What exists.** mlirAgent: structural IR fingerprinting, knowledge graphs, MCP tool suites; Compiler-R1 tool calls (`instrcount`, etc.); GEAK hardware feedback loops; CompileIQ search spaces over NVCC/PTXAS internals.
+**What exists.** mlirAgent: structural IR fingerprinting, knowledge graphs, MCP tool suites; Compiler-R1 tool calls (`instrcount`, etc.); GEAK hardware feedback loops; CompileIQ search spaces over NVCC/PTXAS internals ([NVIDIA/CompileIQ](https://github.com/NVIDIA/CompileIQ)); **SCM-side tool APIs** in Archer (`verify`, `difftest`, `trans`, workflow) bound to a local `llvm-project` checkout; Gerrit AI Agent Provider APIs for in-UI chat (generic LLMs unless extended).
 
 **What is missing.** **Standards**, not demos:
 
@@ -405,7 +405,7 @@ Dialects, Triton, CUDA Tile IR, PTX, and LLVM IR remain siloed; an agent tuned o
 
 ### 4.8 Human-in-the-loop compiler engineering
 
-**What exists.** Magellan produces reviewable C++ heuristics; LLVM Discourse agent PR review reports bugs with compiler-specific tools; Anthropic CCC emphasizes harnesses; Lattner commentary stresses tests as the real product.
+**What exists.** Magellan produces reviewable C++ heuristics; **Archer** ([paper](https://arxiv.org/html/2607.01808), [GitHub](https://github.com/cuhk-s3/Archer)) agentically reviews **LLVM GitHub PRs** with Alive2/LLUBI evidence gates; LLVM Discourse threads report similar agent PR review experience; **Gerrit** hosts general AI review plugins ([ai-code-review](https://gerrit.googlesource.com/plugins/ai-code-review/), [ReviewAI](https://github.com/amarula/reviewai-gerrit-plugin), [GerritForge provider](https://github.com/GerritForge/ai-review-agent-provider)) used in large-org change workflows; Anthropic CCC emphasizes harnesses; Lattner commentary stresses tests as the real product. See [`REPOS.md`](REPOS.md) for the SCM map.
 
 **What is missing.** Process answers, not only models:
 
@@ -491,6 +491,7 @@ with fixed hardware profiles, reference docks, and leaderboards that separate **
 
 1. Skim this file for the narrative (including **§1b** traditional vs trends and **§4** gaps).
 2. Use [`SYSTEMS.md`](SYSTEMS.md) for a comparison table of concrete systems.
-3. Use [`../publications/INDEX.md`](../publications/INDEX.md) as the bibliography.
-4. Open individual digests for key contributions and takeaways.
-5. Track what’s done / next in [`../STATUS.md`](../STATUS.md).
+3. Use [`REPOS.md`](REPOS.md) for **GitHub / Gerrit / googlesource** repos matched to context.
+4. Use [`../publications/INDEX.md`](../publications/INDEX.md) as the bibliography (includes SCM digests).
+5. Open individual digests for key contributions and takeaways.
+6. Track what’s done / next in [`../STATUS.md`](../STATUS.md).

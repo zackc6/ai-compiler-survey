@@ -70,6 +70,23 @@ One digest per searched source. Files live beside this index.
 | 2026 | company | Forums & workshops | [Moonlight literature review: Magellan](moonlight-magellan-review.md) | [source](https://www.themoonlight.io/en/review/magellan-autonomous-discovery-of-novel-compiler-optimization-heuristics-with-alphaevolve) |
 | 2010s+ | code | Correctness lineage | [Souper: A superoptimizer for LLVM IR](souper.md) | [source](https://github.com/google/souper) |
 
-**Total:** 65 digests
+| 2026 | paper | Source control & review agents | [Archer: Towards Agentic Review for Compiler Optimizations](archer-paper.md) | [source](https://arxiv.org/html/2607.01808) |
+| 2026 | code | Source control & review agents | [cuhk-s3/Archer (GitHub)](archer-github.md) | [source](https://github.com/cuhk-s3/Archer) |
+| 2024+ | code | Source control & review agents | [Gerrit plugin: ai-code-review (googlesource)](gerrit-ai-code-review.md) | [source](https://gerrit.googlesource.com/plugins/ai-code-review/) |
+| 2025+ | code | Source control & review agents | [amarula/reviewai-gerrit-plugin](reviewai-gerrit-plugin.md) | [source](https://github.com/amarula/reviewai-gerrit-plugin) |
+| 2025+ | code | Source control & review agents | [GerritForge/ai-review-agent-provider](gerritforge-ai-review-provider.md) | [source](https://github.com/GerritForge/ai-review-agent-provider) |
+| 2025 | code | Source control & review agents | [OpenEvolve (AlphaEvolve-style OSS)](openevolve.md) | [source](https://github.com/algorithmicsuperintelligence/openevolve) |
+| 2025 | code | Source control & review agents | [HeuriGym (cornell-zhang/heurigym)](heurigym.md) | [source](https://github.com/cornell-zhang/heurigym) |
+| 2025 | code | Source control & review agents | [meta-pytorch/KernelAgent](kernelagent.md) | [source](https://github.com/meta-pytorch/KernelAgent) |
+| 2026 | code | Source control & review agents | [NVIDIA/CompileIQ (GitHub)](compileiq-github.md) | [source](https://github.com/NVIDIA/CompileIQ) |
+| 2026 | code | Source control & review agents | [anthropics/claudes-c-compiler](claudes-c-compiler-github.md) | [source](https://github.com/anthropics/claudes-c-compiler) |
+| 2021+ | code | Source control & review agents | [google/ml-compiler-opt](ml-compiler-opt-github.md) | [source](https://github.com/google/ml-compiler-opt) |
+| 2026 | code | Source control & review agents | [ZJU-PL/hintpilot](hintpilot-github.md) | [source](https://github.com/ZJU-PL/hintpilot) |
+| ongoing | code | Source control & review agents | [llvm/llvm-project (host repository)](llvm-project-github.md) | [source](https://github.com/llvm/llvm-project) |
 
-Kinds: `paper` 路 `company` 路 `forum` 路 `talk` 路 `code`
+**Total:** 78 digests (including Source control & review agents group)
+
+Kinds: `paper` · `company` · `forum` · `talk` · `code`
+
+See also: [`docs/REPOS.md`](../docs/REPOS.md) for GitHub/Gerrit mapping to survey gaps.
+
