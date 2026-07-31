@@ -30,6 +30,8 @@ Companion: [`SURVEY.md`](SURVEY.md) §5 · [`CONFLICTS.md`](CONFLICTS.md) · [`R
 | **AMD** | [GEAK](https://rocm.blogs.amd.com/artificial-intelligence/kernel-optimization-agent/README.html) (v3) | ControlPlane-Agent, Kernel-Platform | Repo-level multi-DSL kernel agents on Instinct | **C2**, **C4** |
 | **Meta** | [LLM Compiler](https://ai.meta.com/research/publications/meta-large-language-model-compiler-foundation-models-of-compiler-optimization/) / [KernelLLM](https://huggingface.co/facebook/KernelLLM) | Research-release | Open foundation / specialist models | — |
 | **NVIDIA** | TensorRT-LLM + [Claude agents/skills PR](https://github.com/NVIDIA/TensorRT-LLM/pull/12831) | DataPlane-Serve + ControlPlane-Agent | Agents wired into flagship serve compiler (multi-DSL) | **C4** |
+| **Meta** | TritorX + KernelEvolve (MTIA + hetero GPUs) | ControlPlane-Agent + Kernel-Platform | Agentic ASIC bring-up + production ranking kernels | **C9**, C2 |
+| **Meta / LF** | [Helion](https://pytorch.org/projects/helion/) | Kernel-Platform | Higher-level agent/autotune surface over Triton | **C4** |
 
 ---
 

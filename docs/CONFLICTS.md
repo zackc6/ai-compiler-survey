@@ -120,6 +120,32 @@ Companion: [`SURVEY.md`](SURVEY.md) § Future · [`PRODUCTS.md`](PRODUCTS.md) ·
 
 ---
 
+## C9 — Coverage-first bring-up agents vs peak-performance kernel agents
+
+| Side | Sources | Position |
+|---|---|---|
+| **A — Coverage unlocks the device** | TritorX (481 ATen ops, OpInfo, MTIA sim+silicon); KForge on Intel Arc | New ASICs need *any correct* backend before peak kernels; agents should maximize operator coverage first |
+| **B — Perf agents are the product** | KernelEvolve, GEAK, AutoKernel, KernelBench `fast_p` | Without speedups vs eager/libraries, agentic compile does not pay TCO; coverage-only backends still lose to NVIDIA stacks |
+
+**Why it matters.** The agentic-compiler roadmap needs a **ladder** (coverage → perf) vs a single objective. Codesign programs that only optimize HotGEMM will strand models; programs that only chase OpInfo will never win serving.
+
+**Settlement signal.** Public playbooks that sequence TritorX-class coverage then KernelEvolve-class perf on the same ASIC, with serving metrics — or one objective dominates release criteria industry-wide.
+
+---
+
+## C10 — Agentic compiler codesign feedback vs autonomous chip design
+
+| Side | Sources | Position |
+|---|---|---|
+| **A — Agents co-design silicon** | Broad “AI for chip design” narratives; optimism from sim bring-up | LLMs will propose ISA/microarch with compilers in the loop end-to-end |
+| **B — Agents stress toolchains; humans/EDA own tape-out** | TritorX/KernelEvolve actual scope (kernels, dialects, tests, profilers); this survey’s ROADMAP | Agentic *compilers* shorten SW TTM and file ISA/IR pain reports; autonomous tape-out is a different field |
+
+**Why it matters.** Keeps survey focused on the **target agentic compiler**. HW is in scope only when it closes the loop through kernels/IR/oracles.
+
+**Settlement signal.** A production chip whose microarchitecture was primarily agent-proposed *and* validated via agentic compile oracles — not merely agent-written RTL fragments without compiler admit.
+
+---
+
 ## Working stance for this survey (until settlement)
 
 1. Prefer **hybrid control/data plane** (C6-B) as the prediction baseline.
@@ -128,5 +154,6 @@ Companion: [`SURVEY.md`](SURVEY.md) § Future · [`PRODUCTS.md`](PRODUCTS.md) ·
 4. Assume **constrained actions + strong oracles** until free rewrite proves itself (C3).
 5. Demote generic SCM AI plugins to Tier C evidence (C7).
 6. Keep DL-compiler products as **Tier B baselines**, not as the definition of next-gen (C8).
+7. Codesign via **coverage→perf agent ladder** on sim+silicon (C9); do **not** expand into autonomous EDA (C10-B).
 
 Update this file when a conflict gains a decisive public settlement.

@@ -9,15 +9,15 @@
 
 ## 0.1 North star
 
-**Primary goal:** Predict what the **next-generation AI compiler** is, and **how agents change that future**.
+**Primary goal:** Predict the **next-generation agentic compiler** (architecture + process through ~2027–28 and ~5 years), including how it reshapes the **software stack** and **HW–SW codesign** — without drifting into general EDA.
 
-Everything else (papers, GitHub/Gerrit, commercial SKUs, forums) is **evidence** for that prediction—not a catalog for its own sake. Catalogs are supporting evidence only; when sources disagree, they go in [`CONFLICTS.md`](CONFLICTS.md) rather than being silently averaged.
+Everything else (papers, GitHub/Gerrit, commercial SKUs, forums, ASIC bring-up studies) is **evidence** for that prediction—not a catalog for its own sake. When sources disagree, they go in [`CONFLICTS.md`](CONFLICTS.md) rather than being silently averaged.
 
 **Executive verdict.** Compilation is shifting from **fixed pass pipelines + black-box autotuning** toward **hybrid LLM–compiler loops**. Empirically, the winning pattern is:
 
 > **Agents own semantic search, orchestration, and artifact synthesis. Compilers own lowering, legality, measurement, and fallback.**
 
-Agents are reshaping the **control plane** of compilation more than replacing the **data plane**. See [§1b](#1b-traditional-ai-compilation-vs-following-trends), [§5 Future prediction](#5-future-prediction-what-next-gen-looks-like), [§6 Conflicts](#6-conflicts-pointer), and [§4](#4-whats-missing--under-covered-q4) for gaps that block that future. Tiered evidence maps: [`REPOS.md`](REPOS.md), [`PRODUCTS.md`](PRODUCTS.md).
+Agents reshape the **control plane** more than they replace the **data plane**. A fourth job — **accelerator bring-up / codesign feedback** on sim+silicon — is now Tier A evidence (TritorX, KernelEvolve), still centered on kernels/IR/oracles. See [`ROADMAP.md`](ROADMAP.md), [`STACK.md`](STACK.md), [§5](#5-future-prediction-what-next-gen-looks-like), [§6](#6-conflicts-pointer), [§4](#4-whats-missing--under-covered-q4).
 
 ---
 
@@ -503,24 +503,29 @@ Falsifiable sketch for **~2027–2028**, conditioned on conflicts in [`CONFLICTS
 ```text
 ┌─────────────────────────────────────────────────────────┐
 │  Agent control plane (optional → then CI-default)       │
-│  online: propose / measure / admit (pass, hint, kernel, │
-│          knob/ACF)                                      │
-│  offline: synthesize shippable heuristics (Magellan)    │
-│  engineering: review/evolve compiler source (Archer/CCC)│
+│  (a) online: propose / measure / admit                  │
+│  (b) offline: synthesize shippable heuristics           │
+│  (c) engineering: oracle review / evolve compiler src   │
+│  (d) bring-up/codesign: coverage→perf on sim + silicon  │
 └───────────────────────────┬─────────────────────────────┘
                             │ bounded actions + oracles
 ┌───────────────────────────▼─────────────────────────────┐
 │  Classical data plane (default path stays)              │
-│  Inductor/XLA/MLIR/Triton/Tile → device + libraries     │
-│  legality · lowering · golden/Alive2 · fallback -O3     │
+│  Inductor/XLA/MLIR/Triton/Helion/Tile → device libs     │
+│  legality · lowering · golden/Alive2/OpInfo · fallback  │
+└───────────────────────────┬─────────────────────────────┘
+                            │ coverage/perf traces
+┌───────────────────────────▼─────────────────────────────┐
+│  HW codesign feedback (not autonomous tape-out)         │
+│  ISA / dialect / memory-system RFCs ← agent failures    │
 └─────────────────────────────────────────────────────────┘
 ```
 
 1. **Compiler becomes agent-addressable**, not agent-replaced — structured summaries, fingerprints, tool APIs, admit/fallback (mlirAgent: free IR rewrite loses to identity).
-2. **Three agent jobs stick:** (a) online workload specialization, (b) offline heuristic/pass synthesis, (c) compiler engineering & review.
-3. **New first-class artifacts:** ACFs, evolved C++ heuristic patches, verified Triton/Tile kernels, replayable traces — not only binaries.
-4. **Defaults stay classical** until agents win on *distributions* in CI; hot kernels and size-critical apps adopt first (CompileIQ, GEAK, Magellan prod inlining as leading indicators).
-5. **Will not happen soon:** unconstrained LLM replaces `opt`/Inductor end-to-end without oracles (conflict C6).
+2. **Four agent jobs stick:** (a) online specialization, (b) offline heuristic/pass synthesis, (c) compiler engineering & review, (d) accelerator bring-up / codesign feedback.
+3. **New first-class artifacts:** ACFs, evolved C++ heuristics, verified kernels, optimization memory, bring-up corpora, replayable traces.
+4. **Defaults stay classical** until agents win on *distributions* in CI; hot kernels, size-critical apps, and *new ASICs* adopt first.
+5. **Will not happen soon:** unconstrained LLM replaces `opt`/Inductor without oracles (**C6**); autonomous chip tape-out via compiler agents (**C10**).
 
 ### 5.2 How agents change the future (process)
 
@@ -540,34 +545,48 @@ Falsifiable sketch for **~2027–2028**, conditioned on conflicts in [`CONFLICTS
 
 ### 5.4 Near-term signals conditioning the sketch
 
-From Magellan LLVM Dev Meeting slides ([digest](../publications/magellan-llvm-slides.md)) and ACCLAIM ([arXiv:2604.04238](https://arxiv.org/abs/2604.04238), [digest](../publications/acclaim.md)):
+From Magellan LLVM Dev Meeting slides ([digest](../publications/magellan-llvm-slides.md)), ACCLAIM ([arXiv:2604.04238](https://arxiv.org/abs/2604.04238), [digest](../publications/acclaim.md)), and HW-codesign agents:
 
 | Signal | Implication for §5 | Watch |
 |---|---|---|
 | Magellan OSS via **OpenEvolve + OSS models** | Offline job (b) becomes reproducible outside Google | Public recipes / llvm patches (**C1**) |
 | Magellan **XLA** auto-sharding / graph-rewrite green-field | Offline agents invent heuristics where human expertise is thin | End-to-end XLA pipeline eval (slides: WIP) |
 | ACCLAIM multi-level compiler↔LLM cooperation ([code](https://github.com/amazon-science/acclaim)) | Online job (a) is orchestration across levels + test admit, not IR replacement | Tool-calling quality; GPU/serving ports |
-| 2026 re-check | No new architecture-changing agent-compile stack beyond Tier A map (kernel/heuristic/oracle agents); skip more Gerrit/edge SKUs | New Tier A only |
+| **TritorX** coverage on MTIA + future-device sim | Job **(d) bring-up/codesign** enters the agentic compiler | Second-vendor repro (**C9**) |
+| **KernelEvolve** hetero NVIDIA/AMD/MTIA perf agents | Production multi-HW control plane | Public traces vs KernelBench-X (**C2**) |
+| Ascend **compiler-grounded** Triton diagnosis | Non-CUDA NPUs need IR/pass escalation, not CUDA-pretrained guess | Hierarchy ablations |
+| Helion + CompileIQ ACF path | DSL substrate agents specialize | **C4** vs Tile/CuTe |
+
+### 5.5 Five-year horizon & roadmap pointer
+
+Detailed milestones: [`ROADMAP.md`](ROADMAP.md) (Horizon A 2027–28, Horizon B ~2029–31).
+
+**Executive 5-year bet (still agentic-compiler-centric):** classical data planes remain; agentic control planes become how orgs survive O(ops × devices × generations). HW codesign appears as **sim/silicon feedback into IR/ISA/dialects**, not autonomous tape-out (**C10**). New artifacts (ACFs, heuristics, memories, bring-up corpora) sit beside binaries in VCS.
+
+### 5.6 Stack reshape pointer
+
+Layer-by-layer SW + codesign map: [`STACK.md`](STACK.md). Claim IDs: [`CLAIMS.md`](CLAIMS.md).
 
 ---
 
 ## 6. Conflicts (pointer)
 
-Search results often disagree (vendor headlines vs docs, Magellan vs MLGO, free rewrite vs advisory-only, Triton vs Tile, online vs offline agents). **Do not collapse these into a false consensus.**
+Search results often disagree (vendor headlines vs docs, Magellan vs MLGO, free rewrite vs advisory-only, Triton vs Tile, online vs offline agents, coverage vs peak bring-up, compiler codesign vs autonomous EDA). **Do not collapse these into a false consensus.**
 
-→ Full write-up: [`CONFLICTS.md`](CONFLICTS.md) (C1–C8).
+→ Full write-up: [`CONFLICTS.md`](CONFLICTS.md) (C1–C10).
 
-Working stance used in §5: hybrid control/data plane; Magellan and MLGO as parallel bets; discount single-number speedups; constrain actions until oracles prove free rewrite; demote generic SCM AI as Tier C evidence.
+Working stance used in §5: hybrid control/data plane; Magellan and MLGO as parallel bets; discount single-number speedups; constrain actions until oracles prove free rewrite; demote generic SCM AI as Tier C; codesign via coverage→perf agent ladder (**C9**), not autonomous chip design (**C10**).
 
 ---
 
 ## 7. How to read this repo
 
-1. Skim **§0.1 North star** and **§5 Future prediction** (plus **§1b** and **§4** gaps as blockers to that future).
-2. Read [`CONFLICTS.md`](CONFLICTS.md) when two sources disagree.
+1. Skim **§0.1 North star**, **§5 Future prediction**, then [`ROADMAP.md`](ROADMAP.md) / [`STACK.md`](STACK.md).
+2. Check [`CLAIMS.md`](CLAIMS.md); read [`CONFLICTS.md`](CONFLICTS.md) when two sources disagree.
 3. Use [`SYSTEMS.md`](SYSTEMS.md) for concrete systems.
-4. Use [`REPOS.md`](REPOS.md) / [`PRODUCTS.md`](PRODUCTS.md) as **Tier A/B/C evidence for the prediction**, not forge/SKU catalogs — Tier A reshapes compile; Tier B is substrate; Tier C is delivery/HITL only.
-5. Use [`../publications/INDEX.md`](../publications/INDEX.md) as the bibliography (prefer Tier A digests first — ACCLAIM, Magellan slides, Kernel*, CompileIQ, Archer).
-6. Track progress in [`../STATUS.md`](../STATUS.md).
+4. Use [`REPOS.md`](REPOS.md) / [`PRODUCTS.md`](PRODUCTS.md) as **Tier A/B/C evidence for the prediction**, not forge/SKU catalogs.
+5. Use [`../publications/INDEX.md`](../publications/INDEX.md) (prefer ★ — ACCLAIM, Magellan, TritorX, KernelEvolve, Kernel*, CompileIQ, Archer).
+6. Contribute via [`WORKFLOW.md`](WORKFLOW.md); validate with `python3 scripts/validate_survey.py`.
+7. Track progress in [`../STATUS.md`](../STATUS.md).
 
-**One-page success check:** (1) What is the predicted next-gen AI compiler? → §5.1. (2) Which three agent jobs change the future? → §5.1 #2 / §5.2. (3) Which repos/products are evidence vs noise? → Tier A vs C in REPOS/PRODUCTS.
+**One-page success check:** (1) Predicted agentic compiler? → §5.1 / ROADMAP. (2) Four agent jobs including codesign bring-up? → §5.1 / STACK. (3) Evidence vs noise? → Tier A vs C.

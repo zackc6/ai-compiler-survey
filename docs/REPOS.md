@@ -34,6 +34,9 @@ Companion: [`SURVEY.md`](SURVEY.md) §5 · [`CONFLICTS.md`](CONFLICTS.md) · [`P
 | [NVIDIA/CompileIQ](https://github.com/NVIDIA/CompileIQ) | GitHub | Evolutionary compiler Advanced Controls → ACF | §4.3; **C2/C5** |
 | [anthropics/claudes-c-compiler](https://github.com/anthropics/claudes-c-compiler) | GitHub | Agents-as-compiler-engineers | Trend F; **C6** |
 | [flagos-ai/awesome-LLM-driven-kernel-generation](https://github.com/flagos-ai/awesome-LLM-driven-kernel-generation) | GitHub | Living kernel-agent bibliography | Trend D watchlist |
+| [RightNow-AI/autokernel](https://github.com/RightNow-AI/autokernel) | GitHub | Amdahl-driven model-level kernel agent loop | Job (a); **C2** |
+| TritorX / KernelEvolve (papers; code mostly internal) | Meta | ASIC bring-up + hetero perf agents (MTIA/NVIDIA/AMD) | Job **(d)**; **C9** |
+| [pytorch/helion](https://github.com/pytorch/helion) | GitHub | High-level tile DSL → Triton (agent/CompileIQ surface) | Tier B substrate; **C4** |
 
 **Magellan** itself remains mostly internal (paper + [LLVM Dev Meeting slides](../publications/magellan-llvm-slides.md)); track OSS via OpenEvolve + HeuriGym until a public Magellan tree appears (**C1**). Slides next-steps: OpenEvolve OSS path; XLA green-field / auto-sharding — folded into [`SURVEY.md`](SURVEY.md) §5.4.
 

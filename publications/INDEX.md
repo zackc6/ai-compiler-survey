@@ -52,7 +52,7 @@ One digest per searched source. Files live beside this index.
 | 2025 | paper | GPU kernels & inference compilers | [Reasoning Compiler: LLM-Guided Optimizations for Efficient Model Serving](reasoning-compiler.md) | [source](https://arxiv.org/html/2506.01374) |
 | 2026 | paper | GPU kernels & inference compilers | [AgentCompile: An LLM-Guided Compiler for Direct CUDA Inference](agentcompile.md) | [source](https://arxiv.org/html/2606.07665) |
 | 2025 | code | GPU kernels & inference compilers | [ucb-bar/mlirAgent](mliragent.md) | [source](https://github.com/ucb-bar/mlirAgent) |
-| 2025 | company | Company infra | [NVIDIA: Focus on Your Algorithm鈥擟UDA Tile Handles the Hardware](cuda-tile-blog.md) | [source](https://developer.nvidia.com/blog/focus-on-your-algorithm-nvidia-cuda-tile-handles-the-hardware/) |
+| 2025 | company | Company infra | [NVIDIA: Focus on Your Algorithm—CUDA Tile Handles the Hardware](cuda-tile-blog.md) | [source](https://developer.nvidia.com/blog/focus-on-your-algorithm-nvidia-cuda-tile-handles-the-hardware/) |
 | 2026 | company | Company infra | [NVIDIA: Develop High-Performance GPU Kernels in C++ with CUDA Tile](cuda-tile-cpp.md) | [source](https://developer.nvidia.com/blog/develop-high-performance-gpu-kernels-in-cpp-with-nvidia-cuda-tile/) |
 | 2026 | company | Company infra | [NVIDIA CUDA 13.3: Tile C++ + CompileIQ](cuda-13-3-compileiq.md) | [source](https://developer.nvidia.com/blog/nvidia-cuda-13-3-enhances-gpu-development-with-tile-programming-in-c-compiler-autotuning-and-python-updates/) |
 | 2026 | company | Company infra | [NVIDIA: Extract More Kernel Performance with CompileIQ](compileiq-deep-dive.md) | [source](https://developer.nvidia.com/blog/extract-more-kernel-performance-with-nvidia-compileiq-auto-tuning/) |
@@ -60,14 +60,14 @@ One digest per searched source. Files live beside this index.
 | 2025 | company | Company infra | [Modular: What about the MLIR compiler infrastructure?](modular-mlir-blog.md) | [source](https://www.modular.com/blog/democratizing-ai-compute-part-8-what-about-the-mlir-compiler-infrastructure) |
 | 2026 | company | Company infra | [Anthropic: Building a C compiler with a team of parallel Claudes](anthropic-claude-c-compiler.md) | [source](https://www.anthropic.com/engineering/building-c-compiler) |
 | 2026 | company | Company infra | [Ars Technica: Sixteen Claude agents created a C compiler](ars-claude-c-compiler.md) | [source](https://arstechnica.com/ai/2026/02/sixteen-claude-ai-agents-working-together-created-a-new-c-compiler/) |
-| 2026 | company | Company infra | [Modular/Lattner: The Claude C Compiler 鈥?Future of Software](modular-claude-c-compiler.md) | [source](https://www.modular.com/blog/the-claude-c-compiler-what-it-reveals-about-the-future-of-software) |
+| 2026 | company | Company infra | [Modular/Lattner: The Claude C Compiler — Future of Software](modular-claude-c-compiler.md) | [source](https://www.modular.com/blog/the-claude-c-compiler-what-it-reveals-about-the-future-of-software) |
 | 2026 | forum | Company infra | [HN: We tasked Opus 4.6 agent teams to build a C Compiler](hn-claude-c-compiler.md) | [source](https://news.ycombinator.com/item?id=46903616) |
-| 2025 | forum | Forums & workshops | [LLVM Discourse: LLVM 鈾?ML Workshop 2025 agenda](llvm-ml-workshop-2025.md) | [source](https://discourse.llvm.org/t/llvm-dev25-llvm-ml-workshop/87488/4) |
-| 2026 | forum | Forums & workshops | [LLVM Discourse: LLVM 鈾?ML Workshop 2026 CFP](llvm-ml-workshop-2026.md) | [source](https://discourse.llvm.org/t/llvm-dev26-llvm-ml-workshop/91148) |
+| 2025 | forum | Forums & workshops | [LLVM Discourse: LLVM ♥ ML Workshop 2025 agenda](llvm-ml-workshop-2025.md) | [source](https://discourse.llvm.org/t/llvm-dev25-llvm-ml-workshop/87488/4) |
+| 2026 | forum | Forums & workshops | [LLVM Discourse: LLVM ♥ ML Workshop 2026 CFP](llvm-ml-workshop-2026.md) | [source](https://discourse.llvm.org/t/llvm-dev26-llvm-ml-workshop/91148) |
 | 2023 | forum | Forums & workshops | [LLVM Discourse: ML-Guided Compiler Optimization Workshop 2023](llvm-ml-workshop-2023.md) | [source](https://discourse.llvm.org/t/llvm-dev23-ml-guided-compiler-optimization-in-llvm-workshop/73090) |
 | 2026 | forum | Forums & workshops | [LLVM Discourse: Automated review with agents (~30 bugs / 207 PRs)](llvm-agent-pr-review.md) | [source](https://discourse.llvm.org/t/automated-review-with-agents-30-bugs-on-207-prs/90093) |
 | 2026 | forum | Forums & workshops | [comp.compilers: Magellan paper notice](compilers-magellan-notice.md) | [source](https://compilers.iecc.com/comparch/article/26-01-006) |
-| 2025 | company | Forums & workshops | [IEEE Pulse: LLMs in Compiler Optimization 鈥?Challenges and Future Direction](ieee-pulse-llm-compilers.md) | [source](https://www.embs.org/pulse/articles/llms-in-compiler-optimization-challenges-and-future-direction/) |
+| 2025 | company | Forums & workshops | [IEEE Pulse: LLMs in Compiler Optimization — Challenges and Future Direction](ieee-pulse-llm-compilers.md) | [source](https://www.embs.org/pulse/articles/llms-in-compiler-optimization-challenges-and-future-direction/) |
 | 2026 | company | Forums & workshops | [Moonlight literature review: Magellan](moonlight-magellan-review.md) | [source](https://www.themoonlight.io/en/review/magellan-autonomous-discovery-of-novel-compiler-optimization-heuristics-with-alphaevolve) |
 | 2010s+ | code | Correctness lineage | [Souper: A superoptimizer for LLVM IR](souper.md) | [source](https://github.com/google/souper) |
 
@@ -92,11 +92,22 @@ One digest per searched source. Files live beside this index.
 | 2026 | code | Commercial products & proposals | [TensorRT-LLM PR: Claude agents/skills for kernels and compile](trt-llm-claude-agents-pr.md) | [source](https://github.com/NVIDIA/TensorRT-LLM/pull/12831) |
 | 2026 | company | Commercial products & proposals | [CompileIQ docs: expected gains (2 to 3 percent highly optimized)](compileiq-docs-expectations.md) | [source](https://nvidia.github.io/CompileIQ/stable/index.html) |
 
-**Total:** 85 digests
+| 2025/26 | paper | HW codesign & accelerator bring-up | [Agentic Operator Generation for ML ASICs (TritorX)](tritorx.md) ★ bring-up / codesign | [source](https://arxiv.org/abs/2512.10977) |
+| 2025/26 | paper | HW codesign & accelerator bring-up | [KernelEvolve: Agentic Kernel Coding for Heterogeneous Accelerators](kernelevolve.md) ★ multi-HW prod | [source](https://arxiv.org/abs/2512.23236) |
+| 2026 | paper | HW codesign & accelerator bring-up | [Compiler-Grounded Hierarchical Diagnosis for Triton on NPUs](compiler-grounded-triton-npu.md) ★ Ascend | [source](https://arxiv.org/abs/2607.23089) |
+| 2026 | paper | HW codesign & accelerator bring-up | [KForge: Cross-Platform Kernel Generation for AI Accelerators](kforge.md) ★ multi-DSL | [source](https://arxiv.org/abs/2606.02963) |
+| 2026 | paper | GPU kernels & inference compilers | [AutoKernel: Autonomous GPU Kernel Optimization](autokernel.md) ★ Amdahl agent loop | [source](https://arxiv.org/abs/2603.21331) |
+| 2026 | code | GPU kernels & inference compilers | [RightNow-AI/autokernel (GitHub)](autokernel-github.md) ★ | [source](https://github.com/RightNow-AI/autokernel) |
+| 2026 | paper | GPU kernels & inference compilers | [Kernel Forge: Agent Harness for CUDA Kernel Opt](kernel-forge.md) | [source](https://arxiv.org/abs/2607.24762) |
+| 2026 | paper | GPU kernels & inference compilers | [KernelBlaster: Memory-Augmented In-Context RL for CUDA](kernelblaster.md) | [source](https://arxiv.org/abs/2602.14293) |
+| 2025 | company | Classic DL compilers | [Helion: High-Level DSL for Portable ML Kernels](helion-blog.md) | [source](https://pytorch.org/blog/helion/) |
+| 2025+ | code | Classic DL compilers | [pytorch/helion (GitHub)](helion-github.md) | [source](https://github.com/pytorch/helion) |
+
+**Total:** 95 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 
-★ = high-signal for next-gen **prediction** (prefer these when updating [`docs/SURVEY.md`](../docs/SURVEY.md) §5).
+★ = high-signal for next-gen **prediction** (prefer these when updating [`docs/SURVEY.md`](../docs/SURVEY.md) §5 / [`docs/ROADMAP.md`](../docs/ROADMAP.md)).
 
-See also: [`docs/REPOS.md`](../docs/REPOS.md) / [`docs/PRODUCTS.md`](../docs/PRODUCTS.md) as **Tier A/B/C evidence** (not catalogs); [`docs/CONFLICTS.md`](../docs/CONFLICTS.md) when sources disagree.
+See also: [`docs/REPOS.md`](../docs/REPOS.md) / [`docs/PRODUCTS.md`](../docs/PRODUCTS.md) as **Tier A/B/C evidence** (not catalogs); [`docs/CONFLICTS.md`](../docs/CONFLICTS.md) when sources disagree; [`docs/STACK.md`](../docs/STACK.md) for SW+HW reshape.
 

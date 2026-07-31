@@ -29,6 +29,7 @@ Most strong 2025–26 systems are **Selectors or Generators wrapped in hybrid va
 | Orchestrator | Budget, IR level, stop conditions | ACCLAIM guide agent, GEAK directors |
 | Tester / critic | Tests, Alive2, profiles, refine prompts | ACCLAIM test agent, Generative Compilation |
 | Search partner | Propose nodes for MCTS / evolution | Reasoning Compiler, AlphaEvolve |
+| Bring-up / codesign | Coverage→perf on sim+silicon; ISA/IR feedback | TritorX, KernelEvolve, Ascend diagnosis, KForge |
 
 ## Classical AI compiler stack (substrate)
 

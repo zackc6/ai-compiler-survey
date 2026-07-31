@@ -22,6 +22,12 @@ Snapshot of representative systems. Numbers are **as reported by authors**; cros
 | NVIDIA CompileIQ | NVCC/PTXAS knobs | Evolutionary search | Measure on real kernels | ≤15% on hot Triton/CUTLASS kernels | CUDA 13.3 blogs |
 | MLGO | LLVM heuristics | RL policies in-tree | Compiler semantics | Prod inlining/regalloc | Google / LLVM |
 | KernelBench | Eval harness | N/A (benchmark) | Correct + fast_p | Frontier <20% one-shot typical | ICML 2025 |
+| TritorX | PyTorch ATen / Triton-MTIA | FSM agent bring-up | OpInfo + model ops | 481 ops; ~84% pass; sim+silicon | MLSys 2026 |
+| KernelEvolve | Triton (+TLX) multi-HW | Graph search + HW RAG | TritonBench + federated profilers | Hetero NVIDIA/AMD/MTIA prod | Meta 2025/26 |
+| KForge | Multi-DSL / multi-vendor | Gen ↔ perf-analysis agents | Compile + correct + profile | +2.12% vs TRT-LLM; 5.13× on Arc L2 | arXiv 2026 |
+| AutoKernel | Triton/CUDA on PyTorch models | Keep/revert agent loop | 5-stage harness | Beats eager & torch.compile on hot ops | arXiv 2026 |
+| Ascend hierarchical diagnosis | Triton-NPU | Escalating compiler-grounded agents | Profile → IR → compiler source | 4.35× geo-mean on 37 ops | arXiv 2026 |
+| Helion | PyTorch→Triton DSL | Autotune (not LLM) | Config search | Geomean > compile/Triton on reported suites | PyTorch 2025 |
 
 ## Online vs offline agents
 
