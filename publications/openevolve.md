@@ -24,4 +24,4 @@ OSS implementation of DeepMind AlphaEvolve-style evolutionary optimization; Mage
 
 ## Why it matters for this survey
 
-Mapped in `docs/REPOS.md` to SCM/review context and to gaps in `docs/SURVEY.md` 搂4. Prefer the primary link above when citing.
+Mapped in [`docs/REPOS.md`](../docs/REPOS.md) Tier A (Magellan OSS path) and folded into SURVEY §5.4. Prefer the primary link above when citing.
