@@ -5,11 +5,12 @@ Living survey of **AI/ML compilers** (systems that compile neural models) and **
 ## Goals
 
 1. **Map the landscape** — What is “next-gen” AI compilation in 2024–2026: hybrid LLM–compiler loops, agentic tuners, MLIR/Triton stacks, and SE 3.0 intent compilers.
-2. **Answer four research questions**
+2. **Answer four research questions** (plus a comparison section)
    - **Q1 Trends** — What are the dominant technical directions now?
+   - **§1b Comparison** — Traditional AI compilation pros/cons vs following LLM/agent trends
    - **Q2 Agents** — How do agents help the AI compilation process?
    - **Q3 Reshape** — Can agents reshape (rearchitect) compilation processes, or only assist them?
-   - **Q4 Gaps** — What is missing for production, correctness, benchmarks, and interoperability?
+   - **Q4 Gaps** — What is missing / under-covered (ten gaps, fully spelled out)?
 3. **Build a reusable bibliography** — Every searched publication gets a short digest under [`publications/`](publications/) so others can learn quickly without reading full papers first.
 4. **Track progress openly** — Status, open tasks, and coverage live in [`STATUS.md`](STATUS.md).
 
@@ -19,9 +20,11 @@ Living survey of **AI/ML compilers** (systems that compile neural models) and **
 README.md                 # This file — goals and entry point
 STATUS.md                 # Living status tracker
 docs/
-  SURVEY.md               # Expanded survey narrative (Q1–Q4)
+  SURVEY.md               # Expanded survey narrative (Q1–Q4 + §1b comparison)
+  COMPARISON.md           # Pointer to traditional vs trends section
   SYSTEMS.md              # System comparison table
   TAXONOMY.md             # Selector / Translator / Generator + stack layers
+  SETUP_GITHUB.md         # How to auth + push remote
 publications/
   INDEX.md                # Catalog of all digests + links
   *.md                    # One digest per publication
