@@ -45,6 +45,27 @@ def md_to_html(bundle: Path, html: Path) -> None:
         html.write_text(text, encoding="utf-8")
 
 
+
+def normalize_pdf(pdf: Path) -> None:
+    """Rewrite via pypdf for broader viewer compatibility (e.g. GitHub)."""
+    try:
+        from pypdf import PdfReader, PdfWriter
+    except ImportError:
+        return
+    reader = PdfReader(str(pdf))
+    writer = PdfWriter()
+    for page in reader.pages:
+        writer.add_page(page)
+    writer.add_metadata({
+        "/Title": "Next-Generation AI Compiler Survey",
+        "/Producer": "pypdf",
+    })
+    tmp = pdf.with_suffix(".tmp.pdf")
+    with tmp.open("wb") as f:
+        writer.write(f)
+    tmp.replace(pdf)
+
+
 def html_to_pdf_weasy(html: Path, pdf: Path) -> None:
     from weasyprint import HTML
 
@@ -109,6 +130,8 @@ def main() -> int:
             html_to_pdf_wkhtml(html, pdf)
         else:
             return 1
+
+    normalize_pdf(pdf)
 
     print(f"Bundle : {bundle.relative_to(ROOT)}")
     print(f"HTML   : {html.relative_to(ROOT)}")
