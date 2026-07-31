@@ -1,0 +1,135 @@
+@page {
+  size: A4;
+  margin: 18mm 16mm 20mm 16mm;
+  @bottom-center {
+    content: counter(page);
+    font-family: "Source Serif 4", "Noto Serif", "Liberation Serif", Georgia, serif;
+    font-size: 9pt;
+    color: #555;
+  }
+}
+
+html {
+  font-size: 10.5pt;
+}
+
+body {
+  font-family: "Source Serif 4", "Noto Serif", "Liberation Serif", Georgia, serif;
+  color: #1a1a1a;
+  line-height: 1.45;
+  max-width: 100%;
+}
+
+h1, h2, h3, h4 {
+  font-family: "IBM Plex Sans", "Noto Sans", "Liberation Sans", Helvetica, sans-serif;
+  line-height: 1.25;
+  page-break-after: avoid;
+}
+
+h1 {
+  font-size: 1.7rem;
+  margin-top: 1.4em;
+  border-bottom: 1.5px solid #222;
+  padding-bottom: 0.25em;
+}
+
+h2 {
+  font-size: 1.25rem;
+  margin-top: 1.2em;
+  color: #111;
+}
+
+h3 {
+  font-size: 1.05rem;
+  margin-top: 1em;
+}
+
+p, li {
+  orphans: 3;
+  widows: 3;
+}
+
+a {
+  color: #0b3d91;
+  text-decoration: none;
+}
+
+code, pre {
+  font-family: "IBM Plex Mono", "Noto Sans Mono", "Liberation Mono", Consolas, monospace;
+  font-size: 0.88em;
+}
+
+pre {
+  background: #f4f4f2;
+  border: 1px solid #ddd;
+  padding: 0.7em 0.9em;
+  overflow-x: auto;
+  page-break-inside: avoid;
+  white-space: pre-wrap;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0.8em 0 1.1em;
+  font-size: 0.9em;
+  page-break-inside: avoid;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 0.35em 0.5em;
+  vertical-align: top;
+}
+
+th {
+  background: #f0f0ec;
+  font-family: "IBM Plex Sans", "Noto Sans", "Liberation Sans", Helvetica, sans-serif;
+  text-align: left;
+}
+
+blockquote {
+  border-left: 3px solid #444;
+  margin-left: 0;
+  padding: 0.2em 0 0.2em 0.9em;
+  color: #333;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 1.5em 0;
+}
+
+.cover {
+  page-break-after: always;
+  margin-top: 18%;
+}
+
+.cover h1 {
+  border: none;
+  font-size: 2rem;
+  margin-bottom: 0.4em;
+}
+
+.cover .subtitle {
+  font-size: 1.15rem;
+  color: #333;
+  margin-bottom: 1.5em;
+}
+
+.cover .meta {
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.cover .verdict {
+  margin-top: 2em;
+  padding: 1em 1.1em;
+  background: #f6f5f1;
+  border: 1px solid #ddd;
+}
+
+.section-break {
+  page-break-before: always;
+}
