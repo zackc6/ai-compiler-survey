@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build next-gen-ai-compiler-survey.pdf from living survey docs."""
+"""Build survey PDFs in English, Simplified Chinese, and Traditional Chinese."""
 
 from __future__ import annotations
 
@@ -9,10 +9,13 @@ import subprocess
 import sys
 from pathlib import Path
 
-from assemble import OUT, ROOT, assemble
+from assemble import COVER, LANGS, OUT, PDF_NAMES, ROOT, assemble, cover_md
+from datetime import date
 
 STYLE = Path(__file__).resolve().parent / "style.css"
-PDF_NAME = "next-gen-ai-compiler-survey.pdf"
+
+# Legacy alias kept for bookmarks / old links.
+LEGACY_EN_PDF = "next-gen-ai-compiler-survey.pdf"
 
 
 def run(cmd: list[str]) -> None:
@@ -20,7 +23,7 @@ def run(cmd: list[str]) -> None:
     subprocess.run(cmd, check=True)
 
 
-def md_to_html(bundle: Path, html: Path) -> None:
+def md_to_html(bundle: Path, html: Path, title: str) -> None:
     run(
         [
             "pandoc",
@@ -31,13 +34,12 @@ def md_to_html(bundle: Path, html: Path) -> None:
             "html5",
             "--standalone",
             "--metadata",
-            "title=Next-Generation AI Compiler Survey",
+            f"title={title}",
             f"--css={STYLE}",
             "-o",
             str(html),
         ]
     )
-    # Ensure CSS is embedded for WeasyPrint/file:// reliability.
     css = STYLE.read_text(encoding="utf-8")
     text = html.read_text(encoding="utf-8")
     if "</head>" in text and "<style>" not in text:
@@ -45,9 +47,7 @@ def md_to_html(bundle: Path, html: Path) -> None:
         html.write_text(text, encoding="utf-8")
 
 
-
-def normalize_pdf(pdf: Path) -> None:
-    """Rewrite via pypdf for broader viewer compatibility (e.g. GitHub)."""
+def normalize_pdf(pdf: Path, title: str) -> None:
     try:
         from pypdf import PdfReader, PdfWriter
     except ImportError:
@@ -56,10 +56,7 @@ def normalize_pdf(pdf: Path) -> None:
     writer = PdfWriter()
     for page in reader.pages:
         writer.add_page(page)
-    writer.add_metadata({
-        "/Title": "Next-Generation AI Compiler Survey",
-        "/Producer": "pypdf",
-    })
+    writer.add_metadata({"/Title": title, "/Producer": "pypdf"})
     tmp = pdf.with_suffix(".tmp.pdf")
     with tmp.open("wb") as f:
         writer.write(f)
@@ -90,11 +87,69 @@ def html_to_pdf_wkhtml(html: Path, pdf: Path) -> None:
             "12mm",
             "--margin-right",
             "12mm",
-            "--print-media-type",
             str(html),
             str(pdf),
         ]
     )
+
+
+def render_pdf(bundle: Path, lang: str, engine: str) -> Path:
+    title = COVER[lang]["title"]
+    html = OUT / f"survey.{lang}.html"
+    pdf = OUT / PDF_NAMES[lang]
+    md_to_html(bundle, html, title=title)
+    try:
+        if engine == "weasyprint":
+            html_to_pdf_weasy(html, pdf)
+        else:
+            html_to_pdf_wkhtml(html, pdf)
+    except Exception as exc:  # noqa: BLE001
+        print(f"ERROR: PDF engine failed ({lang}): {exc}", file=sys.stderr)
+        if engine == "weasyprint" and shutil.which("wkhtmltopdf"):
+            print("Retrying with wkhtmltopdf…", file=sys.stderr)
+            html_to_pdf_wkhtml(html, pdf)
+        else:
+            raise
+    normalize_pdf(pdf, title=title)
+    print(f"PDF[{lang}]: {pdf.relative_to(ROOT)} ({pdf.stat().st_size // 1024} KiB)")
+    return pdf
+
+
+def swap_cover(md: str, lang: str) -> str:
+    """Replace leading cover div with locale cover."""
+    today = date.today().isoformat()
+    new_cover = cover_md(today, lang=lang).strip()
+    start = md.find('<div class="cover">')
+    end = md.find("</div>\n", md.find('<div class="verdict">'))
+    if start < 0 or end < 0:
+        return new_cover + "\n\n" + md
+    # closing </div> of cover after verdict's </div>
+    end = md.find("</div>", end + 1)
+    end = md.find("\n", end) + 1
+    return md[:start] + new_cover + "\n" + md[end:]
+
+
+def _english_body(en_bundle: Path) -> str:
+    en_text = en_bundle.read_text(encoding="utf-8")
+    marker = '<div class="section-break"></div>'
+    idx = en_text.find(marker)
+    return en_text[idx:] if idx >= 0 else en_text
+
+
+def write_locale_bundle(lang: str, translated_body: str) -> Path:
+    from assemble import SECTION_TITLES
+
+    today = date.today().isoformat()
+    bundle_text = cover_md(today, lang=lang) + "\n" + translated_body
+    if "publish/build_pdf.py" not in bundle_text[-800:]:
+        bundle_text += (
+            "\n---\n\n"
+            f"## {SECTION_TITLES[lang]['Export notes']}\n\n"
+            f"{COVER[lang]['export_notes']}"
+        )
+    out = OUT / f"survey-bundle.{lang}.md"
+    out.write_text(bundle_text, encoding="utf-8")
+    return out
 
 
 def main() -> int:
@@ -105,6 +160,12 @@ def main() -> int:
         default="weasyprint",
         help="PDF engine (default: weasyprint)",
     )
+    parser.add_argument(
+        "--lang",
+        choices=(*LANGS, "all"),
+        default="all",
+        help="Language to build (default: all → en + zh-CN + zh-TW)",
+    )
     args = parser.parse_args()
 
     if not shutil.which("pandoc"):
@@ -112,30 +173,45 @@ def main() -> int:
         return 2
 
     OUT.mkdir(parents=True, exist_ok=True)
-    bundle = assemble()
-    html = OUT / "survey.html"
-    pdf = OUT / PDF_NAME
+    langs = list(LANGS) if args.lang == "all" else [args.lang]
 
-    md_to_html(bundle, html)
+    en_bundle = assemble("en")
+    (OUT / "survey-bundle.md").write_text(
+        en_bundle.read_text(encoding="utf-8"), encoding="utf-8"
+    )
 
-    try:
-        if args.engine == "weasyprint":
-            html_to_pdf_weasy(html, pdf)
-        else:
-            html_to_pdf_wkhtml(html, pdf)
-    except Exception as exc:  # noqa: BLE001 — surface engine errors clearly
-        print(f"ERROR: PDF engine failed: {exc}", file=sys.stderr)
-        if args.engine == "weasyprint" and shutil.which("wkhtmltopdf"):
-            print("Retrying with wkhtmltopdf…", file=sys.stderr)
-            html_to_pdf_wkhtml(html, pdf)
-        else:
+    zh_cn_body: str | None = None
+    built: list[Path] = []
+    for lang in langs:
+        try:
+            if lang == "en":
+                bundle = en_bundle
+            else:
+                from translate import translate_markdown
+                from opencc import OpenCC
+
+                if zh_cn_body is None:
+                    print("Translating English → zh-CN (several minutes)…")
+                    zh_cn_body = translate_markdown(
+                        _english_body(en_bundle), target="zh-CN"
+                    )
+                if lang == "zh-CN":
+                    body = zh_cn_body
+                else:
+                    print("Converting zh-CN → zh-TW via OpenCC…")
+                    body = OpenCC("s2twp").convert(zh_cn_body)
+                bundle = write_locale_bundle(lang, body)
+            built.append(render_pdf(bundle, lang, args.engine))
+        except Exception as exc:  # noqa: BLE001
+            print(f"ERROR building {lang}: {exc}", file=sys.stderr)
             return 1
 
-    normalize_pdf(pdf)
+    if "en" in langs:
+        legacy = OUT / LEGACY_EN_PDF
+        shutil.copyfile(OUT / PDF_NAMES["en"], legacy)
+        print(f"PDF[legacy]: {legacy.relative_to(ROOT)}")
 
-    print(f"Bundle : {bundle.relative_to(ROOT)}")
-    print(f"HTML   : {html.relative_to(ROOT)}")
-    print(f"PDF    : {pdf.relative_to(ROOT)} ({pdf.stat().st_size // 1024} KiB)")
+    print("Built:", ", ".join(p.name for p in built))
     return 0
 
 

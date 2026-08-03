@@ -14,14 +14,16 @@ html {
 }
 
 body {
-  font-family: "Source Serif 4", "Noto Serif", "Liberation Serif", Georgia, serif;
+  font-family: "Source Serif 4", "Noto Serif", "WenQuanYi Micro Hei", "Noto Sans CJK SC",
+    "Noto Sans CJK TC", "Droid Sans Fallback", "Liberation Serif", Georgia, serif;
   color: #1a1a1a;
   line-height: 1.45;
   max-width: 100%;
 }
 
 h1, h2, h3, h4 {
-  font-family: "IBM Plex Sans", "Noto Sans", "Liberation Sans", Helvetica, sans-serif;
+  font-family: "IBM Plex Sans", "Noto Sans", "WenQuanYi Micro Hei", "Noto Sans CJK SC",
+    "Noto Sans CJK TC", "Droid Sans Fallback", "Liberation Sans", Helvetica, sans-serif;
   line-height: 1.25;
   page-break-after: avoid;
 }

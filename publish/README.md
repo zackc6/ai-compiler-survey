@@ -1,50 +1,57 @@
-# Publish survey → PDF
+# Publish survey → PDF (en / zh-CN / zh-TW)
 
-Build a single PDF of the living survey (narrative + roadmap + stack + claims + conflicts + systems).
+Build PDFs of the living survey in **English**, **Simplified Chinese**, and **Traditional Chinese**.
 
-## Quick build
+## Quick build (all languages)
 
 ```bash
 # from repo root
 python3 publish/build_pdf.py
 ```
 
-Outputs:
+Outputs under `publish/out/`:
 
-- `publish/out/survey-bundle.md` — assembled Markdown
-- `publish/out/survey.html` — intermediate HTML
-- `publish/out/next-gen-ai-compiler-survey.pdf` — **publish artifact**
+| File | Language |
+|---|---|
+| `next-gen-ai-compiler-survey.en.pdf` | English |
+| `next-gen-ai-compiler-survey.zh-CN.pdf` | 简体中文 |
+| `next-gen-ai-compiler-survey.zh-TW.pdf` | 繁體中文 |
+| `next-gen-ai-compiler-survey.pdf` | English (legacy alias) |
+
+## One language only
+
+```bash
+python3 publish/build_pdf.py --lang en
+python3 publish/build_pdf.py --lang zh-CN
+python3 publish/build_pdf.py --lang zh-TW
+```
 
 ## Requirements
 
 - Python 3.10+
-- `pandoc` (assemble/optional)
+- `pandoc`
 - `weasyprint` (`pip install weasyprint`) — default PDF engine
+- `deep-translator`, `opencc-python-reimplemented` — for Chinese builds
+- CJK-capable font (e.g. WenQuanYi Micro Hei / Noto CJK)
 
-Fallback if WeasyPrint fails:
+Fallback engine:
 
 ```bash
 python3 publish/build_pdf.py --engine wkhtmltopdf
 ```
 
+## How Chinese is produced
+
+1. Assemble English manuscript from `docs/*` + `publications/INDEX.md`.
+2. Machine-translate body EN → **zh-CN** (glossary-protected domain terms).
+3. Convert **zh-CN → zh-TW** with OpenCC (`s2twp`).
+4. Attach hand-written Chinese covers (not machine-translated).
+5. Render each locale to PDF with CJK fonts.
+
+English docs remain the source of truth. Re-run after narrative edits.
+
 ## What is included
 
-| Order | Source | Role |
-|---|---|---|
-| 1 | cover (generated) | Title / north star |
-| 2 | `docs/SURVEY.md` | Q1–Q4 + §5 prediction |
-| 3 | `docs/ROADMAP.md` | 2027–28 / ~5yr |
-| 4 | `docs/STACK.md` | SW + HW-codesign reshape |
-| 5 | `docs/CLAIMS.md` | Claim ↔ evidence map |
-| 6 | `docs/CONFLICTS.md` | C1–C10 |
-| 7 | `docs/SYSTEMS.md` | System table |
-| 8 | `docs/TAXONOMY.md` | Roles / layers |
-| 9 | `publications/INDEX.md` | Bibliography |
+Cover + SURVEY + ROADMAP + STACK + CLAIMS + CONFLICTS + SYSTEMS + TAXONOMY + INDEX.
 
-Digests stay in `publications/` (linked from INDEX); they are not inlined into the PDF.
-
-## Re-publish after survey edits
-
-1. Update docs / digests on `main` as usual.
-2. `python3 publish/build_pdf.py`
-3. Commit `publish/out/next-gen-ai-compiler-survey.pdf` if you want the artifact on the remote.
+Digests stay in `publications/` (not inlined).
