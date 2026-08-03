@@ -155,34 +155,46 @@ def upsert_fields(text: str, org: str, publisher: str) -> str:
 
 def rebuild_index() -> None:
     index_text = INDEX.read_text(encoding="utf-8")
-    # Transform each table row that links a digest
-    row_re = re.compile(
-        r"^\| ([^|]+) \| ([^|]+) \| ([^|]+) \| (\[[^\]]+\]\(([a-zA-Z0-9_./+-]+\.md)\)[^\|]*) \| (\[[^\]]+\]\([^)]+\)) \|$",
+
+    # New 7-column rows: Year | Kind | Group | Org | Publisher | Digest | Source
+    row7 = re.compile(
+        r"^\| ([^|]+) \| ([^|]+) \| ([^|]+) \| [^|]+ \| [^|]+ \| "
+        r"(\[[^\]]+\]\(([a-zA-Z0-9_./+-]+\.md)\)[^\|]*) \| (\[[^\]]+\]\([^)]+\)) \|$",
+        re.M,
+    )
+    # Legacy 5-column rows: Year | Kind | Group | Digest | Source
+    row5 = re.compile(
+        r"^\| ([^|]+) \| ([^|]+) \| ([^|]+) \| "
+        r"(\[[^\]]+\]\(([a-zA-Z0-9_./+-]+\.md)\)[^\|]*) \| (\[[^\]]+\]\([^)]+\)) \|$",
         re.M,
     )
 
-    def repl(m: re.Match[str]) -> str:
-        year, kind, group, digest_cell, fname, source = m.groups()
+    def fmt(year: str, kind: str, group: str, digest_cell: str, fname: str, source: str) -> str:
         org, publisher = META.get(Path(fname).name, ("—", "—"))
         return (
             f"| {year.strip()} | {kind.strip()} | {group.strip()} | {org} | {publisher} | "
             f"{digest_cell.strip()} | {source.strip()} |"
         )
 
-    new_body = row_re.sub(repl, index_text)
-    # Update header lines for tables
+    def repl7(m: re.Match[str]) -> str:
+        year, kind, group, digest_cell, fname, source = m.groups()
+        return fmt(year, kind, group, digest_cell, fname, source)
+
+    def repl5(m: re.Match[str]) -> str:
+        year, kind, group, digest_cell, fname, source = m.groups()
+        return fmt(year, kind, group, digest_cell, fname, source)
+
+    new_body = row7.sub(repl7, index_text)
+    new_body = row5.sub(repl5, new_body)
     new_body = new_body.replace(
         "| Year | Kind | Group | Digest | Source |\n|---|---|---|---|---|",
         "| Year | Kind | Group | Org | Publisher | Digest | Source |\n|---|---|---|---|---|---|---|",
     )
-    # In case multiple tables already partially updated
-    if "| Year | Kind | Group | Org | Publisher | Digest | Source |" not in new_body:
-        # try replace any old header remnants
-        new_body = re.sub(
-            r"\| Year \| Kind \| Group \| Digest \| Source \|\n\|---\|---\|---\|---\|---\|",
-            "| Year | Kind | Group | Org | Publisher | Digest | Source |\n|---|---|---|---|---|---|---|",
-            new_body,
-        )
+    new_body = re.sub(
+        r"\| Year \| Kind \| Group \| Digest \| Source \|\n\|---\|---\|---\|---\|---\|",
+        "| Year | Kind | Group | Org | Publisher | Digest | Source |\n|---|---|---|---|---|---|---|",
+        new_body,
+    )
     INDEX.write_text(new_body, encoding="utf-8")
 
 

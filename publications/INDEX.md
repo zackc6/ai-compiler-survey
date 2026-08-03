@@ -18,7 +18,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2022 | paper | Classic DL compilers | UW · AWS · OctoML et al. | ACM ASPLOS 2023 | [TensorIR: An Abstraction for Automatic Tensorized Program Optimization](tensorir-asplos.md) | [source](https://dl.acm.org/doi/10.1145/3575693.3576933) |
 | 2021 | paper | Classic DL compilers | Google · multi-institution | arXiv (MLIR) | [MLIR: A Compiler Infrastructure for the End of Moore's Law](mlir-arxiv.md) | [source](https://arxiv.org/abs/2002.11054) |
 | 2025 | company | Classic DL compilers | OpenXLA / Google | OpenXLA | [OpenXLA StableHLO roadmap](stablehlo-roadmap.md) | [source](https://openxla.org/stablehlo/roadmap) |
-| 2021 | paper | MLGO & RL gyms | Google | arXiv | [MLGO: a Machine Learning Guided Compiler Optimizations Framework](mlgo-paper.md) | [source](https://arxiv.org/abs/2101.04808) |
+| 2021 | paper | MLGO & RL gyms | Google · CMU | arXiv | [MLGO: a Machine Learning Guided Compiler Optimizations Framework](mlgo-paper.md) | [source](https://arxiv.org/abs/2101.04808) |
 | 2022 | company | MLGO & RL gyms | Google Research | Google Research blog | [Google Research blog: MLGO](mlgo-google-blog.md) | [source](https://research.google/blog/mlgo-a-machine-learning-framework-for-compiler-optimization/) |
 | 2022 | company | MLGO & RL gyms | InfoQ (covering Google MLGO) | InfoQ | [InfoQ: MLGO Framework Brings Machine Learning in Compiler Optimizations](mlgo-infoq.md) | [source](https://www.infoq.com/news/2022/07/MLGO-framework-machine-learning/) |
 | 2022+ | code | MLGO & RL gyms | LLVM / Google MLGO | LLVM docs | [LLVM docs: Machine Learning Guided Optimization (MLGO)](mlgo-llvm-docs.md) | [source](https://llvm.org/docs/MLGO.html) |
@@ -45,7 +45,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | Agentic & RL compilers | AWS AI · Georgia Tech | arXiv | [Agentic Code Optimization via Compiler-LLM Cooperation (ACCLAIM)](acclaim.md) ★ Tier A Q2/Q3 | [source](https://arxiv.org/abs/2604.04238) |
 | 2026 | code | Agentic & RL compilers | Amazon Science / AWS AI | GitHub | [amazon-science/acclaim (GitHub)](acclaim-github.md) ★ Tier A | [source](https://github.com/amazon-science/acclaim) |
 | 2026 | paper | Agentic & RL compilers | ETH Zurich · INSAIT/Sofia University · UC Berkeley | arXiv | [Generative Compilation: On-the-Fly Compiler Feedback as AI Generates Code](generative-compilation.md) | [source](https://arxiv.org/abs/2607.13921) |
-| 2025 | paper | GPU kernels & inference compilers | Stanford (Scaling Intelligence) | arXiv | [KernelBench: Can LLMs Write Efficient GPU Kernels?](kernelbench.md) | [source](https://arxiv.org/abs/2502.10517) |
+| 2025 | paper | GPU kernels & inference compilers | Stanford · Princeton | arXiv | [KernelBench: Can LLMs Write Efficient GPU Kernels?](kernelbench.md) | [source](https://arxiv.org/abs/2502.10517) |
 | 2025 | company | GPU kernels & inference compilers | Stanford (Scaling Intelligence) | Stanford blog | [Stanford blog: KernelBench](kernelbench-blog.md) | [source](https://scalingintelligence.stanford.edu/blogs/kernelbench/) |
 | 2025 | code | GPU kernels & inference compilers | Stanford (Scaling Intelligence) | GitHub | [ScalingIntelligence/KernelBench](kernelbench-github.md) | [source](https://github.com/ScalingIntelligence/KernelBench/) |
 | 2026 | paper | GPU kernels & inference compilers | Tsinghua University | arXiv | [KernelBench-X: A Comprehensive Benchmark for Evaluating LLM-Generated GPU Kernels](kernelbench-x.md) | [source](https://arxiv.org/html/2605.04956v1) |
@@ -99,12 +99,12 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2025/26 | paper | HW codesign & accelerator bring-up | Meta | arXiv | [Agentic Operator Generation for ML ASICs (TritorX)](tritorx.md) ★ bring-up / codesign | [source](https://arxiv.org/abs/2512.10977) |
 | 2025/26 | paper | HW codesign & accelerator bring-up | Meta | ISCA 2026 · arXiv | [KernelEvolve: Scaling Agentic Kernel Coding for Heterogeneous AI Accelerators at Meta](kernelevolve.md) ★ multi-HW prod | [source](https://arxiv.org/abs/2512.23236) |
 | 2026 | company | HW codesign & accelerator bring-up | Meta | Engineering at Meta | [Meta Engineering blog: KernelEvolve / Ranking Engineer Agent](kernelevolve-blog.md) | [source](https://engineering.fb.com/2026/04/02/developer-tools/kernelevolve-how-metas-ranking-engineer-agent-optimizes-ai-infrastructure/) |
-| 2026 | paper | HW codesign & accelerator bring-up | Huawei Ascend | arXiv | [Compiler-Grounded Hierarchical Diagnosis for Triton on NPUs](compiler-grounded-triton-npu.md) ★ Ascend | [source](https://arxiv.org/abs/2607.23089) |
+| 2026 | paper | HW codesign & accelerator bring-up | Huawei Technologies | arXiv | [Compiler-Grounded Hierarchical Diagnosis for Triton on NPUs](compiler-grounded-triton-npu.md) ★ Ascend | [source](https://arxiv.org/abs/2607.23089) |
 | 2026 | paper | HW codesign & accelerator bring-up | Gimlet Labs | MLArchSys @ ISCA 2026 · arXiv | [KForge: Cross-Platform Kernel Generation for AI Accelerators](kforge.md) ★ multi-DSL | [source](https://arxiv.org/abs/2606.02963) |
 | 2026 | paper | GPU kernels & inference compilers | RightNow AI | arXiv | [AutoKernel: Autonomous GPU Kernel Optimization](autokernel.md) ★ Amdahl agent loop | [source](https://arxiv.org/abs/2603.21331) |
 | 2026 | code | GPU kernels & inference compilers | RightNow AI | GitHub | [RightNow-AI/autokernel (GitHub)](autokernel-github.md) ★ | [source](https://github.com/RightNow-AI/autokernel) |
 | 2026 | paper | GPU kernels & inference compilers | University of Michigan | arXiv | [Kernel Forge: Agent Harness for CUDA Kernel Opt](kernel-forge.md) | [source](https://arxiv.org/abs/2607.24762) |
-| 2026 | paper | GPU kernels & inference compilers | Stanford · NVIDIA | arXiv | [KernelBlaster: Memory-Augmented In-Context RL for CUDA](kernelblaster.md) | [source](https://arxiv.org/abs/2602.14293) |
+| 2026 | paper | GPU kernels & inference compilers | NVIDIA · UC Berkeley | arXiv | [KernelBlaster: Memory-Augmented In-Context RL for CUDA](kernelblaster.md) | [source](https://arxiv.org/abs/2602.14293) |
 | 2025 | company | Classic DL compilers | Meta (PyTorch) | PyTorch blog | [Helion: High-Level DSL for Portable ML Kernels](helion-blog.md) | [source](https://pytorch.org/blog/helion/) |
 | 2025+ | code | Classic DL compilers | Meta (PyTorch) | GitHub | [pytorch/helion (GitHub)](helion-github.md) | [source](https://github.com/pytorch/helion) |
 
