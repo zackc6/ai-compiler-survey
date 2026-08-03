@@ -55,6 +55,7 @@ Last updated: **2026-08-03**
 | 2026-08-03 | Add Org + Publisher to all digests and INDEX; validate requires fields |
 | 2026-08-03 | Visual survey pack: 10 diagram posters + visual PPTX in publish/out |
 | 2026-08-03 | SURVEY §5.7: commercialization critical problems (contract, memory, sub-agents, …) |
+| 2026-08-03 | Expand §5.7 → P1–P22 (eval, economics, tenancy, IP, versioning, DR, A/B, compliance, …) |
 
 ## Next actions
 

@@ -932,7 +932,7 @@ Working stance used in §5: hybrid control/data plane; Magellan and MLGO as para
 ## 7. How to read this repo
 
 1. Skim **§0.1 North star**, **§5 Future prediction**, then [`ROADMAP.md`](ROADMAP.md) / [`STACK.md`](STACK.md).
-2. If shipping commercially: read **§5.7** (contract, memory, sub-agents, admit, SKU).
+2. If shipping commercially: read **§5.7** (P1–P22: contract, memory, eval, pricing, tenancy, IP, DR, …).
 3. Check [`CLAIMS.md`](CLAIMS.md); read [`CONFLICTS.md`](CONFLICTS.md) when two sources disagree.
 4. Use [`SYSTEMS.md`](SYSTEMS.md) for concrete systems.
 5. Use [`REPOS.md`](REPOS.md) / [`PRODUCTS.md`](PRODUCTS.md) as **Tier A/B/C evidence for the prediction**, not forge/SKU catalogs.
