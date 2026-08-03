@@ -2,7 +2,7 @@
 
 **North star:** the **agentic compiler** — a hybrid control plane (LLM/agents + oracles) over a classical data plane (MLIR/LLVM/Inductor/Triton/Tile/vendor backends), including **HW–SW codesign** loops. Software catalogs and silicon bring-up are evidence for that target, not ends in themselves.
 
-Companions: [`SURVEY.md`](SURVEY.md) §5 · [`STACK.md`](STACK.md) · [`CLAIMS.md`](CLAIMS.md) · [`CONFLICTS.md`](CONFLICTS.md)
+Companions: [`SURVEY.md`](SURVEY.md) §5 · §5.7 (commercialization) · [`STACK.md`](STACK.md) · [`CLAIMS.md`](CLAIMS.md) · [`CONFLICTS.md`](CONFLICTS.md)
 
 ---
 

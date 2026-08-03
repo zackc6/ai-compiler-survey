@@ -1,6 +1,6 @@
 # Next-Gen AI Compiler Survey (expanded)
 
-**Last updated:** 2026-08-03  
+**Last updated:** 2026-08-03 (commercialization §5.7)  
 **Companion digests:** [`../publications/`](../publications/)  
 **Status:** [`../STATUS.md`](../STATUS.md)  
 **Conflicts:** [`CONFLICTS.md`](CONFLICTS.md) · **Repos map:** [`REPOS.md`](REPOS.md) · **Products:** [`PRODUCTS.md`](PRODUCTS.md)
@@ -585,6 +585,121 @@ Detailed milestones: [`ROADMAP.md`](ROADMAP.md) (Horizon A 2027–28, Horizon B 
 
 Layer-by-layer SW + codesign map: [`STACK.md`](STACK.md). Claim IDs: [`CLAIMS.md`](CLAIMS.md).
 
+### 5.7 From prediction to commercial practice — critical problems
+
+§5 predicts a **hybrid** agentic compiler. Shipping that as a product (CompileIQ-class, GEAK-class, Magellan-in-CI, TritorX-style bring-up) forces engineering choices that papers usually skip. Below: **critical problems → option sets with pros/cons → survey-leaning defaults**. Treat “might be true” options as hypotheses to settle in production, not dogma.
+
+#### P1 — What is the agent↔compiler contract?
+
+Agents must exchange state with the data plane. The medium of that contract is a product decision.
+
+| Option | What it is | Pros | Cons |
+|---|---|---|---|
+| **A. Natural language only** | Prompts + free-text tool stdout (`opt` logs, NCU dumps pasted into chat) | Fast to prototype; matches coding-agent UX | Brittle; non-replayable; model upgrades break CI; no typed admit |
+| **B. Structured logs / traces** | JSON/protobuf records: IR fingerprint, action enum, oracle result, cost, artifact hash | Replayable; cacheable; audit/SBOM-friendly; CI-regressable | Schema design cost; vendors disagree on fields |
+| **C. Typed tool APIs (MCP-class)** | `compile` / `verify` / `bench` / `profile` with typed I/O (mlirAgent, Archer, Compiler-R1 tools) | Clear action space; sandboxes; versionable | Needs toolchain investment; still need a trace store behind tools |
+| **D. Hybrid: NL for humans, structured for machines** | Engineers chat; agents speak schemas; NL is a *view* over traces | HITL-friendly without sacrificing replay | Two surfaces to keep consistent |
+
+**Survey lean.** Prefer **C + B** as the product contract; use **D** at the human edge. Pure **A** is fine for demos, not for commercial compile paths (§4.3–4.5). Concrete artifact shapes already exist: CompileIQ **ACFs**, KernelEvolve **MPP** profiler federation, ACCLAIM tool-calling over clang components.
+
+**Example (might be true).** The durable contract is not “the prompt,” but a **versioned admit record**: `{graph_hash, hw_id, compiler_ver, action[], oracle[], artifact_digest, policy_id}`. NL rationales are optional commentary attached to that record.
+
+#### P2 — Context-window / memory loss across long optimize loops
+
+Kernel and heuristic search run for hours and hundreds of trials. The agent forgets early failures, successful tilings, and HW constraints.
+
+| Option | Mechanism | Pros | Cons |
+|---|---|---|---|
+| **A. Stuff the window** | Ever-growing chat of logs + code | Simple | Hits context limits; attention dilutes; expensive |
+| **B. Dense session memory** | Compress trajectory → summary / skill cards / vector store (KernelEvolve skill library; KernelBlaster persistent CUDA KB) | Survives long runs; transferable across tasks | Compression loses edge cases; retrieval can be wrong |
+| **C. External artifact memory (VCS)** | Check in ACFs, kernels, heuristics, admit traces; agent loads by hash | Durable across jobs/models; reviewable; SBOM-ready | Needs ownership & review process (§4.8–4.9) |
+| **D. Many short-lived sub-agents** | Fresh agent per trial/op/HW; orchestrator holds only pointers | Avoids context rot; parallelizable | Coordination overhead; may rediscover failures without shared store |
+| **E. Hybrid: sub-agents + dense + VCS** | Orchestrator + specialists; dense working memory; promote winners to VCS | Matches industrial KernelEvolve / ACCLAIM shapes | Highest systems complexity |
+
+**Survey lean.** Commercial practice needs **E**, with a hard rule: **anything that affects a release build must live in C (external artifacts), not only in chat**. Dense memory is for *search acceleration*; VCS memory is for *product truth*.
+
+**Example (might be true).** Treat the LLM context as a **scratchpad**, dense memory as a **L2 cache of skills**, and git as **durable store**. If the model is swapped, scratchpad dies, L2 may warm-start, git must still rebuild the binary identically.
+
+#### P3 — Many sub-agents vs one dense-memory agent
+
+| Option | Pros | Cons | Best fit |
+|---|---|---|---|
+| **Monolith agent + dense memory** | Simpler ops; one policy to eval | Jack-of-all-trades; noisy tools confuse one policy | Small orgs; single DSL |
+| **Specialist sub-agents** (gen / debug / perf / verify / HW-RAG) | Clear skills; parallel search; mirrors ACCLAIM / GEAK / KernelEvolve | Orchestration bugs; cost multiplies; inconsistent styles | Multi-HW / multi-DSL products |
+| **Hierarchy** (orchestrator + workers + judge) | Budget control; staged admit | Judge can be wrong; latency | Production CI with spend caps |
+
+**Survey lean.** For commercial multi-accelerator stacks, **specialists + orchestrator** win; invest early in a **shared admit/trace bus** so sub-agents do not keep private incompatible memories (ties to P1–P2).
+
+#### P4 — Online cost, flaky speedups, and “when may the agent run?”
+
+| Option | Pros | Cons |
+|---|---|---|
+| **Always-on online agent at compile** | Max specialization | $ and nondeterminism; release engineering rejects |
+| **CI / nightly specialize → freeze artifact** | Replayable defaults; human review window | Stale vs new shapes; slower iteration |
+| **Hot-path trigger only** (Amdahl rank, p99 decode) | Spend where it pays (AutoKernel-style) | Trigger policy itself needs ownership |
+| **Offline-only (Magellan)** | Users see classical `-O3` | Misses per-model serving wins |
+
+**Survey lean.** Commercial default: **CI/nightly or hot-path → freeze ACF/kernel into VCS**; interactive online agents as an opt-in lab mode until budgets and replay are boring (§4.1, §4.3, **C5**).
+
+#### P5 — Correctness oracles strong enough for money
+
+| Option | Pros | Cons |
+|---|---|---|
+| Unit / golden / OpInfo | Cheap; TritorX-proven for coverage | Misses subtle perf-correct bugs |
+| Numerical tol vs reference | Kernel-friendly | Tolerance games; training≠infer |
+| Local formal (Alive2) | Strong when applicable | Peephole; weak on GPU concurrency |
+| Serving A/B + canaries | Catches product regressions | Slow; expensive; attribution hard |
+| Layered admit (all of the above) | Defense in depth | Process heavy |
+
+**Survey lean.** **Layered admit** is the only commercial-grade answer (**§4.2**). Ship with explicit **false-negative owners**.
+
+#### P6 — Ownership, security, and supply chain of agent code
+
+Agent-written heuristics/kernels are still production code.
+
+| Option | Pros | Cons |
+|---|---|---|
+| Agent PRs as human-owned | Clear CODEOWNERS | Reviewer bottleneck |
+| Auto-merge under oracle gates | Scale | Oracles incomplete → silent breakage |
+| Signed provenance (model, prompt, tools, admit) | Audit / SBOM-like | New infra |
+| Sandbox + no network for codegen | Reduces exfil / supply risk | Slows tool use |
+
+**Survey lean.** **Human CODEOWNER + signed admit provenance + sandbox**; auto-merge only for narrow action classes with strong oracles (Archer-style), not free rewrite (**C7**, §4.8–4.9).
+
+#### P7 — Multi-DSL / multi-vendor portability
+
+| Option | Pros | Cons |
+|---|---|---|
+| One DSL to rule them (e.g. Triton-only agents) | Focused data | Breaks on Tile/CuTe/HIP/FlyDSL (**C4**) |
+| Multi-skill agents + HW RAG | Matches KernelEvolve / KForge / GEAK | Training and eval explode |
+| Lower to portable IR, agents on IR only | Theory-nice | Free IR rewrite weak (mlirAgent); still need device skills |
+
+**Survey lean.** **Multi-skill + HW RAG** commercially; portable IR remains the *substrate*, not the sole agent language (**C3**, **C4**).
+
+#### P8 — Product packaging: what customers buy
+
+| Option | Pros | Cons |
+|---|---|---|
+| Compiler flag / autotune SKU (CompileIQ) | Familiar; ACF portability story | Gains may be single-digit on hot kernels (**C2**) |
+| Cloud optimize service | Recurring revenue; centralized HW | Data gravity; reproducibility across tenants |
+| Internal platform only (Meta Ranking Engineer Agent) | Fits ads/ASIC TTM | Hard to productize externally |
+| OSS agent harness + paid oracles/HW | Ecosystem | Support burden |
+
+**Survey lean.** Near term: **flag/SKU + frozen artifacts** for external customers; **internal platforms** for ASIC bring-up. Do not sell “chat with your compiler” as the sole SKU.
+
+#### Commercial checklist (if you are building this)
+
+1. **Contract:** typed tools + structured admit traces (not NL alone).  
+2. **Memory:** scratchpad ≪ dense skills ≪ **VCS artifacts** as source of truth.  
+3. **Topology:** orchestrator + specialists; shared trace bus.  
+4. **When it runs:** CI/hot-path freeze before default-on.  
+5. **Admit:** layered oracles with named owners.  
+6. **Ownership:** CODEOWNERS + provenance signatures.  
+7. **Portability:** multi-DSL skills; don’t bet the company on one IR rewrite API.  
+8. **SKU:** ship artifacts customers can regress, not only agent sessions.
+
+Gaps that still block this checklist: §4.1–4.5, §4.8–4.9. Conflicts that change packaging: **C2** (do gains pay?), **C3** (how wide the action API?), **C5** (default-on timing).
+
 ---
 
 ## 6. Conflicts (pointer)
@@ -600,11 +715,12 @@ Working stance used in §5: hybrid control/data plane; Magellan and MLGO as para
 ## 7. How to read this repo
 
 1. Skim **§0.1 North star**, **§5 Future prediction**, then [`ROADMAP.md`](ROADMAP.md) / [`STACK.md`](STACK.md).
-2. Check [`CLAIMS.md`](CLAIMS.md); read [`CONFLICTS.md`](CONFLICTS.md) when two sources disagree.
-3. Use [`SYSTEMS.md`](SYSTEMS.md) for concrete systems.
-4. Use [`REPOS.md`](REPOS.md) / [`PRODUCTS.md`](PRODUCTS.md) as **Tier A/B/C evidence for the prediction**, not forge/SKU catalogs.
-5. Use [`../publications/INDEX.md`](../publications/INDEX.md) (prefer ★ — ACCLAIM, Magellan, TritorX, KernelEvolve, Kernel*, CompileIQ, Archer).
-6. Contribute via [`WORKFLOW.md`](WORKFLOW.md); validate with `python3 scripts/validate_survey.py`.
-7. Track progress in [`../STATUS.md`](../STATUS.md).
+2. If shipping commercially: read **§5.7** (contract, memory, sub-agents, admit, SKU).
+3. Check [`CLAIMS.md`](CLAIMS.md); read [`CONFLICTS.md`](CONFLICTS.md) when two sources disagree.
+4. Use [`SYSTEMS.md`](SYSTEMS.md) for concrete systems.
+5. Use [`REPOS.md`](REPOS.md) / [`PRODUCTS.md`](PRODUCTS.md) as **Tier A/B/C evidence for the prediction**, not forge/SKU catalogs.
+6. Use [`../publications/INDEX.md`](../publications/INDEX.md) (prefer ★ — ACCLAIM, Magellan, TritorX, KernelEvolve, Kernel*, CompileIQ, Archer).
+7. Contribute via [`WORKFLOW.md`](WORKFLOW.md); validate with `python3 scripts/validate_survey.py`.
+8. Track progress in [`../STATUS.md`](../STATUS.md).
 
-**One-page success check:** (1) Predicted agentic compiler? → §5.1 / ROADMAP. (2) Four agent jobs including codesign bring-up? → §5.1 / STACK. (3) Evidence vs noise? → Tier A vs C.
+**One-page success check:** (1) Predicted agentic compiler? → §5.1 / ROADMAP. (2) Four agent jobs including codesign bring-up? → §5.1 / STACK. (3) Evidence vs noise? → Tier A vs C. (4) Commercial blockers? → §5.7.

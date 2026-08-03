@@ -7,7 +7,7 @@ Last updated: **2026-08-03**
 | Area | Status | Notes |
 |---|---|---|
 | Goals (agentic-compiler prediction) | Done (v3) | + roadmap, stack reshape, HW codesign via job (d) |
-| Future prediction §5 | Done | Four jobs; codesign feedback plane; §5.5–5.6 pointers |
+| Future prediction §5 | Done | Four jobs; codesign; §5.5–5.6; **§5.7 commercialization** |
 | **ROADMAP 2027–28 / ~5yr** | Done | `docs/ROADMAP.md` Horizons A/B |
 | **STACK reshape** | Done | `docs/STACK.md` layers 1–8 |
 | Claims map | Done | `docs/CLAIMS.md` A/P/S/H |
@@ -54,6 +54,7 @@ Last updated: **2026-08-03**
 | 2026-08-03 | Fix KernelEvolve INDEX title (full paper name); add Meta Engineering blog digest |
 | 2026-08-03 | Add Org + Publisher to all digests and INDEX; validate requires fields |
 | 2026-08-03 | Visual survey pack: 10 diagram posters + visual PPTX in publish/out |
+| 2026-08-03 | SURVEY §5.7: commercialization critical problems (contract, memory, sub-agents, …) |
 
 ## Next actions
 
