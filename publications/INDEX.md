@@ -97,7 +97,8 @@ One digest per searched source. Files live beside this index.
 | 2026 | company | Commercial products & proposals | [CompileIQ docs: expected gains (2 to 3 percent highly optimized)](compileiq-docs-expectations.md) | [source](https://nvidia.github.io/CompileIQ/stable/index.html) |
 
 | 2025/26 | paper | HW codesign & accelerator bring-up | [Agentic Operator Generation for ML ASICs (TritorX)](tritorx.md) ★ bring-up / codesign | [source](https://arxiv.org/abs/2512.10977) |
-| 2025/26 | paper | HW codesign & accelerator bring-up | [KernelEvolve: Agentic Kernel Coding for Heterogeneous Accelerators](kernelevolve.md) ★ multi-HW prod | [source](https://arxiv.org/abs/2512.23236) |
+| 2025/26 | paper | HW codesign & accelerator bring-up | [KernelEvolve: Scaling Agentic Kernel Coding for Heterogeneous AI Accelerators at Meta](kernelevolve.md) ★ multi-HW prod | [source](https://arxiv.org/abs/2512.23236) |
+| 2026 | company | HW codesign & accelerator bring-up | [Meta Engineering blog: KernelEvolve / Ranking Engineer Agent](kernelevolve-blog.md) | [source](https://engineering.fb.com/2026/04/02/developer-tools/kernelevolve-how-metas-ranking-engineer-agent-optimizes-ai-infrastructure/) |
 | 2026 | paper | HW codesign & accelerator bring-up | [Compiler-Grounded Hierarchical Diagnosis for Triton on NPUs](compiler-grounded-triton-npu.md) ★ Ascend | [source](https://arxiv.org/abs/2607.23089) |
 | 2026 | paper | HW codesign & accelerator bring-up | [KForge: Cross-Platform Kernel Generation for AI Accelerators](kforge.md) ★ multi-DSL | [source](https://arxiv.org/abs/2606.02963) |
 | 2026 | paper | GPU kernels & inference compilers | [AutoKernel: Autonomous GPU Kernel Optimization](autokernel.md) ★ Amdahl agent loop | [source](https://arxiv.org/abs/2603.21331) |
@@ -107,7 +108,7 @@ One digest per searched source. Files live beside this index.
 | 2025 | company | Classic DL compilers | [Helion: High-Level DSL for Portable ML Kernels](helion-blog.md) | [source](https://pytorch.org/blog/helion/) |
 | 2025+ | code | Classic DL compilers | [pytorch/helion (GitHub)](helion-github.md) | [source](https://github.com/pytorch/helion) |
 
-**Total:** 99 digests
+**Total:** 100 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 
