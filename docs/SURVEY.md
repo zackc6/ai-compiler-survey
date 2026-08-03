@@ -615,6 +615,7 @@ Layer-by-layer SW + codesign map: [`STACK.md`](STACK.md). Claim IDs: [`CLAIMS.md
 | P20 | Production A/B platform | Required before “production default” marketing |
 | P21 | Compliance / ISA RAG | Customer-hosted manuals; learn from compiler feedback when needed |
 | P22 | Deterministic orchestration | FSM/plan + LLM judgment; not free tool-calling as default |
+| P23 | Tokens / inference / model capability | **Yes, hard problems** — but mostly for *online* always-on paths; freeze artifacts + route/distill + Amdahl budgets make them manageable |
 
 #### P1 — What is the agent↔compiler contract?
 
@@ -892,6 +893,49 @@ Adjacent agent-production work stresses **deterministic boundaries** and moving 
 
 **Survey lean.** **FSM/plan + bounded LLM slots** for any SKU with an SLA; free tool-calling stays lab-tier (ties P3/P4/P12; supports **C6-B**).
 
+#### P23 — Tokens, inference performance, and model capabilities
+
+**Question.** Will LLM **token burn**, **inference latency/throughput**, and **model capability gaps** block turning the hybrid prediction into commercial practice?
+
+**Short answer.** **Yes — they are first-class commercial problems**, especially for always-on online agents. They are **not** show-stoppers for the hybrid bet if products **freeze artifacts**, **Amdahl-budget** search, and **route/distill** models. They *are* show-stoppers for “chat with the compiler on every build” without spend and latency SLOs.
+
+##### Evidence from this survey’s corpus
+
+| Dimension | What we see | Digests / sections |
+|---|---|---|
+| **Token / $ cost** | Agent loops multiply spend vs one-shot chat; cost poorly standardized (tokens + GPU-hours per % gain); ACCLAIM must *distribute budget* across levels; AutoKernel warns not to burn tokens on tiny Amdahl slices; ieee-pulse stresses cost/data limits in HPC | §4.3, P4/P10; `acclaim`, `autokernel`, `ieee-pulse-llm-compilers`, Compiler.next CTAs |
+| **Inference latency** | Kernel/heuristic search is hours-scale (MCTS/evolution, TritorX overnight, CompileIQ evolutionary runs)—not interactive TTFT; multi-agent tool loops add wall-clock even when tokens are cheap | P18; `tritorx`, `kernelevolve`, `compileiq-*` |
+| **Model capability — codegen** | Frontier one-shot KernelBench often weak (<~20% `fast_p`); iterative refine helps; specialized small models (KernelLLM 8B) can compete on narrow tasks | `kernelbench`, `kernelllm`, Trend D |
+| **Model capability — IR rewrite** | Free IR transforms can score **below identity** (mlirAgent); capability ≠ safe data-plane replacement | `mliragent`, **C3**, A5 |
+| **Model capability — tools** | Open models often fail **tool-calling** before code quality (ACCLAIM); multi-agent compilers die on malformed tools | `acclaim`, §3.2 |
+| **Model capability — sample efficiency** | Language priors can cut search vs blind autotune (Reasoning Compiler, AutoPass inference-only); Magellan/AlphaEvolve spend offline then ship classical code | `reasoning-compiler`, `autopass`, `magellan` |
+| **Mitigations already shipping** | Freeze ACF/kernel into VCS; HW RAG + skills (KernelEvolve); distill/RL specialists on trajectories; Fast Feedback (~10× vs full IR in-loop); offline job (b) so users never pay LLM at `-O3` time | P2/P4/P12; CompileIQ ACF; Magellan |
+
+**Adjacent industry signal (agent production, not compiler-specific).** Agentic tasks commonly cost **many×** chatbot tokens (iterative tool use + context re-send—“communication tax”; code-review-like stages dominate token share in agentic SE studies). Prompt caching, model routing (small models for easy steps), and context compaction are becoming mandatory FinOps—not optional polish. This reinforces compiler-agent design: **fewer, higher-value LLM calls** behind oracles beat chatty multi-agent refinement in the hot path.
+
+##### Options (how products respond)
+
+| Option | Pros | Cons |
+|---|---|---|
+| **A. Always-on frontier model at every compile** | Max freshness | Token+latency blow up; release eng rejects; capability still needs oracles |
+| **B. Batch/CI optimize → freeze artifact** (hybrid default) | Amortize tokens over many serves; replayable | Stale vs new shapes; needs re-optimize policy |
+| **C. Route + distill** (frontier orchestrator, small specialists; KernelEvolve-style RL) | Cuts $/task and often latency | Needs trajectory rights (P13/P17); tool-calling quality still gates open models |
+| **D. Capability firewall** (LLM only in bounded actions; classical data plane executes) | Capability gaps don’t miscompile by default | Limits “agent authors the opt” narrative |
+| **E. Ignore and hope prices fall** | Simple story | Volume of agent loops can outrun $/token declines |
+
+##### Conclusion (survey stance)
+
+1. **Tokens will be a problem** for any product that keeps the LLM in the **online compile loop** without budgets. Treat token burn as OpEx tied to **%gain and p50 wins** (**C2**, P9/P10)—not as a vanishing cost.  
+2. **Inference performance will be a problem** for interactive UX; it is **acceptable** for overnight/CI specialize if SLOs are honest (P18). Do not market batch search as chat.  
+3. **Model capabilities will be a problem** in three distinct ways—and they are easy to confuse:  
+   - **Weak one-shot kernel/IR skill** → needs search + oracles, not a bigger prompt;  
+   - **Unsafe free rewrite** even when fluent → keep data plane classical (**C3**/A5);  
+   - **Fragile tool-calling** on open models → blocks multi-agent SKUs before “coding IQ” does.  
+4. **Therefore:** under the hybrid prediction, these resource/capability limits **shape the SKU** (freeze, Amdahl trigger, route/distill, FSM bounds) more than they **falsify** agentic compilers. They **do** falsify “LLM-as-`opt` every build” as a commercial default.  
+5. **Watch metrics that settle this:** tokens (or $) per admitted %gain; p50 wall-clock of optimize jobs; tool-call success rate by model tier; win rate after model swap with golden replay (P12/P14).
+
+**Example (might be true).** A viable commercial control plane spends frontier tokens on **orchestrating a few dozen oracle-gated trials** for Amdahl-hot regions, distills a specialist for the common cases, and ships an ACF/kernel that serves **millions of inferences with zero LLM calls**—so token and capability risk sit in eng CI, not in the customer’s critical path.
+
 #### Commercial checklist (if you are building this)
 
 **Architecture**
@@ -913,9 +957,10 @@ Adjacent agent-production work stresses **deterministic boundaries** and moving 
 12. Customer owns outputs; telemetry opt-in; pluggable models with golden replay.  
 13. Multi-DSL skills; coverage SLA then perf SLA for new silicon.  
 14. Tenancy/residency story for ISA RAG and customer graphs.  
-15. Support runbooks: replay packs, spend caps, severity for oracle misses.
+15. Support runbooks: replay packs, spend caps, severity for oracle misses.  
+16. **Resource envelope (P23):** budget tokens/$ per %gain; no always-on frontier in default compile; route/distill; measure tool-call success and optimize wall-clock SLOs.
 
-**Still blocks / changes packaging:** §4.1–4.5, §4.7–4.10; conflicts **C2** (gains pay?), **C3** (API width), **C5** (default-on), **C7** (oracle review), **C9** (coverage vs peak).
+**Still blocks / changes packaging:** §4.1–4.5, §4.7–4.10; conflicts **C2** (gains pay?), **C3** (API width), **C5** (default-on), **C7** (oracle review), **C9** (coverage vs peak). Resource/capability envelope: **P23**.
 
 ---
 
