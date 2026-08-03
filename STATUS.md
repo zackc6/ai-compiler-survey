@@ -16,7 +16,7 @@ Last updated: **2026-07-31**
 | Tiered REPOS/PRODUCTS | Done (v3) | TritorX/KernelEvolve/Helion/AutoKernel |
 | Publication digests | Done (v4) | **95** digests (+10 wave) |
 | Validate script | Done | `python3 scripts/validate_survey.py` |
-| **PDF publish** | Done | `publish/` → en / zh-CN / zh-TW PDFs |
+| **PDF + PPTX publish** | Done | English PDF + graph PPTX in `publish/out/` (zh scripts optional) |
 | **Survey skill** | Done | `.cursor/skills/survey/` (+ personal `~/.cursor/skills/survey/`) |
 | GitHub remote | Available | work on `main` and push |
 
@@ -47,6 +47,7 @@ Last updated: **2026-07-31**
 | 2026-07-31 | Add `publish/` PDF pipeline; export `next-gen-ai-compiler-survey.pdf` |
 | 2026-07-31 | Distill methodology into `.cursor/skills/survey` skill |
 | 2026-08-03 | PDF publish builds en + zh-CN + zh-TW |
+| 2026-08-03 | Keep only English PDF in out/; add graph-heavy PPTX builder |
 
 ## Next actions
 

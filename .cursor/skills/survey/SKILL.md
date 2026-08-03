@@ -19,7 +19,7 @@ Follow the personal **survey** skill with these concrete paths:
 | Digest template | `publications/_TEMPLATE.md` |
 | Index | `publications/INDEX.md` |
 | Validate | `python3 scripts/validate_survey.py` |
-| PDF | `python3 publish/build_pdf.py` → en / zh-CN / zh-TW under `publish/out/` |
+| PDF / PPTX | `python3 publish/build_pdf.py` + `python3 publish/build_pptx.py` → English artifacts in `publish/out/` |
 | Status | `STATUS.md` |
 
 ## Hard rules

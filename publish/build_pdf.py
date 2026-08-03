@@ -163,8 +163,8 @@ def main() -> int:
     parser.add_argument(
         "--lang",
         choices=(*LANGS, "all"),
-        default="all",
-        help="Language to build (default: all → en + zh-CN + zh-TW)",
+        default="en",
+        help="Language to build (default: en). Use --lang all for zh-CN/zh-TW too; only en is kept in out/ by default workflow.",
     )
     args = parser.parse_args()
 

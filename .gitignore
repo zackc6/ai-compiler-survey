@@ -7,9 +7,13 @@ __pycache__/
 .env
 .env.*
 
-# publish intermediates (PDF artifacts are tracked)
+# publish intermediates + optional locale builds (only English PDF + PPTX tracked)
 publish/out/survey-bundle.md
 publish/out/survey-bundle.*.md
 publish/out/survey.html
 publish/out/survey.*.html
 publish/out/*.tmp.pdf
+publish/out/*.zh-CN.pdf
+publish/out/*.zh-TW.pdf
+publish/out/*.zh-CN.md
+publish/out/*.zh-TW.md

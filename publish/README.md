@@ -1,57 +1,39 @@
-# Publish survey → PDF (en / zh-CN / zh-TW)
+# Publish survey → PDF + PPTX
 
-Build PDFs of the living survey in **English**, **Simplified Chinese**, and **Traditional Chinese**.
+English artifacts in `publish/out/`. Scripts can still build Chinese PDFs on demand.
 
-## Quick build (all languages)
+## Quick build (tracked outputs)
 
 ```bash
 # from repo root
-python3 publish/build_pdf.py
+python3 publish/build_pdf.py          # English PDF only (default)
+python3 publish/build_pptx.py         # graph-heavy PowerPoint
 ```
 
-Outputs under `publish/out/`:
+Outputs:
 
-| File | Language |
+| File | What |
 |---|---|
-| `next-gen-ai-compiler-survey.en.pdf` | English |
-| `next-gen-ai-compiler-survey.zh-CN.pdf` | 简体中文 |
-| `next-gen-ai-compiler-survey.zh-TW.pdf` | 繁體中文 |
-| `next-gen-ai-compiler-survey.pdf` | English (legacy alias) |
+| `out/next-gen-ai-compiler-survey.en.pdf` | English survey PDF |
+| `out/next-gen-ai-compiler-survey.pdf` | Legacy alias of English PDF |
+| `out/next-gen-ai-compiler-survey.pptx` | Slide deck with charts |
 
-## One language only
+## Optional Chinese PDFs (not kept in out/)
+
+Scripts remain; build then discard or keep locally:
 
 ```bash
-python3 publish/build_pdf.py --lang en
 python3 publish/build_pdf.py --lang zh-CN
 python3 publish/build_pdf.py --lang zh-TW
+python3 publish/build_pdf.py --lang all
 ```
 
 ## Requirements
 
-- Python 3.10+
-- `pandoc`
-- `weasyprint` (`pip install weasyprint`) — default PDF engine
-- `deep-translator`, `opencc-python-reimplemented` — for Chinese builds
-- CJK-capable font (e.g. WenQuanYi Micro Hei / Noto CJK)
+- `pandoc`, `weasyprint`, `pypdf` — PDF
+- `python-pptx` — PowerPoint
+- `deep-translator`, `opencc-python-reimplemented` — Chinese PDF only
 
-Fallback engine:
+## PPT contents (graphs)
 
-```bash
-python3 publish/build_pdf.py --engine wkhtmltopdf
-```
-
-## How Chinese is produced
-
-1. Assemble English manuscript from `docs/*` + `publications/INDEX.md`.
-2. Machine-translate body EN → **zh-CN** (glossary-protected domain terms).
-3. Convert **zh-CN → zh-TW** with OpenCC (`s2twp`).
-4. Attach hand-written Chinese covers (not machine-translated).
-5. Render each locale to PDF with CJK fonts.
-
-English docs remain the source of truth. Re-run after narrative edits.
-
-## What is included
-
-Cover + SURVEY + ROADMAP + STACK + CLAIMS + CONFLICTS + SYSTEMS + TAXONOMY + INDEX.
-
-Digests stay in `publications/` (not inlined).
+Era timeline, agent-job doughnut, evidence tiers, claims status stack, conflicts urgency, stack-layer pressure, roadmap confidence, bibliography group/kind/year charts, author-reported speedup bars (with C2 caveat), online/offline radar, codesign ladder, falsifiers, takeaways.

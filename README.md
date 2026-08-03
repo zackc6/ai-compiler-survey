@@ -9,10 +9,10 @@ Living survey aimed at **predicting the next-generation agentic compiler** (~202
 3. **Stack reshape** — Layer map (framework → DSL → IR → oracles → silicon feedback) in [`docs/STACK.md`](docs/STACK.md).
 4. **Answer Q1–Q4** plus comparison + conflicts ([`docs/CONFLICTS.md`](docs/CONFLICTS.md) C1–C10).
 5. **Reusable bibliography** — Digests under [`publications/`](publications/).
-6. **Publish PDF** — [`publish/`](publish/) builds **en / 简体 / 繁體**:
-   [`en`](publish/out/next-gen-ai-compiler-survey.en.pdf) ·
-   [`zh-CN`](publish/out/next-gen-ai-compiler-survey.zh-CN.pdf) ·
-   [`zh-TW`](publish/out/next-gen-ai-compiler-survey.zh-TW.pdf).
+6. **Publish** — [`publish/`](publish/) English PDF + graph PPTX:
+   [`PDF`](publish/out/next-gen-ai-compiler-survey.en.pdf) ·
+   [`PPTX`](publish/out/next-gen-ai-compiler-survey.pptx)
+   (`build_pdf.py --lang zh-*` still available; only English is kept in `out/`).
 7. **Track progress** — [`STATUS.md`](STATUS.md).
 
 ## Repo layout
@@ -32,10 +32,10 @@ docs/
 publications/
   INDEX.md / _TEMPLATE.md / *.md
 publish/
-  build_pdf.py            # assemble docs → PDF
-  out/next-gen-ai-compiler-survey.pdf
+  build_pdf.py / build_pptx.py
+  out/*.en.pdf / out/*.pptx
 scripts/validate_survey.py
-.cursor/skills/survey/    # Cursor skill: methodology + experience
+.cursor/skills/survey/
 ```
 
 ## Quick start
@@ -44,7 +44,7 @@ scripts/validate_survey.py
 2. [`docs/CLAIMS.md`](docs/CLAIMS.md) / [`docs/CONFLICTS.md`](docs/CONFLICTS.md) when sources disagree.
 3. ★ digests in [`publications/INDEX.md`](publications/INDEX.md) (TritorX, KernelEvolve, ACCLAIM, Magellan, …).
 4. Contribute via [`docs/WORKFLOW.md`](docs/WORKFLOW.md); `python3 scripts/validate_survey.py`.
-5. Export PDFs (en + zh-CN + zh-TW): `python3 publish/build_pdf.py` (see [`publish/README.md`](publish/README.md)).
+5. Export: `python3 publish/build_pdf.py && python3 publish/build_pptx.py` (see [`publish/README.md`](publish/README.md)).
 
 ## How we update
 
