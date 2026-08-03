@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2025+ |
+| **Org** | FlagOpen / flagos-ai |
+| **Publisher** | GitHub |
 | **Type** | code |
 | **Group** | GPU kernels & inference compilers |
 | **Link** | [https://github.com/flagos-ai/awesome-LLM-driven-kernel-generation](https://github.com/flagos-ai/awesome-LLM-driven-kernel-generation) |

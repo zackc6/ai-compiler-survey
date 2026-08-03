@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | Moonlight |
+| **Publisher** | Moonlight |
 | **Type** | company |
 | **Group** | Forums & workshops |
 | **Link** | [https://www.themoonlight.io/en/review/magellan-autonomous-discovery-of-novel-compiler-optimization-heuristics-with-alphaevolve](https://www.themoonlight.io/en/review/magellan-autonomous-discovery-of-novel-compiler-optimization-heuristics-with-alphaevolve) |

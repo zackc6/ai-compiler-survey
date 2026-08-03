@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2025/2026 |
+| **Org** | Meta |
+| **Publisher** | arXiv |
 | **Type** | paper |
 | **Group** | HW codesign & accelerator bring-up |
 | **Link** | [https://arxiv.org/abs/2512.10977](https://arxiv.org/abs/2512.10977) |

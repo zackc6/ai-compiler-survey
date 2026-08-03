@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2022 |
+| **Org** | MIT CSAIL |
+| **Publisher** | CGO 2022 · YouTube |
 | **Type** | talk |
 | **Group** | Surveys & vision |
 | **Link** | [https://www.youtube.com/watch?v=w_sX9aZoZxg](https://www.youtube.com/watch?v=w_sX9aZoZxg) |

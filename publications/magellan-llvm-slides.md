@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2025 |
+| **Org** | Google DeepMind / Google |
+| **Publisher** | LLVM Developers' Meeting 2025 |
 | **Type** | talk |
 | **Group** | Agentic & RL compilers |
 | **Link** | [https://llvm.org/devmtg/2025-10/slides/technical_talks/chen.pdf](https://llvm.org/devmtg/2025-10/slides/technical_talks/chen.pdf) |

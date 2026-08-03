@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | CUHK (cuhk-s3) |
+| **Publisher** | arXiv |
 | **Type** | paper |
 | **Group** | Source control & review agents |
 | **Link** | [https://arxiv.org/html/2607.01808](https://arxiv.org/html/2607.01808) |

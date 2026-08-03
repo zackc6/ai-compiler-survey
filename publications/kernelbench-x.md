@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | Tsinghua University |
+| **Publisher** | arXiv |
 | **Type** | paper |
 | **Group** | GPU kernels & inference compilers |
 | **Link** | [https://arxiv.org/html/2605.04956v1](https://arxiv.org/html/2605.04956v1) |

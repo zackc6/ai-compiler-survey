@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2025 |
+| **Org** | AMD |
+| **Publisher** | arXiv |
 | **Type** | paper |
 | **Group** | GPU kernels & inference compilers |
 | **Link** | [https://arxiv.org/html/2507.23194](https://arxiv.org/html/2507.23194) |

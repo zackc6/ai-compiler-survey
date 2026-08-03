@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2025/2026 |
+| **Org** | Meta |
+| **Publisher** | ISCA 2026 · arXiv |
 | **Type** | paper |
 | **Group** | HW codesign & accelerator bring-up |
 | **Link** | [https://arxiv.org/abs/2512.23236](https://arxiv.org/abs/2512.23236) |

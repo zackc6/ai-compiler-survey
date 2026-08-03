@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2024 |
+| **Org** | Meta (Chris Cummins) |
+| **Publisher** | LinkedIn |
 | **Type** | company |
 | **Group** | Foundation LLMs for compilers |
 | **Link** | [https://www.linkedin.com/pulse/llm-compiler-foundation-models-code-optimization-chris-cummins-ktwyc](https://www.linkedin.com/pulse/llm-compiler-foundation-models-code-optimization-chris-cummins-ktwyc) |

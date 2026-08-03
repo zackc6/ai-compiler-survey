@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | Meta |
+| **Publisher** | Engineering at Meta |
 | **Type** | company |
 | **Group** | HW codesign & accelerator bring-up |
 | **Link** | [https://engineering.fb.com/2026/04/02/developer-tools/kernelevolve-how-metas-ranking-engineer-agent-optimizes-ai-infrastructure/](https://engineering.fb.com/2026/04/02/developer-tools/kernelevolve-how-metas-ranking-engineer-agent-optimizes-ai-infrastructure/) |

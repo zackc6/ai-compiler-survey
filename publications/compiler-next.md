@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2025 |
+| **Org** | Queen's University |
+| **Publisher** | arXiv |
 | **Type** | paper |
 | **Group** | Surveys & vision |
 | **Link** | [https://arxiv.org/html/2510.24799v2](https://arxiv.org/html/2510.24799v2) |

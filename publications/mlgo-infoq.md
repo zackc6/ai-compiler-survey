@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2022 |
+| **Org** | InfoQ (covering Google MLGO) |
+| **Publisher** | InfoQ |
 | **Type** | company |
 | **Group** | MLGO & RL gyms |
 | **Link** | [https://www.infoq.com/news/2022/07/MLGO-framework-machine-learning/](https://www.infoq.com/news/2022/07/MLGO-framework-machine-learning/) |

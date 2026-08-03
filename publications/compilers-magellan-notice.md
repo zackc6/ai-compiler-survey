@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | comp.compilers community |
+| **Publisher** | comp.compilers |
 | **Type** | forum |
 | **Group** | Forums & workshops |
 | **Link** | [https://compilers.iecc.com/comparch/article/26-01-006](https://compilers.iecc.com/comparch/article/26-01-006) |

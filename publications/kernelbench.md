@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2025 |
+| **Org** | Stanford · Princeton |
+| **Publisher** | arXiv |
 | **Type** | paper |
 | **Group** | GPU kernels & inference compilers |
 | **Link** | [https://arxiv.org/abs/2502.10517](https://arxiv.org/abs/2502.10517) |

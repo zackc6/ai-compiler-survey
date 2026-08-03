@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2020 |
+| **Org** | Peking University et al. |
+| **Publisher** | ACM ASPLOS 2020 |
 | **Type** | paper |
 | **Group** | Classic DL compilers |
 | **Link** | [https://doi.org/10.1145/3373376.3378508](https://doi.org/10.1145/3373376.3378508) |

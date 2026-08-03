@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | Hacker News community |
+| **Publisher** | Hacker News |
 | **Type** | forum |
 | **Group** | Company infra |
 | **Link** | [https://news.ycombinator.com/item?id=46903616](https://news.ycombinator.com/item?id=46903616) |

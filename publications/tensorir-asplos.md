@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2022 |
+| **Org** | UW · AWS · OctoML et al. |
+| **Publisher** | ACM ASPLOS 2023 |
 | **Type** | paper |
 | **Group** | Classic DL compilers |
 | **Link** | [https://dl.acm.org/doi/10.1145/3575693.3576933](https://dl.acm.org/doi/10.1145/3575693.3576933) |

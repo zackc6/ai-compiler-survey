@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2021 |
+| **Org** | Google · multi-institution |
+| **Publisher** | arXiv (MLIR) |
 | **Type** | paper |
 | **Group** | Classic DL compilers |
 | **Link** | [https://arxiv.org/abs/2002.11054](https://arxiv.org/abs/2002.11054) |

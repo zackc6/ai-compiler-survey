@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | Google DeepMind / Google |
+| **Publisher** | arXiv |
 | **Type** | paper |
 | **Group** | Agentic & RL compilers |
 | **Link** | [https://arxiv.org/abs/2601.21096](https://arxiv.org/abs/2601.21096) |

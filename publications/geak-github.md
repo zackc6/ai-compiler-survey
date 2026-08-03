@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2025 |
+| **Org** | AMD AGI |
+| **Publisher** | GitHub |
 | **Type** | code |
 | **Group** | GPU kernels & inference compilers |
 | **Link** | [https://github.com/AMD-AGI/GEAK-agent](https://github.com/AMD-AGI/GEAK-agent) |

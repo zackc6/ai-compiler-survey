@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | Zhejiang University · Purdue |
+| **Publisher** | arXiv |
 | **Type** | paper |
 | **Group** | Agentic & RL compilers |
 | **Link** | [https://arxiv.org/abs/2604.15041](https://arxiv.org/abs/2604.15041) |

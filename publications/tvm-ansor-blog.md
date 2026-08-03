@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2021 |
+| **Org** | Apache TVM |
+| **Publisher** | Apache TVM blog |
 | **Type** | company |
 | **Group** | Classic DL compilers |
 | **Link** | [https://tvm.apache.org/2021/03/03/intro-auto-scheduler](https://tvm.apache.org/2021/03/03/intro-auto-scheduler) |

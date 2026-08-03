@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | Amazon Science / AWS AI |
+| **Publisher** | GitHub |
 | **Type** | code |
 | **Group** | Agentic & RL compilers |
 | **Link** | [https://github.com/amazon-science/acclaim](https://github.com/amazon-science/acclaim) |

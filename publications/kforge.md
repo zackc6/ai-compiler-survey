@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | Gimlet Labs |
+| **Publisher** | MLArchSys @ ISCA 2026 · arXiv |
 | **Type** | paper |
 | **Group** | HW codesign & accelerator bring-up |
 | **Link** | [https://arxiv.org/abs/2606.02963](https://arxiv.org/abs/2606.02963) |

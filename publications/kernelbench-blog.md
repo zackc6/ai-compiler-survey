@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2025 |
+| **Org** | Stanford (Scaling Intelligence) |
+| **Publisher** | Stanford blog |
 | **Type** | company |
 | **Group** | GPU kernels & inference compilers |
 | **Link** | [https://scalingintelligence.stanford.edu/blogs/kernelbench/](https://scalingintelligence.stanford.edu/blogs/kernelbench/) |

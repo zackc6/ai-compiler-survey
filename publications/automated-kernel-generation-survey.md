@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | BAAI · PKU · HKUST(GZ) et al. |
+| **Publisher** | arXiv |
 | **Type** | paper |
 | **Group** | Surveys & vision |
 | **Link** | [https://arxiv.org/abs/2601.15727](https://arxiv.org/abs/2601.15727) |

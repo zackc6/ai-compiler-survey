@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | Modular |
+| **Publisher** | Modular blog |
 | **Type** | company |
 | **Group** | Company infra |
 | **Link** | [https://www.modular.com/blog/the-claude-c-compiler-what-it-reveals-about-the-future-of-software](https://www.modular.com/blog/the-claude-c-compiler-what-it-reveals-about-the-future-of-software) |

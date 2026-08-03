@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2020 |
+| **Org** | UW · AWS · OctoML et al. |
+| **Publisher** | USENIX OSDI 2020 |
 | **Type** | paper |
 | **Group** | Classic DL compilers |
 | **Link** | [https://www.usenix.org/conference/osdi20/presentation/zheng](https://www.usenix.org/conference/osdi20/presentation/zheng) |

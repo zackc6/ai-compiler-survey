@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | Shaanxi Normal University · Northwest University · University of Leeds |
+| **Publisher** | arXiv |
 | **Type** | paper |
 | **Group** | Agentic & RL compilers |
 | **Link** | [https://arxiv.org/pdf/2606.20373](https://arxiv.org/pdf/2606.20373) |

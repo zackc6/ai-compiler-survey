@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | NVIDIA |
+| **Publisher** | NVIDIA docs |
 | **Type** | company |
 | **Group** | Commercial products & proposals |
 | **Link** | [https://nvidia.github.io/CompileIQ/stable/index.html](https://nvidia.github.io/CompileIQ/stable/index.html) |

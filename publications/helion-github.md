@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2025+ |
+| **Org** | Meta (PyTorch) |
+| **Publisher** | GitHub |
 | **Type** | code |
 | **Group** | Classic DL compilers |
 | **Link** | [https://github.com/pytorch/helion](https://github.com/pytorch/helion) |

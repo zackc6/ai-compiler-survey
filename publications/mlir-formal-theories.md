@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | Qualcomm Technologies International |
+| **Publisher** | arXiv |
 | **Type** | paper |
 | **Group** | Surveys & vision |
 | **Link** | [https://doi.org/10.48550/arxiv.2606.25244](https://doi.org/10.48550/arxiv.2606.25244) |

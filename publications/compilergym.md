@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2022 |
+| **Org** | Meta FAIR |
+| **Publisher** | GitHub |
 | **Type** | code |
 | **Group** | MLGO & RL gyms |
 | **Link** | [https://github.com/facebookresearch/CompilerGym](https://github.com/facebookresearch/CompilerGym) |

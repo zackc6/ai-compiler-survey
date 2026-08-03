@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2025 |
+| **Org** | UC San Diego |
+| **Publisher** | arXiv |
 | **Type** | paper |
 | **Group** | GPU kernels & inference compilers |
 | **Link** | [https://arxiv.org/html/2506.01374](https://arxiv.org/html/2506.01374) |

@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2025 |
+| **Org** | OpenXLA / Google |
+| **Publisher** | OpenXLA |
 | **Type** | company |
 | **Group** | Classic DL compilers |
 | **Link** | [https://openxla.org/stablehlo/roadmap](https://openxla.org/stablehlo/roadmap) |

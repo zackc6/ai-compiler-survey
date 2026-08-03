@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | AWS AI · Georgia Tech |
+| **Publisher** | arXiv |
 | **Type** | paper |
 | **Group** | Agentic & RL compilers |
 | **Link** | [https://arxiv.org/abs/2604.04238](https://arxiv.org/abs/2604.04238) |

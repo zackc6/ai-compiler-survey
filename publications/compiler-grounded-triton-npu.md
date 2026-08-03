@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | Huawei Technologies |
+| **Publisher** | arXiv |
 | **Type** | paper |
 | **Group** | HW codesign & accelerator bring-up |
 | **Link** | [https://arxiv.org/abs/2607.23089](https://arxiv.org/abs/2607.23089) |

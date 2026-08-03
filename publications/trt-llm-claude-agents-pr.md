@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | NVIDIA |
+| **Publisher** | GitHub (TensorRT-LLM) |
 | **Type** | code |
 | **Group** | Commercial products & proposals |
 | **Link** | [https://github.com/NVIDIA/TensorRT-LLM/pull/12831](https://github.com/NVIDIA/TensorRT-LLM/pull/12831) |

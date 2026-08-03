@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | YYYY |
+| **Org** | <company / university / lab — primary affiliations> |
+| **Publisher** | <venue, blog host, forge, or preprint host> |
 | **Type** | paper \| company \| forum \| talk \| code |
 | **Group** | <INDEX group name> |
 | **Link** | [primary URL](https://…) |

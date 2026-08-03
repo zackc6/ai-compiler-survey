@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2025 |
+| **Org** | AMD |
+| **Publisher** | AMD ROCm blog |
 | **Type** | company |
 | **Group** | GPU kernels & inference compilers |
 | **Link** | [https://rocm.blogs.amd.com/software-tools-optimization/triton-kernel-ai/README.html](https://rocm.blogs.amd.com/software-tools-optimization/triton-kernel-ai/README.html) |

@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2020 |
+| **Org** | MIT CSAIL |
+| **Publisher** | ACM CC 2020 |
 | **Type** | talk |
 | **Group** | Surveys & vision |
 | **Link** | [https://doi.org/10.1145/3372799.3397167](https://doi.org/10.1145/3372799.3397167) |

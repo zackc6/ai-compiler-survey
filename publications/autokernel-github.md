@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | RightNow AI |
+| **Publisher** | GitHub |
 | **Type** | code |
 | **Group** | GPU kernels & inference compilers |
 | **Link** | [https://github.com/RightNow-AI/autokernel](https://github.com/RightNow-AI/autokernel) |

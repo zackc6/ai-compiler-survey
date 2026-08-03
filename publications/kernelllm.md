@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2025 |
+| **Org** | Meta |
+| **Publisher** | Hugging Face |
 | **Type** | company |
 | **Group** | GPU kernels & inference compilers |
 | **Link** | [https://huggingface.co/facebook/KernelLLM](https://huggingface.co/facebook/KernelLLM) |

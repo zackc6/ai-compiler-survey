@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2025 |
+| **Org** | Algorithmic SuperIntelligence |
+| **Publisher** | GitHub |
 | **Type** | code |
 | **Group** | Source control & review agents |
 | **Link** | [https://github.com/algorithmicsuperintelligence/openevolve](https://github.com/algorithmicsuperintelligence/openevolve) |

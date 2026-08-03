@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2025 |
+| **Org** | IEEE EMBS Pulse |
+| **Publisher** | IEEE Pulse |
 | **Type** | company |
 | **Group** | Forums & workshops |
 | **Link** | [https://www.embs.org/pulse/articles/llms-in-compiler-optimization-challenges-and-future-direction/](https://www.embs.org/pulse/articles/llms-in-compiler-optimization-challenges-and-future-direction/) |

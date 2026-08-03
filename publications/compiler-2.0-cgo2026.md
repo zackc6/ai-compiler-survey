@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | MIT CSAIL |
+| **Publisher** | ACM/IEEE Ken Kennedy Award · HPCA/CGO/PPoPP/CC 2026 |
 | **Type** | talk |
 | **Group** | Surveys & vision |
 | **Link** | [https://2026.hpca-cgo-ppopp-cc.org/details/hpca-cgo-ppopp-cc-2026-plenary-keynotes/2/Compiler-2-0-Building-the-Next-Generation-Compilers-with-Machine-Learning](https://2026.hpca-cgo-ppopp-cc.org/details/hpca-cgo-ppopp-cc-2026-plenary-keynotes/2/Compiler-2-0-Building-the-Next-Generation-Compilers-with-Machine-Learning) |

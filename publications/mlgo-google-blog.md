@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2022 |
+| **Org** | Google Research |
+| **Publisher** | Google Research blog |
 | **Type** | company |
 | **Group** | MLGO & RL gyms |
 | **Link** | [https://research.google/blog/mlgo-a-machine-learning-framework-for-compiler-optimization/](https://research.google/blog/mlgo-a-machine-learning-framework-for-compiler-optimization/) |

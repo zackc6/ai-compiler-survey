@@ -51,6 +51,7 @@ Last updated: **2026-08-03**
 | 2026-08-03 | Redesign PPTX as editorial idea deck; add PPT_TOOLS.md suggestions |
 | 2026-08-03 | Add Compiler 2.0 Ken Kennedy plenary + lineage + MOCHA; SURVEY §1.5 vision map |
 | 2026-08-03 | Fix KernelEvolve INDEX title (full paper name); add Meta Engineering blog digest |
+| 2026-08-03 | Add Org + Publisher to all digests and INDEX; validate requires fields |
 
 ## Next actions
 

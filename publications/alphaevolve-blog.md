@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | Google DeepMind |
+| **Publisher** | DeepMind blog |
 | **Type** | company |
 | **Group** | Agentic & RL compilers |
 | **Link** | [https://deepmind.google/blog/alphaevolve-impact/](https://deepmind.google/blog/alphaevolve-impact/) |

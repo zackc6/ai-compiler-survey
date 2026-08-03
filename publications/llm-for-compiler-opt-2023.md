@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2023 |
+| **Org** | Meta |
+| **Publisher** | arXiv |
 | **Type** | paper |
 | **Group** | Foundation LLMs for compilers |
 | **Link** | [https://arxiv.org/abs/2309.07062](https://arxiv.org/abs/2309.07062) |

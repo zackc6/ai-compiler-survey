@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2025 |
+| **Org** | Google / LLVM community |
+| **Publisher** | LLVM Discourse |
 | **Type** | forum |
 | **Group** | Forums & workshops |
 | **Link** | [https://discourse.llvm.org/t/rfc-emitc-support-for-mlgo/87728](https://discourse.llvm.org/t/rfc-emitc-support-for-mlgo/87728) |

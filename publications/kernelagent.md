@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2025 |
+| **Org** | Meta (PyTorch) |
+| **Publisher** | GitHub |
 | **Type** | code |
 | **Group** | Source control & review agents |
 | **Link** | [https://github.com/meta-pytorch/KernelAgent](https://github.com/meta-pytorch/KernelAgent) |

@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | ETH Zurich · INSAIT/Sofia University · UC Berkeley |
+| **Publisher** | arXiv |
 | **Type** | paper |
 | **Group** | Agentic & RL compilers |
 | **Link** | [https://arxiv.org/abs/2607.13921](https://arxiv.org/abs/2607.13921) |

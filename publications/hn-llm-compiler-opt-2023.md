@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2023 |
+| **Org** | Hacker News community |
+| **Publisher** | Hacker News |
 | **Type** | forum |
 | **Group** | Foundation LLMs for compilers |
 | **Link** | [https://news.ycombinator.com/item?id=37549216](https://news.ycombinator.com/item?id=37549216) |

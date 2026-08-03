@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2025+ |
+| **Org** | Amarula Solutions |
+| **Publisher** | GitHub |
 | **Type** | code |
 | **Group** | Source control & review agents |
 | **Link** | [https://github.com/amarula/reviewai-gerrit-plugin](https://github.com/amarula/reviewai-gerrit-plugin) |

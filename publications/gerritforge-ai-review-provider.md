@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2025+ |
+| **Org** | GerritForge |
+| **Publisher** | GitHub |
 | **Type** | code |
 | **Group** | Source control & review agents |
 | **Link** | [https://github.com/GerritForge/ai-review-agent-provider](https://github.com/GerritForge/ai-review-agent-provider) |

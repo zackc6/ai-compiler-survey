@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2025 |
+| **Org** | LLVM community |
+| **Publisher** | LLVM Discourse |
 | **Type** | forum |
 | **Group** | Forums & workshops |
 | **Link** | [https://discourse.llvm.org/t/llvm-dev25-llvm-ml-workshop/87488/4](https://discourse.llvm.org/t/llvm-dev25-llvm-ml-workshop/87488/4) |

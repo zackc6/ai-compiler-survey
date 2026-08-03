@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | Anthropic |
+| **Publisher** | Anthropic Engineering |
 | **Type** | company |
 | **Group** | Company infra |
 | **Link** | [https://www.anthropic.com/engineering/building-c-compiler](https://www.anthropic.com/engineering/building-c-compiler) |

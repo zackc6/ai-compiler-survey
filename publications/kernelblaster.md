@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | NVIDIA · UC Berkeley |
+| **Publisher** | arXiv |
 | **Type** | paper |
 | **Group** | GPU kernels & inference compilers |
 | **Link** | [https://arxiv.org/abs/2602.14293](https://arxiv.org/abs/2602.14293) |

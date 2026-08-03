@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | AMD |
+| **Publisher** | AMD ROCm blog |
 | **Type** | company |
 | **Group** | Commercial products & proposals |
 | **Link** | [https://rocm.blogs.amd.com/artificial-intelligence/kernel-optimization-agent/README.html](https://rocm.blogs.amd.com/artificial-intelligence/kernel-optimization-agent/README.html) |

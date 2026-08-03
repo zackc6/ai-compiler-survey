@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | LLVM community |
+| **Publisher** | LLVM Discourse |
 | **Type** | forum |
 | **Group** | Forums & workshops |
 | **Link** | [https://discourse.llvm.org/t/automated-review-with-agents-30-bugs-on-207-prs/90093](https://discourse.llvm.org/t/automated-review-with-agents-30-bugs-on-207-prs/90093) |

@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | NVIDIA |
+| **Publisher** | GitHub |
 | **Type** | code |
 | **Group** | Source control & review agents |
 | **Link** | [https://github.com/NVIDIA/CompileIQ](https://github.com/NVIDIA/CompileIQ) |

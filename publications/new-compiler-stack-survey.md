@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | ICT, CAS · UCAS · University of Leeds |
+| **Publisher** | arXiv |
 | **Type** | paper |
 | **Group** | Surveys & vision |
 | **Link** | [https://arxiv.org/abs/2601.02045](https://arxiv.org/abs/2601.02045) |

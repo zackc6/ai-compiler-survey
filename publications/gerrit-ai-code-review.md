@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2024+ |
+| **Org** | Google |
+| **Publisher** | Gerrit googlesource |
 | **Type** | code |
 | **Group** | Source control & review agents |
 | **Link** | [https://gerrit.googlesource.com/plugins/ai-code-review/](https://gerrit.googlesource.com/plugins/ai-code-review/) |

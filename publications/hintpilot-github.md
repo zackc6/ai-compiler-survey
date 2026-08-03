@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | Zhejiang University (ZJU-PL) |
+| **Publisher** | GitHub |
 | **Type** | code |
 | **Group** | Source control & review agents |
 | **Link** | [https://github.com/ZJU-PL/hintpilot](https://github.com/ZJU-PL/hintpilot) |

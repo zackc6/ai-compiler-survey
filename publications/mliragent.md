@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2025 |
+| **Org** | UC Berkeley (ucb-bar) |
+| **Publisher** | GitHub |
 | **Type** | code |
 | **Group** | GPU kernels & inference compilers |
 | **Link** | [https://github.com/ucb-bar/mlirAgent](https://github.com/ucb-bar/mlirAgent) |

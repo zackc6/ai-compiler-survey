@@ -76,7 +76,7 @@ COVER = {
             "only through kernels, IR, tests, and profilers — not autonomous tape-out."
         ),
         "export_notes": (
-            "- Full digests remain in `publications/*.md` (not inlined).\n"
+            "- Full digests remain in `publications/*.md` (not inlined; each has Org + Publisher).\n"
             "- Tier maps: `docs/REPOS.md`, `docs/PRODUCTS.md`.\n"
             "- Rebuild: `python3 publish/build_pdf.py` (builds en / zh-CN / zh-TW).\n"
         ),

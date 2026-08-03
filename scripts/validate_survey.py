@@ -18,6 +18,11 @@ REQUIRED_SECTIONS = (
     "Why it matters",
 )
 
+REQUIRED_FIELDS = (
+    "**Org**",
+    "**Publisher**",
+)
+
 DIGEST_LINK_RE = re.compile(r"\]\(([a-zA-Z0-9_./+-]+\.md)\)")
 
 
@@ -47,6 +52,9 @@ def main() -> int:
         for sec in REQUIRED_SECTIONS:
             if sec not in text:
                 errors.append(f"{name}: missing section '{sec}'")
+        for field in REQUIRED_FIELDS:
+            if field not in text:
+                errors.append(f"{name}: missing field {field}")
 
     m = re.search(r"\*\*Total:\*\*\s*(\d+)", index_text)
     if m and int(m.group(1)) != len(digests):

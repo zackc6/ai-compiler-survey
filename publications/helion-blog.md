@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2025 |
+| **Org** | Meta (PyTorch) |
+| **Publisher** | PyTorch blog |
 | **Type** | company |
 | **Group** | Classic DL compilers |
 | **Link** | [https://pytorch.org/blog/helion/](https://pytorch.org/blog/helion/) |

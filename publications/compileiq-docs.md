@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | NVIDIA |
+| **Publisher** | NVIDIA docs |
 | **Type** | code |
 | **Group** | Company infra |
 | **Link** | [https://nvidia.github.io/CompileIQ/stable/compilers_overview.html](https://nvidia.github.io/CompileIQ/stable/compilers_overview.html) |

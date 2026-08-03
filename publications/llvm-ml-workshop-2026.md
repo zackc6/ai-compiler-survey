@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | LLVM community |
+| **Publisher** | LLVM Discourse |
 | **Type** | forum |
 | **Group** | Forums & workshops |
 | **Link** | [https://discourse.llvm.org/t/llvm-dev26-llvm-ml-workshop/91148](https://discourse.llvm.org/t/llvm-dev26-llvm-ml-workshop/91148) |

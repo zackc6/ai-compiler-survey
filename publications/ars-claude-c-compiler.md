@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
+| **Org** | Ars Technica (covering Anthropic) |
+| **Publisher** | Ars Technica |
 | **Type** | company |
 | **Group** | Company infra |
 | **Link** | [https://arstechnica.com/ai/2026/02/sixteen-claude-ai-agents-working-together-created-a-new-c-compiler/](https://arstechnica.com/ai/2026/02/sixteen-claude-ai-agents-working-together-created-a-new-c-compiler/) |

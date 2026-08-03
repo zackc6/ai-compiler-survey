@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2023 |
+| **Org** | LLVM community |
+| **Publisher** | LLVM Discourse |
 | **Type** | forum |
 | **Group** | Forums & workshops |
 | **Link** | [https://discourse.llvm.org/t/llvm-dev23-ml-guided-compiler-optimization-in-llvm-workshop/73090](https://discourse.llvm.org/t/llvm-dev23-ml-guided-compiler-optimization-in-llvm-workshop/73090) |

@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2025 |
+| **Org** | Stanford (Scaling Intelligence) |
+| **Publisher** | GitHub |
 | **Type** | code |
 | **Group** | GPU kernels & inference compilers |
 | **Link** | [https://github.com/ScalingIntelligence/KernelBench/](https://github.com/ScalingIntelligence/KernelBench/) |

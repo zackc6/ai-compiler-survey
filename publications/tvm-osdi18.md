@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2018 |
+| **Org** | UW · AWS · Berkeley et al. |
+| **Publisher** | USENIX OSDI 2018 |
 | **Type** | paper |
 | **Group** | Classic DL compilers |
 | **Link** | [https://www.usenix.org/conference/osdi18/presentation/chen](https://www.usenix.org/conference/osdi18/presentation/chen) |

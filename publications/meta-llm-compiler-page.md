@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2024 |
+| **Org** | Meta AI |
+| **Publisher** | Meta AI Research |
 | **Type** | company |
 | **Group** | Foundation LLMs for compilers |
 | **Link** | [https://ai.meta.com/research/publications/meta-large-language-model-compiler-foundation-models-of-compiler-optimization/](https://ai.meta.com/research/publications/meta-large-language-model-compiler-foundation-models-of-compiler-optimization/) |

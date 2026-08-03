@@ -3,6 +3,8 @@
 | Field | Value |
 |---|---|
 | **Year** | 2022 |
+| **Org** | LLVM community (GSoC) |
+| **Publisher** | LLVM Discourse |
 | **Type** | forum |
 | **Group** | MLGO & RL gyms |
 | **Link** | [https://discourse.llvm.org/t/machine-learning-guided-ordering-of-compiler-optimization-passes/60415](https://discourse.llvm.org/t/machine-learning-guided-ordering-of-compiler-optimization-passes/60415) |
