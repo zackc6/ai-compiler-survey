@@ -487,21 +487,51 @@ def s_claims(prs, n, total):
     page_footer(s, n, total)
 
 
+def s_commercial(prs, n, total):
+    s = blank(prs)
+    kicker(s, 0.7, 0.35, "13  —  Commercialization §5.7")
+    textbox(s, 0.7, 0.75, 12, 0.5, "Ship the hybrid — solve P1–P23.", 28, True, INK, DISPLAY)
+    bands = [
+        (0.5, TEAL, "Architecture", "Contract · memory\ntopology · when-to-run\nmulti-DSL · FSM"),
+        (4.7, ACCENT, "Trust & ops", "Oracles · ownership\nversioning · HITL\nDR · A/B gates"),
+        (8.9, INK, "Business", "SKU · eval · pricing\ntenancy · IP\ntokens / capability"),
+    ]
+    for x, col, title, body in bands:
+        round_rect(s, x, 1.55, 3.9, 3.2, CARD, LINE)
+        rect(s, x, 1.55, 3.9, 0.12, col)
+        textbox(s, x + 0.25, 1.9, 3.4, 0.45, title, 18, True, INK, DISPLAY)
+        multiline(s, x + 0.25, 2.5, 3.4, 2.0, body.split("\n"), 15, MUTED, SANS, gap=8)
+    textbox(
+        s, 0.7, 5.05, 12, 0.4,
+        "P23 verdict: tokens / latency / capability shape the SKU — falsify always-on LLM-as-opt, not frozen artifacts.",
+        14, True, ACCENT, SANS,
+    )
+    # three-step path
+    steps = [("Search", "Amdahl-hot · oracle-gated"), ("Freeze", "ACF / kernel → VCS"), ("Serve", "Zero LLM calls")]
+    for i, (t, b) in enumerate(steps):
+        x = 0.7 + i * 4.2
+        round_rect(s, x, 5.6, 3.9, 1.15, SOFT_TEAL if i < 2 else SOFT_COPPER)
+        textbox(s, x + 0.2, 5.7, 3.5, 0.35, f"{i+1}. {t}", 16, True, INK, DISPLAY)
+        textbox(s, x + 0.2, 6.15, 3.5, 0.35, b, 13, False, MUTED, SANS)
+    page_footer(s, n, total)
+
+
 def s_org_questions(prs, n, total):
     s = blank(prs)
-    kicker(s, 0.7, 0.4, "13  —  If you adopt this")
+    kicker(s, 0.7, 0.4, "14  —  If you adopt this")
     textbox(s, 0.7, 0.85, 12, 0.55, "Questions before tools.", 28, True, INK, DISPLAY)
     qs = [
         ("01", "Online or offline first?", "Specialize workloads, or evolve the compiler once?"),
         ("02", "What is the oracle?", "Alive2, golden kernels, OpInfo, serving A/B — who owns false negatives?"),
         ("03", "Which agent contract IR?", "LLVM, MLIR, Triton, StableHLO, Tile — pick intentionally."),
         ("04", "Who owns agent artifacts?", "Named maintainer six months after merge."),
+        ("05", "Token / latency budget?", "Freeze path vs always-on — what $/ %gain is allowed?"),
     ]
     for i, (num, q, a) in enumerate(qs):
-        y = 1.7 + i * 1.2
-        textbox(s, 0.7, y, 1.0, 0.5, num, 20, True, ACCENT, DISPLAY)
-        textbox(s, 1.8, y, 10.5, 0.4, q, 18, True, INK, DISPLAY)
-        textbox(s, 1.8, y + 0.45, 10.5, 0.4, a, 14, False, MUTED, SANS)
+        y = 1.55 + i * 1.0
+        textbox(s, 0.7, y, 1.0, 0.4, num, 18, True, ACCENT, DISPLAY)
+        textbox(s, 1.8, y, 10.5, 0.35, q, 16, True, INK, DISPLAY)
+        textbox(s, 1.8, y + 0.38, 10.5, 0.35, a, 13, False, MUTED, SANS)
     page_footer(s, n, total)
 
 
@@ -509,24 +539,25 @@ def s_close(prs):
     s = blank(prs)
     rect(s, 0, 0, W, H, INK)
     rect(s, 0, 0, 0.18, H, ACCENT)
-    textbox(s, 0.9, 1.8, 11, 0.4, "ONE-PAGE CHECK", 12, True, ACCENT, SANS)
+    textbox(s, 0.9, 1.6, 11, 0.4, "ONE-PAGE CHECK", 12, True, ACCENT, SANS)
     textbox(
-        s, 0.9, 2.3, 11.5, 1.2,
+        s, 0.9, 2.1, 11.5, 1.2,
         "Predict the architecture.\nName the four jobs.\nSeparate signal from noise.",
         28, True, WHITE, DISPLAY,
     )
     multiline(
-        s, 0.9, 4.3, 11, 1.8,
+        s, 0.9, 4.0, 11, 2.0,
         [
             "Architecture → hybrid control / data / codesign feedback",
             "Jobs → online · offline · oracle review · bring-up",
             "Signal → Tier A + CONFLICTS settlement watches",
+            "Commercial → §5.7 P1–P23 · freeze artifacts · budget tokens",
         ],
         16, RGBColor(0xC8, 0xC3, 0xBA), SANS, gap=10,
     )
     textbox(
         s, 0.9, 6.4, 11, 0.4,
-        "Rebuild:  python3 publish/build_pptx.py",
+        "Rebuild:  python3 publish/build_pptx.py && python3 publish/build_visual.py",
         12, False, MUTED, SANS,
     )
 
@@ -551,6 +582,7 @@ def build() -> Path:
         s_roadmap,
         s_evidence_chart,
         s_claims,
+        s_commercial,
         s_org_questions,
         s_close,
     ]

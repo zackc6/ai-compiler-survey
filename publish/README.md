@@ -15,7 +15,7 @@ python3 publish/build_visual.py  # diagram-first PNG posters + visual PPTX
 | `out/next-gen-ai-compiler-survey.en.pdf` | Full survey PDF |
 | `out/next-gen-ai-compiler-survey.pptx` | 15-slide idea exploration deck |
 | `out/next-gen-ai-compiler-survey-visual.pptx` | Full-bleed diagram slides (no tables) |
-| `out/visual/*.png` | 10× 1920×1080 posters (hybrid, jobs, stack, codesign, …) |
+| `out/visual/*.png` | 13× 1920×1080 posters (hybrid, jobs, stack, codesign, commercial, P23, …) |
 
 Chinese PDF scripts remain (`--lang zh-CN|zh-TW|all`) but those files are not kept in `out/`.
 

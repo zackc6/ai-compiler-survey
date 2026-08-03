@@ -425,6 +425,119 @@ def poster_falsifiers() -> Path:
     return save(img, "10-falsifiers.png")
 
 
+def poster_commercial() -> Path:
+    """§5.7 commercialization — three problem bands as one composition."""
+    img, draw = canvas()
+    brand_mark(draw)
+    text(draw, (96, 120), "COMMERCIAL PRACTICE", F_BOLD(18), STEEL)
+    text(draw, (96, 160), "P1–P23 problem bands", F_DISPLAY(52), WHITE)
+
+    bands = [
+        (
+            280,
+            STEEL,
+            "ARCHITECTURE",
+            ["P1 contract", "P2 memory", "P3 topology", "P4 when-to-run", "P7 multi-DSL", "P22 FSM bounds"],
+        ),
+        (
+            520,
+            AMBER,
+            "TRUST & OPS",
+            ["P5 oracles", "P6 ownership", "P14 versioning", "P16 HITL", "P19 DR", "P20 A/B"],
+        ),
+        (
+            760,
+            EMBER,
+            "BUSINESS",
+            ["P8 SKU", "P9 eval", "P10 pricing", "P11 tenancy", "P13 IP", "P23 tokens/capability"],
+        ),
+    ]
+    for y, col, title, items in bands:
+        draw.rounded_rectangle([120, y, 1800, y + 200], radius=18, fill=col + (28,), outline=col, width=3)
+        text(draw, (160, y + 30), title, F_BOLD(26), col)
+        for i, item in enumerate(items):
+            x = 160 + (i % 6) * 270
+            yy = y + 90 + (i // 6) * 50
+            draw.ellipse([x, yy + 8, x + 14, yy + 22], fill=col)
+            text(draw, (x + 28, yy), item, F_BODY(22), WHITE)
+    text(
+        draw,
+        (120, 1000),
+        "Lean: typed admit traces · freeze artifacts · customer owns outputs · budget tokens per %gain",
+        F_BODY(22),
+        MUTED,
+    )
+    return save(img, "11-commercial-bands.png")
+
+
+def poster_resource_envelope() -> Path:
+    """P23 — tokens / inference / capability as three gauges + verdict."""
+    img, draw = canvas()
+    brand_mark(draw)
+    text(draw, (96, 120), "RESOURCE ENVELOPE", F_BOLD(18), STEEL)
+    text(draw, (96, 160), "Tokens · latency · capability", F_DISPLAY(48), WHITE)
+
+    gauges = [
+        (320, "TOKENS", "Always-on online\nburns OpEx", "Freeze + Amdahl\nbudgets", EMBER),
+        (960, "INFERENCE", "Hours-scale search\n≠ chat TTFT", "CI / overnight\nlab vs product", AMBER),
+        (1600, "CAPABILITY", "Weak one-shot\nunsafe free IR\nfragile tools", "Search + oracles\nclassical data plane", STEEL),
+    ]
+    for cx, title, problem, fix, col in gauges:
+        draw.ellipse([cx - 200, 340, cx + 200, 740], outline=col, width=8)
+        draw.ellipse([cx - 150, 390, cx + 150, 690], fill=col + (35,))
+        text(draw, (cx, 430), title, F_BOLD(28), col, "mm")
+        for j, line in enumerate(problem.split("\n")):
+            text(draw, (cx, 500 + j * 32), line, F_BODY(20), MIST, "mm")
+        text(draw, (cx, 640), "→", F_BOLD(28), WHITE, "mm")
+        for j, line in enumerate(fix.split("\n")):
+            text(draw, (cx, 680 + j * 28), line, F_BOLD(18), WHITE, "mm")
+
+    # verdict bar
+    draw.rounded_rectangle([120, 860, 1800, 1000], radius=16, fill=BG1, outline=AMBER, width=3)
+    text(draw, (160, 890), "VERDICT", F_BOLD(22), AMBER)
+    text(
+        draw,
+        (160, 935),
+        "Shapes the SKU — does not kill hybrid. Falsifies LLM-as-opt every build. Not agentic control planes.",
+        F_BODY(26),
+        WHITE,
+    )
+    return save(img, "12-resource-envelope.png")
+
+
+def poster_freeze_amortize() -> Path:
+    """Commercial path: spend tokens in CI → ship artifact → zero LLM at serve."""
+    img, draw = canvas()
+    brand_mark(draw)
+    text(draw, (96, 120), "COMMERCIAL PATH", F_BOLD(18), STEEL)
+    text(draw, (96, 160), "Amortize the LLM away", F_DISPLAY(52), WHITE)
+
+    stages = [
+        (200, "1 SEARCH", "Frontier tokens\nAmdahl-hot only\noracle-gated", STEEL),
+        (700, "2 FREEZE", "ACF / kernel /\nheuristic → VCS\nadmit record", AMBER),
+        (1200, "3 SERVE", "Classical path\nmillions of infer\nzero LLM calls", EMBER),
+    ]
+    for x, title, body, col in stages:
+        draw.rounded_rectangle([x, 360, x + 420, 780], radius=20, fill=col + (40,), outline=col, width=4)
+        text(draw, (x + 40, 400), title, F_DISPLAY(36), WHITE)
+        for j, line in enumerate(body.split("\n")):
+            text(draw, (x + 40, 500 + j * 50), line, F_BODY(26), MIST)
+    # arrows
+    for x in (620, 1120):
+        draw.polygon(
+            [(x, 540), (x + 60, 570), (x, 600)],
+            fill=MUTED,
+        )
+    text(
+        draw,
+        (200, 900),
+        "Token & capability risk lives in eng CI — not in the customer critical path",
+        F_BODY(26),
+        MUTED,
+    )
+    return save(img, "13-freeze-amortize.png")
+
+
 def build_pptx(image_paths: list[Path]) -> Path:
     prs = Presentation()
     prs.slide_width = Inches(13.333)
@@ -454,13 +567,15 @@ def main() -> int:
         poster_constellation(),
         poster_horizon(),
         poster_falsifiers(),
+        poster_commercial(),
+        poster_resource_envelope(),
+        poster_freeze_amortize(),
     ]
-    # also copy a contact sheet style index note
     build_pptx(paths)
-    # write a tiny README in visual/
     (VIS / "README.md").write_text(
         "# Survey visuals\n\nDiagram-first posters for the living survey "
-        "(not table/text slides). Regenerated by `python3 publish/build_visual.py`.\n"
+        "(not table/text slides). Regenerated by `python3 publish/build_visual.py`.\n\n"
+        "Includes commercialization (§5.7) and resource envelope (P23) posters.\n"
         "Parent deck: `../next-gen-ai-compiler-survey-visual.pptx`.\n",
         encoding="utf-8",
     )
