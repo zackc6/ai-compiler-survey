@@ -93,5 +93,6 @@ Still centered on the **agentic compiler** as the product; HW codesign is how th
 2. Do agentic specialize jobs show **distributional** wins in CI (p50), not only best kernels? (C2)
 3. Are Magellan-class and MLGO-class paths both still productive or has one settled? (C1)
 4. Does the stack treat traces/ACFs/heuristics as reviewable artifacts with owners? (§4.8–4.9)
+5. Can you ship without NL-only contracts — typed tools + replayable admit traces + memory that survives model swap? ([SURVEY §5.7](SURVEY.md#57-from-prediction-to-commercial-practice--critical-problems))
 
 Update when CONFLICTS settle or new Tier A codesign evidence lands.
