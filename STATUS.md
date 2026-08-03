@@ -48,6 +48,7 @@ Last updated: **2026-07-31**
 | 2026-07-31 | Distill methodology into `.cursor/skills/survey` skill |
 | 2026-08-03 | PDF publish builds en + zh-CN + zh-TW |
 | 2026-08-03 | Keep only English PDF in out/; add graph-heavy PPTX builder |
+| 2026-08-03 | Redesign PPTX as editorial idea deck; add PPT_TOOLS.md suggestions |
 
 ## Next actions
 

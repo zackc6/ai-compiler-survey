@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
-"""Build a graph-heavy PowerPoint deck from the living survey (English)."""
+"""Build a polished, idea-led PowerPoint from the living survey (English)."""
 
 from __future__ import annotations
 
-import re
-from collections import Counter
 from datetime import date
 from pathlib import Path
 
@@ -12,567 +10,557 @@ from pptx import Presentation
 from pptx.chart.data import CategoryChartData
 from pptx.dml.color import RGBColor
 from pptx.enum.chart import XL_CHART_TYPE, XL_LEGEND_POSITION
-from pptx.enum.shapes import MSO_SHAPE
-from pptx.enum.text import PP_ALIGN
-from pptx.util import Emu, Inches, Pt
+from pptx.enum.shapes import MSO_CONNECTOR, MSO_SHAPE
+from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
+from pptx.util import Inches, Pt
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = Path(__file__).resolve().parent / "out"
 PPTX_NAME = "next-gen-ai-compiler-survey.pptx"
 
-# Visual system — avoid purple/cream AI clichés; cool ink + teal accent.
-INK = RGBColor(0x14, 0x1C, 0x24)
-TEAL = RGBColor(0x0F, 0x6E, 0x6E)
-AMBER = RGBColor(0xC4, 0x7B, 0x2C)
-SLATE = RGBColor(0x3D, 0x4A, 0x55)
-MUTED = RGBColor(0x6B, 0x78, 0x84)
-SOFT = RGBColor(0xE8, 0xEE, 0xF0)
+# Editorial palette: deep ink, paper, single copper accent (no purple/cream clichés).
+INK = RGBColor(0x12, 0x16, 0x1C)
+PAPER = RGBColor(0xF7, 0xF5, 0xF1)
+CARD = RGBColor(0xFF, 0xFF, 0xFF)
+LINE = RGBColor(0xD9, 0xD4, 0xCC)
+MUTED = RGBColor(0x6A, 0x66, 0x5E)
+BODY = RGBColor(0x2A, 0x28, 0x24)
+ACCENT = RGBColor(0xB5, 0x4A, 0x24)  # copper
+TEAL = RGBColor(0x1F, 0x5C, 0x56)
+SOFT_TEAL = RGBColor(0xE4, 0xEF, 0xED)
+SOFT_COPPER = RGBColor(0xF6, 0xEB, 0xE4)
 WHITE = RGBColor(0xFF, 0xFF, 0xFF)
-SERIES = [
-    RGBColor(0x0F, 0x6E, 0x6E),
-    RGBColor(0xC4, 0x7B, 0x2C),
-    RGBColor(0x2F, 0x5D, 0x8C),
-    RGBColor(0x8B, 0x45, 0x3F),
-    RGBColor(0x4A, 0x6B, 0x4A),
-    RGBColor(0x6B, 0x78, 0x84),
-]
+
+DISPLAY = "Noto Serif"
+SANS = "Inter"
+W, H = 13.333, 7.5
 
 
-def _set_run(run, size=18, bold=False, color=INK, font="Calibri"):
+def font(run, size=16, bold=False, color=BODY, name=SANS):
     run.font.size = Pt(size)
     run.font.bold = bold
     run.font.color.rgb = color
-    run.font.name = font
+    run.font.name = name
 
 
-def add_title_bar(slide, title: str, subtitle: str | None = None):
-    bar = slide.shapes.add_shape(
-        MSO_SHAPE.RECTANGLE, Inches(0), Inches(0), Inches(13.333), Inches(0.9)
+def blank(prs: Presentation):
+    s = prs.slides.add_slide(prs.slide_layouts[6])
+    bg = s.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, Inches(W), Inches(H))
+    bg.fill.solid()
+    bg.fill.fore_color.rgb = PAPER
+    bg.line.fill.background()
+    return s
+
+
+def rect(slide, l, t, w, h, fill, line=None):
+    sh = slide.shapes.add_shape(
+        MSO_SHAPE.RECTANGLE, Inches(l), Inches(t), Inches(w), Inches(h)
     )
-    bar.fill.solid()
-    bar.fill.fore_color.rgb = INK
-    bar.line.fill.background()
-    tf = bar.text_frame
-    tf.clear()
-    p = tf.paragraphs[0]
-    run = p.add_run()
-    run.text = title
-    _set_run(run, 22, True, WHITE, "Calibri")
-    if subtitle:
-        box = slide.shapes.add_textbox(Inches(0.4), Inches(0.95), Inches(12.5), Inches(0.35))
-        p = box.text_frame.paragraphs[0]
-        run = p.add_run()
-        run.text = subtitle
-        _set_run(run, 12, False, MUTED)
+    sh.fill.solid()
+    sh.fill.fore_color.rgb = fill
+    if line is None:
+        sh.line.fill.background()
+    else:
+        sh.line.color.rgb = line
+    return sh
 
 
-def blank_slide(prs: Presentation):
-    return prs.slides.add_slide(prs.slide_layouts[6])  # blank
-
-
-def style_chart(chart, has_legend=True):
-    chart.has_legend = has_legend
-    if has_legend:
-        chart.legend.position = XL_LEGEND_POSITION.BOTTOM
-        chart.legend.include_in_layout = False
-    plot = chart.plots[0]
-    plot.has_data_labels = False
-    # Color series when possible
+def round_rect(slide, l, t, w, h, fill, line=None):
+    sh = slide.shapes.add_shape(
+        MSO_SHAPE.ROUNDED_RECTANGLE, Inches(l), Inches(t), Inches(w), Inches(h)
+    )
+    sh.fill.solid()
+    sh.fill.fore_color.rgb = fill
+    if line is None:
+        sh.line.fill.background()
+    else:
+        sh.line.color.rgb = line
     try:
-        for i, series in enumerate(chart.series):
-            series.format.fill.solid()
-            series.format.fill.fore_color.rgb = SERIES[i % len(SERIES)]
+        sh.adjustments[0] = 0.08
     except Exception:
         pass
+    return sh
 
 
-def add_chart(slide, chart_type, left, top, width, height, categories, series_map, legend=True):
+def textbox(slide, l, t, w, h, text, size=16, bold=False, color=BODY, name=SANS, align=PP_ALIGN.LEFT):
+    box = slide.shapes.add_textbox(Inches(l), Inches(t), Inches(w), Inches(h))
+    tf = box.text_frame
+    tf.word_wrap = True
+    p = tf.paragraphs[0]
+    p.alignment = align
+    r = p.add_run()
+    r.text = text
+    font(r, size, bold, color, name)
+    return box
+
+
+def multiline(slide, l, t, w, h, lines, size=14, color=BODY, name=SANS, bold_first=False, gap=6):
+    box = slide.shapes.add_textbox(Inches(l), Inches(t), Inches(w), Inches(h))
+    tf = box.text_frame
+    tf.word_wrap = True
+    for i, line in enumerate(lines):
+        p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
+        p.space_after = Pt(gap)
+        r = p.add_run()
+        r.text = line
+        font(r, size, bold_first and i == 0, color, name)
+    return box
+
+
+def kicker(slide, l, t, label):
+    textbox(slide, l, t, 4, 0.3, label.upper(), 11, True, ACCENT, SANS)
+
+
+def page_footer(slide, n, total):
+    textbox(slide, 0.6, 7.1, 8, 0.25, "Next-Gen AI Compiler Survey", 10, False, MUTED, SANS)
+    textbox(slide, 11.2, 7.1, 1.5, 0.25, f"{n} / {total}", 10, False, MUTED, SANS, PP_ALIGN.RIGHT)
+
+
+def add_chart(slide, chart_type, l, t, w, h, cats, series, legend=False):
     data = CategoryChartData()
-    data.categories = categories
-    for name, values in series_map.items():
-        data.add_series(name, values)
+    data.categories = cats
+    for name, vals in series.items():
+        data.add_series(name, vals)
     chart = slide.shapes.add_chart(
-        chart_type, left, top, width, height, data
+        chart_type, Inches(l), Inches(t), Inches(w), Inches(h), data
     ).chart
-    style_chart(chart, has_legend=legend)
+    chart.has_legend = legend
+    if legend:
+        chart.legend.position = XL_LEGEND_POSITION.BOTTOM
+        chart.legend.include_in_layout = False
+    colors = [TEAL, ACCENT, MUTED, INK]
+    try:
+        for i, ser in enumerate(chart.series):
+            ser.format.fill.solid()
+            ser.format.fill.fore_color.rgb = colors[i % len(colors)]
+    except Exception:
+        pass
     return chart
 
 
-def parse_index():
-    idx = (ROOT / "publications" / "INDEX.md").read_text(encoding="utf-8")
-    groups, kinds, years = Counter(), Counter(), Counter()
-    for line in idx.splitlines():
-        if not line.startswith("|"):
-            continue
-        cols = [c.strip() for c in line.strip("|").split("|")]
-        if len(cols) < 4:
-            continue
-        year, kind, group = cols[0], cols[1], cols[2]
-        if year in {"Year", "---"} or year.startswith("---"):
-            continue
-        if not (
-            re.match(r"^\d", year)
-            or year.endswith("+")
-            or year in {"ongoing", "2010s+", "2025/26"}
-        ):
-            continue
-        groups[group] += 1
-        kinds[kind] += 1
-        # Normalize year buckets for chart
-        y = year
-        if year.endswith("+") or year in {"ongoing", "2010s+", "2025/26"}:
-            y = "other/ongoing"
-        elif year.isdigit() and int(year) < 2023:
-            y = "≤2022"
-        years[y] += 1
-    return groups, kinds, years
+# ── slides ──────────────────────────────────────────────────────────
 
-
-def slide_title(prs):
-    s = blank_slide(prs)
-    bg = s.shapes.add_shape(
-        MSO_SHAPE.RECTANGLE, Inches(0), Inches(0), Inches(13.333), Inches(7.5)
+def s_title(prs):
+    s = blank(prs)
+    rect(s, 0, 0, W, H, INK)
+    rect(s, 0, 0, 0.18, H, ACCENT)
+    textbox(s, 0.9, 1.8, 11, 0.4, "LIVING SURVEY", 12, True, ACCENT, SANS)
+    textbox(
+        s, 0.9, 2.3, 11.5, 1.4,
+        "The next compiler\nis agentic — not replaced.",
+        40, True, WHITE, DISPLAY,
     )
-    bg.fill.solid()
-    bg.fill.fore_color.rgb = INK
-    bg.line.fill.background()
-    accent = s.shapes.add_shape(
-        MSO_SHAPE.RECTANGLE, Inches(0), Inches(5.9), Inches(13.333), Inches(0.12)
+    textbox(
+        s, 0.9, 4.0, 10.5, 1.0,
+        "A prediction for ~2027–28 and the next five years:\nhow agents reshape the AI compiler stack and HW–SW codesign.",
+        18, False, RGBColor(0xC8, 0xC3, 0xBA), SANS,
     )
-    accent.fill.solid()
-    accent.fill.fore_color.rgb = TEAL
-    accent.line.fill.background()
-    box = s.shapes.add_textbox(Inches(0.7), Inches(2.0), Inches(12), Inches(2.2))
-    tf = box.text_frame
-    p = tf.paragraphs[0]
-    r = p.add_run()
-    r.text = "Next-Generation AI Compiler Survey"
-    _set_run(r, 36, True, WHITE)
-    p2 = tf.add_paragraph()
-    r2 = p2.add_run()
-    r2.text = "Agentic compiler prediction · stack reshape · HW–SW codesign"
-    _set_run(r2, 18, False, RGBColor(0xB8, 0xC4, 0xCC))
-    foot = s.shapes.add_textbox(Inches(0.7), Inches(6.3), Inches(12), Inches(0.6))
-    p = foot.text_frame.paragraphs[0]
-    r = p.add_run()
-    r.text = f"Living survey export · {date.today().isoformat()} · graphs from CLAIMS / ROADMAP / INDEX"
-    _set_run(r, 12, False, MUTED)
-
-
-def slide_north_star(prs):
-    s = blank_slide(prs)
-    add_title_bar(s, "North star architecture", "Hybrid agent control plane over classical data plane")
-    layers = [
-        (0.5, 1.6, 12.3, 1.5, TEAL, "Agent control plane",
-         "(a) online specialize   (b) offline heuristic evolve\n"
-         "(c) oracle engineering / review   (d) ASIC bring-up / codesign"),
-        (0.5, 3.4, 12.3, 1.3, SLATE, "Classical data plane",
-         "Inductor / XLA / MLIR / Triton / Helion / Tile → device libraries\n"
-         "legality · lowering · OpInfo / Alive2 / benchmarks · fallback"),
-        (0.5, 5.0, 12.3, 1.2, AMBER, "HW codesign feedback (not autonomous tape-out)",
-         "sim + silicon traces → ISA / dialect / memory-system RFCs"),
-    ]
-    for left, top, w, h, color, title, body in layers:
-        shape = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(left), Inches(top), Inches(w), Inches(h))
-        shape.fill.solid()
-        shape.fill.fore_color.rgb = color
-        shape.line.fill.background()
-        tf = shape.text_frame
-        tf.clear()
-        p = tf.paragraphs[0]
-        r = p.add_run()
-        r.text = title
-        _set_run(r, 16, True, WHITE)
-        p2 = tf.add_paragraph()
-        r2 = p2.add_run()
-        r2.text = body
-        _set_run(r2, 12, False, WHITE)
-
-
-def slide_era_timeline(prs):
-    s = blank_slide(prs)
-    add_title_bar(s, "Era timeline — intensity of LLM/agent involvement", "Qualitative index 0–5 (survey synthesis, not a benchmark)")
-    cats = ["2018–22\nDL compilers", "2020–23\nMLGO / RL gyms", "2023–24\nLLM on IR", "2025–26\nAgentic hybrid", "2027–28\nCI-gated agents", "2029–31\nMulti-HW default"]
-    vals = [1, 2, 3, 5, 4, 5]
-    add_chart(
-        s, XL_CHART_TYPE.COLUMN_CLUSTERED,
-        Inches(0.5), Inches(1.5), Inches(12.3), Inches(5.4),
-        cats, {"Agent/LLM role intensity": vals}, legend=False,
+    textbox(
+        s, 0.9, 6.4, 10, 0.4,
+        f"Generated {date.today().isoformat()}  ·  From docs/SURVEY · ROADMAP · STACK · CLAIMS",
+        12, False, MUTED, SANS,
     )
 
 
-def slide_agent_jobs(prs):
-    s = blank_slide(prs)
-    add_title_bar(s, "Four agent jobs — relative emphasis in Tier A map", "Share of survey attention across jobs (illustrative weights)")
-    add_chart(
-        s, XL_CHART_TYPE.DOUGHNUT,
-        Inches(0.4), Inches(1.4), Inches(6.5), Inches(5.5),
-        ["(a) Online specialize", "(b) Offline heuristics", "(c) Oracle review", "(d) Bring-up / codesign"],
-        {"Jobs": [34, 22, 16, 28]},
+def s_thesis(prs, n, total):
+    s = blank(prs)
+    kicker(s, 0.7, 0.45, "01  —  The thesis")
+    textbox(s, 0.7, 0.95, 12, 1.0, "Agents search. Compilers decide.", 32, True, INK, DISPLAY)
+    textbox(
+        s, 0.7, 2.0, 11.5, 0.8,
+        "The winning pattern across ACCLAIM, HintPilot, AgentCompile, Magellan, TritorX, and GEAK is hybrid:",
+        16, False, MUTED, SANS,
     )
-    # Side cards
+    # two big quote cards
+    left = round_rect(s, 0.7, 3.1, 5.7, 3.0, SOFT_TEAL)
+    right = round_rect(s, 6.9, 3.1, 5.7, 3.0, SOFT_COPPER)
+    textbox(s, 1.0, 3.4, 5.1, 0.4, "Agents own", 14, True, TEAL, SANS)
+    multiline(
+        s, 1.0, 3.9, 5.1, 1.8,
+        ["semantic search", "orchestration & budgets", "artifact synthesis", "bring-up coverage loops"],
+        18, INK, DISPLAY,
+    )
+    textbox(s, 7.2, 3.4, 5.1, 0.4, "Compilers own", 14, True, ACCENT, SANS)
+    multiline(
+        s, 7.2, 3.9, 5.1, 1.8,
+        ["lowering & legality", "measurement oracles", "admit / fallback", "deterministic defaults"],
+        18, INK, DISPLAY,
+    )
+    page_footer(s, n, total)
+
+
+def s_not_replace(prs, n, total):
+    s = blank(prs)
+    kicker(s, 0.7, 0.45, "02  —  Hard limit")
+    textbox(s, 0.7, 0.95, 12, 1.2, "Free-form IR rewrite\nkeeps losing.", 32, True, INK, DISPLAY)
+    # evidence strip
     cards = [
-        ("(a) Online", "CompileIQ, GEAK, AutoKernel, ACCLAIM"),
-        ("(b) Offline", "Magellan, AlphaEvolve / OpenEvolve"),
-        ("(c) Review", "Archer, Alive2 / opt oracles"),
-        ("(d) Codesign", "TritorX, KernelEvolve, Ascend diagnosis"),
+        ("mlirAgent", "Frontier models scored\nbelow identity on IR transforms"),
+        ("HintPilot / AgentCompile", "Succeed by constraining\nactions to hints & templates"),
+        ("ACCLAIM", "Best when compiler tools\nand tests remain admit gates"),
     ]
     for i, (t, b) in enumerate(cards):
-        top = 1.5 + i * 1.25
-        box = s.shapes.add_shape(
-            MSO_SHAPE.ROUNDED_RECTANGLE, Inches(7.3), Inches(top), Inches(5.5), Inches(1.1)
-        )
-        box.fill.solid()
-        box.fill.fore_color.rgb = SOFT
-        box.line.color.rgb = TEAL
-        tf = box.text_frame
-        tf.clear()
-        p = tf.paragraphs[0]
-        r = p.add_run()
-        r.text = t
-        _set_run(r, 14, True, TEAL)
-        p2 = tf.add_paragraph()
-        r2 = p2.add_run()
-        r2.text = b
-        _set_run(r2, 11, False, SLATE)
+        x = 0.7 + i * 4.1
+        round_rect(s, x, 3.5, 3.9, 2.6, CARD, LINE)
+        rect(s, x, 3.5, 3.9, 0.08, ACCENT if i == 0 else TEAL)
+        textbox(s, x + 0.3, 3.8, 3.3, 0.5, t, 16, True, INK, DISPLAY)
+        multiline(s, x + 0.3, 4.5, 3.3, 1.4, b.split("\n"), 14, MUTED, SANS)
+    page_footer(s, n, total)
 
 
-def slide_tiers(prs):
-    s = blank_slide(prs)
-    add_title_bar(s, "Evidence tiers — how sources feed the prediction", "Prefer A; B is substrate; C is demoted noise")
-    add_chart(
-        s, XL_CHART_TYPE.BAR_CLUSTERED,
-        Inches(0.5), Inches(1.5), Inches(7.2), Inches(5.4),
-        ["Tier A\nreshape compile", "Tier B\nsubstrate", "Tier C\ndelivery only"],
-        {"Role weight in prediction": [70, 25, 5]},
-        legend=False,
-    )
-    note = s.shapes.add_textbox(Inches(8.0), Inches(2.0), Inches(4.8), Inches(4.5))
-    tf = note.text_frame
-    tf.word_wrap = True
-    bullets = [
-        "A — TritorX, KernelEvolve, Magellan, ACCLAIM, GEAK, CompileIQ, Archer, mlirAgent (−)",
-        "B — llvm-project, Helion, StableHLO, Triton, PyTorch Inductor",
-        "C — generic Gerrit/SCM chat without compiler oracles",
-        "Rule: grow A, keep B thin, do not catalog C",
+def s_architecture(prs, n, total):
+    s = blank(prs)
+    kicker(s, 0.7, 0.4, "03  —  Architecture")
+    textbox(s, 0.7, 0.85, 12, 0.6, "Three planes, one contract.", 28, True, INK, DISPLAY)
+
+    planes = [
+        (1.3, TEAL, "Control plane", "Propose · measure · admit\nFour agent jobs (a–d)"),
+        (3.2, INK, "Data plane", "Lower · verify · fallback\nInductor / MLIR / Triton / Tile"),
+        (5.1, ACCENT, "Codesign feedback", "Sim + silicon traces\n→ ISA / dialect RFCs"),
     ]
-    for i, b in enumerate(bullets):
-        p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
-        r = p.add_run()
-        r.text = "• " + b
-        _set_run(r, 12, False, SLATE)
+    for top, color, title, body in planes:
+        round_rect(s, 1.5, top, 10.3, 1.55, CARD, LINE)
+        rect(s, 1.5, top, 0.16, 1.55, color)
+        textbox(s, 2.0, top + 0.25, 4, 0.4, title, 18, True, INK, DISPLAY)
+        multiline(s, 6.5, top + 0.3, 5, 1.1, body.split("\n"), 15, MUTED, SANS)
+    page_footer(s, n, total)
 
 
-def slide_claims_status(prs):
-    s = blank_slide(prs)
-    add_title_bar(s, "CLAIMS.md status mix", "Architecture / process / codesign claims")
-    # Counts from CLAIMS
-    statuses = ["Supported", "Contested", "Watch"]
-    arch = [3, 1, 0]   # A1 A2 A3 A5 supported; A4 contested
-    # recount properly: A1-5: S,S,S,C,S → S4 C1; P/S: P1 C, P2 W, P3 S, S1 S, S4 S, S5 W → S3 C1 W2; H: S,S,S → S3
-    # Better aggregate all:
-    # Supported: A1,A2,A3,A5,P3,S1,S4,H1,H2,H3 = 10
-    # Contested: A4,P1 = 2
-    # Watch: P2,S5 = 2
-    add_chart(
-        s, XL_CHART_TYPE.COLUMN_STACKED,
-        Inches(0.5), Inches(1.5), Inches(12.3), Inches(5.4),
-        ["Architecture (A*)", "Process/Stack (P*/S*)", "Codesign (H*)"],
-        {
-            "Supported": [4, 3, 3],
-            "Contested": [1, 1, 0],
-            "Watch": [0, 2, 0],
-        },
-    )
-
-
-def slide_conflicts(prs):
-    s = blank_slide(prs)
-    add_title_bar(s, "Open conflicts C1–C10 — settlement urgency", "Higher = more blocking for 2027–28 roadmap confidence")
-    cats = [f"C{i}" for i in range(1, 11)]
-    # Qualitative urgency scores
-    urgency = [5, 5, 4, 4, 3, 3, 2, 2, 5, 3]
-    add_chart(
-        s, XL_CHART_TYPE.LINE_MARKERS,
-        Inches(0.4), Inches(1.4), Inches(8.2), Inches(5.5),
-        cats, {"Settlement urgency (1–5)": urgency}, legend=False,
-    )
-    box = s.shapes.add_textbox(Inches(8.8), Inches(1.6), Inches(4.2), Inches(5.2))
-    tf = box.text_frame
-    tf.word_wrap = True
-    labels = [
-        "C1 Magellan vs MLGO",
-        "C2 Vendor wins vs benches",
-        "C3 Free rewrite vs advisory",
-        "C4 Triton vs Tile multi-DSL",
-        "C5 Online vs offline agents",
-        "C6 Replace vs control plane",
-        "C7 Generic vs oracle review",
-        "C8 DL compile vs AI-for-LLVM",
-        "C9 Coverage vs peak bring-up",
-        "C10 Codesign vs auto tape-out",
+def s_four_jobs(prs, n, total):
+    s = blank(prs)
+    kicker(s, 0.7, 0.35, "04  —  Four jobs")
+    textbox(s, 0.7, 0.75, 12, 0.55, "What agents actually do in compilers.", 28, True, INK, DISPLAY)
+    jobs = [
+        ("a", "Online specialize", "At compile / serve time", "Hints, ACFs, Triton kernels,\npass lists for this workload", "CompileIQ · GEAK · AutoKernel · ACCLAIM"),
+        ("b", "Offline evolve", "Compiler engineering time", "Readable C++ heuristics\nand MLGO features", "Magellan · AlphaEvolve · OpenEvolve"),
+        ("c", "Oracle review", "PR / change review", "Alive2 / opt-gated agents\nbeat generic chat review", "Archer · LLVM agent review"),
+        ("d", "Bring-up / codesign", "New ASIC / NPU TTM", "Coverage then perf on\nsim + silicon", "TritorX · KernelEvolve · Ascend diag."),
     ]
-    for i, lab in enumerate(labels):
-        p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
-        r = p.add_run()
-        r.text = lab
-        _set_run(r, 11, False, SLATE)
+    for i, (letter, title, when, what, who) in enumerate(jobs):
+        x = 0.45 + (i % 2) * 6.4
+        y = 1.55 + (i // 2) * 2.55
+        round_rect(s, x, y, 6.15, 2.35, CARD, LINE)
+        circle = s.shapes.add_shape(MSO_SHAPE.OVAL, Inches(x + 0.25), Inches(y + 0.3), Inches(0.55), Inches(0.55))
+        circle.fill.solid()
+        circle.fill.fore_color.rgb = ACCENT if i % 2 else TEAL
+        circle.line.fill.background()
+        tf = circle.text_frame
+        tf.paragraphs[0].alignment = PP_ALIGN.CENTER
+        r = tf.paragraphs[0].add_run()
+        r.text = letter
+        font(r, 16, True, WHITE, SANS)
+        textbox(s, x + 1.0, y + 0.28, 4.8, 0.4, title, 18, True, INK, DISPLAY)
+        textbox(s, x + 1.0, y + 0.7, 4.8, 0.3, when, 12, False, ACCENT, SANS)
+        multiline(s, x + 0.35, y + 1.15, 5.5, 0.7, what.split("\n"), 13, BODY, SANS)
+        textbox(s, x + 0.35, y + 1.9, 5.5, 0.3, who, 11, False, MUTED, SANS)
+    page_footer(s, n, total)
 
 
-def slide_stack_layers(prs):
-    s = blank_slide(prs)
-    add_title_bar(s, "Stack layers — agent pressure by layer", "Where agentic compile changes the job (0–10)")
-    cats = [
-        "1 Framework", "2 Kernel DSL", "3 Portable IR", "4 Mid/back",
-        "5 Oracles", "6 Artifacts", "7 Serving", "8 Silicon/sim",
+def s_era(prs, n, total):
+    s = blank(prs)
+    kicker(s, 0.7, 0.4, "05  —  How we got here")
+    textbox(s, 0.7, 0.85, 12, 0.55, "From autotune gyms to agent loops.", 28, True, INK, DISPLAY)
+    eras = [
+        ("2018–22", "DL compilers mature", "TVM, Ansor, XLA, MLIR"),
+        ("2020–23", "RL for compilers", "CompilerGym, MLGO advisors"),
+        ("2023–24", "LLMs enter IR", "Pass lists, Meta LLM Compiler"),
+        ("2025–26", "Agentic hybrid", "Kernels, heuristics, bring-up"),
     ]
-    vals = [7, 9, 6, 8, 9, 8, 7, 8]
-    add_chart(
-        s, XL_CHART_TYPE.BAR_CLUSTERED,
-        Inches(0.5), Inches(1.5), Inches(12.3), Inches(5.4),
-        cats, {"Agent pressure": vals}, legend=False,
+    for i, (y, title, body) in enumerate(eras):
+        x = 0.7 + i * 3.15
+        # timeline node
+        node = s.shapes.add_shape(MSO_SHAPE.OVAL, Inches(x + 1.2), Inches(2.0), Inches(0.28), Inches(0.28))
+        node.fill.solid()
+        node.fill.fore_color.rgb = ACCENT if i == 3 else TEAL
+        node.line.fill.background()
+        if i < 3:
+            rect(s, x + 1.48, 2.1, 2.9, 0.04, LINE)
+        textbox(s, x, 2.5, 3.0, 0.35, y, 12, True, ACCENT, SANS)
+        textbox(s, x, 2.95, 3.0, 0.7, title, 16, True, INK, DISPLAY)
+        textbox(s, x, 3.7, 3.0, 0.8, body, 13, False, MUTED, SANS)
+    # insight
+    round_rect(s, 0.7, 5.0, 12.0, 1.5, SOFT_TEAL)
+    textbox(
+        s, 1.0, 5.35, 11.4, 1.0,
+        "Insight: each era kept the data plane and moved intelligence into a better control interface —\ncost models → RL policies → foundation LLMs → tool-using agents with oracles.",
+        15, False, INK, SANS,
     )
+    page_footer(s, n, total)
 
 
-def slide_roadmap_confidence(prs):
-    s = blank_slide(prs)
-    add_title_bar(s, "5-year predicted shifts — confidence", "From ROADMAP Horizon B")
-    cats = [
-        "Default path\nstays classical",
-        "Artifact store\nin VCS",
-        "Hetero serving\nvia agents",
-        "HW codesign\nfeedback loop",
-        "Verification\ncompose",
-        "Humans own\noracles",
-        "No auto\ntape-out",
+def s_ideas_grid(prs, n, total):
+    s = blank(prs)
+    kicker(s, 0.7, 0.35, "06  —  Ideas the survey surfaces")
+    textbox(s, 0.7, 0.75, 12, 0.5, "Six ideas worth stealing.", 28, True, INK, DISPLAY)
+    ideas = [
+        ("Constrained action spaces", "Hints, templates, EVOLVE-blocks, ACF knobs — not free codegen."),
+        ("Admit gates as product", "Tests, Alive2, OpInfo, profilers are the compiler’s API to agents."),
+        ("Artifacts over binaries", "ACFs, heuristics, memories, bring-up corpora belong in VCS."),
+        ("Coverage → perf ladder", "TritorX then KernelEvolve: new silicon needs ops before peak."),
+        ("Negative results are Tier A", "mlirAgent’s below-identity bound shapes the architecture."),
+        ("Conflicts are load-bearing", "Magellan vs MLGO, vendor vs KernelBench-X — keep both sides."),
     ]
-    # map High=3, Med-high=2.5, Medium=2
-    conf = [2.5, 3, 2.5, 2, 2, 3, 3]
-    add_chart(
-        s, XL_CHART_TYPE.COLUMN_CLUSTERED,
-        Inches(0.5), Inches(1.5), Inches(12.3), Inches(5.4),
-        cats, {"Confidence (1–3)": conf}, legend=False,
-    )
+    for i, (t, b) in enumerate(ideas):
+        x = 0.55 + (i % 3) * 4.2
+        y = 1.55 + (i // 3) * 2.5
+        round_rect(s, x, y, 4.0, 2.25, CARD, LINE)
+        textbox(s, x + 0.25, y + 0.35, 3.5, 0.7, t, 16, True, INK, DISPLAY)
+        multiline(s, x + 0.25, y + 1.15, 3.5, 0.9, [b], 13, MUTED, SANS)
+    page_footer(s, n, total)
 
 
-def slide_index_groups(prs, groups: Counter):
-    s = blank_slide(prs)
-    add_title_bar(s, "Bibliography mix — digests by group", f"n={sum(groups.values())} digests in publications/INDEX.md")
-    items = groups.most_common()
-    cats = [g if len(g) < 28 else g[:25] + "…" for g, _ in items]
-    vals = [n for _, n in items]
-    add_chart(
-        s, XL_CHART_TYPE.BAR_CLUSTERED,
-        Inches(0.4), Inches(1.4), Inches(12.5), Inches(5.6),
-        cats, {"Digests": vals}, legend=False,
-    )
-
-
-def slide_index_kinds_years(prs, kinds: Counter, years: Counter):
-    s = blank_slide(prs)
-    add_title_bar(s, "Source kinds & year mix", "What the living bibliography is made of")
-    add_chart(
-        s, XL_CHART_TYPE.PIE,
-        Inches(0.3), Inches(1.4), Inches(6.2), Inches(5.5),
-        list(kinds.keys()), {"Kind": list(kinds.values())},
-    )
-    # year order
-    order = ["≤2022", "2023", "2024", "2025", "2026", "other/ongoing"]
-    ycats = [y for y in order if y in years]
-    yvals = [years[y] for y in ycats]
-    add_chart(
-        s, XL_CHART_TYPE.COLUMN_CLUSTERED,
-        Inches(6.8), Inches(1.4), Inches(6.0), Inches(5.5),
-        ycats, {"Digests / year bucket": yvals}, legend=False,
-    )
-
-
-def slide_reported_speedups(prs):
-    s = blank_slide(prs)
-    add_title_bar(
-        s,
-        "Author-reported headlines (NOT cross-benchmark)",
-        "Mechanisms matter more than bars — see CONFLICTS C2",
-    )
-    cats = [
-        "ACCLAIM\nvs -O3",
-        "AutoKernel\nRMSNorm",
-        "KForge Arc\nKB-L2",
-        "Ascend diag.\ngeo-mean",
-        "Helion B200\nvs eager",
-        "CompileIQ\nhot kernels",
-        "CompileIQ\nhighly tuned",
+def s_stack(prs, n, total):
+    s = blank(prs)
+    kicker(s, 0.7, 0.4, "07  —  Stack reshape")
+    textbox(s, 0.7, 0.85, 12, 0.55, "Where the agentic compiler presses.", 28, True, INK, DISPLAY)
+    layers = [
+        ("Framework", 7, "Amdahl-rank hot regions; write kernels back"),
+        ("Kernel DSL", 9, "Triton / Helion / Tile become agent surfaces"),
+        ("Portable IR", 6, "Fingerprints + tools; free rewrite fails"),
+        ("Mid / back end", 8, "Heuristics, passes, ACFs"),
+        ("Oracles", 9, "Admit gates & rewards"),
+        ("Artifacts", 8, "First-class in CI / review"),
+        ("Serving", 7, "Specialize without breaking graphs"),
+        ("Silicon / sim", 8, "Bring-up + ISA feedback"),
     ]
-    # Convert to percent-ish comparable display: use speedup factor
-    vals = [1.25, 5.29, 5.13, 4.35, 3.27, 1.15, 1.025]
-    add_chart(
-        s, XL_CHART_TYPE.COLUMN_CLUSTERED,
-        Inches(0.5), Inches(1.5), Inches(12.3), Inches(5.0),
-        cats, {"Reported factor vs baseline": vals}, legend=False,
+    # horizontal bars
+    for i, (name, score, note) in enumerate(layers):
+        y = 1.55 + i * 0.62
+        textbox(s, 0.7, y, 2.2, 0.4, name, 13, True, INK, SANS)
+        track = rect(s, 3.0, y + 0.08, 6.5, 0.28, LINE)
+        bar = rect(s, 3.0, y + 0.08, 6.5 * (score / 10), 0.28, TEAL if score < 9 else ACCENT)
+        textbox(s, 9.7, y, 3.2, 0.45, note, 11, False, MUTED, SANS)
+    page_footer(s, n, total)
+
+
+def s_conflicts(prs, n, total):
+    s = blank(prs)
+    kicker(s, 0.7, 0.35, "08  —  Productive disagreements")
+    textbox(s, 0.7, 0.75, 12, 0.55, "Do not average these away.", 28, True, INK, DISPLAY)
+    rows = [
+        ("C1", "Magellan heuristics", "MLGO neural advisors", "Parallel production bets"),
+        ("C2", "Vendor speedup headlines", "KernelBench-X ceilings", "Need p50/p90 traces"),
+        ("C3", "Wide rewrite APIs", "Narrow advisory APIs", "Oracles decide"),
+        ("C9", "Coverage-first bring-up", "Peak-perf kernel agents", "Ladder, not either/or"),
+        ("C10", "Autonomous chip design", "Compiler codesign feedback", "We bet on feedback only"),
+    ]
+    # header
+    textbox(s, 0.7, 1.5, 1.2, 0.35, "ID", 11, True, MUTED, SANS)
+    textbox(s, 1.9, 1.5, 3.5, 0.35, "Claim A", 11, True, MUTED, SANS)
+    textbox(s, 5.6, 1.5, 3.5, 0.35, "Claim B", 11, True, MUTED, SANS)
+    textbox(s, 9.3, 1.5, 3.5, 0.35, "Stance", 11, True, MUTED, SANS)
+    rect(s, 0.7, 1.9, 12.0, 0.02, LINE)
+    for i, (cid, a, b, stance) in enumerate(rows):
+        y = 2.1 + i * 0.85
+        round_rect(s, 0.7, y, 12.0, 0.75, CARD if i % 2 == 0 else SOFT_TEAL, LINE)
+        textbox(s, 0.9, y + 0.2, 1.0, 0.4, cid, 14, True, ACCENT, SANS)
+        textbox(s, 1.9, y + 0.2, 3.5, 0.4, a, 13, False, INK, SANS)
+        textbox(s, 5.6, y + 0.2, 3.5, 0.4, b, 13, False, INK, SANS)
+        textbox(s, 9.3, y + 0.2, 3.2, 0.4, stance, 13, True, TEAL, SANS)
+    page_footer(s, n, total)
+
+
+def s_codesign(prs, n, total):
+    s = blank(prs)
+    kicker(s, 0.7, 0.4, "09  —  HW–SW codesign")
+    textbox(s, 0.7, 0.85, 12, 0.7, "Still an agentic-compiler problem.", 28, True, INK, DISPLAY)
+    textbox(
+        s, 0.7, 1.6, 12, 0.5,
+        "Custom ASICs win or lose on operator coverage × generations × devices. Agents eat that matrix.",
+        15, False, MUTED, SANS,
     )
-    note = s.shapes.add_textbox(Inches(0.5), Inches(6.6), Inches(12.3), Inches(0.5))
-    p = note.text_frame.paragraphs[0]
-    r = p.add_run()
-    r.text = "Different suites, hardware, and baselines — do not rank systems from this chart alone."
-    _set_run(r, 11, True, AMBER)
-
-
-def slide_codesign_ladder(prs):
-    s = blank_slide(prs)
-    add_title_bar(s, "Codesign ladder (C9)", "Coverage-first then peak-perf — still agentic compiler")
     steps = [
-        ("1. Spec / sim", "ISA docs + QEMU/\nfuture-device sim"),
-        ("2. Coverage", "TritorX-class\nATen / OpInfo"),
-        ("3. Perf search", "KernelEvolve /\nGEAK / AutoKernel"),
-        ("4. Serve", "e2e latency /\nTCO gates"),
-        ("5. Feedback", "traces → next\nISA / dialect RFC"),
+        ("Spec / sim", "Draft ISA +\nfuture-device sim"),
+        ("Coverage", "TritorX-class\nATen / OpInfo"),
+        ("Perf", "KernelEvolve /\nprofile search"),
+        ("Serve", "e2e latency\n& TCO gates"),
+        ("Feedback", "Traces → next\nISA / dialect"),
     ]
     for i, (t, b) in enumerate(steps):
-        left = 0.4 + i * 2.55
-        shape = s.shapes.add_shape(
-            MSO_SHAPE.CHEVRON if i < 4 else MSO_SHAPE.ROUNDED_RECTANGLE,
-            Inches(left), Inches(2.5), Inches(2.4), Inches(2.2),
-        )
-        shape.fill.solid()
-        shape.fill.fore_color.rgb = TEAL if i % 2 == 0 else SLATE
-        shape.line.fill.background()
-        tf = shape.text_frame
-        tf.clear()
-        p = tf.paragraphs[0]
-        r = p.add_run()
-        r.text = t
-        _set_run(r, 14, True, WHITE)
-        p.alignment = PP_ALIGN.CENTER
-        p2 = tf.add_paragraph()
-        r2 = p2.add_run()
-        r2.text = b
-        _set_run(r2, 11, False, WHITE)
-        p2.alignment = PP_ALIGN.CENTER
-    foot = s.shapes.add_textbox(Inches(0.5), Inches(5.3), Inches(12.3), Inches(1.2))
-    tf = foot.text_frame
-    tf.word_wrap = True
-    p = tf.paragraphs[0]
-    r = p.add_run()
-    r.text = (
-        "C10 stance: agents stress toolchains and file ISA/IR pain; humans + EDA own tape-out. "
-        "Do not expand this survey into autonomous chip design."
+        x = 0.55 + i * 2.55
+        round_rect(s, x, 2.5, 2.35, 2.5, CARD, LINE)
+        rect(s, x, 2.5, 2.35, 0.1, ACCENT if i == 4 else TEAL)
+        textbox(s, x + 0.15, 2.85, 2.05, 0.7, f"{i+1}. {t}", 15, True, INK, DISPLAY)
+        multiline(s, x + 0.15, 3.7, 2.05, 1.0, b.split("\n"), 13, MUTED, SANS)
+        if i < 4:
+            textbox(s, x + 2.15, 3.4, 0.4, 0.4, "→", 18, True, MUTED, SANS)
+    round_rect(s, 0.7, 5.4, 12.0, 1.2, SOFT_COPPER)
+    textbox(
+        s, 1.0, 5.7, 11.4, 0.7,
+        "Non-goal: autonomous tape-out. Agents stress compilers and file ISA pain; humans + EDA own silicon.",
+        15, False, INK, SANS,
     )
-    _set_run(r, 13, False, SLATE)
+    page_footer(s, n, total)
 
 
-def slide_online_offline(prs):
-    s = blank_slide(prs)
-    add_title_bar(s, "Online vs offline control (C5)", "Both stick; different artifacts and cost models")
+def s_roadmap(prs, n, total):
+    s = blank(prs)
+    kicker(s, 0.7, 0.35, "10  —  Roadmap")
+    textbox(s, 0.7, 0.75, 12, 0.5, "What ships — and what does not.", 28, True, INK, DISPLAY)
+    # two columns
+    round_rect(s, 0.55, 1.5, 6.0, 5.1, CARD, LINE)
+    rect(s, 0.55, 1.5, 6.0, 0.55, TEAL)
+    textbox(s, 0.8, 1.6, 5.5, 0.4, "2027–28  ·  likely", 16, True, WHITE, SANS)
+    multiline(
+        s, 0.85, 2.3, 5.4, 4.0,
+        [
+            "Agent-addressable tool APIs in major stacks",
+            "CI-gated specialize on hot kernels / apps",
+            "Magellan-class and MLGO both still live",
+            "Oracle PR review in serious compiler orgs",
+            "Coverage→perf bring-up on new ASICs",
+            "Triton-family still primary agent surface",
+        ],
+        14, BODY, SANS, gap=10,
+    )
+    round_rect(s, 6.85, 1.5, 6.0, 5.1, CARD, LINE)
+    rect(s, 6.85, 1.5, 6.0, 0.55, ACCENT)
+    textbox(s, 7.1, 1.6, 5.5, 0.4, "Not soon", 16, True, WHITE, SANS)
+    multiline(
+        s, 7.15, 2.3, 5.4, 4.0,
+        [
+            "LLM replaces opt / Inductor end-to-end",
+            "One universal agent IR for all vendors",
+            "Uniform wins on fusion-heavy public ladders",
+            "Agents autonomously design microarchitecture",
+            "Generic SCM chat as compiler evidence",
+            "Silent default agents without distributions",
+        ],
+        14, BODY, SANS, gap=10,
+    )
+    page_footer(s, n, total)
+
+
+def s_evidence_chart(prs, n, total):
+    s = blank(prs)
+    kicker(s, 0.7, 0.4, "11  —  Evidence shape")
+    textbox(s, 0.7, 0.85, 12, 0.5, "A living bibliography, not a catalog.", 28, True, INK, DISPLAY)
     add_chart(
-        s, XL_CHART_TYPE.RADAR_MARKERS,
-        Inches(0.3), Inches(1.3), Inches(7.0), Inches(5.7),
-        ["Latency sensitivity", "Ship as C++/ACF", "Per-workload adapt", "Reviewability", "Token/$ cost", "CI default readiness"],
-        {
-            "Online (a)": [5, 2, 5, 3, 4, 3],
-            "Offline (b)": [2, 5, 2, 5, 3, 4],
-        },
+        s, XL_CHART_TYPE.BAR_CLUSTERED,
+        0.5, 1.6, 7.5, 5.0,
+        [
+            "GPU kernels", "Agentic / RL", "SCM / review", "Company infra",
+            "Classic DL", "Foundation LLMs", "Forums", "HW codesign",
+        ],
+        {"Digests": [16, 13, 13, 10, 9, 8, 8, 4]},
+        legend=False,
     )
-    box = s.shapes.add_textbox(Inches(7.5), Inches(2.0), Inches(5.3), Inches(4.5))
-    tf = box.text_frame
-    tf.word_wrap = True
-    for i, line in enumerate([
-        "Online artifacts: pass lists, hints, kernels, ACFs, traces",
-        "Offline artifacts: evolved heuristics, MLGO features, datasets",
-        "Engineering (c) and bring-up (d) span both clocks",
-        "Settlement: which shows up as default flag / CI job",
-    ]):
-        p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
-        r = p.add_run()
-        r.text = "• " + line
-        _set_run(r, 13, False, SLATE)
+    round_rect(s, 8.3, 1.8, 4.5, 4.5, CARD, LINE)
+    textbox(s, 8.6, 2.1, 4.0, 0.4, "How to read it", 16, True, INK, DISPLAY)
+    multiline(
+        s, 8.6, 2.7, 4.0, 3.2,
+        [
+            "★ digests drive ROADMAP",
+            "Tier A reshapes compile",
+            "Tier B is substrate only",
+            "Tier C is demoted",
+            "Conflicts beat false consensus",
+            "Mechanisms > headline ×",
+        ],
+        14, MUTED, SANS, gap=8,
+    )
+    page_footer(s, n, total)
 
 
-def slide_falsifiers(prs):
-    s = blank_slide(prs)
-    add_title_bar(s, "What would falsify the prediction", "From SURVEY §5.3 + ROADMAP non-goals")
-    items = [
-        ("Default agent lowering", "A major stack ships default lowering with no classical admit/fallback and sustained correctness."),
-        ("Both heuristic paths die", "Magellan-class synthesis and MLGO advisors both disappear from production."),
-        ("Kernel agents plateau", "Fusion-heavy public suites stay below eager forever with only library workarounds."),
-        ("Autonomous tape-out", "Production microarch primarily agent-proposed and validated only via agentic compile oracles."),
+def s_claims(prs, n, total):
+    s = blank(prs)
+    kicker(s, 0.7, 0.4, "12  —  Claim confidence")
+    textbox(s, 0.7, 0.85, 12, 0.5, "What we believe — for now.", 28, True, INK, DISPLAY)
+    add_chart(
+        s, XL_CHART_TYPE.COLUMN_CLUSTERED,
+        0.6, 1.6, 7.8, 5.0,
+        ["Supported", "Contested", "Watch"],
+        {"Claims": [10, 2, 2]},
+        legend=False,
+    )
+    round_rect(s, 8.7, 1.8, 4.1, 4.5, SOFT_COPPER)
+    textbox(s, 9.0, 2.2, 3.6, 0.4, "Still contested", 15, True, ACCENT, SANS)
+    multiline(
+        s, 9.0, 2.8, 3.6, 3.0,
+        [
+            "A4 — defaults stay classical until distributional CI wins",
+            "P1 — Magellan vs MLGO path",
+            "P2 / S5 — multi-DSL skills & profiler APIs",
+        ],
+        13, INK, SANS, gap=12,
+    )
+    page_footer(s, n, total)
+
+
+def s_org_questions(prs, n, total):
+    s = blank(prs)
+    kicker(s, 0.7, 0.4, "13  —  If you adopt this")
+    textbox(s, 0.7, 0.85, 12, 0.55, "Questions before tools.", 28, True, INK, DISPLAY)
+    qs = [
+        ("01", "Online or offline first?", "Specialize workloads, or evolve the compiler once?"),
+        ("02", "What is the oracle?", "Alive2, golden kernels, OpInfo, serving A/B — who owns false negatives?"),
+        ("03", "Which agent contract IR?", "LLVM, MLIR, Triton, StableHLO, Tile — pick intentionally."),
+        ("04", "Who owns agent artifacts?", "Named maintainer six months after merge."),
     ]
-    for i, (t, b) in enumerate(items):
-        top = 1.4 + i * 1.35
-        shape = s.shapes.add_shape(
-            MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.5), Inches(top), Inches(12.3), Inches(1.2)
-        )
-        shape.fill.solid()
-        shape.fill.fore_color.rgb = SOFT
-        shape.line.color.rgb = AMBER
-        tf = shape.text_frame
-        tf.clear()
-        p = tf.paragraphs[0]
-        r = p.add_run()
-        r.text = t
-        _set_run(r, 14, True, AMBER)
-        p2 = tf.add_paragraph()
-        r2 = p2.add_run()
-        r2.text = b
-        _set_run(r2, 12, False, SLATE)
+    for i, (num, q, a) in enumerate(qs):
+        y = 1.7 + i * 1.2
+        textbox(s, 0.7, y, 1.0, 0.5, num, 20, True, ACCENT, DISPLAY)
+        textbox(s, 1.8, y, 10.5, 0.4, q, 18, True, INK, DISPLAY)
+        textbox(s, 1.8, y + 0.45, 10.5, 0.4, a, 14, False, MUTED, SANS)
+    page_footer(s, n, total)
 
 
-def slide_takeaways(prs):
-    s = blank_slide(prs)
-    add_title_bar(s, "Takeaways", "One-page success check")
-    points = [
-        "Predicted architecture: agentic control plane + classical data plane (+ codesign feedback).",
-        "Four jobs: online · offline heuristics · oracle review · ASIC bring-up/codesign.",
-        "Evidence vs noise: Tier A/B/C — demote generic SCM AI; keep negative results.",
-        "Conflicts C1–C10 are features: do not average Magellan/MLGO or vendor/bench ceilings.",
-        "Roadmap 2027–28: CI-gated specialize + bring-up ladder; not LLM-as-opt; not auto tape-out.",
-        "Rebuild: python3 publish/build_pdf.py && python3 publish/build_pptx.py",
-    ]
-    for i, text in enumerate(points):
-        top = 1.35 + i * 0.9
-        num = s.shapes.add_shape(
-            MSO_SHAPE.OVAL, Inches(0.5), Inches(top), Inches(0.55), Inches(0.55)
-        )
-        num.fill.solid()
-        num.fill.fore_color.rgb = TEAL
-        num.line.fill.background()
-        tf = num.text_frame
-        tf.clear()
-        p = tf.paragraphs[0]
-        p.alignment = PP_ALIGN.CENTER
-        r = p.add_run()
-        r.text = str(i + 1)
-        _set_run(r, 14, True, WHITE)
-        box = s.shapes.add_textbox(Inches(1.3), Inches(top), Inches(11.5), Inches(0.7))
-        p = box.text_frame.paragraphs[0]
-        r = p.add_run()
-        r.text = text
-        _set_run(r, 14, False, INK)
+def s_close(prs):
+    s = blank(prs)
+    rect(s, 0, 0, W, H, INK)
+    rect(s, 0, 0, 0.18, H, ACCENT)
+    textbox(s, 0.9, 1.8, 11, 0.4, "ONE-PAGE CHECK", 12, True, ACCENT, SANS)
+    textbox(
+        s, 0.9, 2.3, 11.5, 1.2,
+        "Predict the architecture.\nName the four jobs.\nSeparate signal from noise.",
+        28, True, WHITE, DISPLAY,
+    )
+    multiline(
+        s, 0.9, 4.3, 11, 1.8,
+        [
+            "Architecture → hybrid control / data / codesign feedback",
+            "Jobs → online · offline · oracle review · bring-up",
+            "Signal → Tier A + CONFLICTS settlement watches",
+        ],
+        16, RGBColor(0xC8, 0xC3, 0xBA), SANS, gap=10,
+    )
+    textbox(
+        s, 0.9, 6.4, 11, 0.4,
+        "Rebuild:  python3 publish/build_pptx.py",
+        12, False, MUTED, SANS,
+    )
 
 
 def build() -> Path:
     OUT.mkdir(parents=True, exist_ok=True)
-    groups, kinds, years = parse_index()
-
     prs = Presentation()
-    prs.slide_width = Inches(13.333)
-    prs.slide_height = Inches(7.5)
+    prs.slide_width = Inches(W)
+    prs.slide_height = Inches(H)
 
-    slide_title(prs)
-    slide_north_star(prs)
-    slide_era_timeline(prs)
-    slide_agent_jobs(prs)
-    slide_tiers(prs)
-    slide_claims_status(prs)
-    slide_conflicts(prs)
-    slide_stack_layers(prs)
-    slide_roadmap_confidence(prs)
-    slide_index_groups(prs, groups)
-    slide_index_kinds_years(prs, kinds, years)
-    slide_reported_speedups(prs)
-    slide_online_offline(prs)
-    slide_codesign_ladder(prs)
-    slide_falsifiers(prs)
-    slide_takeaways(prs)
+    slides = [
+        s_title,
+        s_thesis,
+        s_not_replace,
+        s_architecture,
+        s_four_jobs,
+        s_era,
+        s_ideas_grid,
+        s_stack,
+        s_conflicts,
+        s_codesign,
+        s_roadmap,
+        s_evidence_chart,
+        s_claims,
+        s_org_questions,
+        s_close,
+    ]
+    total = len(slides)
+    # title + close have custom chrome; numbered content slides get footers inside
+    for i, fn in enumerate(slides, 1):
+        if fn in (s_title, s_close):
+            fn(prs)
+        else:
+            fn(prs, i, total)
 
     out = OUT / PPTX_NAME
     prs.save(str(out))
@@ -581,4 +569,4 @@ def build() -> Path:
 
 if __name__ == "__main__":
     path = build()
-    print(f"Wrote {path} ({path.stat().st_size // 1024} KiB)")
+    print(f"Wrote {path} ({path.stat().st_size // 1024} KiB, editorial deck)")
