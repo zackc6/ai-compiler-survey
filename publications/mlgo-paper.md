@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | **Year** | 2021 |
-| **Org** | Google |
+| **Org** | Google · CMU |
 | **Publisher** | arXiv |
 | **Type** | paper |
 | **Group** | MLGO & RL gyms |

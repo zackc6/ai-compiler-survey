@@ -34,7 +34,7 @@ META: dict[str, tuple[str, str]] = {
     "helion-blog.md": ("Meta (PyTorch)", "PyTorch blog"),
     "helion-github.md": ("Meta (PyTorch)", "GitHub"),
     # MLGO & RL gyms
-    "mlgo-paper.md": ("Google", "arXiv"),
+    "mlgo-paper.md": ("Google · CMU", "arXiv"),
     "mlgo-google-blog.md": ("Google Research", "Google Research blog"),
     "mlgo-infoq.md": ("InfoQ (covering Google MLGO)", "InfoQ"),
     "mlgo-llvm-docs.md": ("LLVM / Google MLGO", "LLVM docs"),
