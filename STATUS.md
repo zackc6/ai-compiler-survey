@@ -16,7 +16,8 @@ Last updated: **2026-08-03**
 | Tiered REPOS/PRODUCTS | Done (v3) | TritorX/KernelEvolve/Helion/AutoKernel |
 | Publication digests | Done (v5) | **100** digests (+ Compiler 2.0 / MOCHA; KernelEvolve blog) |
 | Validate script | Done | `python3 scripts/validate_survey.py` |
-| **PDF + PPTX publish** | Done | English PDF + graph PPTX in `publish/out/` (zh scripts optional) |
+| **PDF + PPTX publish** | Done | English PDF + editorial PPTX in `publish/out/` |
+| **Visual posters** | Done | Diagram-first PNGs + visual PPTX via `publish/build_visual.py` |
 | **Survey skill** | Done | `.cursor/skills/survey/` (+ personal `~/.cursor/skills/survey/`) |
 | GitHub remote | Available | work on `main` and push |
 
@@ -52,6 +53,7 @@ Last updated: **2026-08-03**
 | 2026-08-03 | Add Compiler 2.0 Ken Kennedy plenary + lineage + MOCHA; SURVEY §1.5 vision map |
 | 2026-08-03 | Fix KernelEvolve INDEX title (full paper name); add Meta Engineering blog digest |
 | 2026-08-03 | Add Org + Publisher to all digests and INDEX; validate requires fields |
+| 2026-08-03 | Visual survey pack: 10 diagram posters + visual PPTX in publish/out |
 
 ## Next actions
 

@@ -9,10 +9,12 @@ Living survey aimed at **predicting the next-generation agentic compiler** (~202
 3. **Stack reshape** — Layer map (framework → DSL → IR → oracles → silicon feedback) in [`docs/STACK.md`](docs/STACK.md).
 4. **Answer Q1–Q4** plus comparison + conflicts ([`docs/CONFLICTS.md`](docs/CONFLICTS.md) C1–C10).
 5. **Reusable bibliography** — Digests under [`publications/`](publications/).
-6. **Publish** — [`publish/`](publish/) English PDF + graph PPTX:
+6. **Publish** — [`publish/`](publish/) English PDF + decks + **diagram visuals**:
    [`PDF`](publish/out/next-gen-ai-compiler-survey.en.pdf) ·
-   [`PPTX`](publish/out/next-gen-ai-compiler-survey.pptx)
-   (`build_pdf.py --lang zh-*` still available; only English is kept in `out/`).
+   [`PPTX`](publish/out/next-gen-ai-compiler-survey.pptx) ·
+   [`Visual PPTX`](publish/out/next-gen-ai-compiler-survey-visual.pptx) ·
+   [`Posters`](publish/out/visual/)
+   (`python3 publish/build_visual.py` regenerates diagram-first PNGs).
 7. **Track progress** — [`STATUS.md`](STATUS.md).
 
 ## Repo layout
@@ -44,7 +46,7 @@ scripts/validate_survey.py
 2. [`docs/CLAIMS.md`](docs/CLAIMS.md) / [`docs/CONFLICTS.md`](docs/CONFLICTS.md) when sources disagree.
 3. ★ digests in [`publications/INDEX.md`](publications/INDEX.md) (TritorX, KernelEvolve, ACCLAIM, Magellan, …).
 4. Contribute via [`docs/WORKFLOW.md`](docs/WORKFLOW.md); `python3 scripts/validate_survey.py`.
-5. Export: `python3 publish/build_pdf.py && python3 publish/build_pptx.py` (see [`publish/README.md`](publish/README.md)).
+5. Export: `python3 publish/build_pdf.py && python3 publish/build_pptx.py && python3 publish/build_visual.py`.
 
 ## How we update
 

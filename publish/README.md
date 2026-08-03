@@ -1,4 +1,4 @@
-# Publish survey → PDF + PPTX
+# Publish survey → PDF + PPTX + visual posters
 
 English artifacts in `publish/out/`.
 
@@ -6,15 +6,24 @@ English artifacts in `publish/out/`.
 
 ```bash
 python3 publish/build_pdf.py     # English PDF
-python3 publish/build_pptx.py    # editorial idea deck (not a chart dump)
+python3 publish/build_pptx.py    # editorial idea deck
+python3 publish/build_visual.py  # diagram-first PNG posters + visual PPTX
 ```
 
 | Output | Role |
 |---|---|
 | `out/next-gen-ai-compiler-survey.en.pdf` | Full survey PDF |
 | `out/next-gen-ai-compiler-survey.pptx` | 15-slide idea exploration deck |
+| `out/next-gen-ai-compiler-survey-visual.pptx` | Full-bleed diagram slides (no tables) |
+| `out/visual/*.png` | 10× 1920×1080 posters (hybrid, jobs, stack, codesign, …) |
 
 Chinese PDF scripts remain (`--lang zh-CN|zh-TW|all`) but those files are not kept in `out/`.
+
+## Visual pack intent
+
+- One composition per image — architecture, orbit, path, ladder, constellation
+- Night-forge palette (charcoal / steel / amber); not table dumps or bullet walls
+- Regenerate whenever ROADMAP / four jobs / conflicts move
 
 ## PPT design intent
 
@@ -27,4 +36,5 @@ Chinese PDF scripts remain (`--lang zh-CN|zh-TW|all`) but those files are not ke
 
 - PDF: `pandoc`, `weasyprint`, `pypdf`
 - PPTX: `python-pptx`
+- Visuals: `Pillow`
 - Optional zh PDF: `deep-translator`, `opencc-python-reimplemented`
