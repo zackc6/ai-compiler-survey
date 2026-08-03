@@ -46,3 +46,4 @@ Status: **Supported** · **Contested** · **Watch** · **Falsified**
 | p50/p90 public ACF/kernel traces | C2 | compileiq-*, kernelbench-x |
 | Second non-Meta ASIC reproduces TritorX-class coverage | C9 | tritorx |
 | Agent IR contract where free rewrite beats advisors | C3 | acclaim vs hintpilot/agentcompile |
+| MOCHA / Compiler 2.0 OSS + verified rewrite evals | A1, H1, S4 | compiler-2.0-mocha-aarno, compiler-2.0-cgo2026 |

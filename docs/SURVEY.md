@@ -1,6 +1,6 @@
 # Next-Gen AI Compiler Survey (expanded)
 
-**Last updated:** 2026-07-31  
+**Last updated:** 2026-08-03  
 **Companion digests:** [`../publications/`](../publications/)  
 **Status:** [`../STATUS.md`](../STATUS.md)  
 **Conflicts:** [`CONFLICTS.md`](CONFLICTS.md) · **Repos map:** [`REPOS.md`](REPOS.md) · **Products:** [`PRODUCTS.md`](PRODUCTS.md)
@@ -110,11 +110,28 @@ Formal coverage is still mostly **local peephole / IR**. Whole-program GPU races
 
 | Community | What to watch |
 |---|---|
-| CGO / CC / ASPLOS / PLDI / MLSys | Systems + compilers |
+| CGO / CC / ASPLOS / PLDI / MLSys | Systems + compilers; **Compiler 2.0** Ken Kennedy Award plenary (HPCA/CGO/PPoPP/CC 2026) |
 | NeurIPS / ICML (+ C4ML) | Methods + KernelBench / Reasoning Compiler / Compiler-R1 |
 | ACL Findings | HintPilot-style SE/NLP crossover |
 | LLVM Discourse (LLVM ♥ ML workshop) | MLGO, Magellan, agent PR review |
 | Vendor blogs | NVIDIA CUDA Tile/CompileIQ, AMD GEAK, Meta KernelLLM/LLM Compiler, DeepMind AlphaEvolve, Modular |
+| DARPA / labs programs | **MOCHA** (ML + optimization-guided compilers for hetero HW) |
+
+### 1.5 Public vision works (what’s out there)
+
+Besides system papers, several **public agendas** shape the “next compiler” debate. Digests live under Surveys & vision in [`../publications/INDEX.md`](../publications/INDEX.md).
+
+| Vision | Axis | Digest |
+|---|---|---|
+| **Compiler 2.0** (Amarasinghe; CC’20 → CGO’22 → Ken Kennedy plenary 2026) | Restore high-level→near-peak on accelerators; ML + better abstractions to *build/retarget* compilers | [compiler-2.0-cgo2026](../publications/compiler-2.0-cgo2026.md) ★ · lineage [’22](../publications/compiler-2.0-cgo2022.md) · [’20](../publications/compiler-2.0-modernize-ml.md) |
+| **MOCHA / Aarno Compiler 2.0** (funded) | LLM rewrite synthesis + eqsat + Rocq; data-frugal cost models; ISA-as-rewrites | [compiler-2.0-mocha-aarno](../publications/compiler-2.0-mocha-aarno.md) ★ |
+| **New Compiler Stack** survey | LLM as Selector / Translator / Generator; hybrid systems win | [new-compiler-stack-survey](../publications/new-compiler-stack-survey.md) |
+| **Compiler.next** | Broaden compile object to FMware (prompts, agents, knobs) | [compiler-next](../publications/compiler-next.md) |
+| **MLIR formal theories** | Read AI compilation through formal lenses | [mlir-formal-theories](../publications/mlir-formal-theories.md) |
+| **Automated kernel generation** survey | Kernel-agent landscape in the LLM era | [automated-kernel-generation-survey](../publications/automated-kernel-generation-survey.md) |
+| **IEEE Pulse** LLM-compilers outlook | Challenges / future direction essay | [ieee-pulse-llm-compilers](../publications/ieee-pulse-llm-compilers.md) |
+
+**Not treated as current vision peers here:** pre-LLM CACM “Compiler Research: The Next 50 Years” (2008 NSF workshop); Carbon toolchain modernization talks (orthogonal to AI/agent control planes). Industry substrate critiques (e.g. Modular on MLIR fragmentation) stay in Trend C.
 
 ---
 
@@ -556,6 +573,7 @@ From Magellan LLVM Dev Meeting slides ([digest](../publications/magellan-llvm-sl
 | **KernelEvolve** hetero NVIDIA/AMD/MTIA perf agents | Production multi-HW control plane | Public traces vs KernelBench-X (**C2**) |
 | Ascend **compiler-grounded** Triton diagnosis | Non-CUDA NPUs need IR/pass escalation, not CUDA-pretrained guess | Hierarchy ablations |
 | Helion + CompileIQ ACF path | DSL substrate agents specialize | **C4** vs Tile/CuTe |
+| **Compiler 2.0** Ken Kennedy plenary + **MOCHA** (LLM rewrites ⊕ eqsat ⊕ Rocq; retarget-via-rewrites) | Venue+funding align on verified ML construction / hetero retarget — not free LLM-`opt` | OSS releases & Year 1–3 evals ([digest](../publications/compiler-2.0-cgo2026.md), [MOCHA](../publications/compiler-2.0-mocha-aarno.md)) |
 
 ### 5.5 Five-year horizon & roadmap pointer
 

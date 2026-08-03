@@ -7,6 +7,10 @@ One digest per searched source. Files live beside this index.
 | 2026 | paper | Surveys & vision | [The New Compiler Stack: A Survey on the Synergy of LLMs and Compilers](new-compiler-stack-survey.md) | [source](https://arxiv.org/abs/2601.02045) |
 | 2025 | paper | Surveys & vision | [Compiler.next: A Search-Based Compiler to Power the AI-Native Future of Software Engineering](compiler-next.md) | [source](https://arxiv.org/html/2510.24799v2) |
 | 2026 | paper | Surveys & vision | [Reading AI Model Compilation in MLIR Through the Lens of Formal Theories](mlir-formal-theories.md) | [source](https://doi.org/10.48550/arxiv.2606.25244) |
+| 2026 | talk | Surveys & vision | [Compiler 2.0: Building the Next Generation Compilers with ML (Ken Kennedy Award plenary, HPCA/CGO/PPoPP/CC 2026)](compiler-2.0-cgo2026.md) ★ vision | [source](https://2026.hpca-cgo-ppopp-cc.org/details/hpca-cgo-ppopp-cc-2026-plenary-keynotes/2/Compiler-2-0-Building-the-Next-Generation-Compilers-with-Machine-Learning) |
+| 2022 | talk | Surveys & vision | [CGO 2022 Keynote: Compiler 2.0](compiler-2.0-cgo2022.md) | [source](https://www.youtube.com/watch?v=w_sX9aZoZxg) |
+| 2020 | talk | Surveys & vision | [Compiler 2.0: Using ML to Modernize Compiler Technology (CC 2020)](compiler-2.0-modernize-ml.md) | [source](https://doi.org/10.1145/3372799.3397167) |
+| 2025–28 | company | Surveys & vision | [DARPA MOCHA / Aarno Labs: Compiler 2.0 project](compiler-2.0-mocha-aarno.md) ★ funded path | [source](https://www.aarno-labs.com/project/compiler-20/) |
 | 2018 | paper | Classic DL compilers | [TVM: An Automated End-to-End Optimizing Compiler for Deep Learning](tvm-osdi18.md) | [source](https://www.usenix.org/conference/osdi18/presentation/chen) |
 | 2020 | paper | Classic DL compilers | [Ansor: Generating High-Performance Tensor Programs for Deep Learning](ansor-osdi20.md) | [source](https://www.usenix.org/conference/osdi20/presentation/zheng) |
 | 2021 | company | Classic DL compilers | [TVM blog: Introducing Auto-scheduler (Ansor)](tvm-ansor-blog.md) | [source](https://tvm.apache.org/2021/03/03/intro-auto-scheduler) |
@@ -103,7 +107,7 @@ One digest per searched source. Files live beside this index.
 | 2025 | company | Classic DL compilers | [Helion: High-Level DSL for Portable ML Kernels](helion-blog.md) | [source](https://pytorch.org/blog/helion/) |
 | 2025+ | code | Classic DL compilers | [pytorch/helion (GitHub)](helion-github.md) | [source](https://github.com/pytorch/helion) |
 
-**Total:** 95 digests
+**Total:** 99 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 

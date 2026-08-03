@@ -1,6 +1,6 @@
 # Survey status
 
-Last updated: **2026-07-31**
+Last updated: **2026-08-03**
 
 ## Overall progress
 
@@ -14,7 +14,7 @@ Last updated: **2026-07-31**
 | Conflicts | Done | C1–C10 (+ coverage vs peak, codesign vs EDA) |
 | Survey narrative Q1–Q4 | Done (v3) | Gaps as blockers |
 | Tiered REPOS/PRODUCTS | Done (v3) | TritorX/KernelEvolve/Helion/AutoKernel |
-| Publication digests | Done (v4) | **95** digests (+10 wave) |
+| Publication digests | Done (v5) | **99** digests (+ Compiler 2.0 / MOCHA vision) |
 | Validate script | Done | `python3 scripts/validate_survey.py` |
 | **PDF + PPTX publish** | Done | English PDF + graph PPTX in `publish/out/` (zh scripts optional) |
 | **Survey skill** | Done | `.cursor/skills/survey/` (+ personal `~/.cursor/skills/survey/`) |
@@ -49,6 +49,7 @@ Last updated: **2026-07-31**
 | 2026-08-03 | PDF publish builds en + zh-CN + zh-TW |
 | 2026-08-03 | Keep only English PDF in out/; add graph-heavy PPTX builder |
 | 2026-08-03 | Redesign PPTX as editorial idea deck; add PPT_TOOLS.md suggestions |
+| 2026-08-03 | Add Compiler 2.0 Ken Kennedy plenary + lineage + MOCHA; SURVEY §1.5 vision map |
 
 ## Next actions
 

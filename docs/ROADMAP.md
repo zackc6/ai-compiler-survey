@@ -19,6 +19,7 @@ Falsifiable sketch conditioned on C1–C10.
 | **Offline heuristic synthesis (job b)** | Magellan-class C++ heuristic evolution *and* MLGO neural advisors both still live (parallel bets) | Magellan, EmitC-MLGO RFC | **C1** |
 | **Engineering agents (job c)** | Compiler-oracle PR review (Alive2/`opt`) in serious LLVM/AI-compiler orgs; generic forge AI stays UX | Archer | **C7** |
 | **Bring-up / codesign agents (job d)** | Coverage-first ATen/Triton backend generation on sim + silicon becomes standard for *new* ASICs | TritorX, KernelEvolve, Ascend hierarchical diagnosis | **C9** |
+| **Verified ML construction (Compiler 2.0 / MOCHA)** | Early open releases of LLM→eqsat→formal-admit rewrite / retarget tooling; not yet default production `opt` | Ken Kennedy plenary 2026; Aarno/MIT/UIUC MOCHA | C3, C6 |
 | **DSL surface** | Triton-family (Triton/Helion) remains primary agent training surface; Tile/CuTe/HIP/FlyDSL force multi-DSL skills | Helion, CompileIQ Helion path, TRT-LLM agents, KForge | **C4** |
 
 ### What does *not* ship by 2028
@@ -34,6 +35,7 @@ Falsifiable sketch conditioned on C1–C10.
 2. CompileIQ/GEAK publish p50/p90 + pinned traces (**C2**).
 3. TritorX-like bring-up reproduced outside Meta (second ASIC vendor) (**C9**).
 4. PyTorch/LLVM release notes list agent/ACF jobs as supported workflows (**C5**).
+5. MOCHA / Compiler 2.0 publishes OSS rewrite+verify evals or retarget demos (program through ~2028).
 
 ---
 
