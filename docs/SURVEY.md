@@ -589,6 +589,33 @@ Layer-by-layer SW + codesign map: [`STACK.md`](STACK.md). Claim IDs: [`CLAIMS.md
 
 §5 predicts a **hybrid** agentic compiler. Shipping that as a product (CompileIQ-class, GEAK-class, Magellan-in-CI, TritorX-style bring-up) forces engineering choices that papers usually skip. Below: **critical problems → option sets with pros/cons → survey-leaning defaults**. Treat “might be true” options as hypotheses to settle in production, not dogma.
 
+**Problem map (architecture → ops → business).** P1–P8 = control/data-plane productization; P9–P22 = eval, money, tenancy, legal, versioning, cold start, HITL capacity, flywheel, latency, DR, A/B, compliance, orchestration predictability, attribution—drawn from §4 gaps, CONFLICTS, Tier A digests (KernelEvolve, TritorX, CompileIQ, ACCLAIM, Magellan, GEAK, Archer, CCC), and adjacent agent-production literature (deterministic boundaries, admit-record provenance).
+
+| ID | Problem | Lean (one line) |
+|---|---|---|
+| P1 | Agent↔compiler contract | Typed tools + structured admit traces; NL only at human edge |
+| P2 | Context / memory loss | Scratchpad ≪ dense skills ≪ **VCS** as product truth |
+| P3 | Sub-agents vs monolith | Specialists + orchestrator + shared trace bus |
+| P4 | When agents may run | CI/hot-path → freeze artifacts; not always-on default |
+| P5 | Oracles for money | Layered admit + named false-negative owners |
+| P6 | Ownership / supply chain | CODEOWNERS + signed provenance + sandbox |
+| P7 | Multi-DSL portability | Multi-skill + HW RAG; IR is substrate not sole API |
+| P8 | What customers buy | Flag/SKU + frozen artifacts; bring-up = internal/platform |
+| P9 | Eval for agents-as-products | Public p50/p90 + private canaries; always show cost-to-compile |
+| P10 | Unit economics / pricing | Sell artifacts + CI quotas; not raw token burn |
+| P11 | Multi-tenancy / SaaS | Prefer customer-owned CI; cloud needs isolation+residency |
+| P12 | Model-provider lock-in | Pluggable models + golden replay; distill when rights exist |
+| P13 | Legal / IP of outputs | Customer owns artifacts; opt-in telemetry only |
+| P14 | Joint versioning | Pin agent+compiler+HW+model in admit records |
+| P15 | Cold start new HW | Coverage SLA then perf SLA (**C9**) |
+| P16 | HITL review bandwidth | Oracle auto-merge narrow; humans CODEOWN rewrites |
+| P17 | Trajectory flywheel ownership | Closed for hetero prod; open traces for heuristic research |
+| P18 | Interactive latency SLOs | Interactive = lab tier; batch freeze = product |
+| P19 | DR / corrupted tree | Allowlisted edits + canary rollback |
+| P20 | Production A/B platform | Required before “production default” marketing |
+| P21 | Compliance / ISA RAG | Customer-hosted manuals; learn from compiler feedback when needed |
+| P22 | Deterministic orchestration | FSM/plan + LLM judgment; not free tool-calling as default |
+
 #### P1 — What is the agent↔compiler contract?
 
 Agents must exchange state with the data plane. The medium of that contract is a product decision.
@@ -603,6 +630,8 @@ Agents must exchange state with the data plane. The medium of that contract is a
 **Survey lean.** Prefer **C + B** as the product contract; use **D** at the human edge. Pure **A** is fine for demos, not for commercial compile paths (§4.3–4.5). Concrete artifact shapes already exist: CompileIQ **ACFs**, KernelEvolve **MPP** profiler federation, ACCLAIM tool-calling over clang components.
 
 **Example (might be true).** The durable contract is not “the prompt,” but a **versioned admit record**: `{graph_hash, hw_id, compiler_ver, action[], oracle[], artifact_digest, policy_id}`. NL rationales are optional commentary attached to that record.
+
+**Also commercially.** Who governs the schema (vendor vs LLVM/StableHLO RFC)? What is the **fail mode** when the contract breaks (silent wrong admit vs hard fail)? Keep chat UX as a *view* over traces so SaaS does not create two sources of truth.
 
 #### P2 — Context-window / memory loss across long optimize loops
 
@@ -620,6 +649,8 @@ Kernel and heuristic search run for hours and hundreds of trials. The agent forg
 
 **Example (might be true).** Treat the LLM context as a **scratchpad**, dense memory as a **L2 cache of skills**, and git as **durable store**. If the model is swapped, scratchpad dies, L2 may warm-start, git must still rebuild the binary identically.
 
+**Also commercially.** Multi-tenant skill/RAG isolation; **invalidate** dense memory on compiler/HW upgrades (KernelBlaster across gens); decide whether customer trajectories may train vendor skills (P13/P17).
+
 #### P3 — Many sub-agents vs one dense-memory agent
 
 | Option | Pros | Cons | Best fit |
@@ -629,6 +660,8 @@ Kernel and heuristic search run for hours and hundreds of trials. The agent forg
 | **Hierarchy** (orchestrator + workers + judge) | Budget control; staged admit | Judge can be wrong; latency | Production CI with spend caps |
 
 **Survey lean.** For commercial multi-accelerator stacks, **specialists + orchestrator** win; invest early in a **shared admit/trace bus** so sub-agents do not keep private incompatible memories (ties to P1–P2).
+
+**Also commercially.** Budget per specialist (ACCLAIM); tool-calling quality can fail before code skill; support must debug multi-agent traces. Prefer **deterministic orchestration + LLM judgment** (TritorX FSM, GEAK v3) over unbounded free tool-calling for SLA’d products (→ P22).
 
 #### P4 — Online cost, flaky speedups, and “when may the agent run?”
 
@@ -641,6 +674,8 @@ Kernel and heuristic search run for hours and hundreds of trials. The agent forg
 
 **Survey lean.** Commercial default: **CI/nightly or hot-path → freeze ACF/kernel into VCS**; interactive online agents as an opt-in lab mode until budgets and replay are boring (§4.1, §4.3, **C5**).
 
+**Also commercially.** Publish budget SLOs (`$/build`, tokens/%gain, GPU-hours); flaky-speedup CI policy under HW noise; separate **interactive latency tiers** (P18) from batch freeze; who pays for GPU (vendor cloud vs customer cluster) (P10).
+
 #### P5 — Correctness oracles strong enough for money
 
 | Option | Pros | Cons |
@@ -652,6 +687,8 @@ Kernel and heuristic search run for hours and hundreds of trials. The agent forg
 | Layered admit (all of the above) | Defense in depth | Process heavy |
 
 **Survey lean.** **Layered admit** is the only commercial-grade answer (**§4.2**). Ship with explicit **false-negative owners**.
+
+**Also commercially.** Cover FP contracts, GPU races, serving equivalence (§4.2)—not only unit tests. Oracle cost can erase single-digit CompileIQ wins (**C2**). Decide liability when layered admit passes and production still miscompiles. Top layer needs a real A/B platform (P20).
 
 #### P6 — Ownership, security, and supply chain of agent code
 
@@ -666,6 +703,8 @@ Agent-written heuristics/kernels are still production code.
 
 **Survey lean.** **Human CODEOWNER + signed admit provenance + sandbox**; auto-merge only for narrow action classes with strong oracles (Archer-style), not free rewrite (**C7**, §4.8–4.9).
 
+**Also commercially.** Threat model beyond “sign something”: malicious kernels, prompt/tool injection, DoS schedules (§4.9). CCC-style “not for production” disclaimers signal culture until harness+oracles are boring. Legal/IP assignment of outputs is separate (P13). HITL *capacity* is separate (P16). DR when agents edit trunk (P19).
+
 #### P7 — Multi-DSL / multi-vendor portability
 
 | Option | Pros | Cons |
@@ -675,6 +714,8 @@ Agent-written heuristics/kernels are still production code.
 | Lower to portable IR, agents on IR only | Theory-nice | Free IR rewrite weak (mlirAgent); still need device skills |
 
 **Survey lean.** **Multi-skill + HW RAG** commercially; portable IR remains the *substrate*, not the sole agent language (**C3**, **C4**).
+
+**Also commercially.** Cold-start productization for new ASICs (P15); sell **coverage SLA vs perf SLA** separately (**C9**); eval-matrix cost across DSLs is a P&L item (P9/P10).
 
 #### P8 — Product packaging: what customers buy
 
@@ -687,18 +728,194 @@ Agent-written heuristics/kernels are still production code.
 
 **Survey lean.** Near term: **flag/SKU + frozen artifacts** for external customers; **internal platforms** for ASIC bring-up. Do not sell “chat with your compiler” as the sole SKU.
 
+**Also commercially.** Pricing/unit economics (P10); multi-tenancy (P11); map SKUs to jobs (a)/(b)/(c)/(d)—CompileIQ flags ≠ TritorX bring-up platforms ≠ AlphaEvolve-style cloud coding agents ([`PRODUCTS.md`](PRODUCTS.md)).
+
+#### P9 — Eval & benchmarks for agents-as-products
+
+Buyers need **distributions and cost**, not best-kernel blogs (**C2**, §4.1, §4.10).
+
+| Option | Pros | Cons |
+|---|---|---|
+| Vendor-private suites only | Matches production truth | Buyers cannot verify |
+| Public ladder only (KernelBench → fusion → serving) | Comparable; CI-friendly | May understate internal wins; maintain cost |
+| Customer-workload certification | Sells on their fleet | Slow sales cycle |
+| **Hybrid: public p50/p90 + private canaries** | Honest marketing + real SLAs | Two reporting systems |
+
+**Survey lean.** Hybrid; **always report cost-to-compile beside speedup**. Evidence: KernelBench-X ceilings, CompileIQ docs 2–3% on hot kernels, GEAK eval suites, ROADMAP p50/p90 milestone.
+
+#### P10 — Unit economics & pricing
+
+Token + GPU cost can dominate single-digit gains (§4.3; ACCLAIM budgets).
+
+| Option | Pros | Cons |
+|---|---|---|
+| Per optimize-job / GPU-hour | Aligns with cloud cost | Punishes thorough search |
+| **Per frozen artifact (ACF/kernel)** | Matches “ship artifacts” | Hard to price before search |
+| Outcome-based (% latency / $ saved) | Easy ROI story | Attribution wars (P24-class); baseline games |
+| **Seat + CI quota** | Predictable OpEx | Leaves headroom on huge wins |
+
+**Survey lean.** **Artifact license + CI quota** near term; avoid pure outcome pricing until A/B attribution (P20) exists. Do not sell unbounded token burn.
+
+#### P11 — Multi-tenancy, SaaS isolation, data gravity
+
+| Option | Pros | Cons |
+|---|---|---|
+| Fully managed cloud optimize | Recurring $; rare HW | Leakage risk; residency; attack surface |
+| Customer VPC / on-prem agent + cloud model API | Data local | Model lock-in |
+| Fully air-gapped local models | Regulated buyers | Weaker models; support cost |
+| **Artifact-only: customer CI runs searcher** | Least SaaS risk | Harder recurring revenue |
+
+**Survey lean.** **Customer-owned CI** for external compile SKUs; VPC/air-gap for ASIC bring-up with proprietary ISA docs (KernelEvolve-class RAG).
+
+#### P12 — Model-provider lock-in & swap survivability
+
+| Option | Pros | Cons |
+|---|---|---|
+| Single frontier API | Best tool-calling today | Price/quality cliff |
+| **Pluggable backends + golden replay CI** | Survives swaps | Quality floor = weakest model |
+| Distill specialists on flywheel | Cheap, controllable | Needs data rights (P13/P17) |
+| Offline artifacts only; model in eng CI | Users see deterministic `-O3` | Misses online specialize $ |
+
+**Survey lean.** **Pluggable + replay**; distill when rights exist (KernelEvolve RL path; Magellan/OpenEvolve OSS signal). Customer default path remains frozen classical artifacts (**C5**).
+
+#### P13 — Legal / IP ownership of agent-generated artifacts
+
+| Option | Pros | Cons |
+|---|---|---|
+| **Customer owns outputs; vendor owns weights** | Clean procurement | Blocks silent flywheel on customer data |
+| Shared improvement / opt-in telemetry | Improves product | Enterprises often refuse |
+| OSS-license artifacts by default | Ecosystem | Leaks differentiation |
+| Work-for-hire + indemnification SKU | Enterprise-friendly | Expensive legal |
+
+**Survey lean.** **Customer owns ACFs/kernels/heuristics**; telemetry **opt-in only**; never silent training on customer graphs (§4.7–4.8; CCC production caution).
+
+#### P14 — Joint versioning (agent + compiler + HW + model)
+
+| Option | Pros | Cons |
+|---|---|---|
+| **Content-addressed admit records in VCS** | Replayable; SBOM-ready | Schema tax (P1) |
+| Lockstep vendor releases | Simple support matrix | Slow; multi-vendor fleets break |
+| **Policy bundles** (“optimize profile vN”) | Productizable | Bundle sprawl |
+| Re-optimize on any bump | Always fresh | Cost explosion |
+
+**Survey lean.** **Admit records + policy bundles**; forbid silent re-optimize without budget SLO (§4.3 cache keys).
+
+#### P15 — Cold start for new HW / ISA (bring-up productization)
+
+| Option | Pros | Cons |
+|---|---|---|
+| **Coverage-first SKU then perf SKU** | Matches **C9** ladder; sellable milestones | Coverage ≠ serving peak |
+| Perf-only from day one | Clear ROI narrative | Fails ASIC TTM |
+| **Sim-first pre-silicon agents** | Early codesign feedback | Sim fidelity gaps |
+| Human skeleton + agent fill | Predictable ownership | Slower agent narrative |
+
+**Survey lean.** **Coverage → perf** with explicit SLAs; sim-first when pre-silicon (TritorX, KernelEvolve RAG, Ascend diagnosis).
+
+#### P16 — Human review bandwidth (HITL capacity)
+
+Agents raise draft volume; reviewers become the bottleneck (§1b, §4.8, **C7**).
+
+| Option | Pros | Cons |
+|---|---|---|
+| Human owns every merge | Safest | Does not scale |
+| **Oracle auto-merge narrow; human for rewrites** | Archer-scalable | Oracle holes |
+| Quota reviews/week + prioritization | Capacity planning | Good patches wait |
+| **Compiler-oracle review agents as force multiplier** | Matches C7-B | Still needs human CODEOWNER |
+
+**Survey lean.** **B + D**; publish review-time vs escaped-bug metrics (§4.8 done-looks-like).
+
+#### P17 — Trajectory / flywheel ownership
+
+| Option | Pros | Cons |
+|---|---|---|
+| **Fully closed trajectories** | Moat (Meta/AMD/NVIDIA) | Weak external trust |
+| Public anonymized traces (Compiler.next #10) | Research + smaller vendors | May leak HW limits |
+| Federated / siloed memories | Privacy-preserving | Hard systems |
+| Sell data foundation as SKU | Clear ownership | Few buyers |
+
+**Survey lean.** **Closed** for hetero production agents; **open traces** for CPU/IR heuristic-evolution research (Magellan/OpenEvolve). ieee-pulse: data scarcity is already a field limiter.
+
+#### P18 — Interactive latency SLOs vs batch optimize
+
+| Option | Pros | Cons |
+|---|---|---|
+| Promise interactive “chat optimize” | Attractive UX | Hours-long MCTS breaks support |
+| **Lab tier (best-effort) vs product tier (batch freeze)** | Honest SLOs | Two products to explain |
+| Hard timeout + partial artifact | Bounded cost | Users get weak results |
+| Offline-only eng tools | Simplest SLA | Misses serving specialize |
+
+**Survey lean.** **Lab vs product tiers**; product default = batch/CI freeze (P4). TritorX “overnight,” KernelEvolve long search, CompileIQ evolutionary runs are batch-shaped.
+
+#### P19 — Disaster recovery when agents corrupt trees
+
+| Option | Pros | Cons |
+|---|---|---|
+| Branch-only writes + revert bots | Clear blast radius | Slower landing |
+| **Allowlisted edit surfaces (EVOLVE-BLOCK)** | Magellan pattern | Constrains creativity |
+| **Signed release + canary auto-rollback** | Production-grade | Needs P20 |
+| Immutable artifact store; never live-rewrite trunk heuristics | Strongest safety | Slower iteration |
+
+**Survey lean.** **Allowlist + canary rollback** for compiler-source agents; branch-only for repo-level kernel agents (GEAK v3 multi-file patches).
+
+#### P20 — Production A/B & experimentation platform
+
+| Option | Pros | Cons |
+|---|---|---|
+| Serving canaries only | Real regressions | Slow; expensive |
+| **Shadow compile + offline replay benches** | Cheap gate | Misses serving numerics |
+| Full experimentation platform | Settles **C2**; funds outcome pricing | Large eng investment |
+| Trust vendor blogs | Zero cost | Not commercial-grade |
+
+**Survey lean.** Shadow/replay as default gate; canaries/full platform **before** any “production default” claim (§4.1; MLGO persistent-QPS bar).
+
+#### P21 — Compliance: export, residency, proprietary ISA docs
+
+| Option | Pros | Cons |
+|---|---|---|
+| No proprietary manuals in cloud RAG | Lower risk | Weak cold start |
+| **Customer-hosted RAG corpora** | Residency OK | Integration pain |
+| Certified regions + export classification | Enterprise sales | Slow GTM |
+| **Learn from compiler/crash feedback only** | TritorX-like | Slower perf ramp |
+
+**Survey lean.** **Customer-hosted manuals** when selling to silicon vendors; else prefer compiler-feedback learning over exporting ISA corpora.
+
+#### P22 — Deterministic orchestration vs free LLM judgment
+
+Adjacent agent-production work stresses **deterministic boundaries** and moving the LLM out of the hot execution loop; TritorX deliberately uses an FSM rather than free tool-calling.
+
+| Option | Pros | Cons |
+|---|---|---|
+| Free tool-calling agent | Flexible | Hard to SLA; runaway loops/cost |
+| **Plan/FSM + LLM fills bounded slots** | Predictable; auditable | Less “agent magic” marketing |
+| Compile-then-execute (LLM offline only) | Aligns hybrid prediction | Needs strong offline jobs (b)/(d) |
+| Soft max-steps + human gate | Practical | Caps autonomy |
+
+**Survey lean.** **FSM/plan + bounded LLM slots** for any SKU with an SLA; free tool-calling stays lab-tier (ties P3/P4/P12; supports **C6-B**).
+
 #### Commercial checklist (if you are building this)
 
-1. **Contract:** typed tools + structured admit traces (not NL alone).  
-2. **Memory:** scratchpad ≪ dense skills ≪ **VCS artifacts** as source of truth.  
-3. **Topology:** orchestrator + specialists; shared trace bus.  
-4. **When it runs:** CI/hot-path freeze before default-on.  
-5. **Admit:** layered oracles with named owners.  
-6. **Ownership:** CODEOWNERS + provenance signatures.  
-7. **Portability:** multi-DSL skills; don’t bet the company on one IR rewrite API.  
-8. **SKU:** ship artifacts customers can regress, not only agent sessions.
+**Architecture**
+1. Contract = typed tools + structured admit traces (not NL alone).  
+2. Memory = scratchpad ≪ dense skills ≪ **VCS artifacts**.  
+3. Topology = orchestrator + specialists + shared trace bus; prefer FSM/plan for SLA paths.  
+4. Agents run in CI/hot-path → **freeze** before default-on.
 
-Gaps that still block this checklist: §4.1–4.5, §4.8–4.9. Conflicts that change packaging: **C2** (do gains pay?), **C3** (how wide the action API?), **C5** (default-on timing).
+**Trust & ops**
+5. Layered oracles + named false-negative owners.  
+6. CODEOWNERS + signed provenance + sandbox; allowlisted edits + canary rollback.  
+7. Joint version pins: agent policy + compiler + HW + model.  
+8. Eval ladder: public distributions + private canaries; always show **cost-to-compile**.  
+9. A/B / shadow gates before “production default” marketing.  
+10. HITL capacity plan (oracle auto-merge narrow; measure review bandwidth).
+
+**Business & compliance**
+11. SKU = regressable artifacts (+ CI quota), not chat sessions alone.  
+12. Customer owns outputs; telemetry opt-in; pluggable models with golden replay.  
+13. Multi-DSL skills; coverage SLA then perf SLA for new silicon.  
+14. Tenancy/residency story for ISA RAG and customer graphs.  
+15. Support runbooks: replay packs, spend caps, severity for oracle misses.
+
+**Still blocks / changes packaging:** §4.1–4.5, §4.7–4.10; conflicts **C2** (gains pay?), **C3** (API width), **C5** (default-on), **C7** (oracle review), **C9** (coverage vs peak).
 
 ---
 
