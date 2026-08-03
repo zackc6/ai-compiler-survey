@@ -1,13 +1,10 @@
-# Digest template
-
-Copy into `publications/<slug>.md`.
-
-```markdown
-# <Full title>
+# <Full title — never shorten in INDEX>
 
 | Field | Value |
 |---|---|
 | **Year** | YYYY |
+| **Org** | <company / university / lab — primary affiliations> |
+| **Publisher** | <venue, blog host, forge, or preprint host> |
 | **Type** | paper \| company \| forum \| talk \| code |
 | **Group** | <INDEX group name> |
 | **Link** | [primary URL](https://…) |
@@ -19,7 +16,7 @@ Copy into `publications/<slug>.md`.
 
 ## Summary
 
-<1 short paragraph; mechanisms over headline speedups.>
+<1 paragraph; mechanisms over headline speedups.>
 
 ## Key takeaways
 
@@ -27,9 +24,8 @@ Copy into `publications/<slug>.md`.
 
 ## Why it matters for this survey
 
-<CLAIMS / ROADMAP / STACK / CONFLICTS IDs. Agentic-compiler focus; codesign only if kernel/IR/oracle loop.>
+<CLAIMS / ROADMAP / CONFLICTS / §5.7 IDs; agentic-compiler focus; codesign only if kernel/IR/oracle loop.>
 
 ## Limits / caveats
 
 - …
-```
