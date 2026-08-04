@@ -2,7 +2,7 @@
 name: survey
 description: >-
   Maintain this living survey on main: prediction-first digests (Org/Publisher),
-  CLAIMS/CONFLICTS, SURVEY §5 (architecture + roadmap + commercialization),
+  SURVEY §6/§7 conflicts+claims, SURVEY §5 (architecture + roadmap + commercialization),
   validate, rebuild PDF + diagram visuals + PPTX, push main. Use when
   editing this repo, adding publications, updating the agentic-compiler
   prediction, or publishing.
@@ -15,8 +15,9 @@ description: >-
 | North star / future | `docs/SURVEY.md` §0.1, §5 |
 | Architecture / roadmap / stack | `docs/SURVEY.md` **§5.1** / **§5.5** / **§5.6** |
 | **Commercialization** | `docs/SURVEY.md` **§5.7** (P1–P23) |
-| Claims / conflicts | `docs/CLAIMS.md`, `docs/CONFLICTS.md` |
-| Add-source loop | `docs/WORKFLOW.md` |
+| Vocabulary / systems | `docs/SURVEY.md` §0.2 / §8 |
+| Claims / conflicts | `docs/SURVEY.md` §7 / §6 |
+| Add-source loop | `docs/SURVEY.md` §9 |
 | **Reference guide** | `reference/README.md` → publications / products / repos |
 | Digest template | `reference/publications/_TEMPLATE.md` (**Org** + **Publisher** required) |
 | Index | `reference/publications/INDEX.md` (Org/Publisher columns; ★ for prediction-critical) |
@@ -30,7 +31,7 @@ description: >-
 ## Hard rules
 
 1. Prediction target = **agentic compiler** (jobs a–d). HW only via kernels/IR/oracles (**C10**).
-2. Never average Magellan vs MLGO, vendor vs KernelBench-X, coverage vs peak — use CONFLICTS.
+2. Never average Magellan vs MLGO, vendor vs KernelBench-X, coverage vs peak — use SURVEY §6.
 3. Prefer Tier A (ACCLAIM, Magellan, TritorX, KernelEvolve, Kernel*, CompileIQ, Archer, …).
 4. Hybrid means **agents can generate data-plane artifacts offline** (heuristics/kernels) that **execute classically**; it does **not** mean LLM-as-`opt` online without admit (**C3/C6/A5**).
 5. Work on **`main`**, commit, **`git push origin main`** — no PRs unless asked.
@@ -42,7 +43,7 @@ description: >-
 ```text
 [ ] Digests have Org + Publisher; INDEX titles are full paper names
 [ ] python3 scripts/validate_survey.py  → OK
-[ ] CLAIMS / CONFLICTS / SURVEY §5 touched if prediction moved
+[ ] SURVEY §6 / §7 / §5 touched if prediction moved
 [ ] §5.7 updated if commercialization blockers discovered
 [ ] python3 publish/build_pdf.py
 [ ] python3 publish/build_visual.py   # diagram-first, not table slides

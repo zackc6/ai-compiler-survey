@@ -14,10 +14,6 @@ LANGS = ("en", "zh-CN", "zh-TW")
 # Narrative-first order for the PDF manuscript.
 SECTIONS: list[tuple[str, Path]] = [
     ("Survey narrative", ROOT / "docs" / "SURVEY.md"),
-    ("Claims map", ROOT / "docs" / "CLAIMS.md"),
-    ("Conflicts register", ROOT / "docs" / "CONFLICTS.md"),
-    ("Systems comparison", ROOT / "docs" / "SYSTEMS.md"),
-    ("Taxonomy", ROOT / "docs" / "TAXONOMY.md"),
     ("Reference guide", ROOT / "reference" / "README.md"),
     ("Products prediction signals", ROOT / "reference" / "products.md"),
     ("Repos forge evidence", ROOT / "reference" / "repos.md"),
@@ -27,10 +23,6 @@ SECTIONS: list[tuple[str, Path]] = [
 SECTION_TITLES = {
     "en": {
         "Survey narrative": "Survey narrative",
-        "Claims map": "Claims map",
-        "Conflicts register": "Conflicts register",
-        "Systems comparison": "Systems comparison",
-        "Taxonomy": "Taxonomy",
         "Reference guide": "Reference guide",
         "Products prediction signals": "Products (prediction signals)",
         "Repos forge evidence": "Repos & forge evidence",
@@ -39,10 +31,6 @@ SECTION_TITLES = {
     },
     "zh-CN": {
         "Survey narrative": "综述正文",
-        "Claims map": "主张—证据映射",
-        "Conflicts register": "冲突对照",
-        "Systems comparison": "系统对比",
-        "Taxonomy": "分类法",
         "Reference guide": "参考文献指南",
         "Products prediction signals": "产品信号",
         "Repos forge evidence": "仓库与协同证据",
@@ -51,10 +39,6 @@ SECTION_TITLES = {
     },
     "zh-TW": {
         "Survey narrative": "綜述正文",
-        "Claims map": "主張—證據對應",
-        "Conflicts register": "衝突對照",
-        "Systems comparison": "系統比較",
-        "Taxonomy": "分類法",
         "Reference guide": "參考文獻指南",
         "Products prediction signals": "產品信號",
         "Repos forge evidence": "倉庫與協同證據",
@@ -72,7 +56,7 @@ COVER = {
         ),
         "living": "Living survey export",
         "generated": "Generated",
-        "primary": "Primary narrative: docs/SURVEY.md (§5 prediction, roadmap, stack reshape)",
+        "primary": "Primary narrative: docs/SURVEY.md (single reading path §0–§9) · Evidence: reference/",
         "verdict": (
             "**North star.** Agents own semantic search, orchestration, and artifact synthesis. "
             "Compilers own lowering, legality, measurement, and fallback. Hardware codesign enters "
@@ -90,7 +74,7 @@ COVER = {
         "subtitle": "预测智能体编译器（约 2027–28 与未来五年）：软件栈重塑与软硬件协同设计",
         "living": "持续更新型综述导出",
         "generated": "生成日期",
-        "primary": "主叙事：docs/SURVEY.md（§5 预测、路线图、软件栈重塑）",
+        "primary": "主叙事：docs/SURVEY.md（§0–§9 单文件阅读路径）· 证据：reference/",
         "verdict": (
             "**北极星目标。** 智能体负责语义搜索、编排与产物综合；编译器负责下降、合法性、"
             "测量与回退。硬件协同设计仅通过内核、IR、测试与 profiling 闭环进入——而非自动流片。"
@@ -106,7 +90,7 @@ COVER = {
         "subtitle": "預測智能體編譯器（約 2027–28 與未來五年）：軟體堆疊重塑與軟硬體協同設計",
         "living": "持續更新型綜述匯出",
         "generated": "產生日期",
-        "primary": "主敘事：docs/SURVEY.md（§5 預測、路線圖、軟體堆疊重塑）",
+        "primary": "主敘事：docs/SURVEY.md（§0–§9 單檔閱讀路徑）· 證據：reference/",
         "verdict": (
             "**北極星目標。** 智能體負責語意搜尋、編排與產物綜合；編譯器負責下降、合法性、"
             "量測與回退。硬體協同設計僅透過核心、IR、測試與 profiling 閉環進入——而非自動流片。"
@@ -157,22 +141,28 @@ def rewrite_links(text: str) -> str:
         "](../reference/publications/": "](reference/publications/",
         "](../publications/": "](reference/publications/",
         "](../STATUS.md)": "](STATUS.md)",
-        "](CONFLICTS.md)": "](#conflicts-register)",
-        "](STACK.md)": "](#56-stack-reshape-sw--hw-codesign)",
-        "](CLAIMS.md)": "](#claims-map)",
         "](../reference/repos.md)": "](#repos-forge-evidence)",
         "](../reference/products.md)": "](#products-prediction-signals)",
         "](../reference/README.md)": "](#reference-guide)",
         "](repos.md)": "](#repos-forge-evidence)",
         "](products.md)": "](#products-prediction-signals)",
-        # only rewrite bare README when it is the reference guide companion link
-        "](../reference/README.md)": "](#reference-guide)",
-        "](SYSTEMS.md)": "](#systems-comparison)",
-        "](TAXONOMY.md)": "](#taxonomy)",
-        "](WORKFLOW.md)": "](docs/WORKFLOW.md)",
         "](../docs/SURVEY.md)": "](#survey-narrative)",
+        "](../../docs/SURVEY.md)": "](#survey-narrative)",
+        "](docs/SURVEY.md)": "](#survey-narrative)",
+        # legacy satellite paths → inlined SURVEY sections
+        "](CONFLICTS.md)": "](#6-conflicts-keep-unresolved-until-evidence-settles)",
+        "](../docs/CONFLICTS.md)": "](#6-conflicts-keep-unresolved-until-evidence-settles)",
+        "](../../docs/CONFLICTS.md)": "](#6-conflicts-keep-unresolved-until-evidence-settles)",
+        "](CLAIMS.md)": "](#7-prediction-claims--evidence)",
+        "](../docs/CLAIMS.md)": "](#7-prediction-claims--evidence)",
+        "](SYSTEMS.md)": "](#8-systems-gallery)",
+        "](../docs/SYSTEMS.md)": "](#8-systems-gallery)",
+        "](TAXONOMY.md)": "](#02-vocabulary-and-taxonomy)",
+        "](../docs/TAXONOMY.md)": "](#02-vocabulary-and-taxonomy)",
+        "](WORKFLOW.md)": "](#9-how-to-update-this-survey)",
+        "](../docs/WORKFLOW.md)": "](#9-how-to-update-this-survey)",
+        "](STACK.md)": "](#56-stack-reshape-sw--hw-codesign)",
         "](../docs/STACK.md)": "](#56-stack-reshape-sw--hw-codesign)",
-        "](../docs/CONFLICTS.md)": "](#conflicts-register)",
         "](publications/": "](reference/publications/",
     }
     for a, b in replacements.items():

@@ -27,4 +27,4 @@ Vendor blog positioning GEAK v3 as an end-to-end agent framework for real codeba
 
 ## Why it matters for this survey
 
-Evidence for next-gen prediction and [`docs/CONFLICTS.md`](../docs/CONFLICTS.md). Prefer the primary link when citing.
+Evidence for next-gen prediction and [`docs/SURVEY.md`](../../docs/SURVEY.md) §6. Prefer the primary link when citing.

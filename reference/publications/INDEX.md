@@ -119,5 +119,5 @@ Kinds: `paper` · `company` · `forum` · `talk` · `code`
 
 ★ = high-signal for next-gen **prediction** (prefer these when updating [`docs/SURVEY.md`](../../docs/SURVEY.md) §5).
 
-See also: [reference guide](../README.md) · [`repos.md`](../repos.md) / [`products.md`](../products.md) (Tier A/B/C) · [`docs/CONFLICTS.md`](../../docs/CONFLICTS.md) · [`docs/SURVEY.md`](../../docs/SURVEY.md) §5.6.
+See also: [reference guide](../README.md) · [`repos.md`](../repos.md) / [`products.md`](../products.md) (Tier A/B/C) · [`docs/SURVEY.md`](../../docs/SURVEY.md) §6 (conflicts) · [`docs/SURVEY.md`](../../docs/SURVEY.md) §5.6.
 

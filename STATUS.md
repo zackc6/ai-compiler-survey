@@ -10,9 +10,9 @@ Last updated: **2026-08-04**
 | Future prediction §5 | Done | Four jobs; codesign; §5.5–5.6; **§5.7 commercialization** |
 | **Roadmap 2027–28 / ~5yr** | Done | folded into `docs/SURVEY.md` §5.5 |
 | **STACK reshape** | Done | folded into `docs/SURVEY.md` §5.6 |
-| Claims map | Done | `docs/CLAIMS.md` A/P/S/H |
-| Conflicts | Done | C1–C10 (+ coverage vs peak, codesign vs EDA) |
-| Survey narrative Q1–Q4 | Done (v3) | Gaps as blockers |
+| Claims map | Done | `docs/SURVEY.md` §7 (A/P/S/H) |
+| Conflicts | Done | `docs/SURVEY.md` §6 C1–C10 |
+| Survey narrative §0–§9 | Done (v3) | Single reading path; gaps as blockers |
 | **Reference store** | Done | `reference/` guide → publications / products / repos |
 | Publication digests | Done (v6) | **104** digests under `reference/publications/` |
 | Validate script | Done | `python3 scripts/validate_survey.py` |
@@ -44,6 +44,7 @@ Last updated: **2026-08-04**
 
 | Date | Change |
 |---|---|
+| 2026-08-04 | Consolidate docs into one reading path: fold TAXONOMY/SYSTEMS/CLAIMS/CONFLICTS/WORKFLOW (+ COMPARISON stub) into `docs/SURVEY.md` §0 / §1b / §6–§9; `docs/` = SURVEY + SETUP_GITHUB only |
 | 2026-08-04 | Fold STACK into SURVEY §5.6; drop circular SURVEY↔STACK pointers |
 | 2026-08-04 | Collect evidence under `reference/` (guide → publications / products / repos) |
 | 2026-08-04 | Fold ROADMAP into SURVEY §5.5; drop circular SURVEY↔ROADMAP pointers; remove self-repo name from PDF cover / setup notes |
@@ -68,6 +69,6 @@ Last updated: **2026-08-04**
 
 ## Next actions
 
-1. Watch C1/C2/C9 settlements; update CLAIMS / SURVEY §5.5; rebuild PDF after narrative edits.
+1. Watch C1/C2/C9 settlements; update SURVEY §6/§7 / §5.5; rebuild PDF after narrative edits.
 2. Prefer new Tier A codesign/agentic-compile sources; skip pure EDA.
 3. Deepen Wave E digests; keep `validate_survey.py` green.

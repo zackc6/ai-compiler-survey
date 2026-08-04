@@ -10,7 +10,7 @@ Lessons from turning a bibliography into a **prediction + roadmap + commercializ
 4. **Hybrid clarified for readers** — Data-plane parts *can* be agent-generated (Magellan C++, TritorX kernels) but must **admit then execute classically**. Concern is free IR/`opt` replacement (mlirAgent below-identity; C3/C6), not “agents never touch the data plane.”
 5. **Conflicts register** — Vendor headlines vs docs, Magellan vs MLGO, coverage vs peak, codesign vs autonomous chip. Settlement signals prevent false consensus.
 6. **Evidence tiers A/B/C** — Demote generic SCM AI; promote negative results as architecture bounds.
-7. **CLAIMS.md IDs** — Update the map without rewriting the whole narrative.
+7. **SURVEY §7 claim IDs** — Update the map without rewriting the whole narrative.
 8. **Thin narrative edits** — Digest → INDEX first; deepen SURVEY §5 only when claims move.
 9. **Org + Publisher on every digest** — Company/university/lab + venue/host; INDEX columns; validate requires fields; `apply_org_publisher.py` META map + rebuild for 7-column INDEX rows.
 10. **Vision lineage digests** — e.g. Compiler 2.0 (CC’20 → CGO’22 → Ken Kennedy 2026) + MOCHA funded path; SURVEY §1.5 vision map. Use **full paper titles** in INDEX (short names hid KernelEvolve).
@@ -30,9 +30,9 @@ Lessons from turning a bibliography into a **prediction + roadmap + commercializ
 | Digests without Evidence tier / Org | Require in template + validate day one |
 | Shortened INDEX titles | Always use full paper/talk names (discoverability) |
 | Secondary blogs as facts | Primary link rule; secondary = caveat / companion digest |
-| Growing Tier C “for completeness” | Explicit demotion in WORKFLOW |
+| Growing Tier C “for completeness” | Explicit demotion in SURVEY §9 |
 | HW scope creep into EDA | C10: kernels/IR/oracles only |
-| Headline speedups in SYSTEMS | Author-reported; prefer mechanisms |
+| Headline speedups in §8 systems gallery | Author-reported; prefer mechanisms |
 | §5.7 only architecture problems | Survey ops/business too (P9–P23); keep option+pros/cons+lean |
 | Forgetting PDF/visuals after narrative | Finish-batch: validate → pdf → visual → pptx → push |
 | `apply_org_publisher` INDEX regex stale | Support 7-column rows when regenerating Org/Publisher |
@@ -42,7 +42,7 @@ Lessons from turning a bibliography into a **prediction + roadmap + commercializ
 
 When expanding “how to ship the prediction”:
 
-1. Mine §4 gaps, CONFLICTS, Tier A digests (KernelEvolve, TritorX, CompileIQ, ACCLAIM, Magellan, GEAK, Archer, CCC), `reference/products.md`.
+1. Mine §4 gaps, SURVEY §6, Tier A digests (KernelEvolve, TritorX, CompileIQ, ACCLAIM, Magellan, GEAK, Archer, CCC), `reference/products.md`.
 2. For each problem: **options table + pros/cons + survey lean + “might be true” example**.
 3. Separate **architecture** (contract/memory/topology) from **ops** (eval/DR/A/B) from **business** (pricing/tenancy/IP).
 4. Resource envelope (tokens, inference latency, model capability) gets an explicit **verdict**: shapes SKU vs falsifies which product story.
@@ -59,8 +59,8 @@ When expanding “how to ship the prediction”:
 1. One-page future sketch + falsifiers first.
 2. SURVEY §5.5 (near + 5yr) and §5.6 layer table next.
 3. 10–15 Tier A digests only (Org/Publisher from day one).
-4. CONFLICTS for every disagreement that changes the sketch.
-5. CLAIMS map before the 30th digest.
+4. SURVEY §6 for every disagreement that changes the sketch.
+5. SURVEY §7 claims map before the 30th digest.
 6. §5.7 stub (contract, memory, freeze path, token budget) before claiming “commercial ready.”
 7. `validate_survey.py` + `build_pdf.py` + `build_visual.py` before Wave B of sources.
 

@@ -46,7 +46,7 @@ $takes
 
 ## Why it matters for this survey
 
-Mapped in ``docs/REPOS.md`` to SCM/review context and to gaps in ``docs/SURVEY.md`` §4. Prefer the primary link above when citing.
+Mapped in ``reference/repos.md`` to SCM/review context and to gaps in ``docs/SURVEY.md`` §4. Prefer the primary link above when citing.
 "@
   Set-Content -Path $path -Value $body -Encoding UTF8
 }

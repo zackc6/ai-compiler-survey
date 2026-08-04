@@ -27,4 +27,4 @@ Survey arguing kernels are the AI-performance bottleneck and that LLMs plus agen
 
 ## Why it matters for this survey
 
-Evidence for next-gen prediction and [`docs/CONFLICTS.md`](../docs/CONFLICTS.md). Prefer the primary link when citing.
+Evidence for next-gen prediction and [`docs/SURVEY.md`](../../docs/SURVEY.md) §6. Prefer the primary link when citing.

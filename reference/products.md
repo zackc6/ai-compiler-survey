@@ -2,7 +2,7 @@
 
 **Purpose:** Company offerings that inform **what next-gen compile will ship** and **how agents enter production** — not a full SKU catalog.
 
-Companion: [`../docs/SURVEY.md`](../docs/SURVEY.md) §5 · [`../docs/CONFLICTS.md`](../docs/CONFLICTS.md) · [`repos.md`](repos.md) · [guide](../reference/README.md)
+Companion: [`../docs/SURVEY.md`](../docs/SURVEY.md) §5 · [`../docs/SURVEY.md`](../docs/SURVEY.md) §6 · [`repos.md`](repos.md) · [guide](README.md)
 
 ---
 

@@ -1,25 +1,96 @@
-# Next-Gen AI Compiler Survey (expanded)
+# Next-Gen AI Compiler Survey
 
-**Last updated:** 2026-08-04 (roadmap §5.5 + stack §5.6 folded in)  
-**Companion digests:** [`../reference/publications/`](../reference/publications/)  
-**Status:** [`../STATUS.md`](../STATUS.md)  
-**Conflicts:** [`CONFLICTS.md`](CONFLICTS.md) · **Reference:** [`../reference/README.md`](../reference/README.md) ([publications](../reference/publications/) · [products](../reference/products.md) · [repos](../reference/repos.md))
+**Last updated:** 2026-08-04 (docs integrated into one reading path)  
+**Evidence store:** [`../reference/README.md`](../reference/README.md) → publications · products · repos  
+**Status:** [`../STATUS.md`](../STATUS.md)
+
+**How to read (smooth path).**  
+1. **§0** north star + vocabulary → **§1–§1b** trends → **§2–§3** mechanisms → **§4** gaps → **§5** prediction (architecture, roadmap, stack, commercial).  
+2. When sources disagree → **§6 Conflicts**. Claim IDs → **§7**. System snapshot → **§8**.  
+3. Digests / SKUs / forges stay under [`reference/`](../reference/README.md) so the narrative does not become a catalog.  
+4. Maintainers: **§9** add-source loop; `python3 scripts/validate_survey.py`.
+
+**One-page success check:** (1) Predicted agentic compiler? → §5.1 / §5.5. (2) Four jobs + stack? → §5.1 / §5.6. (3) Evidence vs noise? → Tier A vs C + §6. (4) Commercial blockers? → §5.7.
 
 ---
 
-## 0.1 North star
+## 0. North star and vocabulary
+
+### 0.1 Primary goal
 
 **Primary goal:** Predict the **next-generation agentic compiler** (architecture + process through ~2027–28 and ~5 years), including how it reshapes the **software stack** and **HW–SW codesign** — without drifting into general EDA.
 
-Everything else (papers, GitHub/Gerrit, commercial SKUs, forums, ASIC bring-up studies) is **evidence** for that prediction—not a catalog for its own sake. When sources disagree, they go in [`CONFLICTS.md`](CONFLICTS.md) rather than being silently averaged.
+Everything else (papers, GitHub/Gerrit, commercial SKUs, forums, ASIC bring-up studies) is **evidence** for that prediction—not a catalog for its own sake. When sources disagree, they go in [§6 Conflicts](#6-conflicts-keep-unresolved-until-evidence-settles) rather than being silently averaged.
 
 **Executive verdict.** Compilation is shifting from **fixed pass pipelines + black-box autotuning** toward **hybrid LLM–compiler loops**. Empirically, the winning pattern is:
 
 > **Agents own semantic search, orchestration, and artifact synthesis. Compilers own lowering, legality, measurement, and fallback.**
 
-Agents reshape the **control plane** more than they replace the **data plane**. A fourth job — **accelerator bring-up / codesign feedback** on sim+silicon — is now Tier A evidence (TritorX, KernelEvolve), still centered on kernels/IR/oracles. See [§5](#5-future-prediction-what-next-gen-looks-like) (architecture §5.1, roadmap §5.5, stack §5.6), [§6](#6-conflicts-pointer), [§4](#4-whats-missing--under-covered-q4).
+Agents reshape the **control plane** more than they replace the **data plane**. A fourth job — **accelerator bring-up / codesign feedback** on sim+silicon — is now Tier A evidence (TritorX, KernelEvolve), still centered on kernels/IR/oracles. See [§5](#5-future-prediction-what-next-gen-looks-like) (architecture §5.1, roadmap §5.5, stack §5.6), [§6](#6-conflicts-keep-unresolved-until-evidence-settles), [§4](#4-whats-missing--under-covered-q4).
 
 **Sub-agent substrate (in scope).** Multi-agent **workflow compilers**, **AGI compilers** that freeze agent graphs into deployable artifacts, **static analysis of agent DAGs**, and **heterogeneous agent serving** are first-class evidence for how the control plane is built, secured, and productized—not side topics. Digests: [Auto](../reference/publications/auto-agi-compiler.md), [FlowCompile](../reference/publications/flowcompile.md), [AgentFlow](../reference/publications/agentflow.md), [Heterogeneous agentic AI](../reference/publications/agentic-ai-hetero-systems.md).
+
+### 0.2 Vocabulary and taxonomy
+
+#### Two meanings of “AI compiler”
+
+| Sense | Meaning | Examples |
+|---|---|---|
+| **Compilers for AI** | Systems that lower neural graphs to accelerators | TVM, XLA/OpenXLA, MLIR dialects, TorchInductor→Triton, IREE, TensorRT |
+| **AI for compilers** | LLMs/agents that choose passes, rewrite IR, write heuristics/kernels | Meta LLM Compiler, Compiler-R1, Magellan, GEAK, HintPilot |
+
+This survey treats **next-gen** as their **merger**: agents on the control plane, compilers on the data plane.
+
+#### LLM role taxonomy (New Compiler Stack, 2026)
+
+From *The New Compiler Stack: A Survey on the Synergy of LLMs and Compilers* (arXiv:2601.02045):
+
+1. **Selector** — choose among predefined compiler actions or candidates (pass lists, schedule moves, CUDA template families).
+2. **Translator** — rewrite source / IR / assembly (highest correctness risk unless gated).
+3. **Generator** — synthesize new compiler artifacts (heuristics in C++, kernels, tools, datasets).
+
+Most strong 2025–26 systems are **Selectors or Generators wrapped in hybrid validation**, not free-form Translators alone.
+
+#### Agent roles in the compile loop
+
+| Role | Job | Examples |
+|---|---|---|
+| Advisor / Selector | Rank candidates, label regions, suggest passes | AgentCompile, Meta LLM Compiler, AutoPass |
+| Translator / rewriter | Source/IR/asm rewrite or hint insertion | ACCLAIM, HintPilot, LLM-VeriOpt |
+| Artifact Generator | Heuristics, kernels, MCP tools | Magellan, GEAK, mlirAgent |
+| Orchestrator | Budget, IR level, stop conditions | ACCLAIM guide agent, GEAK directors |
+| Tester / critic | Tests, Alive2, profiles, refine prompts | ACCLAIM test agent, Generative Compilation |
+| Search partner | Propose nodes for MCTS / evolution | Reasoning Compiler, AlphaEvolve |
+| Bring-up / codesign | Coverage→perf on sim+silicon; ISA/IR feedback | TritorX, KernelEvolve, Ascend diagnosis, KForge |
+
+#### Classical AI compiler stack (substrate)
+
+```text
+Framework capture     torch.compile / Dynamo, JAX, TF graphs
+        ↓
+Portable HLO          StableHLO (TF/JAX/PyTorch ↔ XLA/IREE)
+        ↓
+MLIR dialects         multi-level lowers, rewrites, vendor dialects
+        ↓
+Schedule / kernels    TVM MetaSchedule, Inductor→Triton, CUDA Tile IR, CUTLASS
+        ↓
+Serving runtime       vLLM, FlashAttention, CUDA Graphs, decode paths
+        ↓
+CPU / legacy IR       LLVM opt pipelines, PGO / AutoFDO, MLGO advisors
+```
+
+#### Canonical hybrid loop
+
+```text
+Capture → Analyze regions → Agent proposes
+        → Compiler checks & lowers
+        → Verify / test (empirical or formal)
+        → Benchmark / select
+        → Feedback to orchestrator
+        → Fallback if unprofitable
+```
+
+**Invariant:** LLM outputs guide search; they should not silently define unchecked executable behavior.
 
 ---
 
@@ -214,7 +285,18 @@ Anti-pattern
 
 ### 2.2 Closed loop (canonical)
 
-See [`TAXONOMY.md`](TAXONOMY.md). Variants:
+The hybrid loop from [§0.2](#02-vocabulary-and-taxonomy):
+
+```text
+Capture → Analyze regions → Agent proposes
+        → Compiler checks & lowers
+        → Verify / test (empirical or formal)
+        → Benchmark / select
+        → Feedback to orchestrator
+        → Fallback if unprofitable
+```
+
+Variants:
 
 | Variant | Twist |
 |---|---|
@@ -516,7 +598,7 @@ with fixed hardware profiles, reference docks, and leaderboards that separate **
 
 ## 5. Future prediction (what next-gen looks like)
 
-Falsifiable sketch for **~2027–2028**, conditioned on conflicts in [`CONFLICTS.md`](CONFLICTS.md).
+Falsifiable sketch for **~2027–2028**, conditioned on conflicts in [§6](#6-conflicts-keep-unresolved-until-evidence-settles).
 
 ### 5.1 Architecture
 
@@ -746,7 +828,7 @@ Update when CONFLICTS settle or new Tier A codesign evidence lands.
 
 ### 5.6 Stack reshape (SW + HW codesign)
 
-**Focus:** not “AI software in general,” but how an **agentic compiler** changes layers from framework UX down to silicon feedback. Architecture target: [§5.1](#51-architecture). Horizons: [§5.5](#55-roadmap--horizon-a-202728-and-horizon-b-202931). Claim IDs: [`CLAIMS.md`](CLAIMS.md).
+**Focus:** not “AI software in general,” but how an **agentic compiler** changes layers from framework UX down to silicon feedback. Architecture target: [§5.1](#51-architecture). Horizons: [§5.5](#55-roadmap--horizon-a-202728-and-horizon-b-202931). Claim IDs: [§7](#7-prediction-claims--evidence).
 
 #### 5.6.1 Layer map (today → agentic)
 
@@ -1171,25 +1253,302 @@ Adjacent agent-production work stresses **deterministic boundaries** and moving 
 
 ---
 
-## 6. Conflicts (pointer)
+## 6. Conflicts (keep unresolved until evidence settles)
 
-Search results often disagree (vendor headlines vs docs, Magellan vs MLGO, free rewrite vs advisory-only, Triton vs Tile, online vs offline agents, coverage vs peak bring-up, compiler codesign vs autonomous EDA). **Do not collapse these into a false consensus.**
+This section records **disagreements across papers, vendor blogs, OSS repos, and forums** that matter for predicting the next-generation AI compiler and how agents change that future. We do **not** force a premature resolution; each conflict states both sides, why it matters for the prediction, and what would settle it.
 
-→ Full write-up: [`CONFLICTS.md`](CONFLICTS.md) (C1–C10).
+Evidence maps: [`../reference/products.md`](../reference/products.md) · [`../reference/repos.md`](../reference/repos.md).
 
-Working stance used in §5: hybrid control/data plane; Magellan and MLGO as parallel bets; discount single-number speedups; constrain actions until oracles prove free rewrite; demote generic SCM AI as Tier C; codesign via coverage→perf agent ladder (**C9**), not autonomous chip design (**C10**).
+This page records **disagreements across papers, vendor blogs, OSS repos, and forums** that matter for predicting the next-generation AI compiler and how agents change that future. We do **not** force a premature resolution; each conflict states both sides, why it matters for the prediction, and what would settle it.
 
 ---
 
-## 7. How to read this repo
+### How to read a conflict row
 
-1. Skim **§0.1 North star**, **§5 Future prediction** (architecture §5.1, roadmap §5.5, stack §5.6).
-2. If shipping commercially: read **§5.7** (P1–P22: contract, memory, eval, pricing, tenancy, IP, DR, …).
-3. Check [`CLAIMS.md`](CLAIMS.md); read [`CONFLICTS.md`](CONFLICTS.md) when two sources disagree.
-4. Use [`SYSTEMS.md`](SYSTEMS.md) for concrete systems.
-5. Use [`../reference/README.md`](../reference/README.md) → publications / products / repos as **Tier A/B/C evidence**, not forge/SKU catalogs.
-6. Use [`../reference/publications/INDEX.md`](../reference/publications/INDEX.md) (prefer ★ — ACCLAIM, Magellan, TritorX, KernelEvolve, Kernel*, CompileIQ, Archer).
-7. Contribute via [`WORKFLOW.md`](WORKFLOW.md); validate with `python3 scripts/validate_survey.py`.
-8. Track progress in [`../STATUS.md`](../STATUS.md).
+| Field | Meaning |
+|---|---|
+| **Claim A / Claim B** | Competing readings from primary sources |
+| **Why it matters** | How the winner changes the next-gen compiler sketch |
+| **Settlement signal** | What evidence would decide it |
 
-**One-page success check:** (1) Predicted agentic compiler? → §5.1 / §5.5. (2) Four agent jobs including codesign bring-up? → §5.1 / §5.6. (3) Evidence vs noise? → Tier A vs C. (4) Commercial blockers? → §5.7.
+---
+
+### C1 — Evolve shippable C++ heuristics vs embed neural advisors (Magellan vs MLGO)
+
+| Side | Sources | Position |
+|---|---|---|
+| **A — Synthesize readable heuristics** | Magellan paper/slides; AlphaEvolve lineage; OpenEvolve | Agents rewrite **EVOLVE-BLOCK** C++ inside LLVM/XLA; ship like human passes; Magellan claims inlining beats decades of manual work; slides hope to leapfrog NN policies |
+| **B — Keep/improve neural MLGO** | LLVM Discourse EmitC RFC; IR2Vec+MLGO RFC; ongoing MLGO meetings (2026) | Production Chrome/Android/Fuchsia still invest in **in-tree NN advisors**; EmitC/TOSA path removes TF build deps so neural policies stay deployable |
+
+**Why it matters.** If A wins, the next-gen control plane is an **offline evolutionary coding agent** whose output is ordinary compiler source. If B wins, the data plane keeps **learned policies** as first-class runtime advisors, and agents mainly help *train/feature* those NNs.
+
+**Settlement signal.** Public Magellan heuristics land in llvm-project *and* displace MLGO on the same size/perf apps; or EmitC-MLGO becomes the default path for Android/Chrome while Magellan stays Google-internal.
+
+---
+
+### C2 — Vendor “production agent” wins vs sober benchmark ceilings
+
+| Side | Sources | Position |
+|---|---|---|
+| **A — Strong commercial wins** | NVIDIA CompileIQ blog (Meta up to ~15% on TritonBench/Helion); AMD GEAK v3 blogs (repo-level HIP/Triton/FlyDSL); AlphaEvolve Cloud GA | Agent/autotune control planes already deliver meaningful production speedups |
+| **B — Hard ceilings & regressions** | CompileIQ docs (often **2–3%** on highly optimized kernels); KernelBench / KernelBench-X (many correct kernels slower than eager; refine↑correctness can ↓avg speedup; fusion hard) | Headline speedups are workload-selected; iterative agents can chase correctness at the cost of performance |
+
+**Why it matters.** Prediction of “agents become default compile” needs median/CI wins, not only cherry-picked kernels. Overclaiming delays investment in oracles and traces (§4.2–4.3).
+
+**Settlement signal.** Reproducible public ACF/kernel agent traces with fixed compiler versions, reporting **distribution** (p50/p90) not only best case; KernelBench-X-style fusion suites remain unsolved or get solved.
+
+---
+
+### C3 — LLMs rewrite IR/code freely vs must stay advisory
+
+| Side | Sources | Position |
+|---|---|---|
+| **A — Multi-level LLM rewrite works with tests** | ACCLAIM (compiler–LLM cooperation); GEAK generate–eval–reflect; KernelAgent | Guiding agents interleave LLM rewrites with compiler tools; tests/profiles admit candidates; speedups reported |
+| **B — Direct IR transform fails** | mlirAgent (frontier models **below identity** on IR transforms); HintPilot/AgentCompile design (hints/templates only) | Unconstrained IR rewrite is unsafe/weak; successful systems **constrain** the action space |
+
+**Why it matters.** Next-gen architecture either exposes a **wide rewrite API** (with strong oracles) or a **narrow advisory API** (hints, knob ACFs, heuristic blocks). These are different products.
+
+**Settlement signal.** Shared agent IR contract + oracle suite where free rewrite consistently beats constrained advisors on correctness×perf; or industry standardizes on advisory-only admit gates.
+
+---
+
+### C4 — Kernel DSL future: Triton vs CUDA Tile (and friends)
+
+| Side | Sources | Position |
+|---|---|---|
+| **A — Triton remains the agent surface** | Inductor default path; KernelBench; KernelLLM; GEAK Triton path; awesome-LLM-driven-kernel-generation catalog | Ecosystem, benchmarks, and agents already converge on Triton |
+| **B — Tile / CuTe / HIP / FlyDSL fragment the surface** | NVIDIA CUDA Tile + CompileIQ; TRT-LLM Claude agents for CuTe/TileIR/Triton/CUDA; GEAK multi-language (HIP, FlyDSL, TileLang) | Vendors push hardware-native tile IRs; agents must become multi-DSL or lose peak |
+
+**Why it matters.** Training data, tool APIs, and “one agent IR” bets succeed or fail with this choice (§4.4, §4.7).
+
+**Settlement signal.** One DSL becomes the dominant *agent training* corpus; or a portable tile IR wins; or multi-DSL agents (TRT-LLM skills pattern) become the norm.
+
+---
+
+### C5 — Online compile-time agents vs offline compiler-engineering agents
+
+| Side | Sources | Position |
+|---|---|---|
+| **A — Online (in the compile/serve loop)** | CompileIQ ACFs; HintPilot; AgentCompile; GEAK on serving stacks; AlphaEvolve Cloud for algo search | Users pay tokens/GPU at optimize time; artifacts are configs/kernels per workload |
+| **B — Offline (change the compiler once)** | Magellan; MLGO training; Archer PR review; Anthropic Claude C Compiler | Agents change **source of the compiler** or review PRs; users get classical `-O3`/`opt` afterward |
+
+**Why it matters.** These are two different “agent futures.” A hybrid org may need both, but roadmaps and cost models differ.
+
+**Settlement signal.** Which path shows up as the *default* flag or CI job in PyTorch/LLVM/CUDA release notes over 12–24 months.
+
+---
+
+### C6 — Agents replace compilers vs agents are the control plane
+
+| Side | Sources | Position |
+|---|---|---|
+| **A — Agents can build/replace large compiler surfaces** | Anthropic CCC (~100kLoC Rust compiler); some HN/forum optimism | Agent teams author compilers; classical eng bottleneck shrinks |
+| **B — Hybrid control/data plane is the durable pattern** | New Compiler Stack survey; mlirAgent limits; ACCLAIM cooperation framing; vendor stacks still ship TRT-LLM/Inductor/XLA | Data plane (lowering, legality, measure) stays classical; agents search/synthesize/advise |
+
+**Why it matters.** Our survey’s executive verdict bets on **B**. A would rewrite goals toward “agent-authored compilers” as the primary object.
+
+**Settlement signal.** A production AI stack whose *default* lowering path is agent-generated without a classical admit/fallback compiler underneath—not a research demo.
+
+---
+
+### C7 — Generic SCM AI review vs compiler-oracle review
+
+| Side | Sources | Position |
+|---|---|---|
+| **A — Forge AI is enough** | Gerrit ai-code-review / ReviewAI / native AI chat; generic GitHub PR bots | Put LLM on the diff; scale human review |
+| **B — Compiler-specialized tools required** | Archer (Alive2/LLUBI/`opt`); LLVM Discourse agent-PR experience | Miscompiles need domain oracles; generic review is HITL UX only |
+
+**Why it matters for *this* survey.** Generic Gerrit plugins are **weak evidence** for next-gen *compilers*; Archer-class tools are strong. Cataloguing forge plugins without oracles misaligns with the prediction goal.
+
+**Settlement signal.** A Gerrit/GitHub bot that blocks merge on failed Alive2/KernelBench-class checks becomes default in llvm-project or a major AI compiler.
+
+---
+
+### C8 — “AI compiler” means DL graph compilers vs LLM-for-LLVM
+
+| Side | Sources | Position |
+|---|---|---|
+| **A — Compilers for AI models** | TVM/XLA/Inductor/TRT-LLM/OpenVINO product docs | Next-gen = better graph→device stacks (Tile, StableHLO, Neuron NKI) |
+| **B — AI for compilers** | Magellan, LLM Compiler, Compiler-R1, Archer | Next-gen = agents inside LLVM/XLA/kernel eng |
+
+**Why it matters.** Commercial catalogs over-weight A; research catalogs over-weight B. Prediction must keep **both stacks converging**, with agents as the cross-cut—not pick one catalog.
+
+**Settlement signal.** (Already partially here.) Products that expose agent APIs *on* DL compilers (CompileIQ, GEAK, Magellan→XLA) are the convergence proofs.
+
+---
+
+### C9 — Coverage-first bring-up agents vs peak-performance kernel agents
+
+| Side | Sources | Position |
+|---|---|---|
+| **A — Coverage unlocks the device** | TritorX (481 ATen ops, OpInfo, MTIA sim+silicon); KForge on Intel Arc | New ASICs need *any correct* backend before peak kernels; agents should maximize operator coverage first |
+| **B — Perf agents are the product** | KernelEvolve, GEAK, AutoKernel, KernelBench `fast_p` | Without speedups vs eager/libraries, agentic compile does not pay TCO; coverage-only backends still lose to NVIDIA stacks |
+
+**Why it matters.** The agentic-compiler roadmap needs a **ladder** (coverage → perf) vs a single objective. Codesign programs that only optimize HotGEMM will strand models; programs that only chase OpInfo will never win serving.
+
+**Settlement signal.** Public playbooks that sequence TritorX-class coverage then KernelEvolve-class perf on the same ASIC, with serving metrics — or one objective dominates release criteria industry-wide.
+
+---
+
+### C10 — Agentic compiler codesign feedback vs autonomous chip design
+
+| Side | Sources | Position |
+|---|---|---|
+| **A — Agents co-design silicon** | Broad “AI for chip design” narratives; optimism from sim bring-up | LLMs will propose ISA/microarch with compilers in the loop end-to-end |
+| **B — Agents stress toolchains; humans/EDA own tape-out** | TritorX/KernelEvolve actual scope (kernels, dialects, tests, profilers); this survey’s §5.5 roadmap | Agentic *compilers* shorten SW TTM and file ISA/IR pain reports; autonomous tape-out is a different field |
+
+**Why it matters.** Keeps survey focused on the **target agentic compiler**. HW is in scope only when it closes the loop through kernels/IR/oracles.
+
+**Settlement signal.** A production chip whose microarchitecture was primarily agent-proposed *and* validated via agentic compile oracles — not merely agent-written RTL fragments without compiler admit.
+
+---
+
+### Working stance for this survey (until settlement)
+
+1. Prefer **hybrid control/data plane** (C6-B) as the prediction baseline.
+2. Treat Magellan-style **heuristic synthesis** and MLGO **neural advisors** as **parallel production bets** (C1 unresolved).
+3. Discount single-number vendor speedups without distribution/oracle context (C2).
+4. Assume **constrained actions + strong oracles** until free rewrite proves itself (C3).
+5. Demote generic SCM AI plugins to Tier C evidence (C7).
+6. Keep DL-compiler products as **Tier B baselines**, not as the definition of next-gen (C8).
+7. Codesign via **coverage→perf agent ladder** on sim+silicon (C9); do **not** expand into autonomous EDA (C10-B).
+
+Update this section when a conflict gains a decisive public settlement.
+
+
+---
+
+## 7. Prediction claims ↔ evidence
+
+Living map from falsifiable claims to digests. Update when evidence moves status.
+
+Status: **Supported** · **Contested** · **Watch** · **Falsified**
+
+### Architecture (agentic compiler)
+
+| ID | Claim | Status | Best evidence | Conflicts |
+|---|---|---|---|---|
+| A1 | Agents own search/orchestration/synthesis; compilers own lowering, legality, measure, fallback | Supported | ACCLAIM, AgentCompile, HintPilot, mlirAgent (negative) | C3, C6 |
+| A2 | Four agent jobs stick: (a) online, (b) offline heuristics, (c) engineering/review, (d) bring-up/codesign | Supported | (a) CompileIQ/GEAK/AutoKernel; (b) Magellan; (c) Archer; (d) TritorX/KernelEvolve | C5, C9 |
+| A3 | ACFs, evolved heuristics, verified kernels, optimization memory, bring-up corpora become first-class artifacts | Supported | CompileIQ, Magellan, KernelBlaster, TritorX | — |
+| A4 | Defaults stay classical until agents win on *distributions* in CI | Contested | Vendor blogs vs CompileIQ 2–3% docs, KernelBench-X | C2 |
+| A5 | Unconstrained LLM will not replace `opt`/Inductor soon | Supported | mlirAgent; hybrid Tier A dominance | C3, C6 |
+
+### Process & stack
+
+| ID | Claim | Status | Best evidence | Conflicts |
+|---|---|---|---|---|
+| P1 | Offline heuristic synthesis and MLGO neural advisors remain parallel bets through 2028 | Contested | Magellan vs EmitC-MLGO | **C1** |
+| P2 | Multi-DSL / multi-vendor agent skills become normal | Watch | KForge, GEAK v3, TRT-LLM agents, Helion+CompileIQ | **C4** |
+| P3 | Compiler-oracle review beats generic forge AI for opt PRs | Supported (direction) | Archer; Tier C demoted | **C7** |
+| S1 | Stack reshape is control-plane agentic over classical data plane | Supported | SURVEY §5.6 · A1 | C6 |
+| S4 | Custom ASIC TTM increasingly gated by agentic bring-up | Supported (industrial) | TritorX, KernelEvolve | **C9** |
+| S5 | Profilers/compiler internals become agent APIs | Watch | KernelEvolve MPP, Ascend hierarchical diagnosis | C3 |
+
+### Codesign (still agentic-compiler-centric)
+
+| ID | Claim | Status | Best evidence | Conflicts |
+|---|---|---|---|---|
+| H1 | Pre-silicon sim + agents provide compiler/ISA feedback before tape-out | Supported (early) | TritorX QEMU future devices | C9, C10 |
+| H2 | Coverage-first agents then perf agents is the bring-up ladder | Supported | TritorX → KernelEvolve | **C9** |
+| H3 | Agents will not autonomously tape out chips by ~2031; they stress compilers/ISAs | Supported (prediction) | Scope of TritorX/KernelEvolve (kernels/toolchains) | **C10** |
+
+---
+
+### Settlement watch
+
+| Signal | Moves | Digests |
+|---|---|---|
+| Public Magellan llvm + OpenEvolve recipes | C1 | magellan, openevolve |
+| EmitC-MLGO default on Android/Chrome | C1 | mlgo-emitc-rfc |
+| p50/p90 public ACF/kernel traces | C2 | compileiq-*, kernelbench-x |
+| Second non-Meta ASIC reproduces TritorX-class coverage | C9 | tritorx |
+| Agent IR contract where free rewrite beats advisors | C3 | acclaim vs hintpilot/agentcompile |
+| MOCHA / Compiler 2.0 OSS + verified rewrite evals | A1, H1, S4 | compiler-2.0-mocha-aarno, compiler-2.0-cgo2026 |
+
+
+---
+
+## 8. Systems gallery
+
+Snapshot of representative systems. Numbers are **as reported by authors**; cross-benchmark comparison is not apples-to-apples. Prefer mechanisms over headline speedups when choosing architecture.
+
+| System | Layer | Agent shape | Correctness gate | Headline | Venue / source |
+|---|---|---|---|---|---|
+| Meta LLM Compiler | LLVM IR / asm | Foundation model | Compiler applies passes | ~77% of autotune size potential | CC 2025 |
+| Compiler-R1 | LLVM pass order | Single agent + tools + RL | opt + IR instr count | ~8.5% IR size vs -Oz avg | NeurIPS 2025 |
+| LLM-VeriOpt | LLVM IR peephole | Trained small model | Alive2 equivalence | ~90% verifiably correct | CGO 2026 |
+| Magellan | Heuristics (C++) | Coding agent + AlphaEvolve | Compile + macro-benches | Beats decades of inlining heuristics | C4ML@CGO’26 / LLVM DevMtg |
+| AwareCompiler | Pass sequences | Multi-turn agent–env | Compile/run rewards | Knowledge bridges features↔passes | arXiv 2025 |
+| AutoPass | Pass / flags | Multi-agent, inference-only | Compile + profile evidence | Practical budgets, no offline RL | arXiv 2026 |
+| HintPilot | Source pragmas | Iterative RAG refine | Compiler validates hints + tests | Up to 6.88× geo-mean vs -Ofast | ACL Findings 2026 |
+| ACCLAIM | C / asm multi-level | Guide + level + test agents | LLM tests + compile | Up to 1.25× over compilers alone | arXiv 2026 |
+| Reasoning Compiler | TVM schedules | LLM proposals + MCTS | TVM compile/measure | Sample-efficient vs MetaSchedule | NeurIPS 2025 |
+| AgentCompile | CUDA inference | Advisor in bounded search | Template CUDA + checks + bench | ~4–5.7× vs eager (small LLMs) | arXiv 2026 |
+| GEAK | Triton / AMD GPU | Gen/eval/reflect/optim | Unit tests + timing | Up to 63% exec acc; ~2.59× | AMD / arXiv 2025 |
+| KernelLLM | PyTorch→Triton | Specialized 8B model | KernelBench-Triton | Strong Pass@k vs larger general LLMs | Meta HF 2025 |
+| mlirAgent | MLIR / LLVM | Tool-using agents (MCP) | Pass tracking + benches | LLMs weak at direct IR rewrite | UCB BAR |
+| Generative Compilation | Rust frontend | In-decoding feedback | Sealor + rustc | Compiler active during generation | arXiv 2026 |
+| Compiler.next | FMware / intent | SE 3.0 vision | Multi-objective quality gates | Compile prompts/agents/params | arXiv 2025 |
+| NVIDIA CompileIQ | NVCC/PTXAS knobs | Evolutionary search | Measure on real kernels | ≤15% on hot Triton/CUTLASS kernels | CUDA 13.3 blogs |
+| MLGO | LLVM heuristics | RL policies in-tree | Compiler semantics | Prod inlining/regalloc | Google / LLVM |
+| KernelBench | Eval harness | N/A (benchmark) | Correct + fast_p | Frontier <20% one-shot typical | ICML 2025 |
+| TritorX | PyTorch ATen / Triton-MTIA | FSM agent bring-up | OpInfo + model ops | 481 ops; ~84% pass; sim+silicon | MLSys 2026 |
+| KernelEvolve | Triton (+TLX) multi-HW | Graph search + HW RAG | TritonBench + federated profilers | Hetero NVIDIA/AMD/MTIA prod | Meta 2025/26 |
+| KForge | Multi-DSL / multi-vendor | Gen ↔ perf-analysis agents | Compile + correct + profile | +2.12% vs TRT-LLM; 5.13× on Arc L2 | arXiv 2026 |
+| AutoKernel | Triton/CUDA on PyTorch models | Keep/revert agent loop | 5-stage harness | Beats eager & torch.compile on hot ops | arXiv 2026 |
+| Ascend hierarchical diagnosis | Triton-NPU | Escalating compiler-grounded agents | Profile → IR → compiler source | 4.35× geo-mean on 37 ops | arXiv 2026 |
+| Helion | PyTorch→Triton DSL | Autotune (not LLM) | Config search | Geomean > compile/Triton on reported suites | PyTorch 2025 |
+
+### Online vs offline agents
+
+| Mode | When it runs | Typical artifact | Examples |
+|---|---|---|---|
+| **Online** | At compile / specialize time for a program or model | Pass list, hints, kernel choice, ACF knobs | HintPilot, AgentCompile, CompileIQ, Compiler-R1 inference |
+| **Offline** | Compiler engineering / model training | C++ heuristics, foundation weights, datasets | Magellan, Meta LLM Compiler training, MLGO training |
+
+### Related engineering experiments (adjacent)
+
+| Work | Why it matters to this survey |
+|---|---|
+| Anthropic Claude C Compiler | Agents as *compiler writers*; harness + tests dominate |
+| LLVM agent PR review Discourse thread | Compiler-specific tools >> generic SWE agents for opt review |
+
+
+---
+
+## 9. How to update this survey
+
+Prediction-first loop aimed at the **future agentic compiler** (SW stack + HW codesign feedback). Digests are evidence.
+
+### Decision tree
+
+```text
+New source
+  ├─ Reshapes agentic compile / heuristics / kernels / oracles / ASIC bring-up?
+  │     YES → Tier A (or B if substrate only: Helion, StableHLO, llvm-project)
+  │     NO  → skip or Tier C one-liner
+  ├─ Pure EDA/RTL LLM with no kernel/IR/oracle loop?
+  │     YES → out of scope (unless it feeds compiler codesign claims H*)
+  ├─ Conflicts with §6 / §7 claims?
+  │     YES → update §6 Conflicts first (never average)
+  └─ Moves SURVEY §5?
+        YES → §7 Claims + narrative; else digest+INDEX+STATUS only
+```
+
+### Add-source order
+
+1. Tier A/B/C  
+2. Digest from `reference/publications/_TEMPLATE.md` (create if missing; fill **Org** + **Publisher**)  
+3. INDEX row with Org/Publisher columns (★ only for prediction-critical)  
+4. §6 Conflicts if disagreeing  
+5. §7 Claims if prediction moves  
+6. Thin touch to SURVEY §5  
+7. `reference/repos.md` / `reference/products.md` / §8 Systems if mechanism new  
+8. STATUS changelog  
+9. `python3 scripts/validate_survey.py`
+
+### Depth
+
+Stub → digest → deep (PDF) before changing SURVEY §5.5 horizons.
+

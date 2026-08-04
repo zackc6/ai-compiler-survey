@@ -2,7 +2,7 @@
 
 **Purpose:** Map GitHub / Gerrit / googlesource artifacts to the survey **prediction** (next-gen compiler + how agents change the future). This is **not** an exhaustive forge catalog.
 
-Companion: [`../docs/SURVEY.md`](../docs/SURVEY.md) §5 · [`../docs/CONFLICTS.md`](../docs/CONFLICTS.md) · [`products.md`](products.md) · [guide](../reference/README.md)
+Companion: [`../docs/SURVEY.md`](../docs/SURVEY.md) §5 · [`../docs/SURVEY.md`](../docs/SURVEY.md) §6 · [`products.md`](products.md) · [guide](README.md)
 
 ---
 

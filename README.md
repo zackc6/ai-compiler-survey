@@ -7,7 +7,7 @@ Living survey aimed at **predicting the next-generation agentic compiler** (~202
 1. **Predict the agentic compiler** — Hybrid agent control plane + classical data plane; four jobs (online specialize, offline heuristic synthesis, oracle engineering, bring-up/codesign).
 2. **Roadmap inside the narrative** — Near (2027–28) and ~5-year horizons live in [`docs/SURVEY.md`](docs/SURVEY.md) §5.5 (with architecture in §5.1).
 3. **Stack reshape** — Layer map (framework → DSL → IR → oracles → silicon feedback) in [`docs/SURVEY.md`](docs/SURVEY.md) §5.6.
-4. **Answer Q1–Q4** plus comparison + conflicts ([`docs/CONFLICTS.md`](docs/CONFLICTS.md) C1–C10).
+4. **Answer Q1–Q4** plus comparison (§1b) and conflicts ([`docs/SURVEY.md`](docs/SURVEY.md) §6, C1–C10).
 5. **Reference evidence** — [`reference/`](reference/) guide → publications / products / repos.
 6. **Publish** — [`publish/`](publish/) English PDF + decks + **diagram visuals**:
    [`PDF`](publish/out/next-gen-ai-compiler-survey.pdf) ·
@@ -23,11 +23,8 @@ Living survey aimed at **predicting the next-generation agentic compiler** (~202
 README.md                 # Goals and entry point
 STATUS.md                 # Living status tracker
 docs/
-  SURVEY.md               # Narrative: Q1–Q4, §5 prediction + roadmap + stack
-  CLAIMS.md               # Falsifiable claims ↔ digests
-  CONFLICTS.md            # C1–C10 disagreements
-  WORKFLOW.md             # How to add evidence
-  SYSTEMS.md / TAXONOMY.md
+  SURVEY.md               # Single reading path §0–§9
+  SETUP_GITHUB.md         # Maintainer git/GitHub notes
 reference/
   README.md               # Entry guide → publications / products / repos
   publications/           # Digests + INDEX + template
@@ -42,16 +39,15 @@ scripts/validate_survey.py
 
 ## Quick start
 
-1. [`docs/SURVEY.md`](docs/SURVEY.md) §0.1 + §5 (architecture §5.1, roadmap §5.5, stack §5.6, commercial §5.7).
-2. [`docs/CLAIMS.md`](docs/CLAIMS.md) / [`docs/CONFLICTS.md`](docs/CONFLICTS.md) when sources disagree.
-3. [`reference/README.md`](reference/README.md) → ★ digests in [`reference/publications/INDEX.md`](reference/publications/INDEX.md).
-4. Contribute via [`docs/WORKFLOW.md`](docs/WORKFLOW.md); `python3 scripts/validate_survey.py`.
-5. Export: `python3 publish/build_pdf.py && python3 publish/build_pptx.py && python3 publish/build_visual.py`.
+1. Read [`docs/SURVEY.md`](docs/SURVEY.md) end-to-end (§0 → §9).
+2. Open [`reference/README.md`](reference/README.md) → ★ digests in [`reference/publications/INDEX.md`](reference/publications/INDEX.md) when you need to stress-test a claim.
+3. Contribute via [`docs/SURVEY.md`](docs/SURVEY.md) §9; `python3 scripts/validate_survey.py`.
+4. Export: `python3 publish/build_pdf.py && python3 publish/build_pptx.py && python3 publish/build_visual.py`.
 
 ## How we update
 
 - Prefer **Tier A** (agents reshape compile / ASIC bring-up with oracles) over Tier C catalog growth.
-- Digest → INDEX → CONFLICTS/CLAIMS → SURVEY §5 (if prediction moves) → reference maps → STATUS.
+- Digest → INDEX → SURVEY §6/§7 → SURVEY §5 (if prediction moves) → reference maps → STATUS.
 - HW is in scope only when it closes the loop through **kernels, IR, tests, or profilers** (not autonomous tape-out — conflict **C10**).
 - Prefer primary external links; do not cite this survey repository as a source.
 
