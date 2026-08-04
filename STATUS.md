@@ -8,7 +8,7 @@ Last updated: **2026-08-04**
 |---|---|---|
 | Goals (agentic-compiler prediction) | Done (v3) | + roadmap, stack reshape, HW codesign via job (d) |
 | Future prediction §5 | Done | Four jobs; codesign; §5.5–5.6; **§5.7 commercialization** |
-| **ROADMAP 2027–28 / ~5yr** | Done | `docs/ROADMAP.md` Horizons A/B |
+| **Roadmap 2027–28 / ~5yr** | Done | folded into `docs/SURVEY.md` §5.5 |
 | **STACK reshape** | Done | `docs/STACK.md` layers 1–8 |
 | Claims map | Done | `docs/CLAIMS.md` A/P/S/H |
 | Conflicts | Done | C1–C10 (+ coverage vs peak, codesign vs EDA) |
@@ -26,7 +26,7 @@ Last updated: **2026-08-04**
 ### Prediction / roadmap / codesign
 
 - [x] §0.1 + §5 architecture with job (d) bring-up/codesign
-- [x] ROADMAP Horizon A (2027–28) + B (~5 years)
+- [x] SURVEY §5.5 Horizon A (2027–28) + B (~5 years)
 - [x] STACK SW+HW layer map focused on agentic compiler
 - [x] TritorX, KernelEvolve, Ascend diagnosis, KForge, AutoKernel, Helion digests
 - [x] Conflicts C9 (coverage vs peak), C10 (codesign vs autonomous chip)
@@ -44,7 +44,8 @@ Last updated: **2026-08-04**
 
 | Date | Change |
 |---|---|
-| 2026-08-04 | Redraw §5.1 architecture + ROADMAP architecture-evolution diagrams; add visual posters (architecture stack, Today→A→B evolution) |
+| 2026-08-04 | Fold ROADMAP into SURVEY §5.5; drop circular SURVEY↔ROADMAP pointers; remove self-repo name from PDF cover / setup notes |
+| 2026-08-04 | Redraw §5.1 architecture + §5.5 architecture-evolution diagrams; add visual posters (architecture stack, Today→A→B evolution) |
 | 2026-08-04 | Add agent control-plane substrate digests (Auto, FlowCompile, AgentFlow, Hetero); wire §0.1, Trend B, §4.6, §5.1, §5.7 P3/P22/P23; INDEX **104** |
 | 2026-07-31 | Initial scaffold through prediction refocus (C1–C8, §5, tiers) |
 | 2026-07-31 | Roadmap + stack reshape + HW codesign (job d); C9–C10; +10 digests; CLAIMS/WORKFLOW/validate |
@@ -65,6 +66,6 @@ Last updated: **2026-08-04**
 
 ## Next actions
 
-1. Watch C1/C2/C9 settlements; update CLAIMS/ROADMAP; rebuild PDF after narrative edits.
+1. Watch C1/C2/C9 settlements; update CLAIMS / SURVEY §5.5; rebuild PDF after narrative edits.
 2. Prefer new Tier A codesign/agentic-compile sources; skip pure EDA.
 3. Deepen Wave E digests; keep `validate_survey.py` green.

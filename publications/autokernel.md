@@ -28,7 +28,7 @@ Pragmatic “expert keep/revert loop” mechanized for kernels. Less multi-agent
 
 ## Why it matters for this survey
 
-Tier A online-job (a) evidence and OSS reproducibility pointer for §5 / ROADMAP near-term.
+Tier A online-job (a) evidence and OSS reproducibility pointer for §5 / §5.5 near-term.
 
 ## Limits / caveats
 

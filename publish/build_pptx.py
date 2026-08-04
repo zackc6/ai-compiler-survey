@@ -157,7 +157,7 @@ def s_title(prs):
     )
     textbox(
         s, 0.9, 6.4, 10, 0.4,
-        f"Generated {date.today().isoformat()}  ·  From docs/SURVEY · ROADMAP · STACK · CLAIMS",
+        f"Generated {date.today().isoformat()}  ·  From docs/SURVEY · STACK · CLAIMS",
         12, False, MUTED, SANS,
     )
 
@@ -450,7 +450,7 @@ def s_evidence_chart(prs, n, total):
     multiline(
         s, 8.6, 2.7, 4.0, 3.2,
         [
-            "★ digests drive ROADMAP",
+            "★ digests drive SURVEY §5",
             "Tier A reshapes compile",
             "Tier B is substrate only",
             "Tier C is demoted",

@@ -8,7 +8,7 @@
 | **Type** | talk |
 | **Group** | Surveys & vision |
 | **Link** | [https://2026.hpca-cgo-ppopp-cc.org/details/hpca-cgo-ppopp-cc-2026-plenary-keynotes/2/Compiler-2-0-Building-the-Next-Generation-Compilers-with-Machine-Learning](https://2026.hpca-cgo-ppopp-cc.org/details/hpca-cgo-ppopp-cc-2026-plenary-keynotes/2/Compiler-2-0-Building-the-Next-Generation-Compilers-with-Machine-Learning) |
-| **Evidence tier** | **A** — venue-level vision for ML-modernized compilers; ★ for §5 / ROADMAP |
+| **Evidence tier** | **A** — venue-level vision for ML-modernized compilers; ★ for §5 / §5.5 |
 | **Also** | CSAIL Forum repeat (same title); lineage: [CGO 2022](compiler-2.0-cgo2022.md), [CC'20 modernize talk](compiler-2.0-modernize-ml.md), [MOCHA/Aarno](compiler-2.0-mocha-aarno.md) |
 
 ## Key contributions
@@ -31,7 +31,7 @@ Public plenary vision from Saman Amarasinghe (MIT Commit / CSAIL). Unlike LLM-pa
 
 ## Why it matters for this survey
 
-★ Predictions signal for [`docs/SURVEY.md`](../docs/SURVEY.md) §1.4 / §5.4 and [`docs/ROADMAP.md`](../docs/ROADMAP.md): codesign/retarget cost (**H1/S4**), hybrid control plane (**A1**), and verified ML rewrite pipelines (**Trend E**). Prefer this page for the 2026 abstract; prefer MOCHA digest for concrete architecture.
+★ Predictions signal for [`docs/SURVEY.md`](../docs/SURVEY.md) §1.4 / §5.4 / §5.5: codesign/retarget cost (**H1/S4**), hybrid control plane (**A1**), and verified ML rewrite pipelines (**Trend E**). Prefer this page for the 2026 abstract; prefer MOCHA digest for concrete architecture.
 
 ## Limits / caveats
 

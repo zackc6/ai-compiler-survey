@@ -27,7 +27,7 @@ Product-shaped harness for the online agentic compiler job: not a standalone Ker
 
 ## Why it matters for this survey
 
-Tier A UX/integration signal for ROADMAP “agentic compile as a tool in the ML engineer loop.”
+Tier A UX/integration signal for §5.5 “agentic compile as a tool in the ML engineer loop.”
 
 ## Limits / caveats
 

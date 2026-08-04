@@ -2,7 +2,7 @@
 
 **Focus:** not “AI software in general,” but how an **agentic compiler** changes layers from framework UX down to silicon feedback.
 
-Companions: [`ROADMAP.md`](ROADMAP.md) · [`SURVEY.md`](SURVEY.md) §5 · [`TAXONOMY.md`](TAXONOMY.md) · [`CONFLICTS.md`](CONFLICTS.md)
+Companions: [`SURVEY.md`](SURVEY.md) §5 (architecture + roadmap) · [`TAXONOMY.md`](TAXONOMY.md) · [`CONFLICTS.md`](CONFLICTS.md)
 
 ---
 
@@ -58,7 +58,7 @@ Job **(d)** is the HW-codesign extension: still an **agentic compiler/toolchain*
 
 ## Reading order
 
-1. [`ROADMAP.md`](ROADMAP.md) horizons A/B  
+1. [`SURVEY.md`](SURVEY.md) §5.1 architecture + §5.5 horizons A/B  
 2. This file’s layer table  
 3. [`CLAIMS.md`](CLAIMS.md) A*/S*/P*  
 4. Digests ★ in INDEX under *HW codesign* and *GPU kernels*

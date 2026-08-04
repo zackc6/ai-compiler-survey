@@ -1,4 +1,4 @@
-# Experience notes (ai-compiler-survey)
+# Experience notes (this living survey)
 
 Lessons from turning a bibliography into a **prediction + roadmap + commercialization + visual/PDF** artifact.
 
@@ -11,7 +11,7 @@ Lessons from turning a bibliography into a **prediction + roadmap + commercializ
 5. **Conflicts register** — Vendor headlines vs docs, Magellan vs MLGO, coverage vs peak, codesign vs autonomous chip. Settlement signals prevent false consensus.
 6. **Evidence tiers A/B/C** — Demote generic SCM AI; promote negative results as architecture bounds.
 7. **CLAIMS.md IDs** — Update the map without rewriting the whole narrative.
-8. **Thin narrative edits** — Digest → INDEX first; deepen §5/ROADMAP/STACK only when claims move.
+8. **Thin narrative edits** — Digest → INDEX first; deepen SURVEY §5 / STACK only when claims move.
 9. **Org + Publisher on every digest** — Company/university/lab + venue/host; INDEX columns; validate requires fields; `apply_org_publisher.py` META map + rebuild for 7-column INDEX rows.
 10. **Vision lineage digests** — e.g. Compiler 2.0 (CC’20 → CGO’22 → Ken Kennedy 2026) + MOCHA funded path; SURVEY §1.5 vision map. Use **full paper titles** in INDEX (short names hid KernelEvolve).
 11. **§5.7 commercialization (P1–P23)** — Turning prediction into practice needs ops/business problems, not only architecture: contract (NL vs structured traces vs typed tools), memory (scratchpad ≪ dense ≪ VCS), sub-agents, when-to-run, oracles, ownership, multi-DSL, SKU, then eval, pricing, tenancy, model lock-in, IP, joint versioning, cold start, HITL capacity, flywheel, latency SLOs, DR, A/B, compliance, FSM orchestration, **tokens/inference/capability (P23)**.
@@ -46,18 +46,18 @@ When expanding “how to ship the prediction”:
 2. For each problem: **options table + pros/cons + survey lean + “might be true” example**.
 3. Separate **architecture** (contract/memory/topology) from **ops** (eval/DR/A/B) from **business** (pricing/tenancy/IP).
 4. Resource envelope (tokens, inference latency, model capability) gets an explicit **verdict**: shapes SKU vs falsifies which product story.
-5. Close with a checklist buyers/builders can run; point ROADMAP success metrics at §5.7.
+5. Close with a checklist buyers/builders can run; point §5.5 success metrics at §5.7.
 
 ## Visual / publish method
 
 1. Visuals = one composition per slide (orbit, ladder, bands, gauges)—night-forge palette; avoid purple/cream-terracotta/broadsheet clichés.
 2. Editorial PPTX can stay idea-led; visual PPTX embeds PNGs full-bleed.
-3. After §5.7 or ROADMAP edits: regenerate **both** PDF and visuals before calling the batch done.
+3. After §5.5 / §5.7 edits: regenerate **both** PDF and visuals before calling the batch done.
 
 ## Minimal viable survey (if starting over)
 
 1. One-page future sketch + falsifiers first.
-2. ROADMAP (near + 5yr) and STACK layer table next.
+2. SURVEY §5.5 (near + 5yr) and STACK layer table next.
 3. 10–15 Tier A digests only (Org/Publisher from day one).
 4. CONFLICTS for every disagreement that changes the sketch.
 5. CLAIMS map before the 30th digest.

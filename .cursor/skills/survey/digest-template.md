@@ -24,7 +24,7 @@
 
 ## Why it matters for this survey
 
-<CLAIMS / ROADMAP / CONFLICTS / §5.7 IDs; agentic-compiler focus; codesign only if kernel/IR/oracle loop.>
+<CLAIMS / SURVEY §5.5 / CONFLICTS / §5.7 IDs; agentic-compiler focus; codesign only if kernel/IR/oracle loop.>
 
 ## Limits / caveats
 

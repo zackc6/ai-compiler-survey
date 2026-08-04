@@ -66,7 +66,7 @@ Honest take: `publish/build_pptx.py` and `publish/build_visual.py` are for **rep
 
 ## Suggested workflow (this survey)
 
-1. **Source of truth:** edit `docs/SURVEY.md` / ROADMAP / CLAIMS; `python3 publish/build_pdf.py`.
+1. **Source of truth:** edit `docs/SURVEY.md` (§5) / CLAIMS; `python3 publish/build_pdf.py`.
 2. **Outline:** ask an agent for a 12–14 slide outline from §0.1, §5, §5.7 (P23 verdict), C1/C2/C9/C10.
 3. **Pretty deck:** paste outline into **Gamma** (or Plus AI if PPTX-native is required).
 4. **Diagrams:** rebuild key figures in **Napkin** or **Eraser** (hybrid contract, four jobs, freeze→serve, resource envelope)—export PNG/SVG into the deck.

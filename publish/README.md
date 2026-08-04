@@ -23,7 +23,7 @@ Chinese PDF scripts remain (`--lang zh-CN|zh-TW|all`) but those files are not ke
 
 - One composition per image — architecture, orbit, path, ladder, constellation
 - Night-forge palette (charcoal / steel / amber); soft radial wash, **no grid** (readability)
-- Regenerate whenever ROADMAP / four jobs / conflicts move
+- Regenerate whenever SURVEY §5 / four jobs / conflicts move
 
 ## PPT design intent
 

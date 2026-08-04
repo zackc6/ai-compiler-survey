@@ -138,7 +138,7 @@ Companion: [`SURVEY.md`](SURVEY.md) § Future · [`PRODUCTS.md`](PRODUCTS.md) ·
 | Side | Sources | Position |
 |---|---|---|
 | **A — Agents co-design silicon** | Broad “AI for chip design” narratives; optimism from sim bring-up | LLMs will propose ISA/microarch with compilers in the loop end-to-end |
-| **B — Agents stress toolchains; humans/EDA own tape-out** | TritorX/KernelEvolve actual scope (kernels, dialects, tests, profilers); this survey’s ROADMAP | Agentic *compilers* shorten SW TTM and file ISA/IR pain reports; autonomous tape-out is a different field |
+| **B — Agents stress toolchains; humans/EDA own tape-out** | TritorX/KernelEvolve actual scope (kernels, dialects, tests, profilers); this survey’s §5.5 roadmap | Agentic *compilers* shorten SW TTM and file ISA/IR pain reports; autonomous tape-out is a different field |
 
 **Why it matters.** Keeps survey focused on the **target agentic compiler**. HW is in scope only when it closes the loop through kernels/IR/oracles.
 

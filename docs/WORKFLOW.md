@@ -13,7 +13,7 @@ New source
   │     YES → out of scope (unless it feeds compiler codesign claims H*)
   ├─ Conflicts with CLAIMS / CONFLICTS?
   │     YES → update CONFLICTS first (never average)
-  └─ Moves ROADMAP / STACK / §5?
+  └─ Moves SURVEY §5 / STACK?
         YES → CLAIMS + narrative; else digest+INDEX+STATUS only
 ```
 
@@ -24,11 +24,11 @@ New source
 3. INDEX row with Org/Publisher columns (★ only for prediction-critical)  
 4. CONFLICTS if disagreeing  
 5. CLAIMS if prediction moves  
-6. Thin touch to SURVEY / ROADMAP / STACK  
+6. Thin touch to SURVEY §5 / STACK  
 7. REPOS / PRODUCTS / SYSTEMS if mechanism new  
 8. STATUS changelog  
 9. `python3 scripts/validate_survey.py`
 
 ## Depth
 
-Stub → digest → deep (PDF) before changing ROADMAP horizons.
+Stub → digest → deep (PDF) before changing SURVEY §5.5 horizons.

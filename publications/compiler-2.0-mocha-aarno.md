@@ -26,11 +26,11 @@ Public project page for the funded realization of Amarasinghe’s Compiler 2.0 v
 1. Best public **implementation path** for the 2026 Ken Kennedy plenary narrative.
 2. Architecture matches hybrid prediction: LLM proposes rewrites; eqsat explores; Rocq admits; learned models guide selection (**A1**, **A5**).
 3. Retarget-via-rewrite-rules is a concrete codesign/compiler interface story (**H1**, **S4**) without claiming autonomous EDA (**C10**).
-4. Watch for open-source releases and Year 1–3 evaluations — settlement signal for ROADMAP Horizon A.
+4. Watch for open-source releases and Year 1–3 evaluations — settlement signal for §5.5 Horizon A.
 
 ## Why it matters for this survey
 
-★ Program-level evidence that “next compiler” funding is going to **ML + verification + hetero retarget**, parallel to LLM kernel agents and Magellan. Wire into [`docs/SURVEY.md`](../docs/SURVEY.md) §5.4 and [`docs/ROADMAP.md`](../docs/ROADMAP.md). Prefer DARPA page for program premise; prefer Aarno page for team/tech stack.
+★ Program-level evidence that “next compiler” funding is going to **ML + verification + hetero retarget**, parallel to LLM kernel agents and Magellan. Wire into [`docs/SURVEY.md`](../docs/SURVEY.md) §5.4 / §5.5. Prefer DARPA page for program premise; prefer Aarno page for team/tech stack.
 
 ## Limits / caveats
 

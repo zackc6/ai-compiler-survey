@@ -30,7 +30,7 @@ MLSys 2026 Meta paper arguing the bottleneck for new ASICs is *operator coverage
 
 ## Why it matters for this survey
 
-Primary Tier A for **HW–SW codesign through an agentic compiler/toolchain**. Anchors ROADMAP claim that next-gen agentic compilers shorten ASIC software TTM and feed ISA/IR design. Pair with [kernelevolve.md](kernelevolve.md) (perf on hetero fleet) and Ascend hierarchical diagnosis.
+Primary Tier A for **HW–SW codesign through an agentic compiler/toolchain**. Anchors §5.5 claim that next-gen agentic compilers shorten ASIC software TTM and feed ISA/IR design. Pair with [kernelevolve.md](kernelevolve.md) (perf on hetero fleet) and Ascend hierarchical diagnosis.
 
 ## Limits / caveats
 

@@ -27,7 +27,7 @@ NVIDIA/UCB line attacking the “agents forget prior exploration” failure mode
 
 ## Why it matters for this survey
 
-Tier A for ROADMAP claim that traces/memory, not only one-shot kernels, reshape the stack.
+Tier A for §5.5 claim that traces/memory, not only one-shot kernels, reshape the stack.
 
 ## Limits / caveats
 
