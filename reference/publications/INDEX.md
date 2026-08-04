@@ -93,8 +93,10 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2025+ | code | GPU kernels & inference compilers | FlagOpen / flagos-ai | GitHub | [flagos-ai/awesome-LLM-driven-kernel-generation](awesome-llm-kernel-generation.md) | [source](https://github.com/flagos-ai/awesome-LLM-driven-kernel-generation) |
 | 2026 | company | Commercial products & proposals | AMD | AMD ROCm blog | [AMD ROCm: GEAK v3 kernel optimization agent](geak-v3-rocm-blog.md) | [source](https://rocm.blogs.amd.com/artificial-intelligence/kernel-optimization-agent/README.html) |
 | 2025 | forum | Forums & workshops | Google / LLVM community | LLVM Discourse | [LLVM Discourse RFC: EmitC support for MLGO](mlgo-emitc-rfc.md) | [source](https://discourse.llvm.org/t/rfc-emitc-support-for-mlgo/87728) |
+| 2026 | forum | Forums & workshops | Google / LLVM community | LLVM Discourse | [LLVM MLGO sync minutes: EmitC path PoR (June 8, 2026)](mlgo-emitc-sync-2026-06.md) ★ C1 checkpoint | [source](https://discourse.llvm.org/t/mlgo-meeting-june-5-moved-to-june-8-2026/90976) |
 | 2026 | code | Commercial products & proposals | NVIDIA | GitHub (TensorRT-LLM) | [TensorRT-LLM PR: Claude agents/skills for kernels and compile](trt-llm-claude-agents-pr.md) | [source](https://github.com/NVIDIA/TensorRT-LLM/pull/12831) |
 | 2026 | company | Commercial products & proposals | NVIDIA | NVIDIA docs | [CompileIQ docs: expected gains (2 to 3 percent highly optimized)](compileiq-docs-expectations.md) | [source](https://nvidia.github.io/CompileIQ/stable/index.html) |
+| 2026 | company | Commercial products & proposals | NVIDIA | NVIDIA CompileIQ docs | [CompileIQ agent-skills (AGENTS.md optimization campaigns)](compileiq-agent-skills.md) ★ control-plane UX | [source](https://nvidia.github.io/CompileIQ/stable/install.html) |
 
 | 2025/26 | paper | HW codesign & accelerator bring-up | Meta | arXiv | [Agentic Operator Generation for ML ASICs (TritorX)](tritorx.md) ★ bring-up / codesign | [source](https://arxiv.org/abs/2512.10977) |
 | 2025/26 | paper | HW codesign & accelerator bring-up | Meta | ISCA 2026 · arXiv | [KernelEvolve: Scaling Agentic Kernel Coding for Heterogeneous AI Accelerators at Meta](kernelevolve.md) ★ multi-HW prod | [source](https://arxiv.org/abs/2512.23236) |
@@ -104,8 +106,10 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | GPU kernels & inference compilers | RightNow AI | arXiv | [AutoKernel: Autonomous GPU Kernel Optimization](autokernel.md) ★ Amdahl agent loop | [source](https://arxiv.org/abs/2603.21331) |
 | 2026 | code | GPU kernels & inference compilers | RightNow AI | GitHub | [RightNow-AI/autokernel (GitHub)](autokernel-github.md) ★ | [source](https://github.com/RightNow-AI/autokernel) |
 | 2026 | paper | GPU kernels & inference compilers | University of Michigan | arXiv | [Kernel Forge: Agent Harness for CUDA Kernel Opt](kernel-forge.md) | [source](https://arxiv.org/abs/2607.24762) |
+| 2026 | paper | GPU kernels & inference compilers | University of Toronto · Standard Kernel | arXiv | [CuTeGen: Agentic GPU Kernels using CuTe](cutegen.md) ★ CuTe lane / C4 | [source](https://arxiv.org/abs/2604.01489) |
 | 2026 | paper | GPU kernels & inference compilers | NVIDIA · UC Berkeley | arXiv | [KernelBlaster: Memory-Augmented In-Context RL for CUDA](kernelblaster.md) | [source](https://arxiv.org/abs/2602.14293) |
 | 2025 | company | Classic DL compilers | Meta (PyTorch) | PyTorch blog | [Helion: High-Level DSL for Portable ML Kernels](helion-blog.md) | [source](https://pytorch.org/blog/helion/) |
+| 2026 | paper | Classic DL compilers | Qualcomm | arXiv | [Hexagon-MLIR: AI Compilation Stack for Hexagon NPUs](hexagon-mlir.md) | [source](https://arxiv.org/abs/2602.19762) |
 | 2025+ | code | Classic DL compilers | Meta (PyTorch) | GitHub | [pytorch/helion (GitHub)](helion-github.md) | [source](https://github.com/pytorch/helion) |
 
 | 2026 | paper | Agent control-plane substrate | RightNow AI | arXiv | [Auto: The AGI Compiler](auto-agi-compiler.md) ★ freeze/amortize | [source](https://arxiv.org/abs/2607.04542) |
@@ -113,7 +117,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | Agent control-plane substrate | Huazhong University of Science and Technology · Macquarie University | arXiv | [AgentFlow: Building Agent Dependency Graphs for Static Analysis of Agent Programs](agentflow.md) | [source](https://arxiv.org/abs/2607.01640) |
 | 2025 | paper | Agent control-plane substrate | Stanford · Gimlet Labs · Intel | arXiv | [Efficient and Scalable Agentic AI with Heterogeneous Systems](agentic-ai-hetero-systems.md) | [source](https://arxiv.org/abs/2507.19635) |
 
-**Total:** 104 digests
+**Total:** 108 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 

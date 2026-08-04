@@ -25,7 +25,7 @@ Companion: [`../docs/SURVEY.md`](../docs/SURVEY.md) §5 · [`../docs/SURVEY.md`]
 |---|---|---|---|---|
 | **Google Cloud / DeepMind** | [AlphaEvolve on Cloud (GA)](https://cloud.google.com/blog/products/ai-machine-learning/alphaevolve-is-available-for-everyone) | Cloud-Agent, ControlPlane-Agent | Evolutionary coding agent as a sold product; Magellan lineage | C5, C1 |
 | **Google** | Magellan (prod inlining narrative) + MLGO | ControlPlane-Agent / Autotune | Offline heuristic synthesis *and* neural advisors in production | **C1** |
-| **NVIDIA** | [CompileIQ](https://developer.nvidia.com/cuda/compileiq) | ControlPlane-Autotune | Workload-specialized compiler controls; versioned ACFs | **C2** (blog vs docs) |
+| **NVIDIA** | [CompileIQ](https://developer.nvidia.com/cuda/compileiq) (+ [agent-skills](https://nvidia.github.io/CompileIQ/stable/install.html)) | ControlPlane-Autotune / ControlPlane-Agent | Workload-specialized compiler controls; versioned ACFs; AGENTS.md skill pack drives search+Welch validate | **C2** (blog vs docs) |
 | **NVIDIA** | [CUDA Tile / Tile IR](https://developer.nvidia.com/blog/focus-on-your-algorithm-nvidia-cuda-tile-handles-the-hardware/) | Kernel-Platform | Next agent IR vs Triton | **C4** |
 | **AMD** | [GEAK](https://rocm.blogs.amd.com/artificial-intelligence/kernel-optimization-agent/README.html) (v3) | ControlPlane-Agent, Kernel-Platform | Repo-level multi-DSL kernel agents on Instinct | **C2**, **C4** |
 | **Meta** | [LLM Compiler](https://ai.meta.com/research/publications/meta-large-language-model-compiler-foundation-models-of-compiler-optimization/) / [KernelLLM](https://huggingface.co/facebook/KernelLLM) | Research-release | Open foundation / specialist models | — |
@@ -48,6 +48,7 @@ Brief on purpose: these are **defaults**, not proof that agents win.
 | **Intel** | OpenVINO | DataPlane-Compile | Edge/CPU deploy toolkit |
 | **AWS** | Neuron (+ NKI) | DataPlane-Compile, Kernel-Platform | Cloud-custom silicon; NKI as agent surface |
 | **Qualcomm** | AI Hub / QNN | Edge compile | On-device compile-as-a-service |
+| **Qualcomm** | [Hexagon-MLIR](https://github.com/qualcomm/hexagon-mlir) | DataPlane-Compile, Kernel-Platform | Open Triton/PyTorch→Hexagon NPU MLIR stack |
 
 ---
 

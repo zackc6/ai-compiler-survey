@@ -14,7 +14,7 @@ Last updated: **2026-08-04**
 | Conflicts | Done | `docs/SURVEY.md` §6 C1–C10 |
 | Survey narrative §0–§9 | Done (v3) | Single reading path; gaps as blockers |
 | **Reference store** | Done | `reference/` guide → publications / products / repos |
-| Publication digests | Done (v6) | **104** digests under `reference/publications/` |
+| Publication digests | Done (v7) | **108** digests under `reference/publications/` |
 | Validate script | Done | `python3 scripts/validate_survey.py` |
 | **PDF + PPTX publish** | Done | English PDF + editorial PPTX in `publish/out/` |
 | **Visual posters** | Done | Diagram-first PNGs + visual PPTX via `publish/build_visual.py` |
@@ -44,6 +44,7 @@ Last updated: **2026-08-04**
 
 | Date | Change |
 |---|---|
+| 2026-08-04 | Rescan: EmitC-MLGO June 2026 PoR checkpoint (C1 not settled); +CuTeGen ★, CompileIQ agent-skills ★, Hexagon-MLIR; INDEX **108** |
 | 2026-08-04 | Distill docs-consolidation + prediction lessons into `.cursor/skills/survey` (SKILL.md architecture rules + survey.md experience log) |
 | 2026-08-04 | Consolidate docs into one reading path: fold TAXONOMY/SYSTEMS/CLAIMS/CONFLICTS/WORKFLOW (+ COMPARISON stub) into `docs/SURVEY.md` §0 / §1b / §6–§9; `docs/` = SURVEY + SETUP_GITHUB only |
 | 2026-08-04 | Fold STACK into SURVEY §5.6; drop circular SURVEY↔STACK pointers |
@@ -70,6 +71,6 @@ Last updated: **2026-08-04**
 
 ## Next actions
 
-1. Watch C1/C2/C9 settlements; update SURVEY §6/§7 / §5.5; rebuild PDF after narrative edits.
+1. Watch C1 customer uptake (Android/Fuchsia EmitC; Chrome multi-model) and Magellan OSS recipes; C2 p50/p90; C9 second-vendor TritorX-class.
 2. Prefer new Tier A codesign/agentic-compile sources; skip pure EDA.
 3. Deepen Wave E digests; keep `validate_survey.py` green.

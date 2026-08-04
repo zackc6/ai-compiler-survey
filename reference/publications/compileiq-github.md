@@ -26,4 +26,4 @@ Public repository for CompileIQ: evolutionary HPO over NVCC/PTXAS controls for C
 
 ## Why it matters for this survey
 
-Mapped in `reference/repos.md` to SCM/review context and to gaps in `docs/SURVEY.md` 搂4. Prefer the primary link above when citing.
+Mapped in `reference/repos.md` to SCM/review context and to gaps in `docs/SURVEY.md` §4. Prefer the primary link above when citing. See also [`compileiq-agent-skills.md`](compileiq-agent-skills.md).

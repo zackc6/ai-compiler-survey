@@ -1,6 +1,6 @@
 # Next-Gen AI Compiler Survey
 
-**Last updated:** 2026-08-04 (docs integrated into one reading path)  
+**Last updated:** 2026-08-04 (rescan: EmitC PoR checkpoint + CuTeGen / CompileIQ skills / Hexagon-MLIR)  
 **Evidence store:** [`../reference/README.md`](../reference/README.md) → publications · products · repos  
 **Status:** [`../STATUS.md`](../STATUS.md)
 
@@ -705,6 +705,10 @@ From Magellan LLVM Dev Meeting slides ([digest](../reference/publications/magell
 | **KernelEvolve** hetero NVIDIA/AMD/MTIA perf agents | Production multi-HW control plane | Public traces vs KernelBench-X (**C2**) |
 | Ascend **compiler-grounded** Triton diagnosis | Non-CUDA NPUs need IR/pass escalation, not CUDA-pretrained guess | Hierarchy ablations |
 | Helion + CompileIQ ACF path | DSL substrate agents specialize | **C4** vs Tile/CuTe |
+| **CuTeGen** CuTe generate–test–refine + delayed profiling | Confirms a non-Triton agent training surface (CuTe/CUTLASS lane) | Multi-DSL skills vs Triton-only agents (**C4**) |
+| **CompileIQ agent-skills** (AGENTS.md pack + Welch validate) | Vendor packages the online control plane as installable agent skills | Still no public p50/p90 ACF traces (**C2**) |
+| **EmitC-MLGO PoR** (June 2026 sync): internal inliner → Android/Fuchsia → Chrome multi-model | Neural-advisor deploy path is advancing, not abandoned | Customer default still unset (**C1**) |
+| **Hexagon-MLIR** open Triton→Hexagon NPU stack | Non-CUDA data plane agents can address | Device/SDK-gated oracles (gap 4.4/4.5) |
 | **Compiler 2.0** Ken Kennedy plenary + **MOCHA** (LLM rewrites ⊕ eqsat ⊕ Rocq; retarget-via-rewrites) | Venue+funding align on verified ML construction / hetero retarget — not free LLM-`opt` | OSS releases & Year 1–3 evals ([digest](../reference/publications/compiler-2.0-cgo2026.md), [MOCHA](../reference/publications/compiler-2.0-mocha-aarno.md)) |
 
 ### 5.5 Roadmap — Horizon A (2027–28) and Horizon B (~2029–31)
@@ -721,11 +725,11 @@ Falsifiable sketch conditioned on C1–C10. Architecture target is [§5.1](#51-a
 |---|---|---|---|
 | **Agent-addressable compilers** | Tool APIs, structured IR summaries, admit/fallback become normal in LLVM/Inductor/vendor toolchains | ACCLAIM, HintPilot, AgentCompile, mlirAgent (negative free-rewrite) | C3, C6 |
 | **Online specialization (job a)** | Hot kernels/paths use agent or evolutionary search (ACF, hints, Triton/Helion refine) in CI for *some* products — not yet silent default for all builds | CompileIQ, GEAK, AutoKernel, Kernel Forge | C2, C5 |
-| **Offline heuristic synthesis (job b)** | Magellan-class C++ heuristic evolution *and* MLGO neural advisors both still live (parallel bets) | Magellan, EmitC-MLGO RFC | **C1** |
+| **Offline heuristic synthesis (job b)** | Magellan-class C++ heuristic evolution *and* MLGO neural advisors both still live (parallel bets) | Magellan; EmitC-MLGO RFC + [June 2026 PoR](../reference/publications/mlgo-emitc-sync-2026-06.md) | **C1** |
 | **Engineering agents (job c)** | Compiler-oracle PR review (Alive2/`opt`) in serious LLVM/AI-compiler orgs; generic forge AI stays UX | Archer | **C7** |
 | **Bring-up / codesign agents (job d)** | Coverage-first ATen/Triton backend generation on sim + silicon becomes standard for *new* ASICs | TritorX, KernelEvolve, Ascend hierarchical diagnosis | **C9** |
 | **Verified ML construction (Compiler 2.0 / MOCHA)** | Early open releases of LLM→eqsat→formal-admit rewrite / retarget tooling; not yet default production `opt` | Ken Kennedy plenary 2026; Aarno/MIT/UIUC MOCHA | C3, C6 |
-| **DSL surface** | Triton-family (Triton/Helion) remains primary agent training surface; Tile/CuTe/HIP/FlyDSL force multi-DSL skills | Helion, CompileIQ Helion path, TRT-LLM agents, KForge | **C4** |
+| **DSL surface** | Triton-family (Triton/Helion) remains primary agent training surface; Tile/CuTe/HIP/FlyDSL force multi-DSL skills | Helion, CompileIQ Helion path, TRT-LLM agents, KForge, **CuTeGen** | **C4** |
 
 ##### What does *not* ship by 2028
 
@@ -1284,6 +1288,8 @@ This page records **disagreements across papers, vendor blogs, OSS repos, and fo
 
 **Settlement signal.** Public Magellan heuristics land in llvm-project *and* displace MLGO on the same size/perf apps; or EmitC-MLGO becomes the default path for Android/Chrome while Magellan stays Google-internal.
 
+**Checkpoint (not settled), June 2026.** MLGO sync minutes state a PoR: land Google-internal EmitC for the inliner first, then Android/Fuchsia can start using EmitC; Chrome multi-model support is the next step ([digest](../reference/publications/mlgo-emitc-sync-2026-06.md)). This advances side **B**’s deployability without displacing Magellan or declaring a default.
+
 ---
 
 ### C2 — Vendor “production agent” wins vs sober benchmark ceilings
@@ -1460,7 +1466,7 @@ Status: **Supported** · **Contested** · **Watch** · **Falsified**
 | Signal | Moves | Digests |
 |---|---|---|
 | Public Magellan llvm + OpenEvolve recipes | C1 | magellan, openevolve |
-| EmitC-MLGO default on Android/Chrome | C1 | mlgo-emitc-rfc |
+| EmitC-MLGO default on Android/Chrome (PoR advancing: internal inliner → Android/Fuchsia → Chrome multi-model) | C1 | mlgo-emitc-rfc, mlgo-emitc-sync-2026-06 |
 | p50/p90 public ACF/kernel traces | C2 | compileiq-*, kernelbench-x |
 | Second non-Meta ASIC reproduces TritorX-class coverage | C9 | tritorx |
 | Agent IR contract where free rewrite beats advisors | C3 | acclaim vs hintpilot/agentcompile |
@@ -1499,6 +1505,7 @@ Snapshot of representative systems. Numbers are **as reported by authors**; cros
 | AutoKernel | Triton/CUDA on PyTorch models | Keep/revert agent loop | 5-stage harness | Beats eager & torch.compile on hot ops | arXiv 2026 |
 | Ascend hierarchical diagnosis | Triton-NPU | Escalating compiler-grounded agents | Profile → IR → compiler source | 4.35× geo-mean on 37 ops | arXiv 2026 |
 | Helion | PyTorch→Triton DSL | Autotune (not LLM) | Config search | Geomean > compile/Triton on reported suites | PyTorch 2025 |
+| CuTeGen | CuTe / CUDA | Generate–test–refine + delayed profiling | Compile + numerical + timed | 1.71× avg vs PyTorch on KB L1+L2 (author) | arXiv 2026 |
 
 ### Online vs offline agents
 
