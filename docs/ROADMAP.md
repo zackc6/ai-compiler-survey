@@ -45,22 +45,50 @@ Still centered on the **agentic compiler** as the product; HW codesign is how th
 
 ### Architecture evolution
 
+How the hybrid stack thickens from ad-hoc agent loops to a **compiled control plane** over a classical data plane. (Target stack detail: [`SURVEY.md`](SURVEY.md) §5.1.)
+
 ```text
-                  ┌──────────────────────────────────────────┐
-                  │ Agentic compiler control plane           │
-                  │  a online specialize  b offline evolve   │
-                  │  c oracle review      d bring-up/codesign│
-                  │  memory/traces/ACFs/heuristics as arts   │
-                  └─────────────┬────────────────────────────┘
-                                │ bounded actions + oracles
-        ┌───────────────────────┼───────────────────────┐
-        ▼                       ▼                       ▼
- Framework DSL            Portable / vendor IR      Device + silicon
- Helion/Triton/Tile       MLIR·StableHLO·LLVM       GPU·NPU·ASIC
- Inductor / XLA / IREE    fingerprints · tools      sim → silicon
-        ▲                       ▲                       │
-        └──────── codesign feedback (perf, coverage) ───┘
+ TODAY (2025–26)            HORIZON A (2027–28)             HORIZON B (~2029–31)
+ ────────────────           ───────────────────             ────────────────────
+ Ad-hoc agent loops         Jobs (a–d) productized          Control plane compiled
+ on classical compilers     CI-gated · not silent default   ADG · freeze · place
+
+ ┌─────────────┐            ┌──────────────────┐            ┌────────────────────┐
+ │ Agents      │            │ CONTROL PLANE    │            │ CONTROL PLANE      │
+ │ chat/tools  │            │                  │            │                    │
+ │ GEAK·ACCLAIM│            │ (a) online       │            │ (a–d) + substrate  │
+ │ Magellan …  │            │ (b) offline      │            │  workflow compile  │
+ └──────┬──────┘            │ (c) oracle review│            │  ADG static check  │
+        │ tools             │ (d) bring-up /   │            │  freeze / amortize │
+        ▼                   │     codesign     │            │  hetero place      │
+ ┌─────────────┐            └────────┬─────────┘            └─────────┬──────────┘
+ │ DATA PLANE  │                     │ typed tools                    │
+ │ MLIR/Triton │◄── still default ───┼ admit + oracles                │
+ │ Inductor …  │                     ▼                                ▼
+ └──────┬──────┘            ┌──────────────────┐            ┌────────────────────┐
+        │                   │ DATA PLANE       │            │ DATA PLANE         │
+        ▼                   │ multi-DSL +      │            │ multi-backend      │
+   GPU (mostly)             │ fingerprints /   │            │ ACF · heuristics · │
+                            │ tool APIs        │            │ memory as VCS arts │
+                            └────────┬─────────┘            └─────────┬──────────┘
+                                     │                                │
+                                     ▼                                │
+                            ┌──────────────────┐                      │
+                            │ CODESIGN (early) │◄── cov/perf traces ──┤
+                            │ sim + 1st Si →   │                      ▼
+                            │ ISA/dialect RFCs │            ┌────────────────────┐
+                            │ (to humans/EDA)  │            │ CODESIGN (steady)  │
+                            └──────────────────┘            │ pre-Si → bring-up  │
+                                                            │ → next tape-out    │
+                                                            │ (not auto EDA)     │
+                                                            └────────────────────┘
+
+ ARTIFACT STORE (grows →)
+   binaries → + ACF/hints → + evolved C++ / verified kernels / bring-up corpora
+            → + frozen agent workflows / cognition binaries (control-plane compile)
 ```
+
+**Read left→right:** agents stay on the control plane; the data plane never goes away; what changes is **how compiled, audited, and amortized** the agent graph becomes, and how tightly silicon feedback closes the loop.
 
 ### Predicted shifts
 

@@ -44,6 +44,7 @@ Last updated: **2026-08-04**
 
 | Date | Change |
 |---|---|
+| 2026-08-04 | Redraw §5.1 architecture + ROADMAP architecture-evolution diagrams; add visual posters (architecture stack, Today→A→B evolution) |
 | 2026-08-04 | Add agent control-plane substrate digests (Auto, FlowCompile, AgentFlow, Hetero); wire §0.1, Trend B, §4.6, §5.1, §5.7 P3/P22/P23; INDEX **104** |
 | 2026-07-31 | Initial scaffold through prediction refocus (C1–C8, §5, tiers) |
 | 2026-07-31 | Roadmap + stack reshape + HW codesign (job d); C9–C10; +10 digests; CLAIMS/WORKFLOW/validate |

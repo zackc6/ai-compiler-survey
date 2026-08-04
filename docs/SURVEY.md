@@ -520,26 +520,61 @@ Falsifiable sketch for **~2027–2028**, conditioned on conflicts in [`CONFLICTS
 
 ### 5.1 Architecture
 
+Hybrid stack: agents orchestrate; classical compilers execute; silicon feeds the next dialect/ISA RFC. The control plane is itself becoming a compile target (workflow IR → analyze → freeze → place).
+
 ```text
-┌─────────────────────────────────────────────────────────┐
-│  Agent control plane (optional → then CI-default)       │
-│  (a) online: propose / measure / admit                  │
-│  (b) offline: synthesize shippable heuristics           │
-│  (c) engineering: oracle review / evolve compiler src   │
-│  (d) bring-up/codesign: coverage→perf on sim + silicon  │
-│  + sub-agents: workflow IR · freeze · ADG · hetero place│
-└───────────────────────────┬─────────────────────────────┘
-                            │ bounded actions + oracles
-┌───────────────────────────▼─────────────────────────────┐
-│  Classical data plane (default path stays)              │
-│  Inductor/XLA/MLIR/Triton/Helion/Tile → device libs     │
-│  legality · lowering · golden/Alive2/OpInfo · fallback  │
-└───────────────────────────┬─────────────────────────────┘
-                            │ coverage/perf traces
-┌───────────────────────────▼─────────────────────────────┐
-│  HW codesign feedback (not autonomous tape-out)         │
-│  ISA / dialect / memory-system RFCs ← agent failures    │
-└─────────────────────────────────────────────────────────┘
+                      HUMAN / PRODUCT INTENT
+                 (NL at the edge · policy · budget)
+                                │
+                                ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│  AGENT CONTROL PLANE         lab → CI-gated → hot-path specialize   │
+│                                                                     │
+│   ┌───────────┐  ┌───────────┐  ┌───────────┐  ┌───────────┐        │
+│   │ (a) ONLINE│  │ (b) OFFLINE│ │ (c) ENG.  │  │ (d) BRING │        │
+│   │ specialize│  │  evolve   │  │  review   │  │  -UP      │        │
+│   │ propose · │  │ heuristics│  │ oracle PR │  │ coverage→ │        │
+│   │ measure · │  │ / passes  │  │ / src edit│  │ perf on   │        │
+│   │ admit     │  │ →C++/MLGO │  │           │  │ sim + Si  │        │
+│   └─────┬─────┘  └─────┬─────┘  └─────┬─────┘  └─────┬─────┘        │
+│         └──────────────┴───────┬──────┴──────────────┘              │
+│                                │                                    │
+│   ┌────────────────────────────▼──────────────────────────────┐     │
+│   │ SUBSTRATE — sub-agent architecture                         │    │
+│   │ workflow compile │ ADG analysis │ freeze/amortize │ place  │    │
+│   │ (FlowCompile)    │ (AgentFlow)  │ (Auto)          │ hetero │    │
+│   └────────────────────────────────────────────────────────────┘    │
+└────────────────────────────────┬────────────────────────────────────┘
+                                │
+        typed tools · admit records · oracles · FSM / plan bounds
+                                │
+                                ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│  CLASSICAL DATA PLANE                          default path stays   │
+│                                                                     │
+│   Framework / graph                                                 │
+│          │                                                          │
+│          ▼                                                          │
+│   Inductor · XLA · MLIR · Triton · Helion · Tile · device libs      │
+│          │                                                          │
+│   legality · lowering · cost models                                 │
+│   golden / Alive2 / OpInfo · admit / fallback                       │
+└────────┬─────────────────────┬─────────────────────┬────────────────┘
+        │                     │                     │
+        ▼                     ▼                     ▼
+  GPU / NPU / ASIC      VCS artifacts         Serving runtime
+  (sim → silicon)       ACF · kernels ·       specialize hot paths;
+                        heuristics ·          freeze for replay
+                        memory · traces
+        │
+        └──── coverage / perf / illegal-op traces ────┐
+                                                      ▼
+                         ┌────────────────────────────────────────┐
+                         │  HW–SW CODESIGN FEEDBACK               │
+                         │  agent failures → ISA / dialect /      │
+                         │  memory-system RFCs                    │
+                         │  (humans + EDA own tape-out — C10)     │
+                         └────────────────────────────────────────┘
 ```
 
 1. **Compiler becomes agent-addressable**, not agent-replaced — structured summaries, fingerprints, tool APIs, admit/fallback (mlirAgent: free IR rewrite loses to identity).

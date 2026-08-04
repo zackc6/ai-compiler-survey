@@ -359,44 +359,132 @@ def poster_constellation() -> Path:
     return save(img, "08-vision-constellation.png")
 
 
-def poster_horizon() -> Path:
+def poster_architecture() -> Path:
+    """§5.1 hybrid stack: control plane + substrate → data plane → codesign."""
     img, draw = canvas()
     brand_mark(draw)
-    text(draw, (96, 120), "ROADMAP", F_BOLD(18), STEEL)
-    text(draw, (96, 160), "Two horizons", F_DISPLAY(64), WHITE)
+    text(draw, (96, 110), "§5.1 ARCHITECTURE", F_BOLD(18), STEEL)
+    text(draw, (96, 150), "Control over data", F_DISPLAY(56), WHITE)
 
-    # left horizon A
-    draw.rounded_rectangle([120, 300, 900, 920], radius=24, fill=STEEL + (35,), outline=STEEL, width=3)
-    text(draw, (160, 340), "HORIZON A", F_BOLD(22), STEEL)
-    text(draw, (160, 390), "2027–28", F_DISPLAY(56), WHITE)
-    for i, line in enumerate(
-        [
-            "Agent-addressable tool APIs",
-            "Online specialize for hot paths",
-            "Magellan ∥ MLGO both live",
-            "Bring-up agents for new ASICs",
-            "MOCHA rewrite+verify demos",
-        ]
-    ):
-        draw.ellipse([170, 500 + i * 70, 190, 520 + i * 70], fill=AMBER)
-        text(draw, (220, 490 + i * 70), line, F_BODY(26), MIST)
+    # Control plane band
+    draw.rounded_rectangle([96, 250, 1824, 520], radius=18, fill=STEEL + (40,), outline=STEEL, width=3)
+    text(draw, (120, 270), "AGENT CONTROL PLANE", F_BOLD(22), STEEL)
+    text(draw, (520, 274), "lab → CI-gated → hot-path", F_BODY(20), MUTED)
 
-    # right horizon B
-    draw.rounded_rectangle([1020, 300, 1800, 920], radius=24, fill=EMBER + (30,), outline=EMBER, width=3)
-    text(draw, (1060, 340), "HORIZON B", F_BOLD(22), EMBER)
-    text(draw, (1060, 390), "~2029–31", F_DISPLAY(56), WHITE)
-    for i, line in enumerate(
-        [
-            "CI-gated agent specialize",
-            "ACFs / heuristics as VCS arts",
-            "Multi-HW agent fleets normal",
-            "Sim→silicon codesign feedback",
-            "Still no LLM-as-opt default",
-        ]
-    ):
-        draw.ellipse([1070, 500 + i * 70, 1090, 520 + i * 70], fill=STEEL)
-        text(draw, (1120, 490 + i * 70), line, F_BODY(26), MIST)
-    return save(img, "09-two-horizons.png")
+    jobs = [
+        ("(a)", "ONLINE", "specialize"),
+        ("(b)", "OFFLINE", "evolve"),
+        ("(c)", "ENG.", "review"),
+        ("(d)", "BRING-UP", "codesign"),
+    ]
+    for i, (letter, title, sub) in enumerate(jobs):
+        x = 140 + i * 420
+        draw.rounded_rectangle([x, 320, x + 380, 430], radius=12, fill=BG1, outline=AMBER, width=2)
+        text(draw, (x + 24, 340), letter, F_BOLD(22), AMBER)
+        text(draw, (x + 90, 338), title, F_BOLD(24), WHITE)
+        text(draw, (x + 90, 380), sub, F_BODY(20), MIST)
+
+    # substrate strip
+    draw.rounded_rectangle([140, 450, 1780, 500], radius=10, fill=AMBER + (35,), outline=AMBER, width=2)
+    text(
+        draw,
+        (960, 475),
+        "SUBSTRATE  ·  workflow compile  ·  ADG analysis  ·  freeze/amortize  ·  hetero place",
+        F_BODY(20),
+        WHITE,
+        "mm",
+    )
+
+    # arrow
+    draw.polygon([(900, 530), (1020, 530), (1020, 555), (960, 600), (900, 555)], fill=WHITE + (160,))
+    text(draw, (1040, 545), "typed tools · admit · oracles", F_MONO(18), MUTED)
+
+    # Data plane
+    draw.rounded_rectangle([96, 620, 1824, 780], radius=18, fill=AMBER + (30,), outline=AMBER, width=3)
+    text(draw, (120, 645), "CLASSICAL DATA PLANE", F_BOLD(22), AMBER)
+    text(draw, (120, 690), "Inductor · XLA · MLIR · Triton · Helion · Tile", F_BODY(26), WHITE)
+    text(draw, (120, 735), "legality · lowering · admit / fallback   ·   default path stays", F_BODY(20), MIST)
+
+    # three sinks
+    sinks = [
+        ("GPU / NPU / ASIC", "sim → silicon", STEEL),
+        ("VCS artifacts", "ACF · kernels · memory", (180, 120, 70)),
+        ("Serving runtime", "freeze for replay", EMBER),
+    ]
+    for i, (title, sub, col) in enumerate(sinks):
+        x = 160 + i * 560
+        draw.rounded_rectangle([x, 820, x + 500, 920], radius=12, fill=col + (40,), outline=col, width=2)
+        text(draw, (x + 28, 840), title, F_BOLD(22), WHITE)
+        text(draw, (x + 28, 880), sub, F_BODY(18), MIST)
+
+    text(draw, (96, 980), "Codesign feedback: agent failures → ISA / dialect RFCs  ·  humans + EDA own tape-out", F_BODY(20), MUTED)
+    return save(img, "02b-architecture-51.png")
+
+
+def poster_horizon() -> Path:
+    """Roadmap architecture evolution: Today → Horizon A → Horizon B."""
+    img, draw = canvas()
+    brand_mark(draw)
+    text(draw, (96, 110), "ROADMAP", F_BOLD(18), STEEL)
+    text(draw, (96, 150), "Architecture evolution", F_DISPLAY(52), WHITE)
+
+    cols = [
+        (
+            "TODAY",
+            "2025–26",
+            STEEL,
+            [
+                "Ad-hoc agent loops",
+                "chat / tools on compilers",
+                "GEAK · ACCLAIM · Magellan",
+                "Data plane = default",
+                "GPU-mostly targets",
+            ],
+        ),
+        (
+            "HORIZON A",
+            "2027–28",
+            AMBER,
+            [
+                "Jobs (a–d) productized",
+                "CI-gated specialize",
+                "Typed tools + oracles",
+                "Multi-DSL fingerprints",
+                "Early codesign on sim+Si",
+            ],
+        ),
+        (
+            "HORIZON B",
+            "~2029–31",
+            EMBER,
+            [
+                "Control plane compiled",
+                "ADG admit · freeze · place",
+                "ACF/heuristics as VCS arts",
+                "Multi-backend fleets",
+                "Steady codesign loop",
+            ],
+        ),
+    ]
+    # path line behind columns
+    draw.line([(280, 420), (1640, 420)], fill=MUTED + (100,), width=5)
+    for i, (label, years, col, bullets) in enumerate(cols):
+        x = 120 + i * 600
+        draw.ellipse([x + 230, 400, x + 270, 440], fill=col)
+        draw.rounded_rectangle([x, 480, x + 540, 960], radius=20, fill=col + (32,), outline=col, width=3)
+        text(draw, (x + 36, 510), label, F_BOLD(22), col)
+        text(draw, (x + 36, 555), years, F_DISPLAY(40), WHITE)
+        for j, line in enumerate(bullets):
+            yy = 640 + j * 52
+            draw.ellipse([x + 40, yy + 10, x + 56, yy + 26], fill=col)
+            text(draw, (x + 76, yy), line, F_BODY(22), MIST)
+        if i < 2:
+            # chevron between columns
+            cx = x + 560
+            draw.polygon([(cx, 410), (cx + 28, 420), (cx, 430)], fill=MUTED)
+
+    text(draw, (96, 1000), "Data plane never goes away — agent graph becomes compiled, audited, amortized", F_BODY(20), MUTED)
+    return save(img, "09-architecture-evolution.png")
 
 
 def poster_falsifiers() -> Path:
@@ -552,6 +640,7 @@ def main() -> int:
     paths = [
         poster_title(),
         poster_hybrid(),
+        poster_architecture(),
         poster_timeline(),
         poster_four_jobs(),
         poster_stack(),
