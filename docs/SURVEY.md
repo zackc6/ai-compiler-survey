@@ -1,6 +1,6 @@
 # Next-Gen AI Compiler Survey (expanded)
 
-**Last updated:** 2026-08-04 (roadmap folded into §5.5)  
+**Last updated:** 2026-08-04 (roadmap §5.5 + stack §5.6 folded in)  
 **Companion digests:** [`../reference/publications/`](../reference/publications/)  
 **Status:** [`../STATUS.md`](../STATUS.md)  
 **Conflicts:** [`CONFLICTS.md`](CONFLICTS.md) · **Reference:** [`../reference/README.md`](../reference/README.md) ([publications](../reference/publications/) · [products](../reference/products.md) · [repos](../reference/repos.md))
@@ -17,7 +17,7 @@ Everything else (papers, GitHub/Gerrit, commercial SKUs, forums, ASIC bring-up s
 
 > **Agents own semantic search, orchestration, and artifact synthesis. Compilers own lowering, legality, measurement, and fallback.**
 
-Agents reshape the **control plane** more than they replace the **data plane**. A fourth job — **accelerator bring-up / codesign feedback** on sim+silicon — is now Tier A evidence (TritorX, KernelEvolve), still centered on kernels/IR/oracles. See [§5](#5-future-prediction-what-next-gen-looks-like) (incl. roadmap §5.5), [`STACK.md`](STACK.md), [§6](#6-conflicts-pointer), [§4](#4-whats-missing--under-covered-q4).
+Agents reshape the **control plane** more than they replace the **data plane**. A fourth job — **accelerator bring-up / codesign feedback** on sim+silicon — is now Tier A evidence (TritorX, KernelEvolve), still centered on kernels/IR/oracles. See [§5](#5-future-prediction-what-next-gen-looks-like) (architecture §5.1, roadmap §5.5, stack §5.6), [§6](#6-conflicts-pointer), [§4](#4-whats-missing--under-covered-q4).
 
 **Sub-agent substrate (in scope).** Multi-agent **workflow compilers**, **AGI compilers** that freeze agent graphs into deployable artifacts, **static analysis of agent DAGs**, and **heterogeneous agent serving** are first-class evidence for how the control plane is built, secured, and productized—not side topics. Digests: [Auto](../reference/publications/auto-agi-compiler.md), [FlowCompile](../reference/publications/flowcompile.md), [AgentFlow](../reference/publications/agentflow.md), [Heterogeneous agentic AI](../reference/publications/agentic-ai-hetero-systems.md).
 
@@ -627,7 +627,7 @@ From Magellan LLVM Dev Meeting slides ([digest](../reference/publications/magell
 
 ### 5.5 Roadmap — Horizon A (2027–28) and Horizon B (~2029–31)
 
-Falsifiable sketch conditioned on C1–C10. Architecture target is [§5.1](#51-architecture); commercialization packaging is [§5.7](#57-from-prediction-to-commercial-practice--critical-problems); layer map is [`STACK.md`](STACK.md).
+Falsifiable sketch conditioned on C1–C10. Architecture target is [§5.1](#51-architecture); commercialization packaging is [§5.7](#57-from-prediction-to-commercial-practice--critical-problems); layer map is [§5.6](#56-stack-reshape-sw--hw-codesign).
 
 **Executive 5-year bet (still agentic-compiler-centric):** classical data planes remain; agentic control planes become how orgs survive O(ops × devices × generations). HW codesign appears as **sim/silicon feedback into IR/ISA/dialects**, not autonomous tape-out (**C10**). New artifacts (ACFs, heuristics, memories, bring-up corpora) sit beside binaries in VCS — and, later, frozen agent workflows when the control plane itself is compiled.
 
@@ -744,9 +744,51 @@ How the hybrid stack thickens from ad-hoc agent loops to a **compiled control pl
 
 Update when CONFLICTS settle or new Tier A codesign evidence lands.
 
-### 5.6 Stack reshape pointer
+### 5.6 Stack reshape (SW + HW codesign)
 
-Layer-by-layer SW + codesign map: [`STACK.md`](STACK.md). Claim IDs: [`CLAIMS.md`](CLAIMS.md).
+**Focus:** not “AI software in general,” but how an **agentic compiler** changes layers from framework UX down to silicon feedback. Architecture target: [§5.1](#51-architecture). Horizons: [§5.5](#55-roadmap--horizon-a-202728-and-horizon-b-202931). Claim IDs: [`CLAIMS.md`](CLAIMS.md).
+
+#### 5.6.1 Layer map (today → agentic)
+
+| Layer | Classical role | Reshape by agentic compiler | Evidence |
+|---|---|---|---|
+| **1. Model / framework** | `torch.compile`, JAX/TF export | Agents consume graphs/regions; Amdahl-rank hot ops; write kernels back into eager/compile path | AutoKernel, Kernel Forge, AgentCompile |
+| **2. Kernel DSL** | CUDA / Triton / Helion / Tile / CuTe / HIP | DSL becomes **agent training + search surface**; Helion raises abstraction; multi-DSL skills required | Helion, GEAK, CompileIQ, KForge, TRT-LLM agents PR |
+| **3. Portable IR** | StableHLO, MLIR dialects | Must expose fingerprints, tool APIs, legality; free rewrite fails | mlirAgent, StableHLO, MLIR |
+| **4. Compiler mid/back** | LLVM/XLA/Inductor/NVCC passes | Offline agents evolve heuristics; online agents pick passes/hints/ACFs; MLGO advisors persist | Magellan, MLGO, ACCLAIM, HintPilot, CompileIQ |
+| **5. Oracles & profilers** | Unit tests, Alive2, NCU | Become **admit gates + reward**; federated profilers (MPP) required for hetero HW | Archer, LLM-VeriOpt, KernelEvolve, Ascend diagnosis |
+| **6. Artifacts / VCS** | Binaries, schedules | **ACFs, evolved C++, verified kernels, optimization memory, bring-up corpora** | CompileIQ, Magellan, KernelBlaster, TritorX |
+| **7. Serving runtime** | vLLM, TRT-LLM, custom ads stacks | Agent loops specialize serving kernels; must not break graph-level opts | GEAK, KForge vs TRT-LLM, KernelEvolve |
+| **8. Silicon / sim** | Manual bring-up, ISA docs | Agents generate backends on **sim + silicon**; traces inform next ISA/IR (codesign) | TritorX, KernelEvolve, Ascend NPU paper |
+
+#### 5.6.2 Four agent jobs on the stack
+
+```text
+(a) Online specialize     → layers 1–2–4–5–7   (CompileIQ, GEAK, AutoKernel, ACCLAIM)
+(b) Offline evolve        → layer 4 (+ artifacts) (Magellan / AlphaEvolve)
+(c) Oracle engineering    → layers 4–5–6         (Archer, CCC-adjacent)
+(d) Bring-up / codesign   → layers 2–5–8         (TritorX, KernelEvolve, Ascend diagnosis, KForge)
+```
+
+Job **(d)** is the HW-codesign extension: still an **agentic compiler/toolchain** problem (kernels, dialects, tests), not general chip LLM design.
+
+#### 5.6.3 Stack reshape theses (claim IDs)
+
+| ID | Thesis | Status |
+|---|---|---|
+| S1 | Control plane becomes agentic; data plane stays classical | Supported — see CLAIMS A1 |
+| S2 | Portability shifts from “write once IR” to “agent + oracle per backend” while IR remains necessary substrate | Contested — C4, C8 |
+| S3 | New first-class artifacts (ACF/heuristics/memory/traces) change CI and code review | Supported — A3 |
+| S4 | Custom ASIC competitiveness increasingly depends on agentic bring-up latency | Supported (industrial) — TritorX/KernelEvolve; watch second-vendor repro — C9 |
+| S5 | Profilers and compiler internals move from human IDE tools to **agent APIs** | Watch — KernelEvolve MPP, Ascend hierarchy |
+
+#### 5.6.4 What *not* to confuse with stack reshape
+
+| Lookalike | Why it is weaker for *this* survey |
+|---|---|
+| Generic coding agents on app repos | No compile oracles → Tier C |
+| Pure EDA/RTL LLM without kernel/IR loop | Out of scope unless tied to compiler admit |
+| Vendor SKU lists without agent/oracle APIs | Tier B baselines only |
 
 ### 5.7 From prediction to commercial practice — critical problems
 
@@ -1141,7 +1183,7 @@ Working stance used in §5: hybrid control/data plane; Magellan and MLGO as para
 
 ## 7. How to read this repo
 
-1. Skim **§0.1 North star**, **§5 Future prediction** (architecture §5.1 + roadmap §5.5), then [`STACK.md`](STACK.md).
+1. Skim **§0.1 North star**, **§5 Future prediction** (architecture §5.1, roadmap §5.5, stack §5.6).
 2. If shipping commercially: read **§5.7** (P1–P22: contract, memory, eval, pricing, tenancy, IP, DR, …).
 3. Check [`CLAIMS.md`](CLAIMS.md); read [`CONFLICTS.md`](CONFLICTS.md) when two sources disagree.
 4. Use [`SYSTEMS.md`](SYSTEMS.md) for concrete systems.
@@ -1150,4 +1192,4 @@ Working stance used in §5: hybrid control/data plane; Magellan and MLGO as para
 7. Contribute via [`WORKFLOW.md`](WORKFLOW.md); validate with `python3 scripts/validate_survey.py`.
 8. Track progress in [`../STATUS.md`](../STATUS.md).
 
-**One-page success check:** (1) Predicted agentic compiler? → §5.1 / §5.5. (2) Four agent jobs including codesign bring-up? → §5.1 / STACK. (3) Evidence vs noise? → Tier A vs C. (4) Commercial blockers? → §5.7.
+**One-page success check:** (1) Predicted agentic compiler? → §5.1 / §5.5. (2) Four agent jobs including codesign bring-up? → §5.1 / §5.6. (3) Evidence vs noise? → Tier A vs C. (4) Commercial blockers? → §5.7.

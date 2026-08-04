@@ -157,7 +157,7 @@ def s_title(prs):
     )
     textbox(
         s, 0.9, 6.4, 10, 0.4,
-        f"Generated {date.today().isoformat()}  ·  From docs/SURVEY · STACK · CLAIMS",
+        f"Generated {date.today().isoformat()}  ·  From docs/SURVEY · CLAIMS",
         12, False, MUTED, SANS,
     )
 

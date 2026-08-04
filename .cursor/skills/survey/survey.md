@@ -11,7 +11,7 @@ Lessons from turning a bibliography into a **prediction + roadmap + commercializ
 5. **Conflicts register** — Vendor headlines vs docs, Magellan vs MLGO, coverage vs peak, codesign vs autonomous chip. Settlement signals prevent false consensus.
 6. **Evidence tiers A/B/C** — Demote generic SCM AI; promote negative results as architecture bounds.
 7. **CLAIMS.md IDs** — Update the map without rewriting the whole narrative.
-8. **Thin narrative edits** — Digest → INDEX first; deepen SURVEY §5 / STACK only when claims move.
+8. **Thin narrative edits** — Digest → INDEX first; deepen SURVEY §5 only when claims move.
 9. **Org + Publisher on every digest** — Company/university/lab + venue/host; INDEX columns; validate requires fields; `apply_org_publisher.py` META map + rebuild for 7-column INDEX rows.
 10. **Vision lineage digests** — e.g. Compiler 2.0 (CC’20 → CGO’22 → Ken Kennedy 2026) + MOCHA funded path; SURVEY §1.5 vision map. Use **full paper titles** in INDEX (short names hid KernelEvolve).
 11. **§5.7 commercialization (P1–P23)** — Turning prediction into practice needs ops/business problems, not only architecture: contract (NL vs structured traces vs typed tools), memory (scratchpad ≪ dense ≪ VCS), sub-agents, when-to-run, oracles, ownership, multi-DSL, SKU, then eval, pricing, tenancy, model lock-in, IP, joint versioning, cold start, HITL capacity, flywheel, latency SLOs, DR, A/B, compliance, FSM orchestration, **tokens/inference/capability (P23)**.
@@ -57,7 +57,7 @@ When expanding “how to ship the prediction”:
 ## Minimal viable survey (if starting over)
 
 1. One-page future sketch + falsifiers first.
-2. SURVEY §5.5 (near + 5yr) and STACK layer table next.
+2. SURVEY §5.5 (near + 5yr) and §5.6 layer table next.
 3. 10–15 Tier A digests only (Org/Publisher from day one).
 4. CONFLICTS for every disagreement that changes the sketch.
 5. CLAIMS map before the 30th digest.

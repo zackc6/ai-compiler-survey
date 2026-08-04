@@ -14,7 +14,6 @@ LANGS = ("en", "zh-CN", "zh-TW")
 # Narrative-first order for the PDF manuscript.
 SECTIONS: list[tuple[str, Path]] = [
     ("Survey narrative", ROOT / "docs" / "SURVEY.md"),
-    ("Software stack & HW codesign reshape", ROOT / "docs" / "STACK.md"),
     ("Claims map", ROOT / "docs" / "CLAIMS.md"),
     ("Conflicts register", ROOT / "docs" / "CONFLICTS.md"),
     ("Systems comparison", ROOT / "docs" / "SYSTEMS.md"),
@@ -28,7 +27,6 @@ SECTIONS: list[tuple[str, Path]] = [
 SECTION_TITLES = {
     "en": {
         "Survey narrative": "Survey narrative",
-        "Software stack & HW codesign reshape": "Software stack & HW codesign reshape",
         "Claims map": "Claims map",
         "Conflicts register": "Conflicts register",
         "Systems comparison": "Systems comparison",
@@ -41,7 +39,6 @@ SECTION_TITLES = {
     },
     "zh-CN": {
         "Survey narrative": "综述正文",
-        "Software stack & HW codesign reshape": "软件栈与软硬件协同设计重塑",
         "Claims map": "主张—证据映射",
         "Conflicts register": "冲突对照",
         "Systems comparison": "系统对比",
@@ -54,7 +51,6 @@ SECTION_TITLES = {
     },
     "zh-TW": {
         "Survey narrative": "綜述正文",
-        "Software stack & HW codesign reshape": "軟體堆疊與軟硬體協同設計重塑",
         "Claims map": "主張—證據對應",
         "Conflicts register": "衝突對照",
         "Systems comparison": "系統比較",
@@ -76,7 +72,7 @@ COVER = {
         ),
         "living": "Living survey export",
         "generated": "Generated",
-        "primary": "Primary narrative: docs/SURVEY.md (§5 prediction + roadmap) · Stack: docs/STACK.md",
+        "primary": "Primary narrative: docs/SURVEY.md (§5 prediction, roadmap, stack reshape)",
         "verdict": (
             "**North star.** Agents own semantic search, orchestration, and artifact synthesis. "
             "Compilers own lowering, legality, measurement, and fallback. Hardware codesign enters "
@@ -94,7 +90,7 @@ COVER = {
         "subtitle": "预测智能体编译器（约 2027–28 与未来五年）：软件栈重塑与软硬件协同设计",
         "living": "持续更新型综述导出",
         "generated": "生成日期",
-        "primary": "主叙事：docs/SURVEY.md（§5 预测与路线图）· 软件栈：docs/STACK.md",
+        "primary": "主叙事：docs/SURVEY.md（§5 预测、路线图、软件栈重塑）",
         "verdict": (
             "**北极星目标。** 智能体负责语义搜索、编排与产物综合；编译器负责下降、合法性、"
             "测量与回退。硬件协同设计仅通过内核、IR、测试与 profiling 闭环进入——而非自动流片。"
@@ -110,7 +106,7 @@ COVER = {
         "subtitle": "預測智能體編譯器（約 2027–28 與未來五年）：軟體堆疊重塑與軟硬體協同設計",
         "living": "持續更新型綜述匯出",
         "generated": "產生日期",
-        "primary": "主敘事：docs/SURVEY.md（§5 預測與路線圖）· 軟體堆疊：docs/STACK.md",
+        "primary": "主敘事：docs/SURVEY.md（§5 預測、路線圖、軟體堆疊重塑）",
         "verdict": (
             "**北極星目標。** 智能體負責語意搜尋、編排與產物綜合；編譯器負責下降、合法性、"
             "量測與回退。硬體協同設計僅透過核心、IR、測試與 profiling 閉環進入——而非自動流片。"
@@ -162,7 +158,7 @@ def rewrite_links(text: str) -> str:
         "](../publications/": "](reference/publications/",
         "](../STATUS.md)": "](STATUS.md)",
         "](CONFLICTS.md)": "](#conflicts-register)",
-        "](STACK.md)": "](#software-stack--hw-codesign-reshape)",
+        "](STACK.md)": "](#56-stack-reshape-sw--hw-codesign)",
         "](CLAIMS.md)": "](#claims-map)",
         "](../reference/repos.md)": "](#repos-forge-evidence)",
         "](../reference/products.md)": "](#products-prediction-signals)",
@@ -175,7 +171,7 @@ def rewrite_links(text: str) -> str:
         "](TAXONOMY.md)": "](#taxonomy)",
         "](WORKFLOW.md)": "](docs/WORKFLOW.md)",
         "](../docs/SURVEY.md)": "](#survey-narrative)",
-        "](../docs/STACK.md)": "](#software-stack--hw-codesign-reshape)",
+        "](../docs/STACK.md)": "](#56-stack-reshape-sw--hw-codesign)",
         "](../docs/CONFLICTS.md)": "](#conflicts-register)",
         "](publications/": "](reference/publications/",
     }

@@ -22,12 +22,12 @@ Evidence store for the living survey. Digests, product signals, and repo/forge m
 1. Create a digest from [`publications/_TEMPLATE.md`](publications/_TEMPLATE.md) (**Org** + **Publisher** required).
 2. Add an INDEX row (★ only if it moves the prediction).
 3. Update `products.md` / `repos.md` only if the mechanism is a new shipping surface.
-4. Thin-touch SURVEY §5 / STACK if the prediction moves.
+4. Thin-touch SURVEY §5 if the prediction moves.
 5. `python3 scripts/validate_survey.py`
 
 ## Related narrative docs
 
 - [`../docs/SURVEY.md`](../docs/SURVEY.md) — Q1–Q4 + §5 prediction / roadmap / commercialization  
-- [`../docs/STACK.md`](../docs/STACK.md) — SW + HW-codesign layer map  
+- [`../docs/SURVEY.md`](../docs/SURVEY.md) §5.6 — SW + HW-codesign layer map  
 - [`../docs/SYSTEMS.md`](../docs/SYSTEMS.md) · [`../docs/TAXONOMY.md`](../docs/TAXONOMY.md)  
 - [`../docs/WORKFLOW.md`](../docs/WORKFLOW.md) — add-source loop  

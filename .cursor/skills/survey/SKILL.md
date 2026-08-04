@@ -3,7 +3,7 @@ name: survey
 description: >-
   Maintain this living survey on main: prediction-first digests (Org/Publisher),
   CLAIMS/CONFLICTS, SURVEY §5 (architecture + roadmap + commercialization),
-  STACK, validate, rebuild PDF + diagram visuals + PPTX, push main. Use when
+  validate, rebuild PDF + diagram visuals + PPTX, push main. Use when
   editing this repo, adding publications, updating the agentic-compiler
   prediction, or publishing.
 ---
@@ -13,9 +13,8 @@ description: >-
 | Step | Path |
 |---|---|
 | North star / future | `docs/SURVEY.md` §0.1, §5 |
-| Architecture / roadmap | `docs/SURVEY.md` **§5.1** / **§5.5** |
+| Architecture / roadmap / stack | `docs/SURVEY.md` **§5.1** / **§5.5** / **§5.6** |
 | **Commercialization** | `docs/SURVEY.md` **§5.7** (P1–P23) |
-| Stack | `docs/STACK.md` |
 | Claims / conflicts | `docs/CLAIMS.md`, `docs/CONFLICTS.md` |
 | Add-source loop | `docs/WORKFLOW.md` |
 | **Reference guide** | `reference/README.md` → publications / products / repos |
@@ -43,7 +42,7 @@ description: >-
 ```text
 [ ] Digests have Org + Publisher; INDEX titles are full paper names
 [ ] python3 scripts/validate_survey.py  → OK
-[ ] CLAIMS / CONFLICTS / SURVEY §5 / STACK touched if prediction moved
+[ ] CLAIMS / CONFLICTS / SURVEY §5 touched if prediction moved
 [ ] §5.7 updated if commercialization blockers discovered
 [ ] python3 publish/build_pdf.py
 [ ] python3 publish/build_visual.py   # diagram-first, not table slides

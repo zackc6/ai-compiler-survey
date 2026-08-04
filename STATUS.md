@@ -9,7 +9,7 @@ Last updated: **2026-08-04**
 | Goals (agentic-compiler prediction) | Done (v3) | + roadmap, stack reshape, HW codesign via job (d) |
 | Future prediction §5 | Done | Four jobs; codesign; §5.5–5.6; **§5.7 commercialization** |
 | **Roadmap 2027–28 / ~5yr** | Done | folded into `docs/SURVEY.md` §5.5 |
-| **STACK reshape** | Done | `docs/STACK.md` layers 1–8 |
+| **STACK reshape** | Done | folded into `docs/SURVEY.md` §5.6 |
 | Claims map | Done | `docs/CLAIMS.md` A/P/S/H |
 | Conflicts | Done | C1–C10 (+ coverage vs peak, codesign vs EDA) |
 | Survey narrative Q1–Q4 | Done (v3) | Gaps as blockers |
@@ -27,7 +27,7 @@ Last updated: **2026-08-04**
 
 - [x] §0.1 + §5 architecture with job (d) bring-up/codesign
 - [x] SURVEY §5.5 Horizon A (2027–28) + B (~5 years)
-- [x] STACK SW+HW layer map focused on agentic compiler
+- [x] SURVEY §5.6 SW+HW layer map focused on agentic compiler
 - [x] TritorX, KernelEvolve, Ascend diagnosis, KForge, AutoKernel, Helion digests
 - [x] Conflicts C9 (coverage vs peak), C10 (codesign vs autonomous chip)
 - [ ] Second-vendor public TritorX-class reproduction
@@ -44,6 +44,7 @@ Last updated: **2026-08-04**
 
 | Date | Change |
 |---|---|
+| 2026-08-04 | Fold STACK into SURVEY §5.6; drop circular SURVEY↔STACK pointers |
 | 2026-08-04 | Collect evidence under `reference/` (guide → publications / products / repos) |
 | 2026-08-04 | Fold ROADMAP into SURVEY §5.5; drop circular SURVEY↔ROADMAP pointers; remove self-repo name from PDF cover / setup notes |
 | 2026-08-04 | Redraw §5.1 architecture + §5.5 architecture-evolution diagrams; add visual posters (architecture stack, Today→A→B evolution) |
