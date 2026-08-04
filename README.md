@@ -9,7 +9,7 @@ Living survey aimed at **predicting the next-generation agentic compiler** (~202
 3. **Stack reshape** — Layer map (framework → DSL → IR → oracles → silicon feedback) in [`docs/SURVEY.md`](docs/SURVEY.md) §5.6.
 4. **Answer Q1–Q4** plus comparison (§1b) and conflicts ([`docs/SURVEY.md`](docs/SURVEY.md) §6, C1–C10).
 5. **Reference evidence** — [`reference/`](reference/) guide → publications / products / repos.
-6. **Publish** — English PDF via [`publish/`](publish/): [`PDF`](publish/out/next-gen-ai-compiler-survey.pdf) (`python3 publish/build_pdf.py`).
+6. **Publish** — [`PDF`](publish/out/next-gen-ai-compiler-survey.pdf) (`python3 publish/build_pdf.py`) · expert deck [`Beamer PDF`](publish/out/next-gen-ai-compiler-expert-briefing.pdf) (`python3 publish/build_beamer.py`).
 7. **Track progress** — [`STATUS.md`](STATUS.md).
 
 ## Repo layout
@@ -26,7 +26,8 @@ reference/
   products.md             # Commercial prediction signals
   repos.md                # Forge / OSS evidence map
 publish/
-  build_pdf.py
+  build_pdf.py / build_beamer.py
+  beamer/expert-briefing.tex
   out/*.pdf
 scripts/validate_survey.py
 .cursor/skills/survey/
@@ -37,7 +38,7 @@ scripts/validate_survey.py
 1. Read [`docs/SURVEY.md`](docs/SURVEY.md) end-to-end (§0 → §9).
 2. Open [`reference/README.md`](reference/README.md) → ★ digests in [`reference/publications/INDEX.md`](reference/publications/INDEX.md) when you need to stress-test a claim.
 3. Contribute via [`docs/SURVEY.md`](docs/SURVEY.md) §9; `python3 scripts/validate_survey.py`.
-4. Export: `python3 publish/build_pdf.py`.
+4. Export: `python3 publish/build_pdf.py` · expert deck: `python3 publish/build_beamer.py`.
 
 ## How we update
 

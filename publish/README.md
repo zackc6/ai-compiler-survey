@@ -1,20 +1,23 @@
-# Publish survey → PDF
+# Publish survey → PDF + expert Beamer deck
 
-English PDF in `publish/out/`.
+English artifacts in `publish/out/`.
 
 ## Build
 
 ```bash
-python3 publish/build_pdf.py     # English PDF
+python3 publish/build_pdf.py       # full survey PDF
+python3 publish/build_beamer.py    # expert briefing (Beamer + TikZ, ~28 slides)
 ```
 
 | Output | Role |
 |---|---|
-| `out/next-gen-ai-compiler-survey.pdf` | Full survey PDF (English only in out/) |
+| `out/next-gen-ai-compiler-survey.pdf` | Full survey manuscript |
+| `out/next-gen-ai-compiler-expert-briefing.pdf` | Expert briefing deck (diagram-first, §5→§4→§1) |
 
-Chinese PDF scripts remain (`--lang zh-CN|zh-TW|all`) but those files are not kept in `out/`.
+Source for the deck: [`beamer/expert-briefing.tex`](beamer/expert-briefing.tex).
 
 ## Requirements
 
-- PDF: `pandoc`, `weasyprint`, `pypdf`
-- Optional zh PDF: `deep-translator`, `opencc-python-reimplemented`
+- Survey PDF: `pandoc`, `weasyprint`, `pypdf`
+- Beamer deck: `pdflatex` + TeX Live (`beamer`, `tikz`, `pgfplots`, Fira, EB Garamond)
+- Optional zh survey PDF: `deep-translator`, `opencc-python-reimplemented`

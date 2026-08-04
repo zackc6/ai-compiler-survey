@@ -16,7 +16,7 @@ Last updated: **2026-08-04**
 | **Reference store** | Done | `reference/` guide → publications / products / repos |
 | Publication digests | Done (v7) | **108** digests under `reference/publications/` |
 | Validate script | Done | `python3 scripts/validate_survey.py` |
-| **PDF publish** | Done | English PDF in `publish/out/` |
+| **PDF publish** | Done | Survey PDF + expert Beamer deck in `publish/out/` |
 | **Survey skill** | Done | `.cursor/skills/survey/` (+ personal `~/.cursor/skills/survey/`) |
 | GitHub remote | Available | work on `main` and push |
 
@@ -43,6 +43,7 @@ Last updated: **2026-08-04**
 
 | Date | Change |
 |---|---|
+| 2026-08-04 | Add LaTeX Beamer expert briefing (~28 slides, diagram-first; §5→§4→§1) → `publish/out/next-gen-ai-compiler-expert-briefing.pdf` |
 | 2026-08-04 | Remove visual posters, PPTX decks, and `build_visual.py` / `build_pptx.py` — PDF-only publish |
 | 2026-08-04 | Refresh §5.1 + architecture-evolution visuals; add 2-slide share deck `architecture-51-and-evolution.pptx` |
 | 2026-08-04 | Rescan: EmitC-MLGO June 2026 PoR checkpoint (C1 not settled); +CuTeGen ★, CompileIQ agent-skills ★, Hexagon-MLIR; INDEX **108** |

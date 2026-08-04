@@ -55,6 +55,7 @@ publish/              # PDF only
 | Org sync helper | `python3 scripts/apply_org_publisher.py` |
 | Validate | `python3 scripts/validate_survey.py` |
 | PDF | `python3 publish/build_pdf.py` |
+| Expert Beamer deck | `python3 publish/build_beamer.py` → `publish/out/next-gen-ai-compiler-expert-briefing.pdf` |
 | Status | `STATUS.md` |
 
 ## Hard rules
@@ -77,6 +78,7 @@ publish/              # PDF only
 [ ] §5.7 updated if commercialization blockers discovered
 [ ] No new satellite docs that fragment the reading path
 [ ] python3 publish/build_pdf.py
+[ ] python3 publish/build_beamer.py   # if briefing deck should refresh
 [ ] STATUS.md changelog
 [ ] git commit && git push origin main
 ```
