@@ -119,7 +119,8 @@ COVER = {
 }
 
 PDF_NAMES = {
-    "en": "next-gen-ai-compiler-survey.en.pdf",
+    # English is the only PDF kept in out/ — no .en suffix.
+    "en": "next-gen-ai-compiler-survey.pdf",
     "zh-CN": "next-gen-ai-compiler-survey.zh-CN.pdf",
     "zh-TW": "next-gen-ai-compiler-survey.zh-TW.pdf",
 }

@@ -14,9 +14,6 @@ from datetime import date
 
 STYLE = Path(__file__).resolve().parent / "style.css"
 
-# Legacy alias kept for bookmarks / old links.
-LEGACY_EN_PDF = "next-gen-ai-compiler-survey.pdf"
-
 
 def run(cmd: list[str]) -> None:
     print("+", " ".join(cmd))
@@ -206,10 +203,11 @@ def main() -> int:
             print(f"ERROR building {lang}: {exc}", file=sys.stderr)
             return 1
 
-    if "en" in langs:
-        legacy = OUT / LEGACY_EN_PDF
-        shutil.copyfile(OUT / PDF_NAMES["en"], legacy)
-        print(f"PDF[legacy]: {legacy.relative_to(ROOT)}")
+    # Drop stale duplicate if an older .en.pdf alias remains.
+    stale_en = OUT / "next-gen-ai-compiler-survey.en.pdf"
+    if stale_en.exists() and PDF_NAMES["en"] != stale_en.name:
+        stale_en.unlink()
+        print(f"removed stale alias: {stale_en.relative_to(ROOT)}")
 
     print("Built:", ", ".join(p.name for p in built))
     return 0

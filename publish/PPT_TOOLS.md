@@ -17,7 +17,7 @@
 
 1. Keep generating the **outline + facts** here: `python3 publish/build_pptx.py`
 2. Paste the **one-page check + four jobs + C1/C2/C9/C10** into **Gamma** or **Beautiful.ai** for visual polish
-3. Or upload `publish/out/next-gen-ai-compiler-survey.en.pdf` to **SlideSpeak / NotebookLM** and restyle
+3. Or upload `publish/out/next-gen-ai-compiler-survey.pdf` to **SlideSpeak / NotebookLM** and restyle
 4. Re-sync numbers from `CLAIMS.md` / `INDEX.md` whenever evidence moves
 
 ## Prompt starter (Gamma / Beautiful.ai)

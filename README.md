@@ -10,7 +10,7 @@ Living survey aimed at **predicting the next-generation agentic compiler** (~202
 4. **Answer Q1–Q4** plus comparison + conflicts ([`docs/CONFLICTS.md`](docs/CONFLICTS.md) C1–C10).
 5. **Reusable bibliography** — Digests under [`publications/`](publications/).
 6. **Publish** — [`publish/`](publish/) English PDF + decks + **diagram visuals**:
-   [`PDF`](publish/out/next-gen-ai-compiler-survey.en.pdf) ·
+   [`PDF`](publish/out/next-gen-ai-compiler-survey.pdf) ·
    [`PPTX`](publish/out/next-gen-ai-compiler-survey.pptx) ·
    [`Visual PPTX`](publish/out/next-gen-ai-compiler-survey-visual.pptx) ·
    [`Posters`](publish/out/visual/)
@@ -35,7 +35,7 @@ publications/
   INDEX.md / _TEMPLATE.md / *.md
 publish/
   build_pdf.py / build_pptx.py
-  out/*.en.pdf / out/*.pptx
+  out/*.pdf / out/*.pptx
 scripts/validate_survey.py
 .cursor/skills/survey/
 ```

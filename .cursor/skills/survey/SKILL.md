@@ -20,7 +20,7 @@ description: >-
 | Index | `publications/INDEX.md` (Org/Publisher columns; ★ for prediction-critical) |
 | Org sync helper | `python3 scripts/apply_org_publisher.py` (after META map edits) |
 | Validate | `python3 scripts/validate_survey.py` |
-| PDF | `python3 publish/build_pdf.py` → `publish/out/*.en.pdf` |
+| PDF | `python3 publish/build_pdf.py` → `publish/out/next-gen-ai-compiler-survey.pdf` |
 | Editorial PPTX | `python3 publish/build_pptx.py` |
 | **Visual pack** | `python3 publish/build_visual.py` → `out/visual/*.png` + `*-visual.pptx` |
 | Status | `STATUS.md` |

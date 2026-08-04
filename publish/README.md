@@ -12,7 +12,7 @@ python3 publish/build_visual.py  # diagram-first PNG posters + visual PPTX
 
 | Output | Role |
 |---|---|
-| `out/next-gen-ai-compiler-survey.en.pdf` | Full survey PDF |
+| `out/next-gen-ai-compiler-survey.pdf` | Full survey PDF (English only in out/) |
 | `out/next-gen-ai-compiler-survey.pptx` | 15-slide idea exploration deck |
 | `out/next-gen-ai-compiler-survey-visual.pptx` | Full-bleed diagram slides (no tables) |
 | `out/visual/*.png` | 13× 1920×1080 posters (hybrid, jobs, stack, codesign, commercial, P23, …) |

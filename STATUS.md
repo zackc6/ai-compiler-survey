@@ -58,6 +58,7 @@ Last updated: **2026-08-03**
 | 2026-08-03 | Expand §5.7 → P1–P22 (eval, economics, tenancy, IP, versioning, DR, A/B, compliance, …) |
 | 2026-08-03 | §5.7 P23: tokens / inference / model capability survey + conclusion |
 | 2026-08-03 | Rebuild PDF + visuals (+ commercial/P23 posters) + editorial PPTX |
+| 2026-08-03 | Update `.cursor/skills/survey` with §5.7/P23, visuals, Org, hybrid lessons |
 
 ## Next actions
 
