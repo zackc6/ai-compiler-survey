@@ -22,7 +22,7 @@ Chinese PDF scripts remain (`--lang zh-CN|zh-TW|all`) but those files are not ke
 ## Visual pack intent
 
 - One composition per image — architecture, orbit, path, ladder, constellation
-- Night-forge palette (charcoal / steel / amber); not table dumps or bullet walls
+- Night-forge palette (charcoal / steel / amber); soft radial wash, **no grid** (readability)
 - Regenerate whenever ROADMAP / four jobs / conflicts move
 
 ## PPT design intent

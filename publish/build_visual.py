@@ -57,27 +57,20 @@ F_MONO = lambda s: find_font(["JetBrainsMono-Regular.ttf", "DejaVuSansMono.ttf"]
 
 
 def canvas() -> tuple[Image.Image, ImageDraw.ImageDraw]:
+    """Solid night field + soft radial wash. No grid — grids hurt text readability."""
     img = Image.new("RGB", (W, H), BG0)
-    draw = ImageDraw.Draw(img, "RGBA")
-    # atmospheric radial wash
     overlay = Image.new("RGB", (W, H), BG0)
     od = ImageDraw.Draw(overlay)
-    cx, cy = int(W * 0.62), int(H * 0.38)
-    for r in range(900, 0, -12):
-        t = r / 900
+    cx, cy = int(W * 0.55), int(H * 0.42)
+    for r in range(1100, 0, -16):
+        t = r / 1100
         c = (
             int(BG0[0] * t + BG1[0] * (1 - t)),
-            int(BG0[1] * t + BG1[1] * (1 - t) + 8 * (1 - t)),
-            int(BG0[2] * t + BG1[2] * (1 - t) + 14 * (1 - t)),
+            int(BG0[1] * t + (BG1[1] + 6) * (1 - t)),
+            int(BG0[2] * t + (BG1[2] + 10) * (1 - t)),
         )
         od.ellipse([cx - r, cy - r, cx + r, cy + r], fill=c)
-    img = Image.blend(img, overlay, 0.85)
-    # faint grid
-    g = ImageDraw.Draw(img)
-    for x in range(0, W, 80):
-        g.line([(x, 0), (x, H)], fill=(255, 255, 255, 10), width=1)
-    for y in range(0, H, 80):
-        g.line([(0, y), (W, y)], fill=(255, 255, 255, 10), width=1)
+    img = Image.blend(img, overlay, 0.75)
     draw = ImageDraw.Draw(img, "RGBA")
     return img, draw
 
