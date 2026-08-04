@@ -1,6 +1,6 @@
 # Survey status
 
-Last updated: **2026-08-03**
+Last updated: **2026-08-04**
 
 ## Overall progress
 
@@ -14,7 +14,7 @@ Last updated: **2026-08-03**
 | Conflicts | Done | C1–C10 (+ coverage vs peak, codesign vs EDA) |
 | Survey narrative Q1–Q4 | Done (v3) | Gaps as blockers |
 | Tiered REPOS/PRODUCTS | Done (v3) | TritorX/KernelEvolve/Helion/AutoKernel |
-| Publication digests | Done (v5) | **100** digests (+ Compiler 2.0 / MOCHA; KernelEvolve blog) |
+| Publication digests | Done (v6) | **104** digests (+ agent control-plane substrate: Auto, FlowCompile, AgentFlow, Hetero) |
 | Validate script | Done | `python3 scripts/validate_survey.py` |
 | **PDF + PPTX publish** | Done | English PDF + editorial PPTX in `publish/out/` |
 | **Visual posters** | Done | Diagram-first PNGs + visual PPTX via `publish/build_visual.py` |
@@ -37,12 +37,14 @@ Last updated: **2026-08-03**
 
 - [x] Waves A–D + SCM + prediction wave
 - [x] Codesign/roadmap wave: TritorX, KernelEvolve, Ascend diagnosis, KForge, AutoKernel(+gh), Kernel Forge, KernelBlaster, Helion(+gh)
+- [x] Agent control-plane substrate: Auto, FlowCompile, AgentFlow, Heterogeneous agentic AI
 - [ ] Wave E — deepen thin digests from full PDFs
 
 ## Change log
 
 | Date | Change |
 |---|---|
+| 2026-08-04 | Add agent control-plane substrate digests (Auto, FlowCompile, AgentFlow, Hetero); wire §0.1, Trend B, §4.6, §5.1, §5.7 P3/P22/P23; INDEX **104** |
 | 2026-07-31 | Initial scaffold through prediction refocus (C1–C8, §5, tiers) |
 | 2026-07-31 | Roadmap + stack reshape + HW codesign (job d); C9–C10; +10 digests; CLAIMS/WORKFLOW/validate |
 | 2026-07-31 | Add `publish/` PDF pipeline; export `next-gen-ai-compiler-survey.pdf` |

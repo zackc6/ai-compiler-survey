@@ -1,6 +1,6 @@
 # Next-Gen AI Compiler Survey (expanded)
 
-**Last updated:** 2026-08-03 (commercialization §5.7)  
+**Last updated:** 2026-08-04 (agent control-plane substrate)  
 **Companion digests:** [`../publications/`](../publications/)  
 **Status:** [`../STATUS.md`](../STATUS.md)  
 **Conflicts:** [`CONFLICTS.md`](CONFLICTS.md) · **Repos map:** [`REPOS.md`](REPOS.md) · **Products:** [`PRODUCTS.md`](PRODUCTS.md)
@@ -18,6 +18,8 @@ Everything else (papers, GitHub/Gerrit, commercial SKUs, forums, ASIC bring-up s
 > **Agents own semantic search, orchestration, and artifact synthesis. Compilers own lowering, legality, measurement, and fallback.**
 
 Agents reshape the **control plane** more than they replace the **data plane**. A fourth job — **accelerator bring-up / codesign feedback** on sim+silicon — is now Tier A evidence (TritorX, KernelEvolve), still centered on kernels/IR/oracles. See [`ROADMAP.md`](ROADMAP.md), [`STACK.md`](STACK.md), [§5](#5-future-prediction-what-next-gen-looks-like), [§6](#6-conflicts-pointer), [§4](#4-whats-missing--under-covered-q4).
+
+**Sub-agent substrate (in scope).** Multi-agent **workflow compilers**, **AGI compilers** that freeze agent graphs into deployable artifacts, **static analysis of agent DAGs**, and **heterogeneous agent serving** are first-class evidence for how the control plane is built, secured, and productized—not side topics. Digests: [Auto](../publications/auto-agi-compiler.md), [FlowCompile](../publications/flowcompile.md), [AgentFlow](../publications/agentflow.md), [Heterogeneous agentic AI](../publications/agentic-ai-hetero-systems.md).
 
 ---
 
@@ -61,6 +63,7 @@ CompilerGym exposed LLVM passes as OpenAI Gym environments (Autophase features, 
 2. **Tool-using agents** trained with SFT+RL (Compiler-R1).
 3. **Inference-only multi-agent tuners** that avoid heavy offline training (AutoPass).
 4. **Program-synthesis of heuristics** that land as ordinary C++ (Magellan), recovering deployability that neural-in-the-compiler lacked.
+5. **Control-plane substrate for sub-agents:** compile/freeze agent workflows ([FlowCompile](../publications/flowcompile.md), [Auto](../publications/auto-agi-compiler.md)), analyze agent programs as ADGs ([AgentFlow](../publications/agentflow.md)), and place agent stages on hetero serving ([Heterogeneous agentic AI](../publications/agentic-ai-hetero-systems.md))—so multi-agent compiler loops become compiler-shaped, not only chat-shaped.
 
 #### Trend C — MLIR + Triton as default substrate
 
@@ -395,18 +398,18 @@ Dialects, Triton, CUDA Tile IR, PTX, and LLVM IR remain siloed; an agent tuned o
 
 ### 4.6 FMware / agent-app compilation
 
-**What exists.** Compiler.next vision: compile prompts, agent topologies, and free parameters under multi-objective quality gates; generative compilation couples compilers into coding agents; industry agent harnesses (Claude C compiler) stress test construction.
+**What exists.** Compiler.next vision: compile prompts, agent topologies, and free parameters under multi-objective quality gates; generative compilation couples compilers into coding agents; industry agent harnesses (Claude C compiler) stress test construction. Concrete substrate is arriving: [FlowCompile](../publications/flowcompile.md) (compile-time optimize structured LLM workflows), [Auto](../publications/auto-agi-compiler.md) (freeze witnessed-deterministic agent spans into WASM “cognition binaries”), [AgentFlow](../publications/agentflow.md) (Agent Dependency Graphs for static analysis), and [heterogeneous agent serving](../publications/agentic-ai-hetero-systems.md) (place dynamic agent graphs across CPU/accelerator tiers).
 
 **What is missing.** Mature analogues of DL compilers for FMware:
 
-- Stable IRs for prompt/tool graphs;
+- Stable IRs for prompt/tool graphs (ADG is a candidate, not yet a shared standard);
 - Compilation that **fails closed** when quality thresholds miss;
-- Interoperability between “prompt compilers” and classical model compilers;
+- Interoperability between “prompt/workflow compilers” and classical model compilers;
 - Shared traces for community learning (Compiler.next call-to-action #10).
 
-**Why it blocks progress.** LLM applications still tune by hand and folklore while DL graphs enjoy decades of compiler investment.
+**Why it blocks progress.** LLM applications (and agentic *compiler* control planes) still tune by hand and folklore while DL graphs enjoy decades of compiler investment. Without workflow-compile + freeze + ADG checks, multi-agent compiler products stay demo-grade.
 
-**Done looks like.** Reproducible FMware compile pipelines with gold labels, cost/latency/quality Pareto fronts, and CI that blocks regressions—parallel to how model zoos ship compiled artifacts today.
+**Done looks like.** Reproducible FMware / agent-workflow compile pipelines with gold labels, cost/latency/quality Pareto fronts, static ADG admit, and CI that blocks regressions—parallel to how model zoos ship compiled artifacts today.
 
 ---
 
@@ -524,6 +527,7 @@ Falsifiable sketch for **~2027–2028**, conditioned on conflicts in [`CONFLICTS
 │  (b) offline: synthesize shippable heuristics           │
 │  (c) engineering: oracle review / evolve compiler src   │
 │  (d) bring-up/codesign: coverage→perf on sim + silicon  │
+│  + sub-agents: workflow IR · freeze · ADG · hetero place│
 └───────────────────────────┬─────────────────────────────┘
                             │ bounded actions + oracles
 ┌───────────────────────────▼─────────────────────────────┐
@@ -540,9 +544,20 @@ Falsifiable sketch for **~2027–2028**, conditioned on conflicts in [`CONFLICTS
 
 1. **Compiler becomes agent-addressable**, not agent-replaced — structured summaries, fingerprints, tool APIs, admit/fallback (mlirAgent: free IR rewrite loses to identity).
 2. **Four agent jobs stick:** (a) online specialization, (b) offline heuristic/pass synthesis, (c) compiler engineering & review, (d) accelerator bring-up / codesign feedback.
-3. **New first-class artifacts:** ACFs, evolved C++ heuristics, verified kernels, optimization memory, bring-up corpora, replayable traces.
+3. **New first-class artifacts:** ACFs, evolved C++ heuristics, verified kernels, optimization memory, bring-up corpora, replayable traces — **and** frozen agent workflows / cognition binaries when the control plane itself is compiled.
 4. **Defaults stay classical** until agents win on *distributions* in CI; hot kernels, size-critical apps, and *new ASICs* adopt first.
 5. **Will not happen soon:** unconstrained LLM replaces `opt`/Inductor without oracles (**C6**); autonomous chip tape-out via compiler agents (**C10**).
+
+**Sub-agent / workflow-compile substrate (must consider).** The control plane is itself becoming a compile target:
+
+| Line | Claim for agentic compilers | Digest |
+|---|---|---|
+| **AGI compiler / freeze** | Compile agent traces → deployable artifacts; amortize inference | [Auto](../publications/auto-agi-compiler.md) ★ → **P23** |
+| **Workflow compile** | Spec/graph → typed workflow configs across accuracy–latency | [FlowCompile](../publications/flowcompile.md) ★ → **P3/P18** |
+| **Agent static analysis** | ADG + typed deps for audit, injection, unsafe tools | [AgentFlow](../publications/agentflow.md) → **P1/P22** |
+| **Heterogeneous serving** | Place agent stages across NPU/GPU/CPU under SLOs | [Heterogeneous agentic AI](../publications/agentic-ai-hetero-systems.md) → **P10/P22** |
+
+Without these, “agentic compiler” collapses to either unconstrained LLM loops or a classical compiler with a chatbot glued on.
 
 ### 5.2 How agents change the future (process)
 
@@ -595,7 +610,7 @@ Layer-by-layer SW + codesign map: [`STACK.md`](STACK.md). Claim IDs: [`CLAIMS.md
 |---|---|---|
 | P1 | Agent↔compiler contract | Typed tools + structured admit traces; NL only at human edge |
 | P2 | Context / memory loss | Scratchpad ≪ dense skills ≪ **VCS** as product truth |
-| P3 | Sub-agents vs monolith | Specialists + orchestrator + shared trace bus |
+| P3 | Sub-agents vs monolith | Specialists + orchestrator + shared trace bus; **compile/analyze** the agent graph (FlowCompile/AgentFlow/Auto) |
 | P4 | When agents may run | CI/hot-path → freeze artifacts; not always-on default |
 | P5 | Oracles for money | Layered admit + named false-negative owners |
 | P6 | Ownership / supply chain | CODEOWNERS + signed provenance + sandbox |
@@ -659,8 +674,9 @@ Kernel and heuristic search run for hours and hundreds of trials. The agent forg
 | **Monolith agent + dense memory** | Simpler ops; one policy to eval | Jack-of-all-trades; noisy tools confuse one policy | Small orgs; single DSL |
 | **Specialist sub-agents** (gen / debug / perf / verify / HW-RAG) | Clear skills; parallel search; mirrors ACCLAIM / GEAK / KernelEvolve | Orchestration bugs; cost multiplies; inconsistent styles | Multi-HW / multi-DSL products |
 | **Hierarchy** (orchestrator + workers + judge) | Budget control; staged admit | Judge can be wrong; latency | Production CI with spend caps |
+| **Compiled / analyzed topology** (workflow IR + ADG + freeze) | Topology is a compile object: Pareto configs, static checks, amortize hot spans | Needs IR + adapters; early ecosystem | Any SLA’d multi-agent product |
 
-**Survey lean.** For commercial multi-accelerator stacks, **specialists + orchestrator** win; invest early in a **shared admit/trace bus** so sub-agents do not keep private incompatible memories (ties to P1–P2).
+**Survey lean.** For commercial multi-accelerator stacks, **specialists + orchestrator** win; invest early in a **shared admit/trace bus** so sub-agents do not keep private incompatible memories (ties to P1–P2). Treat the topology itself as compiler-shaped: **FlowCompile**-style offline workflow search, **AgentFlow**-style ADG audit, **Auto**-style freeze of witnessed-deterministic spans.
 
 **Also commercially.** Budget per specialist (ACCLAIM); tool-calling quality can fail before code skill; support must debug multi-agent traces. Prefer **deterministic orchestration + LLM judgment** (TritorX FSM, GEAK v3) over unbounded free tool-calling for SLA’d products (→ P22).
 
@@ -882,16 +898,16 @@ Agents raise draft volume; reviewers become the bottleneck (§1b, §4.8, **C7**)
 
 #### P22 — Deterministic orchestration vs free LLM judgment
 
-Adjacent agent-production work stresses **deterministic boundaries** and moving the LLM out of the hot execution loop; TritorX deliberately uses an FSM rather than free tool-calling.
+Adjacent agent-production work stresses **deterministic boundaries** and moving the LLM out of the hot execution loop; TritorX deliberately uses an FSM rather than free tool-calling. Control-plane substrate papers sharpen the same lean: [AgentFlow](../publications/agentflow.md) ADGs make agent programs analyzable; [FlowCompile](../publications/flowcompile.md) pushes config search offline; [heterogeneous agent serving](../publications/agentic-ai-hetero-systems.md) places stages under cost/SLO policies rather than “run everything on the biggest GPU.”
 
 | Option | Pros | Cons |
 |---|---|---|
 | Free tool-calling agent | Flexible | Hard to SLA; runaway loops/cost |
 | **Plan/FSM + LLM fills bounded slots** | Predictable; auditable | Less “agent magic” marketing |
-| Compile-then-execute (LLM offline only) | Aligns hybrid prediction | Needs strong offline jobs (b)/(d) |
+| Compile-then-execute (LLM offline only) | Aligns hybrid prediction; Auto/FlowCompile path | Needs strong offline jobs (b)/(d) + workflow compile |
 | Soft max-steps + human gate | Practical | Caps autonomy |
 
-**Survey lean.** **FSM/plan + bounded LLM slots** for any SKU with an SLA; free tool-calling stays lab-tier (ties P3/P4/P12; supports **C6-B**).
+**Survey lean.** **FSM/plan + bounded LLM slots** for any SKU with an SLA; free tool-calling stays lab-tier (ties P3/P4/P12; supports **C6-B**). Prefer ADG/static checks before deploy and hetero placement policies for cost.
 
 #### P23 — Tokens, inference performance, and model capabilities
 
@@ -910,8 +926,9 @@ Adjacent agent-production work stresses **deterministic boundaries** and moving 
 | **Model capability — tools** | Open models often fail **tool-calling** before code quality (ACCLAIM); multi-agent compilers die on malformed tools | `acclaim`, §3.2 |
 | **Model capability — sample efficiency** | Language priors can cut search vs blind autotune (Reasoning Compiler, AutoPass inference-only); Magellan/AlphaEvolve spend offline then ship classical code | `reasoning-compiler`, `autopass`, `magellan` |
 | **Mitigations already shipping** | Freeze ACF/kernel into VCS; HW RAG + skills (KernelEvolve); distill/RL specialists on trajectories; Fast Feedback (~10× vs full IR in-loop); offline job (b) so users never pay LLM at `-O3` time | P2/P4/P12; CompileIQ ACF; Magellan |
+| **Control-plane freeze / workflow compile** | [Auto](../publications/auto-agi-compiler.md): compile witnessed-deterministic agent spans → WASM cognition binaries + deopt; [FlowCompile](../publications/flowcompile.md): offline Pareto configs for sub-agent workflows; hetero placement avoids frontier GPUs for every stage | `auto-agi-compiler`, `flowcompile`, `agentic-ai-hetero-systems`; §4.6 |
 
-**Adjacent industry signal (agent production, not compiler-specific).** Agentic tasks commonly cost **many×** chatbot tokens (iterative tool use + context re-send—“communication tax”; code-review-like stages dominate token share in agentic SE studies). Prompt caching, model routing (small models for easy steps), and context compaction are becoming mandatory FinOps—not optional polish. This reinforces compiler-agent design: **fewer, higher-value LLM calls** behind oracles beat chatty multi-agent refinement in the hot path.
+**Adjacent industry signal (agent production, not compiler-specific).** Agentic tasks commonly cost **many×** chatbot tokens (iterative tool use + context re-send—“communication tax”; code-review-like stages dominate token share in agentic SE studies). Prompt caching, model routing (small models for easy steps), and context compaction are becoming mandatory FinOps—not optional polish. This reinforces compiler-agent design: **fewer, higher-value LLM calls** behind oracles beat chatty multi-agent refinement in the hot path—and **compile/freeze the agent graph** when spans are deterministic (Auto), rather than re-paying tokens every run.
 
 ##### Options (how products respond)
 

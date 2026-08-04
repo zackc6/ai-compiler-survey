@@ -124,6 +124,11 @@ META: dict[str, tuple[str, str]] = {
     "kernelevolve-blog.md": ("Meta", "Engineering at Meta"),
     "compiler-grounded-triton-npu.md": ("Huawei Technologies", "arXiv"),
     "kforge.md": ("Gimlet Labs", "MLArchSys @ ISCA 2026 · arXiv"),
+    # Agent control-plane substrate
+    "auto-agi-compiler.md": ("RightNow AI", "arXiv"),
+    "flowcompile.md": ("UMass Amherst · MIT · MIT-IBM Watson AI Lab", "arXiv"),
+    "agentflow.md": ("Huazhong University of Science and Technology · Macquarie University", "arXiv"),
+    "agentic-ai-hetero-systems.md": ("Stanford · Gimlet Labs · Intel", "arXiv"),
 }
 
 

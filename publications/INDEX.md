@@ -108,7 +108,12 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2025 | company | Classic DL compilers | Meta (PyTorch) | PyTorch blog | [Helion: High-Level DSL for Portable ML Kernels](helion-blog.md) | [source](https://pytorch.org/blog/helion/) |
 | 2025+ | code | Classic DL compilers | Meta (PyTorch) | GitHub | [pytorch/helion (GitHub)](helion-github.md) | [source](https://github.com/pytorch/helion) |
 
-**Total:** 100 digests
+| 2026 | paper | Agent control-plane substrate | RightNow AI | arXiv | [Auto: The AGI Compiler](auto-agi-compiler.md) ★ freeze/amortize | [source](https://arxiv.org/abs/2607.04542) |
+| 2026 | paper | Agent control-plane substrate | UMass Amherst · MIT · MIT-IBM Watson AI Lab | arXiv | [FlowCompile: An Optimizing Compiler for Structured LLM Workflows](flowcompile.md) ★ workflow compile | [source](https://arxiv.org/abs/2605.13647) |
+| 2026 | paper | Agent control-plane substrate | Huazhong University of Science and Technology · Macquarie University | arXiv | [AgentFlow: Building Agent Dependency Graphs for Static Analysis of Agent Programs](agentflow.md) | [source](https://arxiv.org/abs/2607.01640) |
+| 2025 | paper | Agent control-plane substrate | Stanford · Gimlet Labs · Intel | arXiv | [Efficient and Scalable Agentic AI with Heterogeneous Systems](agentic-ai-hetero-systems.md) | [source](https://arxiv.org/abs/2507.19635) |
+
+**Total:** 104 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 
