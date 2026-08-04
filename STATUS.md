@@ -44,6 +44,7 @@ Last updated: **2026-08-04**
 
 | Date | Change |
 |---|---|
+| 2026-08-04 | Refresh §5.1 + architecture-evolution visuals; add 2-slide share deck `architecture-51-and-evolution.pptx` |
 | 2026-08-04 | Rescan: EmitC-MLGO June 2026 PoR checkpoint (C1 not settled); +CuTeGen ★, CompileIQ agent-skills ★, Hexagon-MLIR; INDEX **108** |
 | 2026-08-04 | Distill docs-consolidation + prediction lessons into `.cursor/skills/survey` (SKILL.md architecture rules + survey.md experience log) |
 | 2026-08-04 | Consolidate docs into one reading path: fold TAXONOMY/SYSTEMS/CLAIMS/CONFLICTS/WORKFLOW (+ COMPARISON stub) into `docs/SURVEY.md` §0 / §1b / §6–§9; `docs/` = SURVEY + SETUP_GITHUB only |

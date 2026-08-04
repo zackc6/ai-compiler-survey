@@ -360,130 +360,170 @@ def poster_constellation() -> Path:
 
 
 def poster_architecture() -> Path:
-    """§5.1 hybrid stack: control plane + substrate → data plane → codesign."""
+    """§5.1 hybrid stack: intent → control plane + substrate → data plane → sinks + codesign."""
     img, draw = canvas()
     brand_mark(draw)
-    text(draw, (96, 110), "§5.1 ARCHITECTURE", F_BOLD(18), STEEL)
-    text(draw, (96, 150), "Control over data", F_DISPLAY(56), WHITE)
-
-    # Control plane band
-    draw.rounded_rectangle([96, 250, 1824, 520], radius=18, fill=STEEL + (40,), outline=STEEL, width=3)
-    text(draw, (120, 270), "AGENT CONTROL PLANE", F_BOLD(22), STEEL)
-    text(draw, (520, 274), "lab → CI-gated → hot-path", F_BODY(20), MUTED)
-
-    jobs = [
-        ("(a)", "ONLINE", "specialize"),
-        ("(b)", "OFFLINE", "evolve"),
-        ("(c)", "ENG.", "review"),
-        ("(d)", "BRING-UP", "codesign"),
-    ]
-    for i, (letter, title, sub) in enumerate(jobs):
-        x = 140 + i * 420
-        draw.rounded_rectangle([x, 320, x + 380, 430], radius=12, fill=BG1, outline=AMBER, width=2)
-        text(draw, (x + 24, 340), letter, F_BOLD(22), AMBER)
-        text(draw, (x + 90, 338), title, F_BOLD(24), WHITE)
-        text(draw, (x + 90, 380), sub, F_BODY(20), MIST)
-
-    # substrate strip
-    draw.rounded_rectangle([140, 450, 1780, 500], radius=10, fill=AMBER + (35,), outline=AMBER, width=2)
+    text(draw, (96, 88), "§5.1 ARCHITECTURE", F_BOLD(18), STEEL)
+    text(draw, (96, 120), "Hybrid agentic compiler", F_DISPLAY(48), WHITE)
     text(
         draw,
-        (960, 475),
-        "SUBSTRATE  ·  workflow compile  ·  ADG analysis  ·  freeze/amortize  ·  hetero place",
+        (96, 178),
+        "Agents orchestrate · classical compilers execute · silicon feeds the next dialect/ISA RFC",
         F_BODY(20),
-        WHITE,
-        "mm",
+        MUTED,
     )
 
-    # arrow
-    draw.polygon([(900, 530), (1020, 530), (1020, 555), (960, 600), (900, 555)], fill=WHITE + (160,))
-    text(draw, (1040, 545), "typed tools · admit · oracles", F_MONO(18), MUTED)
+    # Intent pill
+    draw.rounded_rectangle([560, 220, 1360, 268], radius=22, fill=BG1, outline=MIST + (80,), width=2)
+    text(draw, (960, 244), "HUMAN / PRODUCT INTENT  ·  NL at edge · policy · budget", F_BOLD(18), MIST, "mm")
+
+    # Control plane
+    draw.rounded_rectangle([80, 290, 1840, 560], radius=16, fill=STEEL + (36,), outline=STEEL, width=3)
+    text(draw, (110, 308), "AGENT CONTROL PLANE", F_BOLD(20), STEEL)
+    text(draw, (480, 312), "lab → CI-gated → hot-path specialize", F_BODY(18), MUTED)
+
+    jobs = [
+        ("(a)", "ONLINE", "propose · measure · admit"),
+        ("(b)", "OFFLINE", "heuristics → C++ / MLGO"),
+        ("(c)", "ENG.", "oracle PR / src edit"),
+        ("(d)", "BRING-UP", "coverage → perf · sim+Si"),
+    ]
+    for i, (letter, title, sub) in enumerate(jobs):
+        x = 110 + i * 425
+        draw.rounded_rectangle([x, 350, x + 400, 455], radius=12, fill=BG1, outline=AMBER, width=2)
+        text(draw, (x + 20, 368), letter, F_BOLD(22), AMBER)
+        text(draw, (x + 80, 366), title, F_BOLD(24), WHITE)
+        text(draw, (x + 20, 412), sub, F_BODY(18), MIST)
+
+    draw.rounded_rectangle([110, 475, 1810, 535], radius=10, fill=AMBER + (32,), outline=AMBER, width=2)
+    text(draw, (130, 488), "SUBSTRATE", F_BOLD(18), AMBER)
+    text(
+        draw,
+        (280, 488),
+        "workflow compile (FlowCompile)  ·  ADG analysis (AgentFlow)  ·  freeze/amortize (Auto)  ·  hetero place",
+        F_BODY(18),
+        WHITE,
+    )
+
+    # Contract arrow band
+    draw.polygon([(900, 575), (1020, 575), (1020, 598), (960, 640), (900, 598)], fill=WHITE + (150,))
+    text(draw, (1040, 590), "typed tools · admit records · oracles · FSM / plan bounds", F_MONO(17), MUTED)
 
     # Data plane
-    draw.rounded_rectangle([96, 620, 1824, 780], radius=18, fill=AMBER + (30,), outline=AMBER, width=3)
-    text(draw, (120, 645), "CLASSICAL DATA PLANE", F_BOLD(22), AMBER)
-    text(draw, (120, 690), "Inductor · XLA · MLIR · Triton · Helion · Tile", F_BODY(26), WHITE)
-    text(draw, (120, 735), "legality · lowering · admit / fallback   ·   default path stays", F_BODY(20), MIST)
+    draw.rounded_rectangle([80, 660, 1840, 800], radius=16, fill=AMBER + (28,), outline=AMBER, width=3)
+    text(draw, (110, 678), "CLASSICAL DATA PLANE", F_BOLD(20), AMBER)
+    text(draw, (520, 682), "default path stays until CI proves agents", F_BODY(18), MUTED)
+    text(draw, (110, 720), "Framework → Inductor · XLA · MLIR · Triton · Helion · Tile · CuTe · device libs", F_BODY(22), WHITE)
+    text(draw, (110, 760), "legality · lowering · cost models · golden / Alive2 / OpInfo · admit / fallback", F_BODY(18), MIST)
 
-    # three sinks
+    # Three sinks + codesign feedback
     sinks = [
         ("GPU / NPU / ASIC", "sim → silicon", STEEL),
-        ("VCS artifacts", "ACF · kernels · memory", (180, 120, 70)),
-        ("Serving runtime", "freeze for replay", EMBER),
+        ("VCS artifacts", "ACF · kernels · heuristics · memory", (180, 120, 70)),
+        ("Serving runtime", "specialize hot paths · freeze replay", EMBER),
     ]
     for i, (title, sub, col) in enumerate(sinks):
-        x = 160 + i * 560
-        draw.rounded_rectangle([x, 820, x + 500, 920], radius=12, fill=col + (40,), outline=col, width=2)
-        text(draw, (x + 28, 840), title, F_BOLD(22), WHITE)
-        text(draw, (x + 28, 880), sub, F_BODY(18), MIST)
+        x = 80 + i * 420
+        draw.rounded_rectangle([x, 830, x + 400, 920], radius=12, fill=col + (38,), outline=col, width=2)
+        text(draw, (x + 22, 848), title, F_BOLD(20), WHITE)
+        text(draw, (x + 22, 882), sub, F_BODY(16), MIST)
 
-    text(draw, (96, 980), "Codesign feedback: agent failures → ISA / dialect RFCs  ·  humans + EDA own tape-out", F_BODY(20), MUTED)
+    draw.rounded_rectangle([1360, 830, 1840, 920], radius=12, fill=EMBER + (28,), outline=EMBER, width=2)
+    text(draw, (1380, 848), "HW–SW CODESIGN FEEDBACK", F_BOLD(18), EMBER)
+    text(draw, (1380, 882), "failures → ISA / dialect RFCs  ·  C10", F_BODY(16), MIST)
+
+    text(
+        draw,
+        (80, 980),
+        "Invariant: LLM outputs guide search — they must not silently define unchecked executable behavior",
+        F_BODY(18),
+        MUTED,
+    )
     return save(img, "02b-architecture-51.png")
 
 
 def poster_horizon() -> Path:
-    """Roadmap architecture evolution: Today → Horizon A → Horizon B."""
+    """Roadmap architecture evolution: Today → Horizon A → Horizon B as stacked planes."""
     img, draw = canvas()
     brand_mark(draw)
-    text(draw, (96, 110), "ROADMAP", F_BOLD(18), STEEL)
-    text(draw, (96, 150), "Architecture evolution", F_DISPLAY(52), WHITE)
+    text(draw, (96, 80), "§5.5 ROADMAP", F_BOLD(18), STEEL)
+    text(draw, (96, 112), "Architecture evolution", F_DISPLAY(48), WHITE)
+    text(
+        draw,
+        (96, 168),
+        "Left → right: agents stay on the control plane; the data plane never goes away",
+        F_BODY(20),
+        MUTED,
+    )
 
-    cols = [
+    # Timeline spine
+    draw.line([(220, 250), (1700, 250)], fill=MUTED + (110,), width=4)
+    stages = [
         (
             "TODAY",
             "2025–26",
             STEEL,
-            [
-                "Ad-hoc agent loops",
-                "chat / tools on compilers",
-                "GEAK · ACCLAIM · Magellan",
-                "Data plane = default",
-                "GPU-mostly targets",
-            ],
+            "CONTROL",
+            ["Ad-hoc agent loops", "chat / tools", "GEAK · ACCLAIM · Magellan"],
+            "DATA",
+            ["MLIR / Triton / Inductor", "still the default", "GPU-mostly"],
+            "CODESIGN",
+            ["mostly absent", "manual bring-up"],
         ),
         (
             "HORIZON A",
             "2027–28",
             AMBER,
-            [
-                "Jobs (a–d) productized",
-                "CI-gated specialize",
-                "Typed tools + oracles",
-                "Multi-DSL fingerprints",
-                "Early codesign on sim+Si",
-            ],
+            "CONTROL",
+            ["Jobs (a–d) productized", "CI-gated specialize", "typed tools + oracles"],
+            "DATA",
+            ["multi-DSL + fingerprints", "tool APIs exposed", "admit / fallback"],
+            "CODESIGN",
+            ["early: sim + 1st Si", "→ ISA / dialect RFCs"],
         ),
         (
             "HORIZON B",
             "~2029–31",
             EMBER,
-            [
-                "Control plane compiled",
-                "ADG admit · freeze · place",
-                "ACF/heuristics as VCS arts",
-                "Multi-backend fleets",
-                "Steady codesign loop",
-            ],
+            "CONTROL",
+            ["control plane compiled", "ADG · freeze · place", "workflow amortize"],
+            "DATA",
+            ["multi-backend fleets", "ACF / heuristics / memory", "as VCS artifacts"],
+            "CODESIGN",
+            ["steady pre-Si loop", "not autonomous EDA"],
         ),
     ]
-    # path line behind columns
-    draw.line([(280, 420), (1640, 420)], fill=MUTED + (100,), width=5)
-    for i, (label, years, col, bullets) in enumerate(cols):
-        x = 120 + i * 600
-        draw.ellipse([x + 230, 400, x + 270, 440], fill=col)
-        draw.rounded_rectangle([x, 480, x + 540, 960], radius=20, fill=col + (32,), outline=col, width=3)
-        text(draw, (x + 36, 510), label, F_BOLD(22), col)
-        text(draw, (x + 36, 555), years, F_DISPLAY(40), WHITE)
-        for j, line in enumerate(bullets):
-            yy = 640 + j * 52
-            draw.ellipse([x + 40, yy + 10, x + 56, yy + 26], fill=col)
-            text(draw, (x + 76, yy), line, F_BODY(22), MIST)
-        if i < 2:
-            # chevron between columns
-            cx = x + 560
-            draw.polygon([(cx, 410), (cx + 28, 420), (cx, 430)], fill=MUTED)
 
-    text(draw, (96, 1000), "Data plane never goes away — agent graph becomes compiled, audited, amortized", F_BODY(20), MUTED)
+    for i, (label, years, col, c_lbl, c_lines, d_lbl, d_lines, h_lbl, h_lines) in enumerate(stages):
+        x = 90 + i * 610
+        # node on spine
+        draw.ellipse([x + 250, 230, x + 290, 270], fill=col, outline=WHITE, width=2)
+        if i < 2:
+            draw.polygon([(x + 545, 240), (x + 575, 250), (x + 545, 260)], fill=MUTED)
+
+        # header
+        text(draw, (x + 36, 290), label, F_BOLD(20), col)
+        text(draw, (x + 36, 322), years, F_DISPLAY(34), WHITE)
+
+        # three stacked bands
+        bands = [
+            (370, c_lbl, c_lines, STEEL),
+            (560, d_lbl, d_lines, AMBER),
+            (750, h_lbl, h_lines, EMBER),
+        ]
+        for y0, blabel, lines, bcol in bands:
+            draw.rounded_rectangle([x, y0, x + 560, y0 + 170], radius=14, fill=bcol + (30,), outline=bcol, width=2)
+            text(draw, (x + 24, y0 + 16), blabel, F_BOLD(16), bcol)
+            for j, line in enumerate(lines):
+                text(draw, (x + 24, y0 + 52 + j * 34), line, F_BODY(20), WHITE)
+
+    text(
+        draw,
+        (96, 990),
+        "Artifact store grows → binaries → +ACF/hints → +evolved C++ / verified kernels / bring-up corpora → +frozen agent workflows",
+        F_BODY(18),
+        MUTED,
+    )
     return save(img, "09-architecture-evolution.png")
 
 
@@ -619,7 +659,7 @@ def poster_freeze_amortize() -> Path:
     return save(img, "13-freeze-amortize.png")
 
 
-def build_pptx(image_paths: list[Path]) -> Path:
+def build_pptx(image_paths: list[Path], name: str = PPTX_NAME) -> Path:
     prs = Presentation()
     prs.slide_width = Inches(13.333)
     prs.slide_height = Inches(7.5)
@@ -628,7 +668,7 @@ def build_pptx(image_paths: list[Path]) -> Path:
         s = prs.slides.add_slide(blank)
         # full-bleed image
         s.shapes.add_picture(str(path), Inches(0), Inches(0), Inches(13.333), Inches(7.5))
-    out = OUT / PPTX_NAME
+    out = OUT / name
     prs.save(out)
     print(f"wrote {out.relative_to(ROOT)} ({out.stat().st_size // 1024} KB)")
     return out
@@ -637,28 +677,39 @@ def build_pptx(image_paths: list[Path]) -> Path:
 def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
     VIS.mkdir(parents=True, exist_ok=True)
+    arch = poster_architecture()
+    evo = poster_horizon()
     paths = [
         poster_title(),
         poster_hybrid(),
-        poster_architecture(),
+        arch,
         poster_timeline(),
         poster_four_jobs(),
         poster_stack(),
         poster_codesign(),
         poster_conflicts(),
         poster_constellation(),
-        poster_horizon(),
+        evo,
         poster_falsifiers(),
         poster_commercial(),
         poster_resource_envelope(),
         poster_freeze_amortize(),
     ]
     build_pptx(paths)
+    # Focused 2-slide share deck for §5.1 + evolution
+    build_pptx(
+        [arch, evo],
+        "architecture-51-and-evolution.pptx",
+    )
     (VIS / "README.md").write_text(
         "# Survey visuals\n\nDiagram-first posters for the living survey "
         "(not table/text slides). Regenerated by `python3 publish/build_visual.py`.\n\n"
-        "Includes commercialization (§5.7) and resource envelope (P23) posters.\n"
-        "Parent deck: `../next-gen-ai-compiler-survey-visual.pptx`.\n",
+        "**Share these first:**\n"
+        "- `02b-architecture-51.png` — SURVEY §5.1 hybrid stack\n"
+        "- `09-architecture-evolution.png` — Today → Horizon A → Horizon B\n"
+        "- Parent deck: `../next-gen-ai-compiler-survey-visual.pptx`\n"
+        "- Focused 2-slide deck: `../architecture-51-and-evolution.pptx`\n\n"
+        "Also includes commercialization (§5.7) and resource envelope (P23) posters.\n",
         encoding="utf-8",
     )
     return 0
