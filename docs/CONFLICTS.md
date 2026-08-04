@@ -2,7 +2,7 @@
 
 This page records **disagreements across papers, vendor blogs, OSS repos, and forums** that matter for predicting the next-generation AI compiler and how agents change that future. We do **not** force a premature resolution; each conflict states both sides, why it matters for the prediction, and what would settle it.
 
-Companion: [`SURVEY.md`](SURVEY.md) § Future · [`PRODUCTS.md`](PRODUCTS.md) · [`REPOS.md`](REPOS.md)
+Companion: [`SURVEY.md`](SURVEY.md) § Future · [`../reference/products.md`](../reference/products.md) · [`../reference/repos.md`](../reference/repos.md)
 
 ---
 

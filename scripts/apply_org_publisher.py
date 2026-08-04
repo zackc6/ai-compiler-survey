@@ -7,7 +7,7 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-PUB = ROOT / "publications"
+PUB = ROOT / "reference" / "publications"
 INDEX = PUB / "INDEX.md"
 
 # filename -> (org, publisher)

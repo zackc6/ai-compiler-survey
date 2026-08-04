@@ -117,7 +117,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 
-★ = high-signal for next-gen **prediction** (prefer these when updating [`docs/SURVEY.md`](../docs/SURVEY.md) §5).
+★ = high-signal for next-gen **prediction** (prefer these when updating [`docs/SURVEY.md`](../../docs/SURVEY.md) §5).
 
-See also: [`docs/REPOS.md`](../docs/REPOS.md) / [`docs/PRODUCTS.md`](../docs/PRODUCTS.md) as **Tier A/B/C evidence** (not catalogs); [`docs/CONFLICTS.md`](../docs/CONFLICTS.md) when sources disagree; [`docs/STACK.md`](../docs/STACK.md) for SW+HW reshape.
+See also: [reference guide](../README.md) · [`repos.md`](../repos.md) / [`products.md`](../products.md) (Tier A/B/C) · [`docs/CONFLICTS.md`](../../docs/CONFLICTS.md) · [`docs/STACK.md`](../../docs/STACK.md).
 

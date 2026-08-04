@@ -22,8 +22,8 @@ Experience report on agentic review of LLVM optimization PRs using specialized t
 
 - Domain tools > generic agents
 - Another agent role: compiler reviewer
-- Formalized follow-on: **Archer** ([paper](archer-paper.md), [GitHub](archer-github.md)) on LLVM PRs — see [`docs/REPOS.md`](../docs/REPOS.md)
+- Formalized follow-on: **Archer** ([paper](archer-paper.md), [GitHub](archer-github.md)) on LLVM PRs — see [`reference/repos.md`](../repos.md)
 
 ## Why it matters for this survey
 
-Experience report on GitHub-PR-hosted compiler review agents; pairs with Archer and Gerrit AI plugins under the SCM map in `docs/REPOS.md`.
+Experience report on GitHub-PR-hosted compiler review agents; pairs with Archer and Gerrit AI plugins under the SCM map in `reference/repos.md`.

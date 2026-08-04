@@ -20,12 +20,12 @@ New source
 ## Add-source order
 
 1. Tier A/B/C  
-2. Digest from `publications/_TEMPLATE.md` (create if missing; fill **Org** + **Publisher**)  
+2. Digest from `reference/publications/_TEMPLATE.md` (create if missing; fill **Org** + **Publisher**)  
 3. INDEX row with Org/Publisher columns (★ only for prediction-critical)  
 4. CONFLICTS if disagreeing  
 5. CLAIMS if prediction moves  
 6. Thin touch to SURVEY §5 / STACK  
-7. REPOS / PRODUCTS / SYSTEMS if mechanism new  
+7. `reference/repos.md` / `reference/products.md` / SYSTEMS if mechanism new  
 8. STATUS changelog  
 9. `python3 scripts/validate_survey.py`
 

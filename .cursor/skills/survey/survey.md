@@ -42,7 +42,7 @@ Lessons from turning a bibliography into a **prediction + roadmap + commercializ
 
 When expanding “how to ship the prediction”:
 
-1. Mine §4 gaps, CONFLICTS, Tier A digests (KernelEvolve, TritorX, CompileIQ, ACCLAIM, Magellan, GEAK, Archer, CCC), PRODUCTS.
+1. Mine §4 gaps, CONFLICTS, Tier A digests (KernelEvolve, TritorX, CompileIQ, ACCLAIM, Magellan, GEAK, Archer, CCC), `reference/products.md`.
 2. For each problem: **options table + pros/cons + survey lean + “might be true” example**.
 3. Separate **architecture** (contract/memory/topology) from **ops** (eval/DR/A/B) from **business** (pricing/tenancy/IP).
 4. Resource envelope (tokens, inference latency, model capability) gets an explicit **verdict**: shapes SKU vs falsifies which product story.

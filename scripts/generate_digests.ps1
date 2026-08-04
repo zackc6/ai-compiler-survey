@@ -4,7 +4,7 @@ $root = Split-Path (Split-Path $PSScriptRoot -Parent) -ErrorAction SilentlyConti
 # script lives in repo/scripts
 $root = Split-Path $PSScriptRoot -Parent
 if (-not $root) { throw "Could not resolve repository root from scripts/" }
-$pubDir = Join-Path $root "publications"
+$pubDir = Join-Path $root "reference/publications"
 New-Item -ItemType Directory -Force -Path $pubDir | Out-Null
 
 $items = @(

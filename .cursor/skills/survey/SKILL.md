@@ -18,8 +18,9 @@ description: >-
 | Stack | `docs/STACK.md` |
 | Claims / conflicts | `docs/CLAIMS.md`, `docs/CONFLICTS.md` |
 | Add-source loop | `docs/WORKFLOW.md` |
-| Digest template | `publications/_TEMPLATE.md` (**Org** + **Publisher** required) |
-| Index | `publications/INDEX.md` (Org/Publisher columns; ★ for prediction-critical) |
+| **Reference guide** | `reference/README.md` → publications / products / repos |
+| Digest template | `reference/publications/_TEMPLATE.md` (**Org** + **Publisher** required) |
+| Index | `reference/publications/INDEX.md` (Org/Publisher columns; ★ for prediction-critical) |
 | Org sync helper | `python3 scripts/apply_org_publisher.py` (after META map edits) |
 | Validate | `python3 scripts/validate_survey.py` |
 | PDF | `python3 publish/build_pdf.py` → `publish/out/next-gen-ai-compiler-survey.pdf` |

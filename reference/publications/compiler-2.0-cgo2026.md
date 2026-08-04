@@ -31,7 +31,7 @@ Public plenary vision from Saman Amarasinghe (MIT Commit / CSAIL). Unlike LLM-pa
 
 ## Why it matters for this survey
 
-★ Predictions signal for [`docs/SURVEY.md`](../docs/SURVEY.md) §1.4 / §5.4 / §5.5: codesign/retarget cost (**H1/S4**), hybrid control plane (**A1**), and verified ML rewrite pipelines (**Trend E**). Prefer this page for the 2026 abstract; prefer MOCHA digest for concrete architecture.
+★ Predictions signal for [`docs/SURVEY.md`](../../docs/SURVEY.md) §1.4 / §5.4 / §5.5: codesign/retarget cost (**H1/S4**), hybrid control plane (**A1**), and verified ML rewrite pipelines (**Trend E**). Prefer this page for the 2026 abstract; prefer MOCHA digest for concrete architecture.
 
 ## Limits / caveats
 

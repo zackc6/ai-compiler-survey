@@ -2,7 +2,7 @@
 
 **Purpose:** Map GitHub / Gerrit / googlesource artifacts to the survey **prediction** (next-gen compiler + how agents change the future). This is **not** an exhaustive forge catalog.
 
-Companion: [`SURVEY.md`](SURVEY.md) §5 · [`CONFLICTS.md`](CONFLICTS.md) · [`PRODUCTS.md`](PRODUCTS.md)
+Companion: [`../docs/SURVEY.md`](../docs/SURVEY.md) §5 · [`../docs/CONFLICTS.md`](../docs/CONFLICTS.md) · [`products.md`](products.md) · [guide](../reference/README.md)
 
 ---
 
@@ -38,7 +38,7 @@ Companion: [`SURVEY.md`](SURVEY.md) §5 · [`CONFLICTS.md`](CONFLICTS.md) · [`P
 | TritorX / KernelEvolve (papers; code mostly internal) | Meta | ASIC bring-up + hetero perf agents (MTIA/NVIDIA/AMD) | Job **(d)**; **C9** |
 | [pytorch/helion](https://github.com/pytorch/helion) | GitHub | High-level tile DSL → Triton (agent/CompileIQ surface) | Tier B substrate; **C4** |
 
-**Magellan** itself remains mostly internal (paper + [LLVM Dev Meeting slides](../publications/magellan-llvm-slides.md)); track OSS via OpenEvolve + HeuriGym until a public Magellan tree appears (**C1**). Slides next-steps: OpenEvolve OSS path; XLA green-field / auto-sharding — folded into [`SURVEY.md`](SURVEY.md) §5.4.
+**Magellan** itself remains mostly internal (paper + [LLVM Dev Meeting slides](publications/magellan-llvm-slides.md)); track OSS via OpenEvolve + HeuriGym until a public Magellan tree appears (**C1**). Slides next-steps: OpenEvolve OSS path; XLA green-field / auto-sharding — folded into [`../docs/SURVEY.md`](../docs/SURVEY.md) §5.4.
 
 ---
 
@@ -77,4 +77,4 @@ These show demand to put LLMs **inside** code review UX. They are **not** next-g
 3. **Negative results are Tier A too** — mlirAgent’s below-identity IR rewrite bounds the architecture (§5.1).
 4. Prefer Tier A/B when enriching digests; do not grow Tier C catalogs.
 
-Digests: [`../publications/INDEX.md`](../publications/INDEX.md).
+Digests: [`publications/INDEX.md`](publications/INDEX.md).

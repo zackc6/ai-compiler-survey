@@ -2,7 +2,7 @@
 
 **Purpose:** Company offerings that inform **what next-gen compile will ship** and **how agents enter production** — not a full SKU catalog.
 
-Companion: [`SURVEY.md`](SURVEY.md) §5 · [`CONFLICTS.md`](CONFLICTS.md) · [`REPOS.md`](REPOS.md)
+Companion: [`../docs/SURVEY.md`](../docs/SURVEY.md) §5 · [`../docs/CONFLICTS.md`](../docs/CONFLICTS.md) · [`repos.md`](repos.md) · [guide](../reference/README.md)
 
 ---
 
@@ -89,6 +89,6 @@ Kernel / tile platforms
 | Q3 Reshape process | ACF-in-VCS; heuristic synthesis; agent skills in TRT-LLM |
 | §5 Future | Tier A rows above + conflicts C1–C5 |
 
-Commercial digests for Tier A/B prediction-relevant items live under [`../publications/`](../publications/) (CompileIQ, GEAK, AlphaEvolve, Magellan/MLGO, TRT-LLM agents). Skip Olive/OctoML churn.
+Commercial digests for Tier A/B prediction-relevant items live under [`publications/`](publications/) (CompileIQ, GEAK, AlphaEvolve, Magellan/MLGO, TRT-LLM agents). Skip Olive/OctoML churn.
 
 Update when a vendor ships a **named agent-compile default**, not when another runtime EP appears.

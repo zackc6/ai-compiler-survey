@@ -30,7 +30,7 @@ Public project page for the funded realization of Amarasinghe’s Compiler 2.0 v
 
 ## Why it matters for this survey
 
-★ Program-level evidence that “next compiler” funding is going to **ML + verification + hetero retarget**, parallel to LLM kernel agents and Magellan. Wire into [`docs/SURVEY.md`](../docs/SURVEY.md) §5.4 / §5.5. Prefer DARPA page for program premise; prefer Aarno page for team/tech stack.
+★ Program-level evidence that “next compiler” funding is going to **ML + verification + hetero retarget**, parallel to LLM kernel agents and Magellan. Wire into [`docs/SURVEY.md`](../../docs/SURVEY.md) §5.4 / §5.5. Prefer DARPA page for program premise; prefer Aarno page for team/tech stack.
 
 ## Limits / caveats
 

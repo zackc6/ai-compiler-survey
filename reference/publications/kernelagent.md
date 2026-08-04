@@ -26,4 +26,4 @@ Meta PyTorch org agent framework that synthesizes and verifies Triton kernels wi
 
 ## Why it matters for this survey
 
-Mapped in `docs/REPOS.md` to SCM/review context and to gaps in `docs/SURVEY.md` 搂4. Prefer the primary link above when citing.
+Mapped in `reference/repos.md` to SCM/review context and to gaps in `docs/SURVEY.md` 搂4. Prefer the primary link above when citing.

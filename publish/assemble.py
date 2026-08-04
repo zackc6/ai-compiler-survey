@@ -19,7 +19,10 @@ SECTIONS: list[tuple[str, Path]] = [
     ("Conflicts register", ROOT / "docs" / "CONFLICTS.md"),
     ("Systems comparison", ROOT / "docs" / "SYSTEMS.md"),
     ("Taxonomy", ROOT / "docs" / "TAXONOMY.md"),
-    ("Publications index", ROOT / "publications" / "INDEX.md"),
+    ("Reference guide", ROOT / "reference" / "README.md"),
+    ("Products prediction signals", ROOT / "reference" / "products.md"),
+    ("Repos forge evidence", ROOT / "reference" / "repos.md"),
+    ("Publications index", ROOT / "reference" / "publications" / "INDEX.md"),
 ]
 
 SECTION_TITLES = {
@@ -30,6 +33,9 @@ SECTION_TITLES = {
         "Conflicts register": "Conflicts register",
         "Systems comparison": "Systems comparison",
         "Taxonomy": "Taxonomy",
+        "Reference guide": "Reference guide",
+        "Products prediction signals": "Products (prediction signals)",
+        "Repos forge evidence": "Repos & forge evidence",
         "Publications index": "Publications index",
         "Export notes": "Export notes",
     },
@@ -40,6 +46,9 @@ SECTION_TITLES = {
         "Conflicts register": "冲突对照",
         "Systems comparison": "系统对比",
         "Taxonomy": "分类法",
+        "Reference guide": "参考文献指南",
+        "Products prediction signals": "产品信号",
+        "Repos forge evidence": "仓库与协同证据",
         "Publications index": "文献索引",
         "Export notes": "导出说明",
     },
@@ -50,6 +59,9 @@ SECTION_TITLES = {
         "Conflicts register": "衝突對照",
         "Systems comparison": "系統比較",
         "Taxonomy": "分類法",
+        "Reference guide": "參考文獻指南",
+        "Products prediction signals": "產品信號",
+        "Repos forge evidence": "倉庫與協同證據",
         "Publications index": "文獻索引",
         "Export notes": "匯出說明",
     },
@@ -71,8 +83,8 @@ COVER = {
             "only through kernels, IR, tests, and profilers — not autonomous tape-out."
         ),
         "export_notes": (
-            "- Full digests remain in `publications/*.md` (not inlined; each has Org + Publisher).\n"
-            "- Tier maps: `docs/REPOS.md`, `docs/PRODUCTS.md`.\n"
+            "- Full digests remain in `reference/publications/*.md` (not inlined; each has Org + Publisher).\n"
+            "- Reference: `reference/README.md` → publications / products / repos.\n"
             "- Commercialization critical problems: `docs/SURVEY.md` §5.7 (P1–P23).\n"
             "- Rebuild: `python3 publish/build_pdf.py` · visuals: `python3 publish/build_visual.py`.\n"
         ),
@@ -88,8 +100,8 @@ COVER = {
             "测量与回退。硬件协同设计仅通过内核、IR、测试与 profiling 闭环进入——而非自动流片。"
         ),
         "export_notes": (
-            "- 完整文献摘要仍在 `publications/*.md`（未内联）。\n"
-            "- 证据分层图：`docs/REPOS.md`、`docs/PRODUCTS.md`。\n"
+            "- 完整文献摘要仍在 `reference/publications/*.md`（未内联）。\n"
+            "- 证据分层图：`reference/repos.md`、`reference/products.md`。\n"
             "- 重新构建：`python3 publish/build_pdf.py`（同时生成 en / zh-CN / zh-TW）。\n"
         ),
     },
@@ -104,8 +116,8 @@ COVER = {
             "量測與回退。硬體協同設計僅透過核心、IR、測試與 profiling 閉環進入——而非自動流片。"
         ),
         "export_notes": (
-            "- 完整文獻摘要仍在 `publications/*.md`（未內嵌）。\n"
-            "- 證據分層圖：`docs/REPOS.md`、`docs/PRODUCTS.md`。\n"
+            "- 完整文獻摘要仍在 `reference/publications/*.md`（未內嵌）。\n"
+            "- 證據分層圖：`reference/repos.md`、`reference/products.md`。\n"
             "- 重新建置：`python3 publish/build_pdf.py`（同時產生 en / zh-CN / zh-TW）。\n"
         ),
     },
@@ -146,21 +158,26 @@ def cover_md(today: str, lang: str = "en") -> str:
 def rewrite_links(text: str) -> str:
     """Best-effort link rewrite so PDF-relative paths stay meaningful."""
     replacements = {
-        "](../publications/": "](publications/",
+        "](../reference/publications/": "](reference/publications/",
+        "](../publications/": "](reference/publications/",
         "](../STATUS.md)": "](STATUS.md)",
         "](CONFLICTS.md)": "](#conflicts-register)",
         "](STACK.md)": "](#software-stack--hw-codesign-reshape)",
         "](CLAIMS.md)": "](#claims-map)",
-        "](REPOS.md)": "](docs/REPOS.md)",
-        "](PRODUCTS.md)": "](docs/PRODUCTS.md)",
+        "](../reference/repos.md)": "](#repos-forge-evidence)",
+        "](../reference/products.md)": "](#products-prediction-signals)",
+        "](../reference/README.md)": "](#reference-guide)",
+        "](repos.md)": "](#repos-forge-evidence)",
+        "](products.md)": "](#products-prediction-signals)",
+        # only rewrite bare README when it is the reference guide companion link
+        "](../reference/README.md)": "](#reference-guide)",
         "](SYSTEMS.md)": "](#systems-comparison)",
         "](TAXONOMY.md)": "](#taxonomy)",
         "](WORKFLOW.md)": "](docs/WORKFLOW.md)",
         "](../docs/SURVEY.md)": "](#survey-narrative)",
         "](../docs/STACK.md)": "](#software-stack--hw-codesign-reshape)",
         "](../docs/CONFLICTS.md)": "](#conflicts-register)",
-        "](../docs/REPOS.md)": "](docs/REPOS.md)",
-        "](../docs/PRODUCTS.md)": "](docs/PRODUCTS.md)",
+        "](publications/": "](reference/publications/",
     }
     for a, b in replacements.items():
         text = text.replace(a, b)

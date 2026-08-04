@@ -30,4 +30,4 @@ LLVM Dev Meeting 2025 slides (Chen / Novikov / Vũ / Trofin / Yazdanbakhsh) that
 
 ## Why it matters for this survey
 
-Fold these next-steps into [`docs/SURVEY.md`](../docs/SURVEY.md) **§5.4**, not only related work. Prefer this PDF for production/ops claims; prefer the [Magellan paper](magellan.md) for system design.
+Fold these next-steps into [`docs/SURVEY.md`](../../docs/SURVEY.md) **§5.4**, not only related work. Prefer this PDF for production/ops claims; prefer the [Magellan paper](magellan.md) for system design.

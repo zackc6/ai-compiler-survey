@@ -1,9 +1,9 @@
 # Next-Gen AI Compiler Survey (expanded)
 
 **Last updated:** 2026-08-04 (roadmap folded into §5.5)  
-**Companion digests:** [`../publications/`](../publications/)  
+**Companion digests:** [`../reference/publications/`](../reference/publications/)  
 **Status:** [`../STATUS.md`](../STATUS.md)  
-**Conflicts:** [`CONFLICTS.md`](CONFLICTS.md) · **Repos map:** [`REPOS.md`](REPOS.md) · **Products:** [`PRODUCTS.md`](PRODUCTS.md)
+**Conflicts:** [`CONFLICTS.md`](CONFLICTS.md) · **Reference:** [`../reference/README.md`](../reference/README.md) ([publications](../reference/publications/) · [products](../reference/products.md) · [repos](../reference/repos.md))
 
 ---
 
@@ -19,7 +19,7 @@ Everything else (papers, GitHub/Gerrit, commercial SKUs, forums, ASIC bring-up s
 
 Agents reshape the **control plane** more than they replace the **data plane**. A fourth job — **accelerator bring-up / codesign feedback** on sim+silicon — is now Tier A evidence (TritorX, KernelEvolve), still centered on kernels/IR/oracles. See [§5](#5-future-prediction-what-next-gen-looks-like) (incl. roadmap §5.5), [`STACK.md`](STACK.md), [§6](#6-conflicts-pointer), [§4](#4-whats-missing--under-covered-q4).
 
-**Sub-agent substrate (in scope).** Multi-agent **workflow compilers**, **AGI compilers** that freeze agent graphs into deployable artifacts, **static analysis of agent DAGs**, and **heterogeneous agent serving** are first-class evidence for how the control plane is built, secured, and productized—not side topics. Digests: [Auto](../publications/auto-agi-compiler.md), [FlowCompile](../publications/flowcompile.md), [AgentFlow](../publications/agentflow.md), [Heterogeneous agentic AI](../publications/agentic-ai-hetero-systems.md).
+**Sub-agent substrate (in scope).** Multi-agent **workflow compilers**, **AGI compilers** that freeze agent graphs into deployable artifacts, **static analysis of agent DAGs**, and **heterogeneous agent serving** are first-class evidence for how the control plane is built, secured, and productized—not side topics. Digests: [Auto](../reference/publications/auto-agi-compiler.md), [FlowCompile](../reference/publications/flowcompile.md), [AgentFlow](../reference/publications/agentflow.md), [Heterogeneous agentic AI](../reference/publications/agentic-ai-hetero-systems.md).
 
 ---
 
@@ -63,7 +63,7 @@ CompilerGym exposed LLVM passes as OpenAI Gym environments (Autophase features, 
 2. **Tool-using agents** trained with SFT+RL (Compiler-R1).
 3. **Inference-only multi-agent tuners** that avoid heavy offline training (AutoPass).
 4. **Program-synthesis of heuristics** that land as ordinary C++ (Magellan), recovering deployability that neural-in-the-compiler lacked.
-5. **Control-plane substrate for sub-agents:** compile/freeze agent workflows ([FlowCompile](../publications/flowcompile.md), [Auto](../publications/auto-agi-compiler.md)), analyze agent programs as ADGs ([AgentFlow](../publications/agentflow.md)), and place agent stages on hetero serving ([Heterogeneous agentic AI](../publications/agentic-ai-hetero-systems.md))—so multi-agent compiler loops become compiler-shaped, not only chat-shaped.
+5. **Control-plane substrate for sub-agents:** compile/freeze agent workflows ([FlowCompile](../reference/publications/flowcompile.md), [Auto](../reference/publications/auto-agi-compiler.md)), analyze agent programs as ADGs ([AgentFlow](../reference/publications/agentflow.md)), and place agent stages on hetero serving ([Heterogeneous agentic AI](../reference/publications/agentic-ai-hetero-systems.md))—so multi-agent compiler loops become compiler-shaped, not only chat-shaped.
 
 #### Trend C — MLIR + Triton as default substrate
 
@@ -122,17 +122,17 @@ Formal coverage is still mostly **local peephole / IR**. Whole-program GPU races
 
 ### 1.5 Public vision works (what’s out there)
 
-Besides system papers, several **public agendas** shape the “next compiler” debate. Digests live under Surveys & vision in [`../publications/INDEX.md`](../publications/INDEX.md).
+Besides system papers, several **public agendas** shape the “next compiler” debate. Digests live under Surveys & vision in [`../reference/publications/INDEX.md`](../reference/publications/INDEX.md).
 
 | Vision | Axis | Digest |
 |---|---|---|
-| **Compiler 2.0** (Amarasinghe; CC’20 → CGO’22 → Ken Kennedy plenary 2026) | Restore high-level→near-peak on accelerators; ML + better abstractions to *build/retarget* compilers | [compiler-2.0-cgo2026](../publications/compiler-2.0-cgo2026.md) ★ · lineage [’22](../publications/compiler-2.0-cgo2022.md) · [’20](../publications/compiler-2.0-modernize-ml.md) |
-| **MOCHA / Aarno Compiler 2.0** (funded) | LLM rewrite synthesis + eqsat + Rocq; data-frugal cost models; ISA-as-rewrites | [compiler-2.0-mocha-aarno](../publications/compiler-2.0-mocha-aarno.md) ★ |
-| **New Compiler Stack** survey | LLM as Selector / Translator / Generator; hybrid systems win | [new-compiler-stack-survey](../publications/new-compiler-stack-survey.md) |
-| **Compiler.next** | Broaden compile object to FMware (prompts, agents, knobs) | [compiler-next](../publications/compiler-next.md) |
-| **MLIR formal theories** | Read AI compilation through formal lenses | [mlir-formal-theories](../publications/mlir-formal-theories.md) |
-| **Automated kernel generation** survey | Kernel-agent landscape in the LLM era | [automated-kernel-generation-survey](../publications/automated-kernel-generation-survey.md) |
-| **IEEE Pulse** LLM-compilers outlook | Challenges / future direction essay | [ieee-pulse-llm-compilers](../publications/ieee-pulse-llm-compilers.md) |
+| **Compiler 2.0** (Amarasinghe; CC’20 → CGO’22 → Ken Kennedy plenary 2026) | Restore high-level→near-peak on accelerators; ML + better abstractions to *build/retarget* compilers | [compiler-2.0-cgo2026](../reference/publications/compiler-2.0-cgo2026.md) ★ · lineage [’22](../reference/publications/compiler-2.0-cgo2022.md) · [’20](../reference/publications/compiler-2.0-modernize-ml.md) |
+| **MOCHA / Aarno Compiler 2.0** (funded) | LLM rewrite synthesis + eqsat + Rocq; data-frugal cost models; ISA-as-rewrites | [compiler-2.0-mocha-aarno](../reference/publications/compiler-2.0-mocha-aarno.md) ★ |
+| **New Compiler Stack** survey | LLM as Selector / Translator / Generator; hybrid systems win | [new-compiler-stack-survey](../reference/publications/new-compiler-stack-survey.md) |
+| **Compiler.next** | Broaden compile object to FMware (prompts, agents, knobs) | [compiler-next](../reference/publications/compiler-next.md) |
+| **MLIR formal theories** | Read AI compilation through formal lenses | [mlir-formal-theories](../reference/publications/mlir-formal-theories.md) |
+| **Automated kernel generation** survey | Kernel-agent landscape in the LLM era | [automated-kernel-generation-survey](../reference/publications/automated-kernel-generation-survey.md) |
+| **IEEE Pulse** LLM-compilers outlook | Challenges / future direction essay | [ieee-pulse-llm-compilers](../reference/publications/ieee-pulse-llm-compilers.md) |
 
 **Not treated as current vision peers here:** pre-LLM CACM “Compiler Research: The Next 50 Years” (2008 NSF workshop); Carbon toolchain modernization talks (orthogonal to AI/agent control planes). Industry substrate critiques (e.g. Modular on MLIR fragmentation) stay in Trend C.
 
@@ -237,7 +237,7 @@ See [`TAXONOMY.md`](TAXONOMY.md). Variants:
 
 **Short answer:** Yes for the **control plane**; no (so far) for wholesale replacement of deterministic lowering.
 
-These reshape claims are **evidence for** [§5 Future prediction](#5-future-prediction-what-next-gen-looks-like). The hard limits below—and the gaps in [§4](#4-whats-missing--under-covered-q4)—are the **blockers** to that predicted future. Tiered repo/product evidence: [`REPOS.md`](REPOS.md), [`PRODUCTS.md`](PRODUCTS.md).
+These reshape claims are **evidence for** [§5 Future prediction](#5-future-prediction-what-next-gen-looks-like). The hard limits below—and the gaps in [§4](#4-whats-missing--under-covered-q4)—are the **blockers** to that predicted future. Tiered repo/product evidence: [`../reference/repos.md`](../reference/repos.md), [`../reference/products.md`](../reference/products.md).
 
 ### 3.1 Old → new process map
 
@@ -280,7 +280,7 @@ Split **offline** compiler-engineering agents (Magellan-style heuristic synthesi
 
 ## 4. What’s missing / under-covered? (Q4)
 
-The gaps below are not a separate “wishlist”—they are the **blockers to the [§5](#5-future-prediction-what-next-gen-looks-like) predicted future** (agent-addressable data plane, three agent jobs, first-class artifacts, classical defaults until CI proves agents). Coverage is uneven. Each gap spells out **what exists**, **what is missing**, **why it blocks that future**, and **what “done” could look like**. Digests: [`../publications/`](../publications/). Evidence maps (Tier A/B/C): [`REPOS.md`](REPOS.md), [`PRODUCTS.md`](PRODUCTS.md).
+The gaps below are not a separate “wishlist”—they are the **blockers to the [§5](#5-future-prediction-what-next-gen-looks-like) predicted future** (agent-addressable data plane, three agent jobs, first-class artifacts, classical defaults until CI proves agents). Coverage is uneven. Each gap spells out **what exists**, **what is missing**, **why it blocks that future**, and **what “done” could look like**. Digests: [`../reference/publications/`](../reference/publications/). Evidence maps (Tier A/B/C): [`../reference/repos.md`](../reference/repos.md), [`../reference/products.md`](../reference/products.md).
 
 ### Gap map (priority snapshot)
 
@@ -398,7 +398,7 @@ Dialects, Triton, CUDA Tile IR, PTX, and LLVM IR remain siloed; an agent tuned o
 
 ### 4.6 FMware / agent-app compilation
 
-**What exists.** Compiler.next vision: compile prompts, agent topologies, and free parameters under multi-objective quality gates; generative compilation couples compilers into coding agents; industry agent harnesses (Claude C compiler) stress test construction. Concrete substrate is arriving: [FlowCompile](../publications/flowcompile.md) (compile-time optimize structured LLM workflows), [Auto](../publications/auto-agi-compiler.md) (freeze witnessed-deterministic agent spans into WASM “cognition binaries”), [AgentFlow](../publications/agentflow.md) (Agent Dependency Graphs for static analysis), and [heterogeneous agent serving](../publications/agentic-ai-hetero-systems.md) (place dynamic agent graphs across CPU/accelerator tiers).
+**What exists.** Compiler.next vision: compile prompts, agent topologies, and free parameters under multi-objective quality gates; generative compilation couples compilers into coding agents; industry agent harnesses (Claude C compiler) stress test construction. Concrete substrate is arriving: [FlowCompile](../reference/publications/flowcompile.md) (compile-time optimize structured LLM workflows), [Auto](../reference/publications/auto-agi-compiler.md) (freeze witnessed-deterministic agent spans into WASM “cognition binaries”), [AgentFlow](../reference/publications/agentflow.md) (Agent Dependency Graphs for static analysis), and [heterogeneous agent serving](../reference/publications/agentic-ai-hetero-systems.md) (place dynamic agent graphs across CPU/accelerator tiers).
 
 **What is missing.** Mature analogues of DL compilers for FMware:
 
@@ -432,7 +432,7 @@ Dialects, Triton, CUDA Tile IR, PTX, and LLVM IR remain siloed; an agent tuned o
 
 ### 4.8 Human-in-the-loop compiler engineering
 
-**What exists.** Magellan produces reviewable C++ heuristics; **Archer** ([paper](https://arxiv.org/html/2607.01808), [GitHub](https://github.com/cuhk-s3/Archer)) agentically reviews **LLVM GitHub PRs** with Alive2/LLUBI evidence gates; LLVM Discourse threads report similar agent PR review experience; **Gerrit** hosts general AI review plugins ([ai-code-review](https://gerrit.googlesource.com/plugins/ai-code-review/), [ReviewAI](https://github.com/amarula/reviewai-gerrit-plugin), [GerritForge provider](https://github.com/GerritForge/ai-review-agent-provider)) used in large-org change workflows; Anthropic CCC emphasizes harnesses; Lattner commentary stresses tests as the real product. See [`REPOS.md`](REPOS.md) for the SCM map.
+**What exists.** Magellan produces reviewable C++ heuristics; **Archer** ([paper](https://arxiv.org/html/2607.01808), [GitHub](https://github.com/cuhk-s3/Archer)) agentically reviews **LLVM GitHub PRs** with Alive2/LLUBI evidence gates; LLVM Discourse threads report similar agent PR review experience; **Gerrit** hosts general AI review plugins ([ai-code-review](https://gerrit.googlesource.com/plugins/ai-code-review/), [ReviewAI](https://github.com/amarula/reviewai-gerrit-plugin), [GerritForge provider](https://github.com/GerritForge/ai-review-agent-provider)) used in large-org change workflows; Anthropic CCC emphasizes harnesses; Lattner commentary stresses tests as the real product. See [`../reference/repos.md`](../reference/repos.md) for the SCM map.
 
 **What is missing.** Process answers, not only models:
 
@@ -587,10 +587,10 @@ Hybrid stack: agents orchestrate; classical compilers execute; silicon feeds the
 
 | Line | Claim for agentic compilers | Digest |
 |---|---|---|
-| **AGI compiler / freeze** | Compile agent traces → deployable artifacts; amortize inference | [Auto](../publications/auto-agi-compiler.md) ★ → **P23** |
-| **Workflow compile** | Spec/graph → typed workflow configs across accuracy–latency | [FlowCompile](../publications/flowcompile.md) ★ → **P3/P18** |
-| **Agent static analysis** | ADG + typed deps for audit, injection, unsafe tools | [AgentFlow](../publications/agentflow.md) → **P1/P22** |
-| **Heterogeneous serving** | Place agent stages across NPU/GPU/CPU under SLOs | [Heterogeneous agentic AI](../publications/agentic-ai-hetero-systems.md) → **P10/P22** |
+| **AGI compiler / freeze** | Compile agent traces → deployable artifacts; amortize inference | [Auto](../reference/publications/auto-agi-compiler.md) ★ → **P23** |
+| **Workflow compile** | Spec/graph → typed workflow configs across accuracy–latency | [FlowCompile](../reference/publications/flowcompile.md) ★ → **P3/P18** |
+| **Agent static analysis** | ADG + typed deps for audit, injection, unsafe tools | [AgentFlow](../reference/publications/agentflow.md) → **P1/P22** |
+| **Heterogeneous serving** | Place agent stages across NPU/GPU/CPU under SLOs | [Heterogeneous agentic AI](../reference/publications/agentic-ai-hetero-systems.md) → **P10/P22** |
 
 Without these, “agentic compiler” collapses to either unconstrained LLM loops or a classical compiler with a chatbot glued on.
 
@@ -612,7 +612,7 @@ Without these, “agentic compiler” collapses to either unconstrained LLM loop
 
 ### 5.4 Near-term signals conditioning the sketch
 
-From Magellan LLVM Dev Meeting slides ([digest](../publications/magellan-llvm-slides.md)), ACCLAIM ([arXiv:2604.04238](https://arxiv.org/abs/2604.04238), [digest](../publications/acclaim.md)), and HW-codesign agents:
+From Magellan LLVM Dev Meeting slides ([digest](../reference/publications/magellan-llvm-slides.md)), ACCLAIM ([arXiv:2604.04238](https://arxiv.org/abs/2604.04238), [digest](../reference/publications/acclaim.md)), and HW-codesign agents:
 
 | Signal | Implication for §5 | Watch |
 |---|---|---|
@@ -623,7 +623,7 @@ From Magellan LLVM Dev Meeting slides ([digest](../publications/magellan-llvm-sl
 | **KernelEvolve** hetero NVIDIA/AMD/MTIA perf agents | Production multi-HW control plane | Public traces vs KernelBench-X (**C2**) |
 | Ascend **compiler-grounded** Triton diagnosis | Non-CUDA NPUs need IR/pass escalation, not CUDA-pretrained guess | Hierarchy ablations |
 | Helion + CompileIQ ACF path | DSL substrate agents specialize | **C4** vs Tile/CuTe |
-| **Compiler 2.0** Ken Kennedy plenary + **MOCHA** (LLM rewrites ⊕ eqsat ⊕ Rocq; retarget-via-rewrites) | Venue+funding align on verified ML construction / hetero retarget — not free LLM-`opt` | OSS releases & Year 1–3 evals ([digest](../publications/compiler-2.0-cgo2026.md), [MOCHA](../publications/compiler-2.0-mocha-aarno.md)) |
+| **Compiler 2.0** Ken Kennedy plenary + **MOCHA** (LLM rewrites ⊕ eqsat ⊕ Rocq; retarget-via-rewrites) | Venue+funding align on verified ML construction / hetero retarget — not free LLM-`opt` | OSS releases & Year 1–3 evals ([digest](../reference/publications/compiler-2.0-cgo2026.md), [MOCHA](../reference/publications/compiler-2.0-mocha-aarno.md)) |
 
 ### 5.5 Roadmap — Horizon A (2027–28) and Horizon B (~2029–31)
 
@@ -893,7 +893,7 @@ Agent-written heuristics/kernels are still production code.
 
 **Survey lean.** Near term: **flag/SKU + frozen artifacts** for external customers; **internal platforms** for ASIC bring-up. Do not sell “chat with your compiler” as the sole SKU.
 
-**Also commercially.** Pricing/unit economics (P10); multi-tenancy (P11); map SKUs to jobs (a)/(b)/(c)/(d)—CompileIQ flags ≠ TritorX bring-up platforms ≠ AlphaEvolve-style cloud coding agents ([`PRODUCTS.md`](PRODUCTS.md)).
+**Also commercially.** Pricing/unit economics (P10); multi-tenancy (P11); map SKUs to jobs (a)/(b)/(c)/(d)—CompileIQ flags ≠ TritorX bring-up platforms ≠ AlphaEvolve-style cloud coding agents ([`../reference/products.md`](../reference/products.md)).
 
 #### P9 — Eval & benchmarks for agents-as-products
 
@@ -1046,7 +1046,7 @@ Agents raise draft volume; reviewers become the bottleneck (§1b, §4.8, **C7**)
 
 #### P22 — Deterministic orchestration vs free LLM judgment
 
-Adjacent agent-production work stresses **deterministic boundaries** and moving the LLM out of the hot execution loop; TritorX deliberately uses an FSM rather than free tool-calling. Control-plane substrate papers sharpen the same lean: [AgentFlow](../publications/agentflow.md) ADGs make agent programs analyzable; [FlowCompile](../publications/flowcompile.md) pushes config search offline; [heterogeneous agent serving](../publications/agentic-ai-hetero-systems.md) places stages under cost/SLO policies rather than “run everything on the biggest GPU.”
+Adjacent agent-production work stresses **deterministic boundaries** and moving the LLM out of the hot execution loop; TritorX deliberately uses an FSM rather than free tool-calling. Control-plane substrate papers sharpen the same lean: [AgentFlow](../reference/publications/agentflow.md) ADGs make agent programs analyzable; [FlowCompile](../reference/publications/flowcompile.md) pushes config search offline; [heterogeneous agent serving](../reference/publications/agentic-ai-hetero-systems.md) places stages under cost/SLO policies rather than “run everything on the biggest GPU.”
 
 | Option | Pros | Cons |
 |---|---|---|
@@ -1074,7 +1074,7 @@ Adjacent agent-production work stresses **deterministic boundaries** and moving 
 | **Model capability — tools** | Open models often fail **tool-calling** before code quality (ACCLAIM); multi-agent compilers die on malformed tools | `acclaim`, §3.2 |
 | **Model capability — sample efficiency** | Language priors can cut search vs blind autotune (Reasoning Compiler, AutoPass inference-only); Magellan/AlphaEvolve spend offline then ship classical code | `reasoning-compiler`, `autopass`, `magellan` |
 | **Mitigations already shipping** | Freeze ACF/kernel into VCS; HW RAG + skills (KernelEvolve); distill/RL specialists on trajectories; Fast Feedback (~10× vs full IR in-loop); offline job (b) so users never pay LLM at `-O3` time | P2/P4/P12; CompileIQ ACF; Magellan |
-| **Control-plane freeze / workflow compile** | [Auto](../publications/auto-agi-compiler.md): compile witnessed-deterministic agent spans → WASM cognition binaries + deopt; [FlowCompile](../publications/flowcompile.md): offline Pareto configs for sub-agent workflows; hetero placement avoids frontier GPUs for every stage | `auto-agi-compiler`, `flowcompile`, `agentic-ai-hetero-systems`; §4.6 |
+| **Control-plane freeze / workflow compile** | [Auto](../reference/publications/auto-agi-compiler.md): compile witnessed-deterministic agent spans → WASM cognition binaries + deopt; [FlowCompile](../reference/publications/flowcompile.md): offline Pareto configs for sub-agent workflows; hetero placement avoids frontier GPUs for every stage | `auto-agi-compiler`, `flowcompile`, `agentic-ai-hetero-systems`; §4.6 |
 
 **Adjacent industry signal (agent production, not compiler-specific).** Agentic tasks commonly cost **many×** chatbot tokens (iterative tool use + context re-send—“communication tax”; code-review-like stages dominate token share in agentic SE studies). Prompt caching, model routing (small models for easy steps), and context compaction are becoming mandatory FinOps—not optional polish. This reinforces compiler-agent design: **fewer, higher-value LLM calls** behind oracles beat chatty multi-agent refinement in the hot path—and **compile/freeze the agent graph** when spans are deterministic (Auto), rather than re-paying tokens every run.
 
@@ -1145,8 +1145,8 @@ Working stance used in §5: hybrid control/data plane; Magellan and MLGO as para
 2. If shipping commercially: read **§5.7** (P1–P22: contract, memory, eval, pricing, tenancy, IP, DR, …).
 3. Check [`CLAIMS.md`](CLAIMS.md); read [`CONFLICTS.md`](CONFLICTS.md) when two sources disagree.
 4. Use [`SYSTEMS.md`](SYSTEMS.md) for concrete systems.
-5. Use [`REPOS.md`](REPOS.md) / [`PRODUCTS.md`](PRODUCTS.md) as **Tier A/B/C evidence for the prediction**, not forge/SKU catalogs.
-6. Use [`../publications/INDEX.md`](../publications/INDEX.md) (prefer ★ — ACCLAIM, Magellan, TritorX, KernelEvolve, Kernel*, CompileIQ, Archer).
+5. Use [`../reference/README.md`](../reference/README.md) → publications / products / repos as **Tier A/B/C evidence**, not forge/SKU catalogs.
+6. Use [`../reference/publications/INDEX.md`](../reference/publications/INDEX.md) (prefer ★ — ACCLAIM, Magellan, TritorX, KernelEvolve, Kernel*, CompileIQ, Archer).
 7. Contribute via [`WORKFLOW.md`](WORKFLOW.md); validate with `python3 scripts/validate_survey.py`.
 8. Track progress in [`../STATUS.md`](../STATUS.md).
 

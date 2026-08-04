@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-PUB = ROOT / "publications"
+PUB = ROOT / "reference" / "publications"
 INDEX = PUB / "INDEX.md"
 
 REQUIRED_SECTIONS = (
@@ -43,9 +43,9 @@ def main() -> int:
     }
 
     for name in sorted(indexed - digests):
-        errors.append(f"INDEX links missing file: publications/{name}")
+        errors.append(f"INDEX links missing file: reference/publications/{name}")
     for name in sorted(digests - indexed):
-        errors.append(f"digest not in INDEX.md: publications/{name}")
+        errors.append(f"digest not in INDEX.md: reference/publications/{name}")
 
     for name in sorted(digests & indexed):
         text = (PUB / name).read_text(encoding="utf-8")

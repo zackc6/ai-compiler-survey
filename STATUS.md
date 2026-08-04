@@ -13,8 +13,8 @@ Last updated: **2026-08-04**
 | Claims map | Done | `docs/CLAIMS.md` A/P/S/H |
 | Conflicts | Done | C1–C10 (+ coverage vs peak, codesign vs EDA) |
 | Survey narrative Q1–Q4 | Done (v3) | Gaps as blockers |
-| Tiered REPOS/PRODUCTS | Done (v3) | TritorX/KernelEvolve/Helion/AutoKernel |
-| Publication digests | Done (v6) | **104** digests (+ agent control-plane substrate: Auto, FlowCompile, AgentFlow, Hetero) |
+| **Reference store** | Done | `reference/` guide → publications / products / repos |
+| Publication digests | Done (v6) | **104** digests under `reference/publications/` |
 | Validate script | Done | `python3 scripts/validate_survey.py` |
 | **PDF + PPTX publish** | Done | English PDF + editorial PPTX in `publish/out/` |
 | **Visual posters** | Done | Diagram-first PNGs + visual PPTX via `publish/build_visual.py` |
@@ -44,6 +44,7 @@ Last updated: **2026-08-04**
 
 | Date | Change |
 |---|---|
+| 2026-08-04 | Collect evidence under `reference/` (guide → publications / products / repos) |
 | 2026-08-04 | Fold ROADMAP into SURVEY §5.5; drop circular SURVEY↔ROADMAP pointers; remove self-repo name from PDF cover / setup notes |
 | 2026-08-04 | Redraw §5.1 architecture + §5.5 architecture-evolution diagrams; add visual posters (architecture stack, Today→A→B evolution) |
 | 2026-08-04 | Add agent control-plane substrate digests (Auto, FlowCompile, AgentFlow, Hetero); wire §0.1, Trend B, §4.6, §5.1, §5.7 P3/P22/P23; INDEX **104** |
