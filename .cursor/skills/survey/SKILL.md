@@ -4,7 +4,7 @@ description: >-
   Maintain this living survey on main: one SURVEY reading path (§0–§9),
   reference/ evidence store, prediction-first digests (Org/Publisher),
   §6 conflicts / §7 claims, §5 architecture+roadmap+commercialization,
-  validate, rebuild PDF + visuals + PPTX, push main. Use when editing
+  validate, rebuild PDF, push main. Use when editing
   this repo, adding publications, reorganizing docs, updating the
   agentic-compiler prediction, or publishing.
 ---
@@ -23,7 +23,7 @@ reference/
   products.md         # commercial Tier A/B/C signals
   repos.md            # forge / OSS Tier A/B/C map
 STATUS.md             # changelog / coverage
-publish/              # PDF / PPTX / visual posters
+publish/              # PDF only
 ```
 
 | SURVEY section | Role |
@@ -55,8 +55,6 @@ publish/              # PDF / PPTX / visual posters
 | Org sync helper | `python3 scripts/apply_org_publisher.py` |
 | Validate | `python3 scripts/validate_survey.py` |
 | PDF | `python3 publish/build_pdf.py` |
-| Editorial PPTX | `python3 publish/build_pptx.py` |
-| **Visual pack** | `python3 publish/build_visual.py` |
 | Status | `STATUS.md` |
 
 ## Hard rules
@@ -67,7 +65,7 @@ publish/              # PDF / PPTX / visual posters
 4. Hybrid = agents may **synthesize data-plane artifacts offline** that **admit then execute classically**; not LLM-as-`opt` online without admit (**C3/C6/A5**).
 5. **One reading path** — narrative in SURVEY; evidence in `reference/`. When consolidating: keep all IDs/tables/mechanisms; retarget every link (README, digests, `assemble.py` rewrite map, skills, STATUS).
 6. Work on **`main`**, commit, **`git push origin main`** — no PRs unless asked.
-7. After narrative batches: `validate` → **PDF + visual + pptx** → push.
+7. After narrative batches: `validate` → **PDF** → push.
 8. Cite **external primary sources** only — never this survey’s own repo URL/name in digests, covers, or prediction text.
 
 ## Finish-batch checklist
@@ -79,8 +77,6 @@ publish/              # PDF / PPTX / visual posters
 [ ] §5.7 updated if commercialization blockers discovered
 [ ] No new satellite docs that fragment the reading path
 [ ] python3 publish/build_pdf.py
-[ ] python3 publish/build_visual.py
-[ ] python3 publish/build_pptx.py     # optional editorial deck
 [ ] STATUS.md changelog
 [ ] git commit && git push origin main
 ```

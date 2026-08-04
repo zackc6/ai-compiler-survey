@@ -66,7 +66,7 @@ COVER = {
             "- Full digests remain in `reference/publications/*.md` (not inlined; each has Org + Publisher).\n"
             "- Reference: `reference/README.md` → publications / products / repos.\n"
             "- Commercialization critical problems: `docs/SURVEY.md` §5.7 (P1–P23).\n"
-            "- Rebuild: `python3 publish/build_pdf.py` · visuals: `python3 publish/build_visual.py`.\n"
+            "- Rebuild: `python3 publish/build_pdf.py`.\n"
         ),
     },
     "zh-CN": {

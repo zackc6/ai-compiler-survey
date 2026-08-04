@@ -9,12 +9,7 @@ Living survey aimed at **predicting the next-generation agentic compiler** (~202
 3. **Stack reshape** — Layer map (framework → DSL → IR → oracles → silicon feedback) in [`docs/SURVEY.md`](docs/SURVEY.md) §5.6.
 4. **Answer Q1–Q4** plus comparison (§1b) and conflicts ([`docs/SURVEY.md`](docs/SURVEY.md) §6, C1–C10).
 5. **Reference evidence** — [`reference/`](reference/) guide → publications / products / repos.
-6. **Publish** — [`publish/`](publish/) English PDF + decks + **diagram visuals**:
-   [`PDF`](publish/out/next-gen-ai-compiler-survey.pdf) ·
-   [`PPTX`](publish/out/next-gen-ai-compiler-survey.pptx) ·
-   [`Visual PPTX`](publish/out/next-gen-ai-compiler-survey-visual.pptx) ·
-   [`Posters`](publish/out/visual/)
-   (`python3 publish/build_visual.py` regenerates diagram-first PNGs).
+6. **Publish** — English PDF via [`publish/`](publish/): [`PDF`](publish/out/next-gen-ai-compiler-survey.pdf) (`python3 publish/build_pdf.py`).
 7. **Track progress** — [`STATUS.md`](STATUS.md).
 
 ## Repo layout
@@ -31,8 +26,8 @@ reference/
   products.md             # Commercial prediction signals
   repos.md                # Forge / OSS evidence map
 publish/
-  build_pdf.py / build_pptx.py
-  out/*.pdf / out/*.pptx
+  build_pdf.py
+  out/*.pdf
 scripts/validate_survey.py
 .cursor/skills/survey/
 ```
@@ -42,7 +37,7 @@ scripts/validate_survey.py
 1. Read [`docs/SURVEY.md`](docs/SURVEY.md) end-to-end (§0 → §9).
 2. Open [`reference/README.md`](reference/README.md) → ★ digests in [`reference/publications/INDEX.md`](reference/publications/INDEX.md) when you need to stress-test a claim.
 3. Contribute via [`docs/SURVEY.md`](docs/SURVEY.md) §9; `python3 scripts/validate_survey.py`.
-4. Export: `python3 publish/build_pdf.py && python3 publish/build_pptx.py && python3 publish/build_visual.py`.
+4. Export: `python3 publish/build_pdf.py`.
 
 ## How we update
 

@@ -54,7 +54,7 @@ Fold order that worked (information-preserving):
 10. **Vision lineage digests** — e.g. Compiler 2.0 (CC’20 → CGO’22 → Ken Kennedy 2026) + MOCHA; SURVEY §1.5. Use **full paper titles** in INDEX (short names hid KernelEvolve).
 11. **§5.7 commercialization (P1–P23)** — Ops/business problems, not only architecture: contract, memory, sub-agents, when-to-run, oracles, ownership, multi-DSL, SKU, eval, pricing, tenancy, lock-in, IP, versioning, cold start, HITL, flywheel, latency SLOs, DR, A/B, compliance, FSM, **tokens/inference/capability (P23)**.
 12. **P23 conclusion** — Tokens/latency/capability **shape the SKU** (freeze artifacts, Amdahl budgets, route/distill) and **falsify LLM-as-`opt` every build**, not the hybrid control-plane bet.
-13. **Diagram-first visuals** — `build_visual.py` 1920×1080 posters + full-bleed visual PPTX. Rebuild with PDF after §5/§5.7 moves.
+13. **PDF publish only** — Prefer narrative quality in SURVEY/PDF; do not maintain in-repo diagram PPTX packs (removed).
 14. **PDF publish pipeline** — Assemble SURVEY + reference guides (not digest bodies); rebuild after prediction/commercial/doc-structure edits.
 15. **Validate early** — INDEX↔file sync, sections, Org/Publisher fields, totals, mojibake.
 16. **Work on main** — Living research survey: push `main` after each coherent batch; no PR theater unless asked.
@@ -77,7 +77,7 @@ Fold order that worked (information-preserving):
 | HW scope creep into EDA | C10: kernels/IR/oracles only |
 | Headline speedups in §8 | Author-reported; prefer mechanisms |
 | §5.7 only architecture problems | Survey ops/business too (P9–P23); options+pros/cons+lean |
-| Forgetting PDF/visuals after narrative | Finish-batch: validate → pdf → visual → pptx → push |
+| Forgetting PDF after narrative | Finish-batch: validate → pdf → push |
 | `apply_org_publisher` INDEX regex stale | Support 7-column rows when regenerating Org/Publisher |
 | Confusing “hybrid” with “agents never write passes” | Document offline data-plane synthesis vs online admit |
 | Citing this survey’s own repo | External primaries only (covers, digests, prediction text) |
@@ -90,12 +90,11 @@ Fold order that worked (information-preserving):
 4. Resource envelope (tokens, inference latency, model capability) gets an explicit **verdict**: shapes SKU vs falsifies which product story.
 5. Close with a checklist buyers/builders can run; point §5.5 success metrics at §5.7.
 
-## Visual / publish method
+## Publish method
 
-1. Visuals = one composition per slide (orbit, ladder, bands, gauges)—night-forge palette; avoid purple/cream-terracotta/broadsheet clichés.
-2. Editorial PPTX can stay idea-led; visual PPTX embeds PNGs full-bleed.
-3. After §5.5 / §5.7 / doc-structure edits: regenerate **both** PDF and visuals before calling the batch done.
-4. `assemble.py` `SECTIONS` should track the live reading path (SURVEY + `reference/` guides), with legacy path rewrites for old digest links.
+1. After §5.5 / §5.7 / doc-structure edits: regenerate PDF before calling the batch done.
+2. `assemble.py` `SECTIONS` should track the live reading path (SURVEY + `reference/` guides), with legacy path rewrites for old digest links.
+3. Do not reintroduce in-repo visual/PPTX generators unless explicitly requested.
 
 ## Minimal viable survey (if starting over)
 
@@ -105,7 +104,7 @@ Fold order that worked (information-preserving):
 4. SURVEY §6 for every disagreement that changes the sketch.
 5. SURVEY §7 claims map before the 30th digest.
 6. §5.7 stub (contract, memory, freeze path, token budget) before claiming “commercial ready.”
-7. `validate_survey.py` + `build_pdf.py` + `build_visual.py` before Wave B of sources.
+7. `validate_survey.py` + `build_pdf.py` before Wave B of sources.
 8. Resist creating `docs/FOO.md` satellites—add a SURVEY subsection or a `reference/` evidence file.
 
 ## Success metric
