@@ -17,3 +17,6 @@ publish/out/*.zh-CN.pdf
 publish/out/*.zh-TW.pdf
 publish/out/*.zh-CN.md
 publish/out/*.zh-TW.md
+
+# Beamer build intermediates
+publish/beamer/_build/
