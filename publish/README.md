@@ -16,6 +16,8 @@ python3 publish/build_beamer.py    # expert briefing (Beamer + TikZ, ~28 slides)
 
 Source for the deck: [`beamer/expert-briefing.tex`](beamer/expert-briefing.tex).
 
+Per-slide presentation transcripts: [`beamer/transcripts/`](beamer/transcripts/) (`slide-01.md` … `slide-28.md`).
+
 ## Requirements
 
 - Survey PDF: `pandoc`, `weasyprint`, `pypdf`

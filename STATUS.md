@@ -1,6 +1,6 @@
 # Survey status
 
-Last updated: **2026-08-04**
+Last updated: **2026-08-05**
 
 ## Overall progress
 
@@ -43,6 +43,7 @@ Last updated: **2026-08-04**
 
 | Date | Change |
 |---|---|
+| 2026-08-05 | Beamer deck polish (title case, light title, agenda spoken-only weight/contract, TikZ overlap fixes) + per-slide transcripts in `publish/beamer/transcripts/` |
 | 2026-08-04 | Add LaTeX Beamer expert briefing (~28 slides, diagram-first; §5→§4→§1) → `publish/out/next-gen-ai-compiler-expert-briefing.pdf` |
 | 2026-08-04 | Remove visual posters, PPTX decks, and `build_visual.py` / `build_pptx.py` — PDF-only publish |
 | 2026-08-04 | Refresh §5.1 + architecture-evolution visuals; add 2-slide share deck `architecture-51-and-evolution.pptx` |
