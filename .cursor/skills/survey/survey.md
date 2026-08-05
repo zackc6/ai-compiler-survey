@@ -57,7 +57,7 @@ Fold order that worked (information-preserving):
 13. **PDF publish only** — Prefer narrative quality in SURVEY/PDF; do not maintain in-repo diagram PPTX packs (removed).
 14. **PDF publish pipeline** — Assemble SURVEY + reference guides (not digest bodies); rebuild after prediction/commercial/doc-structure edits.
 15. **Validate early** — INDEX↔file sync, sections, Org/Publisher fields, totals, mojibake.
-16. **Work on main** — Living research survey: push `main` after each coherent batch; no PR theater unless asked.
+16. **Work on main only** — Living research survey: stay on `main`, commit, `git push origin main` after each coherent batch. Never create feature branches; never open PRs/MRs unless the user explicitly asks.
 17. **Control-plane substrate digests** — Multi-agent workflow compilers / AGI compilers / agent DAG analysis / hetero serving (Auto, FlowCompile, AgentFlow, Hetero) are in-scope evidence for how the control plane is built—not side topics.
 18. **One composition docs layout** — Same instinct as frontend “one job per section”: each SURVEY section has one job; evidence lives elsewhere.
 
@@ -81,6 +81,7 @@ Fold order that worked (information-preserving):
 | `apply_org_publisher` INDEX regex stale | Support 7-column rows when regenerating Org/Publisher |
 | Confusing “hybrid” with “agents never write passes” | Document offline data-plane synthesis vs online admit |
 | Citing this survey’s own repo | External primaries only (covers, digests, prediction text) |
+| Feature-branch / PR workflow on this repo | Always push `main` directly; skip `cursor/*` branches and ManagePullRequest unless asked |
 
 ## Commercialization survey method (§5.7)
 

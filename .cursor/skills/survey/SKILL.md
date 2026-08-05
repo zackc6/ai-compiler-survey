@@ -65,7 +65,7 @@ publish/              # PDF only
 3. Prefer Tier A (ACCLAIM, Magellan, TritorX, KernelEvolve, Kernel*, CompileIQ, Archer, …).
 4. Hybrid = agents may **synthesize data-plane artifacts offline** that **admit then execute classically**; not LLM-as-`opt` online without admit (**C3/C6/A5**).
 5. **One reading path** — narrative in SURVEY; evidence in `reference/`. When consolidating: keep all IDs/tables/mechanisms; retarget every link (README, digests, `assemble.py` rewrite map, skills, STATUS).
-6. Work on **`main`**, commit, **`git push origin main`** — no PRs unless asked.
+6. **Git: `main` only.** Stay on `main`; commit; `git push origin main`. Do **not** create feature branches (`cursor/*` or otherwise), do **not** open PRs/MRs — living survey, push direct unless the user explicitly asks otherwise.
 7. After narrative batches: `validate` → **PDF** → push.
 8. Cite **external primary sources** only — never this survey’s own repo URL/name in digests, covers, or prediction text.
 
