@@ -1,11 +1,13 @@
-# Slide 9: Architecture Evolution — Today → A → B
+# Slide 9: Architecture Evolution — Component Changes
 
-Read the timeline left to right.
+Walk left to right, but spend the time inside each box — what components change.
 
-Today, 2025 to 26: ad-hoc agent loops on the control plane; MLIR Triton Inductor default on a mostly GPU data plane; sparse codesign and manual bring-up.
+**Control plane:** Today is ad-hoc agent loops (chat/tools, GEAK, ACCLAIM, Magellan) with no typed admit contract. Horizon A productizes jobs (a)–(d) and CI-gates specialize. Horizon B compiles the control plane itself: workflow compile, ADG check, freeze, hetero place.
 
-Horizon A, 2027 to 28: jobs a through d productized and CI-gated specialize; multi-DSL with fingerprints, tool APIs, and admit; early sim and first silicon feeding ISA or dialect RFCs.
+**Data plane:** Today is classical MLIR/Triton/Inductor, GPU-mostly, thin tools. Horizon A makes it agent-addressable — multi-DSL fingerprints, typed tool APIs, admit, oracles. Horizon B is multi-backend fleets with ACF, heuristics, and memory as VCS artifacts — still classical lowering.
 
-Horizon B, about 2029 to 31: the control plane itself is compiled — ADG, freeze, place; multi-backend fleets with ACF and heuristics in VCS; a steady pre-silicon loop that is still not autonomous EDA.
+**Codesign:** Today sparse/manual. Horizon A closes early sim + first-silicon feedback into ISA/dialect RFCs. Horizon B is a steady pre-Si → bring-up → next tape-out loop, not autonomous EDA (C10).
 
-Closing line: the data plane never goes away; the agent graph becomes compiled, audited, and amortized.
+**Artifacts:** binaries → + ACF/hints/kernels/corpora → + frozen agent workflows / cognition binaries.
+
+Closing line: focus on which components thicken; the data plane never goes away.

@@ -73,9 +73,10 @@
   jobAmber/.style={draw=Amber,fill=Amber!12,rounded corners=6pt,minimum width=3.15cm,minimum height=2.55cm,text width=2.9cm,align=center,font=\sffamily\small,text=Ink},
   jobEmber/.style={draw=Ember,fill=Ember!12,rounded corners=6pt,minimum width=3.15cm,minimum height=2.55cm,text width=2.9cm,align=center,font=\sffamily\small,text=Ink},
   jobInk/.style={draw=Ink,fill=Ink!8,rounded corners=6pt,minimum width=3.15cm,minimum height=2.55cm,text width=2.9cm,align=center,font=\sffamily\small,text=Ink},
-  bandSteel/.style={rounded corners=3pt,minimum width=3.55cm,minimum height=1.35cm,text width=3.3cm,align=center,font=\sffamily\scriptsize,draw=Steel,fill=Steel!12},
-  bandAmber/.style={rounded corners=3pt,minimum width=3.55cm,minimum height=1.35cm,text width=3.3cm,align=center,font=\sffamily\scriptsize,draw=Amber,fill=Amber!12},
-  bandEmber/.style={rounded corners=3pt,minimum width=3.55cm,minimum height=1.35cm,text width=3.3cm,align=center,font=\sffamily\scriptsize,draw=Ember,fill=Ember!12},
+  bandSteel/.style={rounded corners=3pt,minimum width=3.85cm,minimum height=1.85cm,text width=3.55cm,align=left,font=\sffamily\tiny,draw=Steel,fill=Steel!12,inner sep=4pt},
+  bandAmber/.style={rounded corners=3pt,minimum width=3.85cm,minimum height=1.85cm,text width=3.55cm,align=left,font=\sffamily\tiny,draw=Amber,fill=Amber!12,inner sep=4pt},
+  bandEmber/.style={rounded corners=3pt,minimum width=3.85cm,minimum height=1.55cm,text width=3.55cm,align=left,font=\sffamily\tiny,draw=Ember,fill=Ember!12,inner sep=4pt},
+  bandMute/.style={rounded corners=3pt,minimum width=3.85cm,minimum height=0.95cm,text width=3.55cm,align=left,font=\sffamily\tiny,draw=Mute,fill=Mute!10,inner sep=4pt},
   cardSteel/.style={draw=Steel,fill=Steel!8,rounded corners=5pt,minimum width=5.7cm,minimum height=1.55cm,text width=5.3cm,align=left,font=\sffamily\scriptsize,inner sep=6pt,text=Ink},
   cardAmber/.style={draw=Amber,fill=Amber!8,rounded corners=5pt,minimum width=5.7cm,minimum height=1.55cm,text width=5.3cm,align=left,font=\sffamily\scriptsize,inner sep=6pt,text=Ink},
   cardEmber/.style={draw=Ember,fill=Ember!8,rounded corners=5pt,minimum width=5.7cm,minimum height=1.55cm,text width=5.3cm,align=left,font=\sffamily\scriptsize,inner sep=6pt,text=Ink},
@@ -246,7 +247,7 @@
 \node[trendAmber] at (0.0,1.55) {\textbf{B RL $\rightarrow$ agents}\par tools $\cdot$ heuristics\par workflow-compile};
 \node[trendEmber] at (4.0,1.55) {\textbf{C MLIR + Triton}\par peak often still\par vendor libs / Tile};
 \node[trendInk] at (-4.0,-0.55) {\textbf{D Kernel agents}\par industrial $\cdot$ KernelBench hard};
-\node[trendOk] at (0.0,-0.55) {\textbf{E Verify in loop}\par local formal $\gg$\par whole-program GPU/FP};
+\node[trendOk] at (0.0,-0.55) {\textbf{E Verify in loop}\par local formal $\gg$\par whole-program GPU / floating-point};
 \node[trendMute] at (4.0,-0.55) {\textbf{F Broader object}\par FMware $\cdot$ mid-decode\par agents as eng};
 \end{tikzpicture}
 \end{center}
@@ -261,7 +262,7 @@
   \textbf{\color{Ok}Preserve}\par\vspace{0.35em}
   deterministic lowering\par\vspace{0.12em}
   library kernels\par\vspace{0.12em}
-  CI regressability\par\vspace{0.12em}
+  build-CI regressability\par\vspace{0.12em}
   local formal checks};
 \node[keepSteel] at (3.3,0.3) {%
   \textbf{\color{Steel}Adopt}\par\vspace{0.35em}
@@ -279,20 +280,34 @@
 % 6 Executive verdict
 \begin{frame}{Executive verdict}
 \begin{center}
+\vspace{-0.4em}
 \begin{tikzpicture}
-\node[text width=0.9\textwidth,align=center,font=\ebgaramond\Large\bfseries,Ink] {
+\node[text width=0.92\textwidth,align=center,font=\ebgaramond\Large\bfseries,Ink] {
   Agents reshape the \textcolor{Steel}{control plane}\par
   more than they replace the \textcolor{Amber}{data plane}.
 };
+% Plain-language gloss under the terms
+\node[draw=Steel,fill=Steel!10,rounded corners=5pt,inner sep=6pt,text width=5.6cm,align=left,font=\sffamily\scriptsize,anchor=north]
+  at (-3.3,-0.55) {%
+  \textbf{\color{Steel}Control plane}\;{\color{Mute}= search / decide layer}\par\vspace{0.2em}
+  Agents own: search, orchestration, synthesis\par
+  {\color{Mute}propose $\rightarrow$ measure $\rightarrow$ admit}};
+\node[draw=Amber,fill=Amber!10,rounded corners=5pt,inner sep=6pt,text width=5.6cm,align=left,font=\sffamily\scriptsize,anchor=north]
+  at (3.3,-0.55) {%
+  \textbf{\color{Amber}Data plane}\;{\color{Mute}= lower / execute layer}\par\vspace{0.2em}
+  Compilers own: lowering, legality, measure, fallback\par
+  {\color{Mute}Inductor / MLIR / Triton stay the default path}};
+\node[font=\sffamily\tiny,text=Mute,anchor=north] at (0,-2.35)
+  {Same stack, different jobs --- agents above classical lowering, not instead of it.};
 \end{tikzpicture}
 \end{center}
-\vspace{0.6em}
+\vspace{0.15em}
 \begin{columns}[T]
 \begin{column}{0.48\textwidth}
 \begin{tikzpicture}
-\node[nodeSteel] (a) at (0,2.2) {Compilers for AI \,$\times$\, AI for compilers};
-\node[nodeAmber] (b) at (0,1.1) {Hybrid LLM--compiler loops};
-\node[nodeEmber] (c) at (0,0.0) {4th job Tier A: bring-up / codesign};
+\node[nodeSteel] (a) at (0,1.35) {Compilers for AI \,$\times$\, AI for compilers};
+\node[nodeAmber] (b) at (0,0.35) {Hybrid LLM--compiler loops};
+\node[nodeEmber] (c) at (0,-0.65) {4th job Tier A: bring-up / codesign};
 \draw[-{Latex},Steel,thick] (a) -- (b);
 \draw[-{Latex},Amber,thick] (b) -- (c);
 \end{tikzpicture}
@@ -300,8 +315,8 @@
 \begin{column}{0.48\textwidth}
 \begin{tikzpicture}
 \node[verdictBox] {
-  \textbf{\color{Ember}Will not happen soon}\par\vspace{0.35em}
-  \textbullet\ Unconstrained LLM replaces Inductor / \texttt{opt}\par\vspace{0.25em}
+  \textbf{\color{Ember}Will not happen soon}\par\vspace{0.3em}
+  \textbullet\ Unconstrained LLM replaces Inductor / \texttt{opt}\par\vspace{0.2em}
   \textbullet\ Autonomous chip tape-out via compiler agents (C10)
 };
 \end{tikzpicture}
@@ -309,7 +324,6 @@
 \end{columns}
 \end{frame}
 
-% ============================================================
 % 7 Four agent jobs
 \begin{frame}{Four agent jobs --- architecture spine}
 \begin{center}
@@ -324,11 +338,11 @@
   {\scriptsize Magellan\par AlphaEvolve}};
 \node[jobEmber] (c) at (7.1,0) {%
   \textcolor{Ember}{\textbf{(c) Eng.}}\par\vspace{0.2em}
-  oracle-gated\par PR / Change\par\vspace{0.25em}
+  oracle-gated\par pull request / change\par\vspace{0.25em}
   {\scriptsize Archer}};
 \node[jobInk] (d) at (10.65,0) {%
   \textbf{(d) Bring-up}\par\vspace{0.2em}
-  coverage $\rightarrow$ perf\par sim + silicon\par\vspace{0.25em}
+  coverage $\rightarrow$ performance\par sim + silicon\par\vspace{0.25em}
   {\scriptsize TritorX\par KernelEvolve}};
 \node[font=\scriptsize\sffamily,text=Mute,text width=12cm,align=center] at (5.3,-1.95)
   {Control plane jobs sit \emph{above} classical lowering --- not instead of it.};
@@ -344,23 +358,23 @@
 \begin{tikzpicture}[node distance=0.28cm]
 % Compact vertical chain --- codesign + invariant must remain inside the frame
 \node[planeMute,inner sep=3pt] (intent)
-  {\textbf{Human / Product Intent} \;$\cdot$\; NL at edge $\cdot$ policy $\cdot$ budget};
+  {\textbf{Human / Product Intent} \;$\cdot$\; natural language at edge $\cdot$ policy $\cdot$ budget};
 \node[planeSteel,inner sep=3.5pt,below=0.26cm of intent] (ctrl) {%
   \textbf{\color{Steel}Agent Control Plane}\par\vspace{0.02em}
   {\scriptsize (a) online $\cdot$ (b) offline $\cdot$ (c) review $\cdot$ (d) bring-up
-  \;$\cdot$\; substrate: workflow compile / ADG / freeze / place}};
+  \;$\cdot$\; substrate: workflow compile / agent-graph check / freeze / place}};
 \node[planeAmber,inner sep=3.5pt,below=0.36cm of ctrl] (data) {%
   \textbf{\color{Amber}Classical Data Plane} \;{\scriptsize(default path stays)}\par\vspace{0.02em}
   {\scriptsize Framework $\rightarrow$ Inductor / XLA / MLIR / Triton / Tile / CuTe
   \;$\cdot$\; legality $\cdot$ lowering $\cdot$ admit / fallback}};
 \node[hwLeaf,minimum height=0.62cm,below=0.42cm of data] (vcs)
-  {VCS Artifacts\par{\tiny ACF $\cdot$ kernels $\cdot$ memory}};
+  {Version-control artifacts\par{\tiny control files $\cdot$ kernels $\cdot$ memory}};
 \node[hwLeaf,minimum height=0.62cm,left=0.42cm of vcs] (hw)
   {GPU / NPU / ASIC\par{\tiny sim $\rightarrow$ silicon}};
 \node[hwLeaf,minimum height=0.62cm,right=0.42cm of vcs] (srv)
   {Serving Runtime\par{\tiny freeze for replay}};
 \node[planeEmber,inner sep=3.5pt,below=0.38cm of vcs] (cd)
-  {\textbf{\color{Ember}Codesign Feedback} $\rightarrow$ ISA / dialect RFCs \;$\cdot$\; humans+EDA own tape-out (C10)};
+  {\textbf{\color{Ember}Codesign Feedback} $\rightarrow$ ISA / dialect change proposals \;$\cdot$\; humans + chip-design tools own tape-out (C10)};
 \node[font=\sffamily\tiny,text=Mute,below=0.12cm of cd,text width=11.8cm,align=center] (inv)
   {Invariant: LLM guides search --- does not silently define unchecked executable behavior.};
 \draw[-{Latex},line width=1.05pt,Mute] (intent) -- (ctrl);
@@ -378,40 +392,101 @@
 
 % ============================================================
 % 9 Architecture evolution
-\begin{frame}{Architecture evolution --- Today $\rightarrow$ A $\rightarrow$ B}
+\begin{frame}{Architecture evolution --- component changes}
 \begin{center}
+\vspace{-0.7em}
 \begin{tikzpicture}
-\draw[Line,line width=2.5pt] (-5.2,3.2) -- (5.2,3.2);
-\fill[Steel] (-5.0,3.2) circle (0.18);
-\node[headSteel] at (-5.0,3.65) {TODAY};
-\node[font=\sffamily\tiny,text=Mute] at (-5.0,2.85) {2025--26};
-\fill[Amber] (0,3.2) circle (0.18);
-\node[headAmber] at (0,3.65) {HORIZON A};
-\node[font=\sffamily\tiny,text=Mute] at (0,2.85) {2027--28};
-\fill[Ember] (5.0,3.2) circle (0.18);
-\node[headEmber] at (5.0,3.65) {HORIZON B};
-\node[font=\sffamily\tiny,text=Mute] at (5.0,2.85) {$\sim$2029--31};
-\draw[-{Latex},Mute,thick] (-3.3,3.2) -- (-1.8,3.2);
-\draw[-{Latex},Mute,thick] (1.7,3.2) -- (3.2,3.2);
+% Era spine
+\draw[Line,line width=2.2pt] (-5.4,3.35) -- (5.4,3.35);
+\fill[Steel] (-5.1,3.35) circle (0.15);
+\fill[Amber] (0,3.35) circle (0.15);
+\fill[Ember] (5.1,3.35) circle (0.15);
+\node[headSteel] at (-5.1,3.75) {TODAY};
+\node[font=\sffamily\tiny,text=Mute] at (-5.1,3.05) {2025--26};
+\node[headAmber] at (0,3.75) {HORIZON A};
+\node[font=\sffamily\tiny,text=Mute] at (0,3.05) {2027--28};
+\node[headEmber] at (5.1,3.75) {HORIZON B};
+\node[font=\sffamily\tiny,text=Mute] at (5.1,3.05) {$\sim$2029--31};
+\draw[-{Latex},Mute,thick] (-3.5,3.35) -- (-1.9,3.35);
+\draw[-{Latex},Mute,thick] (1.9,3.35) -- (3.5,3.35);
 
-\node[bandSteel] at (-5.0,1.75) {\textbf{\color{Steel}CONTROL}\par Ad-hoc agent loops\par chat / tools};
-\node[bandAmber] at (-5.0,0.2) {\textbf{\color{Amber}DATA}\par MLIR / Triton / Inductor\par default $\cdot$ GPU-mostly};
-\node[bandEmber] at (-5.0,-1.35) {\textbf{\color{Ember}CODESIGN}\par Codesign sparse\par manual bring-up};
+% Row labels
+\node[font=\sffamily\bfseries\tiny,text=Steel,anchor=east] at (-7.15,1.85) {CONTROL};
+\node[font=\sffamily\bfseries\tiny,text=Amber,anchor=east] at (-7.15,0.05) {DATA};
+\node[font=\sffamily\bfseries\tiny,text=Ember,anchor=east] at (-7.15,-1.55) {CODESIGN};
+\node[font=\sffamily\bfseries\tiny,text=Mute,anchor=east] at (-7.15,-2.75) {ARTIFACTS};
 
-\node[bandSteel] at (0,1.75) {\textbf{\color{Steel}CONTROL}\par Jobs (a--d) productized\par CI-gated specialize};
-\node[bandAmber] at (0,0.2) {\textbf{\color{Amber}DATA}\par Multi-DSL + fingerprints\par tool APIs $\cdot$ admit};
-\node[bandEmber] at (0,-1.35) {\textbf{\color{Ember}CODESIGN}\par Early sim + 1st Si\par $\rightarrow$ ISA / dialect RFCs};
+% CONTROL row --- what components change
+\node[bandSteel] at (-5.1,1.85) {%
+  \textbf{\color{Steel}Agents (ad-hoc)}\par
+  chat / tools loops\par
+  GEAK $\cdot$ ACCLAIM $\cdot$ Magellan\par
+  {\color{Mute}no typed admit contract}};
+\node[bandSteel] at (0,1.85) {%
+  \textbf{\color{Steel}Jobs (a--d) productized}\par
+  (a) online specialize $\cdot$ (b) offline\par
+  (c) oracle pull-request review $\cdot$ (d) bring-up\par
+  {\color{Mute}build-CI gated, not silent default}};
+\node[bandSteel] at (5.1,1.85) {%
+  \textbf{\color{Steel}Control plane compiled}\par
+  workflow compile $\cdot$ agent-graph check\par
+  freeze / amortize $\cdot$ hetero place\par
+  {\color{Mute}audited agent graph}};
 
-\node[bandSteel] at (5.0,1.75) {\textbf{\color{Steel}CONTROL}\par Control plane compiled\par ADG $\cdot$ freeze $\cdot$ place};
-\node[bandAmber] at (5.0,0.2) {\textbf{\color{Amber}DATA}\par Multi-backend fleets\par ACF / heuristics in VCS};
-\node[bandEmber] at (5.0,-1.35) {\textbf{\color{Ember}CODESIGN}\par Steady pre-Si loop\par not autonomous EDA};
+% DATA row
+\node[bandAmber] at (-5.1,0.05) {%
+  \textbf{\color{Amber}Classical stack}\par
+  MLIR / Triton / Inductor\par
+  GPU-mostly default path\par
+  {\color{Mute}tools optional / thin}};
+\node[bandAmber] at (0,0.05) {%
+  \textbf{\color{Amber}Agent-addressable}\par
+  multi-DSL + fingerprints\par
+  typed tool interfaces $\cdot$ admit\par
+  {\color{Mute}oracles on the hot path}};
+\node[bandAmber] at (5.1,0.05) {%
+  \textbf{\color{Amber}Multi-backend fleets}\par
+  control files $\cdot$ heuristics $\cdot$ memory\par
+  as first-class version-control artifacts\par
+  {\color{Mute}still classical lowering}};
+
+% CODESIGN row
+\node[bandEmber] at (-5.1,-1.55) {%
+  \textbf{\color{Ember}Sparse / manual}\par
+  human bring-up dominant\par
+  {\color{Mute}little sim$\leftrightarrow$compiler loop}};
+\node[bandEmber] at (0,-1.55) {%
+  \textbf{\color{Ember}Early feedback}\par
+  sim + first-silicon coverage$\rightarrow$perf\par
+  ISA / dialect change proposals to humans + chip-design tools\par
+  {\color{Mute}TritorX / KernelEvolve-class}};
+\node[bandEmber] at (5.1,-1.55) {%
+  \textbf{\color{Ember}Steady pre-silicon loop}\par
+  pre-silicon $\rightarrow$ bring-up $\rightarrow$ next tape-out\par
+  {\color{Mute}not autonomous chip design (C10)}};
+
+% ARTIFACTS row
+\node[bandMute] at (-5.1,-2.75) {%
+  \textbf{binaries}\par
+  {\color{Mute}+ sparse hints}};
+\node[bandMute] at (0,-2.75) {%
+  \textbf{+ control files / hints / kernels}\par
+  {\color{Mute}+ evolved C++ / bring-up corpora}};
+\node[bandMute] at (5.1,-2.75) {%
+  \textbf{+ frozen agent workflows}\par
+  {\color{Mute}cognition binaries / replay}};
+
+% Change arrows between columns (subtle)
+\foreach \y in {1.85,0.05,-1.55,-2.75}{
+  \draw[-{Latex},Mute,thin] (-3.05,\y) -- (-2.05,\y);
+  \draw[-{Latex},Mute,thin] (2.05,\y) -- (3.05,\y);
+}
 \end{tikzpicture}
 \end{center}
-\vspace{0.1em}
-{\footnotesize\color{Mute}\centering Data plane never goes away --- agent graph becomes compiled, audited, amortized.\par}
+\vspace{-0.35em}
+{\footnotesize\color{Mute}\centering Focus: which \textbf{components} thicken --- data plane stays; agent graph becomes compiled, audited, amortized.\par}
 \end{frame}
 
-% ============================================================
 % 10 What ships / does not
 \begin{frame}{What ships / does not by 2028}
 \begin{columns}[T]
@@ -419,10 +494,10 @@
 \begin{tikzpicture}
 \node[shipOk] {
   \textbf{\color{Ok}Predicted to ship}\par\vspace{0.35em}
-  \textbullet\ Agent-addressable tool APIs\par\vspace{0.12em}
+  \textbullet\ Agent-addressable tool interfaces\par\vspace{0.12em}
   \textbullet\ Hot-path specialize (not silent default-all)\par\vspace{0.12em}
   \textbullet\ Magellan \emph{and} MLGO both live\par\vspace{0.12em}
-  \textbullet\ Oracle PR review in serious orgs\par\vspace{0.12em}
+  \textbullet\ Oracle pull-request review in serious orgs\par\vspace{0.12em}
   \textbullet\ Coverage-first ASIC bring-up\par\vspace{0.12em}
   \textbullet\ Triton-family primary; multi-DSL rising
 };
@@ -442,7 +517,7 @@
 \end{columns}
 \vspace{0.8em}
 \begin{center}
-\pill{Steel}{Horizon A success = CI-gated specialize + oracles + freeze artifacts}
+\pill{Steel}{Horizon A success = build-CI gated specialize + oracles + freeze artifacts}
 \end{center}
 \end{frame}
 
@@ -474,19 +549,19 @@
 
 % Above-axis cards
 \node[draw=Amber,fill=Amber!12,rounded corners=4pt,inner sep=4pt,text width=2.35cm,align=center,font=\sffamily\scriptsize]
-  at (-3.6,2.35) {\textbf{\color{Amber}C1}\par Magellan OSS /\par EmitC default\par{\tiny 2026--27}};
+  at (-3.6,2.35) {\textbf{\color{Amber}C1}\par Magellan open-source /\par EmitC default\par{\tiny 2026--27}};
 \node[draw=Ember,fill=Ember!12,rounded corners=4pt,inner sep=4pt,text width=2.35cm,align=center,font=\sffamily\scriptsize]
-  at (-0.4,2.35) {\textbf{\color{Ember}C2}\par Public p50/p90\par ACF/kernel traces\par{\tiny 2026--28}};
+  at (-0.4,2.35) {\textbf{\color{Ember}C2}\par Public p50/p90\par control-file / kernel traces\par{\tiny 2026--28}};
 \node[draw=Steel,fill=Steel!12,rounded corners=4pt,inner sep=4pt,text width=2.35cm,align=center,font=\sffamily\scriptsize]
   at (2.8,2.35) {\textbf{\color{Steel}C9}\par 2nd-vendor\par TritorX-class\par{\tiny 2027--28}};
 
 % Below-axis cards
 \node[draw=Ink,fill=Ink!8,rounded corners=4pt,inner sep=4pt,text width=2.35cm,align=center,font=\sffamily\scriptsize]
-  at (-2.0,-1.25) {\textbf{C5}\par Agent/ACF in\par release notes\par{\tiny rolling}};
+  at (-2.0,-1.25) {\textbf{C5}\par Agent / control-file in\par release notes\par{\tiny rolling}};
 \node[draw=Warn,fill=Warn!12,rounded corners=4pt,inner sep=4pt,text width=2.35cm,align=center,font=\sffamily\scriptsize]
   at (1.2,-1.25) {\textbf{\color{Warn}C3/C6}\par Free rewrite beats\par advisors?\par{\tiny thru 2028}};
 \node[draw=Ok,fill=Ok!12,rounded corners=4pt,inner sep=4pt,text width=2.35cm,align=center,font=\sffamily\scriptsize]
-  at (4.2,-1.25) {\textbf{\color{Ok}MOCHA}\par Verified rewrite\par evals OSS\par{\tiny $\sim$2027--28}};
+  at (4.2,-1.25) {\textbf{\color{Ok}MOCHA}\par Verified rewrite\par evals open-source\par{\tiny $\sim$2027--28}};
 
 % Connectors into cards
 \foreach \x/\col in {-2.0/Ink,1.2/Warn,4.2/Ok}{
@@ -516,7 +591,7 @@
 \node[sideSteel] (B) at (3.4,0.35) {%
   \textbf{\color{Steel}B --- MLGO / EmitC path}\par\vspace{0.3em}
   NN advisors stay in-tree\par\vspace{0.15em}
-  June 2026 PoR:\par
+  June 2026 plan of record:\par
   internal inliner $\rightarrow$\par
   Android/Fuchsia $\rightarrow$\par
   Chrome multi-model\par\vspace{0.3em}
@@ -558,9 +633,9 @@
 \vspace{0.2cm}
 \begin{tikzpicture}
 \node[c25Box] {
-  \textbf{C2} ``Agents become default'' needs \textbf{p50 CI wins}, not best-kernel blogs.\par\vspace{0.4em}
-  \textbf{C5} Online specialize (ACF/hints) vs offline eng (Magellan/MLGO) --- both may live; \emph{which is the default flag?}\par\vspace{0.4em}
-  \textbf{Settlement:} pinned public traces + release notes listing agent/ACF workflows.
+  \textbf{C2} ``Agents become default'' needs \textbf{p50 build-CI wins}, not best-kernel blogs.\par\vspace{0.4em}
+  \textbf{C5} Online specialize (control files / hints) vs offline eng (Magellan/MLGO) --- both may live; \emph{which is the default flag?}\par\vspace{0.4em}
+  \textbf{Settlement:} pinned public traces + release notes listing agent / control-file workflows.
 };
 \end{tikzpicture}
 \end{column}
@@ -569,13 +644,13 @@
 
 % ============================================================
 % 14 Checkpoints C3/C6/C9/C10
-\begin{frame}{Checkpoints C3 / C6 / C9 / C10 --- API width \& scope}
+\begin{frame}{Checkpoints C3 / C6 / C9 / C10 --- interface width \& scope}
 \begin{center}
 \begin{tikzpicture}
 \node[cardWarn] at (-3.3,1.6) {%
   \textbf{\color{Warn}C3 --- free rewrite vs advisory}\par
   Flip: shared suite where free rewrite wins\par
-  $\Rightarrow$ wide rewrite API vs narrow ACF/hints};
+  $\Rightarrow$ wide rewrite interface vs narrow control files / hints};
 \node[cardEmber] at (3.3,1.6) {%
   \textbf{\color{Ember}C6 --- replace vs control plane}\par
   Flip: production default with \emph{no} admit\par
@@ -583,11 +658,11 @@
 \node[cardSteel] at (-3.3,-0.5) {%
   \textbf{\color{Steel}C9 --- coverage vs peak}\par
   Flip: TritorX $\rightarrow$ KernelEvolve ladder public\par
-  $\Rightarrow$ SKU: coverage SLA then perf SLA};
+  $\Rightarrow$ SKU: coverage service target then performance target};
 \node[cardInk] at (3.3,-0.5) {%
   \textbf{C10 --- codesign vs auto tape-out}\par
   Flip: microarch primarily agent-proposed\par
-  \emph{and} compiler-oracle validated $\Rightarrow$ enters EDA};
+  \emph{and} compiler-oracle validated $\Rightarrow$ enters chip-design tooling};
 \end{tikzpicture}
 \end{center}
 \end{frame}
@@ -607,15 +682,15 @@
 
   \node[rankNum,fill=Steel] at (-5.6,0.5) {3};
   \node[rankTitle] at (-4.9,0.62) {Agent$\leftrightarrow$compiler contract};
-  \node[rankWhy] at (-4.9,0.28) {NL-only = demo};
+  \node[rankWhy] at (-4.9,0.28) {Natural-language-only = demo};
 
   \node[rankNum,fill=Ink] at (-5.6,-0.35) {4};
   \node[rankTitle] at (-4.9,-0.23) {Distributional production evidence};
   \node[rankWhy] at (-4.9,-0.57) {No default-path A/B};
 
   \node[rankNum,fill=Mute] at (-5.6,-1.2) {5};
-  \node[rankTitle] at (-4.9,-1.08) {Ownership $\cdot$ supply chain $\cdot$ HITL};
-  \node[rankWhy] at (-4.9,-1.42) {Unowned agent code in TCB};
+  \node[rankTitle] at (-4.9,-1.08) {Ownership $\cdot$ supply chain $\cdot$ human review};
+  \node[rankWhy] at (-4.9,-1.42) {Unowned agent code in trusted base};
 \end{tikzpicture}
 \end{center}
 \vspace{0.3em}
@@ -651,19 +726,19 @@
   \textbf{Lab}\par\vspace{0.25em}
   interactive\par chat / tools\par explore};
 \node[phaseAmber] (ci) at (0,0.3) {%
-  \textbf{Product CI}\par\vspace{0.25em}
-  batch optimize\par budget SLOs\par Welch / canary};
+  \textbf{Product build CI}\par\vspace{0.25em}
+  batch optimize\par budget targets\par Welch / canary};
 \node[phaseOk] (fr) at (4.2,0.3) {%
   \textbf{Freeze}\par\vspace{0.25em}
-  ACF / kernel\par in VCS\par zero LLM at serve};
+  control file / kernel\par in version control\par zero LLM at serve};
 \draw[-{Latex},thick,Amber] (lab) -- (ci);
 \draw[-{Latex},thick,Ok] (ci) -- (fr);
 \node[font=\sffamily\scriptsize,text=Mute,text width=12cm,align=center] at (0,-1.7)
-  {Cache key: (IR hash, HW, compiler ver, agent policy) $\cdot$ budget \$/\%gain};
+  {Cache key: (IR hash, hardware, compiler ver, agent policy) $\cdot$ budget \$/\%gain};
 \end{tikzpicture}
 \end{center}
 \vspace{0.3em}
-{\footnotesize\color{Ember}\centering Falsifies commercially: ``chat with compiler on every build'' without spend/latency SLOs.\par}
+{\footnotesize\color{Ember}\centering Falsifies commercially: ``chat with compiler on every build'' without spend/latency targets.\par}
 \end{frame}
 
 % ============================================================
@@ -671,16 +746,16 @@
 \begin{frame}{Blocker 3 --- Agent$\leftrightarrow$compiler contract}
 \begin{center}
 \begin{tikzpicture}
-\node[optEmber] at (-3.3,1.8) {\textbf{\color{Ember}A. NL + pasted logs} --- demo only};
-\node[optSteel] at (3.3,1.8) {\textbf{\color{Steel}B. Structured admit traces} --- CI/SBOM};
-\node[optOk] at (-3.3,0.3) {\textbf{\color{Ok}C. Typed tool APIs} --- required action space};
-\node[optAmber] at (3.3,0.3) {\textbf{\color{Amber}D. Hybrid} --- NL view over traces};
+\node[optEmber] at (-3.3,1.8) {\textbf{\color{Ember}A. Natural language + pasted logs} --- demo only};
+\node[optSteel] at (3.3,1.8) {\textbf{\color{Steel}B. Structured admit traces} --- build CI / bill of materials};
+\node[optOk] at (-3.3,0.3) {\textbf{\color{Ok}C. Typed tool interfaces} --- required action space};
+\node[optAmber] at (3.3,0.3) {\textbf{\color{Amber}D. Hybrid} --- natural-language view over traces};
 \node[monoRec] at (0,-1.4)
   {admit\_record = \{graph\_hash, hw\_id, compiler\_ver, action[], oracle[], artifact\_digest, policy\_id\}};
 \end{tikzpicture}
 \end{center}
 \vspace{0.15em}
-{\footnotesize\color{Mute}\centering Lean: \textbf{C + B}; NL is a view, not source of truth. ACF = Advanced Control File.\par}
+{\footnotesize\color{Mute}\centering Lean: \textbf{C + B}; Natural language is a view, not source of truth. Advanced Control File = portable compiler knobs.\par}
 \end{frame}
 
 % ============================================================
@@ -695,24 +770,24 @@
 \node[font=\sffamily\small\bfseries,text=Ink] at (0,0.05) {Attribution hard (Graphs / KV / GEMV)};
 \node[font=\sffamily\small\bfseries,text=Ink] at (0,-1.15) {Default-path A/B + multi-month stability};
 \node[font=\sffamily\scriptsize,text=Mute,align=center,text width=12cm] at (0,-2.35)
-  {Marketing bar: p50/p90 + cost-to-compile $\cdot$ MLGO-style persistent QPS, not single-kernel headlines};
+  {Marketing bar: p50/p90 + cost-to-compile $\cdot$ MLGO-style persistent throughput, not single-kernel headlines};
 \end{tikzpicture}
 \end{center}
 \end{frame}
 
 % ============================================================
-% 20 Blocker 5 Ownership / HITL
-\begin{frame}{Blocker 5 --- Ownership, security, HITL}
+% 20 Blocker 5 Ownership / human review
+\begin{frame}{Blocker 5 --- Ownership, security, human review}
 \begin{center}
 \begin{tikzpicture}
 \node[hitlBox] (tcb) at (-4.0,0.8) {%
-  \textbf{TCB risk}\par\vspace{0.25em}
+  \textbf{Trusted-base risk}\par\vspace{0.25em}
   agent kernels /\par heuristics enter\par trusted base};
 \node[ownBox] (own) at (0,0.8) {%
   \textbf{Ownership}\par\vspace{0.25em}
   CODEOWNERS\par signed provenance\par sandbox};
 \node[hitlAmber] (hitl) at (4.0,0.8) {%
-  \textbf{HITL capacity}\par\vspace{0.25em}
+  \textbf{Human-review capacity}\par\vspace{0.25em}
   agents $\uparrow$ drafts\par reviewers = bottleneck};
 \node[calloutInk] at (0,-1.55) {%
   Lean: human CODEOWNER + signed admit + sandbox $\cdot$ oracle auto-merge only for \textbf{narrow} action classes\par
@@ -734,12 +809,12 @@
 \node[gapEmber] at (5.0,1.85) {4.10 benchmarks};
 
 \node[font=\sffamily\small\bfseries,text=Amber] at (0,0.85) {MED--HIGH};
-\node[gapAmber] at (-2.0,0.15) {4.5 HW-native APIs};
+\node[gapAmber] at (-2.0,0.15) {4.5 hardware-native interfaces};
 \node[gapAmber] at (2.0,0.15) {4.7 training data};
 
 \node[font=\sffamily\small\bfseries,text=Steel] at (0,-0.75) {MEDIUM};
 \node[gapSteel] at (-4.0,-1.45) {4.6 workflow compile};
-\node[gapSteel] at (0.0,-1.45) {4.8 HITL process};
+\node[gapSteel] at (0.0,-1.45) {4.8 human-review process};
 \node[gapSteel] at (4.0,-1.45) {4.9 security};
 \end{tikzpicture}
 \end{center}
@@ -752,10 +827,10 @@
 \begin{tikzpicture}
 % Compact 2x3 grid --- edges only along rows/columns (no diagonals, no overlap)
 \node[researchBox,draw=Steel,fill=Steel!12] (admit) at (-4.4,1.55) {Admit \& Fallback Standards};
-\node[researchBox,draw=Amber,fill=Amber!12] (tools) at (0,1.55) {Agent Tool / IR Schemas (MCP)};
+\node[researchBox,draw=Amber,fill=Amber!12] (tools) at (0,1.55) {Agent tool / IR schemas};
 \node[researchBox,draw=Ember,fill=Ember!12] (corp) at (4.4,1.55) {Open Multi-IR Corpora};
 \node[researchBox,draw=Ok,fill=Ok!12] (serv) at (-4.4,-1.25) {Serving-Level Oracles};
-\node[researchBox,draw=Ink,fill=Ink!8] (prov) at (0,-1.25) {Provenance \& HITL};
+\node[researchBox,draw=Ink,fill=Ink!8] (prov) at (0,-1.25) {Provenance \& human review};
 \node[researchBox,draw=Steel,fill=Steel!12] (cpc) at (4.4,-1.25) {Control-Plane Compile MVP};
 \draw[-{Latex},Mute,thick] (admit) -- (tools);
 \draw[-{Latex},Mute,thick] (tools) -- (corp);
@@ -767,7 +842,7 @@
 \end{tikzpicture}
 \end{center}
 \vspace{0.45em}
-{\footnotesize\color{Mute}\centering Near-Term: Specs That Make Hybrid Pipelines CI-Regressable.\par}
+{\footnotesize\color{Mute}\centering Near-Term: Specs That Make Hybrid Pipelines Build-CI Regressable.\par}
 \end{frame}
 
 % ============================================================
@@ -802,7 +877,7 @@
 \node[stanceNum] at (-5.8,-0.8) {5};
 \node[stanceTxt] at (-5.2,-0.8) {Demote generic SCM AI (C7)};
 \node[stanceNum] at (-5.8,-1.55) {6};
-\node[stanceTxt] at (-5.2,-1.55) {Coverage$\rightarrow$perf ladder; no autonomous EDA (C9/C10)};
+\node[stanceTxt] at (-5.2,-1.55) {Coverage$\rightarrow$performance ladder; no autonomous chip design (C9/C10)};
 \end{tikzpicture}
 \end{center}
 \end{frame}
@@ -815,8 +890,8 @@
 \node[handSteel] at (-4.0,0.2) {%
   {\color{Steel}\textbf{Architecture}}\par\vspace{0.3em}
   typed tools + admit traces\par\vspace{0.15em}
-  VCS $\gg$ dense $\gg$ scratchpad\par\vspace{0.15em}
-  FSM / plan for SLA\par\vspace{0.15em}
+  version control $\gg$ dense memory $\gg$ scratchpad\par\vspace{0.15em}
+  state-machine plan for service targets\par\vspace{0.15em}
   freeze before default-on};
 \node[handAmber] at (0,0.2) {%
   {\color{Amber}\textbf{Trust}}\par\vspace{0.3em}
@@ -827,9 +902,9 @@
 \node[handEmber] at (4.0,0.2) {%
   {\color{Ember}\textbf{Business}}\par\vspace{0.3em}
   sell regressable artifacts\par\vspace{0.15em}
-  + CI quota\par\vspace{0.15em}
+  + build-CI quota\par\vspace{0.15em}
   customer owns outputs\par\vspace{0.15em}
-  coverage then perf SLA\par\vspace{0.15em}
+  coverage then performance service target\par\vspace{0.15em}
   token budget per \%gain};
 \end{tikzpicture}
 \end{center}
