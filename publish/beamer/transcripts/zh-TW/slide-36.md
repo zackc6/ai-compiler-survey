@@ -1,3 +1,3 @@
-# Slide 36: 附錄 — 預測關鍵 文獻摘要 (★)
+# 投影片 36：附錄 — A 級證明商業訊號
 
-透過最高訊號源的頻段：願景/資助（Compiler 2.0，MOCHA）；離線/線上（Magellan、ACCLAIM、EmitC-MLGO PoR）；啟動/軟硬體協同設計（TritorX、KernelEvolve、Ascend、KForge）；核心/梯形圖/資料（CompileIQ、FlashInfer-Bench★、KernelBook★、AutoKernel、CuTeGen、Auto、FlowCompile）。指向〜115文獻摘要和調查§5.8。
+走帶列表：Google/DeepMind（AlphaEvolve Cloud、Magellan + MLGO）； NVIDIA（CompileIQ、Tile IR、TensorRT-LLM 技能）； AMD（GEAK）；元（LLM 編譯器、KernelLLM、TritorX、KernelEvolve、Helion）； FlashInfer-Bench。接近 B 級證明智慧體必須插入基線。

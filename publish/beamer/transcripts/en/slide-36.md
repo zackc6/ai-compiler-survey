@@ -1,3 +1,3 @@
-# Slide 36: Appendix — prediction-critical digests (★)
+# Slide 36: Appendix — Tier A commercial signals
 
-Band through highest-signal sources: Vision/funded (Compiler 2.0, MOCHA); Offline/online (Magellan, ACCLAIM, EmitC-MLGO PoR); Bring-up/codesign (TritorX, KernelEvolve, Ascend, KForge); Kernels/ladder/data (CompileIQ, FlashInfer-Bench★, KernelBook★, AutoKernel, CuTeGen, Auto, FlowCompile). Point to ~115 digests and SURVEY §5.8.
+Walk the band list: Google/DeepMind (AlphaEvolve Cloud, Magellan + MLGO); NVIDIA (CompileIQ, Tile IR, TensorRT-LLM skills); AMD (GEAK); Meta (LLM Compiler, KernelLLM, TritorX, KernelEvolve, Helion); FlashInfer-Bench. Close with Tier B baselines agents must plug into.

@@ -1,3 +1,8 @@
-# Slide 37: Appendix — publication groups
+# Slide 37: Appendix — Tier A open repositories
 
-Read the group counts (GPU kernels, agentic/RL, SCM, classic DL, company infra, forums, surveys, foundation LLMs, MLGO/gyms, HW codesign, commercial, control-plane substrate). Then: mechanism first; demote generic forge AI; keep both sides — do not average; update prediction only when Tier A / ★ evidence moves.
+Two bands, then tier gloss:
+
+- Offline / review / heuristics: OpenEvolve, HeuriGym, Archer, Compiler-R1, HintPilot, mlirAgent
+- Online / kernels / bring-up: ACCLAIM, CompileIQ, GEAK, KernelAgent, KernelBench(-X), FlashInfer-Bench, AutoKernel, Helion, TritorX / KernelEvolve
+
+Tiers: A = agents + domain oracles; B = data-plane hosts; C = generic forge AI (demoted).

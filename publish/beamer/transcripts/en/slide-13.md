@@ -1,10 +1,8 @@
-# Slide 13: Checkpoints C2 + C5 — gains \& default path
+# Slide 13: Roadmap Checkpoints — when the prediction changes
 
-The chart is illustrative tension, not a meta-analysis: vendor headlines around fifteen percent versus docs-style hot-kernel gains nearer two and a half percent.
+Walk the spine Today → Horizon A → Horizon B (era labels sit under the axis so they never collide with cards).
 
-Define percentiles in the room: **p50** is the median gain across builds; **p90** is the 90th percentile. The point of C2 is distributional wins in build CI — typical and near-tail — not a single best-kernel blog post.
+Above-axis: C1 Magellan OSS / EmitC; C2 public median/p90 on pinned traces; C9 second-vendor TritorX-class.
+Below-axis: C5 agent/ACF in release notes; C3/C6 free rewrite vs advisors; MOCHA verified-rewrite evals.
 
-C2: agents become default only with median (p50) build-CI wins.
-C5: online specialize via control files or hints versus offline eng via Magellan or MLGO — both may live; the question is which is the default flag.
-
-Settlement: pinned public traces plus release notes that list agent or control-file workflows.
+Close: falsifiable milestones — watch settlement signals; do not average disagreements.

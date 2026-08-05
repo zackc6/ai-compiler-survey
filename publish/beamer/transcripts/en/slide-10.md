@@ -1,7 +1,11 @@
-# Slide 10: What ships / does not by 2028
+# Slide 10: Data plane — ~6–7 abstraction bands (not one)
 
-Left — predicted to ship: agent-addressable tool APIs; hot-path specialize rather than silent default-all; Magellan and MLGO both live; oracle PR review in serious orgs; coverage-first ASIC bring-up; Triton-family primary with multi-DSL rising.
+This is the inventory behind the classical data plane on the architecture slide.
 
-Right — does not ship: unconstrained LLM replaces opt or Inductor; one agent IR for all vendors; kernel agents uniformly beat eager on fusion ladders; autonomous microarch tape-out.
+Must-have today: six bands. L1 framework capture. L2 portable graph — StableHLO-class, including portable shard annotations. L3 mid-IR — MLIR, layout, passes. L4 kernel DSL — Triton, Helion, Tile, CuTe. L5 backend and ISA. L6 runtime and serving — CUDA Graphs, KV paths.
 
-Pill line: Horizon A success means CI-gated specialize, oracles, and freeze artifacts.
+L7 fleet and cluster is maturing: placement and collectives. Today it often lives split across L2–L3 plus runtime, but once compilation means multi-node place, treat it as a real band.
+
+What does *not* need its own IR: power and energy are objectives plus oracles; dollars-per-token and latency SLOs are control-plane policy; safety is provenance and admit. Optional L0 for CPU/LLVM paths.
+
+Lean to say out loud: keep the bands; agents unify contracts and orchestration — not one mega-IR. Claim A6 / S6.

@@ -1,9 +1,11 @@
-# Slide 30: Commercial checklist — handout
+# Slide 30: Org Adoption Questions
 
-Leave them with three columns.
+Use these as discussion prompts, not a quiz.
 
-Architecture: typed tools and admit traces; VCS over dense over scratchpad; FSM or plan for SLA; freeze before default-on.
-Trust: layered oracles; CODEOWNERS and provenance; joint version pins; A/B before calling something production default.
-Business: sell regressable artifacts plus CI quota; customer owns outputs; coverage then performance SLA; token budget per percent gain.
+One: online CompileIQ versus offline Magellan — which matches your release model?
+Two: oracle stack of Alive2, golden, serving A/B — who owns false negatives?
+Three: agent contract surface — LLVM, MLIR, Triton, StableHLO, Tile?
+Four: how do you cache and regress traces across compiler and model upgrades?
+Five: max dollars per build for a median X percent win, and a named maintainer per admitted artifact?
 
-This is the handout slide — pause so people can photograph it.
+Leave silence after each if the room is engaged.

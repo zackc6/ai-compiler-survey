@@ -1,5 +1,7 @@
-# Slide 19: Blocker 4 — Distributional production evidence
+# Slide 19: Blocker 2 — Cost, replay, when may the agent run?
 
-Walk the funnel: wide top is curated kernels and opt-in flags; middle is where attribution gets hard across graphs, KV, GEMV; narrow bottom is default-path A/B plus multi-month stability.
+Three phases: lab is interactive chat and tools; product CI is batch optimize with budget SLOs, Welch, and canary; freeze means ACF or kernels in VCS with zero LLM at serve time.
 
-Marketing bar should be p50 and p90 plus cost-to-compile, MLGO-style persistent QPS — not single-kernel headlines.
+Cache key should include IR hash, hardware, compiler version, and agent policy, plus an explicit budget in dollars per percent gain.
+
+This commercially falsifies chat-with-the-compiler on every build without spend and latency SLOs.

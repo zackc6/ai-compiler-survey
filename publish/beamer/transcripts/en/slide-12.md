@@ -1,9 +1,7 @@
-# Slide 12: Checkpoint C1 — heuristics vs neural advisors
+# Slide 12: What ships / does not by 2028
 
-Two live bets.
+Left — predicted to ship: agent-addressable tool APIs; hot-path specialize rather than silent default-all; Magellan and MLGO both live; oracle PR review in serious orgs; coverage-first ASIC bring-up; Triton-family primary with multi-DSL rising.
 
-Path A, Magellan: evolve shippable C++ via EVOLVE-BLOCK. The offline coding agent is the control-plane output. Product shape is evolutionary coding agent plus review.
+Right — does not ship: unconstrained LLM replaces opt or Inductor; one agent IR for all vendors; kernel agents uniformly beat eager on fusion ladders; autonomous microarch tape-out.
 
-Path B, MLGO EmitC: neural advisors stay in-tree. June 2026 plan of record points internal inliner, then Android and Fuchsia, then Chrome multi-model. Agents train and feature the networks rather than replace them.
-
-Settlement: public Magellan LLVM patches that displace MLGO, or EmitC-MLGO becomes customer default. Watch LLVM syncs and OpenEvolve recipes quarterly through 2027.
+Pill line: Horizon A success means CI-gated specialize, oracles, and freeze artifacts.

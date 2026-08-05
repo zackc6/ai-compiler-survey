@@ -1,5 +1,10 @@
-# Slide 20: Blocker 5 — Ownership, security, human review
+# Slide 20: Blocker 3 — Agent↔compiler contract
 
-Three pressures: TCB risk when agent kernels or heuristics enter the trusted base; ownership via CODEOWNERS, signed provenance, and sandbox; HITL capacity where agents raise draft volume and reviewers become the bottleneck.
+Four full-width options (top to bottom):
 
-Lean: human CODEOWNER, signed admit, sandbox; oracle auto-merge only for narrow action classes. Generic forge AI is not the same as compiler-oracle review — that is checkpoint C7.
+- **A** Natural language + pasted logs — demo only
+- **B** Structured admit traces — build CI / bill of materials
+- **C** Typed tool interfaces — required action space
+- **D** Hybrid — natural-language view over traces
+
+Show the `admit_record` fields. Lean: **C + B**. Natural language is a view, not source of truth. ACF = portable compiler knobs.

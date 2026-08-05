@@ -1,8 +1,3 @@
-# Slide 35：附錄 — A 級證據開放儲存庫
+# 投影片 35：附錄 — 證據圖
 
-兩條帶，然後分層光澤：
-
-- 離線/審查/啟發式：OpenEvolve、HeuriGym、Archer、Compiler-R1、HintPilot、mlir 智慧體
-- Online / kernels /使能/啟動：ACCLAIM、CompileIQ、GEAK、Kernel smartbody、KernelBench(-X)、FlashInfer-Bench、AutoKernel、Helion、TritorX / KernelEvolve
-
-Tiers: A = 智慧體 + 領域判定機; B = 資料平面主機； C = 通用鍛造 AI（降級）。
+三個桶。出版物：約 108 篇文獻摘要，每個來源一個檔案，星號表示預測關鍵。產品：商業 SKU 作為預測訊號 — A 級證據塑造未來，B 級證據是資料平面預設值。儲存庫：鍛造 A/B/C 級工件。當檢查站存在爭議時，使用星號文獻摘要和 A 級證據。

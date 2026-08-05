@@ -1,8 +1,3 @@
-# Slide 35: Appendix — Tier A open repositories
+# Slide 35: Appendix — evidence map
 
-Two bands, then tier gloss:
-
-- Offline / review / heuristics: OpenEvolve, HeuriGym, Archer, Compiler-R1, HintPilot, mlirAgent
-- Online / kernels / bring-up: ACCLAIM, CompileIQ, GEAK, KernelAgent, KernelBench(-X), FlashInfer-Bench, AutoKernel, Helion, TritorX / KernelEvolve
-
-Tiers: A = agents + domain oracles; B = data-plane hosts; C = generic forge AI (demoted).
+Three buckets. Publications: about 108 digests, one file per source, star means prediction-critical. Products: commercial SKUs as prediction signals — Tier A shapes the future, Tier B is data-plane defaults. Repositories: forge artifacts tiered A/B/C. Use star digests and Tier A when a checkpoint is contested.

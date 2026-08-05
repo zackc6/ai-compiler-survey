@@ -1,10 +1,23 @@
-# Slide 26: Technical Prediction — What Each Checkpoint Needs
+# Slide 26: Technical Prediction — Within The Compiler (T1–T5)
 
-Band map (checkpoint ← techniques, then one short “needs” line):
+Larger-font bands. For each: technique + unlocks, then Exists, then Missing.
 
-- **C1 ← T4** — Magellan-class synthesis or EmitC-MLGO customer default on named apps
-- **C2 ← T3+T6+T8** — replayable artifacts + serving oracles + ladder; FlashInfer-Bench = pressure, not settlement
-- **C5 ← T1+T3** — typed interfaces + freeze-before-serve named in release notes
-- **C3/C6 ← T1+T2** — constrained tools + admit/fallback (lean: hybrid advisory)
-- **C9 ← T5+T8** — coverage→perf agents + dialect sinks; need 2nd-vendor TritorX-class path
-- **C10 ← T5** — ISA/dialect proposals only; humans + chip-design tools own tape-out
+1. **T1 Typed interfaces** → C3, C5, C6  
+   Exists: CompileIQ · ACCLAIM · mlir-opt-repl · FlashInfer Trace  
+   Missing: portable schemas across MLIR · Triton · Tile · StableHLO
+
+2. **T2 Admit / fallback** → C6 hybrid  
+   Exists: AgentCompile · Archer · TritonRL verifiers · FlashInfer-Bench  
+   Missing: shared admit product + trusted deterministic fallback
+
+3. **T3 Control files + replay** → C2, C5  
+   Exists: CompileIQ ACFs · FlashInfer Trace + `apply()`  
+   Missing: content-addressed keys; golden replay on model upgrade
+
+4. **T4 Heuristic hooks / advisors** → C1  
+   Exists: Magellan / AlphaEvolve · MLGO · EmitC PoR  
+   Missing: settled Magellan vs MLGO default on named apps
+
+5. **T5 Dialect / ISA sinks** → C9, C10  
+   Exists: TritorX · KernelEvolve · Ascend diagnosis  
+   Missing: first-class change-proposal surfaces (not auto tape-out)

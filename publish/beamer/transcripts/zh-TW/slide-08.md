@@ -1,13 +1,13 @@
-# 投影片 8：架構 — 目標堆疊
+# 幻燈片 8：架構 — 目標堆疊
 
-從上到下構建堆疊。
+由上往下講這條堆疊。
 
-邊緣的人類和產品意圖：自然語言、政策、預算。
-智慧體控制面：工作a到d，具有工作流程編譯、ADG、凍結和異質位置的基礎。
-經典資料面保持預設路徑：分為Inductor、XLA、MLIR、Triton、Tile、CuTe——合法性、降低、承認、回退路徑。
-葉子：GPU NPU ASIC； VCS 工件，例如 ACF、核心、記憶體計劃；服務執行時並凍結重播。
-協同設計反饋環回 ISA 和方言 RFC。人類和 EDA 仍然擁有流片 — C10。
+邊緣是人／產品意圖：自然語言、政策、預算。
+智慧體控制平面：工作 (a)–(d)，底下還有 workflow compile、ADG、freeze、異質放置。
+經典資料平面仍是預設路徑：框架進 Inductor／XLA／MLIR／Triton／Tile／CuTe——合法性、lowering、admit、fallback。接下來兩張投影片會拆開：資料平面還需要幾層，以及為什麼「一個通用成本模型」不是 Horizon A 的賭注。
+末端：GPU／NPU／ASIC；版本庫產物（ACF、kernel、memory）；serving runtime（freeze 以便重播）。
+協同設計回授指向 ISA／dialect RFC。流片仍由人與 EDA 擁有——C10。
 
-大聲說出來的不變性：法學碩士指導搜尋；它不會默默地定義未經檢查的可執行行為。
+口頭不變式：LLM 引導搜尋；它不默默定義未檢查的可執行行為。
 
-視覺註釋：從硬體到軟硬體協同設計的反饋箭頭繞著左側走線，因此它不會穿過軟硬體協同設計塊。
+視覺：硬體回授箭頭從左側繞進 codesign，避免穿過 codesign 方塊。

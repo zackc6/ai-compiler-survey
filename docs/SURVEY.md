@@ -1,6 +1,6 @@
 # Next-Gen AI Compiler Survey
 
-**Last updated:** 2026-08-05 (§5.1.1: one universal cost model — feasibility + size)  
+**Last updated:** 2026-08-05 (§5.1.1–5.1.2 into sharing deck + cost-model size)  
 **Evidence store:** [`../reference/README.md`](../reference/README.md) → publications · products · repos  
 **Status:** [`../STATUS.md`](../STATUS.md)
 
@@ -669,6 +669,7 @@ Hybrid stack: agents orchestrate; classical compilers execute; silicon feeds the
 3. **New first-class artifacts:** ACFs, evolved C++ heuristics, verified kernels, optimization memory, bring-up corpora, replayable traces — **and** frozen agent workflows / cognition binaries when the control plane itself is compiled.
 4. **Defaults stay classical** until agents win on *distributions* in CI; hot kernels, size-critical apps, and *new ASICs* adopt first.
 5. **Will not happen soon:** unconstrained LLM replaces `opt`/Inductor without oracles (**C6**); autonomous chip tape-out via compiler agents (**C10**).
+6. **Data plane stays multi-band** (~L1–L6 today, + maturing fleet **L7**): not one universal cost-model IR. Cluster/power attach as place/objectives/oracles; missing consolidation → **pluggable interfaces**. Detail: [§5.1.1](#511-how-many-data-plane-abstractions-one-cost-model-is-not-enough)–[§5.1.2](#512-predicted-abstraction-inventory--how-many-layers-for-what-and-if-they-do-not-consolidate) (A6/S6).
 
 **Sub-agent / workflow-compile substrate (must consider).** The control plane is itself becoming a compile target:
 

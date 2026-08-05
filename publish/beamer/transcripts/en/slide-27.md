@@ -1,10 +1,23 @@
-# Slide 27: Technical Prediction — Critical Missing Parts Now
+# Slide 27: Technical Prediction — Outside The Compiler (T6–T10)
 
-Four highest-leverage Horizon A bets (bands; each with without-this consequence):
+Same larger-font band rhythm as slide 24.
 
-1. Money-grade oracle stack (T2+T6) — without → demos
-2. Replayable artifact contract (T3) — without → CI rejects
-3. Portable agent compile interface (T1) — without → re-glue
-4. Open ladder + multi-IR data (T7+T8) — without → incomparable
+6. **T6 Serving oracles / A/B** → C2  
+   Exists: unit/golden/Alive2 · FlashInfer-Bench + `apply()` · VibeServe  
+   Missing: whole-program / GPU-race / FP; multi-month default-path A/B
 
-Survey lean: T1–T5 ship as product surfaces; T6–T10 equally first-class — mostly outside classical lowering.
+7. **T7 Multi-IR corpora** → Selectors  
+   Exists: Meta LLM Compiler · KernelBook → TritonRL · DRTriton  
+   Missing: versioned MLIR / Tile / StableHLO + failed / miscompile negatives
+
+8. **T8 Benchmark ladder** → C2, C9  
+   Exists: KernelBench(-X) · FlashInfer-Bench serving-kernel rung  
+   Missing: full IR → kernel → fused → serving + cost-to-compile
+
+9. **T9 Provenance / HITL** → C7  
+   Exists: Magellan reviewable C++ · Archer oracle review  
+   Missing: CODEOWNERS + signed admit records + sandbox for proposals
+
+10. **T10 Workflow compile / freeze** → Horizon B  
+    Exists: FlowCompile · Auto · AgentFlow · VibeServe (early)  
+    Missing: shared agent-graph IR + fail-closed CI → Horizon B

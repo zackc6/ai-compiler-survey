@@ -1,11 +1,10 @@
-# Slide 15: Commercial blockers — top 5
+# Slide 15: Checkpoints C2 + C5 — gains \& default path
 
-Rank the blockers before deep dives.
+The chart is illustrative tension, not a meta-analysis: vendor headlines around fifteen percent versus docs-style hot-kernel gains nearer two and a half percent.
 
-One: oracles strong enough for money — fast-but-wrong creates liability.
-Two: cost, replay, and when agents may run — nondeterministic dollar-N compiles.
-Three: agent to compiler contract — natural language only is a demo.
-Four: distributional production evidence — no default-path A/B yet.
-Five: ownership, supply chain, and human-in-the-loop — unowned agent code in the TCB.
+Define percentiles in the room: **p50** is the median gain across builds; **p90** is the 90th percentile. The point of C2 is distributional wins in build CI — typical and near-tail — not a single best-kernel blog post.
 
-Each blocker gets its own slide. Lean comes from Survey Sections 5.7 and 4.
+C2: agents become default only with median (p50) build-CI wins.
+C5: online specialize via control files or hints versus offline eng via Magellan or MLGO — both may live; the question is which is the default flag.
+
+Settlement: pinned public traces plus release notes that list agent or control-file workflows.

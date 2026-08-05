@@ -1,11 +1,9 @@
-# Slide 14: Checkpoints C3 / C6 / C9 / C10 — interface width & scope
+# Slide 14: Checkpoint C1 — heuristics vs neural advisors
 
-Read four bands: title, Flip, consequence.
+Two live bets.
 
-**C3** free rewrite vs advisory — Flip: shared suite where free rewrite wins → wide rewrite API vs narrow ACFs/hints (current lean: advisory).
+Path A, Magellan: evolve shippable C++ via EVOLVE-BLOCK. The offline coding agent is the control-plane output. Product shape is evolutionary coding agent plus review.
 
-**C6** replace vs control plane — Flip: production default with no admit → agents replaced the compiler (survey rejects; hold hybrid).
+Path B, MLGO EmitC: neural advisors stay in-tree. June 2026 plan of record points internal inliner, then Android and Fuchsia, then Chrome multi-model. Agents train and feature the networks rather than replace them.
 
-**C9** coverage vs peak — Flip: TritorX → KernelEvolve ladder goes public → SKU: coverage SLA then performance SLA.
-
-**C10** codesign vs auto tape-out — Flip: microarch primarily agent-proposed and compiler-oracle validated → enters chip-design tooling (today: agents stress kernels/IR only).
+Settlement: public Magellan LLVM patches that displace MLGO, or EmitC-MLGO becomes customer default. Watch LLVM syncs and OpenEvolve recipes quarterly through 2027.

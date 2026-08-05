@@ -1,8 +1,9 @@
-# Slide 11: Roadmap Checkpoints — when the prediction changes
+# Slide 11: One universal cost model? — No (Horizon A)
 
-Walk the spine Today → Horizon A → Horizon B (era labels sit under the axis so they never collide with cards).
+Direct answer to “can one cost model cover all passes, including future ones?”
 
-Above-axis: C1 Magellan OSS / EmitC; C2 public median/p90 on pinned traces; C9 second-vendor TritorX-class.
-Below-axis: C5 agent/ACF in release notes; C3/C6 free rewrite vs advisors; MOCHA verified-rewrite evals.
+Left: why not. Different legality and oracles per band — Alive2 does not certify GPU races or serving equivalence. Choosing which level to spend budget on is itself the product — ACCLAIM’s guide agent. Cost models stay local: MLGO, Ansor, MetaSchedule transfer inside a family, not from fusion to Triton to regalloc to serving A/B. Future passes and new ISAs need new measured labels; a frozen weights file cannot invent unmeasured hardware behavior.
 
-Close: falsifiable milestones — watch settlement signals; do not average disagreements.
+Right: if industry does not consolidate a clean L2 or L4 or L7 IR, do not wait. Ship pluggable interfaces — agent compile schema, typed tools / MCP-class servers, dialect and oracle and objective plugins, placement plugins for fleet.
+
+Size callout: parameter count is not the bottleneck. Shipping local advisors are often kilobytes to megabytes. A cross-band proposer looks like a 7B–70B IR LLM and is still only a prior. The hard part is labeled program–action–hardware–energy–SLO tuples, refreshed every SKU. Bet: small per-band costs plus optional large orchestrator — not one mega-cost-model that eats L1 through L7.

@@ -1,5 +1,5 @@
-# Slide 22: Cross-Cutting Research Agenda
+# Slide 22: Blocker 5 — Ownership, security, human review
 
-Bridge from gap map into technique-shaped prediction. Six near-term themes that make hybrid pipelines build/CI regressable: admit & fallback standards; agent tool / IR schemas; open multi-IR corpora; serving-level oracles; provenance & human review; control-plane compile MVP.
+Three pressures: TCB risk when agent kernels or heuristics enter the trusted base; ownership via CODEOWNERS, signed provenance, and sandbox; HITL capacity where agents raise draft volume and reviewers become the bottleneck.
 
-Close: these themes unpack as T1–T10 on the next slides (exists / missing / unlocks).
+Lean: human CODEOWNER, signed admit, sandbox; oracle auto-merge only for narrow action classes. Generic forge AI is not the same as compiler-oracle review — that is checkpoint C7.

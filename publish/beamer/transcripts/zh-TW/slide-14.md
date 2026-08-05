@@ -1,11 +1,9 @@
-# 投影片 14：檢查點 C3 / C6 / C9 / C10 — 介面寬度與範圍
+# 幻燈片 12：檢查點 C1 — 啟發式 vs 神經顧問
 
-讀四條帶：標題、Flip、後果。
+兩個現場投注。
 
-**C3** 自由改寫 vs 建議式 — Flip：自由改寫穩定勝出的共享套件 → 寬改寫 API vs 窄 ACF/hints（目前 lean：建議式）。
+路徑 A，Magellan：透過 EVOLVE-BLOCK 演化可交付的 C++。離線編碼智慧體是控制平面的輸出。產品形態是進化編碼智慧體加審查。
 
-**C6** 取代 vs 控制面 — Flip：生產預設路徑且無接納門控 → 智慧體取代編譯器（本調查拒絕；維持混合式）。
+路徑 B，MLGO EmitC：神經顧問留在樹中。 2026 年 6 月的計劃記錄點是內部內聯，然後是 Android 和 Fuchsia，然後是 Chrome 多型號。 智慧體訓練和特徵化網路而不是取代它們。
 
-**C9** 覆蓋率 vs 峰值 — Flip：TritorX → KernelEvolve 階梯公開化 → SKU：先覆蓋率 SLA，再效能 SLA。
-
-**C10** codesign vs 自動 tape-out — Flip：微架構主要由智慧體提案且經編譯器 oracle 驗證 → 進入晶片設計工具鏈（今日：智慧體只壓測 kernels/IR）。
+和解：取代 MLGO 的公共 Magellan LLVM 補丁，或 EmitC-MLGO 成為客戶預設補丁。直至 2027 年，每季度觀看 LLVM 同步和 OpenEvolve 配方。

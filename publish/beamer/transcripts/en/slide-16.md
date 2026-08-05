@@ -1,7 +1,11 @@
-# Slide 16: Blocker 1 — Oracles for money
+# Slide 16: Checkpoints C3 / C6 / C9 / C10 — interface width & scope
 
-Climb the oracle stack: unit and golden and OpInfo are cheap but miss subtle bugs; numerical tolerances invite games; Alive2-style local honesty is strong locally but weak on GPU concurrency; serving A/B catches product issues but is slow and hard to attribute.
+Read four bands: title, Flip, consequence.
 
-Done looks like: formal, then shape-grid diff, then statistical serving, then staged rollout.
+**C3** free rewrite vs advisory — Flip: shared suite where free rewrite wins → wide rewrite API vs narrow ACFs/hints (current lean: advisory).
 
-Room question: who owns false negatives when admit passes and production still miscompiles?
+**C6** replace vs control plane — Flip: production default with no admit → agents replaced the compiler (survey rejects; hold hybrid).
+
+**C9** coverage vs peak — Flip: TritorX → KernelEvolve ladder goes public → SKU: coverage SLA then performance SLA.
+
+**C10** codesign vs auto tape-out — Flip: microarch primarily agent-proposed and compiler-oracle validated → enters chip-design tooling (today: agents stress kernels/IR only).

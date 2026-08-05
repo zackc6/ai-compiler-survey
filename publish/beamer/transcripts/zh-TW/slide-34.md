@@ -1,3 +1,3 @@
-# 投影片 34：附錄 — A 級證明商業訊號
+# 第 32 張投影片：普通
 
-走帶列表：Google/DeepMind（AlphaEvolve Cloud、Magellan + MLGO）； NVIDIA（CompileIQ、Tile IR、TensorRT-LLM 技能）； AMD（GEAK）；元（LLM 編譯器、KernelLLM、TritorX、KernelEvolve、Helion）； FlashInfer-Bench。接近 B 級證明智慧體必須插入基線。
+開啟附錄。這是簡報背後的證據儲存：出版物文獻摘要、商業產品訊號和開放儲存庫——針對智慧體ic編譯器預測進行分層，而不是完整的目錄。

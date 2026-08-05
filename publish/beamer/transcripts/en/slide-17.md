@@ -1,7 +1,11 @@
-# Slide 17: Blocker 2 — Cost, replay, when may the agent run?
+# Slide 17: Commercial blockers — top 5
 
-Three phases: lab is interactive chat and tools; product CI is batch optimize with budget SLOs, Welch, and canary; freeze means ACF or kernels in VCS with zero LLM at serve time.
+Rank the blockers before deep dives.
 
-Cache key should include IR hash, hardware, compiler version, and agent policy, plus an explicit budget in dollars per percent gain.
+One: oracles strong enough for money — fast-but-wrong creates liability.
+Two: cost, replay, and when agents may run — nondeterministic dollar-N compiles.
+Three: agent to compiler contract — natural language only is a demo.
+Four: distributional production evidence — no default-path A/B yet.
+Five: ownership, supply chain, and human-in-the-loop — unowned agent code in the TCB.
 
-This commercially falsifies chat-with-the-compiler on every build without spend and latency SLOs.
+Each blocker gets its own slide. Lean comes from Survey Sections 5.7 and 4.

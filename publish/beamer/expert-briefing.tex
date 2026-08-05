@@ -179,7 +179,7 @@
     {Ask: Is The Hybrid Prediction ($\sim$2027--31) The Right Bet For Your Roadmap?};
   \node[anchor=south west,text=Mute,font=\scriptsize\sffamily]
     at ([xshift=1.1cm,yshift=0.45cm]current page.south west)
-    {Expert Briefing $\cdot$ $\sim$25--30\,min + Q\&A $\cdot$ Prediction-first};
+    {Expert Briefing $\cdot$ $\sim$30--35\,min + Q\&A $\cdot$ Prediction-first};
 \end{tikzpicture}
 \end{frame}
 
@@ -491,8 +491,81 @@
 {\footnotesize\color{Mute}\centering Components thicken left$\rightarrow$right; data plane stays; agent graph becomes compiled \& amortized.\par}
 \end{frame}
 
+
 % ============================================================
-% 10 What ships / does not
+% 10 Data-plane abstraction bands (§5.1.2)
+\begin{frame}{Data plane --- $\sim$6--7 abstraction bands (not one)}
+\begin{center}
+\vspace{-0.7em}
+\begin{tikzpicture}
+% Left: must-have bands L1--L6
+\node[anchor=west,font=\sffamily\bfseries\small,text=Amber] at (-6.2,2.55) {Must-have today (L1--L6)};
+\foreach \i/\lab/\desc/\y in {%
+  1/Framework/{capture $\cdot$ dynamism}/2.05,%
+  2/Portable graph/{StableHLO-class $\cdot$ shard ann.}/1.50,%
+  3/Mid-IR/{MLIR $\cdot$ layout $\cdot$ passes}/0.95,%
+  4/Kernel DSL/{Triton/Helion/Tile/CuTe}/0.40,%
+  5/Backend-ISA/{PTX $\cdot$ bring-up}/-0.15,%
+  6/Runtime-serve/{CUDA Graphs $\cdot$ KV}/-0.70%
+}{
+  \node[draw=Amber,fill=Amber!10,rounded corners=3pt,minimum width=0.55cm,minimum height=0.42cm,font=\sffamily\bfseries\scriptsize,text=Amber] at (-5.9,\y) {L\i};
+  \node[anchor=west,font=\sffamily\scriptsize\bfseries,text=Ink] at (-5.45,\y) {\lab};
+  \node[anchor=west,font=\sffamily\tiny,text=Mute] at (-2.35,\y) {\desc};
+}
+% Right column
+\node[draw=Ember,fill=Ember!10,rounded corners=5pt,minimum width=5.5cm,minimum height=1.35cm,text width=5.1cm,align=left,font=\sffamily\scriptsize,inner sep=6pt]
+  at (3.2,1.85) {%
+  \textbf{\color{Ember}L7* Fleet / cluster}\par
+  maturing: place + collectives\par
+  {\color{Mute}today often L2--L3 + runtime}};
+\node[draw=Steel,fill=Steel!10,rounded corners=5pt,minimum width=5.5cm,minimum height=1.55cm,text width=5.1cm,align=left,font=\sffamily\scriptsize,inner sep=6pt]
+  at (3.2,0.15) {%
+  \textbf{\color{Steel}Not a new IR band}\par
+  power/energy $\rightarrow$ objective + oracle\par
+  \$/token $\cdot$ SLOs $\rightarrow$ control policy\par
+  safety $\rightarrow$ provenance / admit};
+\node[draw=Ink,fill=Ink!6,rounded corners=5pt,minimum width=5.5cm,minimum height=1.15cm,text width=5.1cm,align=left,font=\sffamily\scriptsize,inner sep=6pt]
+  at (3.2,-1.35) {%
+  \textbf{Lean (A6/S6)}\par
+  keep bands; agents unify \emph{contracts},\par
+  not one mega-IR};
+\node[anchor=west,font=\sffamily\tiny,text=Mute] at (-6.2,-1.85)
+  {L0* CPU/LLVM optional \;$\cdot$\; agents sit \emph{above} bands via tools};
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+% ============================================================
+% 11 One cost model + plugins (§5.1.1)
+\begin{frame}{One universal cost model? --- No (Horizon A)}
+\begin{center}
+\vspace{-0.55em}
+\begin{tikzpicture}
+\node[draw=Amber,fill=Amber!10,rounded corners=6pt,minimum width=5.6cm,minimum height=3.15cm,text width=5.1cm,align=left,font=\sffamily\small,text=Ink,inner sep=8pt]
+  at (-3.15,0.85) {%
+  \textbf{\color{Amber}Why not one model}\par\vspace{0.22em}
+  Different legality / oracles per band\par\vspace{0.10em}
+  Choosing the level \emph{is} the product\par\vspace{0.10em}
+  Cost models stay \emph{local} (MLGO, Ansor)\par\vspace{0.10em}
+  Future passes need new measured labels};
+\node[draw=Steel,fill=Steel!10,rounded corners=6pt,minimum width=5.6cm,minimum height=3.15cm,text width=5.1cm,align=left,font=\sffamily\small,text=Ink,inner sep=8pt]
+  at (3.15,0.85) {%
+  \textbf{\color{Steel}If bands do not consolidate}\par\vspace{0.22em}
+  Agent compile schema (admit hash)\par\vspace{0.10em}
+  Typed tools / MCP-class servers\par\vspace{0.10em}
+  Dialect + oracle + objective plugins\par\vspace{0.10em}
+  Placement / fleet plugins (L7)};
+\node[draw=Ink,fill=white,rounded corners=5pt,minimum width=12.2cm,minimum height=1.25cm,text width=11.6cm,align=left,font=\sffamily\scriptsize,inner sep=6pt]
+  at (0,-1.95) {%
+  \textbf{Size:} local advisors often KB--MB \;$\cdot$\; cross-band \emph{proposer} $\approx$ 7B--70B+ IR LLM (still only a prior)\par
+  Bottleneck = labeled (program, action, HW, energy, SLO) tuples --- not parameter count.\par
+  \textbf{Bet:} small per-band costs + optional large orchestrator --- not one mega-cost-model for L1--L7.};
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+% ============================================================
+% 12 What ships / does not
 \begin{frame}{What ships / does not by 2028}
 \begin{columns}[T]
 \begin{column}{0.48\textwidth}
@@ -527,7 +600,7 @@
 \end{frame}
 
 % ============================================================
-% 11 Roadmap checkpoints (§5.5)
+% 13 Roadmap checkpoints (§5.5)
 \begin{frame}{Roadmap Checkpoints --- when the prediction changes}
 \begin{center}
 \vspace{-0.4em}
@@ -579,7 +652,7 @@
 \end{frame}
 
 % ============================================================
-% 12 Checkpoint C1 --- two columns (previous look); settlement placed relative to card south
+% 14 Checkpoint C1 --- two columns (previous look); settlement placed relative to card south
 \begin{frame}{Checkpoint C1 --- heuristics vs neural advisors}
 \begin{center}
 \vspace{-0.35em}
@@ -604,7 +677,7 @@
 \end{frame}
 
 % ============================================================
-% 13 Checkpoints C2 + C5
+% 15 Checkpoints C2 + C5
 \begin{frame}{Checkpoints C2 + C5 --- gains \& default path}
 \begin{columns}[T]
 \begin{column}{0.52\textwidth}
@@ -644,7 +717,7 @@
 \end{frame}
 
 % ============================================================
-% 14 Checkpoints C3/C6/C9/C10 --- band layout (readable; not 2x2 dense cards)
+% 16 Checkpoints C3/C6/C9/C10 --- band layout (readable; not 2x2 dense cards)
 \begin{frame}{Checkpoints C3 / C6 / C9 / C10 --- interface width \& scope}
 \begin{center}
 \vspace{-0.35em}
@@ -673,7 +746,7 @@
 \end{frame}
 
 % ============================================================
-% 15 Commercial blockers top 5
+% 17 Commercial blockers top 5
 \begin{frame}{Commercial blockers --- top 5}
 \begin{center}
 \begin{tikzpicture}
@@ -703,7 +776,7 @@
 \end{frame}
 
 % ============================================================
-% 16 Blocker 1 Oracles
+% 18 Blocker 1 Oracles
 \begin{frame}{Blocker 1 --- Oracles for money}
 \begin{center}
 \begin{tikzpicture}
@@ -723,7 +796,7 @@
 \end{frame}
 
 % ============================================================
-% 17 Blocker 2 Cost / replay / freeze
+% 19 Blocker 2 Cost / replay / freeze
 \begin{frame}{Blocker 2 --- Cost, replay, when may the agent run?}
 \begin{center}
 \begin{tikzpicture}
@@ -747,7 +820,7 @@
 \end{frame}
 
 % ============================================================
-% 18 Blocker 3 Contract --- full-width bands (not 2x2 dense grid)
+% 20 Blocker 3 Contract --- full-width bands (not 2x2 dense grid)
 \begin{frame}{Blocker 3 --- Agent$\leftrightarrow$compiler contract}
 \begin{center}
 \vspace{-0.35em}
@@ -765,7 +838,7 @@
 \end{frame}
 
 % ============================================================
-% 19 Blocker 4 Evidence funnel
+% 21 Blocker 4 Evidence funnel
 \begin{frame}{Blocker 4 --- Distributional production evidence}
 \begin{center}
 \begin{tikzpicture}
@@ -782,7 +855,7 @@
 \end{frame}
 
 % ============================================================
-% 20 Blocker 5 Ownership / human review
+% 22 Blocker 5 Ownership / human review
 \begin{frame}{Blocker 5 --- Ownership, security, human review}
 \begin{center}
 \begin{tikzpicture}
@@ -803,7 +876,7 @@
 \end{frame}
 
 % ============================================================
-% 21 Gap map
+% 23 Gap map
 \begin{frame}{Gap map --- what blocks the prediction, not a wishlist}
 \begin{center}
 \begin{tikzpicture}
@@ -827,7 +900,7 @@
 \end{frame}
 
 % ============================================================
-% 22 Research agenda
+% 24 Research agenda
 \begin{frame}{Cross-Cutting Research Agenda}
 \begin{center}
 \begin{tikzpicture}
@@ -852,7 +925,7 @@
 \end{frame}
 
 % ============================================================
-% 23 Technical prediction opener (§5.8)
+% 25 Technical prediction opener (§5.8)
 \begin{frame}{Technical Prediction --- Accelerate The Roadmap}
 \begin{center}
 \vspace{-0.35em}
@@ -886,7 +959,7 @@
 \end{frame}
 
 % ============================================================
-% 24 Within-compiler techniques --- larger fonts; 3-line bands
+% 26 Within-compiler techniques --- larger fonts; 3-line bands
 \begin{frame}{Technical Prediction --- Within The Compiler (T1--T5)}
 \begin{center}
 \vspace{-0.55em}
@@ -927,7 +1000,7 @@
 \end{frame}
 
 % ============================================================
-% 25 Outside-compiler techniques --- larger fonts; same bands
+% 27 Outside-compiler techniques --- larger fonts; same bands
 \begin{frame}{Technical Prediction --- Outside The Compiler (T6--T10)}
 \begin{center}
 \vspace{-0.55em}
@@ -968,7 +1041,7 @@
 \end{frame}
 
 % ============================================================
-% 26 Technique x checkpoint --- band layout (not one-line dense pills)
+% 28 Technique x checkpoint --- band layout (not one-line dense pills)
 \begin{frame}{Technical Prediction --- What Each Checkpoint Needs}
 \begin{center}
 \vspace{-0.45em}
@@ -1002,7 +1075,7 @@
 \end{frame}
 
 % ============================================================
-% 27 Critical missing shortlist --- band layout (not 2x2 tiny cards)
+% 29 Critical missing shortlist --- band layout (not 2x2 tiny cards)
 \begin{frame}{Technical Prediction --- Critical Missing Parts Now}
 \begin{center}
 \vspace{-0.4em}
@@ -1034,7 +1107,7 @@
 \end{frame}
 
 % ============================================================
-% 28 Org adoption
+% 30 Org adoption
 \begin{frame}{Org Adoption Questions}
 \begin{center}
 \vspace{-0.2em}
@@ -1050,28 +1123,30 @@
 \end{frame}
 
 % ============================================================
-% 29 Working stance
+% 31 Working stance
 \begin{frame}{Working stance until conflicts settle}
 \begin{center}
 \begin{tikzpicture}
-\node[stanceNum] at (-5.8,2.2) {1};
-\node[stanceTxt] at (-5.2,2.2) {Hybrid: agents search; compilers lower (not replace)};
-\node[stanceNum] at (-5.8,1.45) {2};
-\node[stanceTxt] at (-5.2,1.45) {Magellan $\parallel$ MLGO --- parallel bets (C1)};
-\node[stanceNum] at (-5.8,0.7) {3};
-\node[stanceTxt] at (-5.2,0.7) {Discount single-number speedups (C2)};
-\node[stanceNum] at (-5.8,-0.05) {4};
-\node[stanceTxt] at (-5.2,-0.05) {Constrained actions + strong oracles (C3)};
-\node[stanceNum] at (-5.8,-0.8) {5};
-\node[stanceTxt] at (-5.2,-0.8) {Demote generic SCM AI (C7)};
-\node[stanceNum] at (-5.8,-1.55) {6};
-\node[stanceTxt] at (-5.2,-1.55) {Coverage$\rightarrow$performance ladder; no autonomous chip design (C9/C10)};
+\node[stanceNum] at (-5.8,2.35) {1};
+\node[stanceTxt] at (-5.2,2.35) {Hybrid: agents search; compilers lower (not replace)};
+\node[stanceNum] at (-5.8,1.65) {2};
+\node[stanceTxt] at (-5.2,1.65) {Magellan $\parallel$ MLGO --- parallel bets (C1)};
+\node[stanceNum] at (-5.8,0.95) {3};
+\node[stanceTxt] at (-5.2,0.95) {Discount single-number speedups (C2)};
+\node[stanceNum] at (-5.8,0.25) {4};
+\node[stanceTxt] at (-5.2,0.25) {Constrained actions + strong oracles (C3)};
+\node[stanceNum] at (-5.8,-0.45) {5};
+\node[stanceTxt] at (-5.2,-0.45) {Demote generic SCM AI (C7)};
+\node[stanceNum] at (-5.8,-1.15) {6};
+\node[stanceTxt] at (-5.2,-1.15) {Coverage$\rightarrow$performance; no autonomous chip design (C9/C10)};
+\node[stanceNum] at (-5.8,-1.85) {7};
+\node[stanceTxt] at (-5.2,-1.85) {$\sim$6--7 data-plane bands; plugins if not consolidated (A6/S6)};
 \end{tikzpicture}
 \end{center}
 \end{frame}
 
 % ============================================================
-% 30 Commercial checklist
+% 32 Commercial checklist
 \begin{frame}{Commercial checklist --- handout}
 \begin{center}
 \begin{tikzpicture}
@@ -1099,7 +1174,7 @@
 \end{frame}
 
 % ============================================================
-% 31 Discussion + thank you  (light background)
+% 33 Discussion + thank you  (light background)
 \begin{frame}[plain]
 \begin{tikzpicture}[remember picture,overlay]
   \fill[Mist] (current page.south west) rectangle (current page.north east);
@@ -1131,7 +1206,7 @@
 \end{frame}
 
 % ============================================================
-% 32 Appendix divider
+% 34 Appendix divider
 \begin{frame}[plain]
 \begin{tikzpicture}[remember picture,overlay]
   \fill[Mist] (current page.south west) rectangle (current page.north east);
@@ -1149,7 +1224,7 @@
 \end{frame}
 
 % ============================================================
-% 33 Appendix --- evidence map
+% 35 Appendix --- evidence map
 \begin{frame}{Appendix --- evidence map}
 \begin{center}
 \vspace{-0.3em}
@@ -1185,7 +1260,7 @@
 \end{frame}
 
 % ============================================================
-% 34 Appendix --- Tier A products
+% 36 Appendix --- Tier A products
 \begin{frame}{Appendix --- Tier A commercial signals}
 \begin{center}
 \vspace{-0.45em}
@@ -1212,7 +1287,7 @@
 \end{frame}
 
 % ============================================================
-% 35 Appendix --- Tier A repos
+% 37 Appendix --- Tier A repos
 \begin{frame}{Appendix --- Tier A open repositories}
 \begin{center}
 \vspace{-0.4em}
@@ -1231,7 +1306,7 @@
 \end{frame}
 
 % ============================================================
-% 36 Appendix --- star digests
+% 38 Appendix --- star digests
 \begin{frame}{Appendix --- prediction-critical digests ($\bigstar$)}
 \begin{center}
 \vspace{-0.4em}
@@ -1255,7 +1330,7 @@
 \end{frame}
 
 % ============================================================
-% 37 Appendix --- publication groups
+% 39 Appendix --- publication groups
 \begin{frame}{Appendix --- publication groups}
 \begin{center}
 \vspace{-0.35em}

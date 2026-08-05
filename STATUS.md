@@ -43,6 +43,7 @@ Last updated: **2026-08-05**
 
 | Date | Change |
 |---|---|
+| 2026-08-05 | Sharing: slides 10–11 (bands + cost model/plugins); stance #7; deck 39 slides; EN+zh-TW transcripts; survey PDF |
 | 2026-08-05 | SURVEY §5.1.1: one universal cost model — feasibility + size (prior LLM vs local advisors); PDF rebuilt |
 | 2026-08-05 | SURVEY §5.1.2: predict ~6–7 abstraction bands (roles + cluster/power); plugins if not consolidated; PDF rebuilt |
 | 2026-08-05 | SURVEY §5.1.1: how many data-plane abstractions vs one agent cost model; claims A6/S6; survey PDF rebuilt |

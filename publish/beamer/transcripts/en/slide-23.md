@@ -1,7 +1,9 @@
-# Slide 23: Technical Prediction — Accelerate The Roadmap
+# Slide 23: Gap map — what blocks the prediction, not a wishlist
 
-Open §5.8 with the lead-in alone (clear band above the lists): settle checkpoints / ship Horizon A by enhancing techniques inside and outside the compiler (T1–T10).
+This is a priority map of gaps that gate the Section 5 prediction, not a research wishlist.
 
-Then the two columns — Within T1–T5 and Outside T6–T10 — side by side with a gutter, never covering the lead-in.
+High: production evidence, correctness, cost and replay, cross-stack, benchmarks.
+Medium-high: hardware-native APIs, training data.
+Medium: workflow compile, HITL process, security.
 
-Footer: enhancing only opt/Inductor/Triton is not enough; next slides = exists · missing · unlocks.
+If you only fund one band, fund the high row — those are what keep Horizon A from being a slideware story.

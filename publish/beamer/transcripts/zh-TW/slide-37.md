@@ -1,3 +1,8 @@
-# 投影片 37：附錄 — 出版團體
+# Slide 37：附錄 — A 級證據開放儲存庫
 
-閱讀組計數（GPU 核心、智慧體ic/RL、SCM、經典 DL、公司基礎設施、論壇、調查、基礎法學碩士、MLGO/健身房、HW 軟硬體協同設計、商業、控制平面基板）。那麼：機制第一；降級通用鍛造人工智慧；保持兩邊——不平均；僅當 A 級證據/★ 證據發生變化時才更新預測。
+兩條帶，然後分層光澤：
+
+- 離線/審查/啟發式：OpenEvolve、HeuriGym、Archer、Compiler-R1、HintPilot、mlir 智慧體
+- Online / kernels /使能/啟動：ACCLAIM、CompileIQ、GEAK、Kernel smartbody、KernelBench(-X)、FlashInfer-Bench、AutoKernel、Helion、TritorX / KernelEvolve
+
+Tiers: A = 智慧體 + 領域判定機; B = 資料平面主機； C = 通用鍛造 AI（降級）。

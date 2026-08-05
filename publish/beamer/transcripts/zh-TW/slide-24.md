@@ -1,23 +1,5 @@
-# 投影片 24：技術預測 — 編譯器內部（T1–T5）
+# 投影片 24：跨領域研究議程
 
-較大字型的帶狀版面。每一項：技術 + 解鎖，然後 Exists，再 Missing。
+從差距圖到技術型預測的橋樑。使混合管道構建/CI 可迴歸的六個近期主題：准入和回退路徑標準； 智慧體工具/IR 模式；開放的多IR語料庫；發球水平出處和人工審查；控制平面編譯 MVP。
 
-1. **T1 Typed interfaces** → C3, C5, C6  
-   Exists：CompileIQ · ACCLAIM · mlir-opt-repl · FlashInfer Trace  
-   Missing：跨 MLIR · Triton · Tile · StableHLO 的可攜 schema
-
-2. **T2 Admit / fallback** → C6 hybrid  
-   Exists：AgentCompile · Archer · TritonRL verifiers · FlashInfer-Bench  
-   Missing：共享的接納產品 + 可信的確定性回退路徑
-
-3. **T3 Control files + replay** → C2, C5  
-   Exists：CompileIQ ACFs · FlashInfer Trace + `apply()`  
-   Missing：內容定址金鑰；模型升級時的 golden replay
-
-4. **T4 Heuristic hooks / advisors** → C1  
-   Exists：Magellan / AlphaEvolve · MLGO · EmitC PoR  
-   Missing：在具名應用上，Magellan vs MLGO 誰是預設已定案
-
-5. **T5 Dialect / ISA sinks** → C9, C10  
-   Exists：TritorX · KernelEvolve · Ascend diagnosis  
-   Missing：一流的變更提案介面（不是自動 tape-out）
+關閉：這些主題在下一張投影片上解壓為 T1-T10（存在/缺失/解鎖）。

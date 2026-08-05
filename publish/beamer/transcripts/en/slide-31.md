@@ -1,10 +1,11 @@
-# Slide 31: plain
+# Slide 31: Working stance until conflicts settle
 
-Close on Discussion with a light slide. Thank them. Restate that the hybrid bet remains the ask.
+Until checkpoints settle, operate on these seven stances.
 
-Invite questions:
-1. Which checkpoint flips your investment first — C1, C2, or C9?
-2. Harder commercial bar: oracle strength or replay/freeze?
-3. Building job (a), (b), or (d) first — what do you refuse online?
-
-Close on the hybrid ask. End cleanly.
+One: hybrid control and data plane, C6-B.
+Two: Magellan parallel with MLGO — parallel bets on C1.
+Three: discount single-number speedups, C2.
+Four: constrained actions plus strong oracles, C3.
+Five: demote generic SCM AI, C7.
+Six: coverage then performance ladder; no autonomous EDA, C9 and C10.
+Seven: keep about six to seven data-plane bands; if they do not consolidate, ship pluggable interfaces — A6 / S6.

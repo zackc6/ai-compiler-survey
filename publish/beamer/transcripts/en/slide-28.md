@@ -1,11 +1,10 @@
-# Slide 28: Org Adoption Questions
+# Slide 28: Technical Prediction — What Each Checkpoint Needs
 
-Use these as discussion prompts, not a quiz.
+Band map (checkpoint ← techniques, then one short “needs” line):
 
-One: online CompileIQ versus offline Magellan — which matches your release model?
-Two: oracle stack of Alive2, golden, serving A/B — who owns false negatives?
-Three: agent contract surface — LLVM, MLIR, Triton, StableHLO, Tile?
-Four: how do you cache and regress traces across compiler and model upgrades?
-Five: max dollars per build for a median X percent win, and a named maintainer per admitted artifact?
-
-Leave silence after each if the room is engaged.
+- **C1 ← T4** — Magellan-class synthesis or EmitC-MLGO customer default on named apps
+- **C2 ← T3+T6+T8** — replayable artifacts + serving oracles + ladder; FlashInfer-Bench = pressure, not settlement
+- **C5 ← T1+T3** — typed interfaces + freeze-before-serve named in release notes
+- **C3/C6 ← T1+T2** — constrained tools + admit/fallback (lean: hybrid advisory)
+- **C9 ← T5+T8** — coverage→perf agents + dialect sinks; need 2nd-vendor TritorX-class path
+- **C10 ← T5** — ISA/dialect proposals only; humans + chip-design tools own tape-out

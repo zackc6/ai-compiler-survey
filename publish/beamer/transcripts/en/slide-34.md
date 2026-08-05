@@ -1,3 +1,3 @@
-# Slide 34: Appendix — Tier A commercial signals
+# Slide 34: plain
 
-Walk the band list: Google/DeepMind (AlphaEvolve Cloud, Magellan + MLGO); NVIDIA (CompileIQ, Tile IR, TensorRT-LLM skills); AMD (GEAK); Meta (LLM Compiler, KernelLLM, TritorX, KernelEvolve, Helion); FlashInfer-Bench. Close with Tier B baselines agents must plug into.
+Open the appendix. This is the evidence store behind the briefing: publication digests, commercial product signals, and open repositories — tiered for the agentic-compiler prediction, not a full catalog.
