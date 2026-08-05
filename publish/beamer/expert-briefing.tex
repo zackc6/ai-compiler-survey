@@ -73,10 +73,10 @@
   jobAmber/.style={draw=Amber,fill=Amber!12,rounded corners=6pt,minimum width=3.15cm,minimum height=2.55cm,text width=2.9cm,align=center,font=\sffamily\small,text=Ink},
   jobEmber/.style={draw=Ember,fill=Ember!12,rounded corners=6pt,minimum width=3.15cm,minimum height=2.55cm,text width=2.9cm,align=center,font=\sffamily\small,text=Ink},
   jobInk/.style={draw=Ink,fill=Ink!8,rounded corners=6pt,minimum width=3.15cm,minimum height=2.55cm,text width=2.9cm,align=center,font=\sffamily\small,text=Ink},
-  bandSteel/.style={rounded corners=3pt,minimum width=3.85cm,minimum height=1.85cm,text width=3.55cm,align=left,font=\sffamily\tiny,draw=Steel,fill=Steel!12,inner sep=4pt},
-  bandAmber/.style={rounded corners=3pt,minimum width=3.85cm,minimum height=1.85cm,text width=3.55cm,align=left,font=\sffamily\tiny,draw=Amber,fill=Amber!12,inner sep=4pt},
-  bandEmber/.style={rounded corners=3pt,minimum width=3.85cm,minimum height=1.55cm,text width=3.55cm,align=left,font=\sffamily\tiny,draw=Ember,fill=Ember!12,inner sep=4pt},
-  bandMute/.style={rounded corners=3pt,minimum width=3.85cm,minimum height=0.95cm,text width=3.55cm,align=left,font=\sffamily\tiny,draw=Mute,fill=Mute!10,inner sep=4pt},
+  bandSteel/.style={rounded corners=3pt,minimum width=3.55cm,minimum height=1.35cm,text width=3.3cm,align=left,font=\sffamily\tiny,draw=Steel,fill=Steel!12,inner sep=3pt},
+  bandAmber/.style={rounded corners=3pt,minimum width=3.55cm,minimum height=1.35cm,text width=3.3cm,align=left,font=\sffamily\tiny,draw=Amber,fill=Amber!12,inner sep=3pt},
+  bandEmber/.style={rounded corners=3pt,minimum width=3.55cm,minimum height=1.20cm,text width=3.3cm,align=left,font=\sffamily\tiny,draw=Ember,fill=Ember!12,inner sep=3pt},
+  bandMute/.style={rounded corners=3pt,minimum width=3.55cm,minimum height=0.78cm,text width=3.3cm,align=left,font=\sffamily\tiny,draw=Mute,fill=Mute!10,inner sep=3pt},
   cardSteel/.style={draw=Steel,fill=Steel!8,rounded corners=5pt,minimum width=5.7cm,minimum height=1.55cm,text width=5.3cm,align=left,font=\sffamily\scriptsize,inner sep=6pt,text=Ink},
   cardAmber/.style={draw=Amber,fill=Amber!8,rounded corners=5pt,minimum width=5.7cm,minimum height=1.55cm,text width=5.3cm,align=left,font=\sffamily\scriptsize,inner sep=6pt,text=Ink},
   cardEmber/.style={draw=Ember,fill=Ember!8,rounded corners=5pt,minimum width=5.7cm,minimum height=1.55cm,text width=5.3cm,align=left,font=\sffamily\scriptsize,inner sep=6pt,text=Ink},
@@ -312,34 +312,25 @@
 % 6 Executive verdict
 \begin{frame}{Executive verdict}
 \begin{center}
-\vspace{-0.4em}
 \begin{tikzpicture}
-\node[text width=0.92\textwidth,align=center,font=\ebgaramond\Large\bfseries,Ink] {
+\node[text width=0.9\textwidth,align=center,font=\ebgaramond\Large\bfseries,Ink] {
   Agents reshape the \textcolor{Steel}{control plane}\par
   more than they replace the \textcolor{Amber}{data plane}.
 };
-% Plain-language gloss under the terms
-\node[draw=Steel,fill=Steel!10,rounded corners=5pt,inner sep=6pt,text width=5.6cm,align=left,font=\sffamily\scriptsize,anchor=north]
-  at (-3.3,-0.55) {%
-  \textbf{\color{Steel}Control plane}\;{\color{Mute}= search / decide layer}\par\vspace{0.2em}
-  Agents own: search, orchestration, synthesis\par
-  {\color{Mute}propose $\rightarrow$ measure $\rightarrow$ admit}};
-\node[draw=Amber,fill=Amber!10,rounded corners=5pt,inner sep=6pt,text width=5.6cm,align=left,font=\sffamily\scriptsize,anchor=north]
-  at (3.3,-0.55) {%
-  \textbf{\color{Amber}Data plane}\;{\color{Mute}= lower / execute layer}\par\vspace{0.2em}
-  Compilers own: lowering, legality, measure, fallback\par
-  {\color{Mute}Inductor / MLIR / Triton stay the default path}};
-\node[font=\sffamily\tiny,text=Mute,anchor=north] at (0,-2.35)
-  {Same stack, different jobs --- agents above classical lowering, not instead of it.};
+% Compact one-line glosses --- do not dominate the verdict
+\node[draw=Steel,fill=Steel!8,rounded corners=3pt,inner sep=3pt,font=\sffamily\tiny,anchor=north]
+  at (-3.2,-0.35) {\textbf{\color{Steel}Control plane:} search / orchestrate / synthesize};
+\node[draw=Amber,fill=Amber!8,rounded corners=3pt,inner sep=3pt,font=\sffamily\tiny,anchor=north]
+  at (3.2,-0.35) {\textbf{\color{Amber}Data plane:} lower / legality / measure / fallback};
 \end{tikzpicture}
 \end{center}
-\vspace{0.15em}
+\vspace{0.55em}
 \begin{columns}[T]
 \begin{column}{0.48\textwidth}
 \begin{tikzpicture}
-\node[nodeSteel] (a) at (0,1.35) {Compilers for AI \,$\times$\, AI for compilers};
-\node[nodeAmber] (b) at (0,0.35) {Hybrid LLM--compiler loops};
-\node[nodeEmber] (c) at (0,-0.65) {4th job Tier A: bring-up / codesign};
+\node[nodeSteel] (a) at (0,2.0) {Compilers for AI \,$\times$\, AI for compilers};
+\node[nodeAmber] (b) at (0,0.9) {Hybrid LLM--compiler loops};
+\node[nodeEmber] (c) at (0,-0.2) {4th job Tier A: bring-up / codesign};
 \draw[-{Latex},Steel,thick] (a) -- (b);
 \draw[-{Latex},Amber,thick] (b) -- (c);
 \end{tikzpicture}
@@ -347,8 +338,8 @@
 \begin{column}{0.48\textwidth}
 \begin{tikzpicture}
 \node[verdictBox] {
-  \textbf{\color{Ember}Will not happen soon}\par\vspace{0.3em}
-  \textbullet\ Unconstrained LLM replaces Inductor / \texttt{opt}\par\vspace{0.2em}
+  \textbf{\color{Ember}Will not happen soon}\par\vspace{0.35em}
+  \textbullet\ Unconstrained LLM replaces Inductor / \texttt{opt}\par\vspace{0.25em}
   \textbullet\ Autonomous chip tape-out via compiler agents (C10)
 };
 \end{tikzpicture}
@@ -426,97 +417,83 @@
 % 9 Architecture evolution
 \begin{frame}{Architecture evolution --- component changes}
 \begin{center}
-\vspace{-0.7em}
+\vspace{-0.85em}
 \begin{tikzpicture}
-% Era spine
-\draw[Line,line width=2.2pt] (-5.4,3.35) -- (5.4,3.35);
-\fill[Steel] (-5.1,3.35) circle (0.15);
-\fill[Amber] (0,3.35) circle (0.15);
-\fill[Ember] (5.1,3.35) circle (0.15);
-\node[headSteel] at (-5.1,3.75) {TODAY};
-\node[font=\sffamily\tiny,text=Mute] at (-5.1,3.05) {2025--26};
-\node[headAmber] at (0,3.75) {HORIZON A};
-\node[font=\sffamily\tiny,text=Mute] at (0,3.05) {2027--28};
-\node[headEmber] at (5.1,3.75) {HORIZON B};
-\node[font=\sffamily\tiny,text=Mute] at (5.1,3.05) {$\sim$2029--31};
-\draw[-{Latex},Mute,thick] (-3.5,3.35) -- (-1.9,3.35);
-\draw[-{Latex},Mute,thick] (1.9,3.35) -- (3.5,3.35);
+% Era spine (compact)
+\draw[Line,line width=2pt] (-5.0,3.15) -- (5.0,3.15);
+\fill[Steel] (-4.7,3.15) circle (0.13);
+\fill[Amber] (0,3.15) circle (0.13);
+\fill[Ember] (4.7,3.15) circle (0.13);
+\node[headSteel] at (-4.7,3.50) {TODAY};
+\node[font=\sffamily\tiny,text=Mute] at (-4.7,2.88) {2025--26};
+\node[headAmber] at (0,3.50) {HORIZON A};
+\node[font=\sffamily\tiny,text=Mute] at (0,2.88) {2027--28};
+\node[headEmber] at (4.7,3.50) {HORIZON B};
+\node[font=\sffamily\tiny,text=Mute] at (4.7,2.88) {$\sim$2029--31};
+\draw[-{Latex},Mute,thick] (-3.2,3.15) -- (-1.8,3.15);
+\draw[-{Latex},Mute,thick] (1.8,3.15) -- (3.2,3.15);
 
-% Row labels
-\node[font=\sffamily\bfseries\tiny,text=Steel,anchor=east] at (-7.15,1.85) {CONTROL};
-\node[font=\sffamily\bfseries\tiny,text=Amber,anchor=east] at (-7.15,0.05) {DATA};
-\node[font=\sffamily\bfseries\tiny,text=Ember,anchor=east] at (-7.15,-1.55) {CODESIGN};
-\node[font=\sffamily\bfseries\tiny,text=Mute,anchor=east] at (-7.15,-2.75) {ARTIFACTS};
+% Row labels inside left margin of grid (not off-slide)
+\node[font=\sffamily\bfseries\tiny,text=Steel,anchor=east] at (-6.55,1.70) {CTRL};
+\node[font=\sffamily\bfseries\tiny,text=Amber,anchor=east] at (-6.55,0.20) {DATA};
+\node[font=\sffamily\bfseries\tiny,text=Ember,anchor=east] at (-6.55,-1.15) {CODE};
+\node[font=\sffamily\bfseries\tiny,text=Mute,anchor=east] at (-6.55,-2.25) {ART};
 
-% CONTROL row --- what components change
-\node[bandSteel] at (-5.1,1.85) {%
-  \textbf{\color{Steel}Agents (ad-hoc)}\par
-  chat / tools loops\par
-  GEAK $\cdot$ ACCLAIM $\cdot$ Magellan\par
-  {\color{Mute}no typed admit contract}};
-\node[bandSteel] at (0,1.85) {%
+% CONTROL --- centers at +/-4.2 fit 3.55cm boxes
+\node[bandSteel] at (-4.2,1.70) {%
+  \textbf{\color{Steel}Ad-hoc agents}\par
+  chat/tools $\cdot$ GEAK/ACCLAIM\par
+  {\color{Mute}no typed admit}};
+\node[bandSteel] at (0,1.70) {%
   \textbf{\color{Steel}Jobs (a--d) productized}\par
-  (a) online specialize $\cdot$ (b) offline\par
-  (c) oracle pull-request review $\cdot$ (d) bring-up\par
-  {\color{Mute}build-CI gated, not silent default}};
-\node[bandSteel] at (5.1,1.85) {%
+  online/offline/review/bring-up\par
+  {\color{Mute}build-CI gated}};
+\node[bandSteel] at (4.2,1.70) {%
   \textbf{\color{Steel}Control plane compiled}\par
-  workflow compile $\cdot$ agent-graph check\par
-  freeze / amortize $\cdot$ hetero place\par
+  workflow $\cdot$ agent-graph $\cdot$ freeze\par
   {\color{Mute}audited agent graph}};
 
-% DATA row
-\node[bandAmber] at (-5.1,0.05) {%
+% DATA
+\node[bandAmber] at (-4.2,0.20) {%
   \textbf{\color{Amber}Classical stack}\par
-  MLIR / Triton / Inductor\par
-  GPU-mostly default path\par
-  {\color{Mute}tools optional / thin}};
-\node[bandAmber] at (0,0.05) {%
+  MLIR/Triton/Inductor $\cdot$ GPU\par
+  {\color{Mute}tools thin}};
+\node[bandAmber] at (0,0.20) {%
   \textbf{\color{Amber}Agent-addressable}\par
-  multi-DSL + fingerprints\par
-  typed tool interfaces $\cdot$ admit\par
-  {\color{Mute}oracles on the hot path}};
-\node[bandAmber] at (5.1,0.05) {%
+  multi-DSL $\cdot$ typed tools $\cdot$ admit\par
+  {\color{Mute}oracles on hot path}};
+\node[bandAmber] at (4.2,0.20) {%
   \textbf{\color{Amber}Multi-backend fleets}\par
-  control files $\cdot$ heuristics $\cdot$ memory\par
-  as first-class version-control artifacts\par
-  {\color{Mute}still classical lowering}};
+  control files / heuristics in version control\par
+  {\color{Mute}classical lowering stays}};
 
-% CODESIGN row
-\node[bandEmber] at (-5.1,-1.55) {%
+% CODESIGN
+\node[bandEmber] at (-4.2,-1.15) {%
   \textbf{\color{Ember}Sparse / manual}\par
   human bring-up dominant\par
-  {\color{Mute}little sim$\leftrightarrow$compiler loop}};
-\node[bandEmber] at (0,-1.55) {%
+  {\color{Mute}weak sim$\leftrightarrow$compiler loop}};
+\node[bandEmber] at (0,-1.15) {%
   \textbf{\color{Ember}Early feedback}\par
-  sim + first-silicon coverage$\rightarrow$perf\par
-  ISA / dialect change proposals to humans + chip-design tools\par
+  sim + silicon $\rightarrow$ ISA/dialect proposals\par
   {\color{Mute}TritorX / KernelEvolve-class}};
-\node[bandEmber] at (5.1,-1.55) {%
-  \textbf{\color{Ember}Steady pre-silicon loop}\par
-  pre-silicon $\rightarrow$ bring-up $\rightarrow$ next tape-out\par
-  {\color{Mute}not autonomous chip design (C10)}};
+\node[bandEmber] at (4.2,-1.15) {%
+  \textbf{\color{Ember}Steady pre-silicon}\par
+  pre-silicon $\rightarrow$ bring-up $\rightarrow$ next chip\par
+  {\color{Mute}not autonomous design (C10)}};
 
-% ARTIFACTS row
-\node[bandMute] at (-5.1,-2.75) {%
-  \textbf{binaries}\par
-  {\color{Mute}+ sparse hints}};
-\node[bandMute] at (0,-2.75) {%
-  \textbf{+ control files / hints / kernels}\par
-  {\color{Mute}+ evolved C++ / bring-up corpora}};
-\node[bandMute] at (5.1,-2.75) {%
-  \textbf{+ frozen agent workflows}\par
-  {\color{Mute}cognition binaries / replay}};
+% ARTIFACTS
+\node[bandMute] at (-4.2,-2.25) {\textbf{binaries} + sparse hints};
+\node[bandMute] at (0,-2.25) {\textbf{+ control files / kernels / C++}};
+\node[bandMute] at (4.2,-2.25) {\textbf{+ frozen agent workflows}};
 
-% Change arrows between columns (subtle)
-\foreach \y in {1.85,0.05,-1.55,-2.75}{
-  \draw[-{Latex},Mute,thin] (-3.05,\y) -- (-2.05,\y);
-  \draw[-{Latex},Mute,thin] (2.05,\y) -- (3.05,\y);
+\foreach \y in {1.70,0.20,-1.15,-2.25}{
+  \draw[-{Latex},Mute,thin] (-2.35,\y) -- (-1.85,\y);
+  \draw[-{Latex},Mute,thin] (1.85,\y) -- (2.35,\y);
 }
 \end{tikzpicture}
 \end{center}
-\vspace{-0.35em}
-{\footnotesize\color{Mute}\centering Focus: which \textbf{components} thicken --- data plane stays; agent graph becomes compiled, audited, amortized.\par}
+\vspace{-0.45em}
+{\footnotesize\color{Mute}\centering Components thicken left$\rightarrow$right; data plane stays; agent graph becomes compiled \& amortized.\par}
 \end{frame}
 
 % 10 What ships / does not
