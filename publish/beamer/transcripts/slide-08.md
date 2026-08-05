@@ -1,4 +1,4 @@
-# Slide 8: Architecture — Target Stack (§5.1)
+# Slide 8: Architecture — Target Stack
 
 Build the stack top to bottom.
 

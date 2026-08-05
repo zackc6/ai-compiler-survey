@@ -1,4 +1,4 @@
-# Slide 18: Blocker 3 — Agent↔Compiler Contract
+# Slide 18: Blocker 3 — Agent$\leftrightarrow$compiler contract
 
 Four options: A, natural language plus pasted logs — demo only. B, structured admit traces — CI and SBOM ready. C, typed tool APIs — required action space. D, hybrid — natural language as a view over traces.
 

@@ -1,4 +1,4 @@
-# Slide 6: Executive Verdict
+# Slide 6: Executive verdict
 
 Deliver the one-line verdict: agents reshape the control plane more than they replace the data plane.
 

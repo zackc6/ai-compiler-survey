@@ -1,4 +1,4 @@
-# Slide 20: Blocker 5 — Ownership, Security, HITL
+# Slide 20: Blocker 5 — Ownership, security, human review
 
 Three pressures: TCB risk when agent kernels or heuristics enter the trusted base; ownership via CODEOWNERS, signed provenance, and sandbox; HITL capacity where agents raise draft volume and reviewers become the bottleneck.
 

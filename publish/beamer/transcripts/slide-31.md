@@ -1,3 +1,10 @@
-# Slide 31: Appendix — Prediction-Critical Digests
+# Slide 31: plain
 
-Highest-signal digests: Compiler 2.0 / MOCHA; Magellan and EmitC-MLGO minutes; ACCLAIM; TritorX, KernelEvolve, Ascend diagnosis, KForge; CompileIQ skills, AutoKernel, CuTeGen; Auto and FlowCompile for control-plane substrate. Point to the full index for the rest.
+Close on Discussion with a light slide. Thank them. Restate that the hybrid bet remains the ask.
+
+Invite questions:
+1. Which checkpoint flips your investment first — C1, C2, or C9?
+2. Harder commercial bar: oracle strength or replay/freeze?
+3. Building job (a), (b), or (d) first — what do you refuse online?
+
+Close on the hybrid ask. End cleanly.

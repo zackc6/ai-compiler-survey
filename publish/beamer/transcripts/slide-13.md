@@ -1,4 +1,4 @@
-# Slide 13: Checkpoints C2 + C5 — Gains & Default Path
+# Slide 13: Checkpoints C2 + C5 — gains \& default path
 
 The chart is illustrative tension, not a meta-analysis: vendor headlines around fifteen percent versus docs-style hot-kernel gains nearer two and a half percent.
 

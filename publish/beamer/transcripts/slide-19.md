@@ -1,4 +1,4 @@
-# Slide 19: Blocker 4 — Distributional Production Evidence
+# Slide 19: Blocker 4 — Distributional production evidence
 
 Walk the funnel: wide top is curated kernels and opt-in flags; middle is where attribution gets hard across graphs, KV, GEMV; narrow bottom is default-path A/B plus multi-month stability.
 

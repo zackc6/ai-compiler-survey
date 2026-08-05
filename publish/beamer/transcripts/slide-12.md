@@ -1,4 +1,4 @@
-# Slide 12: Checkpoint C1 — Heuristics Vs Neural Advisors
+# Slide 12: Checkpoint C1 — heuristics vs neural advisors
 
 Two live bets.
 

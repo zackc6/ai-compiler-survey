@@ -1,11 +1,8 @@
-# Slide 23: Org Adoption Questions
+# Slide 23: Technical Prediction — Accelerate The Roadmap
 
-Use these as discussion prompts, not a quiz.
+Open the technical-prediction section. Message: settling checkpoints and shipping Horizon A needs a short list of techniques — both inside the compiler and outside it.
 
-One: online CompileIQ versus offline Magellan — which matches your release model?
-Two: oracle stack of Alive2, golden, serving A/B — who owns false negatives?
-Three: agent contract surface — LLVM, MLIR, Triton, StableHLO, Tile?
-Four: how do you cache and regress traces across compiler and model upgrades?
-Five: max dollars per build for a median X percent win, and a named maintainer per admitted artifact?
+Within: typed tools, admit/fallback, fingerprints, control-file replay, heuristic hooks, dialect/ISA sinks.
+Outside: serving oracles, multi-IR corpora, benchmark ladder, provenance/ownership, workflow compile/freeze, hardware-counter APIs.
 
-Leave silence after each if the room is engaged.
+Preview: next slides spell missing parts today and which checkpoints each unlocks.

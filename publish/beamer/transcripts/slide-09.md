@@ -1,4 +1,4 @@
-# Slide 9: Architecture Evolution — Component Changes
+# Slide 9: Architecture evolution — component changes
 
 Walk left to right, but spend the time inside each box — what components change.
 

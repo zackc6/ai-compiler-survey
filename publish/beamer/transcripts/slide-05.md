@@ -1,4 +1,4 @@
-# Slide 5: Keep Substrate, Change Control Plane
+# Slide 5: Keep substrate, change control plane
 
 Preserve: deterministic lowering, library kernels, CI regressability, local formal checks.
 Adopt: advisory search, multi-agent orchestration, heuristic synthesis, profile and verifier feedback.

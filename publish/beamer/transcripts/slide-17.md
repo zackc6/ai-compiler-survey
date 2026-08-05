@@ -1,4 +1,4 @@
-# Slide 17: Blocker 2 — Cost, Replay, When May The Agent Run?
+# Slide 17: Blocker 2 — Cost, replay, when may the agent run?
 
 Three phases: lab is interactive chat and tools; product CI is batch optimize with budget SLOs, Welch, and canary; freeze means ACF or kernels in VCS with zero LLM at serve time.
 

@@ -1,4 +1,4 @@
-# Slide 11: Roadmap Checkpoints (§5.5)
+# Slide 11: Roadmap Checkpoints — when the prediction changes
 
 Reshape this as a roadmap spine, not a scatter of bubbles.
 

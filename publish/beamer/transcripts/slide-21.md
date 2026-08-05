@@ -1,4 +1,4 @@
-# Slide 21: Gap Map — Blockers To §5
+# Slide 21: Gap map — what blocks the prediction, not a wishlist
 
 This is a priority map of gaps that gate the Section 5 prediction, not a research wishlist.
 

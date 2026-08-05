@@ -1,3 +1,3 @@
-# Slide 32: Appendix — Publication Groups
+# Slide 32: plain
 
-Show the group counts so the room sees coverage shape — kernels, agentic/RL, review agents, classic DL, company infra, vision, MLGO, codesign, control-plane substrate. Close: mechanism first; do not average disagreements; move the prediction only when Tier A or star evidence moves.
+Open the appendix. This is the evidence store behind the briefing: publication digests, commercial product signals, and open repositories — tiered for the agentic-compiler prediction, not a full catalog.

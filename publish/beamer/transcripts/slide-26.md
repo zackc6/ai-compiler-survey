@@ -1,10 +1,10 @@
-# Slide 26: Discussion
+# Slide 26: Technical Prediction — What Each Checkpoint Needs
 
-Close on Discussion with a light slide. Thank them. Restate that the hybrid bet remains the ask.
+Map techniques to checkpoints quickly:
 
-Invite questions:
-1. Which checkpoint flips your investment first — C1, C2, or C9?
-2. Harder commercial bar: oracle strength or replay/freeze?
-3. Building job (a), (b), or (d) first — what do you refuse online?
-
-Close on the hybrid ask. End cleanly.
+C1 → heuristic hooks + EmitC deploy or open Magellan.
+C2 → replayable control files + serving oracles + benchmark ladder.
+C5 → typed interfaces + freeze-before-serve + release notes.
+C3/C6 → constrained tools + admit/fallback (stay advisory unless free rewrite proves out).
+C9 → coverage→performance agents + dialect sinks; need second-vendor public path.
+C10 → failure-mode aggregation into ISA/dialect proposals; humans still own tape-out.

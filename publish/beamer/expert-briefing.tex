@@ -187,23 +187,23 @@
 \begin{frame}{Agenda}
 \begin{center}
 \begin{tikzpicture}
-  \fill[Steel] (0,3.2) circle (0.14);
-  \draw[Steel,line width=1.2pt] (0,3.2) -- (0,2.55);
-  \node[agendaMini,fill=Steel!12] at (0.35,3.2) {\textbf{1.} Trends $\cdot$ Keep Substrate};
-  \fill[Amber] (0,2.35) circle (0.14);
-  \draw[Amber,line width=1.2pt] (0,2.35) -- (0,1.7);
-  \node[agendaMini,fill=Amber!12] at (0.35,2.35) {\textbf{2.} Verdict + Four Jobs};
-  \fill[Ember] (0,1.5) circle (0.14);
-  \draw[Ember,line width=1.2pt] (0,1.5) -- (0,0.85);
-  \node[agendaMini,fill=Ember!12] at (0.35,1.5) {\textbf{3.} Architecture Evolution};
-  \fill[Ink] (0,0.65) circle (0.14);
-  \draw[Ink,line width=1.2pt] (0,0.65) -- (0,0.0);
-  \node[agendaMini,fill=Ink!8] at (0.35,0.65) {\textbf{4.} Prediction Checkpoints};
-  \fill[Mute] (0,-0.2) circle (0.14);
-  \draw[Mute,line width=1.2pt] (0,-0.2) -- (0,-0.85);
-  \node[agendaMini,fill=Mute!12] at (0.35,-0.2) {\textbf{5.} Commercial Blockers + Gaps};
-  \fill[Mute] (0,-1.05) circle (0.14);
-  \node[agendaMini,fill=Mute!12] at (0.35,-1.05) {\textbf{6.} Stance $\cdot$ Ask $\cdot$ Appendix};
+  \fill[Steel] (0,3.35) circle (0.13);
+  \draw[Steel,line width=1.1pt] (0,3.35) -- (0,2.75);
+  \node[agendaMini,fill=Steel!12] at (0.35,3.35) {\textbf{1.} Trends $\cdot$ Keep Substrate};
+  \fill[Amber] (0,2.55) circle (0.13);
+  \draw[Amber,line width=1.1pt] (0,2.55) -- (0,1.95);
+  \node[agendaMini,fill=Amber!12] at (0.35,2.55) {\textbf{2.} Verdict + Architecture};
+  \fill[Ember] (0,1.75) circle (0.13);
+  \draw[Ember,line width=1.1pt] (0,1.75) -- (0,1.15);
+  \node[agendaMini,fill=Ember!12] at (0.35,1.75) {\textbf{3.} Roadmap Checkpoints};
+  \fill[Ink] (0,0.95) circle (0.13);
+  \draw[Ink,line width=1.1pt] (0,0.95) -- (0,0.35);
+  \node[agendaMini,fill=Ink!8] at (0.35,0.95) {\textbf{4.} Commercial Blockers + Gaps};
+  \fill[Mute] (0,0.15) circle (0.13);
+  \draw[Mute,line width=1.1pt] (0,0.15) -- (0,-0.45);
+  \node[agendaMini,fill=Mute!12] at (0.35,0.15) {\textbf{5.} Technical Prediction (Techniques)};
+  \fill[Mute] (0,-0.65) circle (0.13);
+  \node[agendaMini,fill=Mute!12] at (0.35,-0.65) {\textbf{6.} Stance $\cdot$ Ask $\cdot$ Appendix};
 \end{tikzpicture}
 \end{center}
 \end{frame}
@@ -286,6 +286,7 @@
 \end{center}
 \end{frame}
 
+% ============================================================
 % 5 Keep substrate / change control plane
 \begin{frame}{Keep substrate, change control plane}
 \begin{center}
@@ -347,6 +348,7 @@
 \end{columns}
 \end{frame}
 
+% ============================================================
 % 7 Four agent jobs
 \begin{frame}{Four agent jobs --- architecture spine}
 \begin{center}
@@ -496,6 +498,7 @@
 {\footnotesize\color{Mute}\centering Components thicken left$\rightarrow$right; data plane stays; agent graph becomes compiled \& amortized.\par}
 \end{frame}
 
+% ============================================================
 % 10 What ships / does not
 \begin{frame}{What ships / does not by 2028}
 \begin{columns}[T]
@@ -856,7 +859,156 @@
 \end{frame}
 
 % ============================================================
-% 23 Org adoption
+% 23 Technical prediction opener
+\begin{frame}{Technical Prediction --- Accelerate The Roadmap}
+\begin{center}
+\vspace{-0.3em}
+\begin{tikzpicture}
+\node[text width=0.92\textwidth,align=center,font=\ebgaramond\large\bfseries,Ink] {
+  To settle checkpoints and ship Horizon A,\par
+  enhance a short list of techniques --- inside \emph{and} outside the compiler.
+};
+\node[draw=Steel,fill=Steel!10,rounded corners=5pt,inner sep=7pt,text width=5.5cm,align=left,font=\sffamily\scriptsize]
+  at (-3.3,-0.9) {%
+  \textbf{\color{Steel}Within the compiler}\par\vspace{0.2em}
+  Typed tool interfaces\par
+  Admit / fallback machinery\par
+  Fingerprints \& action spaces\par
+  Control-file / hint replay\par
+  In-tree advisors \& heuristic hooks\par
+  Dialect / ISA feedback sinks};
+\node[draw=Amber,fill=Amber!10,rounded corners=5pt,inner sep=7pt,text width=5.5cm,align=left,font=\sffamily\scriptsize]
+  at (3.3,-0.9) {%
+  \textbf{\color{Amber}Outside the compiler}\par\vspace{0.2em}
+  Serving-level oracles \& A/B\par
+  Open multi-IR training corpora\par
+  Unified benchmark ladder\par
+  Provenance, signing, ownership\par
+  Agent-workflow compile / freeze\par
+  Hardware-counter agent APIs};
+\node[font=\sffamily\tiny,text=Mute,text width=12cm,align=center] at (0,-2.55)
+  {Next slides: what each technique is missing \emph{today}, and which checkpoints it unlocks.};
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+% ============================================================
+% 24 Within-compiler techniques
+\begin{frame}{Technical Prediction --- Within The Compiler}
+\begin{center}
+\vspace{-0.55em}
+\begin{tikzpicture}
+\node[draw=Steel,fill=white,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,2.15) {%
+  \textbf{\color{Steel}1. Typed agent$\leftrightarrow$compiler interfaces}\quad
+  {\color{Mute}Missing today:} standard schemas for region/constraints/actions/admit; vendor-neutral tool servers.\quad
+  {\color{Ember}Unlocks:} C3, C5, C6 --- stops prompt-and-pray over \texttt{opt} logs.};
+\node[draw=Steel,fill=white,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,1.25) {%
+  \textbf{\color{Steel}2. Admit / fallback machinery}\quad
+  {\color{Mute}Missing today:} shared policy that rejects illegal agent moves and restores the classical path deterministically.\quad
+  {\color{Ember}Unlocks:} C6 hybrid bet; commercial oracle ladder.};
+\node[draw=Steel,fill=white,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,0.35) {%
+  \textbf{\color{Steel}3. Control files, hints, fingerprints}\quad
+  {\color{Mute}Missing today:} content-addressed replay keys (IR hash $\times$ hardware $\times$ compiler $\times$ policy); golden replay on model upgrade.\quad
+  {\color{Ember}Unlocks:} C2 median gains; C5 default-flag choice.};
+\node[draw=Steel,fill=white,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-0.55) {%
+  \textbf{\color{Steel}4. Heuristic hooks \& in-tree advisors}\quad
+  {\color{Mute}Missing today:} settled Magellan-vs-MLGO default; EmitC-class deploy path still not customer-default.\quad
+  {\color{Ember}Unlocks:} C1 offline job (b).};
+\node[draw=Steel,fill=white,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-1.45) {%
+  \textbf{\color{Steel}5. Dialect / ISA feedback sinks}\quad
+  {\color{Mute}Missing today:} first-class compiler surfaces that turn sim/silicon failure modes into dialect or ISA change proposals.\quad
+  {\color{Ember}Unlocks:} C9 coverage ladder; C10 codesign (not auto tape-out).};
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+% ============================================================
+% 25 Outside-compiler techniques
+\begin{frame}{Technical Prediction --- Outside The Compiler}
+\begin{center}
+\vspace{-0.55em}
+\begin{tikzpicture}
+\node[draw=Amber,fill=white,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,2.15) {%
+  \textbf{\color{Amber}6. Serving-level oracles \& production A/B}\quad
+  {\color{Mute}Missing today:} whole-program / GPU-race / floating-point contracts; multi-month default-path A/B with attribution.\quad
+  {\color{Ember}Unlocks:} C2 ``agents as default''; money-grade admit.};
+\node[draw=Amber,fill=white,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,1.25) {%
+  \textbf{\color{Amber}7. Open multi-IR corpora + negative data}\quad
+  {\color{Mute}Missing today:} versioned MLIR/Triton/Tile/StableHLO pairs with perf labels \emph{and} failed/miscompile examples.\quad
+  {\color{Ember}Unlocks:} better selectors/generators beyond LLVM-centric models.};
+\node[draw=Amber,fill=white,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,0.35) {%
+  \textbf{\color{Amber}8. Unified benchmark ladder}\quad
+  {\color{Mute}Missing today:} shared IR$\rightarrow$kernel$\rightarrow$fused$\rightarrow$serving ladder that reports correctness, speed, \emph{and} cost-to-compile.\quad
+  {\color{Ember}Unlocks:} honest C2/C9 comparisons; kills single-kernel theater.};
+\node[draw=Amber,fill=white,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-0.55) {%
+  \textbf{\color{Amber}9. Provenance, ownership, human-review process}\quad
+  {\color{Mute}Missing today:} named maintainers, signed admit records, sandbox policy for untrusted proposals.\quad
+  {\color{Ember}Unlocks:} shipping agent artifacts into the trusted base.};
+\node[draw=Amber,fill=white,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-1.45) {%
+  \textbf{\color{Amber}10. Agent-workflow compile / freeze / place}\quad
+  {\color{Mute}Missing today:} shared agent-graph IR, fail-closed quality gates, hetero placement under spend/latency targets.\quad
+  {\color{Ember}Unlocks:} Horizon B control-plane compile; multi-agent products leave demo tier.};
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+% ============================================================
+% 26 Technique x checkpoint matrix
+\begin{frame}{Technical Prediction --- What Each Checkpoint Needs}
+\begin{center}
+\vspace{-0.45em}
+\begin{tikzpicture}
+\node[draw=Amber,fill=Amber!10,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,2.20)
+  {\textbf{\color{Amber}C1 Magellan vs MLGO}\;--- enhance heuristic hooks + EmitC-class deploy \emph{or} open Magellan patches; missing: customer default.};
+\node[draw=Ember,fill=Ember!10,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,1.40)
+  {\textbf{\color{Ember}C2 Median / p90 gains}\;--- enhance replayable control files + serving oracles + benchmark ladder; missing: distributional public traces.};
+\node[draw=Ink,fill=Ink!6,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,0.60)
+  {\textbf{C5 Default flag}\;--- enhance typed interfaces + freeze-before-serve; missing: release-note-named agent/control-file workflows.};
+\node[draw=Warn,fill=Warn!12,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-0.20)
+  {\textbf{\color{Warn}C3 / C6 Action width}\;--- enhance constrained tools + admit/fallback; missing: proof free rewrite beats advisors \emph{or} stay advisory.};
+\node[draw=Steel,fill=Steel!10,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-1.00)
+  {\textbf{\color{Steel}C9 Bring-up ladder}\;--- enhance coverage$\rightarrow$performance agents + dialect sinks; missing: second-vendor TritorX-class public path.};
+\node[draw=Mute,fill=Mute!12,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-1.80)
+  {\textbf{C10 Codesign bound}\;--- enhance failure-mode aggregation into ISA/dialect proposals; missing: keep humans + chip-design tools on tape-out.};
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+% ============================================================
+% 27 Critical missing shortlist
+\begin{frame}{Technical Prediction --- Critical Missing Parts Now}
+\begin{center}
+\vspace{-0.35em}
+\begin{tikzpicture}
+\node[font=\sffamily\scriptsize\bfseries,text=Ember] at (0,2.55) {Highest-leverage gaps (enhance these first)};
+\node[draw=Ember,fill=Ember!10,rounded corners=4pt,inner sep=5pt,text width=5.8cm,align=left,font=\sffamily\tiny] at (-3.2,1.15) {%
+  \textbf{1. Money-grade oracle stack}\par
+  local formal $\rightarrow$ shape-grid diff\par
+  $\rightarrow$ serving statistics $\rightarrow$ staged rollout\par
+  {\color{Mute}Without this, agents stay demos}};
+\node[draw=Amber,fill=Amber!10,rounded corners=4pt,inner sep=5pt,text width=5.8cm,align=left,font=\sffamily\tiny] at (3.2,1.15) {%
+  \textbf{2. Replayable artifact contract}\par
+  control files / kernels / heuristics\par
+  with cache keys + golden replay\par
+  {\color{Mute}Without this, CI rejects the loop}};
+\node[draw=Steel,fill=Steel!10,rounded corners=4pt,inner sep=5pt,text width=5.8cm,align=left,font=\sffamily\tiny] at (-3.2,-0.95) {%
+  \textbf{3. Portable agent compile interface}\par
+  summaries $\cdot$ actions $\cdot$ admit records\par
+  across MLIR / Triton / Tile / StableHLO\par
+  {\color{Mute}Without this, every stack re-glues}};
+\node[draw=Ink,fill=Ink!6,rounded corners=4pt,inner sep=5pt,text width=5.8cm,align=left,font=\sffamily\tiny] at (3.2,-0.95) {%
+  \textbf{4. Open ladder + multi-IR data}\par
+  correctness $\times$ speed $\times$ \$/compile\par
+  plus negative (failed) examples\par
+  {\color{Mute}Without this, claims stay incomparable}};
+\end{tikzpicture}
+\end{center}
+\vspace{0.2em}
+{\footnotesize\color{Mute}\centering Within-compiler work alone is not enough --- oracles, data, and provenance sit mostly outside \texttt{opt}/Inductor.\par}
+\end{frame}
+
+% ============================================================
+% 28 Org adoption
 \begin{frame}{Org Adoption Questions}
 \begin{center}
 \vspace{-0.2em}
@@ -872,7 +1024,7 @@
 \end{frame}
 
 % ============================================================
-% 24 Working stance
+% 29 Working stance
 \begin{frame}{Working stance until conflicts settle}
 \begin{center}
 \begin{tikzpicture}
@@ -893,7 +1045,7 @@
 \end{frame}
 
 % ============================================================
-% 25 Commercial checklist
+% 30 Commercial checklist
 \begin{frame}{Commercial checklist --- handout}
 \begin{center}
 \begin{tikzpicture}
@@ -921,7 +1073,7 @@
 \end{frame}
 
 % ============================================================
-% 26 Discussion + thank you  (light background)
+% 31 Discussion + thank you  (light background)
 \begin{frame}[plain]
 \begin{tikzpicture}[remember picture,overlay]
   \fill[Mist] (current page.south west) rectangle (current page.north east);
@@ -953,7 +1105,7 @@
 \end{frame}
 
 % ============================================================
-% 27 Appendix divider
+% 32 Appendix divider
 \begin{frame}[plain]
 \begin{tikzpicture}[remember picture,overlay]
   \fill[Mist] (current page.south west) rectangle (current page.north east);
@@ -971,7 +1123,7 @@
 \end{frame}
 
 % ============================================================
-% 28 Appendix --- evidence map
+% 33 Appendix --- evidence map
 \begin{frame}{Appendix --- evidence map}
 \begin{center}
 \vspace{-0.3em}
@@ -1007,7 +1159,7 @@
 \end{frame}
 
 % ============================================================
-% 29 Appendix --- Tier A products
+% 34 Appendix --- Tier A products
 \begin{frame}{Appendix --- Tier A commercial signals}
 \begin{center}
 \vspace{-0.4em}
@@ -1028,7 +1180,7 @@
 \end{frame}
 
 % ============================================================
-% 30 Appendix --- Tier A repos
+% 35 Appendix --- Tier A repos
 \begin{frame}{Appendix --- Tier A open repositories}
 \begin{center}
 \vspace{-0.5em}
@@ -1055,7 +1207,7 @@
 \end{frame}
 
 % ============================================================
-% 31 Appendix --- star digests
+% 36 Appendix --- star digests
 \begin{frame}{Appendix --- prediction-critical digests ($\bigstar$)}
 \begin{center}
 \vspace{-0.55em}
@@ -1076,7 +1228,7 @@
 \end{frame}
 
 % ============================================================
-% 32 Appendix --- publication groups
+% 37 Appendix --- publication groups
 \begin{frame}{Appendix --- publication groups}
 \begin{center}
 \vspace{-0.4em}
@@ -1097,6 +1249,5 @@
 \end{tikzpicture}
 \end{center}
 \end{frame}
-
 
 \end{document}

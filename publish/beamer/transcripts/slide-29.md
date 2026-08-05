@@ -1,3 +1,10 @@
-# Slide 29: Appendix — Tier A Commercial Signals
+# Slide 29: Working stance until conflicts settle
 
-Walk the Tier A list: Google/DeepMind AlphaEvolve Cloud and Magellan plus MLGO; NVIDIA CompileIQ, Tile IR, TensorRT-LLM skills; AMD GEAK; Meta LLM Compiler, KernelLLM, TritorX, KernelEvolve, Helion. Then Tier B baselines agents must plug into — Inductor, XLA, TensorRT-LLM, and peers.
+Until checkpoints settle, operate on these six stances.
+
+One: hybrid control and data plane, C6-B.
+Two: Magellan parallel with MLGO — parallel bets on C1.
+Three: discount single-number speedups, C2.
+Four: constrained actions plus strong oracles, C3.
+Five: demote generic SCM AI, C7.
+Six: coverage then performance ladder; no autonomous EDA, C9 and C10.

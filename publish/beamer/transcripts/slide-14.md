@@ -1,4 +1,4 @@
-# Slide 14: Checkpoints C3 / C6 / C9 / C10 — API Width & Scope
+# Slide 14: Checkpoints C3 / C6 / C9 / C10 — interface width \& scope
 
 Four flip conditions.
 

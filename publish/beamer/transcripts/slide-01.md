@@ -1,4 +1,4 @@
-# Slide 1: Title — Next-Gen AI Compiler
+# Slide 1: plain
 
 Welcome the room.
 

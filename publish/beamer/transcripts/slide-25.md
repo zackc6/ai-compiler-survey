@@ -1,9 +1,9 @@
-# Slide 25: Commercial Checklist — Handout
+# Slide 25: Technical Prediction — Outside The Compiler
 
-Leave them with three columns.
+Five outside-compiler techniques:
 
-Architecture: typed tools and admit traces; VCS over dense over scratchpad; FSM or plan for SLA; freeze before default-on.
-Trust: layered oracles; CODEOWNERS and provenance; joint version pins; A/B before calling something production default.
-Business: sell regressable artifacts plus CI quota; customer owns outputs; coverage then performance SLA; token budget per percent gain.
-
-This is the handout slide — pause so people can photograph it.
+6. Serving-level oracles and production A/B — missing whole-program/GPU/FP contracts and multi-month default-path A/B; unlocks C2 and money-grade admit.
+7. Open multi-IR corpora with negative data — missing versioned MLIR/Triton/Tile/StableHLO labeled sets; unlocks better selectors/generators.
+8. Unified benchmark ladder — missing IR→kernel→fused→serving ladder with cost-to-compile; unlocks honest C2/C9.
+9. Provenance, ownership, human-review process — missing named maintainers and signed admit records; unlocks trusted-base shipping.
+10. Agent-workflow compile/freeze/place — missing shared agent-graph IR and fail-closed gates; unlocks Horizon B control-plane compile.

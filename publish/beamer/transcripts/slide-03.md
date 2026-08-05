@@ -1,4 +1,4 @@
-# Slide 3: Trend Backdrop — Two Stacks Converging
+# Slide 3: Trend backdrop — two stacks converging
 
 Timeline: 2018 to 22 deep learning compilers; 2020 to 23 RL gyms; 2023 to 24 LLM enters IR; 2025 to 26 agentic hybrid; 2027 and beyond still open.
 

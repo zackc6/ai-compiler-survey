@@ -1,4 +1,4 @@
-# Slide 15: Commercial Blockers — Top 5
+# Slide 15: Commercial blockers — top 5
 
 Rank the blockers before deep dives.
 

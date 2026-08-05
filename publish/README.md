@@ -16,7 +16,7 @@ python3 publish/build_beamer.py    # expert briefing (Beamer + TikZ, ~28 slides)
 
 Source for the deck: [`beamer/expert-briefing.tex`](beamer/expert-briefing.tex).
 
-Per-slide presentation transcripts: [`beamer/transcripts/`](beamer/transcripts/) (`slide-01.md` … `slide-32.md`).
+Per-slide presentation transcripts: [`beamer/transcripts/`](beamer/transcripts/) (`slide-01.md` … `slide-37.md`).
 
 Appendix slides summarize the `reference/` evidence store (products, repos, ★ digests).
 

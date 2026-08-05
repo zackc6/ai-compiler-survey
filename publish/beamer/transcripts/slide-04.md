@@ -1,4 +1,4 @@
-# Slide 4: Six Active Trends (§1.3)
+# Slide 4: Six active trends
 
 Walk each box with one concrete beat — this is the §1 backdrop.
 

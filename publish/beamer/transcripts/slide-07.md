@@ -1,4 +1,4 @@
-# Slide 7: Four Agent Jobs — Architecture Spine
+# Slide 7: Four agent jobs — architecture spine
 
 These four jobs are the architecture spine. They sit above classical lowering, not instead of it.
 
