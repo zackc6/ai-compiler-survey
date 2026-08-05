@@ -4,9 +4,9 @@ description: >-
   Maintain this living survey on main: one SURVEY reading path (§0–§9),
   reference/ evidence store, prediction-first digests (Org/Publisher),
   §6 conflicts / §7 claims, §5 architecture+roadmap+commercialization,
-  validate, rebuild PDF, push main. Use when editing
-  this repo, adding publications, reorganizing docs, updating the
-  agentic-compiler prediction, or publishing.
+  validate, rebuild PDF, push main directly (no feature branches/PRs).
+  Use when editing this repo, adding publications, reorganizing docs,
+  updating the agentic-compiler prediction, or publishing.
 ---
 
 # AI compiler survey (this repo)
@@ -80,7 +80,8 @@ publish/              # PDF only
 [ ] python3 publish/build_pdf.py
 [ ] python3 publish/build_beamer.py   # if briefing deck should refresh
 [ ] STATUS.md changelog
-[ ] git commit && git push origin main
+[ ] git checkout main (if needed) → commit → git push origin main
+    # no feature branch, no PR
 ```
 
 Full method + experience log: [`survey.md`](survey.md).
