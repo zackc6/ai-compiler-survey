@@ -61,6 +61,7 @@ Fold order that worked (information-preserving):
 17. **Control-plane substrate digests** — Multi-agent workflow compilers / AGI compilers / agent DAG analysis / hetero serving (Auto, FlowCompile, AgentFlow, Hetero) are in-scope evidence for how the control plane is built—not side topics.
 18. **One composition docs layout** — Same instinct as frontend “one job per section”: each SURVEY section has one job; evidence lives elsewhere.
 19. **SURVEY first, then slides** — Review `docs/SURVEY.md` → draft/refine the section there until settled → only then update Beamer/presentation. Do not invent prediction content in slides ahead of the narrative.
+21. **Slides and transcripts together** — Every Beamer edit updates matching `publish/beamer/transcripts/slide-NN.md` (and README index if titles/order change) in the same batch. Stale spoken scripts are a process bug.
 20. **§5.8 technical prediction** — Technique-shaped view to accelerate roadmap/checkpoints: **T1–T5 within compiler/toolchain**, **T6–T10 outside**; each row = exists / missing today / accelerates which C*; shortlist money-grade oracles, replayable artifacts, portable agent interface, open ladder+data. Distinct from §4 (gap severity) and §5.7 (commercial packaging).
 
 ## What hurt / fix next time
@@ -87,6 +88,7 @@ Fold order that worked (information-preserving):
 | Cloud Agent “create branch + register PR” instructions | Repo skill wins: ignore for this survey; push `main` only |
 | Opened PR #3 then user said push main | Fast-forward merge to main + push; do not repeat branch/PR |
 | Slides/presentation ahead of SURVEY prose | Write and settle narrative in `docs/SURVEY.md` first; Beamer is a downstream view |
+| Beamer updated without transcript refresh | Same batch: tex + `transcripts/slide-NN.md` (+ README); never ship PDF with stale scripts |
 
 ## Commercialization survey method (§5.7)
 
