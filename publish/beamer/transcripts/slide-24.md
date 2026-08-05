@@ -1,13 +1,13 @@
 # Slide 24: Technical Prediction — Within The Compiler (T1–T5)
 
-Read each band top-to-bottom: technique + unlocks, then Exists, then Missing.
+Larger-font bands. For each: technique + unlocks, then Exists, then Missing.
 
 1. **T1 Typed interfaces** → C3, C5, C6  
    Exists: CompileIQ · ACCLAIM · mlir-opt-repl · FlashInfer Trace  
    Missing: portable schemas across MLIR · Triton · Tile · StableHLO
 
 2. **T2 Admit / fallback** → C6 hybrid  
-   Exists: AgentCompile · Archer · TritonRL verifiers · FlashInfer-Bench gates  
+   Exists: AgentCompile · Archer · TritonRL verifiers · FlashInfer-Bench  
    Missing: shared admit product + trusted deterministic fallback
 
 3. **T3 Control files + replay** → C2, C5  

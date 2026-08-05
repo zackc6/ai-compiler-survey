@@ -1,8 +1,11 @@
-# Slide 14: Checkpoints C3 / C6 / C9 / C10 — interface width \& scope
+# Slide 14: Checkpoints C3 / C6 / C9 / C10 — interface width & scope
 
-Four flip conditions.
+Read four bands: title, Flip, consequence.
 
-C3: if a shared suite shows free rewrite winning, the API widens; otherwise stay on narrow ACF and hints.
-C6: if production defaults with no admit path, rewrite the survey baseline; today we hold C6-B, control plane over replace.
-C9: if a TritorX to KernelEvolve ladder goes public, sell coverage SLA then performance SLA.
-C10: codesign feedback is real; autonomous tape-out is not. Flip only if microarch is primarily agent-proposed and compiler-oracle validated enough to enter EDA.
+**C3** free rewrite vs advisory — Flip: shared suite where free rewrite wins → wide rewrite API vs narrow ACFs/hints (current lean: advisory).
+
+**C6** replace vs control plane — Flip: production default with no admit → agents replaced the compiler (survey rejects; hold hybrid).
+
+**C9** coverage vs peak — Flip: TritorX → KernelEvolve ladder goes public → SKU: coverage SLA then performance SLA.
+
+**C10** codesign vs auto tape-out — Flip: microarch primarily agent-proposed and compiler-oracle validated → enters chip-design tooling (today: agents stress kernels/IR only).
