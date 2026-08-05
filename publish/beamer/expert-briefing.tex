@@ -99,12 +99,12 @@
   phaseMute/.style={draw=Mute,fill=Mute!12,rounded corners=6pt,minimum width=3.4cm,minimum height=2.6cm,text width=3.0cm,align=center,font=\sffamily\small},
   phaseAmber/.style={draw=Amber,fill=Amber!12,rounded corners=6pt,minimum width=3.4cm,minimum height=2.6cm,text width=3.0cm,align=center,font=\sffamily\small},
   phaseOk/.style={draw=Ok,fill=Ok!12,rounded corners=6pt,minimum width=3.4cm,minimum height=2.6cm,text width=3.0cm,align=center,font=\sffamily\small},
-  trendSteel/.style={draw=Steel,fill=Steel!10,rounded corners=4pt,minimum width=3.7cm,minimum height=1.55cm,text width=3.4cm,align=center,font=\sffamily\scriptsize},
-  trendAmber/.style={draw=Amber,fill=Amber!10,rounded corners=4pt,minimum width=3.7cm,minimum height=1.55cm,text width=3.4cm,align=center,font=\sffamily\scriptsize},
-  trendEmber/.style={draw=Ember,fill=Ember!10,rounded corners=4pt,minimum width=3.7cm,minimum height=1.55cm,text width=3.4cm,align=center,font=\sffamily\scriptsize},
-  trendInk/.style={draw=Ink,fill=Ink!8,rounded corners=4pt,minimum width=3.7cm,minimum height=1.55cm,text width=3.4cm,align=center,font=\sffamily\scriptsize},
-  trendOk/.style={draw=Ok,fill=Ok!10,rounded corners=4pt,minimum width=3.7cm,minimum height=1.55cm,text width=3.4cm,align=center,font=\sffamily\scriptsize},
-  trendMute/.style={draw=Mute,fill=Mute!10,rounded corners=4pt,minimum width=3.7cm,minimum height=1.55cm,text width=3.4cm,align=center,font=\sffamily\scriptsize},
+  trendSteel/.style={draw=Steel,fill=Steel!10,rounded corners=4pt,minimum width=4.85cm,minimum height=2.85cm,text width=4.5cm,align=left,font=\sffamily\tiny,inner sep=5pt},
+  trendAmber/.style={draw=Amber,fill=Amber!10,rounded corners=4pt,minimum width=4.85cm,minimum height=2.85cm,text width=4.5cm,align=left,font=\sffamily\tiny,inner sep=5pt},
+  trendEmber/.style={draw=Ember,fill=Ember!10,rounded corners=4pt,minimum width=4.85cm,minimum height=2.85cm,text width=4.5cm,align=left,font=\sffamily\tiny,inner sep=5pt},
+  trendInk/.style={draw=Ink,fill=Ink!8,rounded corners=4pt,minimum width=4.85cm,minimum height=2.85cm,text width=4.5cm,align=left,font=\sffamily\tiny,inner sep=5pt},
+  trendOk/.style={draw=Ok,fill=Ok!10,rounded corners=4pt,minimum width=4.85cm,minimum height=2.85cm,text width=4.5cm,align=left,font=\sffamily\tiny,inner sep=5pt},
+  trendMute/.style={draw=Mute,fill=Mute!10,rounded corners=4pt,minimum width=4.85cm,minimum height=2.85cm,text width=4.5cm,align=left,font=\sffamily\tiny,inner sep=5pt},
   okbox/.style={draw=Ok,fill=Ok!10,rounded corners=4pt,minimum width=2.5cm,minimum height=0.7cm,font=\sffamily\scriptsize\bfseries,align=center},
   watchbox/.style={draw=Amber,fill=Amber!12,rounded corners=4pt,minimum width=2.5cm,minimum height=0.7cm,font=\sffamily\scriptsize\bfseries,align=center},
   handSteel/.style={draw=Steel,fill=Steel!8,rounded corners=5pt,minimum width=3.7cm,minimum height=3.7cm,text width=3.35cm,align=left,font=\sffamily\scriptsize,inner sep=7pt},
@@ -240,20 +240,57 @@
 
 % ============================================================
 % 4 Six trends
-\begin{frame}{Six active trends}
+\begin{frame}{Six active trends (\S1.3)}
 \begin{center}
+\vspace{-0.55em}
 \begin{tikzpicture}
-\node[trendSteel] at (-4.0,1.55) {\textbf{A Hybrid guidance}\par free IR rewrite fragile\par constrain action space};
-\node[trendAmber] at (0.0,1.55) {\textbf{B RL $\rightarrow$ agents}\par tools $\cdot$ heuristics\par workflow-compile};
-\node[trendEmber] at (4.0,1.55) {\textbf{C MLIR + Triton}\par peak often still\par vendor libs / Tile};
-\node[trendInk] at (-4.0,-0.55) {\textbf{D Kernel agents}\par industrial $\cdot$ KernelBench hard};
-\node[trendOk] at (0.0,-0.55) {\textbf{E Verify in loop}\par local formal $\gg$\par whole-program GPU / floating-point};
-\node[trendMute] at (4.0,-0.55) {\textbf{F Broader object}\par FMware $\cdot$ mid-decode\par agents as eng};
+\node[trendSteel] at (-5.15,1.35) {%
+  \textbf{\color{Steel}A --- Hybrid guidance}\par\vspace{0.12em}
+  Free IR rewrite is fragile\par
+  (mlirAgent $<$ identity)\par\vspace{0.08em}
+  Constrain the action space:\par
+  advisory metadata $\cdot$ validated hints\par
+  pass lists for \texttt{opt} to apply\par
+  {\color{Mute}AgentCompile / HintPilot / LLM Compiler}};
+\node[trendAmber] at (0,1.35) {%
+  \textbf{\color{Amber}B --- RL $\rightarrow$ agents}\par\vspace{0.12em}
+  From CompilerGym policies to\par
+  tool-using / multi-agent loops\par\vspace{0.08em}
+  Heuristic synthesis as shippable C++\par
+  Workflow compile $\cdot$ freeze $\cdot$ place\par
+  {\color{Mute}Compiler-R1 / Magellan / FlowCompile}};
+\node[trendEmber] at (5.15,1.35) {%
+  \textbf{\color{Ember}C --- MLIR + Triton substrate}\par\vspace{0.12em}
+  PyTorch $\rightarrow$ Inductor $\rightarrow$ Triton\par
+  Parallel: StableHLO $\rightarrow$ XLA / IREE\par\vspace{0.08em}
+  Peak often still vendor libs\par
+  Tile / CUTLASS / FlashAttention\par
+  {\color{Mute}MLIR shared; product paths diverge}};
+\node[trendInk] at (-5.15,-1.65) {%
+  \textbf{D --- Kernel agents industrial}\par\vspace{0.12em}
+  KernelBench: correct \emph{and} faster\par
+  One-shot often $<$20\%; fusion hard\par\vspace{0.08em}
+  GEAK / KernelLLM / AgentCompile\par
+  Refinement $\uparrow$ correctness, not always speed\par
+  {\color{Mute}Bottleneck for new models + portability}};
+\node[trendOk] at (0,-1.65) {%
+  \textbf{\color{Ok}E --- Verify in the loop}\par\vspace{0.12em}
+  Unit / golden $\rightarrow$ numerical checks\par
+  $\rightarrow$ Alive2-class local formal\par\vspace{0.08em}
+  Strong locally; weak on GPU races\par
+  and floating-point nondeterminism\par
+  {\color{Mute}Admit needs a stacked oracle ladder}};
+\node[trendMute] at (5.15,-1.65) {%
+  \textbf{F --- Broader compile object}\par\vspace{0.12em}
+  Mid-decode diagnosis (generative)\par
+  FMware: prompts / agents / knobs\par\vspace{0.08em}
+  Agents as compiler engineers\par
+  Heuristics rewritten in-tree\par
+  {\color{Mute}Compiler.next / Magellan / Claude C}};
 \end{tikzpicture}
 \end{center}
 \end{frame}
 
-% ============================================================
 % 5 Keep substrate / change control plane
 \begin{frame}{Keep substrate, change control plane}
 \begin{center}

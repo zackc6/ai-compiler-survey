@@ -11,7 +11,7 @@ Presenter notes that are **intentionally spoken but not shown** on slides:
 | 1 | [`slide-01.md`](slide-01.md) | Title — Next-Gen AI Compiler |
 | 2 | [`slide-02.md`](slide-02.md) | Agenda |
 | 3 | [`slide-03.md`](slide-03.md) | Trend Backdrop — Two Stacks Converging |
-| 4 | [`slide-04.md`](slide-04.md) | Six Active Trends |
+| 4 | [`slide-04.md`](slide-04.md) | Six Active Trends (§1.3) |
 | 5 | [`slide-05.md`](slide-05.md) | Keep Substrate, Change Control Plane |
 | 6 | [`slide-06.md`](slide-06.md) | Executive Verdict |
 | 7 | [`slide-07.md`](slide-07.md) | Four Agent Jobs — Architecture Spine |
