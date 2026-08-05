@@ -1,6 +1,6 @@
 # Next-Gen AI Compiler Survey
 
-**Last updated:** 2026-08-05 (§5.8 evidence refresh — FlashInfer-Bench, KernelBook/TritonRL/DRTriton, mlir-opt-repl, VibeServe)  
+**Last updated:** 2026-08-05 (post-§5.8 alignment pass — goal/prediction still hybrid; thin consistency fixes)  
 **Evidence store:** [`../reference/README.md`](../reference/README.md) → publications · products · repos  
 **Status:** [`../STATUS.md`](../STATUS.md)
 
@@ -26,7 +26,7 @@ Everything else (papers, GitHub/Gerrit, commercial SKUs, forums, ASIC bring-up s
 
 > **Agents own semantic search, orchestration, and artifact synthesis. Compilers own lowering, legality, measurement, and fallback.**
 
-Agents reshape the **control plane** more than they replace the **data plane**. A fourth job — **accelerator bring-up / codesign feedback** on sim+silicon — is now Tier A evidence (TritorX, KernelEvolve), still centered on kernels/IR/oracles. See [§5](#5-future-prediction-what-next-gen-looks-like) (architecture §5.1, roadmap §5.5, stack §5.6), [§6](#6-conflicts-keep-unresolved-until-evidence-settles), [§4](#4-whats-missing--under-covered-q4).
+Agents reshape the **control plane** more than they replace the **data plane**. A fourth job — **accelerator bring-up / codesign feedback** on sim+silicon — is now Tier A evidence (TritorX, KernelEvolve), still centered on kernels/IR/oracles. See [§5](#5-future-prediction-what-next-gen-looks-like) (architecture §5.1, roadmap §5.5, stack §5.6, commercial §5.7, techniques §5.8), [§6](#6-conflicts-keep-unresolved-until-evidence-settles), [§4](#4-whats-missing--under-covered-q4).
 
 **Sub-agent substrate (in scope).** Multi-agent **workflow compilers**, **AGI compilers** that freeze agent graphs into deployable artifacts, **static analysis of agent DAGs**, and **heterogeneous agent serving** are first-class evidence for how the control plane is built, secured, and productized—not side topics. Digests: [Auto](../reference/publications/auto-agi-compiler.md), [FlowCompile](../reference/publications/flowcompile.md), [AgentFlow](../reference/publications/agentflow.md), [Heterogeneous agentic AI](../reference/publications/agentic-ai-hetero-systems.md).
 
@@ -362,7 +362,7 @@ Split **offline** compiler-engineering agents (Magellan-style heuristic synthesi
 
 ## 4. What’s missing / under-covered? (Q4)
 
-The gaps below are not a separate “wishlist”—they are the **blockers to the [§5](#5-future-prediction-what-next-gen-looks-like) predicted future** (agent-addressable data plane, three agent jobs, first-class artifacts, classical defaults until CI proves agents). Coverage is uneven. Each gap spells out **what exists**, **what is missing**, **why it blocks that future**, and **what “done” could look like**. Digests: [`../reference/publications/`](../reference/publications/). Evidence maps (Tier A/B/C): [`../reference/repos.md`](../reference/repos.md), [`../reference/products.md`](../reference/products.md).
+The gaps below are not a separate “wishlist”—they are the **blockers to the [§5](#5-future-prediction-what-next-gen-looks-like) predicted future** (agent-addressable data plane, **four** agent jobs (a–d), first-class artifacts, classical defaults until CI proves agents). Coverage is uneven. Each gap spells out **what exists**, **what is missing**, **why it blocks that future**, and **what “done” could look like**. Digests: [`../reference/publications/`](../reference/publications/). Evidence maps (Tier A/B/C): [`../reference/repos.md`](../reference/repos.md), [`../reference/products.md`](../reference/products.md).
 
 ### Gap map (priority snapshot)
 
@@ -480,7 +480,7 @@ Dialects, Triton, CUDA Tile IR, PTX, and LLVM IR remain siloed; an agent tuned o
 
 ### 4.6 FMware / agent-app compilation
 
-**What exists.** Compiler.next vision: compile prompts, agent topologies, and free parameters under multi-objective quality gates; generative compilation couples compilers into coding agents; industry agent harnesses (Claude C compiler) stress test construction. Concrete substrate is arriving: [FlowCompile](../reference/publications/flowcompile.md) (compile-time optimize structured LLM workflows), [Auto](../reference/publications/auto-agi-compiler.md) (freeze witnessed-deterministic agent spans into WASM “cognition binaries”), [AgentFlow](../reference/publications/agentflow.md) (Agent Dependency Graphs for static analysis), and [heterogeneous agent serving](../reference/publications/agentic-ai-hetero-systems.md) (place dynamic agent graphs across CPU/accelerator tiers).
+**What exists.** Compiler.next vision: compile prompts, agent topologies, and free parameters under multi-objective quality gates; generative compilation couples compilers into coding agents; industry agent harnesses (Claude C compiler) stress test construction. Concrete substrate is arriving: [FlowCompile](../reference/publications/flowcompile.md) (compile-time optimize structured LLM workflows), [Auto](../reference/publications/auto-agi-compiler.md) (freeze witnessed-deterministic agent spans into WASM “cognition binaries”), [AgentFlow](../reference/publications/agentflow.md) (Agent Dependency Graphs for static analysis), [heterogeneous agent serving](../reference/publications/agentic-ai-hetero-systems.md) (place dynamic agent graphs across CPU/accelerator tiers), and [VibeServe](../reference/publications/vibeserve.md) (agentic end-to-end serving-stack synthesis with accuracy/perf judges).
 
 **What is missing.** Mature analogues of DL compilers for FMware:
 
@@ -555,6 +555,7 @@ Dialects, Triton, CUDA Tile IR, PTX, and LLVM IR remain siloed; an agent tuned o
 | CompilerGym / Autophase-style | LLVM IR size / pass RL | Not GPU serving |
 | PolyBench / HumanEval-CPP (+ HintPilot) | CPU runtime with hints | Not IR agents or kernels |
 | KernelBench / KernelBench-X / TritonBench | GPU kernel correct+fast | Not full serving graphs |
+| [FlashInfer-Bench](../reference/publications/flashinfer-bench.md) | Serving-trace kernels → leaderboard → `apply()` into SGLang/vLLM | FlashInfer-operator families, not IR→fused→full-graph ladder / cost-to-compile |
 | Paper-specific serving kernels | Attention/MoE/MLP slices | Not comparable across papers |
 | Vendor internal suites | Production truth | Closed |
 
@@ -715,7 +716,7 @@ From Magellan LLVM Dev Meeting slides ([digest](../reference/publications/magell
 
 ### 5.5 Roadmap — Horizon A (2027–28) and Horizon B (~2029–31)
 
-Falsifiable sketch conditioned on C1–C10. Architecture target is [§5.1](#51-architecture); commercialization packaging is [§5.7](#57-from-prediction-to-commercial-practice--critical-problems); layer map is [§5.6](#56-stack-reshape-sw--hw-codesign).
+Falsifiable sketch conditioned on C1–C10. Architecture target is [§5.1](#51-architecture); commercialization packaging is [§5.7](#57-from-prediction-to-commercial-practice--critical-problems); layer map is [§5.6](#56-stack-reshape-sw--hw-codesign); techniques that accelerate checkpoints are [§5.8](#58-technical-prediction--techniques-that-accelerate-the-roadmap).
 
 **Executive 5-year bet (still agentic-compiler-centric):** classical data planes remain; agentic control planes become how orgs survive O(ops × devices × generations). HW codesign appears as **sim/silicon feedback into IR/ISA/dialects**, not autonomous tape-out (**C10**). New artifacts (ACFs, heuristics, memories, bring-up corpora) sit beside binaries in VCS — and, later, frozen agent workflows when the control plane itself is compiled.
 
@@ -1283,7 +1284,7 @@ Adjacent agent-production work stresses **deterministic boundaries** and moving 
 | **T7** | **Open multi-IR corpora (+ negative data)** | Meta LLM Compiler (LLVM-heavy); **[KernelBook](../reference/publications/kernelbook.md)** (~18k torch↔Triton) → KernelLLM / [TritonRL](../reference/publications/tritonrl.md); [DRTriton](../reference/publications/drtriton.md) CSP-DAG synthetic 100k; Compiler-R1; CompilerGym; mostly-closed MLGO corpora | Versioned MLIR / Tile / StableHLO corpora with performance labels **and** failed compiles / miscompiles / slow-but-correct negatives for critics (Triton positives improved; multi-IR + negatives still thin) | Selector/Generator quality beyond LLVM-centric models; §4.7 |
 | **T8** | **Unified benchmark ladder** | Fragmented: CompilerGym, PolyBench/hints, KernelBench(-X); **FlashInfer-Bench** closes a serving-kernel rung (real traces → leaderboard → deploy); closed vendor suites | Shared ladder IR → single kernel → fused region → full serving graph, reporting **correctness × speed × cost-to-compile** under fixed HW profiles (FlashInfer-Bench is necessary but not the full ladder) | Honest **C2**/**C9** comparison; kills single-kernel theater; §4.10 |
 | **T9** | **Provenance, ownership, human-review process** | Magellan reviewable C++; Archer oracle review; sparse signing/SBOM discussion; VibeServe git-checkpoint history | Named CODEOWNERS for agent artifacts; signed admit records (model, tools, oracles, digest); sandbox policy for untrusted proposals; review-capacity metrics | Trusted-base shipping; C7; P6/P16; §4.8–4.9 |
-| **T10** | **Agent-workflow compile / freeze / place** (control-plane substrate) | FlowCompile, Auto (freeze spans), AgentFlow (agent dependency graphs), hetero agent serving placement; [VibeServe](../reference/publications/vibeserve.md) end-to-end serving-stack synthesis | Shared agent-graph IR; fail-closed quality gates; placement under spend/latency targets; CI that regresses multi-agent compiler products | Horizon **B** control-plane compile; P3/P22; §4.6 |
+| **T10** | **Agent-workflow compile / freeze / place** (control-plane substrate) | FlowCompile, Auto (freeze spans), AgentFlow (agent dependency graphs), hetero agent serving placement; [VibeServe](../reference/publications/vibeserve.md) end-to-end serving-stack synthesis — early evidence **now** (§0.1 / §5.1) | Shared agent-graph IR; fail-closed quality gates; placement under spend/latency targets; CI that regresses multi-agent compiler products (**productization** → Horizon **B**) | Horizon **B** control-plane compile; P3/P22; §4.6 |
 
 #### 5.8.3 Checkpoint → technique map
 
@@ -1313,9 +1314,7 @@ If an org or research program can fund only a few technique bets to accelerate H
 
 This section records **disagreements across papers, vendor blogs, OSS repos, and forums** that matter for predicting the next-generation AI compiler and how agents change that future. We do **not** force a premature resolution; each conflict states both sides, why it matters for the prediction, and what would settle it.
 
-Evidence maps: [`../reference/products.md`](../reference/products.md) · [`../reference/repos.md`](../reference/repos.md).
-
-This page records **disagreements across papers, vendor blogs, OSS repos, and forums** that matter for predicting the next-generation AI compiler and how agents change that future. We do **not** force a premature resolution; each conflict states both sides, why it matters for the prediction, and what would settle it.
+Evidence maps: [`../reference/products.md`](../reference/products.md) · [`../reference/repos.md`](../reference/repos.md). Technique accelerators for settlement: [§5.8](#58-technical-prediction--techniques-that-accelerate-the-roadmap).
 
 ---
 
@@ -1351,9 +1350,9 @@ This page records **disagreements across papers, vendor blogs, OSS repos, and fo
 | **A — Strong commercial wins** | NVIDIA CompileIQ blog (Meta up to ~15% on TritonBench/Helion); AMD GEAK v3 blogs (repo-level HIP/Triton/FlyDSL); AlphaEvolve Cloud GA | Agent/autotune control planes already deliver meaningful production speedups |
 | **B — Hard ceilings & regressions** | CompileIQ docs (often **2–3%** on highly optimized kernels); KernelBench / KernelBench-X (many correct kernels slower than eager; refine↑correctness can ↓avg speedup; fusion hard) | Headline speedups are workload-selected; iterative agents can chase correctness at the cost of performance |
 
-**Why it matters.** Prediction of “agents become default compile” needs median/CI wins, not only cherry-picked kernels. Overclaiming delays investment in oracles and traces (§4.2–4.3).
+**Why it matters.** Prediction of “agents become default compile” needs median/CI wins, not only cherry-picked kernels. Overclaiming delays investment in oracles and traces (§4.2–4.3). [FlashInfer-Bench](../reference/publications/flashinfer-bench.md) raises serving-trace measurement *pressure* (T6/T8) but does **not** settle C2 — still operator-family scoped, not multi-month default-path A/B with p50/p90 + cost-to-compile.
 
-**Settlement signal.** Reproducible public ACF/kernel agent traces with fixed compiler versions, reporting **distribution** (p50/p90) not only best case; KernelBench-X-style fusion suites remain unsolved or get solved.
+**Settlement signal.** Reproducible public ACF/kernel agent traces with fixed compiler versions, reporting **distribution** (p50/p90) not only best case; KernelBench-X-style fusion suites remain unsolved or get solved; FlashInfer-class serving traces report distributions under pinned HW/compiler.
 
 ---
 
@@ -1488,7 +1487,7 @@ Status: **Supported** · **Contested** · **Watch** · **Falsified**
 |---|---|---|---|---|
 | A1 | Agents own search/orchestration/synthesis; compilers own lowering, legality, measure, fallback | Supported | ACCLAIM, AgentCompile, HintPilot, mlirAgent (negative) | C3, C6 |
 | A2 | Four agent jobs stick: (a) online, (b) offline heuristics, (c) engineering/review, (d) bring-up/codesign | Supported | (a) CompileIQ/GEAK/AutoKernel; (b) Magellan; (c) Archer; (d) TritorX/KernelEvolve | C5, C9 |
-| A3 | ACFs, evolved heuristics, verified kernels, optimization memory, bring-up corpora become first-class artifacts | Supported | CompileIQ, Magellan, KernelBlaster, TritorX | — |
+| A3 | ACFs, evolved heuristics, verified kernels, optimization memory, bring-up corpora become first-class artifacts | Supported | CompileIQ, Magellan, KernelBlaster, TritorX, FlashInfer Trace/`apply()` | — |
 | A4 | Defaults stay classical until agents win on *distributions* in CI | Contested | Vendor blogs vs CompileIQ 2–3% docs, KernelBench-X | C2 |
 | A5 | Unconstrained LLM will not replace `opt`/Inductor soon | Supported | mlirAgent; hybrid Tier A dominance | C3, C6 |
 
@@ -1519,7 +1518,7 @@ Status: **Supported** · **Contested** · **Watch** · **Falsified**
 |---|---|---|
 | Public Magellan llvm + OpenEvolve recipes | C1 | magellan, openevolve |
 | EmitC-MLGO default on Android/Chrome (PoR advancing: internal inliner → Android/Fuchsia → Chrome multi-model) | C1 | mlgo-emitc-rfc, mlgo-emitc-sync-2026-06 |
-| p50/p90 public ACF/kernel traces | C2 | compileiq-*, kernelbench-x |
+| p50/p90 public ACF/kernel traces (+ serving-trace distributions) | C2 | compileiq-*, kernelbench-x, flashinfer-bench |
 | Second non-Meta ASIC reproduces TritorX-class coverage | C9 | tritorx |
 | Agent IR contract where free rewrite beats advisors | C3 | acclaim vs hintpilot/agentcompile |
 | MOCHA / Compiler 2.0 OSS + verified rewrite evals | A1, H1, S4 | compiler-2.0-mocha-aarno, compiler-2.0-cgo2026 |
@@ -1591,7 +1590,9 @@ New source
   │     YES → out of scope (unless it feeds compiler codesign claims H*)
   ├─ Conflicts with §6 / §7 claims?
   │     YES → update §6 Conflicts first (never average)
-  └─ Moves SURVEY §5?
+  ├─ Closes a §5.8 T* “missing” cell (oracles, schemas, ladder, corpora, …)?
+  │     YES → thin-update §5.8 exists/missing + digest ★ if prediction-critical
+  └─ Moves SURVEY §5 architecture/roadmap/stack/commercial?
         YES → §7 Claims + narrative; else digest+INDEX+STATUS only
 ```
 
@@ -1602,10 +1603,10 @@ New source
 3. INDEX row with Org/Publisher columns (★ only for prediction-critical)  
 4. §6 Conflicts if disagreeing  
 5. §7 Claims if prediction moves  
-6. Thin touch to SURVEY §5  
+6. Thin touch to SURVEY §5 (incl. **§5.8** T-table when technique evidence lands)  
 7. `reference/repos.md` / `reference/products.md` / §8 Systems if mechanism new  
 8. STATUS changelog  
-9. `python3 scripts/validate_survey.py`
+9. `python3 scripts/validate_survey.py` → `git push origin main`
 
 ### Depth
 
