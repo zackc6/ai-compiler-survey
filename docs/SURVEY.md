@@ -1,6 +1,6 @@
 # Next-Gen AI Compiler Survey
 
-**Last updated:** 2026-08-05 (§5.1.1–5.1.2: how many abstraction layers + plugins if not consolidated)  
+**Last updated:** 2026-08-05 (§5.1.1: one universal cost model — feasibility + size)  
 **Evidence store:** [`../reference/README.md`](../reference/README.md) → publications · products · repos  
 **Status:** [`../STATUS.md`](../STATUS.md)
 
@@ -703,6 +703,16 @@ A fifth band — **CPU/legacy LLVM pipelines** (PGO, MLGO advisors) — remains 
 3. **Cost models stay local.** Classical Ansor/MetaSchedule, MLGO advisors, and MOCHA’s data-frugal cost models improve *within* a pass family or rewrite system. They do not historically transfer as one model from graph fusion → Triton tile → regalloc → serving A/B. Agents amplify search *at a level*; they do not dissolve the levels.
 4. **“One agent IR” is already contested.** Portable agent *contracts* (summaries, actions, admit records — T1 / §4.4) are desirable; a single executable IR that replaces StableHLO+MLIR+Triton+Tile is not the Horizon A bet (**C4**, S2).
 5. **Collapse path that *is* allowed.** Offline job (b) can *compile away* some online search into shippable heuristics/advisors so users never see the LLM — but the **runtime data plane** still lowers through classical bands with admit/fallback.
+
+**Can one model cover *all* passes — including future ones? How large?**
+
+| Ask | Survey answer |
+|---|---|
+| Train **one** model that *ranks* candidate moves across many sinks? | **Partially yes** as a *prior / proposer* (LLM-class control-plane skill), not as the admit gate. Meta LLM Compiler–scale IR pretrain already shows broad *fluency*; mlirAgent shows fluency ≠ safe free rewrite. |
+| Train **one** model that *replaces* legality + layered oracles + all pass families? | **No for Horizon A** — different labels, oracles, and non-stationary HW/ISA (point 1–3 above). |
+| Cover **future** passes / new ISAs / new cluster collectives? | **Not by one frozen train.** Future ops need **continual / plugin cost models** (per-band advisors + new oracle plugins). A universal weights file cannot predict unmeasured HW behaviors without new labels. |
+| **How large** if someone still tries a “global ranking” prior? | **Parameter count is not the bottleneck.** Shipping local advisors are often **KB–MB** (MLGO-class nets / Ansor cost models). A cross-band *proposer* looks like a **code/IR LLM**: ~**7B–70B+** params and **10¹¹–10¹²-token-class** corpora (Meta LLM Compiler: hundreds of billions of IR/asm tokens) — still only a prior. Making it an *accurate multi-objective cost oracle* across L1–L7 would need **orders of magnitude more labeled (program, action, HW, energy, serving-SLO) tuples** than exist publicly, refreshed every HW/SKU change. |
+| Practical size bet | Keep **small local cost models / advisors per band** (often ≪1B, often classical or tiny NN) + **optional large LLM orchestrator**; do not size one mega-cost-model to “eat” L1–L7. |
 
 **What agents *can* unify (control plane, not data plane).**
 
