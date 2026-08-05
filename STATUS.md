@@ -43,6 +43,7 @@ Last updated: **2026-08-05**
 
 | Date | Change |
 |---|---|
+| 2026-08-05 | Skill harden: **push `main` only** section overrides cloud `cursor/*`+PR defaults; SETUP_GITHUB notes match |
 | 2026-08-05 | §5.8 evidence search: +7 digests (FlashInfer-Bench★, KernelBook★, TritonRL, DRTriton, mlir-opt-repl RFC, VibeServe); thin-update T1–T3/T6–T10 exists cells; INDEX **115** |
 | 2026-08-05 | SURVEY **§5.8 Technical prediction**: techniques within/outside compiler, critical missing parts, checkpoint→technique map (T1–T10); slides deferred until settled |
 | 2026-08-05 | Beamer **Technical Prediction** section: in/out-of-compiler techniques, missing parts, checkpoint unlock map (37 slides) |
