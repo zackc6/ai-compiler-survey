@@ -313,27 +313,27 @@
 % 6 Executive verdict
 \begin{frame}{Executive verdict}
 \begin{center}
-\vspace{-0.2em}
+\vspace{-0.25em}
 \begin{tikzpicture}
-% Banded layout: headline → glosses (clear gap) → columns --- no box-on-text
+% Bands with measured gaps: headline → gloss chips → body columns
 \node[text width=0.92\textwidth,align=center,font=\ebgaramond\large\bfseries,Ink]
-  (verdict) at (0,2.55) {
+  at (0,2.60) {
   Agents reshape the \textcolor{Steel}{control plane}\par
   more than they replace the \textcolor{Amber}{data plane}.
 };
-\node[draw=Steel,fill=Steel!8,rounded corners=3pt,inner sep=3pt,font=\sffamily\tiny,anchor=north]
+\node[draw=Steel,fill=Steel!8,rounded corners=3pt,inner sep=3pt,font=\sffamily\tiny]
   at (-3.3,1.55) {\textbf{\color{Steel}Control plane:} search / orchestrate / synthesize};
-\node[draw=Amber,fill=Amber!8,rounded corners=3pt,inner sep=3pt,font=\sffamily\tiny,anchor=north]
+\node[draw=Amber,fill=Amber!8,rounded corners=3pt,font=\sffamily\tiny,inner sep=3pt]
   at (3.3,1.55) {\textbf{\color{Amber}Data plane:} lower / legality / measure / fallback};
 
-\node[nodeSteel] (a) at (-3.3,0.55) {Compilers for AI \,$\times$\, AI for compilers};
-\node[nodeAmber] (b) at (-3.3,-0.55) {Hybrid LLM--compiler loops};
-\node[nodeEmber] (c) at (-3.3,-1.65) {4th job Tier A: bring-up / codesign};
-% Edge-to-edge only --- never draw through node text
+% Body starts well below gloss bottoms (~1.35)
+\node[nodeSteel] (a) at (-3.3,0.35) {Compilers for AI \,$\times$\, AI for compilers};
+\node[nodeAmber] (b) at (-3.3,-0.75) {Hybrid LLM--compiler loops};
+\node[nodeEmber] (c) at (-3.3,-1.85) {4th job Tier A: bring-up / codesign};
 \draw[-{Latex},Steel,thick] (a.south) -- (b.north);
 \draw[-{Latex},Amber,thick] (b.south) -- (c.north);
 
-\node[verdictBox,anchor=north] at (3.3,0.75) {
+\node[verdictBox,anchor=north] at (3.3,0.55) {
   \textbf{\color{Ember}Will not happen soon}\par\vspace{0.35em}
   \textbullet\ Unconstrained LLM replaces Inductor / \texttt{opt}\par\vspace{0.25em}
   \textbullet\ Autonomous chip tape-out via compiler agents (C10)
