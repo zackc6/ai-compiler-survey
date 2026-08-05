@@ -43,6 +43,7 @@ Last updated: **2026-08-05**
 
 | Date | Change |
 |---|---|
+| 2026-08-05 | SURVEY §5.1.2: predict ~6–7 abstraction bands (roles + cluster/power); plugins if not consolidated; PDF rebuilt |
 | 2026-08-05 | SURVEY §5.1.1: how many data-plane abstractions vs one agent cost model; claims A6/S6; survey PDF rebuilt |
 | 2026-08-05 | Restore slides 4/9/11/12/23 pre-readability layouts (fix overlaps); 12 settlement clear below |
 | 2026-08-05 | Transcripts bilingual: `en/` + `zh-TW/` (37 slides); `translate_transcripts.py`; skill requires both langs |

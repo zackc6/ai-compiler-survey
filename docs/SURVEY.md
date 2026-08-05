@@ -1,6 +1,6 @@
 # Next-Gen AI Compiler Survey
 
-**Last updated:** 2026-08-05 (data-plane abstractions: how many vs one cost-model bet)  
+**Last updated:** 2026-08-05 (§5.1.1–5.1.2: how many abstraction layers + plugins if not consolidated)  
 **Evidence store:** [`../reference/README.md`](../reference/README.md) → publications · products · repos  
 **Status:** [`../STATUS.md`](../STATUS.md)
 
@@ -10,7 +10,7 @@
 3. Digests / SKUs / forges stay under [`reference/`](../reference/README.md) so the narrative does not become a catalog.  
 4. Maintainers: **§9** add-source loop; `python3 scripts/validate_survey.py`.
 
-**One-page success check:** (1) Predicted agentic compiler? → §5.1 / §5.5. (2) Four jobs + stack? → §5.1 / §5.6. (3) How many data-plane abstractions? → **§5.1.1**. (4) Evidence vs noise? → Tier A vs C + §6. (5) Commercial blockers? → §5.7. (6) Which techniques to enhance for the roadmap? → **§5.8**.
+**One-page success check:** (1) Predicted agentic compiler? → §5.1 / §5.5. (2) Four jobs + stack? → §5.1 / §5.6. (3) How many data-plane layers (+ plugins if not consolidated)? → **§5.1.1–5.1.2**. (4) Evidence vs noise? → Tier A vs C + §6. (5) Commercial blockers? → §5.7. (6) Which techniques to enhance for the roadmap? → **§5.8**.
 
 ---
 
@@ -717,7 +717,62 @@ A fifth band — **CPU/legacy LLVM pipelines** (PGO, MLGO advisors) — remains 
 - A production stack ships **default** lowering where a single agent-maintained cost model selects all passes/kernels **without** classical multi-level admit, and holds correctness + p50 gains for months (**would pressure C3/C6 and this subsection**).
 - A portable tile/HLO IR becomes the *only* agent training surface *and* peak path, retiring Triton-class DSLs for serious products (**would settle C4 toward one surface** — still not the same as one cost model over all `opt` passes).
 
-**Pointers.** Stack layers: [§5.6](#56-stack-reshape-sw--hw-codesign). Cross-stack contract gap: [§4.4](#44-cross-stack-interoperability). DSL conflict: [C4](#c4--kernel-dsl-future-triton-vs-cuda-tile-and-friends). Techniques: T1 (typed interfaces), T4 (heuristic hooks / advisors), T5 (dialect sinks).
+#### 5.1.2 Predicted abstraction inventory — how many layers, for what, and if they do not consolidate
+
+**Headline prediction (Horizon A → early B).** Expect about **six stable data-plane bands** (plus optional CPU/legacy), not one. Near-future concerns (cluster compilation, power/energy, multi-objective SLOs) mostly attach as **objectives + oracles + placement plugins** on those bands — they do **not** each invent a full parallel IR stack. If industry fails to consolidate a band, the workable path is **pluggable interfaces** (typed tools / dialect plugins / oracle plugins), not “wait for one IR.”
+
+##### Predicted bands (what they are *for*)
+
+| # | Band | Covers today’s compiler jobs | Near-future add-ons that land *here* (not a new stack) |
+|---|---|---|---|
+| **L1** | **Framework / graph capture** | Trace/export, dynamism, region cut, eager↔compile boundary | Speculative / conditional graphs; multi-model / MoE routing graphs |
+| **L2** | **Portable graph IR** (StableHLO-class) | Framework↔compiler portability; high-level fusion legality | Cross-framework reuse; first home for **sharding annotations** that stay portable |
+| **L3** | **Mid-IR / dialects** (MLIR, XLA/HLO internals, Inductor graph opts) | Layout, memory planning, pass pipelines, legality-preserving lowers | Auto-sharding *implementation*; pipeline/overlap schedules; **power/energy-aware** pass choice when counters exist; size vs speed tradeoffs |
+| **L4** | **Kernel DSL** (Triton / Helion / Tile / CuTe / HIP …) | Peak kernels, tile/schedule search (**C4**) | Power/perf kernels; fused serving kernels; device-family specials |
+| **L5** | **Backend / ISA / device** | PTX/SASS/LLVM MC, registers, barriers, bring-up | ISA/dialect RFCs from agent failures (job d); future-device sim sinks |
+| **L6** | **Runtime / serving execution** | CUDA Graphs, KV/decode paths, library kernels, freeze-for-serve | Continuous batching interactions; graph-level vs kernel-level admit; replay under serving oracles (T6) |
+| **L7\*** | **Fleet / cluster / multi-device** (*maturing*) | Today: often split across L2–L3 (SPMD/sharding) + runtime place | Collective schedules, hetero device placement, multi-node compile+deploy; agent **placement policies** (see hetero serving digests) |
+| **L0\*** | **CPU / legacy LLVM** (*optional path*) | PGO, inlining/regalloc, MLGO advisors, size-critical apps | Remains for non-GPU / host-side / Magellan-class heuristic sinks |
+
+\*L7 is the main **Horizon A–B growth band**: not always a brand-new IR today, but functionally required once “compilation” means **cluster placement + collectives**, not only single-GPU kernels. L0 stays when the product is not GPU-only.
+
+**Rough count to remember.**  
+- **Must-have for AI compilers today:** L1–L6 (**six**).  
+- **Must-have once cluster/hetero fleets are first-class:** L1–L7 (**seven**).  
+- **Optional:** L0 for CPU/size paths.  
+Agents (control plane) sit **above** these bands via tools; they do not replace the bands.
+
+##### What does *not* need its own IR band
+
+| Concern | Better home | Why |
+|---|---|---|
+| **Power / energy / carbon** | Objective + counters + admit oracle on L3–L6 (sometimes L7 place) | Same program representation; different reward / constraint. Needs HW energy APIs more than a “PowerIR.” |
+| **$/token, compile $**, latency SLOs | Control-plane policy + layered oracles (P4/P10/P18/P23) | Economics are admit/budget decisions, not a new lowering dialect |
+| **Safety / compliance / tenancy** | Provenance + sandbox + policy on admit records (P11/P13/P21) | Cross-cutting control-plane, not a data-plane rewrite level |
+| **Agent workflow itself** | Control-plane substrate (FlowCompile / Auto / AgentFlow) | Compiles the *agent graph*, not the neural graph ([§5.1](#51-architecture)) |
+
+##### If consolidated layers do **not** exist — other ways (plugins)
+
+When industry does **not** converge on a clean L2/L4/L7 IR, do **not** wait for unification. Predicted fallback (already the commercial lean for T1 / §4.4–4.5):
+
+| Plugin surface | What it standardizes | Analogy / evidence |
+|---|---|---|
+| **Agent compile interface** (summaries · actions · admit · artifact hash) | How control plane talks to *any* sink | PJRT-like RFC over MLIR/StableHLO/Triton tools (§4.4, T1) |
+| **Typed tool / MCP-class servers** | `compile` / `verify` / `bench` / `profile` / `place` with versioned I/O | mlirAgent, Archer, Compiler-R1, CompileIQ skills (§4.5, P1-C) |
+| **Dialect / backend plugins** | Vendor lowers register as plugins behind mid-IR | MLIR dialect ecosystem; Hexagon-MLIR-class bridges |
+| **Oracle plugins** | Pluggable legality / golden / Alive2 / serving A/B / energy | Layered admit (§4.2, T2/T6); FlashInfer-Bench-class rungs |
+| **Objective / cost plugins** | Local cost models or learned advisors *per band* (not one global) | MLGO advisors, MetaSchedule/Ansor-style, MOCHA data-frugal costs |
+| **Placement / fleet plugins** | Multi-device / cluster place+collective policies | Hetero agent serving; SPMD/sharding passes as optional modules on L2–L3 |
+
+**Survey lean.** Prefer **stable bands L1–L6 + maturing L7**, with **plugin interfaces** at the control↔data boundary, over waiting for a single consolidated IR that covers kernels + cluster + power. Consolidation is welcome *inside* a band (e.g. one dominant agent kernel DSL — **C4**); it is not required *across* bands.
+
+**Falsifiers for the inventory.**
+
+- Production AI stacks routinely ship with **≤3** bands and no distinct kernel DSL, yet hold peak + cluster + energy SLOs (**would collapse this inventory**).
+- A widely adopted **FleetIR** (or equivalent) becomes mandatory and separate from L2/L3 (**would promote L7 from “maturing/plugin” to full peer band sooner**).
+- Energy becomes a first-class IR dialect industry-wide rather than counters+objectives (**would add an L-power band** — not the current lean).
+
+**Pointers.** Stack reshape: [§5.6](#56-stack-reshape-sw--hw-codesign). Cross-stack + tools: [§4.4](#44-cross-stack-interoperability), [§4.5](#45-hardware-native-agent-interfaces). Commercial contract options: [§5.7 P1](#57-from-prediction-to-commercial-practice--critical-problems). Techniques: T1, T2, T5, T6, T10.
 
 ### 5.2 How agents change the future (process)
 
@@ -1510,7 +1565,7 @@ Evidence maps: [`../reference/products.md`](../reference/products.md) · [`../re
 5. Demote generic SCM AI plugins to Tier C evidence (C7).
 6. Keep DL-compiler products as **Tier B baselines**, not as the definition of next-gen (C8).
 7. Codesign via **coverage→perf agent ladder** on sim+silicon (C9); do **not** expand into autonomous EDA (C10-B).
-8. Keep **several data-plane abstraction bands**; unify agent *contracts*, not a single universal cost model over all passes ([§5.1.1](#511-how-many-data-plane-abstractions-one-cost-model-is-not-enough), A6/S6).
+8. Keep **~6–7 data-plane bands** (L1–L6 + maturing fleet L7); power/cluster as objectives/placement/oracles; if bands do not consolidate, ship **pluggable interfaces** ([§5.1.1](#511-how-many-data-plane-abstractions-one-cost-model-is-not-enough)–[§5.1.2](#512-predicted-abstraction-inventory--how-many-layers-for-what-and-if-they-do-not-consolidate), A6/S6).
 
 Update this section when a conflict gains a decisive public settlement.
 
@@ -1532,7 +1587,7 @@ Status: **Supported** · **Contested** · **Watch** · **Falsified**
 | A3 | ACFs, evolved heuristics, verified kernels, optimization memory, bring-up corpora become first-class artifacts | Supported | CompileIQ, Magellan, KernelBlaster, TritorX, FlashInfer Trace/`apply()` | — |
 | A4 | Defaults stay classical until agents win on *distributions* in CI | Contested | Vendor blogs vs CompileIQ 2–3% docs, KernelBench-X | C2 |
 | A5 | Unconstrained LLM will not replace `opt`/Inductor soon | Supported | mlirAgent; hybrid Tier A dominance | C3, C6 |
-| A6 | Data plane keeps multiple abstraction bands; agents unify contract/orchestration, not one universal cost model over all passes | Supported (lean) | §5.1.1; ACCLAIM multi-level; mlirAgent; level-local cost models | C3, C4, C6 |
+| A6 | Data plane keeps ~6–7 abstraction bands (L1–L6 + maturing fleet L7); agents unify contracts/plugins, not one universal cost model / one IR | Supported (lean) | §5.1.1–5.1.2; ACCLAIM multi-level; mlirAgent; T1/§4.4 plugins | C3, C4, C6 |
 
 ### Process & stack
 
@@ -1544,7 +1599,7 @@ Status: **Supported** · **Contested** · **Watch** · **Falsified**
 | S1 | Stack reshape is control-plane agentic over classical data plane | Supported | SURVEY §5.6 · A1 | C6 |
 | S4 | Custom ASIC TTM increasingly gated by agentic bring-up | Supported (industrial) | TritorX, KernelEvolve | **C9** |
 | S5 | Profilers/compiler internals become agent APIs | Watch | KernelEvolve MPP, Ascend hierarchical diagnosis | C3 |
-| S6 | Multiple data-plane abstractions remain; one agent cost model does not collapse the stack | Supported (lean) | §5.1.1 · A6 | C3, C4, C6 |
+| S6 | Multiple data-plane abstractions remain (~L1–L7); cluster/power attach as place/objectives/oracles; missing consolidation → pluggable interfaces | Supported (lean) | §5.1.1–5.1.2 · A6 | C3, C4, C6 |
 
 ### Codesign (still agentic-compiler-centric)
 
