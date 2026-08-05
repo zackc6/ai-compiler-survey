@@ -272,45 +272,42 @@
 % 5 Architecture target stack
 \begin{frame}{Architecture --- Target Stack (\S5.1)}
 \begin{center}
-\vspace{-0.5em}
-\begin{tikzpicture}[node distance=0.48cm]
-% Chain with fixed node-distance gaps --- arrows cannot collapse when text grows
-\node[planeMute,inner sep=4pt] (intent)
+\vspace{-0.9em}
+\begin{tikzpicture}[node distance=0.28cm]
+% Compact vertical chain --- codesign + invariant must remain inside the frame
+\node[planeMute,inner sep=3pt] (intent)
   {\textbf{Human / Product Intent} \;$\cdot$\; NL at edge $\cdot$ policy $\cdot$ budget};
-\node[planeSteel,inner sep=5pt,below=of intent] (ctrl) {%
-  \textbf{\color{Steel}Agent Control Plane}\par\vspace{0.05em}
-  {\scriptsize (a) online $\cdot$ (b) offline $\cdot$ (c) review $\cdot$ (d) bring-up}\par
-  {\scriptsize substrate: workflow compile $\cdot$ ADG $\cdot$ freeze $\cdot$ hetero place}};
-\node[planeAmber,inner sep=5pt,below=0.55cm of ctrl] (data) {%
-  \textbf{\color{Amber}Classical Data Plane} \;{\scriptsize(default path stays)}\par\vspace{0.04em}
-  {\scriptsize Framework $\rightarrow$ Inductor / XLA / MLIR / Triton / Tile / CuTe}\par
-  {\scriptsize legality $\cdot$ lowering $\cdot$ admit / fallback}};
-\node[hwLeaf,below=0.70cm of data] (vcs)
+\node[planeSteel,inner sep=3.5pt,below=0.26cm of intent] (ctrl) {%
+  \textbf{\color{Steel}Agent Control Plane}\par\vspace{0.02em}
+  {\scriptsize (a) online $\cdot$ (b) offline $\cdot$ (c) review $\cdot$ (d) bring-up
+  \;$\cdot$\; substrate: workflow compile / ADG / freeze / place}};
+\node[planeAmber,inner sep=3.5pt,below=0.36cm of ctrl] (data) {%
+  \textbf{\color{Amber}Classical Data Plane} \;{\scriptsize(default path stays)}\par\vspace{0.02em}
+  {\scriptsize Framework $\rightarrow$ Inductor / XLA / MLIR / Triton / Tile / CuTe
+  \;$\cdot$\; legality $\cdot$ lowering $\cdot$ admit / fallback}};
+\node[hwLeaf,minimum height=0.62cm,below=0.42cm of data] (vcs)
   {VCS Artifacts\par{\tiny ACF $\cdot$ kernels $\cdot$ memory}};
-\node[hwLeaf,left=0.55cm of vcs] (hw)
+\node[hwLeaf,minimum height=0.62cm,left=0.42cm of vcs] (hw)
   {GPU / NPU / ASIC\par{\tiny sim $\rightarrow$ silicon}};
-\node[hwLeaf,right=0.55cm of vcs] (srv)
+\node[hwLeaf,minimum height=0.62cm,right=0.42cm of vcs] (srv)
   {Serving Runtime\par{\tiny freeze for replay}};
-\node[planeEmber,inner sep=5pt,below=0.70cm of vcs] (cd)
+\node[planeEmber,inner sep=3.5pt,below=0.38cm of vcs] (cd)
   {\textbf{\color{Ember}Codesign Feedback} $\rightarrow$ ISA / dialect RFCs \;$\cdot$\; humans+EDA own tape-out (C10)};
-\draw[-{Latex},line width=1.15pt,Mute] (intent) -- (ctrl);
-\draw[-{Latex},line width=1.15pt,Steel] (ctrl) -- (data);
-\node[font=\sffamily\tiny,text=Steel,anchor=west]
-  at ($(ctrl.east |- {$(ctrl.south)!0.5!(data.north)$})+(0.12,0)$)
-  {typed tools $\cdot$ admit $\cdot$ oracles};
-\coordinate (fork) at ($(data.south)!0.45!(vcs.north)$);
-\draw[Amber,line width=1.15pt] (data.south) -- (fork);
-\draw[-{Latex},line width=1.15pt,Amber] (fork) -| (hw.north);
-\draw[-{Latex},line width=1.15pt,Amber] (fork) -- (vcs.north);
-\draw[-{Latex},line width=1.15pt,Amber] (fork) -| (srv.north);
-\draw[-{Latex},line width=1.15pt,Ember] (hw.south) -- (hw.south |- cd.north) -- ([xshift=-4.0cm]cd.north);
+\node[font=\sffamily\tiny,text=Mute,below=0.12cm of cd,text width=11.8cm,align=center] (inv)
+  {Invariant: LLM guides search --- does not silently define unchecked executable behavior.};
+\draw[-{Latex},line width=1.05pt,Mute] (intent) -- (ctrl);
+\draw[-{Latex},line width=1.05pt,Steel]
+  (ctrl) -- node[right,font=\sffamily\tiny,text=Steel,xshift=2pt]{typed tools $\cdot$ admit $\cdot$ oracles} (data);
+\coordinate (fork) at ($(data.south)!0.40!(vcs.north)$);
+\draw[Amber,line width=1.05pt] (data.south) -- (fork);
+\draw[-{Latex},line width=1.05pt,Amber] (fork) -| (hw.north);
+\draw[-{Latex},line width=1.05pt,Amber] (fork) -- (vcs.north);
+\draw[-{Latex},line width=1.05pt,Amber] (fork) -| (srv.north);
+\draw[-{Latex},line width=1.05pt,Ember] (hw.south) -- (hw.south |- cd.north) -- ([xshift=-4.0cm]cd.north);
 \end{tikzpicture}
 \end{center}
-\vspace{-0.45em}
-{\footnotesize\color{Mute}\centering Invariant: LLM Guides Search --- Does Not Silently Define Unchecked Executable Behavior.\par}
 \end{frame}
 
-% ============================================================
 % 6 Architecture evolution
 \begin{frame}{Architecture evolution --- Today $\rightarrow$ A $\rightarrow$ B}
 \begin{center}
