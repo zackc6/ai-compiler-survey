@@ -1,6 +1,6 @@
 # Next-Gen AI Compiler Survey
 
-**Last updated:** 2026-08-05 (post-§5.8 alignment pass — goal/prediction still hybrid; thin consistency fixes)  
+**Last updated:** 2026-08-05 (data-plane abstractions: how many vs one cost-model bet)  
 **Evidence store:** [`../reference/README.md`](../reference/README.md) → publications · products · repos  
 **Status:** [`../STATUS.md`](../STATUS.md)
 
@@ -10,7 +10,7 @@
 3. Digests / SKUs / forges stay under [`reference/`](../reference/README.md) so the narrative does not become a catalog.  
 4. Maintainers: **§9** add-source loop; `python3 scripts/validate_survey.py`.
 
-**One-page success check:** (1) Predicted agentic compiler? → §5.1 / §5.5. (2) Four jobs + stack? → §5.1 / §5.6. (3) Evidence vs noise? → Tier A vs C + §6. (4) Commercial blockers? → §5.7. (5) Which techniques to enhance for the roadmap? → **§5.8**.
+**One-page success check:** (1) Predicted agentic compiler? → §5.1 / §5.5. (2) Four jobs + stack? → §5.1 / §5.6. (3) How many data-plane abstractions? → **§5.1.1**. (4) Evidence vs noise? → Tier A vs C + §6. (5) Commercial blockers? → §5.7. (6) Which techniques to enhance for the roadmap? → **§5.8**.
 
 ---
 
@@ -459,6 +459,8 @@ Dialects, Triton, CUDA Tile IR, PTX, and LLVM IR remain siloed; an agent tuned o
 
 **Done looks like.** An “agent compile interface” RFC (perhaps on StableHLO or MLIR) defining summaries, actions, and admit records—similar in spirit to how PJRT standardized runtime plugins.
 
+**Not the same as one data-plane IR.** A shared *agent-visible* contract can sit above **several** classical sinks (graph / mid-IR / kernel DSL / backend). Collapsing those sinks into one cost-model abstraction is a different — and, for Horizon A, weaker — bet; see [§5.1.1](#511-how-many-data-plane-abstractions-one-cost-model-is-not-enough).
+
 ---
 
 ### 4.5 Hardware-native agent interfaces
@@ -679,6 +681,44 @@ Hybrid stack: agents orchestrate; classical compilers execute; silicon feeds the
 
 Without these, “agentic compiler” collapses to either unconstrained LLM loops or a classical compiler with a chatbot glued on.
 
+#### 5.1.1 How many data-plane abstractions? (one cost model is not enough)
+
+**Question.** Compilers own the data plane; agents own the control plane. Does the data plane still need **many** IR/DSL levels — or can agents deal with “everything” through **one** abstraction (e.g. an agent that learns a single optimal cost model over all optimization passes)?
+
+**Survey lean: keep several data-plane abstractions; do not bet Horizon A on one universal cost-model layer.**
+
+| Abstraction band (data plane) | What it owns (classical) | Why agents still need it as a *sink* |
+|---|---|---|
+| **Graph / portable HLO** | Fusion regions, shapes, framework↔compiler portability | Amdahl ranking, region propose/admit; StableHLO-class contracts |
+| **Mid-IR / dialects** (MLIR, Inductor FX/graph opts, XLA HLO internals) | Legality-preserving lowers, layout, memory plans | Fingerprints, pass/hint/ACF actions; free rewrite fails here ([mlirAgent](../reference/publications/mliragent.md)) |
+| **Kernel DSL** (Triton / Helion / Tile / CuTe / HIP …) | Tile/schedule search surface for peak kernels | Primary agent training + generate–eval loops (**C4**) |
+| **Backend / ISA / device** | PTX/SASS/LLVM MC, HW counters, bring-up | Job (d) codesign feedback; oracles are HW-specific (**C9**/C10) |
+
+A fifth band — **CPU/legacy LLVM pipelines** (PGO, MLGO advisors) — remains for size-critical / server CPU paths (job b), even when GPU DSLs dominate AI serving.
+
+**Why “one abstraction + universal cost model” fails the prediction (for now).**
+
+1. **Different legality and oracles per level.** Alive2-class local honesty on LLVM IR does not certify GPU races or serving equivalence; Triton unit/golden does not replace graph-level fusion admit. A single scalar cost model cannot be the admit gate across these failure modes (§4.2, T2/T6).
+2. **Choosing the level is itself the product.** ACCLAIM’s guide agent allocates budget across abstraction levels — evidence that next-gen systems treat **multi-level choice** as a control-plane decision, not a bug to eliminate.
+3. **Cost models stay local.** Classical Ansor/MetaSchedule, MLGO advisors, and MOCHA’s data-frugal cost models improve *within* a pass family or rewrite system. They do not historically transfer as one model from graph fusion → Triton tile → regalloc → serving A/B. Agents amplify search *at a level*; they do not dissolve the levels.
+4. **“One agent IR” is already contested.** Portable agent *contracts* (summaries, actions, admit records — T1 / §4.4) are desirable; a single executable IR that replaces StableHLO+MLIR+Triton+Tile is not the Horizon A bet (**C4**, S2).
+5. **Collapse path that *is* allowed.** Offline job (b) can *compile away* some online search into shippable heuristics/advisors so users never see the LLM — but the **runtime data plane** still lowers through classical bands with admit/fallback.
+
+**What agents *can* unify (control plane, not data plane).**
+
+| Unify | Do not unify |
+|---|---|
+| One **agent compile interface** schema (region, constraints, actions, admit, artifact hash) across sinks | One IR that is both portable HLO and peak kernel DSL |
+| One **orchestrator policy** (budget, when-to-run, freeze) over many tools | One learned cost that replaces legality + layered oracles |
+| One **replay/freeze** discipline for artifacts | One online LLM loop that silently defines executable behavior |
+
+**Falsifiers for this lean.**
+
+- A production stack ships **default** lowering where a single agent-maintained cost model selects all passes/kernels **without** classical multi-level admit, and holds correctness + p50 gains for months (**would pressure C3/C6 and this subsection**).
+- A portable tile/HLO IR becomes the *only* agent training surface *and* peak path, retiring Triton-class DSLs for serious products (**would settle C4 toward one surface** — still not the same as one cost model over all `opt` passes).
+
+**Pointers.** Stack layers: [§5.6](#56-stack-reshape-sw--hw-codesign). Cross-stack contract gap: [§4.4](#44-cross-stack-interoperability). DSL conflict: [C4](#c4--kernel-dsl-future-triton-vs-cuda-tile-and-friends). Techniques: T1 (typed interfaces), T4 (heuristic hooks / advisors), T5 (dialect sinks).
+
 ### 5.2 How agents change the future (process)
 
 | Legacy | Agent-changed future | Confidence |
@@ -870,6 +910,7 @@ Job **(d)** is the HW-codesign extension: still an **agentic compiler/toolchain*
 | S3 | New first-class artifacts (ACF/heuristics/memory/traces) change CI and code review | Supported — A3 |
 | S4 | Custom ASIC competitiveness increasingly depends on agentic bring-up latency | Supported (industrial) — TritorX/KernelEvolve; watch second-vendor repro — C9 |
 | S5 | Profilers and compiler internals move from human IDE tools to **agent APIs** | Watch — KernelEvolve MPP, Ascend hierarchy |
+| S6 | Data plane keeps **multiple** abstraction bands; agents unify the *contract/orchestration*, not a single universal cost model over all passes | Supported lean — [§5.1.1](#511-how-many-data-plane-abstractions-one-cost-model-is-not-enough); watch C3/C4/C6 falsifiers |
 
 #### 5.6.4 What *not* to confuse with stack reshape
 
@@ -1469,6 +1510,7 @@ Evidence maps: [`../reference/products.md`](../reference/products.md) · [`../re
 5. Demote generic SCM AI plugins to Tier C evidence (C7).
 6. Keep DL-compiler products as **Tier B baselines**, not as the definition of next-gen (C8).
 7. Codesign via **coverage→perf agent ladder** on sim+silicon (C9); do **not** expand into autonomous EDA (C10-B).
+8. Keep **several data-plane abstraction bands**; unify agent *contracts*, not a single universal cost model over all passes ([§5.1.1](#511-how-many-data-plane-abstractions-one-cost-model-is-not-enough), A6/S6).
 
 Update this section when a conflict gains a decisive public settlement.
 
@@ -1490,6 +1532,7 @@ Status: **Supported** · **Contested** · **Watch** · **Falsified**
 | A3 | ACFs, evolved heuristics, verified kernels, optimization memory, bring-up corpora become first-class artifacts | Supported | CompileIQ, Magellan, KernelBlaster, TritorX, FlashInfer Trace/`apply()` | — |
 | A4 | Defaults stay classical until agents win on *distributions* in CI | Contested | Vendor blogs vs CompileIQ 2–3% docs, KernelBench-X | C2 |
 | A5 | Unconstrained LLM will not replace `opt`/Inductor soon | Supported | mlirAgent; hybrid Tier A dominance | C3, C6 |
+| A6 | Data plane keeps multiple abstraction bands; agents unify contract/orchestration, not one universal cost model over all passes | Supported (lean) | §5.1.1; ACCLAIM multi-level; mlirAgent; level-local cost models | C3, C4, C6 |
 
 ### Process & stack
 
@@ -1501,6 +1544,7 @@ Status: **Supported** · **Contested** · **Watch** · **Falsified**
 | S1 | Stack reshape is control-plane agentic over classical data plane | Supported | SURVEY §5.6 · A1 | C6 |
 | S4 | Custom ASIC TTM increasingly gated by agentic bring-up | Supported (industrial) | TritorX, KernelEvolve | **C9** |
 | S5 | Profilers/compiler internals become agent APIs | Watch | KernelEvolve MPP, Ascend hierarchical diagnosis | C3 |
+| S6 | Multiple data-plane abstractions remain; one agent cost model does not collapse the stack | Supported (lean) | §5.1.1 · A6 | C3, C4, C6 |
 
 ### Codesign (still agentic-compiler-centric)
 
