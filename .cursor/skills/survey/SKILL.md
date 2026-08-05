@@ -72,7 +72,7 @@ For prediction / architecture / technique / roadmap changes:
 8. Rebuild briefing PDF → validate → STATUS → push main
 ```
 
-**Do not** invent or rearrange the expert briefing from slides alone. Slides are a **downstream view** of settled SURVEY prose (self-contained on-slide, but sourced from the narrative). If the user asks for a new prediction topic (e.g. technical techniques to accelerate checkpoints), write it into **SURVEY §5** (or the fitting section) and refine there first; defer Beamer until they say it is settled or explicitly ask for slides.
+**Do not** invent or rearrange the sharing deck from slides alone. Slides are a **downstream view** of settled SURVEY prose (self-contained on-slide, but sourced from the narrative). If the user asks for a new prediction topic (e.g. technical techniques to accelerate checkpoints), write it into **SURVEY §5** (or the fitting section) and refine there first; defer Beamer until they say it is settled or explicitly ask for slides.
 
 ### When `docs/SURVEY.md` changes (every time)
 
