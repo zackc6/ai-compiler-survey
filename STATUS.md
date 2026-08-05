@@ -43,6 +43,7 @@ Last updated: **2026-08-05**
 
 | Date | Change |
 |---|---|
+| 2026-08-05 | SURVEY **§5.8 Technical prediction**: techniques within/outside compiler, critical missing parts, checkpoint→technique map (T1–T10); slides deferred until settled |
 | 2026-08-05 | Beamer **Technical Prediction** section: in/out-of-compiler techniques, missing parts, checkpoint unlock map (37 slides) |
 | 2026-08-05 | Beamer appendix from `reference/`: evidence map, Tier A products/repos, ★ digests, publication groups (32 slides) |
 | 2026-08-05 | Beamer reorder: trends (§1) before verdict; drop claim/systems slides; light Discussion; 26 slides |

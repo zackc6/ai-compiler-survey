@@ -1,16 +1,16 @@
 # Next-Gen AI Compiler Survey
 
-**Last updated:** 2026-08-04 (rescan: EmitC PoR checkpoint + CuTeGen / CompileIQ skills / Hexagon-MLIR)  
+**Last updated:** 2026-08-05 (add §5.8 technical prediction — techniques to accelerate roadmap/checkpoints)  
 **Evidence store:** [`../reference/README.md`](../reference/README.md) → publications · products · repos  
 **Status:** [`../STATUS.md`](../STATUS.md)
 
 **How to read (smooth path).**  
-1. **§0** north star + vocabulary → **§1–§1b** trends → **§2–§3** mechanisms → **§4** gaps → **§5** prediction (architecture, roadmap, stack, commercial).  
+1. **§0** north star + vocabulary → **§1–§1b** trends → **§2–§3** mechanisms → **§4** gaps → **§5** prediction (architecture, roadmap, stack, commercial, **technical techniques §5.8**).  
 2. When sources disagree → **§6 Conflicts**. Claim IDs → **§7**. System snapshot → **§8**.  
 3. Digests / SKUs / forges stay under [`reference/`](../reference/README.md) so the narrative does not become a catalog.  
 4. Maintainers: **§9** add-source loop; `python3 scripts/validate_survey.py`.
 
-**One-page success check:** (1) Predicted agentic compiler? → §5.1 / §5.5. (2) Four jobs + stack? → §5.1 / §5.6. (3) Evidence vs noise? → Tier A vs C + §6. (4) Commercial blockers? → §5.7.
+**One-page success check:** (1) Predicted agentic compiler? → §5.1 / §5.5. (2) Four jobs + stack? → §5.1 / §5.6. (3) Evidence vs noise? → Tier A vs C + §6. (4) Commercial blockers? → §5.7. (5) Which techniques to enhance for the roadmap? → **§5.8**.
 
 ---
 
@@ -575,6 +575,8 @@ with fixed hardware profiles, reference docks, and leaderboards that separate **
 ---
 
 ### Cross-cutting research agenda (from the gaps)
+
+Technique-shaped prediction (within vs outside the compiler, missing parts, checkpoint map): [§5.8](#58-technical-prediction--techniques-that-accelerate-the-roadmap).
 
 | Theme | Near-term work | Depends on gaps |
 |---|---|---|
@@ -1254,6 +1256,56 @@ Adjacent agent-production work stresses **deterministic boundaries** and moving 
 16. **Resource envelope (P23):** budget tokens/$ per %gain; no always-on frontier in default compile; route/distill; measure tool-call success and optimize wall-clock SLOs.
 
 **Still blocks / changes packaging:** §4.1–4.5, §4.7–4.10; conflicts **C2** (gains pay?), **C3** (API width), **C5** (default-on), **C7** (oracle review), **C9** (coverage vs peak). Resource/capability envelope: **P23**.
+
+### 5.8 Technical prediction — techniques that accelerate the roadmap
+
+**Purpose.** [§5.5](#55-roadmap--horizon-a-202728-and-horizon-b-202931) says *what* should ship by Horizon A/B; [§6](#6-conflicts-keep-unresolved-until-evidence-settles) says *which checkpoints* can flip the sketch. This subsection answers: **which techniques must be enhanced** so those checkpoints can settle and the roadmap can accelerate — and for each technique, **what is critically missing today**.
+
+**Relation to other sections.** [§4](#4-whats-missing--under-covered-q4) states gap severity and “done looks like.” [§5.7](#57-from-prediction-to-commercial-practice--critical-problems) packages many of the same gaps as commercial problems (P1–P23). Here the cut is **technique-shaped** and **split by locus**: *within the classical compiler / toolchain* versus *outside it* (oracles, data, process, control-plane substrate). Enhancing only `opt` / Inductor / Triton internals is not enough.
+
+**Read rule.** Prefer mechanisms over slogans. When a technique’s “missing” column is contested across vendors, keep both sides in §6 rather than averaging.
+
+#### 5.8.1 Within the compiler / toolchain
+
+| # | Technique | What exists (illustrative) | Critical missing parts today | Accelerates |
+|---|---|---|---|---|
+| **T1** | **Typed agent↔compiler interfaces** (tool APIs, structured summaries, enumerated actions) | CompileIQ search surfaces; ACCLAIM/HintPilot constrained actions; Compiler-R1 tool calls; mlirAgent fingerprints/MCP demos; Archer `verify`/`difftest` tools | Portable schemas for region / constraints / action / admit across MLIR·Triton·Tile·StableHLO; vendor-neutral tool-server conformance | **C3**, **C5**, **C6**; jobs (a)(c); §4.4–4.5 |
+| **T2** | **Admit / fallback machinery** (reject illegal agent moves; restore classical path) | Pass-applies-pass patterns (LLM Compiler); template+check admit (AgentCompile); oracle-gated PR review (Archer) | Shared admit policy as a product surface; deterministic fallback that release eng trusts; open oracles beyond LLVM peephole | **C6** hybrid bet; money-grade shipping; §4.2 |
+| **T3** | **Control files, hints, fingerprints + replay** | CompileIQ Advanced Control Files; hint/pragma paths; some seed/budget reporting | Content-addressed cache keys `(IR hash, HW, compiler ver, agent policy)`; golden replay when the agent model upgrades; CI policy for flaky speedups | **C2** (p50/p90), **C5** (default flag); P4/P14; §4.3 |
+| **T4** | **Heuristic hooks & in-tree advisors** (offline job b) | Magellan / AlphaEvolve evolve shippable C++; MLGO neural advisors; EmitC-MLGO June 2026 plan-of-record (deploy path advancing) | Settled **default** between Magellan-class synthesis and MLGO-class advisors on the same apps; customer-default EmitC (or public Magellan llvm patches that displace advisors) | **C1**; Horizon A job (b) |
+| **T5** | **Dialect / ISA feedback sinks** (codesign loop into the compiler) | TritorX / KernelEvolve / Ascend diagnosis turn sim+silicon pain into IR/backend stress; sparse RFC narratives | First-class compiler surfaces that aggregate failure modes into dialect or ISA **change proposals** (still for humans + chip-design tools — not autonomous tape-out) | **C9**, **C10**; job (d); §5.5 codesign roadmap |
+
+#### 5.8.2 Outside the compiler
+
+| # | Technique | What exists (illustrative) | Critical missing parts today | Accelerates |
+|---|---|---|---|---|
+| **T6** | **Serving-level oracles & production A/B** | Unit/golden/OpInfo; numerical checks; Alive2-class local formal; vendor internal suites | Whole-program / GPU-race / floating-point contracts; multi-month **default-path** A/B with attribution; shared open oracles for Triton/Tile, not only LLVM IR | **C2** “agents as default”; P5/P20; §4.1–4.2 |
+| **T7** | **Open multi-IR corpora (+ negative data)** | Meta LLM Compiler (LLVM-heavy); KernelBook/KernelLLM pairs; Compiler-R1 datasets; CompilerGym; mostly-closed MLGO corpora | Versioned MLIR / Triton / Tile / StableHLO corpora with performance labels **and** failed compiles / miscompiles / slow-but-correct negatives for critics | Selector/Generator quality beyond LLVM-centric models; §4.7 |
+| **T8** | **Unified benchmark ladder** | Fragmented: CompilerGym, PolyBench/hints, KernelBench(-X), paper-specific serving slices, closed vendor suites | Shared ladder IR → single kernel → fused region → full serving graph, reporting **correctness × speed × cost-to-compile** under fixed HW profiles | Honest **C2**/**C9** comparison; kills single-kernel theater; §4.10 |
+| **T9** | **Provenance, ownership, human-review process** | Magellan reviewable C++; Archer oracle review; sparse signing/SBOM discussion | Named CODEOWNERS for agent artifacts; signed admit records (model, tools, oracles, digest); sandbox policy for untrusted proposals; review-capacity metrics | Trusted-base shipping; C7; P6/P16; §4.8–4.9 |
+| **T10** | **Agent-workflow compile / freeze / place** (control-plane substrate) | FlowCompile, Auto (freeze spans), AgentFlow (agent dependency graphs), hetero agent serving placement | Shared agent-graph IR; fail-closed quality gates; placement under spend/latency targets; CI that regresses multi-agent compiler products | Horizon **B** control-plane compile; P3/P22; §4.6 |
+
+#### 5.8.3 Checkpoint → technique map
+
+| Checkpoint | Needs enhanced techniques | “Settled enough” signal |
+|---|---|---|
+| **C1** Magellan vs MLGO | **T4** (+ public patches or EmitC customer default) | One path is the default on named shipping apps, or both remain explicitly parallel with release notes |
+| **C2** Median / p90 gains | **T3** + **T6** + **T8** | Public pinned traces with distributional CI wins and cost-to-compile |
+| **C5** Default flag | **T1** + **T3** (freeze before serve) | Release notes name agent / control-file workflows as supported |
+| **C3 / C6** Action width vs replace | **T1** + **T2** | Free rewrite beats advisors on a shared suite **or** advisory+admit remains the baseline (current lean: hybrid) |
+| **C9** Coverage→perf ladder | **T5** + bring-up agents + **T8** | Second-vendor TritorX-class public reproduction |
+| **C10** Codesign bound | **T5** (proposals only) | Microarch remains human/EDA-owned; agents stress kernels/IR/oracles |
+
+#### 5.8.4 Highest-leverage missing parts (near-term)
+
+If an org or research program can fund only a few technique bets to accelerate Horizon A:
+
+1. **Money-grade oracle stack (T2+T6)** — local formal → shape-grid differential tests → statistical serving checks → staged rollout. Without this, agents stay demos.  
+2. **Replayable artifact contract (T3)** — control files / kernels / heuristics with cache keys and golden replay. Without this, CI rejects the loop.  
+3. **Portable agent compile interface (T1)** — summaries · actions · admit records across major AI IRs. Without this, every stack re-implements glue (**C3**/**C4** pressure).  
+4. **Open ladder + multi-IR data (T7+T8)** — comparable evaluations and training fuel beyond LLVM-centric or single-kernel suites.
+
+**Survey lean.** Treat **T1–T5** as compiler/toolchain R&D that must ship as product surfaces (not papers alone), and **T6–T10** as equally first-class — mostly *outside* classical lowering — or the [§5.5](#55-roadmap--horizon-a-202728-and-horizon-b-202931) roadmap stalls even if model quality improves. Update this subsection when a Tier A / ★ digest closes a “missing” cell or a §6 checkpoint settles.
 
 ---
 

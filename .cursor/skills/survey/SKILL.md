@@ -30,7 +30,7 @@ publish/              # PDF only
 | §0 | North star + vocabulary/taxonomy |
 | §1–§1b | Trends + traditional vs following |
 | §2–§4 | Q2–Q4 mechanisms / reshape / gaps |
-| §5 | Prediction (architecture, roadmap §5.5, stack §5.6, commercial §5.7) |
+| §5 | Prediction (architecture, roadmap §5.5, stack §5.6, commercial §5.7, **techniques §5.8**) |
 | §6 | Conflicts C1–C10 (never average) |
 | §7 | Claims map A/P/S/H |
 | §8 | Systems gallery |
@@ -59,6 +59,7 @@ For prediction / architecture / technique / roadmap changes:
 | North star / future | `docs/SURVEY.md` §0.1, §5 |
 | Architecture / roadmap / stack | `docs/SURVEY.md` **§5.1** / **§5.5** / **§5.6** |
 | **Commercialization** | `docs/SURVEY.md` **§5.7** (P1–P23) |
+| **Technical techniques (roadmap accel.)** | `docs/SURVEY.md` **§5.8** (T1–T10 in/out compiler + missing + checkpoint map) |
 | Vocabulary / systems | `docs/SURVEY.md` §0.2 / §8 |
 | Claims / conflicts | `docs/SURVEY.md` §7 / §6 |
 | Add-source loop | `docs/SURVEY.md` §9 |
