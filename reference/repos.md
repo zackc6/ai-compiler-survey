@@ -36,6 +36,8 @@ Companion: [`../docs/SURVEY.md`](../docs/SURVEY.md) §5 · [`../docs/SURVEY.md`]
 | [flagos-ai/awesome-LLM-driven-kernel-generation](https://github.com/flagos-ai/awesome-LLM-driven-kernel-generation) | GitHub | Living kernel-agent bibliography | Trend D watchlist |
 | [RightNow-AI/autokernel](https://github.com/RightNow-AI/autokernel) | GitHub | Amdahl-driven model-level kernel agent loop | Job (a); **C2** |
 | TritorX / KernelEvolve (papers; code mostly internal) | Meta | ASIC bring-up + hetero perf agents (MTIA/NVIDIA/AMD) | Job **(d)**; **C9** |
+| [flashinfer-ai/flashinfer-bench](https://github.com/flashinfer-ai/flashinfer-bench) | GitHub | Serving-trace kernel ladder + `apply()` into SGLang/vLLM | **T6/T8**; **C2** |
+| [uw-syfi/vibe-serve](https://github.com/uw-syfi/vibe-serve) | GitHub | Agentic end-to-end serving-stack synthesis | **T6/T10**; research |
 | [pytorch/helion](https://github.com/pytorch/helion) | GitHub | High-level tile DSL → Triton (agent/CompileIQ surface) | Tier B substrate; **C4** |
 
 **Magellan** itself remains mostly internal (paper + [LLVM Dev Meeting slides](publications/magellan-llvm-slides.md)); track OSS via OpenEvolve + HeuriGym until a public Magellan tree appears (**C1**). Slides next-steps: OpenEvolve OSS path; XLA green-field / auto-sharding — folded into [`../docs/SURVEY.md`](../docs/SURVEY.md) §5.4.
@@ -53,6 +55,8 @@ Companion: [`../docs/SURVEY.md`](../docs/SURVEY.md) §5 · [`../docs/SURVEY.md`]
 | [openxla/xla](https://github.com/openxla/xla) / StableHLO | Portable AI compiler IR; Magellan XLA experiments |
 | PyTorch (`torch.compile` / Inductor) | Default DL compile path agents must plug into |
 | [NVIDIA/TensorRT-LLM](https://github.com/NVIDIA/TensorRT-LLM) | Production serve stack; [PR #12831](https://github.com/NVIDIA/TensorRT-LLM/pull/12831) adds Claude kernel/compile agents (**C4**) |
+| [flashinfer-ai/flashinfer](https://github.com/flashinfer-ai/flashinfer) | Kernel library / generator backing many serve engines; Bench `apply()` target |
+| Hugging Face [GPUMODE/KernelBook](https://huggingface.co/datasets/GPUMODE/KernelBook) | Open PyTorch↔Triton training pairs (**T7**) |
 
 ---
 

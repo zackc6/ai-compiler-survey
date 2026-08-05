@@ -7,14 +7,14 @@ Last updated: **2026-08-05**
 | Area | Status | Notes |
 |---|---|---|
 | Goals (agentic-compiler prediction) | Done (v3) | + roadmap, stack reshape, HW codesign via job (d) |
-| Future prediction §5 | Done | Four jobs; codesign; §5.5–5.6; **§5.7 commercialization** |
+| Future prediction §5 | Done | Four jobs; codesign; §5.5–5.6; **§5.7 commercialization**; **§5.8 techniques** |
 | **Roadmap 2027–28 / ~5yr** | Done | folded into `docs/SURVEY.md` §5.5 |
 | **STACK reshape** | Done | folded into `docs/SURVEY.md` §5.6 |
 | Claims map | Done | `docs/SURVEY.md` §7 (A/P/S/H) |
 | Conflicts | Done | `docs/SURVEY.md` §6 C1–C10 |
 | Survey narrative §0–§9 | Done (v3) | Single reading path; gaps as blockers |
 | **Reference store** | Done | `reference/` guide → publications / products / repos |
-| Publication digests | Done (v7) | **108** digests under `reference/publications/` |
+| Publication digests | Done (v8) | **115** digests under `reference/publications/` |
 | Validate script | Done | `python3 scripts/validate_survey.py` |
 | **PDF publish** | Done | Survey PDF + expert Beamer deck in `publish/out/` |
 | **Survey skill** | Done | `.cursor/skills/survey/` (+ personal `~/.cursor/skills/survey/`) |
@@ -43,6 +43,7 @@ Last updated: **2026-08-05**
 
 | Date | Change |
 |---|---|
+| 2026-08-05 | §5.8 evidence search: +7 digests (FlashInfer-Bench★, KernelBook★, TritonRL, DRTriton, mlir-opt-repl RFC, VibeServe); thin-update T1–T3/T6–T10 exists cells; INDEX **115** |
 | 2026-08-05 | SURVEY **§5.8 Technical prediction**: techniques within/outside compiler, critical missing parts, checkpoint→technique map (T1–T10); slides deferred until settled |
 | 2026-08-05 | Beamer **Technical Prediction** section: in/out-of-compiler techniques, missing parts, checkpoint unlock map (37 slides) |
 | 2026-08-05 | Beamer appendix from `reference/`: evidence map, Tier A products/repos, ★ digests, publication groups (32 slides) |

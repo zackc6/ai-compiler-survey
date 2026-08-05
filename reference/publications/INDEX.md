@@ -53,6 +53,11 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2025 | company | GPU kernels & inference compilers | AMD | AMD ROCm blog | [AMD ROCm blog: Triton kernel AI / GEAK](geak-rocm-blog.md) | [source](https://rocm.blogs.amd.com/software-tools-optimization/triton-kernel-ai/README.html) |
 | 2025 | code | GPU kernels & inference compilers | AMD AGI | GitHub | [AMD-AGI/GEAK agent](geak-github.md) | [source](https://github.com/AMD-AGI/GEAK-agent) |
 | 2025 | company | GPU kernels & inference compilers | Meta | Hugging Face | [Meta KernelLLM (Hugging Face)](kernelllm.md) | [source](https://huggingface.co/facebook/KernelLLM) |
+| 2025 | company | GPU kernels & inference compilers | GPU MODE | Hugging Face | [GPUMODE/KernelBook dataset](kernelbook.md) ★ T7 corpus | [source](https://huggingface.co/datasets/GPUMODE/KernelBook) |
+| 2025 | paper | GPU kernels & inference compilers | Amazon · multi-institution | arXiv | [TritonRL: Training LLMs to Think and Code Triton Without Cheating](tritonrl.md) | [source](https://arxiv.org/abs/2510.17891) |
+| 2026 | paper | GPU kernels & inference compilers | Texas A&M · Oracle | arXiv | [DRTriton: Large-Scale Synthetic Data Driven RL for Triton](drtriton.md) | [source](https://arxiv.org/abs/2603.21465) |
+| 2026 | paper | GPU kernels & inference compilers | UW · CMU · NVIDIA · UC Berkeley | MLSys 2026 | [FlashInfer-Bench: Virtuous Cycle for AI-driven LLM Systems](flashinfer-bench.md) ★ T6/T8 serving ladder | [source](https://proceedings.mlsys.org/paper_files/paper/2026/file/37e44c4b5321605735be9761f9b758fc-Paper-Conference.pdf) |
+| 2026 | code | GPU kernels & inference compilers | FlashInfer / NVIDIA · UW · CMU | GitHub | [flashinfer-ai/flashinfer-bench](flashinfer-bench-github.md) ★ | [source](https://github.com/flashinfer-ai/flashinfer-bench) |
 | 2025 | paper | GPU kernels & inference compilers | UC San Diego | arXiv | [Reasoning Compiler: LLM-Guided Optimizations for Efficient Model Serving](reasoning-compiler.md) | [source](https://arxiv.org/html/2506.01374) |
 | 2026 | paper | GPU kernels & inference compilers | City University of Hong Kong | arXiv | [AgentCompile: An LLM-Guided Compiler for Direct CUDA Inference](agentcompile.md) | [source](https://arxiv.org/html/2606.07665) |
 | 2025 | code | GPU kernels & inference compilers | UC Berkeley (ucb-bar) | GitHub | [ucb-bar/mlirAgent](mliragent.md) | [source](https://github.com/ucb-bar/mlirAgent) |
@@ -94,6 +99,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | company | Commercial products & proposals | AMD | AMD ROCm blog | [AMD ROCm: GEAK v3 kernel optimization agent](geak-v3-rocm-blog.md) | [source](https://rocm.blogs.amd.com/artificial-intelligence/kernel-optimization-agent/README.html) |
 | 2025 | forum | Forums & workshops | Google / LLVM community | LLVM Discourse | [LLVM Discourse RFC: EmitC support for MLGO](mlgo-emitc-rfc.md) | [source](https://discourse.llvm.org/t/rfc-emitc-support-for-mlgo/87728) |
 | 2026 | forum | Forums & workshops | Google / LLVM community | LLVM Discourse | [LLVM MLGO sync minutes: EmitC path PoR (June 8, 2026)](mlgo-emitc-sync-2026-06.md) ★ C1 checkpoint | [source](https://discourse.llvm.org/t/mlgo-meeting-june-5-moved-to-june-8-2026/90976) |
+| 2026 | forum | Forums & workshops | LLVM / MLIR community | LLVM Discourse | [LLVM Discourse RFC: mlir-opt-repl + MCP server](mlir-opt-repl-rfc.md) | [source](https://discourse.llvm.org/t/rfc-mlir-opt-repl-interactive-mlir-pass-pipeline-explorer-and-mcp-server/91068) |
 | 2026 | code | Commercial products & proposals | NVIDIA | GitHub (TensorRT-LLM) | [TensorRT-LLM PR: Claude agents/skills for kernels and compile](trt-llm-claude-agents-pr.md) | [source](https://github.com/NVIDIA/TensorRT-LLM/pull/12831) |
 | 2026 | company | Commercial products & proposals | NVIDIA | NVIDIA docs | [CompileIQ docs: expected gains (2 to 3 percent highly optimized)](compileiq-docs-expectations.md) | [source](https://nvidia.github.io/CompileIQ/stable/index.html) |
 | 2026 | company | Commercial products & proposals | NVIDIA | NVIDIA CompileIQ docs | [CompileIQ agent-skills (AGENTS.md optimization campaigns)](compileiq-agent-skills.md) ★ control-plane UX | [source](https://nvidia.github.io/CompileIQ/stable/install.html) |
@@ -116,8 +122,9 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | Agent control-plane substrate | UMass Amherst · MIT · MIT-IBM Watson AI Lab | arXiv | [FlowCompile: An Optimizing Compiler for Structured LLM Workflows](flowcompile.md) ★ workflow compile | [source](https://arxiv.org/abs/2605.13647) |
 | 2026 | paper | Agent control-plane substrate | Huazhong University of Science and Technology · Macquarie University | arXiv | [AgentFlow: Building Agent Dependency Graphs for Static Analysis of Agent Programs](agentflow.md) | [source](https://arxiv.org/abs/2607.01640) |
 | 2025 | paper | Agent control-plane substrate | Stanford · Gimlet Labs · Intel | arXiv | [Efficient and Scalable Agentic AI with Heterogeneous Systems](agentic-ai-hetero-systems.md) | [source](https://arxiv.org/abs/2507.19635) |
+| 2026 | paper | Agent control-plane substrate | University of Washington (SyFI) | arXiv | [VibeServe: Can AI Agents Build Bespoke LLM Serving Systems?](vibeserve.md) | [source](https://arxiv.org/abs/2605.06068) |
 
-**Total:** 108 digests
+**Total:** 115 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 

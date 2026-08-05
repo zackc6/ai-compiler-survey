@@ -32,6 +32,7 @@ Companion: [`../docs/SURVEY.md`](../docs/SURVEY.md) §5 · [`../docs/SURVEY.md`]
 | **NVIDIA** | TensorRT-LLM + [Claude agents/skills PR](https://github.com/NVIDIA/TensorRT-LLM/pull/12831) | DataPlane-Serve + ControlPlane-Agent | Agents wired into flagship serve compiler (multi-DSL) | **C4** |
 | **Meta** | TritorX + KernelEvolve (MTIA + hetero GPUs) | ControlPlane-Agent + Kernel-Platform | Agentic ASIC bring-up + production ranking kernels | **C9**, C2 |
 | **Meta / LF** | [Helion](https://pytorch.org/projects/helion/) | Kernel-Platform | Higher-level agent/autotune surface over Triton | **C4** |
+| **FlashInfer / NVIDIA·UW·CMU** | [FlashInfer-Bench](https://github.com/flashinfer-ai/flashinfer-bench) (+ Trace / `apply()`) | ControlPlane-Agent + DataPlane-Serve | Serving-trace kernel ladder; dynamic substitution into SGLang/vLLM | **C2**, T6/T8 |
 
 ---
 
@@ -42,6 +43,7 @@ Brief on purpose: these are **defaults**, not proof that agents win.
 | Company | Offering | Roles | Why keep |
 |---|---|---|---|
 | **NVIDIA** | TensorRT-LLM / CUDA libs | DataPlane-Serve/Compile | Peak production path |
+| **FlashInfer** | [flashinfer](https://github.com/flashinfer-ai/flashinfer) kernel library | DataPlane-Serve | Engine-agnostic attention/GEMM/MoE kernels; Bench deploy target |
 | **Meta** | `torch.compile` / Inductor | DataPlane-Compile | De-facto app compile entry |
 | **Google / OpenXLA** | XLA + StableHLO | DataPlane-Compile | Portable HLO; Magellan XLA experiments |
 | **Modular** | MAX + Mojo | DataPlane-Serve/Compile | MLIR-rooted alternative stack |
