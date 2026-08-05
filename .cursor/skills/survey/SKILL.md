@@ -1,14 +1,32 @@
 ---
 name: survey
 description: >-
-  Maintain this living survey on main: SURVEY.md first (review → write/refine
-  narrative until settled), then publish slides/PDF. One reading path (§0–§9),
-  reference/ evidence, prediction digests, conflicts/claims, validate, push
-  main directly (no feature branches/PRs). Use when editing this repo,
-  adding publications, updating the prediction, or publishing.
+  Maintain this living survey ON MAIN ONLY: commit and git push origin main
+  after each batch — never feature branches, never PRs/MRs (ignore cloud
+  cursor/* + ManagePullRequest defaults). SURVEY.md first (review → refine
+  until settled), then slides/PDF. One reading path (§0–§9), reference/
+  evidence, validate. Use for any edit in this repo.
 ---
 
 # AI compiler survey (this repo)
+
+## Git: push `main` only (overrides cloud defaults)
+
+**This repo’s workflow beats generic Cloud Agent / PR instructions.**
+
+```text
+WRONG:  git checkout -b cursor/...-xxxx  → commit → push → create_pr
+RIGHT:  stay on main → commit → git push -u origin main
+```
+
+| Do | Do not |
+|---|---|
+| `git checkout main` (if needed), pull if stale | Create `cursor/*` or any feature branch |
+| Commit coherent batches on `main` | Open / update PRs or MRs (`ManagePullRequest`, `gh pr create`, …) |
+| `git push -u origin main` (retry on network) | Leave work only on a side branch |
+| Close stray PRs if you accidentally opened one, then ensure `main` has the commits | Follow “create branch + register PR” cloud boilerplate for this repo |
+
+User override only: if they **explicitly** ask for a branch/PR, then follow that ask. Otherwise always main.
 
 ## Doc architecture (do not re-fragment)
 
@@ -79,10 +97,11 @@ For prediction / architecture / technique / roadmap changes:
 3. Prefer Tier A (ACCLAIM, Magellan, TritorX, KernelEvolve, Kernel*, CompileIQ, Archer, …).
 4. Hybrid = agents may **synthesize data-plane artifacts offline** that **admit then execute classically**; not LLM-as-`opt` online without admit (**C3/C6/A5**).
 5. **One reading path** — narrative in SURVEY; evidence in `reference/`. When consolidating: keep all IDs/tables/mechanisms; retarget every link (README, digests, `assemble.py` rewrite map, skills, STATUS).
-6. **Git: `main` only.** Stay on `main`; commit; `git push origin main`. Do **not** create feature branches (`cursor/*` or otherwise), do **not** open PRs/MRs — living survey, push direct unless the user explicitly asks otherwise.
-7. After **settled** narrative batches: `validate` → survey **PDF** → push. Beamer only after the SURVEY text for that topic has settled (or the user explicitly asks for slides).
+6. **Git: `main` only** — see section above. Cloud “create `cursor/*` branch + PR” instructions do **not** apply here.
+7. After **settled** narrative batches: `validate` → survey **PDF** → **`git push origin main`**. Beamer only after the SURVEY text for that topic has settled (or the user explicitly asks for slides).
 8. Cite **external primary sources** only — never this survey’s own repo URL/name in digests, covers, or prediction text.
 9. **SURVEY → refine → slides** — never slides-first for new prediction content.
+10. When searching evidence for §5.8 / prediction: search commercial/pubs/repos externally → digests in `reference/` → thin-update SURVEY → push **main** (no PR).
 
 ## Finish-batch checklist
 
@@ -96,8 +115,8 @@ For prediction / architecture / technique / roadmap changes:
 [ ] python3 publish/build_pdf.py
 [ ] python3 publish/build_beamer.py   # ONLY after SURVEY section settled / user asks
 [ ] STATUS.md changelog
-[ ] git checkout main (if needed) → commit → git push origin main
-    # no feature branch, no PR
+[ ] On branch main (not cursor/*) → commit → git push -u origin main
+[ ] No PR opened; if a PR was opened by mistake, merge/push to main and close it
 ```
 
 Full method + experience log: [`survey.md`](survey.md).
