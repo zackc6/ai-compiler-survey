@@ -43,6 +43,7 @@ Last updated: **2026-08-05**
 
 | Date | Change |
 |---|---|
+| 2026-08-05 | Beamer appendix from `reference/`: evidence map, Tier A products/repos, ★ digests, publication groups (32 slides) |
 | 2026-08-05 | Beamer reorder: trends (§1) before verdict; drop claim/systems slides; light Discussion; 26 slides |
 | 2026-08-05 | Beamer slide 8 → roadmap spine (Today/Horizon A/B + §5.5 checkpoints); slide 5 target-stack arrow relayout |
 | 2026-08-05 | Beamer deck polish (title case, light title, agenda spoken-only weight/contract, TikZ overlap fixes) + per-slide transcripts in `publish/beamer/transcripts/` |

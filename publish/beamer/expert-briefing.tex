@@ -203,7 +203,7 @@
   \draw[Mute,line width=1.2pt] (0,-0.2) -- (0,-0.85);
   \node[agendaMini,fill=Mute!12] at (0.35,-0.2) {\textbf{5.} Commercial Blockers + Gaps};
   \fill[Mute] (0,-1.05) circle (0.14);
-  \node[agendaMini,fill=Mute!12] at (0.35,-1.05) {\textbf{6.} Stance $\cdot$ Checklist $\cdot$ Ask};
+  \node[agendaMini,fill=Mute!12] at (0.35,-1.05) {\textbf{6.} Stance $\cdot$ Ask $\cdot$ Appendix};
 \end{tikzpicture}
 \end{center}
 \end{frame}
@@ -951,5 +951,152 @@
     {Ask again: is the hybrid bet right for your roadmap? Watch settlement signals --- do not average disagreements.};
 \end{tikzpicture}
 \end{frame}
+
+% ============================================================
+% 27 Appendix divider
+\begin{frame}[plain]
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[Mist] (current page.south west) rectangle (current page.north east);
+  \fill[Steel] (current page.south west) rectangle ([xshift=0.28cm]current page.north west);
+  \fill[Amber] ([yshift=1.55cm]current page.south west) rectangle ([yshift=1.68cm]current page.south east);
+  \node[anchor=west,text=Ink,font=\ebgaramond\bfseries\Huge]
+    at ([xshift=1.1cm,yshift=1.2cm]current page.west) {Appendix};
+  \node[anchor=west,text=Steel,font=\Large\sffamily\bfseries]
+    at ([xshift=1.1cm,yshift=0.35cm]current page.west) {Evidence Store Snapshot};
+  \node[anchor=west,text=Mute,font=\normalsize\sffamily,text width=0.82\paperwidth]
+    at ([xshift=1.1cm,yshift=-0.55cm]current page.west) {%
+    Publications digests $\cdot$ commercial product signals $\cdot$ open repositories.\par
+    Tiered for the agentic-compiler prediction --- not a full catalog.};
+\end{tikzpicture}
+\end{frame}
+
+% ============================================================
+% 28 Appendix --- evidence map
+\begin{frame}{Appendix --- evidence map}
+\begin{center}
+\vspace{-0.3em}
+\begin{tikzpicture}
+\node[draw=Steel,fill=Steel!10,rounded corners=5pt,minimum width=3.9cm,minimum height=3.4cm,text width=3.55cm,align=left,font=\sffamily\scriptsize,inner sep=7pt]
+  at (-4.3,0.2) {%
+  \textbf{\color{Steel}Publications}\par\vspace{0.25em}
+  $\sim$108 digests\par
+  one file per source\par\vspace{0.2em}
+  papers $\cdot$ blogs $\cdot$ talks\par
+  forge pages $\cdot$ minutes\par\vspace{0.25em}
+  {\color{Mute}$\bigstar$ = prediction-critical}};
+\node[draw=Amber,fill=Amber!10,rounded corners=5pt,minimum width=3.9cm,minimum height=3.4cm,text width=3.55cm,align=left,font=\sffamily\scriptsize,inner sep=7pt]
+  at (0,0.2) {%
+  \textbf{\color{Amber}Products}\par\vspace{0.25em}
+  Commercial SKUs as\par
+  \emph{prediction signals}\par\vspace{0.2em}
+  Tier A shapes the future\par
+  Tier B = data-plane defaults\par\vspace{0.25em}
+  {\color{Mute}not a full SKU list}};
+\node[draw=Ember,fill=Ember!10,rounded corners=5pt,minimum width=3.9cm,minimum height=3.4cm,text width=3.55cm,align=left,font=\sffamily\scriptsize,inner sep=7pt]
+  at (4.3,0.2) {%
+  \textbf{\color{Ember}Repositories}\par\vspace{0.25em}
+  GitHub / Gerrit / forge\par
+  artifacts tiered A/B/C\par\vspace{0.2em}
+  A = agents reshape compile\par
+  C = generic forge AI only\par\vspace{0.25em}
+  {\color{Mute}not an exhaustive forge map}};
+\end{tikzpicture}
+\end{center}
+\vspace{0.3em}
+{\footnotesize\color{Mute}\centering Use $\bigstar$ digests + Tier A products/repos when a checkpoint or blocker is contested.\par}
+\end{frame}
+
+% ============================================================
+% 29 Appendix --- Tier A products
+\begin{frame}{Appendix --- Tier A commercial signals}
+\begin{center}
+\vspace{-0.4em}
+\begin{tikzpicture}
+\node[font=\sffamily\tiny,text=Mute,anchor=west] at (-6.2,2.55) {Company offerings that shape what ships --- roles: agent loop / kernel surface / cloud agent};
+\node[draw=Steel,fill=white,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,1.85)
+  {\textbf{Google / DeepMind} --- AlphaEvolve Cloud (GA); Magellan + MLGO (offline heuristics \emph{and} neural advisors)};
+\node[draw=Amber,fill=white,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,1.15)
+  {\textbf{NVIDIA} --- CompileIQ (+ agent-skills); CUDA Tile / Tile IR; TensorRT-LLM agent skills};
+\node[draw=Ember,fill=white,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,0.45)
+  {\textbf{AMD} --- GEAK (multi-agent Triton / Instinct kernel optimization)};
+\node[draw=Ink,fill=white,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-0.25)
+  {\textbf{Meta} --- LLM Compiler / KernelLLM; TritorX + KernelEvolve (ASIC bring-up); Helion};
+\node[draw=Mute,fill=Mute!8,rounded corners=3pt,inner sep=5pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-1.25)
+  {\textbf{Tier B baselines (agents must plug in):} TensorRT-LLM $\cdot$ torch.compile/Inductor $\cdot$ XLA/StableHLO $\cdot$ Modular MAX $\cdot$ OpenVINO $\cdot$ AWS Neuron $\cdot$ Qualcomm Hexagon-MLIR};
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+% ============================================================
+% 30 Appendix --- Tier A repos
+\begin{frame}{Appendix --- Tier A open repositories}
+\begin{center}
+\vspace{-0.5em}
+\begin{tikzpicture}
+\node[draw=Steel,fill=Steel!8,rounded corners=4pt,inner sep=5pt,text width=5.8cm,align=left,font=\sffamily\tiny] at (-3.2,1.55) {%
+  \textbf{\color{Steel}Offline / review / heuristics}\par\vspace{0.15em}
+  OpenEvolve (Magellan-class loop)\par
+  HeuriGym (heuristic bench)\par
+  Archer (oracle pull-request review)\par
+  Compiler-R1 $\cdot$ HintPilot\par
+  mlirAgent (negative free-rewrite)};
+\node[draw=Amber,fill=Amber!8,rounded corners=4pt,inner sep=5pt,text width=5.8cm,align=left,font=\sffamily\tiny] at (3.2,1.55) {%
+  \textbf{\color{Amber}Online / kernels / bring-up}\par\vspace{0.15em}
+  ACCLAIM $\cdot$ CompileIQ\par
+  GEAK $\cdot$ KernelAgent\par
+  KernelBench / KernelBench-X\par
+  AutoKernel $\cdot$ Helion\par
+  TritorX / KernelEvolve (mostly internal)};
+\node[draw=Ember,fill=Ember!8,rounded corners=4pt,inner sep=5pt,text width=12.0cm,align=left,font=\sffamily\tiny] at (0,-0.85) {%
+  \textbf{\color{Ember}How to read tiers:}\; A = agents change heuristics/kernels/knobs/review with domain oracles.\quad
+  B = data-plane hosts.\quad C = generic forge AI (demoted for prediction).};
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+% ============================================================
+% 31 Appendix --- star digests
+\begin{frame}{Appendix --- prediction-critical digests ($\bigstar$)}
+\begin{center}
+\vspace{-0.55em}
+\begin{tikzpicture}
+\node[font=\sffamily\tiny,text=Mute] at (0,2.55) {Highest-signal sources for the hybrid prediction --- mechanisms, not headlines};
+\node[draw=Steel,fill=Steel!8,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,1.90)
+  {\textbf{Vision / funded:} Compiler 2.0 Ken Kennedy plenary (MIT) $\cdot$ DARPA MOCHA / Aarno Compiler 2.0};
+\node[draw=Amber,fill=Amber!8,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,1.25)
+  {\textbf{Offline / online jobs:} Magellan (+ LLVM slides) $\cdot$ ACCLAIM (+ GitHub) $\cdot$ EmitC-MLGO June 2026 plan-of-record minutes};
+\node[draw=Ember,fill=Ember!8,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,0.55)
+  {\textbf{Bring-up / codesign:} TritorX $\cdot$ KernelEvolve $\cdot$ Ascend hierarchical diagnosis $\cdot$ KForge};
+\node[draw=Ok,fill=Ok!8,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-0.15)
+  {\textbf{Kernels / control substrate:} CompileIQ agent-skills $\cdot$ AutoKernel $\cdot$ CuTeGen $\cdot$ Auto (AGI Compiler) $\cdot$ FlowCompile};
+\node[font=\sffamily\tiny,text=Mute,text width=12cm,align=center] at (0,-1.15)
+  {Full digest index: one file per source under the publications store ($\sim$108 entries across 13 groups).};
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+% ============================================================
+% 32 Appendix --- publication groups
+\begin{frame}{Appendix --- publication groups}
+\begin{center}
+\vspace{-0.4em}
+\begin{tikzpicture}
+\node[draw=Steel,fill=Steel!10,rounded corners=3pt,inner sep=4pt,text width=3.7cm,align=left,font=\sffamily\tiny] at (-4.3,1.6)
+  {\textbf{17} GPU kernels \& inference\par\textbf{13} Agentic \& RL compilers\par\textbf{13} Source control \& review};
+\node[draw=Amber,fill=Amber!10,rounded corners=3pt,inner sep=4pt,text width=3.7cm,align=left,font=\sffamily\tiny] at (0,1.6)
+  {\textbf{10} Classic DL compilers\par\textbf{10} Company infra\par\textbf{9} Forums \& workshops};
+\node[draw=Ember,fill=Ember!10,rounded corners=3pt,inner sep=4pt,text width=3.7cm,align=left,font=\sffamily\tiny] at (4.3,1.6)
+  {\textbf{8} Surveys \& vision\par\textbf{8} Foundation LLMs\par\textbf{6} MLGO \& RL gyms};
+\node[draw=Ink,fill=Ink!6,rounded corners=3pt,inner sep=4pt,text width=3.7cm,align=left,font=\sffamily\tiny] at (-4.3,-0.55)
+  {\textbf{5} HW codesign \& bring-up\par\textbf{4} Commercial products\par\textbf{4} Control-plane substrate};
+\node[draw=Mute,fill=Mute!10,rounded corners=3pt,inner sep=5pt,text width=7.7cm,align=left,font=\sffamily\tiny] at (2.15,-0.55)
+  {\textbf{How digests are used}\par\vspace{0.15em}
+  Mechanism first; demote generic forge AI.\par
+  When sources disagree, keep both sides --- do not average.\par
+  Update prediction only when Tier A / $\bigstar$ evidence moves.};
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
 
 \end{document}

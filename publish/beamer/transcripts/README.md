@@ -1,10 +1,10 @@
 # Expert Briefing Slide Transcripts
 
 Per-slide speaking scripts for [`../expert-briefing.tex`](../expert-briefing.tex).
-Numbering matches the Beamer source comments (`% 1` … `% 26`).
+Numbering matches the Beamer source comments (`% 1` … `% 32`).
 
 Presenter notes that are **intentionally spoken but not shown** on slides:
-- **Slide 2 (Agenda):** Weight §5 → §4 → §1; contract = diagrams/checkpoints first, do not average conflicts.
+- **Slide 2 (Agenda):** Weight prediction architecture → commercial blockers → trends; contract = diagrams/checkpoints first, do not average conflicts.
 
 | Slide | File | Title |
 | --- | --- | --- |
@@ -16,7 +16,7 @@ Presenter notes that are **intentionally spoken but not shown** on slides:
 | 6 | [`slide-06.md`](slide-06.md) | Executive Verdict |
 | 7 | [`slide-07.md`](slide-07.md) | Four Agent Jobs — Architecture Spine |
 | 8 | [`slide-08.md`](slide-08.md) | Architecture — Target Stack (§5.1) |
-| 9 | [`slide-09.md`](slide-09.md) | Architecture Evolution — Today → A → B |
+| 9 | [`slide-09.md`](slide-09.md) | Architecture Evolution — Component Changes |
 | 10 | [`slide-10.md`](slide-10.md) | What Ships / Does Not By 2028 |
 | 11 | [`slide-11.md`](slide-11.md) | Roadmap Checkpoints (§5.5) |
 | 12 | [`slide-12.md`](slide-12.md) | Checkpoint C1 — Heuristics Vs Neural Advisors |
@@ -34,4 +34,9 @@ Presenter notes that are **intentionally spoken but not shown** on slides:
 | 24 | [`slide-24.md`](slide-24.md) | Working Stance Until Conflicts Settle |
 | 25 | [`slide-25.md`](slide-25.md) | Commercial Checklist — Handout |
 | 26 | [`slide-26.md`](slide-26.md) | Discussion |
-
+| 27 | [`slide-27.md`](slide-27.md) | Appendix — Evidence Store Snapshot |
+| 28 | [`slide-28.md`](slide-28.md) | Appendix — Evidence Map |
+| 29 | [`slide-29.md`](slide-29.md) | Appendix — Tier A Commercial Signals |
+| 30 | [`slide-30.md`](slide-30.md) | Appendix — Tier A Open Repositories |
+| 31 | [`slide-31.md`](slide-31.md) | Appendix — Prediction-Critical Digests |
+| 32 | [`slide-32.md`](slide-32.md) | Appendix — Publication Groups |

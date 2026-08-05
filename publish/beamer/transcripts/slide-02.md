@@ -1,6 +1,6 @@
 # Slide 2: Agenda
 
-Walk the six beats on the slide: trends and keep substrate; verdict and four jobs; architecture evolution; prediction checkpoints; commercial blockers and gaps; then stance, checklist, and the ask.
+Walk the six beats on the slide: trends and keep substrate; verdict and four jobs; architecture evolution; prediction checkpoints; commercial blockers and gaps; then stance, the ask, and the appendix evidence store.
 
 Spoken only — not on the slide:
 
