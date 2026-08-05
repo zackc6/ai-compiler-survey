@@ -178,7 +178,7 @@
     {Ask: Is The Hybrid Prediction ($\sim$2027--31) The Right Bet For Your Roadmap?};
   \node[anchor=south west,text=Mute,font=\scriptsize\sffamily]
     at ([xshift=1.1cm,yshift=0.45cm]current page.south west)
-    {Expert Briefing $\cdot$ $\sim$25--30\,min + Q\&A $\cdot$ SURVEY \S5 Primary};
+    {Expert Briefing $\cdot$ $\sim$25--30\,min + Q\&A $\cdot$ Prediction-first};
 \end{tikzpicture}
 \end{frame}
 
@@ -240,7 +240,7 @@
 
 % ============================================================
 % 4 Six trends
-\begin{frame}{Six active trends (\S1.3)}
+\begin{frame}{Six active trends}
 \begin{center}
 \vspace{-0.55em}
 \begin{tikzpicture}
@@ -389,7 +389,7 @@
 
 % ============================================================
 % 8 Architecture target stack
-\begin{frame}{Architecture --- Target Stack (\S5.1)}
+\begin{frame}{Architecture --- Target Stack}
 \begin{center}
 \vspace{-0.9em}
 \begin{tikzpicture}[node distance=0.28cm]
@@ -560,7 +560,7 @@
 
 % ============================================================
 % 11 Roadmap checkpoints (§5.5)
-\begin{frame}{Roadmap Checkpoints (\S5.5) --- when the prediction changes}
+\begin{frame}{Roadmap Checkpoints --- when the prediction changes}
 \begin{center}
 \vspace{-0.35em}
 \begin{tikzpicture}
@@ -588,7 +588,7 @@
 \node[draw=Amber,fill=Amber!12,rounded corners=4pt,inner sep=4pt,text width=2.35cm,align=center,font=\sffamily\scriptsize]
   at (-3.6,2.35) {\textbf{\color{Amber}C1}\par Magellan open-source /\par EmitC default\par{\tiny 2026--27}};
 \node[draw=Ember,fill=Ember!12,rounded corners=4pt,inner sep=4pt,text width=2.35cm,align=center,font=\sffamily\scriptsize]
-  at (-0.4,2.35) {\textbf{\color{Ember}C2}\par Public p50/p90\par control-file / kernel traces\par{\tiny 2026--28}};
+  at (-0.4,2.35) {\textbf{\color{Ember}C2}\par Public median / p90 gains\par on pinned traces\par{\tiny p50/p90 = percentiles $\cdot$ 2026--28}};
 \node[draw=Steel,fill=Steel!12,rounded corners=4pt,inner sep=4pt,text width=2.35cm,align=center,font=\sffamily\scriptsize]
   at (2.8,2.35) {\textbf{\color{Steel}C9}\par 2nd-vendor\par TritorX-class\par{\tiny 2027--28}};
 
@@ -610,7 +610,7 @@
 \end{tikzpicture}
 \end{center}
 \vspace{-0.1em}
-{\footnotesize\color{Mute}\centering Near-term milestones from \S5.5 --- falsifiable; watch settlement signals, do not average disagreements.\par}
+{\footnotesize\color{Mute}\centering Falsifiable milestones --- watch settlement signals; do not average disagreements.\par}
 \end{frame}
 
 % ============================================================
@@ -619,14 +619,14 @@
 \begin{center}
 \begin{tikzpicture}
 \node[sideAmber] (A) at (-3.4,0.35) {%
-  \textbf{\color{Amber}A --- Magellan path}\par\vspace{0.3em}
+  \textbf{\color{Amber}A --- Magellan path}\par{\scriptsize evolve shippable C++ heuristics}\par\vspace{0.2em}
   Evolve shippable C++\par
   (\texttt{EVOLVE-BLOCK})\par\vspace{0.3em}
   Offline coding agent\par
   \emph{is} the control-plane output\par\vspace{0.4em}
   {\scriptsize Product = evolutionary coding agent + review}};
 \node[sideSteel] (B) at (3.4,0.35) {%
-  \textbf{\color{Steel}B --- MLGO / EmitC path}\par\vspace{0.3em}
+  \textbf{\color{Steel}B --- MLGO / EmitC path}\par{\scriptsize MLGO = learned in-tree LLVM advisors}\par\vspace{0.2em}
   NN advisors stay in-tree\par\vspace{0.15em}
   June 2026 plan of record:\par
   internal inliner $\rightarrow$\par
@@ -670,8 +670,9 @@
 \vspace{0.2cm}
 \begin{tikzpicture}
 \node[c25Box] {
-  \textbf{C2} ``Agents become default'' needs \textbf{p50 build-CI wins}, not best-kernel blogs.\par\vspace{0.4em}
-  \textbf{C5} Online specialize (control files / hints) vs offline eng (Magellan/MLGO) --- both may live; \emph{which is the default flag?}\par\vspace{0.4em}
+  \textbf{C2} ``Agents become default'' needs \textbf{median (p50) build-CI wins}, not best-kernel blogs.\par\vspace{0.25em}
+  {\color{Mute}\scriptsize p50 / p90 = 50th / 90th percentile of the gain distribution across builds.}\par\vspace{0.35em}
+  \textbf{C5} Online specialize (control files / hints) vs offline eng (Magellan/MLGO) --- both may live; \emph{which is the default flag?}\par\vspace{0.35em}
   \textbf{Settlement:} pinned public traces + release notes listing agent / control-file workflows.
 };
 \end{tikzpicture}
@@ -691,7 +692,7 @@
 \node[cardEmber] at (3.3,1.6) {%
   \textbf{\color{Ember}C6 --- replace vs control plane}\par
   Flip: production default with \emph{no} admit\par
-  $\Rightarrow$ rewrites survey baseline (now C6-B)};
+  $\Rightarrow$ agents replaced the compiler (we reject this)};
 \node[cardSteel] at (-3.3,-0.5) {%
   \textbf{\color{Steel}C9 --- coverage vs peak}\par
   Flip: TritorX $\rightarrow$ KernelEvolve ladder public\par
@@ -731,7 +732,7 @@
 \end{tikzpicture}
 \end{center}
 \vspace{0.3em}
-{\footnotesize\color{Mute}\centering Each blocker gets one slide. Survey lean from \S5.7 + \S4.\par}
+{\footnotesize\color{Mute}\centering Each blocker gets one slide --- productization gaps, not research wishlist.\par}
 \end{frame}
 
 % ============================================================
@@ -807,7 +808,7 @@
 \node[font=\sffamily\small\bfseries,text=Ink] at (0,0.05) {Attribution hard (Graphs / KV / GEMV)};
 \node[font=\sffamily\small\bfseries,text=Ink] at (0,-1.15) {Default-path A/B + multi-month stability};
 \node[font=\sffamily\scriptsize,text=Mute,align=center,text width=12cm] at (0,-2.35)
-  {Marketing bar: p50/p90 + cost-to-compile $\cdot$ MLGO-style persistent throughput, not single-kernel headlines};
+  {Marketing bar: median + 90th-percentile gains + cost-to-compile $\cdot$ persistent serving throughput, not single-kernel headlines};
 \end{tikzpicture}
 \end{center}
 \end{frame}
@@ -835,7 +836,7 @@
 
 % ============================================================
 % 21 Gap map
-\begin{frame}{Gap map --- blockers to \S5, not a wishlist}
+\begin{frame}{Gap map --- what blocks the prediction, not a wishlist}
 \begin{center}
 \begin{tikzpicture}
 \node[font=\sffamily\small\bfseries,text=Ember] at (0,2.6) {HIGH};
@@ -904,7 +905,7 @@
 \begin{center}
 \begin{tikzpicture}
 \node[stanceNum] at (-5.8,2.2) {1};
-\node[stanceTxt] at (-5.2,2.2) {Hybrid control / data plane (C6-B)};
+\node[stanceTxt] at (-5.2,2.2) {Hybrid: agents search; compilers lower (not replace)};
 \node[stanceNum] at (-5.8,1.45) {2};
 \node[stanceTxt] at (-5.2,1.45) {Magellan $\parallel$ MLGO --- parallel bets (C1)};
 \node[stanceNum] at (-5.8,0.7) {3};
@@ -975,7 +976,7 @@
 
   \node[anchor=south west,text=Mute,font=\scriptsize\sffamily,text width=0.85\paperwidth]
     at ([xshift=1.1cm,yshift=0.45cm]current page.south west)
-    {Primary narrative: docs/SURVEY.md \S5 $\rightarrow$ \S4 $\rightarrow$ \S1 $\cdot$ Backup: C1--C10 $\cdot$ P9--P23 $\cdot$ \S9};
+    {Ask again: is the hybrid bet right for your roadmap? Watch settlement signals --- do not average disagreements.};
 \end{tikzpicture}
 \end{frame}
 

@@ -8,4 +8,4 @@ Open with the spine in one breath: agents own search, orchestration, and synthes
 
 Then plant the ask you want them to answer by the end: is the hybrid prediction for roughly 2027 to 2031 the right bet for their roadmap?
 
-Timing cue: about 25 to 30 minutes plus Q and A. Primary weight is Survey Section 5.
+Timing cue: about 25 to 30 minutes plus Q and A. This briefing is prediction-first; diagrams and checkpoints carry the argument.

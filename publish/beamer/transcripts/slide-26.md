@@ -7,4 +7,4 @@ Invite questions:
 2. Harder commercial bar: oracle strength or replay/freeze?
 3. Building job (a), (b), or (d) first — what do you refuse online?
 
-Point back to SURVEY §5 → §4 → §1 for citations and conflicts. End cleanly.
+Close on the hybrid ask. End cleanly.

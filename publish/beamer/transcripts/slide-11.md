@@ -6,7 +6,7 @@ Walk Today (2025–26) → Horizon A (2027–28) → Horizon B (~2029–31). The
 
 Above the axis, left to right:
 - C1 (2026–27): Magellan OSS or EmitC becomes default.
-- C2 (2026–28): public p50/p90 on ACF or kernel traces.
+- C2 (2026–28): public median / p90 gains on pinned traces (p50/p90 = percentiles of the gain distribution).
 - C9 (2027–28): second-vendor TritorX-class bring-up.
 
 Below the axis:
