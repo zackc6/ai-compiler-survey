@@ -1,9 +1,12 @@
-# Slide 32: Commercial checklist — handout
+# Slide 32: Working stance until conflicts settle
 
-Leave them with three columns.
+Until checkpoints settle, operate on these eight stances.
 
-Architecture: typed tools and admit traces; VCS over dense over scratchpad; FSM or plan for SLA; freeze before default-on.
-Trust: layered oracles; CODEOWNERS and provenance; joint version pins; A/B before calling something production default.
-Business: sell regressable artifacts plus CI quota; customer owns outputs; coverage then performance SLA; token budget per percent gain.
-
-This is the handout slide — pause so people can photograph it.
+One: hybrid control and data plane, C6-B.
+Two: Magellan parallel with MLGO — parallel bets on C1.
+Three: discount single-number speedups, C2.
+Four: constrained actions plus strong oracles, C3.
+Five: demote generic SCM AI, C7.
+Six: coverage then performance ladder; no autonomous EDA, C9 and C10.
+Seven: keep about six to seven data-plane bands; if they do not consolidate, ship pluggable interfaces — A6 / S6.
+Eight: e2e-optimal-seeking — joint search under product fitness F; bands are lower and legality surfaces, not independent greeds — A7 / S7.

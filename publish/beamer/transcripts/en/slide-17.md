@@ -1,11 +1,11 @@
-# Slide 17: Commercial blockers — top 5
+# Slide 17: Checkpoints C3 / C6 / C9 / C10 — interface width & scope
 
-Rank the blockers before deep dives.
+Read four bands: title, Flip, consequence.
 
-One: oracles strong enough for money — fast-but-wrong creates liability.
-Two: cost, replay, and when agents may run — nondeterministic dollar-N compiles.
-Three: agent to compiler contract — natural language only is a demo.
-Four: distributional production evidence — no default-path A/B yet.
-Five: ownership, supply chain, and human-in-the-loop — unowned agent code in the TCB.
+**C3** free rewrite vs advisory — Flip: shared suite where free rewrite wins → wide rewrite API vs narrow ACFs/hints (current lean: advisory).
 
-Each blocker gets its own slide. Lean comes from Survey Sections 5.7 and 4.
+**C6** replace vs control plane — Flip: production default with no admit → agents replaced the compiler (survey rejects; hold hybrid).
+
+**C9** coverage vs peak — Flip: TritorX → KernelEvolve ladder goes public → SKU: coverage SLA then performance SLA.
+
+**C10** codesign vs auto tape-out — Flip: microarch primarily agent-proposed and compiler-oracle validated → enters chip-design tooling (today: agents stress kernels/IR only).

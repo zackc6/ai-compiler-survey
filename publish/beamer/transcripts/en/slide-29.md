@@ -1,10 +1,10 @@
-# Slide 29: Technical Prediction — Critical Missing Parts Now
+# Slide 29: Technical Prediction — What Each Checkpoint Needs
 
-Four highest-leverage Horizon A bets (bands; each with without-this consequence):
+Band map (checkpoint ← techniques, then one short “needs” line):
 
-1. Money-grade oracle stack (T2+T6) — without → demos
-2. Replayable artifact contract (T3) — without → CI rejects
-3. Portable agent compile interface (T1) — without → re-glue
-4. Open ladder + multi-IR data (T7+T8) — without → incomparable
-
-Survey lean: T1–T5 ship as product surfaces; T6–T10 equally first-class — mostly outside classical lowering.
+- **C1 ← T4** — Magellan-class synthesis or EmitC-MLGO customer default on named apps
+- **C2 ← T3+T6+T8** — replayable artifacts + serving oracles + ladder; FlashInfer-Bench = pressure, not settlement
+- **C5 ← T1+T3** — typed interfaces + freeze-before-serve named in release notes
+- **C3/C6 ← T1+T2** — constrained tools + admit/fallback (lean: hybrid advisory)
+- **C9 ← T5+T8** — coverage→perf agents + dialect sinks; need 2nd-vendor TritorX-class path
+- **C10 ← T5** — ISA/dialect proposals only; humans + chip-design tools own tape-out

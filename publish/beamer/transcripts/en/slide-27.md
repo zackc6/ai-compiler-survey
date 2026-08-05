@@ -1,23 +1,23 @@
-# Slide 27: Technical Prediction — Outside The Compiler (T6–T10)
+# Slide 27: Technical Prediction — Within The Compiler (T1–T5)
 
-Same larger-font band rhythm as slide 24.
+Larger-font bands. For each: technique + unlocks, then Exists, then Missing.
 
-6. **T6 Serving oracles / A/B** → C2  
-   Exists: unit/golden/Alive2 · FlashInfer-Bench + `apply()` · VibeServe  
-   Missing: whole-program / GPU-race / FP; multi-month default-path A/B
+1. **T1 Typed interfaces** → C3, C5, C6  
+   Exists: CompileIQ · ACCLAIM · mlir-opt-repl · FlashInfer Trace  
+   Missing: portable schemas across MLIR · Triton · Tile · StableHLO
 
-7. **T7 Multi-IR corpora** → Selectors  
-   Exists: Meta LLM Compiler · KernelBook → TritonRL · DRTriton  
-   Missing: versioned MLIR / Tile / StableHLO + failed / miscompile negatives
+2. **T2 Admit / fallback** → C6 hybrid  
+   Exists: AgentCompile · Archer · TritonRL verifiers · FlashInfer-Bench  
+   Missing: shared admit product + trusted deterministic fallback
 
-8. **T8 Benchmark ladder** → C2, C9  
-   Exists: KernelBench(-X) · FlashInfer-Bench serving-kernel rung  
-   Missing: full IR → kernel → fused → serving + cost-to-compile
+3. **T3 Control files + replay** → C2, C5  
+   Exists: CompileIQ ACFs · FlashInfer Trace + `apply()`  
+   Missing: content-addressed keys; golden replay on model upgrade
 
-9. **T9 Provenance / HITL** → C7  
-   Exists: Magellan reviewable C++ · Archer oracle review  
-   Missing: CODEOWNERS + signed admit records + sandbox for proposals
+4. **T4 Heuristic hooks / advisors** → C1  
+   Exists: Magellan / AlphaEvolve · MLGO · EmitC PoR  
+   Missing: settled Magellan vs MLGO default on named apps
 
-10. **T10 Workflow compile / freeze** → Horizon B  
-    Exists: FlowCompile · Auto · AgentFlow · VibeServe (early)  
-    Missing: shared agent-graph IR + fail-closed CI → Horizon B
+5. **T5 Dialect / ISA sinks** → C9, C10  
+   Exists: TritorX · KernelEvolve · Ascend diagnosis  
+   Missing: first-class change-proposal surfaces (not auto tape-out)

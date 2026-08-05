@@ -1,3 +1,3 @@
-# Slide 36: Appendix — Tier A commercial signals
+# Slide 36: Appendix — evidence map
 
-Walk the band list: Google/DeepMind (AlphaEvolve Cloud, Magellan + MLGO); NVIDIA (CompileIQ, Tile IR, TensorRT-LLM skills); AMD (GEAK); Meta (LLM Compiler, KernelLLM, TritorX, KernelEvolve, Helion); FlashInfer-Bench. Close with Tier B baselines agents must plug into.
+Three buckets. Publications: about 108 digests, one file per source, star means prediction-critical. Products: commercial SKUs as prediction signals — Tier A shapes the future, Tier B is data-plane defaults. Repositories: forge artifacts tiered A/B/C. Use star digests and Tier A when a checkpoint is contested.

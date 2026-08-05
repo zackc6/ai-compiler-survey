@@ -1,10 +1,23 @@
-# Slide 28: Technical Prediction — What Each Checkpoint Needs
+# Slide 28: Technical Prediction — Outside The Compiler (T6–T10)
 
-Band map (checkpoint ← techniques, then one short “needs” line):
+Same larger-font band rhythm as slide 24.
 
-- **C1 ← T4** — Magellan-class synthesis or EmitC-MLGO customer default on named apps
-- **C2 ← T3+T6+T8** — replayable artifacts + serving oracles + ladder; FlashInfer-Bench = pressure, not settlement
-- **C5 ← T1+T3** — typed interfaces + freeze-before-serve named in release notes
-- **C3/C6 ← T1+T2** — constrained tools + admit/fallback (lean: hybrid advisory)
-- **C9 ← T5+T8** — coverage→perf agents + dialect sinks; need 2nd-vendor TritorX-class path
-- **C10 ← T5** — ISA/dialect proposals only; humans + chip-design tools own tape-out
+6. **T6 Serving oracles / A/B** → C2  
+   Exists: unit/golden/Alive2 · FlashInfer-Bench + `apply()` · VibeServe  
+   Missing: whole-program / GPU-race / FP; multi-month default-path A/B
+
+7. **T7 Multi-IR corpora** → Selectors  
+   Exists: Meta LLM Compiler · KernelBook → TritonRL · DRTriton  
+   Missing: versioned MLIR / Tile / StableHLO + failed / miscompile negatives
+
+8. **T8 Benchmark ladder** → C2, C9  
+   Exists: KernelBench(-X) · FlashInfer-Bench serving-kernel rung  
+   Missing: full IR → kernel → fused → serving + cost-to-compile
+
+9. **T9 Provenance / HITL** → C7  
+   Exists: Magellan reviewable C++ · Archer oracle review  
+   Missing: CODEOWNERS + signed admit records + sandbox for proposals
+
+10. **T10 Workflow compile / freeze** → Horizon B  
+    Exists: FlowCompile · Auto · AgentFlow · VibeServe (early)  
+    Missing: shared agent-graph IR + fail-closed CI → Horizon B

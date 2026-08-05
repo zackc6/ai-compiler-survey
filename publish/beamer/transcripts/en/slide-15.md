@@ -1,10 +1,9 @@
-# Slide 15: Checkpoints C2 + C5 — gains \& default path
+# Slide 15: Checkpoint C1 — heuristics vs neural advisors
 
-The chart is illustrative tension, not a meta-analysis: vendor headlines around fifteen percent versus docs-style hot-kernel gains nearer two and a half percent.
+Two live bets.
 
-Define percentiles in the room: **p50** is the median gain across builds; **p90** is the 90th percentile. The point of C2 is distributional wins in build CI — typical and near-tail — not a single best-kernel blog post.
+Path A, Magellan: evolve shippable C++ via EVOLVE-BLOCK. The offline coding agent is the control-plane output. Product shape is evolutionary coding agent plus review.
 
-C2: agents become default only with median (p50) build-CI wins.
-C5: online specialize via control files or hints versus offline eng via Magellan or MLGO — both may live; the question is which is the default flag.
+Path B, MLGO EmitC: neural advisors stay in-tree. June 2026 plan of record points internal inliner, then Android and Fuchsia, then Chrome multi-model. Agents train and feature the networks rather than replace them.
 
-Settlement: pinned public traces plus release notes that list agent or control-file workflows.
+Settlement: public Magellan LLVM patches that displace MLGO, or EmitC-MLGO becomes customer default. Watch LLVM syncs and OpenEvolve recipes quarterly through 2027.

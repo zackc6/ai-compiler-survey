@@ -1,10 +1,7 @@
-# Slide 20: Blocker 3 — Agent↔compiler contract
+# Slide 20: Blocker 2 — Cost, replay, when may the agent run?
 
-Four full-width options (top to bottom):
+Three phases: lab is interactive chat and tools; product CI is batch optimize with budget SLOs, Welch, and canary; freeze means ACF or kernels in VCS with zero LLM at serve time.
 
-- **A** Natural language + pasted logs — demo only
-- **B** Structured admit traces — build CI / bill of materials
-- **C** Typed tool interfaces — required action space
-- **D** Hybrid — natural-language view over traces
+Cache key should include IR hash, hardware, compiler version, and agent policy, plus an explicit budget in dollars per percent gain.
 
-Show the `admit_record` fields. Lean: **C + B**. Natural language is a view, not source of truth. ACF = portable compiler knobs.
+This commercially falsifies chat-with-the-compiler on every build without spend and latency SLOs.

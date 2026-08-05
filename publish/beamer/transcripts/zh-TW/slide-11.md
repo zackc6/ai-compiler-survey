@@ -7,3 +7,5 @@
 右側——若產業沒有收斂乾淨的 L2／L4／L7 IR，不要乾等。改走可插拔介面：agent compile schema、typed tools／MCP 級伺服器、dialect＋oracle＋objective plugins、以及機群放置 plugins（L7）。
 
 尺寸註記：參數量不是瓶頸。上線的局部 advisor 常是 KB–MB；跨層帶的 proposer 看起來像 7B–70B+ 的 IR LLM，卻仍只是 prior。真正難的是標註好的（程式、動作、硬體、能耗、SLO）元組，且每換 SKU 要更新。押注：每層小成本模型＋可選大型編排器——不是一顆吃掉 L1–L7 的巨型成本模型。
+
+銜接下一張：局部成本只是 prior；架構仍須在產品適應度 \(F\) 下追求 e2e 最佳。

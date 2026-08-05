@@ -1,11 +1,10 @@
-# Slide 16: Checkpoints C3 / C6 / C9 / C10 — interface width & scope
+# Slide 16: Checkpoints C2 + C5 — gains \& default path
 
-Read four bands: title, Flip, consequence.
+The chart is illustrative tension, not a meta-analysis: vendor headlines around fifteen percent versus docs-style hot-kernel gains nearer two and a half percent.
 
-**C3** free rewrite vs advisory — Flip: shared suite where free rewrite wins → wide rewrite API vs narrow ACFs/hints (current lean: advisory).
+Define percentiles in the room: **p50** is the median gain across builds; **p90** is the 90th percentile. The point of C2 is distributional wins in build CI — typical and near-tail — not a single best-kernel blog post.
 
-**C6** replace vs control plane — Flip: production default with no admit → agents replaced the compiler (survey rejects; hold hybrid).
+C2: agents become default only with median (p50) build-CI wins.
+C5: online specialize via control files or hints versus offline eng via Magellan or MLGO — both may live; the question is which is the default flag.
 
-**C9** coverage vs peak — Flip: TritorX → KernelEvolve ladder goes public → SKU: coverage SLA then performance SLA.
-
-**C10** codesign vs auto tape-out — Flip: microarch primarily agent-proposed and compiler-oracle validated → enters chip-design tooling (today: agents stress kernels/IR only).
+Settlement: pinned public traces plus release notes that list agent or control-file workflows.

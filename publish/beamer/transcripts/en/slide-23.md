@@ -1,9 +1,5 @@
-# Slide 23: Gap map — what blocks the prediction, not a wishlist
+# Slide 23: Blocker 5 — Ownership, security, human review
 
-This is a priority map of gaps that gate the Section 5 prediction, not a research wishlist.
+Three pressures: TCB risk when agent kernels or heuristics enter the trusted base; ownership via CODEOWNERS, signed provenance, and sandbox; HITL capacity where agents raise draft volume and reviewers become the bottleneck.
 
-High: production evidence, correctness, cost and replay, cross-stack, benchmarks.
-Medium-high: hardware-native APIs, training data.
-Medium: workflow compile, HITL process, security.
-
-If you only fund one band, fund the high row — those are what keep Horizon A from being a slideware story.
+Lean: human CODEOWNER, signed admit, sandbox; oracle auto-merge only for narrow action classes. Generic forge AI is not the same as compiler-oracle review — that is checkpoint C7.

@@ -1,9 +1,8 @@
-# Slide 14: Checkpoint C1 — heuristics vs neural advisors
+# Slide 14: Roadmap Checkpoints — when the prediction changes
 
-Two live bets.
+Walk the spine Today → Horizon A → Horizon B (era labels sit under the axis so they never collide with cards).
 
-Path A, Magellan: evolve shippable C++ via EVOLVE-BLOCK. The offline coding agent is the control-plane output. Product shape is evolutionary coding agent plus review.
+Above-axis: C1 Magellan OSS / EmitC; C2 public median/p90 on pinned traces; C9 second-vendor TritorX-class.
+Below-axis: C5 agent/ACF in release notes; C3/C6 free rewrite vs advisors; MOCHA verified-rewrite evals.
 
-Path B, MLGO EmitC: neural advisors stay in-tree. June 2026 plan of record points internal inliner, then Android and Fuchsia, then Chrome multi-model. Agents train and feature the networks rather than replace them.
-
-Settlement: public Magellan LLVM patches that displace MLGO, or EmitC-MLGO becomes customer default. Watch LLVM syncs and OpenEvolve recipes quarterly through 2027.
+Close: falsifiable milestones — watch settlement signals; do not average disagreements.

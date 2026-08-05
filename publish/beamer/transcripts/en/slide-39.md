@@ -1,3 +1,3 @@
-# Slide 39: Appendix — publication groups
+# Slide 39: Appendix — prediction-critical digests (★)
 
-Read the group counts (GPU kernels, agentic/RL, SCM, classic DL, company infra, forums, surveys, foundation LLMs, MLGO/gyms, HW codesign, commercial, control-plane substrate). Then: mechanism first; demote generic forge AI; keep both sides — do not average; update prediction only when Tier A / ★ evidence moves.
+Band through highest-signal sources: Vision/funded (Compiler 2.0, MOCHA); Offline/online (Magellan, ACCLAIM, EmitC-MLGO PoR); Bring-up/codesign (TritorX, KernelEvolve, Ascend, KForge); Kernels/ladder/data (CompileIQ, FlashInfer-Bench★, KernelBook★, AutoKernel, CuTeGen, Auto, FlowCompile). Point to ~115 digests and SURVEY §5.8.

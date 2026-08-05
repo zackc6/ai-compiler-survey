@@ -1,23 +1,23 @@
-# 投影片 27：技術預測 — 編譯器之外 (T6–T10)
+# 投影片 27：技術預測 — 編譯器內部（T1–T5）
 
-與投影片 24 相同的大字型樂隊節奏。
+較大字型的帶狀版面。每一項：技術 + 解鎖，然後 Exists，再 Missing。
 
-6. **T6 發球 判定預示機 / A/B** → C2  
-   存在：unit/golden/Alive2 · FlashInfer-Bench + `apply()` · VibeServe  
-   缺失：全程式/GPU-race/FP；多月預設路徑 A/B
+1. **T1 Typed interfaces** → C3, C5, C6  
+   Exists：CompileIQ · ACCLAIM · mlir-opt-repl · FlashInfer Trace  
+   Missing：跨 MLIR · Triton · Tile · StableHLO 的可攜 schema
 
-7. **T7 Multi-IR 語料庫** → 選擇器  
-   存在：Meta LLM 編譯器·KernelBook → TritonRL·DRTriton  
-   缺少：版本化 MLIR / Tile / StableHLO + 失敗/錯誤編譯負數
+2. **T2 Admit / fallback** → C6 hybrid  
+   Exists：AgentCompile · Archer · TritonRL verifiers · FlashInfer-Bench  
+   Missing：共享的接納產品 + 可信的確定性回退路徑
 
-8. **T8 基準階梯** → C2、C9  
-   存在：KernelBench(-X) · FlashInfer-Bench 服務核心梯級  
-   缺少：完整的 IR → 核心 → 融合 → 服務 + 編譯成本
+3. **T3 Control files + replay** → C2, C5  
+   Exists：CompileIQ ACFs · FlashInfer Trace + `apply()`  
+   Missing：內容定址金鑰；模型升級時的 golden replay
 
-9. **T9 出處 / HITL** → C7  
-   存在：Magellan 可審查 C++ · Archer 判定預示機審查  
-   缺少：程式碼所有者 + 簽名的承認記錄 + 提案沙箱
+4. **T4 Heuristic hooks / advisors** → C1  
+   Exists：Magellan / AlphaEvolve · MLGO · EmitC PoR  
+   Missing：在具名應用上，Magellan vs MLGO 誰是預設已定案
 
-10. **T10 工作流程編譯/凍結** → Horizon B  
-    存在：FlowCompile·Auto·智慧體Flow·VibeServe（早期）  
-    缺失：共享智慧體圖 IR + 故障關閉 CI → Horizon B
+5. **T5 Dialect / ISA sinks** → C9, C10  
+   Exists：TritorX · KernelEvolve · Ascend diagnosis  
+   Missing：一流的變更提案介面（不是自動 tape-out）

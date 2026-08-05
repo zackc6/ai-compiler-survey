@@ -1,6 +1,6 @@
 # Next-Gen AI Compiler Survey
 
-**Last updated:** 2026-08-05 (§5.1.1–5.1.2 into sharing deck + cost-model size)  
+**Last updated:** 2026-08-05 (§5.1.3: e2e-optimal-seeking architecture)  
 **Evidence store:** [`../reference/README.md`](../reference/README.md) → publications · products · repos  
 **Status:** [`../STATUS.md`](../STATUS.md)
 
@@ -10,7 +10,7 @@
 3. Digests / SKUs / forges stay under [`reference/`](../reference/README.md) so the narrative does not become a catalog.  
 4. Maintainers: **§9** add-source loop; `python3 scripts/validate_survey.py`.
 
-**One-page success check:** (1) Predicted agentic compiler? → §5.1 / §5.5. (2) Four jobs + stack? → §5.1 / §5.6. (3) How many data-plane layers (+ plugins if not consolidated)? → **§5.1.1–5.1.2**. (4) Evidence vs noise? → Tier A vs C + §6. (5) Commercial blockers? → §5.7. (6) Which techniques to enhance for the roadmap? → **§5.8**.
+**One-page success check:** (1) Predicted agentic compiler? → §5.1 / §5.5. (2) Four jobs + stack? → §5.1 / §5.6. (3) Layers + plugins + **e2e-optimal-seeking** control plane? → **§5.1.1–5.1.3**. (4) Evidence vs noise? → Tier A vs C + §6. (5) Commercial blockers? → §5.7. (6) Which techniques to enhance for the roadmap? → **§5.8**.
 
 ---
 
@@ -670,6 +670,7 @@ Hybrid stack: agents orchestrate; classical compilers execute; silicon feeds the
 4. **Defaults stay classical** until agents win on *distributions* in CI; hot kernels, size-critical apps, and *new ASICs* adopt first.
 5. **Will not happen soon:** unconstrained LLM replaces `opt`/Inductor without oracles (**C6**); autonomous chip tape-out via compiler agents (**C10**).
 6. **Data plane stays multi-band** (~L1–L6 today, + maturing fleet **L7**): not one universal cost-model IR. Cluster/power attach as place/objectives/oracles; missing consolidation → **pluggable interfaces**. Detail: [§5.1.1](#511-how-many-data-plane-abstractions-one-cost-model-is-not-enough)–[§5.1.2](#512-predicted-abstraction-inventory--how-many-layers-for-what-and-if-they-do-not-consolidate) (A6/S6).
+7. **Target e2e optimum as the architecture center:** multi-band lowers stay; **search and admit reshape** around a joint e2e fitness \(F\) (not per-band greed). Detail: [§5.1.3](#513-e2e-optimal-seeking-architecture) (A7/S7).
 
 **Sub-agent / workflow-compile substrate (must consider).** The control plane is itself becoming a compile target:
 
@@ -783,7 +784,95 @@ When industry does **not** converge on a clean L2/L4/L7 IR, do **not** wait for 
 - A widely adopted **FleetIR** (or equivalent) becomes mandatory and separate from L2/L3 (**would promote L7 from “maturing/plugin” to full peer band sooner**).
 - Energy becomes a first-class IR dialect industry-wide rather than counters+objectives (**would add an L-power band** — not the current lean).
 
-**Pointers.** Stack reshape: [§5.6](#56-stack-reshape-sw--hw-codesign). Cross-stack + tools: [§4.4](#44-cross-stack-interoperability), [§4.5](#45-hardware-native-agent-interfaces). Commercial contract options: [§5.7 P1](#57-from-prediction-to-commercial-practice--critical-problems). Techniques: T1, T2, T5, T6, T10.
+**Pointers.** Stack reshape: [§5.6](#56-stack-reshape-sw--hw-codesign). Cross-stack + tools: [§4.4](#44-cross-stack-interoperability), [§4.5](#45-hardware-native-agent-interfaces). Commercial contract options: [§5.7 P1](#57-from-prediction-to-commercial-practice--critical-problems). Techniques: T1, T2, T5, T6, T10. E2E-optimal-seeking: [§5.1.3](#513-e2e-optimal-seeking-architecture).
+
+#### 5.1.3 E2E-optimal-seeking architecture
+
+**Question.** With ~6–7 data-plane bands, per-band greed yields local optima (great L4 kernel, bad fusion; peak tile, worse serving; perfect place, starved kernels). If next-gen AI compilers **care about e2e optimum**, is an architecture that *targets* e2e optimality possible — and if yes, **what does it look like** (how must the stack reshape)?
+
+**Complexity bound (not an excuse to stop).** A closed-form proof of a unique global optimum over all bands, SKUs, and future ISAs is intractable (joint discrete space, multi-objective \(F\), noisy HW, incomplete oracles). That bound is **not** “classical multi-pass never guaranteed it, so next-gen need not try.” If e2e optimum is the product goal, the **control plane and admit path must be rebuilt around \(F\)**; bands stay as legality/lower surfaces, not as independent optimization silos.
+
+**Survey lean: yes — an e2e-optimal-*seeking* architecture is the Horizon target.** Not claimed: mathematical unique global optimum. Claimed: reshape so **product fitness \(F\)** is the only win condition, with **joint (or bilevel) search** across bands and physical e2e measure as admit.
+
+```text
+                 Product fitness F
+          (latency · energy · $/token · quality · cluster util)
+              — Pareto / constrained front, not sum of local costs —
+                           │
+                           ▼
+            ┌──────────────────────────────┐
+            │  E2E search controller       │
+            │  joint policy over actions   │
+            │  credit assignment across bands│
+            │  budget · stop · freeze      │
+            └──────────────┬───────────────┘
+                           │ coupled proposals (not siloed greeds)
+         ┌─────────┬───────┼───────┬─────────┐
+         ▼         ▼       ▼       ▼         ▼
+       L2/L3     L4/L5    L6      L7*     plugins
+       graph     kernel   serve   place   (oracle/cost/place)
+         │         │       │       │
+         └─────────┴───────┴───────┘
+                           │
+                           ▼
+              Physical e2e measure (serving A/B,
+              pinned traces, energy, fleet util)
+                           │
+              legality → golden → F-admit → freeze / reject
+                           │
+                           └── train e2e surrogate / update joint policy
+```
+
+##### Reshape vs local-friendly hybrid
+
+| Local-friendly (avoid) | E2E-optimal-seeking (target) |
+|---|---|
+| Bands = independent optimize-then-lower | Bands = **legality / lower surfaces**; **search is joint** |
+| Local cost model can “win” a band | Local cost = **proposal prior only**; only \(F\) admits |
+| Orchestrator schedules leftover budget | Orchestrator / joint policy **is** the optimizer |
+| Microbenchmark as success | Microbench demoted; **serving / fleet / energy** is success |
+| Train per-pass labels | Train on **e2e trajectories** (action stacks → \(F\)) |
+| One-pass L1→L7 greed | **Backtracking / bilevel**: upper choices scored by rolled-up \(F\) |
+| Many search surfaces = many optimizers | Prefer **fewer search surfaces**, many lower surfaces ([§5.1.2](#512-predicted-abstraction-inventory--how-many-layers-for-what-and-if-they-do-not-consolidate) plugins OK) |
+
+##### What the architecture looks like (components)
+
+| Component | Role |
+|---|---|
+| **1. Constitution \(F\)** | Sole product score — latency, energy, $/token, quality, cluster util; often a **Pareto / constrained** front, never \(\sum\) local costs |
+| **2. E2E search controller** | Joint or bilevel policy over fuse/layout · tile/schedule · serve · place; grows ACCLAIM-class guide into a true cross-band optimizer (P3/P22 FSM bounds) |
+| **3. Learned e2e surrogate + real oracle** | Fast surrogate proposes; periodic **physical** serving/energy measure admits (T6); surrogate never replaces legality |
+| **4. Legality plugins stay** | Alive2 / golden / race checks remain band-local; they gate proposals, they do not define “win” ([§5.1.1](#511-how-many-data-plane-abstractions-one-cost-model-is-not-enough)) |
+| **5. Eqsat / rewrite / MCTS where legal** | Structured search inside a band; **rank outside** by \(F\) (MOCHA-class + hybrid loops) |
+| **6. Freeze under \(F\)-admit** | Ship ACF/kernel/place only when \(F\) improves vs classical baseline on pinned traces; else fallback (C5/C6) |
+| **7. Offline encode e2e wins** | Job (b) distills repeated \(F\)-winning stacks into heuristics/advisors (Magellan/MLGO; T4) |
+| **8. Amdahl-first under \(F\)** | Region cut by e2e impact before deep L4/L5 burn (AutoKernel; P23) |
+
+##### Anti-patterns (fail the e2e-optimum goal)
+
+| Anti-pattern | Why |
+|---|---|
+| Optimize L1→L7 **greedily once**, never revisit | Lower peaks constrain upper choices; place/serve invalidate kernel “wins” |
+| Sum per-band local costs as “global” | Units/oracles differ; sum \(\neq F\) (**§5.1.1**) |
+| Report only kernel microbenchmarks | Ignores fusion, batching, collectives, energy (**C2**) |
+| Unbounded per-band loops without \(F\) budget | Spend without approaching e2e optimum (P23) |
+| Use “classical never guaranteed optimum” to justify siloed greeds | Complexity bound ≠ product architecture |
+
+##### What “e2e optimum” means here
+
+| Target | Meaning |
+|---|---|
+| **Not claimed** | Unique closed-form global optimum over all bands and future HW |
+| **Claimed (Horizon A→B)** | **E2E-optimal-seeking** control plane: joint search + physical \(F\)-admit + freeze/replay; classical default is a **competitor inside the same loop**, not the score |
+| **Ship bar** | Non-dominated (or constrained-optimal) on published \(F\) vs classical baseline under spend SLOs — not “every layer is peak” |
+
+**Falsifiers for this lean.**
+
+- Commercial defaults keep shipping on **per-band microbench** wins without \(F\)-admit and still satisfy product SLOs for months (**falsifies e2e-as-center**).
+- Joint / bilevel e2e controllers **never** beat strong single-band greed + classical lower on shared pinned suites (**would demote the reshape**).
+- A single learned policy selects all band actions from \(F\) **without** legality plugins and holds correctness + p50 for months (**would pressure C3/C6** — stronger than this lean, which keeps legality band-local).
+
+**Pointers.** Oracles: [§4.2](#42-oracles--verification-beyond-unit-tests), T2/T6. Budgets: P4/P10/P23. Orchestration: P3/P22. Bands/plugins: [§5.1.1](#511-how-many-data-plane-abstractions-one-cost-model-is-not-enough)–[§5.1.2](#512-predicted-abstraction-inventory--how-many-layers-for-what-and-if-they-do-not-consolidate). Claims: **A7**, **S7**.
 
 ### 5.2 How agents change the future (process)
 
@@ -977,6 +1066,7 @@ Job **(d)** is the HW-codesign extension: still an **agentic compiler/toolchain*
 | S4 | Custom ASIC competitiveness increasingly depends on agentic bring-up latency | Supported (industrial) — TritorX/KernelEvolve; watch second-vendor repro — C9 |
 | S5 | Profilers and compiler internals move from human IDE tools to **agent APIs** | Watch — KernelEvolve MPP, Ascend hierarchy |
 | S6 | Data plane keeps **multiple** abstraction bands; agents unify the *contract/orchestration*, not a single universal cost model over all passes | Supported lean — [§5.1.1](#511-how-many-data-plane-abstractions-one-cost-model-is-not-enough); watch C3/C4/C6 falsifiers |
+| S7 | Control plane is **e2e-optimal-seeking**: joint search under product \(F\); bands are lower/legality, not independent greeds | Supported lean — [§5.1.3](#513-e2e-optimal-seeking-architecture); watch C2/C6 |
 
 #### 5.6.4 What *not* to confuse with stack reshape
 
@@ -1577,6 +1667,7 @@ Evidence maps: [`../reference/products.md`](../reference/products.md) · [`../re
 6. Keep DL-compiler products as **Tier B baselines**, not as the definition of next-gen (C8).
 7. Codesign via **coverage→perf agent ladder** on sim+silicon (C9); do **not** expand into autonomous EDA (C10-B).
 8. Keep **~6–7 data-plane bands** (L1–L6 + maturing fleet L7); power/cluster as objectives/placement/oracles; if bands do not consolidate, ship **pluggable interfaces** ([§5.1.1](#511-how-many-data-plane-abstractions-one-cost-model-is-not-enough)–[§5.1.2](#512-predicted-abstraction-inventory--how-many-layers-for-what-and-if-they-do-not-consolidate), A6/S6).
+9. Target **e2e-optimal-seeking** architecture: joint / bilevel search under product fitness \(F\); bands are lower/legality surfaces, not independent greeds ([§5.1.3](#513-e2e-optimal-seeking-architecture), A7/S7).
 
 Update this section when a conflict gains a decisive public settlement.
 
@@ -1599,6 +1690,7 @@ Status: **Supported** · **Contested** · **Watch** · **Falsified**
 | A4 | Defaults stay classical until agents win on *distributions* in CI | Contested | Vendor blogs vs CompileIQ 2–3% docs, KernelBench-X | C2 |
 | A5 | Unconstrained LLM will not replace `opt`/Inductor soon | Supported | mlirAgent; hybrid Tier A dominance | C3, C6 |
 | A6 | Data plane keeps ~6–7 abstraction bands (L1–L6 + maturing fleet L7); agents unify contracts/plugins, not one universal cost model / one IR | Supported (lean) | §5.1.1–5.1.2; ACCLAIM multi-level; mlirAgent; T1/§4.4 plugins | C3, C4, C6 |
+| A7 | Next-gen targets an **e2e-optimal-seeking** architecture: joint/bilevel search under product fitness \(F\); bands stay as legality/lower surfaces; local costs are proposal priors only | Supported (lean) | §5.1.3; ACCLAIM guide+test; T6; C2; AutoKernel Amdahl | C2, C3, C6 |
 
 ### Process & stack
 
@@ -1611,6 +1703,7 @@ Status: **Supported** · **Contested** · **Watch** · **Falsified**
 | S4 | Custom ASIC TTM increasingly gated by agentic bring-up | Supported (industrial) | TritorX, KernelEvolve | **C9** |
 | S5 | Profilers/compiler internals become agent APIs | Watch | KernelEvolve MPP, Ascend hierarchical diagnosis | C3 |
 | S6 | Multiple data-plane abstractions remain (~L1–L7); cluster/power attach as place/objectives/oracles; missing consolidation → pluggable interfaces | Supported (lean) | §5.1.1–5.1.2 · A6 | C3, C4, C6 |
+| S7 | Stack reshape centers on e2e fitness \(F\) + joint controller; freeze only under \(F\)-admit; siloed per-band greed is not next-gen | Supported (lean) | §5.1.3 · A7 | C2, C6 |
 
 ### Codesign (still agentic-compiler-centric)
 

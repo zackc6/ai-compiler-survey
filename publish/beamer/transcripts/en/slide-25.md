@@ -1,7 +1,5 @@
-# Slide 25: Technical Prediction — Accelerate The Roadmap
+# Slide 25: Cross-Cutting Research Agenda
 
-Open §5.8 with the lead-in alone (clear band above the lists): settle checkpoints / ship Horizon A by enhancing techniques inside and outside the compiler (T1–T10).
+Bridge from gap map into technique-shaped prediction. Six near-term themes that make hybrid pipelines build/CI regressable: admit & fallback standards; agent tool / IR schemas; open multi-IR corpora; serving-level oracles; provenance & human review; control-plane compile MVP.
 
-Then the two columns — Within T1–T5 and Outside T6–T10 — side by side with a gutter, never covering the lead-in.
-
-Footer: enhancing only opt/Inductor/Triton is not enough; next slides = exists · missing · unlocks.
+Close: these themes unpack as T1–T10 on the next slides (exists / missing / unlocks).
