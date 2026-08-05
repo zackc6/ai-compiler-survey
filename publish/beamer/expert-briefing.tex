@@ -16,6 +16,7 @@
   backgrounds
 }
 \usepackage{booktabs}
+\usepackage{array}
 \usepackage{xcolor}
 \usepackage{hyperref}
 
@@ -884,71 +885,83 @@
 \end{frame}
 
 % ============================================================
-% 24 Within-compiler techniques
+% 24 Within-compiler techniques --- 3-line bands (title | unlocks / exists / missing)
 \begin{frame}{Technical Prediction --- Within The Compiler (T1--T5)}
 \begin{center}
-\vspace{-0.55em}
+\vspace{-0.5em}
 \begin{tikzpicture}
-\node[draw=Steel,fill=white,rounded corners=3pt,inner sep=3.5pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,2.15) {%
-  \textbf{\color{Steel}T1 Typed agent$\leftrightarrow$compiler interfaces}\quad
-  {\color{Ok}Exists:} CompileIQ, ACCLAIM/HintPilot, mlirAgent MCP, mlir-opt-repl, FlashInfer Trace.\quad
-  {\color{Mute}Missing:} portable schemas across MLIR$\cdot$Triton$\cdot$Tile$\cdot$StableHLO.\quad
-  {\color{Ember}Unlocks:} C3, C5, C6.};
-\node[draw=Steel,fill=white,rounded corners=3pt,inner sep=3.5pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,1.25) {%
-  \textbf{\color{Steel}T2 Admit / fallback machinery}\quad
-  {\color{Ok}Exists:} AgentCompile checks, Archer oracles, TritonRL verifiers, FlashInfer-Bench gates, VibeServe judges.\quad
-  {\color{Mute}Missing:} shared admit \emph{product} + trusted deterministic fallback.\quad
-  {\color{Ember}Unlocks:} C6 hybrid; money-grade shipping.};
-\node[draw=Steel,fill=white,rounded corners=3pt,inner sep=3.5pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,0.35) {%
-  \textbf{\color{Steel}T3 Control files, hints, fingerprints + replay}\quad
-  {\color{Ok}Exists:} CompileIQ ACFs; FlashInfer Trace + \texttt{apply()}.\quad
-  {\color{Mute}Missing:} content-addressed keys (IR$\times$HW$\times$compiler$\times$policy); golden replay on model upgrade.\quad
-  {\color{Ember}Unlocks:} C2, C5.};
-\node[draw=Steel,fill=white,rounded corners=3pt,inner sep=3.5pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-0.55) {%
-  \textbf{\color{Steel}T4 Heuristic hooks \& in-tree advisors}\quad
-  {\color{Ok}Exists:} Magellan / AlphaEvolve C++; MLGO advisors; EmitC-MLGO PoR advancing.\quad
-  {\color{Mute}Missing:} settled \emph{default} on named shipping apps.\quad
-  {\color{Ember}Unlocks:} C1; Horizon A job (b).};
-\node[draw=Steel,fill=white,rounded corners=3pt,inner sep=3.5pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-1.45) {%
-  \textbf{\color{Steel}T5 Dialect / ISA feedback sinks}\quad
-  {\color{Ok}Exists:} TritorX / KernelEvolve / Ascend diagnosis (sim+silicon $\rightarrow$ IR stress).\quad
-  {\color{Mute}Missing:} first-class compiler surfaces for dialect/ISA \emph{change proposals} (humans+EDA still own tape-out).\quad
-  {\color{Ember}Unlocks:} C9, C10.};
+\node[font=\sffamily\tiny,text=Mute] at (0,2.58)
+  {{\color{Ok}\textbf{Exists}} $\cdot$ {\color{Mute}\textbf{Missing}} $\cdot$ {\color{Ember}\textbf{Unlocks}}};
+% T1
+\node[anchor=west,font=\sffamily\scriptsize\bfseries,text=Steel] at (-6.1,2.20) {T1 Typed interfaces};
+\node[anchor=east,font=\sffamily\scriptsize\bfseries,text=Ember] at (6.1,2.20) {$\rightarrow$ C3, C5, C6};
+\node[anchor=west,font=\sffamily\tiny,text=Ok] at (-6.1,1.92) {Exists: CompileIQ $\cdot$ ACCLAIM $\cdot$ mlir-opt-repl $\cdot$ FlashInfer Trace};
+\node[anchor=west,font=\sffamily\tiny,text=Mute] at (-6.1,1.68) {Missing: portable schemas across MLIR $\cdot$ Triton $\cdot$ Tile $\cdot$ StableHLO};
+\draw[Line,line width=0.35pt] (-6.1,1.52) -- (6.1,1.52);
+% T2
+\node[anchor=west,font=\sffamily\scriptsize\bfseries,text=Steel] at (-6.1,1.28) {T2 Admit / fallback};
+\node[anchor=east,font=\sffamily\scriptsize\bfseries,text=Ember] at (6.1,1.28) {$\rightarrow$ C6 hybrid};
+\node[anchor=west,font=\sffamily\tiny,text=Ok] at (-6.1,1.00) {Exists: AgentCompile $\cdot$ Archer $\cdot$ TritonRL verifiers $\cdot$ FlashInfer-Bench gates};
+\node[anchor=west,font=\sffamily\tiny,text=Mute] at (-6.1,0.76) {Missing: shared admit \emph{product} + trusted deterministic fallback};
+\draw[Line,line width=0.35pt] (-6.1,0.60) -- (6.1,0.60);
+% T3
+\node[anchor=west,font=\sffamily\scriptsize\bfseries,text=Steel] at (-6.1,0.36) {T3 Control files + replay};
+\node[anchor=east,font=\sffamily\scriptsize\bfseries,text=Ember] at (6.1,0.36) {$\rightarrow$ C2, C5};
+\node[anchor=west,font=\sffamily\tiny,text=Ok] at (-6.1,0.08) {Exists: CompileIQ ACFs $\cdot$ FlashInfer Trace + \texttt{apply()}};
+\node[anchor=west,font=\sffamily\tiny,text=Mute] at (-6.1,-0.16) {Missing: content-addressed keys; golden replay on model upgrade};
+\draw[Line,line width=0.35pt] (-6.1,-0.32) -- (6.1,-0.32);
+% T4
+\node[anchor=west,font=\sffamily\scriptsize\bfseries,text=Steel] at (-6.1,-0.56) {T4 Heuristic hooks / advisors};
+\node[anchor=east,font=\sffamily\scriptsize\bfseries,text=Ember] at (6.1,-0.56) {$\rightarrow$ C1};
+\node[anchor=west,font=\sffamily\tiny,text=Ok] at (-6.1,-0.84) {Exists: Magellan / AlphaEvolve $\cdot$ MLGO $\cdot$ EmitC PoR};
+\node[anchor=west,font=\sffamily\tiny,text=Mute] at (-6.1,-1.08) {Missing: settled Magellan vs MLGO \emph{default} on named apps};
+\draw[Line,line width=0.35pt] (-6.1,-1.24) -- (6.1,-1.24);
+% T5
+\node[anchor=west,font=\sffamily\scriptsize\bfseries,text=Steel] at (-6.1,-1.48) {T5 Dialect / ISA sinks};
+\node[anchor=east,font=\sffamily\scriptsize\bfseries,text=Ember] at (6.1,-1.48) {$\rightarrow$ C9, C10};
+\node[anchor=west,font=\sffamily\tiny,text=Ok] at (-6.1,-1.76) {Exists: TritorX $\cdot$ KernelEvolve $\cdot$ Ascend diagnosis};
+\node[anchor=west,font=\sffamily\tiny,text=Mute] at (-6.1,-2.00) {Missing: first-class change-\emph{proposal} surfaces (not auto tape-out)};
 \end{tikzpicture}
 \end{center}
 \end{frame}
 
 % ============================================================
-% 25 Outside-compiler techniques
+% 25 Outside-compiler techniques --- same 3-line band layout
 \begin{frame}{Technical Prediction --- Outside The Compiler (T6--T10)}
 \begin{center}
-\vspace{-0.55em}
+\vspace{-0.5em}
 \begin{tikzpicture}
-\node[draw=Amber,fill=white,rounded corners=3pt,inner sep=3.5pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,2.15) {%
-  \textbf{\color{Amber}T6 Serving-level oracles \& production A/B}\quad
-  {\color{Ok}Exists:} unit/golden/Alive2; \textbf{FlashInfer-Bench} serving traces + \texttt{apply()}; VibeServe judges.\quad
-  {\color{Mute}Missing:} whole-program/GPU-race/FP contracts; multi-month \emph{default-path} A/B.\quad
-  {\color{Ember}Unlocks:} C2.};
-\node[draw=Amber,fill=white,rounded corners=3pt,inner sep=3.5pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,1.25) {%
-  \textbf{\color{Amber}T7 Open multi-IR corpora (+ negatives)}\quad
-  {\color{Ok}Exists:} Meta LLM Compiler; \textbf{KernelBook} $\rightarrow$ KernelLLM/TritonRL; DRTriton synthetic 100k.\quad
-  {\color{Mute}Missing:} versioned MLIR/Tile/StableHLO + failed/miscompile/slow-correct negatives.\quad
-  {\color{Ember}Unlocks:} selectors beyond LLVM-centric models.};
-\node[draw=Amber,fill=white,rounded corners=3pt,inner sep=3.5pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,0.35) {%
-  \textbf{\color{Amber}T8 Unified benchmark ladder}\quad
-  {\color{Ok}Exists:} KernelBench(-X); FlashInfer-Bench closes a \emph{serving-kernel} rung.\quad
-  {\color{Mute}Missing:} shared IR$\rightarrow$kernel$\rightarrow$fused$\rightarrow$serving ladder with cost-to-compile.\quad
-  {\color{Ember}Unlocks:} honest C2/C9.};
-\node[draw=Amber,fill=white,rounded corners=3pt,inner sep=3.5pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-0.55) {%
-  \textbf{\color{Amber}T9 Provenance, ownership, HITL process}\quad
-  {\color{Ok}Exists:} Magellan reviewable C++; Archer oracle review; sparse SBOM talk.\quad
-  {\color{Mute}Missing:} CODEOWNERS + signed admit records + sandbox for untrusted proposals.\quad
-  {\color{Ember}Unlocks:} trusted-base shipping; C7.};
-\node[draw=Amber,fill=white,rounded corners=3pt,inner sep=3.5pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-1.45) {%
-  \textbf{\color{Amber}T10 Agent-workflow compile / freeze / place}\quad
-  {\color{Ok}Exists:} FlowCompile, Auto, AgentFlow, hetero place; VibeServe (early evidence \emph{now}).\quad
-  {\color{Mute}Missing:} shared agent-graph IR + fail-closed CI (productization $\rightarrow$ Horizon B).\quad
-  {\color{Ember}Unlocks:} Horizon B control-plane compile.};
+\node[font=\sffamily\tiny,text=Mute] at (0,2.58)
+  {{\color{Ok}\textbf{Exists}} $\cdot$ {\color{Mute}\textbf{Missing}} $\cdot$ {\color{Ember}\textbf{Unlocks}}};
+% T6
+\node[anchor=west,font=\sffamily\scriptsize\bfseries,text=Amber] at (-6.1,2.20) {T6 Serving oracles / A/B};
+\node[anchor=east,font=\sffamily\scriptsize\bfseries,text=Ember] at (6.1,2.20) {$\rightarrow$ C2};
+\node[anchor=west,font=\sffamily\tiny,text=Ok] at (-6.1,1.92) {Exists: unit/golden/Alive2 $\cdot$ \textbf{FlashInfer-Bench}+\texttt{apply()} $\cdot$ VibeServe judges};
+\node[anchor=west,font=\sffamily\tiny,text=Mute] at (-6.1,1.68) {Missing: whole-program / GPU-race / FP contracts; multi-month default-path A/B};
+\draw[Line,line width=0.35pt] (-6.1,1.52) -- (6.1,1.52);
+% T7
+\node[anchor=west,font=\sffamily\scriptsize\bfseries,text=Amber] at (-6.1,1.28) {T7 Multi-IR corpora};
+\node[anchor=east,font=\sffamily\scriptsize\bfseries,text=Ember] at (6.1,1.28) {$\rightarrow$ Selectors};
+\node[anchor=west,font=\sffamily\tiny,text=Ok] at (-6.1,1.00) {Exists: Meta LLM Compiler $\cdot$ \textbf{KernelBook}$\rightarrow$TritonRL $\cdot$ DRTriton synth};
+\node[anchor=west,font=\sffamily\tiny,text=Mute] at (-6.1,0.76) {Missing: versioned MLIR / Tile / StableHLO + failed / miscompile negatives};
+\draw[Line,line width=0.35pt] (-6.1,0.60) -- (6.1,0.60);
+% T8
+\node[anchor=west,font=\sffamily\scriptsize\bfseries,text=Amber] at (-6.1,0.36) {T8 Benchmark ladder};
+\node[anchor=east,font=\sffamily\scriptsize\bfseries,text=Ember] at (6.1,0.36) {$\rightarrow$ C2, C9};
+\node[anchor=west,font=\sffamily\tiny,text=Ok] at (-6.1,0.08) {Exists: KernelBench(-X) $\cdot$ FlashInfer-Bench serving-kernel rung};
+\node[anchor=west,font=\sffamily\tiny,text=Mute] at (-6.1,-0.16) {Missing: full IR$\rightarrow$kernel$\rightarrow$fused$\rightarrow$serving + cost-to-compile};
+\draw[Line,line width=0.35pt] (-6.1,-0.32) -- (6.1,-0.32);
+% T9
+\node[anchor=west,font=\sffamily\scriptsize\bfseries,text=Amber] at (-6.1,-0.56) {T9 Provenance / HITL};
+\node[anchor=east,font=\sffamily\scriptsize\bfseries,text=Ember] at (6.1,-0.56) {$\rightarrow$ C7};
+\node[anchor=west,font=\sffamily\tiny,text=Ok] at (-6.1,-0.84) {Exists: Magellan reviewable C++ $\cdot$ Archer oracle review};
+\node[anchor=west,font=\sffamily\tiny,text=Mute] at (-6.1,-1.08) {Missing: CODEOWNERS + signed admit records + sandbox for proposals};
+\draw[Line,line width=0.35pt] (-6.1,-1.24) -- (6.1,-1.24);
+% T10
+\node[anchor=west,font=\sffamily\scriptsize\bfseries,text=Amber] at (-6.1,-1.48) {T10 Workflow compile / freeze};
+\node[anchor=east,font=\sffamily\scriptsize\bfseries,text=Ember] at (6.1,-1.48) {$\rightarrow$ Horiz.\ B};
+\node[anchor=west,font=\sffamily\tiny,text=Ok] at (-6.1,-1.76) {Exists: FlowCompile $\cdot$ Auto $\cdot$ AgentFlow $\cdot$ VibeServe (early)};
+\node[anchor=west,font=\sffamily\tiny,text=Mute] at (-6.1,-2.00) {Missing: shared agent-graph IR + fail-closed CI (productize $\rightarrow$ Horizon B)};
 \end{tikzpicture}
 \end{center}
 \end{frame}
