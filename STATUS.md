@@ -43,6 +43,7 @@ Last updated: **2026-08-05**
 
 | Date | Change |
 |---|---|
+| 2026-08-05 | Skill: on every SURVEY.md update — goal-align (goal vs sub-context) + rebuild survey PDF before Beamer |
 | 2026-08-05 | Beamer 14/26 band layout (like 24–25); bump Exists/Missing + body fonts on 14/24–26; refresh transcripts |
 | 2026-08-05 | Beamer slides 24–25: 3-line bands (title/exists/missing + unlocks); keep Exists on-slide; refresh transcripts |
 | 2026-08-05 | Fix Beamer slides 6/11/23 box-on-text overlaps; skill: no box-on-text + pdftoppm inspect |

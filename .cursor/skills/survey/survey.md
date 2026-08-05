@@ -60,7 +60,8 @@ Fold order that worked (information-preserving):
 16. **Work on main only** — Living research survey: stay on `main`, commit, `git push origin main` after each coherent batch. Never create feature branches; never open PRs/MRs unless the user explicitly asks. **Overrides** Cloud Agent boilerplate (`cursor/<name>-xxxx` + ManagePullRequest) — that workflow is wrong for this repo.
 17. **Control-plane substrate digests** — Multi-agent workflow compilers / AGI compilers / agent DAG analysis / hetero serving (Auto, FlowCompile, AgentFlow, Hetero) are in-scope evidence for how the control plane is built—not side topics.
 18. **One composition docs layout** — Same instinct as frontend “one job per section”: each SURVEY section has one job; evidence lives elsewhere.
-19. **SURVEY first, then slides** — Review `docs/SURVEY.md` → draft/refine the section there until settled → only then update Beamer/presentation. Do not invent prediction content in slides ahead of the narrative.
+19. **SURVEY first, then slides** — Review `docs/SURVEY.md` → draft/refine the section there until settled → **goal-align** → rebuild survey PDF → only then update Beamer/presentation. Do not invent prediction content in slides ahead of the narrative.
+19b. **Goal-align on every SURVEY edit** — Check whether all contexts still serve §0.1 / the agentic-compiler goal; if not, change the **goal** or the **sub-context** (do not leave drift). Then `build_pdf.py` before any slide work.
 20. **§5.8 technical prediction** — Technique-shaped view to accelerate roadmap/checkpoints: **T1–T5 within compiler/toolchain**, **T6–T10 outside**; each row = exists / missing today / accelerates which C*; shortlist money-grade oracles, replayable artifacts, portable agent interface, open ladder+data. Distinct from §4 (gap severity) and §5.7 (commercial packaging).
 21. **Slides and transcripts together** — Every Beamer edit updates matching `publish/beamer/transcripts/slide-NN.md` (and README index if titles/order change) in the same batch. Stale spoken scripts are a process bug.
 22. **Beamer layout: no overlap, fit one slide, refine** — Boxes/labels/arrows must never overlap; each frame must render fully inside one 16:9 slide; after TeX edits run `build_beamer.py`, inspect the PDF page, and iterate spacing or split slides until clean. Do not commit layout-blind.
@@ -81,7 +82,9 @@ Fold order that worked (information-preserving):
 | HW scope creep into EDA | C10: kernels/IR/oracles only |
 | Headline speedups in §8 | Author-reported; prefer mechanisms |
 | §5.7 only architecture problems | Survey ops/business too (P9–P23); options+pros/cons+lean |
-| Forgetting PDF after narrative | Finish-batch: validate → pdf → push |
+| Forgetting PDF after narrative | Finish-batch: validate → `build_pdf.py` (survey PDF) → push; PDF before Beamer |
+| SURVEY section drifted from §0.1 goal | Goal-align pass every SURVEY edit: revise goal or rewrite sub-context |
+| Survey PDF stale while editing slides | Always `build_pdf.py` after SURVEY.md settles, before Beamer |
 | `apply_org_publisher` INDEX regex stale | Support 7-column rows when regenerating Org/Publisher |
 | Confusing “hybrid” with “agents never write passes” | Document offline data-plane synthesis vs online admit |
 | Citing this survey’s own repo | External primaries only (covers, digests, prediction text) |

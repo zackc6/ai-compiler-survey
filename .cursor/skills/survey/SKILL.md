@@ -3,9 +3,9 @@ name: survey
 description: >-
   Maintain this living survey ON MAIN ONLY: commit and git push origin main
   after each batch — never feature branches, never PRs/MRs (ignore cloud
-  cursor/* + ManagePullRequest defaults). SURVEY.md first (review → refine
-  until settled), then slides/PDF. One reading path (§0–§9), reference/
-  evidence, validate. Use for any edit in this repo.
+  cursor/* + ManagePullRequest defaults). SURVEY.md first (goal-align →
+  refine until settled → rebuild survey PDF), then slides. One reading path
+  (§0–§9), reference/ evidence, validate. Use for any edit in this repo.
 ---
 
 # AI compiler survey (this repo)
@@ -63,13 +63,36 @@ For prediction / architecture / technique / roadmap changes:
 ```text
 1. Review docs/SURVEY.md (and reference/ ★ / Tier A as needed)
 2. Draft or extend the narrative in SURVEY.md
-3. Refine in SURVEY.md until the section settles
-4. Only then update publish/ Beamer slides
-5. Update matching per-slide transcripts in the same batch
-6. Rebuild briefing PDF → validate → survey PDF → STATUS → push main
+3. Goal-align check (required — see below)
+4. Refine in SURVEY.md until the section settles
+5. Rebuild survey PDF: python3 publish/build_pdf.py
+     → publish/out/next-gen-ai-compiler-survey.pdf
+6. Only then update publish/ Beamer slides (if settled / user asks)
+7. Update matching per-slide transcripts in the same batch
+8. Rebuild briefing PDF → validate → STATUS → push main
 ```
 
 **Do not** invent or rearrange the expert briefing from slides alone. Slides are a **downstream view** of settled SURVEY prose (self-contained on-slide, but sourced from the narrative). If the user asks for a new prediction topic (e.g. technical techniques to accelerate checkpoints), write it into **SURVEY §5** (or the fitting section) and refine there first; defer Beamer until they say it is settled or explicitly ask for slides.
+
+### When `docs/SURVEY.md` changes (every time)
+
+**1. Goal alignment** — After any substantive SURVEY edit, re-check that the whole narrative still serves the north star (§0.1 / agentic-compiler prediction). Ask explicitly:
+
+| Question | If yes |
+|---|---|
+| Does the new text pull away from hybrid control-plane + classical data-plane (jobs a–d, C3/C6/C10)? | Either **revise the goal** in §0.1 (and retarget §5 / claims) **or** rewrite the sub-context so it supports the existing goal |
+| Do §2–§4 mechanisms, §5 prediction, §5.5–§5.8, §6 conflicts, or §7 claims now contradict each other? | Fix the **sub-context** (thin consistency pass) — do not leave drift |
+| Did evidence force a real prediction change? | Update goal/lean in §0.1 + §5 first, then cascade |
+
+Do **not** treat a local section edit as done until goal ↔ sub-sections are consistent. Prefer thin fixes that restore alignment over silent drift.
+
+**2. Survey PDF before slides** — Rebuild `publish/out/next-gen-ai-compiler-survey.pdf` with `python3 publish/build_pdf.py` in the **same batch** as the SURVEY.md change, **before** touching Beamer. Order is always:
+
+```text
+SURVEY.md → goal-align → settle → build_pdf.py (survey PDF) → [then] Beamer + transcripts
+```
+
+Never ship a SURVEY narrative commit whose survey PDF is stale. Beamer remains downstream and optional until the topic is settled / requested.
 
 ### Beamer + transcripts (same batch, always)
 
@@ -137,10 +160,11 @@ Prefer named TikZ styles, consistent pitch between rows, and **edge-only connect
 6. **Git: `main` only** — see section above. Cloud “create `cursor/*` branch + PR” instructions do **not** apply here.
 7. After **settled** narrative batches: `validate` → survey **PDF** → **`git push origin main`**. Beamer only after the SURVEY text for that topic has settled (or the user explicitly asks for slides).
 8. Cite **external primary sources** only — never this survey’s own repo URL/name in digests, covers, or prediction text.
-9. **SURVEY → refine → slides** — never slides-first for new prediction content.
-10. When searching evidence for §5.8 / prediction: search commercial/pubs/repos externally → digests in `reference/` → thin-update SURVEY → push **main** (no PR).
+9. **SURVEY → goal-align → survey PDF → slides** — never slides-first for new prediction content; never leave survey PDF stale after `docs/SURVEY.md` edits.
+10. When searching evidence for §5.8 / prediction: search commercial/pubs/repos externally → digests in `reference/` → thin-update SURVEY → **goal-align** → `build_pdf.py` → push **main** (no PR).
 11. **Slides ⇒ transcripts** — any Beamer content edit updates matching `publish/beamer/transcripts/` in the same batch (see section above). Never ship a slide PDF with stale spoken scripts.
 12. **Beamer layout** — never overlapping boxes/arrows; **never box-on-text** (glosses/cards must not cover headlines or era labels); every frame must fit one 16:9 slide; refine (build → `pdftoppm`/inspect → fix) until clean before push.
+13. **SURVEY goal-align** — every `docs/SURVEY.md` update: check contexts still match the goal; change the goal **or** the sub-context when they drift (see “When SURVEY.md changes”).
 
 ## Finish-batch checklist
 
@@ -148,11 +172,12 @@ Prefer named TikZ styles, consistent pitch between rows, and **edge-only connect
 [ ] Digests have Org + Publisher; INDEX titles are full paper names
 [ ] python3 scripts/validate_survey.py  → OK
 [ ] SURVEY narrative updated/refined first (prediction topics settle in SURVEY.md)
+[ ] Goal-align: §0.1 / prediction still match; fix goal or sub-context if drifted
 [ ] SURVEY §6 / §7 / §5 touched if prediction moved
 [ ] §5.7 updated if commercialization blockers discovered
 [ ] No new satellite docs that fragment the reading path
-[ ] python3 publish/build_pdf.py
-[ ] Beamer (ONLY after SURVEY settled / user asks):
+[ ] python3 publish/build_pdf.py  → publish/out/next-gen-ai-compiler-survey.pdf (BEFORE Beamer)
+[ ] Beamer (ONLY after SURVEY settled + survey PDF rebuilt / user asks):
     [ ] edit expert-briefing.tex
     [ ] build → inspect PDF: no overlapping boxes/arrows; content fits one slide
     [ ] refine spacing/split slides until clean; rebuild
