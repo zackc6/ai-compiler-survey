@@ -1,11 +1,6 @@
 # Slide 6: Executive verdict
 
-Deliver the one-line verdict: agents reshape the control plane more than they replace the data plane.
+Lead with the hybrid punchline (control plane vs data plane), then the two gloss chips under it — not on top of it: control plane = search/orchestrate/synthesize; data plane = lower/legality/measure/fallback.
 
-Quick gloss only (do not linger — keep the verdict primary):
-- Control plane: search / orchestrate / synthesize
-- Data plane: lower / legality / measure / fallback
-
-Then the original arc: compilers for AI × AI for compilers → hybrid LLM–compiler loops → fourth job Tier A bring-up/codesign.
-
-Right column — will not happen soon: unconstrained LLM replaces Inductor or opt; autonomous chip tape-out (C10).
+Left column: compilers-for-AI × AI-for-compilers → hybrid loops → 4th job bring-up/codesign.
+Right box: what will not happen soon — unconstrained LLM replaces Inductor/opt; autonomous tape-out via compiler agents (C10).

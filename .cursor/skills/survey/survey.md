@@ -91,6 +91,7 @@ Fold order that worked (information-preserving):
 | Slides/presentation ahead of SURVEY prose | Write and settle narrative in `docs/SURVEY.md` first; Beamer is a downstream view |
 | Beamer updated without transcript refresh | Same batch: tex + `transcripts/slide-NN.md` (+ README); never ship PDF with stale scripts |
 | Overlapping TikZ boxes/arrows or overflow | Explicit gutters; edge-only connectors; split slide rather than illegible shrink; inspect PDF after every layout edit |
+| Box-on-text (slides 6/11/23): glosses on verdict; cards on HORIZON A; lists on lead-in | Separate vertical bands for titles vs cards; `pdftoppm` inspect before push |
 
 ## Commercialization survey method (§5.7)
 

@@ -313,39 +313,32 @@
 % 6 Executive verdict
 \begin{frame}{Executive verdict}
 \begin{center}
+\vspace{-0.2em}
 \begin{tikzpicture}
-\node[text width=0.9\textwidth,align=center,font=\ebgaramond\Large\bfseries,Ink] {
+% Banded layout: headline → glosses (clear gap) → columns --- no box-on-text
+\node[text width=0.92\textwidth,align=center,font=\ebgaramond\large\bfseries,Ink]
+  (verdict) at (0,2.55) {
   Agents reshape the \textcolor{Steel}{control plane}\par
   more than they replace the \textcolor{Amber}{data plane}.
 };
-% Compact one-line glosses --- do not dominate the verdict
 \node[draw=Steel,fill=Steel!8,rounded corners=3pt,inner sep=3pt,font=\sffamily\tiny,anchor=north]
-  at (-3.2,-0.35) {\textbf{\color{Steel}Control plane:} search / orchestrate / synthesize};
+  at (-3.3,1.55) {\textbf{\color{Steel}Control plane:} search / orchestrate / synthesize};
 \node[draw=Amber,fill=Amber!8,rounded corners=3pt,inner sep=3pt,font=\sffamily\tiny,anchor=north]
-  at (3.2,-0.35) {\textbf{\color{Amber}Data plane:} lower / legality / measure / fallback};
-\end{tikzpicture}
-\end{center}
-\vspace{0.55em}
-\begin{columns}[T]
-\begin{column}{0.48\textwidth}
-\begin{tikzpicture}
-\node[nodeSteel] (a) at (0,2.0) {Compilers for AI \,$\times$\, AI for compilers};
-\node[nodeAmber] (b) at (0,0.9) {Hybrid LLM--compiler loops};
-\node[nodeEmber] (c) at (0,-0.2) {4th job Tier A: bring-up / codesign};
-\draw[-{Latex},Steel,thick] (a) -- (b);
-\draw[-{Latex},Amber,thick] (b) -- (c);
-\end{tikzpicture}
-\end{column}
-\begin{column}{0.48\textwidth}
-\begin{tikzpicture}
-\node[verdictBox] {
+  at (3.3,1.55) {\textbf{\color{Amber}Data plane:} lower / legality / measure / fallback};
+
+\node[nodeSteel] (a) at (-3.3,0.55) {Compilers for AI \,$\times$\, AI for compilers};
+\node[nodeAmber] (b) at (-3.3,-0.55) {Hybrid LLM--compiler loops};
+\node[nodeEmber] (c) at (-3.3,-1.65) {4th job Tier A: bring-up / codesign};
+\draw[-{Latex},Steel,thick,shorten >=2pt,shorten <=2pt] (a) -- (b);
+\draw[-{Latex},Amber,thick,shorten >=2pt,shorten <=2pt] (b) -- (c);
+
+\node[verdictBox,anchor=north] at (3.3,0.75) {
   \textbf{\color{Ember}Will not happen soon}\par\vspace{0.35em}
   \textbullet\ Unconstrained LLM replaces Inductor / \texttt{opt}\par\vspace{0.25em}
   \textbullet\ Autonomous chip tape-out via compiler agents (C10)
 };
 \end{tikzpicture}
-\end{column}
-\end{columns}
+\end{center}
 \end{frame}
 
 % ============================================================
@@ -537,54 +530,51 @@
 % 11 Roadmap checkpoints (§5.5)
 \begin{frame}{Roadmap Checkpoints --- when the prediction changes}
 \begin{center}
-\vspace{-0.35em}
+\vspace{-0.4em}
 \begin{tikzpicture}
-% Era spine (Today → A → B)
-\draw[Line,line width=3pt] (-5.6,0.55) -- (5.6,0.55);
-\fill[Mute] (-5.2,0.55) circle (0.16);
-\fill[Amber] (0.0,0.55) circle (0.16);
-\fill[Ember] (5.2,0.55) circle (0.16);
-\node[headSteel] at (-5.2,1.15) {TODAY};
-\node[font=\sffamily\tiny,text=Mute] at (-5.2,0.15) {2025--26};
-\node[headAmber] at (0.0,1.15) {HORIZON A};
-\node[font=\sffamily\tiny,text=Mute] at (0.0,0.15) {2027--28};
-\node[headEmber] at (5.2,1.15) {HORIZON B};
-\node[font=\sffamily\tiny,text=Mute] at (5.2,0.15) {$\sim$2029--31};
-\draw[-{Latex},Mute,thick] (-3.6,0.55) -- (-2.0,0.55);
-\draw[-{Latex},Mute,thick] (2.0,0.55) -- (3.6,0.55);
+% Era labels BELOW spine (never under above-axis cards); cards clear of labels
+\draw[Line,line width=3pt] (-5.6,0.35) -- (5.6,0.35);
+\fill[Mute] (-5.2,0.35) circle (0.16);
+\fill[Amber] (0.0,0.35) circle (0.16);
+\fill[Ember] (5.2,0.35) circle (0.16);
+% No mid-spine arrows --- they collide with vertical milestone connectors
 
-% Milestone ticks on Horizon A band (chrono-ish left→right)
+\node[headSteel] at (-5.2,-0.15) {TODAY};
+\node[font=\sffamily\tiny,text=Mute] at (-5.2,-0.50) {2025--26};
+\node[headAmber] at (0.0,-0.15) {HORIZON A};
+\node[font=\sffamily\tiny,text=Mute] at (0.0,-0.50) {2027--28};
+\node[headEmber] at (5.2,-0.15) {HORIZON B};
+\node[font=\sffamily\tiny,text=Mute] at (5.2,-0.50) {$\sim$2029--31};
+
+% Milestone ticks
 \foreach \x/\col in {-3.6/Amber,-2.0/Ink,-0.4/Ember,1.2/Warn,2.8/Steel,4.2/Ok}{
-  \fill[\col] (\x,0.55) circle (0.09);
-  \draw[\col,line width=1pt] (\x,0.55) -- (\x,0.85);
+  \fill[\col] (\x,0.35) circle (0.09);
 }
 
-% Above-axis cards
-\node[draw=Amber,fill=Amber!12,rounded corners=4pt,inner sep=4pt,text width=2.35cm,align=center,font=\sffamily\scriptsize]
-  at (-3.6,2.35) {\textbf{\color{Amber}C1}\par Magellan open-source /\par EmitC default\par{\tiny 2026--27}};
-\node[draw=Ember,fill=Ember!12,rounded corners=4pt,inner sep=4pt,text width=2.35cm,align=center,font=\sffamily\scriptsize]
-  at (-0.4,2.35) {\textbf{\color{Ember}C2}\par Public median / p90 gains\par on pinned traces\par{\tiny p50/p90 = percentiles $\cdot$ 2026--28}};
-\node[draw=Steel,fill=Steel!12,rounded corners=4pt,inner sep=4pt,text width=2.35cm,align=center,font=\sffamily\scriptsize]
-  at (2.8,2.35) {\textbf{\color{Steel}C9}\par 2nd-vendor\par TritorX-class\par{\tiny 2027--28}};
-
-% Below-axis cards
-\node[draw=Ink,fill=Ink!8,rounded corners=4pt,inner sep=4pt,text width=2.35cm,align=center,font=\sffamily\scriptsize]
-  at (-2.0,-1.25) {\textbf{C5}\par Agent / control-file in\par release notes\par{\tiny rolling}};
-\node[draw=Warn,fill=Warn!12,rounded corners=4pt,inner sep=4pt,text width=2.35cm,align=center,font=\sffamily\scriptsize]
-  at (1.2,-1.25) {\textbf{\color{Warn}C3/C6}\par Free rewrite beats\par advisors?\par{\tiny thru 2028}};
-\node[draw=Ok,fill=Ok!12,rounded corners=4pt,inner sep=4pt,text width=2.35cm,align=center,font=\sffamily\scriptsize]
-  at (4.2,-1.25) {\textbf{\color{Ok}MOCHA}\par Verified rewrite\par evals open-source\par{\tiny $\sim$2027--28}};
-
-% Connectors into cards
-\foreach \x/\col in {-2.0/Ink,1.2/Warn,4.2/Ok}{
-  \draw[\col,line width=1pt] (\x,0.55) -- (\x,-0.50);
-}
+% Above-axis cards (anchors north of connectors; no era text in this band)
+\node[draw=Amber,fill=Amber!12,rounded corners=4pt,inner sep=3pt,text width=2.25cm,align=center,font=\sffamily\tiny]
+  at (-3.6,2.15) {\textbf{\color{Amber}C1}\par Magellan OSS /\par EmitC default\par{\tiny 2026--27}};
+\node[draw=Ember,fill=Ember!12,rounded corners=4pt,inner sep=3pt,text width=2.25cm,align=center,font=\sffamily\tiny]
+  at (-0.4,2.15) {\textbf{\color{Ember}C2}\par Public median / p90\par on pinned traces\par{\tiny 2026--28}};
+\node[draw=Steel,fill=Steel!12,rounded corners=4pt,inner sep=3pt,text width=2.25cm,align=center,font=\sffamily\tiny]
+  at (2.8,2.15) {\textbf{\color{Steel}C9}\par 2nd-vendor\par TritorX-class\par{\tiny 2027--28}};
 \foreach \x/\col in {-3.6/Amber,-0.4/Ember,2.8/Steel}{
-  \draw[\col,line width=1pt] (\x,0.85) -- (\x,1.55);
+  \draw[\col,line width=1pt] (\x,0.35) -- (\x,1.35);
+}
+
+% Below-axis cards (clear of era labels at y≈-0.15/-0.50)
+\node[draw=Ink,fill=Ink!8,rounded corners=4pt,inner sep=3pt,text width=2.25cm,align=center,font=\sffamily\tiny]
+  at (-2.0,-1.85) {\textbf{C5}\par Agent / ACF in\par release notes\par{\tiny rolling}};
+\node[draw=Warn,fill=Warn!12,rounded corners=4pt,inner sep=3pt,text width=2.25cm,align=center,font=\sffamily\tiny]
+  at (1.2,-1.85) {\textbf{\color{Warn}C3/C6}\par Free rewrite beats\par advisors?\par{\tiny thru 2028}};
+\node[draw=Ok,fill=Ok!12,rounded corners=4pt,inner sep=3pt,text width=2.25cm,align=center,font=\sffamily\tiny]
+  at (4.2,-1.85) {\textbf{\color{Ok}MOCHA}\par Verified rewrite\par evals OSS\par{\tiny $\sim$2027--28}};
+\foreach \x/\col in {-2.0/Ink,1.2/Warn,4.2/Ok}{
+  \draw[\col,line width=1pt] (\x,0.35) -- (\x,-1.05);
 }
 \end{tikzpicture}
 \end{center}
-\vspace{-0.1em}
+\vspace{-0.05em}
 {\footnotesize\color{Mute}\centering Falsifiable milestones --- watch settlement signals; do not average disagreements.\par}
 \end{frame}
 
@@ -862,29 +852,31 @@
 % 23 Technical prediction opener (§5.8)
 \begin{frame}{Technical Prediction --- Accelerate The Roadmap}
 \begin{center}
-\vspace{-0.25em}
+\vspace{-0.35em}
 \begin{tikzpicture}
-\node[text width=0.92\textwidth,align=center,font=\ebgaramond\large\bfseries,Ink] {
+% Explicit bands: headline (top) → side-by-side lists → footer --- never box-on-headline
+\node[text width=0.92\textwidth,align=center,font=\ebgaramond\large\bfseries,Ink]
+  at (0,2.45) {
   To settle checkpoints and ship Horizon A,\par
   enhance techniques \emph{inside and outside} the compiler (T1--T10).
 };
-\node[draw=Steel,fill=Steel!10,rounded corners=5pt,inner sep=7pt,text width=5.5cm,align=left,font=\sffamily\scriptsize]
-  at (-3.3,-0.85) {%
-  \textbf{\color{Steel}Within (T1--T5)}\par\vspace{0.2em}
+\node[draw=Steel,fill=Steel!10,rounded corners=5pt,inner sep=5pt,text width=5.4cm,align=left,font=\sffamily\tiny,anchor=north]
+  at (-3.35,1.55) {%
+  \textbf{\color{Steel}Within (T1--T5)}\par\vspace{0.15em}
   T1 Typed agent$\leftrightarrow$compiler interfaces\par
   T2 Admit / fallback machinery\par
   T3 Control files, hints, fingerprints + replay\par
   T4 Heuristic hooks \& in-tree advisors\par
   T5 Dialect / ISA feedback sinks};
-\node[draw=Amber,fill=Amber!10,rounded corners=5pt,inner sep=7pt,text width=5.5cm,align=left,font=\sffamily\scriptsize]
-  at (3.3,-0.85) {%
-  \textbf{\color{Amber}Outside (T6--T10)}\par\vspace{0.2em}
+\node[draw=Amber,fill=Amber!10,rounded corners=5pt,inner sep=5pt,text width=5.4cm,align=left,font=\sffamily\tiny,anchor=north]
+  at (3.35,1.55) {%
+  \textbf{\color{Amber}Outside (T6--T10)}\par\vspace{0.15em}
   T6 Serving-level oracles \& production A/B\par
   T7 Open multi-IR corpora (+ negatives)\par
   T8 Unified benchmark ladder\par
   T9 Provenance, ownership, HITL process\par
   T10 Agent-workflow compile / freeze / place};
-\node[font=\sffamily\tiny,text=Mute,text width=12cm,align=center] at (0,-2.45)
+\node[font=\sffamily\tiny,text=Mute,text width=12cm,align=center] at (0,-2.35)
   {Enhancing only \texttt{opt}/Inductor/Triton internals is not enough. Next: exists $\cdot$ missing today $\cdot$ checkpoint unlocks.};
 \end{tikzpicture}
 \end{center}
