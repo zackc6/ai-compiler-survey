@@ -43,6 +43,7 @@ Last updated: **2026-08-05**
 
 | Date | Change |
 |---|---|
+| 2026-08-05 | Skill: Beamer layout — no overlap boxes/arrows; fit one slide; refine via PDF inspect |
 | 2026-08-05 | Skill: Beamer edits must update `publish/beamer/transcripts/` in the same batch |
 | 2026-08-05 | Beamer Technical Prediction slides aligned to settled §5.8 (T1–T10 exists/missing/unlocks + FlashInfer/KernelBook evidence); appendix Tier A refreshed |
 | 2026-08-05 | Post-§5.8 alignment review: goal/prediction still hybrid; thin fixes (§4 four jobs, FlashInfer in §4.10, §5.5↔§5.8, C2 pressure note, §9 T* loop) |

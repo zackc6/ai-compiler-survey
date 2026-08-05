@@ -84,6 +84,27 @@ For prediction / architecture / technique / roadmap changes:
 
 Transcripts are presenter scripts (what to say), not a paste of the TeX. Keep them short and aligned with the settled SURVEY claim the slide shows.
 
+### Beamer layout (hard — refine until clean)
+
+TikZ / Beamer slides must **render cleanly on one 16:9 frame**. Layout bugs are process bugs — fix before push.
+
+| Rule | Do | Do not |
+|---|---|---|
+| **No overlap** | Space nodes so boxes, labels, and arrows never cross through text or sit on top of each other; route arrows along clear gutters (rows/columns); leave visible gaps between blocks | Stacked/overlapping `node`s; arrows through box interiors; diagonal spiderwebs that cross labels; absolute coords that collide after font/`inner sep` growth |
+| **Fit one slide** | One job per frame; shrink font/`inner sep`/`text width` or split to a second slide if content overflows; keep clear margin under frametitle and above footline | Content clipping at edges; text past frame bounds; cramming two sections onto one slide; tiny unreadable walls of text |
+| **Refine** | After every Beamer edit: `build_beamer.py` → **open/inspect the PDF page** (or rendered preview) → fix overlap/fit → rebuild → only then commit with transcripts | Ship from TeX alone without visual check; leave “looks dense in source” uninspected |
+
+**Refinement loop (required for layout-touching edits):**
+
+```text
+edit tex → build_beamer.py → inspect that page for overlap / overflow / crowding
+  → adjust spacing, sizes, arrow routes, or split slide
+  → rebuild → re-inspect until clean
+  → update transcripts → commit → push main
+```
+
+Prefer named TikZ styles, consistent pitch between rows, and edge-only connectors (no unnecessary diagonals). If a diagram cannot fit without overlap, **split the claim across slides** rather than shrink into illegibility.
+
 ## Paths
 
 | Step | Path |
@@ -118,6 +139,7 @@ Transcripts are presenter scripts (what to say), not a paste of the TeX. Keep th
 9. **SURVEY → refine → slides** — never slides-first for new prediction content.
 10. When searching evidence for §5.8 / prediction: search commercial/pubs/repos externally → digests in `reference/` → thin-update SURVEY → push **main** (no PR).
 11. **Slides ⇒ transcripts** — any Beamer content edit updates matching `publish/beamer/transcripts/` in the same batch (see section above). Never ship a slide PDF with stale spoken scripts.
+12. **Beamer layout** — never overlapping boxes/arrows; every frame must fit one 16:9 slide; refine (build → inspect PDF → fix) until clean before push.
 
 ## Finish-batch checklist
 
@@ -131,8 +153,10 @@ Transcripts are presenter scripts (what to say), not a paste of the TeX. Keep th
 [ ] python3 publish/build_pdf.py
 [ ] Beamer (ONLY after SURVEY settled / user asks):
     [ ] edit expert-briefing.tex
+    [ ] build → inspect PDF: no overlapping boxes/arrows; content fits one slide
+    [ ] refine spacing/split slides until clean; rebuild
     [ ] update matching transcripts/slide-NN.md (+ README index if titles/order changed)
-    [ ] python3 publish/build_beamer.py
+    [ ] python3 publish/build_beamer.py (final)
 [ ] STATUS.md changelog
 [ ] On branch main (not cursor/*) → commit → git push -u origin main
 [ ] No PR opened; if a PR was opened by mistake, merge/push to main and close it

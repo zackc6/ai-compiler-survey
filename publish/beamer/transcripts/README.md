@@ -3,7 +3,9 @@
 Per-slide speaking scripts for [`../expert-briefing.tex`](../expert-briefing.tex).
 Numbering matches the Beamer source comments (`% 1` … `% 37`).
 
-**Maintainer rule:** whenever `expert-briefing.tex` changes, update the matching `slide-NN.md` files (and this index if titles/order change) **in the same commit**. See `.cursor/skills/survey/SKILL.md` → “Beamer + transcripts”.
+**Maintainer rules** (see `.cursor/skills/survey/SKILL.md`):
+1. Whenever `expert-briefing.tex` changes, update matching `slide-NN.md` files (and this index if titles/order change) **in the same commit**.
+2. Layout: **no overlapping boxes/arrows**; content must **fit one 16:9 slide**; **refine** (build → inspect PDF → fix) until clean before push.
 
 Presenter notes that are **intentionally spoken but not shown** on slides:
 - **Slide 2 (Agenda):** Weight prediction → blockers → technical techniques → trends; contract = diagrams/checkpoints first.
