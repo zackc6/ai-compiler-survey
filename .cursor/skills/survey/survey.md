@@ -63,7 +63,7 @@ Fold order that worked (information-preserving):
 19. **SURVEY first, then slides** — Review `docs/SURVEY.md` → draft/refine the section there until settled → **goal-align** → rebuild survey PDF → only then update Beamer/presentation. Do not invent prediction content in slides ahead of the narrative.
 19b. **Goal-align on every SURVEY edit** — Check whether all contexts still serve §0.1 / the agentic-compiler goal; if not, change the **goal** or the **sub-context** (do not leave drift). Then `build_pdf.py` before any slide work.
 20. **§5.8 technical prediction** — Technique-shaped view to accelerate roadmap/checkpoints: **T1–T5 within compiler/toolchain**, **T6–T10 outside**; each row = exists / missing today / accelerates which C*; shortlist money-grade oracles, replayable artifacts, portable agent interface, open ladder+data. Distinct from §4 (gap severity) and §5.7 (commercial packaging).
-21. **Slides and transcripts together** — Every Beamer edit updates matching `publish/beamer/transcripts/slide-NN.md` (and README index if titles/order change) in the same batch. Stale spoken scripts are a process bug.
+21. **Slides and transcripts together (EN + zh-TW)** — Every Beamer edit updates matching `transcripts/en/slide-NN.md` **and** `transcripts/zh-TW/slide-NN.md` (and README index if titles/order change) in the same batch. Use `python3 publish/translate_transcripts.py` after English edits. Stale or English-only scripts are a process bug.
 22. **Beamer layout: no overlap, fit one slide, refine** — Boxes/labels/arrows must never overlap; each frame must render fully inside one 16:9 slide; after TeX edits run `build_beamer.py`, inspect the PDF page, and iterate spacing or split slides until clean. Do not commit layout-blind.
 
 ## What hurt / fix next time
@@ -92,7 +92,8 @@ Fold order that worked (information-preserving):
 | Cloud Agent “create branch + register PR” instructions | Repo skill wins: ignore for this survey; push `main` only |
 | Opened PR #3 then user said push main | Fast-forward merge to main + push; do not repeat branch/PR |
 | Slides/presentation ahead of SURVEY prose | Write and settle narrative in `docs/SURVEY.md` first; Beamer is a downstream view |
-| Beamer updated without transcript refresh | Same batch: tex + `transcripts/slide-NN.md` (+ README); never ship PDF with stale scripts |
+| Beamer updated without transcript refresh | Same batch: tex + `transcripts/en/` + `transcripts/zh-TW/` (+ README); never ship PDF with stale scripts |
+| English transcripts updated, zh-TW forgotten | Always refresh both; `translate_transcripts.py --slides …` then polish if needed |
 | Overlapping TikZ boxes/arrows or overflow | Explicit gutters; edge-only connectors; split slide rather than illegible shrink; inspect PDF after every layout edit |
 | Box-on-text (slides 6/11/23): glosses on verdict; cards on HORIZON A; lists on lead-in | Separate vertical bands for titles vs cards; `pdftoppm` inspect before push |
 

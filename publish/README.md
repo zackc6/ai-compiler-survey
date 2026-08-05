@@ -16,7 +16,7 @@ python3 publish/build_beamer.py    # sharing deck (Beamer + TikZ)
 
 Source for the deck: [`beamer/expert-briefing.tex`](beamer/expert-briefing.tex).
 
-Per-slide presentation transcripts: [`beamer/transcripts/`](beamer/transcripts/) (`slide-01.md` … `slide-37.md`).
+Per-slide presentation transcripts (English + Traditional Chinese): [`beamer/transcripts/en/`](beamer/transcripts/en/) and [`beamer/transcripts/zh-TW/`](beamer/transcripts/zh-TW/). Regenerate zh-TW with `python3 publish/translate_transcripts.py`.
 
 Appendix slides summarize the `reference/` evidence store (products, repos, ★ digests).
 

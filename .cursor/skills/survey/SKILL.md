@@ -68,7 +68,7 @@ For prediction / architecture / technique / roadmap changes:
 5. Rebuild survey PDF: python3 publish/build_pdf.py
      → publish/out/next-gen-ai-compiler-survey.pdf
 6. Only then update publish/ Beamer slides (if settled / user asks)
-7. Update matching per-slide transcripts in the same batch
+7. Update matching per-slide transcripts in both EN + zh-TW in the same batch
 8. Rebuild briefing PDF → validate → STATUS → push main
 ```
 
@@ -96,16 +96,26 @@ Never ship a SURVEY narrative commit whose survey PDF is stale. Beamer remains d
 
 ### Beamer + transcripts (same batch, always)
 
-**Every time** `publish/beamer/expert-briefing.tex` changes, update the matching files under `publish/beamer/transcripts/` **in the same commit** — do not leave spoken scripts stale.
+**Every time** `publish/beamer/expert-briefing.tex` changes, update matching transcripts under `publish/beamer/transcripts/` **in both languages** in the **same commit** — do not leave spoken scripts stale.
+
+| Locale | Path |
+|---|---|
+| English (source) | `publish/beamer/transcripts/en/slide-NN.md` |
+| Traditional Chinese | `publish/beamer/transcripts/zh-TW/slide-NN.md` |
 
 | Change | Also update |
 |---|---|
-| Edit / add / remove / reorder a slide | `transcripts/slide-NN.md` for every affected slide; renumber if order shifted |
-| Change a slide title or on-slide claims | Rewrite that transcript so it matches what is now on the slide |
+| Edit / add / remove / reorder a slide | `en/slide-NN.md` **and** `zh-TW/slide-NN.md` for every affected slide; renumber if order shifted |
+| Change a slide title or on-slide claims | Rewrite English first, then refresh zh-TW (`python3 publish/translate_transcripts.py --slides NN` + polish if spoken-critical) |
 | Agenda / section structure moves | `transcripts/README.md` index table + any “spoken but not shown” notes |
 | Rebuild only (no content change) | Transcripts unchanged |
 
-Transcripts are presenter scripts (what to say), not a paste of the TeX. Keep them short and aligned with the settled SURVEY claim the slide shows.
+```text
+edit en/slide-NN.md → python3 publish/translate_transcripts.py --slides NN
+  → polish zh-TW/slide-NN.md if presentation-critical → commit both
+```
+
+Transcripts are presenter scripts (what to say), not a paste of the TeX. Keep them short and aligned with the settled SURVEY claim the slide shows. **Always ship EN + zh-TW together.**
 
 ### Beamer layout (hard — refine until clean)
 
@@ -124,7 +134,7 @@ TikZ / Beamer slides must **render cleanly on one 16:9 frame**. Layout bugs are 
 edit tex → build_beamer.py → pdftoppm (or open PDF) → inspect that page
   → if any box/arrow covers text or another box: reband / widen gutters / shorten copy / split slide
   → rebuild → re-inspect until clean
-  → update transcripts → commit → push main
+  → update transcripts en/ + zh-TW/ → commit → push main
 ```
 
 Prefer named TikZ styles, consistent pitch between rows, and **edge-only connectors** (`(a.south) -- (b.north)`, not `(a) -- (b)` — center-to-center arrows cut through box text). No unnecessary diagonals. If a diagram cannot fit without overlap, **split the claim across slides** rather than shrink into illegibility. **Never** place secondary boxes at coordinates that intersect a multi-line title in the same `tikzpicture` without an explicit vertical gap.
@@ -147,7 +157,8 @@ Prefer named TikZ styles, consistent pitch between rows, and **edge-only connect
 | Validate | `python3 scripts/validate_survey.py` |
 | PDF | `python3 publish/build_pdf.py` |
 | Sharing Beamer deck | `python3 publish/build_beamer.py` → `publish/out/next-gen-ai-compiler-sharing.pdf` |
-| **Slide transcripts** | `publish/beamer/transcripts/slide-NN.md` + `README.md` (update whenever Beamer changes) |
+| **Slide transcripts** | `publish/beamer/transcripts/{en,zh-TW}/slide-NN.md` + `README.md` (both langs whenever Beamer changes) |
+| Translate transcripts | `python3 publish/translate_transcripts.py` (EN → zh-TW via glossary/MT/OpenCC) |
 | Status | `STATUS.md` |
 
 ## Hard rules
@@ -162,7 +173,7 @@ Prefer named TikZ styles, consistent pitch between rows, and **edge-only connect
 8. Cite **external primary sources** only — never this survey’s own repo URL/name in digests, covers, or prediction text.
 9. **SURVEY → goal-align → survey PDF → slides** — never slides-first for new prediction content; never leave survey PDF stale after `docs/SURVEY.md` edits.
 10. When searching evidence for §5.8 / prediction: search commercial/pubs/repos externally → digests in `reference/` → thin-update SURVEY → **goal-align** → `build_pdf.py` → push **main** (no PR).
-11. **Slides ⇒ transcripts** — any Beamer content edit updates matching `publish/beamer/transcripts/` in the same batch (see section above). Never ship a slide PDF with stale spoken scripts.
+11. **Slides ⇒ transcripts (EN + zh-TW)** — any Beamer content edit updates matching `en/slide-NN.md` **and** `zh-TW/slide-NN.md` in the same batch (see section above). Never ship a slide PDF with stale spoken scripts or English-only transcript updates.
 12. **Beamer layout** — never overlapping boxes/arrows; **never box-on-text** (glosses/cards must not cover headlines or era labels); every frame must fit one 16:9 slide; refine (build → `pdftoppm`/inspect → fix) until clean before push.
 13. **SURVEY goal-align** — every `docs/SURVEY.md` update: check contexts still match the goal; change the goal **or** the sub-context when they drift (see “When SURVEY.md changes”).
 
@@ -181,7 +192,8 @@ Prefer named TikZ styles, consistent pitch between rows, and **edge-only connect
     [ ] edit expert-briefing.tex
     [ ] build → inspect PDF: no overlapping boxes/arrows; content fits one slide
     [ ] refine spacing/split slides until clean; rebuild
-    [ ] update matching transcripts/slide-NN.md (+ README index if titles/order changed)
+    [ ] update matching transcripts en/ + zh-TW/ slide-NN.md (+ README index if titles/order changed)
+    [ ] python3 publish/translate_transcripts.py --slides … after English edits (then polish zh-TW if needed)
     [ ] python3 publish/build_beamer.py (final)
 [ ] STATUS.md changelog
 [ ] On branch main (not cursor/*) → commit → git push -u origin main
