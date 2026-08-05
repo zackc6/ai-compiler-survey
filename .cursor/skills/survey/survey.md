@@ -63,6 +63,7 @@ Fold order that worked (information-preserving):
 19. **SURVEY first, then slides** — Review `docs/SURVEY.md` → draft/refine the section there until settled → only then update Beamer/presentation. Do not invent prediction content in slides ahead of the narrative.
 20. **§5.8 technical prediction** — Technique-shaped view to accelerate roadmap/checkpoints: **T1–T5 within compiler/toolchain**, **T6–T10 outside**; each row = exists / missing today / accelerates which C*; shortlist money-grade oracles, replayable artifacts, portable agent interface, open ladder+data. Distinct from §4 (gap severity) and §5.7 (commercial packaging).
 21. **Slides and transcripts together** — Every Beamer edit updates matching `publish/beamer/transcripts/slide-NN.md` (and README index if titles/order change) in the same batch. Stale spoken scripts are a process bug.
+22. **Beamer layout: no overlap, fit one slide, refine** — Boxes/labels/arrows must never overlap; each frame must render fully inside one 16:9 slide; after TeX edits run `build_beamer.py`, inspect the PDF page, and iterate spacing or split slides until clean. Do not commit layout-blind.
 
 ## What hurt / fix next time
 
