@@ -854,100 +854,108 @@
 \draw[-{Latex},Mute,thick] (prov) -- (cpc);
 \end{tikzpicture}
 \end{center}
-\vspace{0.45em}
-{\footnotesize\color{Mute}\centering Near-Term: Specs That Make Hybrid Pipelines Build-CI Regressable.\par}
+\vspace{0.35em}
+{\footnotesize\color{Mute}\centering Near-term research themes $\rightarrow$ next: technique map T1--T10 (exists / missing / unlocks).\par}
 \end{frame}
 
 % ============================================================
-% 23 Technical prediction opener
+% 23 Technical prediction opener (§5.8)
 \begin{frame}{Technical Prediction --- Accelerate The Roadmap}
 \begin{center}
-\vspace{-0.3em}
+\vspace{-0.25em}
 \begin{tikzpicture}
 \node[text width=0.92\textwidth,align=center,font=\ebgaramond\large\bfseries,Ink] {
   To settle checkpoints and ship Horizon A,\par
-  enhance a short list of techniques --- inside \emph{and} outside the compiler.
+  enhance techniques \emph{inside and outside} the compiler (T1--T10).
 };
 \node[draw=Steel,fill=Steel!10,rounded corners=5pt,inner sep=7pt,text width=5.5cm,align=left,font=\sffamily\scriptsize]
-  at (-3.3,-0.9) {%
-  \textbf{\color{Steel}Within the compiler}\par\vspace{0.2em}
-  Typed tool interfaces\par
-  Admit / fallback machinery\par
-  Fingerprints \& action spaces\par
-  Control-file / hint replay\par
-  In-tree advisors \& heuristic hooks\par
-  Dialect / ISA feedback sinks};
+  at (-3.3,-0.85) {%
+  \textbf{\color{Steel}Within (T1--T5)}\par\vspace{0.2em}
+  T1 Typed agent$\leftrightarrow$compiler interfaces\par
+  T2 Admit / fallback machinery\par
+  T3 Control files, hints, fingerprints + replay\par
+  T4 Heuristic hooks \& in-tree advisors\par
+  T5 Dialect / ISA feedback sinks};
 \node[draw=Amber,fill=Amber!10,rounded corners=5pt,inner sep=7pt,text width=5.5cm,align=left,font=\sffamily\scriptsize]
-  at (3.3,-0.9) {%
-  \textbf{\color{Amber}Outside the compiler}\par\vspace{0.2em}
-  Serving-level oracles \& A/B\par
-  Open multi-IR training corpora\par
-  Unified benchmark ladder\par
-  Provenance, signing, ownership\par
-  Agent-workflow compile / freeze\par
-  Hardware-counter agent APIs};
-\node[font=\sffamily\tiny,text=Mute,text width=12cm,align=center] at (0,-2.55)
-  {Next slides: what each technique is missing \emph{today}, and which checkpoints it unlocks.};
+  at (3.3,-0.85) {%
+  \textbf{\color{Amber}Outside (T6--T10)}\par\vspace{0.2em}
+  T6 Serving-level oracles \& production A/B\par
+  T7 Open multi-IR corpora (+ negatives)\par
+  T8 Unified benchmark ladder\par
+  T9 Provenance, ownership, HITL process\par
+  T10 Agent-workflow compile / freeze / place};
+\node[font=\sffamily\tiny,text=Mute,text width=12cm,align=center] at (0,-2.45)
+  {Enhancing only \texttt{opt}/Inductor/Triton internals is not enough. Next: exists $\cdot$ missing today $\cdot$ checkpoint unlocks.};
 \end{tikzpicture}
 \end{center}
 \end{frame}
 
 % ============================================================
 % 24 Within-compiler techniques
-\begin{frame}{Technical Prediction --- Within The Compiler}
+\begin{frame}{Technical Prediction --- Within The Compiler (T1--T5)}
 \begin{center}
 \vspace{-0.55em}
 \begin{tikzpicture}
-\node[draw=Steel,fill=white,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,2.15) {%
-  \textbf{\color{Steel}1. Typed agent$\leftrightarrow$compiler interfaces}\quad
-  {\color{Mute}Missing today:} standard schemas for region/constraints/actions/admit; vendor-neutral tool servers.\quad
-  {\color{Ember}Unlocks:} C3, C5, C6 --- stops prompt-and-pray over \texttt{opt} logs.};
-\node[draw=Steel,fill=white,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,1.25) {%
-  \textbf{\color{Steel}2. Admit / fallback machinery}\quad
-  {\color{Mute}Missing today:} shared policy that rejects illegal agent moves and restores the classical path deterministically.\quad
-  {\color{Ember}Unlocks:} C6 hybrid bet; commercial oracle ladder.};
-\node[draw=Steel,fill=white,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,0.35) {%
-  \textbf{\color{Steel}3. Control files, hints, fingerprints}\quad
-  {\color{Mute}Missing today:} content-addressed replay keys (IR hash $\times$ hardware $\times$ compiler $\times$ policy); golden replay on model upgrade.\quad
-  {\color{Ember}Unlocks:} C2 median gains; C5 default-flag choice.};
-\node[draw=Steel,fill=white,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-0.55) {%
-  \textbf{\color{Steel}4. Heuristic hooks \& in-tree advisors}\quad
-  {\color{Mute}Missing today:} settled Magellan-vs-MLGO default; EmitC-class deploy path still not customer-default.\quad
-  {\color{Ember}Unlocks:} C1 offline job (b).};
-\node[draw=Steel,fill=white,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-1.45) {%
-  \textbf{\color{Steel}5. Dialect / ISA feedback sinks}\quad
-  {\color{Mute}Missing today:} first-class compiler surfaces that turn sim/silicon failure modes into dialect or ISA change proposals.\quad
-  {\color{Ember}Unlocks:} C9 coverage ladder; C10 codesign (not auto tape-out).};
+\node[draw=Steel,fill=white,rounded corners=3pt,inner sep=3.5pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,2.15) {%
+  \textbf{\color{Steel}T1 Typed agent$\leftrightarrow$compiler interfaces}\quad
+  {\color{Ok}Exists:} CompileIQ, ACCLAIM/HintPilot, mlirAgent MCP, mlir-opt-repl, FlashInfer Trace.\quad
+  {\color{Mute}Missing:} portable schemas across MLIR$\cdot$Triton$\cdot$Tile$\cdot$StableHLO.\quad
+  {\color{Ember}Unlocks:} C3, C5, C6.};
+\node[draw=Steel,fill=white,rounded corners=3pt,inner sep=3.5pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,1.25) {%
+  \textbf{\color{Steel}T2 Admit / fallback machinery}\quad
+  {\color{Ok}Exists:} AgentCompile checks, Archer oracles, TritonRL verifiers, FlashInfer-Bench gates, VibeServe judges.\quad
+  {\color{Mute}Missing:} shared admit \emph{product} + trusted deterministic fallback.\quad
+  {\color{Ember}Unlocks:} C6 hybrid; money-grade shipping.};
+\node[draw=Steel,fill=white,rounded corners=3pt,inner sep=3.5pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,0.35) {%
+  \textbf{\color{Steel}T3 Control files, hints, fingerprints + replay}\quad
+  {\color{Ok}Exists:} CompileIQ ACFs; FlashInfer Trace + \texttt{apply()}.\quad
+  {\color{Mute}Missing:} content-addressed keys (IR$\times$HW$\times$compiler$\times$policy); golden replay on model upgrade.\quad
+  {\color{Ember}Unlocks:} C2, C5.};
+\node[draw=Steel,fill=white,rounded corners=3pt,inner sep=3.5pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-0.55) {%
+  \textbf{\color{Steel}T4 Heuristic hooks \& in-tree advisors}\quad
+  {\color{Ok}Exists:} Magellan / AlphaEvolve C++; MLGO advisors; EmitC-MLGO PoR advancing.\quad
+  {\color{Mute}Missing:} settled \emph{default} on named shipping apps.\quad
+  {\color{Ember}Unlocks:} C1; Horizon A job (b).};
+\node[draw=Steel,fill=white,rounded corners=3pt,inner sep=3.5pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-1.45) {%
+  \textbf{\color{Steel}T5 Dialect / ISA feedback sinks}\quad
+  {\color{Ok}Exists:} TritorX / KernelEvolve / Ascend diagnosis (sim+silicon $\rightarrow$ IR stress).\quad
+  {\color{Mute}Missing:} first-class compiler surfaces for dialect/ISA \emph{change proposals} (humans+EDA still own tape-out).\quad
+  {\color{Ember}Unlocks:} C9, C10.};
 \end{tikzpicture}
 \end{center}
 \end{frame}
 
 % ============================================================
 % 25 Outside-compiler techniques
-\begin{frame}{Technical Prediction --- Outside The Compiler}
+\begin{frame}{Technical Prediction --- Outside The Compiler (T6--T10)}
 \begin{center}
 \vspace{-0.55em}
 \begin{tikzpicture}
-\node[draw=Amber,fill=white,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,2.15) {%
-  \textbf{\color{Amber}6. Serving-level oracles \& production A/B}\quad
-  {\color{Mute}Missing today:} whole-program / GPU-race / floating-point contracts; multi-month default-path A/B with attribution.\quad
-  {\color{Ember}Unlocks:} C2 ``agents as default''; money-grade admit.};
-\node[draw=Amber,fill=white,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,1.25) {%
-  \textbf{\color{Amber}7. Open multi-IR corpora + negative data}\quad
-  {\color{Mute}Missing today:} versioned MLIR/Triton/Tile/StableHLO pairs with perf labels \emph{and} failed/miscompile examples.\quad
-  {\color{Ember}Unlocks:} better selectors/generators beyond LLVM-centric models.};
-\node[draw=Amber,fill=white,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,0.35) {%
-  \textbf{\color{Amber}8. Unified benchmark ladder}\quad
-  {\color{Mute}Missing today:} shared IR$\rightarrow$kernel$\rightarrow$fused$\rightarrow$serving ladder that reports correctness, speed, \emph{and} cost-to-compile.\quad
-  {\color{Ember}Unlocks:} honest C2/C9 comparisons; kills single-kernel theater.};
-\node[draw=Amber,fill=white,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-0.55) {%
-  \textbf{\color{Amber}9. Provenance, ownership, human-review process}\quad
-  {\color{Mute}Missing today:} named maintainers, signed admit records, sandbox policy for untrusted proposals.\quad
-  {\color{Ember}Unlocks:} shipping agent artifacts into the trusted base.};
-\node[draw=Amber,fill=white,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-1.45) {%
-  \textbf{\color{Amber}10. Agent-workflow compile / freeze / place}\quad
-  {\color{Mute}Missing today:} shared agent-graph IR, fail-closed quality gates, hetero placement under spend/latency targets.\quad
-  {\color{Ember}Unlocks:} Horizon B control-plane compile; multi-agent products leave demo tier.};
+\node[draw=Amber,fill=white,rounded corners=3pt,inner sep=3.5pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,2.15) {%
+  \textbf{\color{Amber}T6 Serving-level oracles \& production A/B}\quad
+  {\color{Ok}Exists:} unit/golden/Alive2; \textbf{FlashInfer-Bench} serving traces + \texttt{apply()}; VibeServe judges.\quad
+  {\color{Mute}Missing:} whole-program/GPU-race/FP contracts; multi-month \emph{default-path} A/B.\quad
+  {\color{Ember}Unlocks:} C2.};
+\node[draw=Amber,fill=white,rounded corners=3pt,inner sep=3.5pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,1.25) {%
+  \textbf{\color{Amber}T7 Open multi-IR corpora (+ negatives)}\quad
+  {\color{Ok}Exists:} Meta LLM Compiler; \textbf{KernelBook} $\rightarrow$ KernelLLM/TritonRL; DRTriton synthetic 100k.\quad
+  {\color{Mute}Missing:} versioned MLIR/Tile/StableHLO + failed/miscompile/slow-correct negatives.\quad
+  {\color{Ember}Unlocks:} selectors beyond LLVM-centric models.};
+\node[draw=Amber,fill=white,rounded corners=3pt,inner sep=3.5pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,0.35) {%
+  \textbf{\color{Amber}T8 Unified benchmark ladder}\quad
+  {\color{Ok}Exists:} KernelBench(-X); FlashInfer-Bench closes a \emph{serving-kernel} rung.\quad
+  {\color{Mute}Missing:} shared IR$\rightarrow$kernel$\rightarrow$fused$\rightarrow$serving ladder with cost-to-compile.\quad
+  {\color{Ember}Unlocks:} honest C2/C9.};
+\node[draw=Amber,fill=white,rounded corners=3pt,inner sep=3.5pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-0.55) {%
+  \textbf{\color{Amber}T9 Provenance, ownership, HITL process}\quad
+  {\color{Ok}Exists:} Magellan reviewable C++; Archer oracle review; sparse SBOM talk.\quad
+  {\color{Mute}Missing:} CODEOWNERS + signed admit records + sandbox for untrusted proposals.\quad
+  {\color{Ember}Unlocks:} trusted-base shipping; C7.};
+\node[draw=Amber,fill=white,rounded corners=3pt,inner sep=3.5pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-1.45) {%
+  \textbf{\color{Amber}T10 Agent-workflow compile / freeze / place}\quad
+  {\color{Ok}Exists:} FlowCompile, Auto, AgentFlow, hetero place; VibeServe (early evidence \emph{now}).\quad
+  {\color{Mute}Missing:} shared agent-graph IR + fail-closed CI (productization $\rightarrow$ Horizon B).\quad
+  {\color{Ember}Unlocks:} Horizon B control-plane compile.};
 \end{tikzpicture}
 \end{center}
 \end{frame}
@@ -959,17 +967,17 @@
 \vspace{-0.45em}
 \begin{tikzpicture}
 \node[draw=Amber,fill=Amber!10,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,2.20)
-  {\textbf{\color{Amber}C1 Magellan vs MLGO}\;--- enhance heuristic hooks + EmitC-class deploy \emph{or} open Magellan patches; missing: customer default.};
+  {\textbf{\color{Amber}C1}\;$\leftarrow$ \textbf{T4}\; Magellan-class synthesis \emph{or} EmitC-MLGO customer default on named apps.};
 \node[draw=Ember,fill=Ember!10,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,1.40)
-  {\textbf{\color{Ember}C2 Median / p90 gains}\;--- enhance replayable control files + serving oracles + benchmark ladder; missing: distributional public traces.};
+  {\textbf{\color{Ember}C2}\;$\leftarrow$ \textbf{T3+T6+T8}\; replayable artifacts + serving oracles + ladder; FlashInfer-Bench = pressure, not settlement.};
 \node[draw=Ink,fill=Ink!6,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,0.60)
-  {\textbf{C5 Default flag}\;--- enhance typed interfaces + freeze-before-serve; missing: release-note-named agent/control-file workflows.};
+  {\textbf{C5}\;$\leftarrow$ \textbf{T1+T3}\; typed interfaces + freeze-before-serve named in release notes.};
 \node[draw=Warn,fill=Warn!12,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-0.20)
-  {\textbf{\color{Warn}C3 / C6 Action width}\;--- enhance constrained tools + admit/fallback; missing: proof free rewrite beats advisors \emph{or} stay advisory.};
+  {\textbf{\color{Warn}C3 / C6}\;$\leftarrow$ \textbf{T1+T2}\; constrained tools + admit/fallback (lean: hybrid advisory until free rewrite proves out).};
 \node[draw=Steel,fill=Steel!10,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-1.00)
-  {\textbf{\color{Steel}C9 Bring-up ladder}\;--- enhance coverage$\rightarrow$performance agents + dialect sinks; missing: second-vendor TritorX-class public path.};
+  {\textbf{\color{Steel}C9}\;$\leftarrow$ \textbf{T5+T8}\; coverage$\rightarrow$perf agents + dialect sinks; need second-vendor TritorX-class path.};
 \node[draw=Mute,fill=Mute!12,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-1.80)
-  {\textbf{C10 Codesign bound}\;--- enhance failure-mode aggregation into ISA/dialect proposals; missing: keep humans + chip-design tools on tape-out.};
+  {\textbf{C10}\;$\leftarrow$ \textbf{T5}\; failure modes $\rightarrow$ ISA/dialect \emph{proposals only}; humans + chip-design tools own tape-out.};
 \end{tikzpicture}
 \end{center}
 \end{frame}
@@ -980,31 +988,31 @@
 \begin{center}
 \vspace{-0.35em}
 \begin{tikzpicture}
-\node[font=\sffamily\scriptsize\bfseries,text=Ember] at (0,2.55) {Highest-leverage gaps (enhance these first)};
+\node[font=\sffamily\scriptsize\bfseries,text=Ember] at (0,2.55) {Highest-leverage bets to accelerate Horizon A};
 \node[draw=Ember,fill=Ember!10,rounded corners=4pt,inner sep=5pt,text width=5.8cm,align=left,font=\sffamily\tiny] at (-3.2,1.15) {%
-  \textbf{1. Money-grade oracle stack}\par
+  \textbf{1. Money-grade oracle stack (T2+T6)}\par
   local formal $\rightarrow$ shape-grid diff\par
   $\rightarrow$ serving statistics $\rightarrow$ staged rollout\par
   {\color{Mute}Without this, agents stay demos}};
 \node[draw=Amber,fill=Amber!10,rounded corners=4pt,inner sep=5pt,text width=5.8cm,align=left,font=\sffamily\tiny] at (3.2,1.15) {%
-  \textbf{2. Replayable artifact contract}\par
+  \textbf{2. Replayable artifact contract (T3)}\par
   control files / kernels / heuristics\par
   with cache keys + golden replay\par
   {\color{Mute}Without this, CI rejects the loop}};
 \node[draw=Steel,fill=Steel!10,rounded corners=4pt,inner sep=5pt,text width=5.8cm,align=left,font=\sffamily\tiny] at (-3.2,-0.95) {%
-  \textbf{3. Portable agent compile interface}\par
+  \textbf{3. Portable agent compile interface (T1)}\par
   summaries $\cdot$ actions $\cdot$ admit records\par
   across MLIR / Triton / Tile / StableHLO\par
   {\color{Mute}Without this, every stack re-glues}};
 \node[draw=Ink,fill=Ink!6,rounded corners=4pt,inner sep=5pt,text width=5.8cm,align=left,font=\sffamily\tiny] at (3.2,-0.95) {%
-  \textbf{4. Open ladder + multi-IR data}\par
+  \textbf{4. Open ladder + multi-IR data (T7+T8)}\par
   correctness $\times$ speed $\times$ \$/compile\par
   plus negative (failed) examples\par
   {\color{Mute}Without this, claims stay incomparable}};
 \end{tikzpicture}
 \end{center}
 \vspace{0.2em}
-{\footnotesize\color{Mute}\centering Within-compiler work alone is not enough --- oracles, data, and provenance sit mostly outside \texttt{opt}/Inductor.\par}
+{\footnotesize\color{Mute}\centering Survey lean: T1--T5 must ship as product surfaces; T6--T10 are equally first-class --- mostly outside classical lowering.\par}
 \end{frame}
 
 % ============================================================
@@ -1131,7 +1139,7 @@
 \node[draw=Steel,fill=Steel!10,rounded corners=5pt,minimum width=3.9cm,minimum height=3.4cm,text width=3.55cm,align=left,font=\sffamily\scriptsize,inner sep=7pt]
   at (-4.3,0.2) {%
   \textbf{\color{Steel}Publications}\par\vspace{0.25em}
-  $\sim$108 digests\par
+  $\sim$115 digests\par
   one file per source\par\vspace{0.2em}
   papers $\cdot$ blogs $\cdot$ talks\par
   forge pages $\cdot$ minutes\par\vspace{0.25em}
@@ -1173,8 +1181,10 @@
   {\textbf{AMD} --- GEAK (multi-agent Triton / Instinct kernel optimization)};
 \node[draw=Ink,fill=white,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-0.25)
   {\textbf{Meta} --- LLM Compiler / KernelLLM; TritorX + KernelEvolve (ASIC bring-up); Helion};
-\node[draw=Mute,fill=Mute!8,rounded corners=3pt,inner sep=5pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-1.25)
-  {\textbf{Tier B baselines (agents must plug in):} TensorRT-LLM $\cdot$ torch.compile/Inductor $\cdot$ XLA/StableHLO $\cdot$ Modular MAX $\cdot$ OpenVINO $\cdot$ AWS Neuron $\cdot$ Qualcomm Hexagon-MLIR};
+\node[draw=Ok,fill=white,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-0.95)
+  {\textbf{FlashInfer / NVIDIA$\cdot$UW$\cdot$CMU} --- FlashInfer-Bench (serving-trace ladder + \texttt{apply()} into SGLang/vLLM)};
+\node[draw=Mute,fill=Mute!8,rounded corners=3pt,inner sep=5pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-1.75)
+  {\textbf{Tier B baselines:} TensorRT-LLM $\cdot$ Inductor $\cdot$ XLA/StableHLO $\cdot$ FlashInfer kernels $\cdot$ Modular MAX $\cdot$ OpenVINO $\cdot$ Neuron $\cdot$ Hexagon-MLIR};
 \end{tikzpicture}
 \end{center}
 \end{frame}
@@ -1197,8 +1207,8 @@
   ACCLAIM $\cdot$ CompileIQ\par
   GEAK $\cdot$ KernelAgent\par
   KernelBench / KernelBench-X\par
-  AutoKernel $\cdot$ Helion\par
-  TritorX / KernelEvolve (mostly internal)};
+  FlashInfer-Bench $\cdot$ AutoKernel\par
+  Helion $\cdot$ TritorX / KernelEvolve};
 \node[draw=Ember,fill=Ember!8,rounded corners=4pt,inner sep=5pt,text width=12.0cm,align=left,font=\sffamily\tiny] at (0,-0.85) {%
   \textbf{\color{Ember}How to read tiers:}\; A = agents change heuristics/kernels/knobs/review with domain oracles.\quad
   B = data-plane hosts.\quad C = generic forge AI (demoted for prediction).};
@@ -1220,9 +1230,9 @@
 \node[draw=Ember,fill=Ember!8,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,0.55)
   {\textbf{Bring-up / codesign:} TritorX $\cdot$ KernelEvolve $\cdot$ Ascend hierarchical diagnosis $\cdot$ KForge};
 \node[draw=Ok,fill=Ok!8,rounded corners=3pt,inner sep=4pt,text width=12.2cm,align=left,font=\sffamily\tiny] at (0,-0.15)
-  {\textbf{Kernels / control substrate:} CompileIQ agent-skills $\cdot$ AutoKernel $\cdot$ CuTeGen $\cdot$ Auto (AGI Compiler) $\cdot$ FlowCompile};
+  {\textbf{Kernels / ladder / data:} CompileIQ agent-skills $\cdot$ FlashInfer-Bench $\bigstar$ $\cdot$ KernelBook $\bigstar$ $\cdot$ AutoKernel $\cdot$ CuTeGen $\cdot$ Auto $\cdot$ FlowCompile};
 \node[font=\sffamily\tiny,text=Mute,text width=12cm,align=center] at (0,-1.15)
-  {Full digest index: one file per source under the publications store ($\sim$108 entries across 13 groups).};
+  {Full digest index: one file per source under the publications store ($\sim$115 entries). Technique map: SURVEY §5.8 T1--T10.};
 \end{tikzpicture}
 \end{center}
 \end{frame}

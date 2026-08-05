@@ -30,9 +30,9 @@ Presenter notes that are **intentionally spoken but not shown** on slides:
 | 20 | [`slide-20.md`](slide-20.md) | Blocker 5 --- Ownership, security, human review |
 | 21 | [`slide-21.md`](slide-21.md) | Gap map --- what blocks the prediction, not a wishlist |
 | 22 | [`slide-22.md`](slide-22.md) | Cross-Cutting Research Agenda |
-| 23 | [`slide-23.md`](slide-23.md) | Technical Prediction --- Accelerate The Roadmap |
-| 24 | [`slide-24.md`](slide-24.md) | Technical Prediction --- Within The Compiler |
-| 25 | [`slide-25.md`](slide-25.md) | Technical Prediction --- Outside The Compiler |
+| 23 | [`slide-23.md`](slide-23.md) | Technical Prediction --- Accelerate The Roadmap (T1--T10) |
+| 24 | [`slide-24.md`](slide-24.md) | Technical Prediction --- Within The Compiler (T1--T5) |
+| 25 | [`slide-25.md`](slide-25.md) | Technical Prediction --- Outside The Compiler (T6--T10) |
 | 26 | [`slide-26.md`](slide-26.md) | Technical Prediction --- What Each Checkpoint Needs |
 | 27 | [`slide-27.md`](slide-27.md) | Technical Prediction --- Critical Missing Parts Now |
 | 28 | [`slide-28.md`](slide-28.md) | Org Adoption Questions |

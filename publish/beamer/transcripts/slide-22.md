@@ -1,10 +1,5 @@
 # Slide 22: Cross-Cutting Research Agenda
 
-Six near-term research thrusts in a clean grid.
+Bridge from gap map into technique-shaped prediction. Six near-term themes that make hybrid pipelines build/CI regressable: admit & fallback standards; agent tool / IR schemas; open multi-IR corpora; serving-level oracles; provenance & human review; control-plane compile MVP.
 
-Top row: admit and fallback standards; agent tool and IR schemas including MCP; open multi-IR corpora.
-Bottom row: serving-level oracles; provenance and HITL; control-plane compile MVP.
-
-Edges are row and column dependencies — standards feed tools feed corpora; admit standards feed serving oracles; provenance ties the middle column; corpora and provenance feed the control-plane compile MVP.
-
-Near-term goal: specs that make hybrid pipelines CI-regressable.
+Close: these themes unpack as T1–T10 on the next slides (exists / missing / unlocks).

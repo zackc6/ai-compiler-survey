@@ -1,8 +1,8 @@
 # Slide 23: Technical Prediction — Accelerate The Roadmap
 
-Open the technical-prediction section. Message: settling checkpoints and shipping Horizon A needs a short list of techniques — both inside the compiler and outside it.
+Open §5.8. Message: settling checkpoints and shipping Horizon A needs techniques **inside and outside** the compiler — enhancing only opt/Inductor/Triton is not enough.
 
-Within: typed tools, admit/fallback, fingerprints, control-file replay, heuristic hooks, dialect/ISA sinks.
-Outside: serving oracles, multi-IR corpora, benchmark ladder, provenance/ownership, workflow compile/freeze, hardware-counter APIs.
+Within T1–T5: typed interfaces, admit/fallback, control-file replay, heuristic hooks/advisors, dialect/ISA sinks.
+Outside T6–T10: serving oracles/A/B, multi-IR corpora, benchmark ladder, provenance/HITL, agent-workflow compile/freeze/place.
 
-Preview: next slides spell missing parts today and which checkpoints each unlocks.
+Preview: next slides give exists · missing today · which checkpoints each unlocks.
