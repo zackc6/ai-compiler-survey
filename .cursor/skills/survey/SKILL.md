@@ -146,7 +146,7 @@ Prefer named TikZ styles, consistent pitch between rows, and **edge-only connect
 | Org sync helper | `python3 scripts/apply_org_publisher.py` |
 | Validate | `python3 scripts/validate_survey.py` |
 | PDF | `python3 publish/build_pdf.py` |
-| Expert Beamer deck | `python3 publish/build_beamer.py` → `publish/out/next-gen-ai-compiler-expert-briefing.pdf` |
+| Sharing Beamer deck | `python3 publish/build_beamer.py` → `publish/out/next-gen-ai-compiler-sharing.pdf` |
 | **Slide transcripts** | `publish/beamer/transcripts/slide-NN.md` + `README.md` (update whenever Beamer changes) |
 | Status | `STATUS.md` |
 

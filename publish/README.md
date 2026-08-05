@@ -1,4 +1,4 @@
-# Publish survey → PDF + expert Beamer deck
+# Publish survey → PDF + sharing Beamer deck
 
 English artifacts in `publish/out/`.
 
@@ -6,13 +6,13 @@ English artifacts in `publish/out/`.
 
 ```bash
 python3 publish/build_pdf.py       # full survey PDF
-python3 publish/build_beamer.py    # expert briefing (Beamer + TikZ, ~28 slides)
+python3 publish/build_beamer.py    # sharing deck (Beamer + TikZ)
 ```
 
 | Output | Role |
 |---|---|
 | `out/next-gen-ai-compiler-survey.pdf` | Full survey manuscript |
-| `out/next-gen-ai-compiler-expert-briefing.pdf` | Expert briefing deck (diagram-first, §5→§4→§1) |
+| `out/next-gen-ai-compiler-sharing.pdf` | Sharing deck (diagram-first, §5→§4→§1) |
 
 Source for the deck: [`beamer/expert-briefing.tex`](beamer/expert-briefing.tex).
 

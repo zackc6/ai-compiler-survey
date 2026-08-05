@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the expert Beamer briefing PDF into publish/out/."""
+"""Build the sharing Beamer deck PDF into publish/out/."""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SRC_DIR = Path(__file__).resolve().parent / "beamer"
 TEX = SRC_DIR / "expert-briefing.tex"
 OUT = Path(__file__).resolve().parent / "out"
-PDF_NAME = "next-gen-ai-compiler-expert-briefing.pdf"
+PDF_NAME = "next-gen-ai-compiler-sharing.pdf"
 
 
 def main() -> int:

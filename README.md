@@ -9,7 +9,7 @@ Living survey aimed at **predicting the next-generation agentic compiler** (~202
 3. **Stack reshape** — Layer map (framework → DSL → IR → oracles → silicon feedback) in [`docs/SURVEY.md`](docs/SURVEY.md) §5.6.
 4. **Answer Q1–Q4** plus comparison (§1b) and conflicts ([`docs/SURVEY.md`](docs/SURVEY.md) §6, C1–C10).
 5. **Reference evidence** — [`reference/`](reference/) guide → publications / products / repos.
-6. **Publish** — [`PDF`](publish/out/next-gen-ai-compiler-survey.pdf) (`python3 publish/build_pdf.py`) · expert deck [`Beamer PDF`](publish/out/next-gen-ai-compiler-expert-briefing.pdf) (`python3 publish/build_beamer.py`).
+6. **Publish** — [`PDF`](publish/out/next-gen-ai-compiler-survey.pdf) (`python3 publish/build_pdf.py`) · sharing deck [`Beamer PDF`](publish/out/next-gen-ai-compiler-sharing.pdf) (`python3 publish/build_beamer.py`).
 7. **Track progress** — [`STATUS.md`](STATUS.md).
 
 ## Repo layout
