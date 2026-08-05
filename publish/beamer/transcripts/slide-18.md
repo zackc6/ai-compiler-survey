@@ -1,7 +1,10 @@
-# Slide 18: Blocker 3 — Agent$\leftrightarrow$compiler contract
+# Slide 18: Blocker 3 — Agent↔compiler contract
 
-Four options: A, natural language plus pasted logs — demo only. B, structured admit traces — CI and SBOM ready. C, typed tool APIs — required action space. D, hybrid — natural language as a view over traces.
+Four full-width options (top to bottom):
 
-Show the admit_record fields: graph hash, hardware id, compiler version, actions, oracles, artifact digest, policy id.
+- **A** Natural language + pasted logs — demo only
+- **B** Structured admit traces — build CI / bill of materials
+- **C** Typed tool interfaces — required action space
+- **D** Hybrid — natural-language view over traces
 
-Lean: C plus B. Natural language is a view, not the source of truth. ACF means Advanced Control File.
+Show the `admit_record` fields. Lean: **C + B**. Natural language is a view, not source of truth. ACF = portable compiler knobs.

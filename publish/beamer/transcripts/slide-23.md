@@ -1,7 +1,9 @@
 # Slide 23: Technical Prediction — Accelerate The Roadmap
 
-Open §5.8 with the lead-in alone (clear band above the lists): settle checkpoints / ship Horizon A by enhancing techniques inside and outside the compiler (T1–T10).
+To settle checkpoints and ship Horizon A, enhance techniques inside *and* outside the compiler (T1–T10).
 
-Then the two columns — Within T1–T5 and Outside T6–T10 — side by side with a gutter, never covering the lead-in.
+**Within (T1–T5):** typed interfaces; admit/fallback; control files + replay; heuristic hooks/advisors; dialect/ISA sinks.
 
-Footer: enhancing only opt/Inductor/Triton is not enough; next slides = exists · missing · unlocks.
+**Outside (T6–T10):** serving oracles/A/B; multi-IR corpora; benchmark ladder; provenance/HITL; workflow compile/freeze/place.
+
+Enhancing only opt/Inductor/Triton internals is not enough. Next slides: exists · missing · unlocks.

@@ -1,9 +1,9 @@
 # Slide 12: Checkpoint C1 — heuristics vs neural advisors
 
-Two live bets.
+Read three bands.
 
-Path A, Magellan: evolve shippable C++ via EVOLVE-BLOCK. The offline coding agent is the control-plane output. Product shape is evolutionary coding agent plus review.
+**A — Magellan path:** evolve shippable C++ via EVOLVE-BLOCK; the offline coding agent *is* the control-plane output. Product = evolutionary coding agent + review.
 
-Path B, MLGO EmitC: neural advisors stay in-tree. June 2026 plan of record points internal inliner, then Android and Fuchsia, then Chrome multi-model. Agents train and feature the networks rather than replace them.
+**B — MLGO / EmitC path:** NN advisors stay in-tree; agents train / feature NNs. June 2026 PoR: internal inliner → Android/Fuchsia → Chrome multi-model.
 
-Settlement: public Magellan LLVM patches that displace MLGO, or EmitC-MLGO becomes customer default. Watch LLVM syncs and OpenEvolve recipes quarterly through 2027.
+**Settlement:** public Magellan llvm patches displace MLGO *or* EmitC-MLGO becomes customer default. Watch LLVM syncs + OpenEvolve recipes quarterly through 2027.

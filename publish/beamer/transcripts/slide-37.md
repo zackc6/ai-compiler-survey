@@ -1,3 +1,3 @@
 # Slide 37: Appendix — publication groups
 
-Show the group counts so the room sees coverage shape — kernels, agentic/RL, review agents, classic DL, company infra, vision, MLGO, codesign, control-plane substrate. Close: mechanism first; do not average disagreements; move the prediction only when Tier A or star evidence moves.
+Read the group counts (GPU kernels, agentic/RL, SCM, classic DL, company infra, forums, surveys, foundation LLMs, MLGO/gyms, HW codesign, commercial, control-plane substrate). Then: mechanism first; demote generic forge AI; keep both sides — do not average; update prediction only when Tier A / ★ evidence moves.

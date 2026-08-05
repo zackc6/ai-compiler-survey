@@ -43,6 +43,7 @@ Last updated: **2026-08-05**
 
 | Date | Change |
 |---|---|
+| 2026-08-05 | Beamer readability pass: larger shared styles; band relayouts 12/18/23/27/34–37; inspect for overflow |
 | 2026-08-05 | Rename Beamer out PDF → `publish/out/next-gen-ai-compiler-sharing.pdf` (was expert-briefing) |
 | 2026-08-05 | Skill: on every SURVEY.md update — goal-align (goal vs sub-context) + rebuild survey PDF before Beamer |
 | 2026-08-05 | Beamer 14/26 band layout (like 24–25); bump Exists/Missing + body fonts on 14/24–26; refresh transcripts |

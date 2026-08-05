@@ -1,3 +1,8 @@
 # Slide 35: Appendix — Tier A open repositories
 
-Left: offline and review — OpenEvolve, HeuriGym, Archer, Compiler-R1, HintPilot, mlirAgent as a negative free-rewrite result. Right: online and kernels — ACCLAIM, CompileIQ, GEAK, KernelAgent, KernelBench, AutoKernel, Helion; TritorX/KernelEvolve mostly internal. Remind tiers: A reshapes compile; C is generic forge AI and demoted.
+Two bands, then tier gloss:
+
+- Offline / review / heuristics: OpenEvolve, HeuriGym, Archer, Compiler-R1, HintPilot, mlirAgent
+- Online / kernels / bring-up: ACCLAIM, CompileIQ, GEAK, KernelAgent, KernelBench(-X), FlashInfer-Bench, AutoKernel, Helion, TritorX / KernelEvolve
+
+Tiers: A = agents + domain oracles; B = data-plane hosts; C = generic forge AI (demoted).
