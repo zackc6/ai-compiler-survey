@@ -1,7 +1,9 @@
-# Slide 21: Trend Backdrop — Two Stacks Converging
+# Slide 21: Gap Map — Blockers To §5
 
-Timeline: 2018 to 22 deep learning compilers; 2020 to 23 RL gyms; 2023 to 24 LLM enters IR; 2025 to 26 agentic hybrid; 2027 and beyond still open.
+This is a priority map of gaps that gate the Section 5 prediction, not a research wishlist.
 
-Two stacks below the line: compilers for AI are mature but fragmented; AI for compilers is in rapid hybrid growth.
+High: production evidence, correctness, cost and replay, cross-stack, benchmarks.
+Medium-high: hardware-native APIs, training data.
+Medium: workflow compile, HITL process, security.
 
-Punchline: next-gen does not mean throw away LLVM or MLIR — it means make them agent-addressable.
+If you only fund one band, fund the high row — those are what keep Horizon A from being a slideware story.

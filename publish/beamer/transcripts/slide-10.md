@@ -1,8 +1,7 @@
-# Slide 10: Checkpoints C2 + C5 — Gains & Default Path
+# Slide 10: What Ships / Does Not By 2028
 
-The chart is illustrative tension, not a meta-analysis: vendor headlines around fifteen percent versus docs-style hot-kernel gains nearer two and a half percent.
+Left — predicted to ship: agent-addressable tool APIs; hot-path specialize rather than silent default-all; Magellan and MLGO both live; oracle PR review in serious orgs; coverage-first ASIC bring-up; Triton-family primary with multi-DSL rising.
 
-C2: agents become default only with p50 CI wins, not best-kernel blogs.
-C5: online specialize via ACF or hints versus offline eng via Magellan or MLGO — both may live; the question is which is the default flag.
+Right — does not ship: unconstrained LLM replaces opt or Inductor; one agent IR for all vendors; kernel agents uniformly beat eager on fusion ladders; autonomous microarch tape-out.
 
-Settlement: pinned public traces plus release notes that list agent or ACF workflows.
+Pill line: Horizon A success means CI-gated specialize, oracles, and freeze artifacts.

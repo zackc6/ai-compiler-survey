@@ -1,5 +1,7 @@
-# Slide 17: Blocker 5 — Ownership, Security, HITL
+# Slide 17: Blocker 2 — Cost, Replay, When May The Agent Run?
 
-Three pressures: TCB risk when agent kernels or heuristics enter the trusted base; ownership via CODEOWNERS, signed provenance, and sandbox; HITL capacity where agents raise draft volume and reviewers become the bottleneck.
+Three phases: lab is interactive chat and tools; product CI is batch optimize with budget SLOs, Welch, and canary; freeze means ACF or kernels in VCS with zero LLM at serve time.
 
-Lean: human CODEOWNER, signed admit, sandbox; oracle auto-merge only for narrow action classes. Generic forge AI is not the same as compiler-oracle review — that is checkpoint C7.
+Cache key should include IR hash, hardware, compiler version, and agent policy, plus an explicit budget in dollars per percent gain.
+
+This commercially falsifies chat-with-the-compiler on every build without spend and latency SLOs.

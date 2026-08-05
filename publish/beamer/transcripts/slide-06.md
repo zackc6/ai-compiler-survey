@@ -1,11 +1,9 @@
-# Slide 6: Architecture Evolution — Today → A → B
+# Slide 6: Executive Verdict
 
-Read the timeline left to right.
+Deliver the one-line verdict: agents reshape the control plane more than they replace the data plane.
 
-Today, 2025 to 26: ad-hoc agent loops on the control plane; MLIR Triton Inductor default on a mostly GPU data plane; sparse codesign and manual bring-up.
+Left column arc: compilers for AI times AI for compilers; then hybrid LLM-compiler loops; then the fourth job at Tier A — bring-up and codesign.
 
-Horizon A, 2027 to 28: jobs a through d productized and CI-gated specialize; multi-DSL with fingerprints, tool APIs, and admit; early sim and first silicon feeding ISA or dialect RFCs.
+Right column — what will not happen soon: an unconstrained LLM replacing Inductor or opt; and autonomous chip tape-out via compiler agents, which is checkpoint C10.
 
-Horizon B, about 2029 to 31: the control plane itself is compiled — ADG, freeze, place; multi-backend fleets with ACF and heuristics in VCS; a steady pre-silicon loop that is still not autonomous EDA.
-
-Closing line: the data plane never goes away; the agent graph becomes compiled, audited, and amortized.
+Pause. Make sure the room accepts this as the framing before you go deep.

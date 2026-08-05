@@ -1,7 +1,8 @@
-# Slide 13: Blocker 1 — Oracles For Money
+# Slide 13: Checkpoints C2 + C5 — Gains & Default Path
 
-Climb the oracle stack: unit and golden and OpInfo are cheap but miss subtle bugs; numerical tolerances invite games; Alive2-style local honesty is strong locally but weak on GPU concurrency; serving A/B catches product issues but is slow and hard to attribute.
+The chart is illustrative tension, not a meta-analysis: vendor headlines around fifteen percent versus docs-style hot-kernel gains nearer two and a half percent.
 
-Done looks like: formal, then shape-grid diff, then statistical serving, then staged rollout.
+C2: agents become default only with p50 CI wins, not best-kernel blogs.
+C5: online specialize via ACF or hints versus offline eng via Magellan or MLGO — both may live; the question is which is the default flag.
 
-Room question: who owns false negatives when admit passes and production still miscompiles?
+Settlement: pinned public traces plus release notes that list agent or ACF workflows.

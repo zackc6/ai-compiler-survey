@@ -1,10 +1,10 @@
-# Slide 22: Six Active Trends
+# Slide 22: Cross-Cutting Research Agenda
 
-A: hybrid guidance — free IR rewrite is fragile, so constrain the action space.
-B: RL moves into agents with tools, heuristics, and workflow-compile.
-C: MLIR plus Triton — peak is often still vendor libs or Tile.
-D: kernel agents are industrializing, but KernelBench remains hard.
-E: verify in the loop — local formal is much stronger than whole-program GPU floating point.
-F: broader object — FMware, mid-decode, agents as engineering labor.
+Six near-term research thrusts in a clean grid.
 
-Keep this slide brisk; it is backdrop for the stance.
+Top row: admit and fallback standards; agent tool and IR schemas including MCP; open multi-IR corpora.
+Bottom row: serving-level oracles; provenance and HITL; control-plane compile MVP.
+
+Edges are row and column dependencies — standards feed tools feed corpora; admit standards feed serving oracles; provenance ties the middle column; corpora and provenance feed the control-plane compile MVP.
+
+Near-term goal: specs that make hybrid pipelines CI-regressable.

@@ -1,7 +1,10 @@
-# Slide 7: What Ships / Does Not By 2028
+# Slide 7: Four Agent Jobs — Architecture Spine
 
-Left — predicted to ship: agent-addressable tool APIs; hot-path specialize rather than silent default-all; Magellan and MLGO both live; oracle PR review in serious orgs; coverage-first ASIC bring-up; Triton-family primary with multi-DSL rising.
+These four jobs are the architecture spine. They sit above classical lowering, not instead of it.
 
-Right — does not ship: unconstrained LLM replaces opt or Inductor; one agent IR for all vendors; kernel agents uniformly beat eager on fusion ladders; autonomous microarch tape-out.
+(a) Online: propose, measure, admit — CompileIQ, GEAK, ACCLAIM, HintPilot.
+(b) Offline: evolve heuristics into C++ or MLGO — Magellan, AlphaEvolve.
+(c) Engineering review: oracle-gated PR or change — Archer-class.
+(d) Bring-up: coverage to performance, sim plus silicon — TritorX, KernelEvolve.
 
-Pill line: Horizon A success means CI-gated specialize, oracles, and freeze artifacts.
+If a product claim does not map to one of these jobs, ask which job it is actually doing.

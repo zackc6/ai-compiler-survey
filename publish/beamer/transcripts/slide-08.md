@@ -1,17 +1,13 @@
-# Slide 8: Roadmap Checkpoints (§5.5)
+# Slide 8: Architecture — Target Stack (§5.1)
 
-Reshape this as a roadmap spine, not a scatter of bubbles.
+Build the stack top to bottom.
 
-Walk Today (2025–26) → Horizon A (2027–28) → Horizon B (~2029–31). The checkpoints are the near-term milestones from Survey §5.5 — settlement signals that can flip the prediction.
+Human and product intent at the edge: natural language, policy, budget.
+Agent control plane: jobs a through d, with substrate for workflow compile, ADG, freeze, and hetero place.
+Classical data plane stays the default path: frameworks into Inductor, XLA, MLIR, Triton, Tile, CuTe — legality, lowering, admit, fallback.
+Leaves: GPU NPU ASIC; VCS artifacts such as ACF, kernels, memory plans; serving runtime with freeze for replay.
+Codesign feedback loops back toward ISA and dialect RFCs. Humans and EDA still own tape-out — C10.
 
-Above the axis, left to right:
-- C1 (2026–27): Magellan OSS or EmitC becomes default.
-- C2 (2026–28): public p50/p90 on ACF or kernel traces.
-- C9 (2027–28): second-vendor TritorX-class bring-up.
+Invariant to say out loud: the LLM guides search; it does not silently define unchecked executable behavior.
 
-Below the axis:
-- C5 (rolling): agent or ACF workflows named in release notes.
-- C3/C6 (through 2028): does free rewrite beat advisors?
-- MOCHA (~2027–28): verified rewrite evals go open source.
-
-Closing line: we watch these signals; we do not average disagreements. If they settle the other way, Horizon A/B defaults change.
+Visual note: the feedback arrow from hardware into codesign routes around the left so it does not cross the codesign block.

@@ -1,9 +1,7 @@
-# Slide 3: Executive Verdict
+# Slide 3: Trend Backdrop — Two Stacks Converging
 
-Deliver the one-line verdict: agents reshape the control plane more than they replace the data plane.
+Timeline: 2018 to 22 deep learning compilers; 2020 to 23 RL gyms; 2023 to 24 LLM enters IR; 2025 to 26 agentic hybrid; 2027 and beyond still open.
 
-Left column arc: compilers for AI times AI for compilers; then hybrid LLM-compiler loops; then the fourth job at Tier A — bring-up and codesign.
+Two stacks below the line: compilers for AI are mature but fragmented; AI for compilers is in rapid hybrid growth.
 
-Right column — what will not happen soon: an unconstrained LLM replacing Inductor or opt; and autonomous chip tape-out via compiler agents, which is checkpoint C10.
-
-Pause. Make sure the room accepts this as the framing before you go deep.
+Punchline: next-gen does not mean throw away LLVM or MLIR — it means make them agent-addressable.

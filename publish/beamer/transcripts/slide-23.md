@@ -1,6 +1,11 @@
-# Slide 23: Keep Substrate, Change Control Plane
+# Slide 23: Org Adoption Questions
 
-Preserve: deterministic lowering, library kernels, CI regressability, local formal checks.
-Adopt: advisory search, multi-agent orchestration, heuristic synthesis, profile and verifier feedback.
+Use these as discussion prompts, not a quiz.
 
-Anti-pattern in ember: replace opt or Inductor with unconstrained LLM codegen. Say it firmly.
+One: online CompileIQ versus offline Magellan — which matches your release model?
+Two: oracle stack of Alive2, golden, serving A/B — who owns false negatives?
+Three: agent contract surface — LLVM, MLIR, Triton, StableHLO, Tile?
+Four: how do you cache and regress traces across compiler and model upgrades?
+Five: max dollars per build for a median X percent win, and a named maintainer per admitted artifact?
+
+Leave silence after each if the room is engaged.

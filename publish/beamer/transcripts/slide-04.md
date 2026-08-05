@@ -1,10 +1,10 @@
-# Slide 4: Four Agent Jobs — Architecture Spine
+# Slide 4: Six Active Trends
 
-These four jobs are the architecture spine. They sit above classical lowering, not instead of it.
+A: hybrid guidance — free IR rewrite is fragile, so constrain the action space.
+B: RL moves into agents with tools, heuristics, and workflow-compile.
+C: MLIR plus Triton — peak is often still vendor libs or Tile.
+D: kernel agents are industrializing, but KernelBench remains hard.
+E: verify in the loop — local formal is much stronger than whole-program GPU floating point.
+F: broader object — FMware, mid-decode, agents as engineering labor.
 
-(a) Online: propose, measure, admit — CompileIQ, GEAK, ACCLAIM, HintPilot.
-(b) Offline: evolve heuristics into C++ or MLGO — Magellan, AlphaEvolve.
-(c) Engineering review: oracle-gated PR or change — Archer-class.
-(d) Bring-up: coverage to performance, sim plus silicon — TritorX, KernelEvolve.
-
-If a product claim does not map to one of these jobs, ask which job it is actually doing.
+Keep this slide brisk; it is backdrop for the stance.

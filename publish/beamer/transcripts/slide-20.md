@@ -1,11 +1,5 @@
-# Slide 20: Org Adoption Questions
+# Slide 20: Blocker 5 — Ownership, Security, HITL
 
-Use these as discussion prompts, not a quiz.
+Three pressures: TCB risk when agent kernels or heuristics enter the trusted base; ownership via CODEOWNERS, signed provenance, and sandbox; HITL capacity where agents raise draft volume and reviewers become the bottleneck.
 
-One: online CompileIQ versus offline Magellan — which matches your release model?
-Two: oracle stack of Alive2, golden, serving A/B — who owns false negatives?
-Three: agent contract surface — LLVM, MLIR, Triton, StableHLO, Tile?
-Four: how do you cache and regress traces across compiler and model upgrades?
-Five: max dollars per build for a median X percent win, and a named maintainer per admitted artifact?
-
-Leave silence after each if the room is engaged.
+Lean: human CODEOWNER, signed admit, sandbox; oracle auto-merge only for narrow action classes. Generic forge AI is not the same as compiler-oracle review — that is checkpoint C7.

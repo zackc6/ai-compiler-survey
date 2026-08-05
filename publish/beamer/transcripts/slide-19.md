@@ -1,10 +1,5 @@
-# Slide 19: Cross-Cutting Research Agenda
+# Slide 19: Blocker 4 — Distributional Production Evidence
 
-Six near-term research thrusts in a clean grid.
+Walk the funnel: wide top is curated kernels and opt-in flags; middle is where attribution gets hard across graphs, KV, GEMV; narrow bottom is default-path A/B plus multi-month stability.
 
-Top row: admit and fallback standards; agent tool and IR schemas including MCP; open multi-IR corpora.
-Bottom row: serving-level oracles; provenance and HITL; control-plane compile MVP.
-
-Edges are row and column dependencies — standards feed tools feed corpora; admit standards feed serving oracles; provenance ties the middle column; corpora and provenance feed the control-plane compile MVP.
-
-Near-term goal: specs that make hybrid pipelines CI-regressable.
+Marketing bar should be p50 and p90 plus cost-to-compile, MLGO-style persistent QPS — not single-kernel headlines.

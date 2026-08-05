@@ -188,27 +188,95 @@
 \begin{tikzpicture}
   \fill[Steel] (0,3.2) circle (0.14);
   \draw[Steel,line width=1.2pt] (0,3.2) -- (0,2.55);
-  \node[agendaMini,fill=Steel!12] at (0.35,3.2) {\textbf{1.} Verdict + Four Jobs};
+  \node[agendaMini,fill=Steel!12] at (0.35,3.2) {\textbf{1.} Trends $\cdot$ Keep Substrate};
   \fill[Amber] (0,2.35) circle (0.14);
   \draw[Amber,line width=1.2pt] (0,2.35) -- (0,1.7);
-  \node[agendaMini,fill=Amber!12] at (0.35,2.35) {\textbf{2.} Architecture Evolution};
+  \node[agendaMini,fill=Amber!12] at (0.35,2.35) {\textbf{2.} Verdict + Four Jobs};
   \fill[Ember] (0,1.5) circle (0.14);
   \draw[Ember,line width=1.2pt] (0,1.5) -- (0,0.85);
-  \node[agendaMini,fill=Ember!12] at (0.35,1.5) {\textbf{3.} Prediction Checkpoints};
+  \node[agendaMini,fill=Ember!12] at (0.35,1.5) {\textbf{3.} Architecture Evolution};
   \fill[Ink] (0,0.65) circle (0.14);
   \draw[Ink,line width=1.2pt] (0,0.65) -- (0,0.0);
-  \node[agendaMini,fill=Ink!8] at (0.35,0.65) {\textbf{4.} Commercial Blockers (Top 5)};
+  \node[agendaMini,fill=Ink!8] at (0.35,0.65) {\textbf{4.} Prediction Checkpoints};
   \fill[Mute] (0,-0.2) circle (0.14);
   \draw[Mute,line width=1.2pt] (0,-0.2) -- (0,-0.85);
-  \node[agendaMini,fill=Mute!12] at (0.35,-0.2) {\textbf{5.} Gaps That Gate The Future};
+  \node[agendaMini,fill=Mute!12] at (0.35,-0.2) {\textbf{5.} Commercial Blockers + Gaps};
   \fill[Mute] (0,-1.05) circle (0.14);
-  \node[agendaMini,fill=Mute!12] at (0.35,-1.05) {\textbf{6.} Trends $\cdot$ Stance $\cdot$ Ask};
+  \node[agendaMini,fill=Mute!12] at (0.35,-1.05) {\textbf{6.} Stance $\cdot$ Checklist $\cdot$ Ask};
 \end{tikzpicture}
 \end{center}
 \end{frame}
 
 % ============================================================
-% 3 Executive verdict
+% 3 Trend era timeline
+\begin{frame}{Trend backdrop --- two stacks converging}
+\begin{center}
+\begin{tikzpicture}
+\draw[Line,line width=3pt] (-5.5,0.3) -- (5.5,0.3);
+\fill[Mute] (-5.2,0.3) circle (0.16);
+\node[eraHead,text=Mute] at (-5.2,1.0) {2018--22};
+\node[font=\sffamily\tiny,text=Mute] at (-5.2,-0.35) {DL compilers};
+\fill[Mute] (-2.6,0.3) circle (0.16);
+\node[eraHead,text=Mute] at (-2.6,1.0) {2020--23};
+\node[font=\sffamily\tiny,text=Mute] at (-2.6,-0.35) {RL gyms};
+\fill[Steel] (0.0,0.3) circle (0.16);
+\node[eraHead,text=Steel] at (0.0,1.0) {2023--24};
+\node[font=\sffamily\tiny,text=Mute] at (0.0,-0.35) {LLM enters IR};
+\fill[Amber] (2.8,0.3) circle (0.16);
+\node[eraHead,text=Amber] at (2.8,1.0) {2025--26};
+\node[font=\sffamily\tiny,text=Mute] at (2.8,-0.35) {Agentic hybrid};
+\fill[Ember] (5.2,0.3) circle (0.16);
+\node[eraHead,text=Ember] at (5.2,1.0) {2027+};
+\node[font=\sffamily\tiny,text=Mute] at (5.2,-0.35) {?};
+
+\node[stackBox] at (-3.2,-1.8) {\textbf{Compilers for AI}\par mature $\cdot$ fragmented substrate};
+\node[stackBoxA] at (3.2,-1.8) {\textbf{AI for compilers}\par rapid hybrid growth};
+\end{tikzpicture}
+\end{center}
+\vspace{0.3em}
+{\footnotesize\color{Mute}\centering Next-gen $\neq$ throw away LLVM/MLIR --- make them \textbf{agent-addressable}.\par}
+\end{frame}
+
+% ============================================================
+% 4 Six trends
+\begin{frame}{Six active trends}
+\begin{center}
+\begin{tikzpicture}
+\node[trendSteel] at (-4.0,1.55) {\textbf{A Hybrid guidance}\par free IR rewrite fragile\par constrain action space};
+\node[trendAmber] at (0.0,1.55) {\textbf{B RL $\rightarrow$ agents}\par tools $\cdot$ heuristics\par workflow-compile};
+\node[trendEmber] at (4.0,1.55) {\textbf{C MLIR + Triton}\par peak often still\par vendor libs / Tile};
+\node[trendInk] at (-4.0,-0.55) {\textbf{D Kernel agents}\par industrial $\cdot$ KernelBench hard};
+\node[trendOk] at (0.0,-0.55) {\textbf{E Verify in loop}\par local formal $\gg$\par whole-program GPU/FP};
+\node[trendMute] at (4.0,-0.55) {\textbf{F Broader object}\par FMware $\cdot$ mid-decode\par agents as eng};
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+% ============================================================
+% 5 Keep substrate / change control plane
+\begin{frame}{Keep substrate, change control plane}
+\begin{center}
+\begin{tikzpicture}
+\node[keepOk] at (-3.3,0.3) {%
+  \textbf{\color{Ok}Preserve}\par\vspace{0.35em}
+  deterministic lowering\par\vspace{0.12em}
+  library kernels\par\vspace{0.12em}
+  CI regressability\par\vspace{0.12em}
+  local formal checks};
+\node[keepSteel] at (3.3,0.3) {%
+  \textbf{\color{Steel}Adopt}\par\vspace{0.35em}
+  advisory search\par\vspace{0.12em}
+  multi-agent orchestration\par\vspace{0.12em}
+  heuristic synthesis\par\vspace{0.12em}
+  profile / verifier feedback};
+\node[draw=Ember,very thick,fill=Ember!10,rounded corners=5pt,inner sep=7pt,font=\sffamily\small\bfseries,text=Ember,text width=11cm,align=center]
+  at (0,-2.15) {Anti-pattern: replace \texttt{opt}/Inductor with unconstrained LLM codegen};
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+% ============================================================
+% 6 Executive verdict
 \begin{frame}{Executive verdict}
 \begin{center}
 \begin{tikzpicture}
@@ -242,7 +310,7 @@
 \end{frame}
 
 % ============================================================
-% 4 Four agent jobs
+% 7 Four agent jobs
 \begin{frame}{Four agent jobs --- architecture spine}
 \begin{center}
 \begin{tikzpicture}
@@ -269,7 +337,7 @@
 \end{frame}
 
 % ============================================================
-% 5 Architecture target stack
+% 8 Architecture target stack
 \begin{frame}{Architecture --- Target Stack (\S5.1)}
 \begin{center}
 \vspace{-0.9em}
@@ -308,7 +376,8 @@
 \end{center}
 \end{frame}
 
-% 6 Architecture evolution
+% ============================================================
+% 9 Architecture evolution
 \begin{frame}{Architecture evolution --- Today $\rightarrow$ A $\rightarrow$ B}
 \begin{center}
 \begin{tikzpicture}
@@ -343,7 +412,7 @@
 \end{frame}
 
 % ============================================================
-% 7 What ships / does not
+% 10 What ships / does not
 \begin{frame}{What ships / does not by 2028}
 \begin{columns}[T]
 \begin{column}{0.48\textwidth}
@@ -378,7 +447,7 @@
 \end{frame}
 
 % ============================================================
-% 8 Roadmap checkpoints (§5.5)
+% 11 Roadmap checkpoints (§5.5)
 \begin{frame}{Roadmap Checkpoints (\S5.5) --- when the prediction changes}
 \begin{center}
 \vspace{-0.35em}
@@ -433,7 +502,7 @@
 \end{frame}
 
 % ============================================================
-% 9 Checkpoint C1
+% 12 Checkpoint C1
 \begin{frame}{Checkpoint C1 --- heuristics vs neural advisors}
 \begin{center}
 \begin{tikzpicture}
@@ -460,7 +529,7 @@
 \end{frame}
 
 % ============================================================
-% 10 Checkpoints C2 + C5
+% 13 Checkpoints C2 + C5
 \begin{frame}{Checkpoints C2 + C5 --- gains \& default path}
 \begin{columns}[T]
 \begin{column}{0.52\textwidth}
@@ -499,7 +568,7 @@
 \end{frame}
 
 % ============================================================
-% 11 Checkpoints C3/C6/C9/C10
+% 14 Checkpoints C3/C6/C9/C10
 \begin{frame}{Checkpoints C3 / C6 / C9 / C10 --- API width \& scope}
 \begin{center}
 \begin{tikzpicture}
@@ -524,7 +593,7 @@
 \end{frame}
 
 % ============================================================
-% 12 Commercial blockers top 5
+% 15 Commercial blockers top 5
 \begin{frame}{Commercial blockers --- top 5}
 \begin{center}
 \begin{tikzpicture}
@@ -554,7 +623,7 @@
 \end{frame}
 
 % ============================================================
-% 13 Blocker 1 Oracles
+% 16 Blocker 1 Oracles
 \begin{frame}{Blocker 1 --- Oracles for money}
 \begin{center}
 \begin{tikzpicture}
@@ -574,7 +643,7 @@
 \end{frame}
 
 % ============================================================
-% 14 Blocker 2 Cost / replay / freeze
+% 17 Blocker 2 Cost / replay / freeze
 \begin{frame}{Blocker 2 --- Cost, replay, when may the agent run?}
 \begin{center}
 \begin{tikzpicture}
@@ -598,7 +667,7 @@
 \end{frame}
 
 % ============================================================
-% 15 Blocker 3 Contract
+% 18 Blocker 3 Contract
 \begin{frame}{Blocker 3 --- Agent$\leftrightarrow$compiler contract}
 \begin{center}
 \begin{tikzpicture}
@@ -615,7 +684,7 @@
 \end{frame}
 
 % ============================================================
-% 16 Blocker 4 Evidence funnel
+% 19 Blocker 4 Evidence funnel
 \begin{frame}{Blocker 4 --- Distributional production evidence}
 \begin{center}
 \begin{tikzpicture}
@@ -632,7 +701,7 @@
 \end{frame}
 
 % ============================================================
-% 17 Blocker 5 Ownership / HITL
+% 20 Blocker 5 Ownership / HITL
 \begin{frame}{Blocker 5 --- Ownership, security, HITL}
 \begin{center}
 \begin{tikzpicture}
@@ -653,7 +722,7 @@
 \end{frame}
 
 % ============================================================
-% 18 Gap map
+% 21 Gap map
 \begin{frame}{Gap map --- blockers to \S5, not a wishlist}
 \begin{center}
 \begin{tikzpicture}
@@ -677,7 +746,7 @@
 \end{frame}
 
 % ============================================================
-% 19 Research agenda
+% 22 Research agenda
 \begin{frame}{Cross-Cutting Research Agenda}
 \begin{center}
 \begin{tikzpicture}
@@ -702,7 +771,7 @@
 \end{frame}
 
 % ============================================================
-% 20 Org adoption
+% 23 Org adoption
 \begin{frame}{Org Adoption Questions}
 \begin{center}
 \vspace{-0.2em}
@@ -713,74 +782,6 @@
 \node[qRow] at (0, 0.00) {\textbf{\color{Amber}3.} Agent contract surface: LLVM / MLIR / Triton / StableHLO / Tile?};
 \node[qRow] at (0,-1.35) {\textbf{\color{Amber}4.} How do you cache/regress traces across compiler \emph{and} model upgrades?};
 \node[qRow] at (0,-2.70) {\textbf{\color{Amber}5.} Max \$/build for a median X\% win? Named maintainer per admitted artifact?};
-\end{tikzpicture}
-\end{center}
-\end{frame}
-
-% ============================================================
-% 21 Trend era timeline
-\begin{frame}{Trend backdrop --- two stacks converging}
-\begin{center}
-\begin{tikzpicture}
-\draw[Line,line width=3pt] (-5.5,0.3) -- (5.5,0.3);
-\fill[Mute] (-5.2,0.3) circle (0.16);
-\node[eraHead,text=Mute] at (-5.2,1.0) {2018--22};
-\node[font=\sffamily\tiny,text=Mute] at (-5.2,-0.35) {DL compilers};
-\fill[Mute] (-2.6,0.3) circle (0.16);
-\node[eraHead,text=Mute] at (-2.6,1.0) {2020--23};
-\node[font=\sffamily\tiny,text=Mute] at (-2.6,-0.35) {RL gyms};
-\fill[Steel] (0.0,0.3) circle (0.16);
-\node[eraHead,text=Steel] at (0.0,1.0) {2023--24};
-\node[font=\sffamily\tiny,text=Mute] at (0.0,-0.35) {LLM enters IR};
-\fill[Amber] (2.8,0.3) circle (0.16);
-\node[eraHead,text=Amber] at (2.8,1.0) {2025--26};
-\node[font=\sffamily\tiny,text=Mute] at (2.8,-0.35) {Agentic hybrid};
-\fill[Ember] (5.2,0.3) circle (0.16);
-\node[eraHead,text=Ember] at (5.2,1.0) {2027+};
-\node[font=\sffamily\tiny,text=Mute] at (5.2,-0.35) {?};
-
-\node[stackBox] at (-3.2,-1.8) {\textbf{Compilers for AI}\par mature $\cdot$ fragmented substrate};
-\node[stackBoxA] at (3.2,-1.8) {\textbf{AI for compilers}\par rapid hybrid growth};
-\end{tikzpicture}
-\end{center}
-\vspace{0.3em}
-{\footnotesize\color{Mute}\centering Next-gen $\neq$ throw away LLVM/MLIR --- make them \textbf{agent-addressable}.\par}
-\end{frame}
-
-% ============================================================
-% 22 Six trends
-\begin{frame}{Six active trends}
-\begin{center}
-\begin{tikzpicture}
-\node[trendSteel] at (-4.0,1.55) {\textbf{A Hybrid guidance}\par free IR rewrite fragile\par constrain action space};
-\node[trendAmber] at (0.0,1.55) {\textbf{B RL $\rightarrow$ agents}\par tools $\cdot$ heuristics\par workflow-compile};
-\node[trendEmber] at (4.0,1.55) {\textbf{C MLIR + Triton}\par peak often still\par vendor libs / Tile};
-\node[trendInk] at (-4.0,-0.55) {\textbf{D Kernel agents}\par industrial $\cdot$ KernelBench hard};
-\node[trendOk] at (0.0,-0.55) {\textbf{E Verify in loop}\par local formal $\gg$\par whole-program GPU/FP};
-\node[trendMute] at (4.0,-0.55) {\textbf{F Broader object}\par FMware $\cdot$ mid-decode\par agents as eng};
-\end{tikzpicture}
-\end{center}
-\end{frame}
-
-% ============================================================
-% 23 Keep substrate / change control plane
-\begin{frame}{Keep substrate, change control plane}
-\begin{center}
-\begin{tikzpicture}
-\node[keepOk] at (-3.3,0.3) {%
-  \textbf{\color{Ok}Preserve}\par\vspace{0.35em}
-  deterministic lowering\par\vspace{0.12em}
-  library kernels\par\vspace{0.12em}
-  CI regressability\par\vspace{0.12em}
-  local formal checks};
-\node[keepSteel] at (3.3,0.3) {%
-  \textbf{\color{Steel}Adopt}\par\vspace{0.35em}
-  advisory search\par\vspace{0.12em}
-  multi-agent orchestration\par\vspace{0.12em}
-  heuristic synthesis\par\vspace{0.12em}
-  profile / verifier feedback};
-\node[draw=Ember,very thick,fill=Ember!10,rounded corners=5pt,inner sep=7pt,font=\sffamily\small\bfseries,text=Ember,text width=11cm,align=center]
-  at (0,-2.15) {Anti-pattern: replace \texttt{opt}/Inductor with unconstrained LLM codegen};
 \end{tikzpicture}
 \end{center}
 \end{frame}
@@ -807,53 +808,7 @@
 \end{frame}
 
 % ============================================================
-% 25 Claim status
-\begin{frame}{Claim status snapshot}
-\begin{center}
-\begin{tikzpicture}
-\node[font=\sffamily\small\bfseries,text=Ok] at (-3.2,2.5) {Supported};
-\node[okbox] at (-4.5,1.7) {A1 planes};
-\node[okbox] at (-1.9,1.7) {A2 four jobs};
-\node[okbox] at (-4.5,0.8) {A3 artifacts};
-\node[okbox] at (-1.9,0.8) {A5 no free replace};
-\node[okbox] at (-3.2,-0.1) {S4 ASIC TTM};
-
-\node[font=\sffamily\small\bfseries,text=Amber] at (3.5,2.5) {Contested / Watch};
-\node[watchbox] at (2.2,1.7) {A4 defaults};
-\node[watchbox] at (4.8,1.7) {P1 C1 bet};
-\node[watchbox] at (2.2,0.8) {P2 multi-DSL};
-\node[watchbox] at (4.8,0.8) {S5 profiler APIs};
-\end{tikzpicture}
-\end{center}
-\vspace{0.6em}
-{\footnotesize\color{Mute}\centering Full claim map: SURVEY \S7.\par}
-\end{frame}
-
-% ============================================================
-% 26 Systems gallery
-\begin{frame}{Systems gallery --- mechanism clusters}
-\begin{center}
-\begin{tikzpicture}
-\node[clustSteel] at (-3.3,1.55) {%
-  \textbf{\color{Steel}Pass / heuristic}\par
-  LLM Compiler $\cdot$ Compiler-R1 $\cdot$ Magellan\par MLGO $\cdot$ HintPilot $\cdot$ ACCLAIM};
-\node[clustAmber] at (3.3,1.55) {%
-  \textbf{\color{Amber}Kernel / DSL}\par
-  GEAK $\cdot$ KernelLLM $\cdot$ AgentCompile\par CompileIQ $\cdot$ CuTeGen $\cdot$ AutoKernel $\cdot$ KForge};
-\node[clustEmber] at (-3.3,-0.55) {%
-  \textbf{\color{Ember}Bring-up / codesign}\par
-  TritorX $\cdot$ KernelEvolve\par Ascend hierarchical diagnosis};
-\node[clustInk] at (3.3,-0.55) {%
-  \textbf{Boundary / negative}\par
-  mlirAgent --- below identity\par on free IR rewrite};
-\end{tikzpicture}
-\end{center}
-\vspace{0.2em}
-{\footnotesize\color{Mute}\centering Prefer mechanisms over headline speedups.\par}
-\end{frame}
-
-% ============================================================
-% 27 Commercial checklist
+% 25 Commercial checklist
 \begin{frame}{Commercial checklist --- handout}
 \begin{center}
 \begin{tikzpicture}
@@ -881,33 +836,33 @@
 \end{frame}
 
 % ============================================================
-% 28 Discussion + thank you
+% 26 Discussion + thank you  (light background)
 \begin{frame}[plain]
 \begin{tikzpicture}[remember picture,overlay]
-  \fill[Ink] (current page.south west) rectangle (current page.north east);
-  \fill[Steel] (current page.south west) rectangle ([xshift=0.35cm]current page.north west);
-  \fill[Amber] ([yshift=1.35cm]current page.south west) rectangle ([yshift=1.48cm]current page.south east);
+  \fill[Mist] (current page.south west) rectangle (current page.north east);
+  \fill[Steel] (current page.south west) rectangle ([xshift=0.28cm]current page.north west);
+  \fill[Amber] ([yshift=1.55cm]current page.south west) rectangle ([yshift=1.68cm]current page.south east);
 
-  \node[anchor=west,text=white,font=\ebgaramond\bfseries\Huge]
+  \node[anchor=west,text=Ink,font=\ebgaramond\bfseries\Huge]
     at ([xshift=1.1cm,yshift=2.4cm]current page.west) {Discussion};
-  \node[anchor=west,text=SteelSoft,font=\large\sffamily]
+  \node[anchor=west,text=Steel,font=\large\sffamily]
     at ([xshift=1.1cm,yshift=1.7cm]current page.west) {Thank you --- hybrid bet stays the ask};
 
-  \node[anchor=west,draw=Amber,fill=Ink!90,text=white,rounded corners=5pt,
+  \node[anchor=west,draw=Steel,fill=white,text=Ink,rounded corners=5pt,
     text width=0.82\paperwidth,align=left,font=\sffamily\small,inner sep=8pt]
     at ([xshift=1.1cm,yshift=0.55cm]current page.west)
-    {\textbf{1.} Which checkpoint flips your investment first --- C1, C2, or C9?};
-  \node[anchor=west,draw=Amber,fill=Ink!90,text=white,rounded corners=5pt,
+    {\textbf{\color{Amber}1.} Which checkpoint flips your investment first --- C1, C2, or C9?};
+  \node[anchor=west,draw=Steel,fill=white,text=Ink,rounded corners=5pt,
     text width=0.82\paperwidth,align=left,font=\sffamily\small,inner sep=8pt]
     at ([xshift=1.1cm,yshift=-0.35cm]current page.west)
-    {\textbf{2.} Harder commercial bar: \textbf{oracle strength} or \textbf{replay/freeze}?};
-  \node[anchor=west,draw=Amber,fill=Ink!90,text=white,rounded corners=5pt,
+    {\textbf{\color{Amber}2.} Harder commercial bar: \textbf{oracle strength} or \textbf{replay/freeze}?};
+  \node[anchor=west,draw=Steel,fill=white,text=Ink,rounded corners=5pt,
     text width=0.82\paperwidth,align=left,font=\sffamily\small,inner sep=8pt]
     at ([xshift=1.1cm,yshift=-1.25cm]current page.west)
-    {\textbf{3.} Building job (a), (b), or (d) first --- what do you refuse online?};
+    {\textbf{\color{Amber}3.} Building job (a), (b), or (d) first --- what do you refuse online?};
 
   \node[anchor=south west,text=Mute,font=\scriptsize\sffamily,text width=0.85\paperwidth]
-    at ([xshift=1.1cm,yshift=0.35cm]current page.south west)
+    at ([xshift=1.1cm,yshift=0.45cm]current page.south west)
     {Primary narrative: docs/SURVEY.md \S5 $\rightarrow$ \S4 $\rightarrow$ \S1 $\cdot$ Backup: C1--C10 $\cdot$ P9--P23 $\cdot$ \S9};
 \end{tikzpicture}
 \end{frame}

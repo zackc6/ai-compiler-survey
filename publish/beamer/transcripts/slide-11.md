@@ -1,8 +1,17 @@
-# Slide 11: Checkpoints C3 / C6 / C9 / C10 — API Width & Scope
+# Slide 11: Roadmap Checkpoints (§5.5)
 
-Four flip conditions.
+Reshape this as a roadmap spine, not a scatter of bubbles.
 
-C3: if a shared suite shows free rewrite winning, the API widens; otherwise stay on narrow ACF and hints.
-C6: if production defaults with no admit path, rewrite the survey baseline; today we hold C6-B, control plane over replace.
-C9: if a TritorX to KernelEvolve ladder goes public, sell coverage SLA then performance SLA.
-C10: codesign feedback is real; autonomous tape-out is not. Flip only if microarch is primarily agent-proposed and compiler-oracle validated enough to enter EDA.
+Walk Today (2025–26) → Horizon A (2027–28) → Horizon B (~2029–31). The checkpoints are the near-term milestones from Survey §5.5 — settlement signals that can flip the prediction.
+
+Above the axis, left to right:
+- C1 (2026–27): Magellan OSS or EmitC becomes default.
+- C2 (2026–28): public p50/p90 on ACF or kernel traces.
+- C9 (2027–28): second-vendor TritorX-class bring-up.
+
+Below the axis:
+- C5 (rolling): agent or ACF workflows named in release notes.
+- C3/C6 (through 2028): does free rewrite beat advisors?
+- MOCHA (~2027–28): verified rewrite evals go open source.
+
+Closing line: we watch these signals; we do not average disagreements. If they settle the other way, Horizon A/B defaults change.

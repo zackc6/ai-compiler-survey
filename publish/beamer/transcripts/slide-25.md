@@ -1,7 +1,9 @@
-# Slide 25: Claim Status Snapshot
+# Slide 25: Commercial Checklist — Handout
 
-Supported today: A1 planes, A2 four jobs, A3 artifacts, A5 no free replace, S4 ASIC time-to-market framing.
+Leave them with three columns.
 
-Contested or watch: A4 defaults, P1 on the C1 bet, P2 multi-DSL, S5 profiler APIs.
+Architecture: typed tools and admit traces; VCS over dense over scratchpad; FSM or plan for SLA; freeze before default-on.
+Trust: layered oracles; CODEOWNERS and provenance; joint version pins; A/B before calling something production default.
+Business: sell regressable artifacts plus CI quota; customer owns outputs; coverage then performance SLA; token budget per percent gain.
 
-Point experts to Survey Section 7 for the full claim map.
+This is the handout slide — pause so people can photograph it.

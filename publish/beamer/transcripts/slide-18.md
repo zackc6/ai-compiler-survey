@@ -1,9 +1,7 @@
-# Slide 18: Gap Map — Blockers To §5
+# Slide 18: Blocker 3 — Agent↔Compiler Contract
 
-This is a priority map of gaps that gate the Section 5 prediction, not a research wishlist.
+Four options: A, natural language plus pasted logs — demo only. B, structured admit traces — CI and SBOM ready. C, typed tool APIs — required action space. D, hybrid — natural language as a view over traces.
 
-High: production evidence, correctness, cost and replay, cross-stack, benchmarks.
-Medium-high: hardware-native APIs, training data.
-Medium: workflow compile, HITL process, security.
+Show the admit_record fields: graph hash, hardware id, compiler version, actions, oracles, artifact digest, policy id.
 
-If you only fund one band, fund the high row — those are what keep Horizon A from being a slideware story.
+Lean: C plus B. Natural language is a view, not the source of truth. ACF means Advanced Control File.

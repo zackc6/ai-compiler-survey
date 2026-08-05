@@ -1,11 +1,9 @@
-# Slide 12: Commercial Blockers — Top 5
+# Slide 12: Checkpoint C1 — Heuristics Vs Neural Advisors
 
-Rank the blockers before deep dives.
+Two live bets.
 
-One: oracles strong enough for money — fast-but-wrong creates liability.
-Two: cost, replay, and when agents may run — nondeterministic dollar-N compiles.
-Three: agent to compiler contract — natural language only is a demo.
-Four: distributional production evidence — no default-path A/B yet.
-Five: ownership, supply chain, and human-in-the-loop — unowned agent code in the TCB.
+Path A, Magellan: evolve shippable C++ via EVOLVE-BLOCK. The offline coding agent is the control-plane output. Product shape is evolutionary coding agent plus review.
 
-Each blocker gets its own slide. Lean comes from Survey Sections 5.7 and 4.
+Path B, MLGO EmitC: neural advisors stay in-tree. June 2026 plan of record points internal inliner, then Android and Fuchsia, then Chrome multi-model. Agents train and feature the networks rather than replace them.
+
+Settlement: public Magellan LLVM patches that displace MLGO, or EmitC-MLGO becomes customer default. Watch LLVM syncs and OpenEvolve recipes quarterly through 2027.
