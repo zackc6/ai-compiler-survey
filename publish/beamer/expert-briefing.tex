@@ -329,8 +329,9 @@
 \node[nodeSteel] (a) at (-3.3,0.55) {Compilers for AI \,$\times$\, AI for compilers};
 \node[nodeAmber] (b) at (-3.3,-0.55) {Hybrid LLM--compiler loops};
 \node[nodeEmber] (c) at (-3.3,-1.65) {4th job Tier A: bring-up / codesign};
-\draw[-{Latex},Steel,thick,shorten >=2pt,shorten <=2pt] (a) -- (b);
-\draw[-{Latex},Amber,thick,shorten >=2pt,shorten <=2pt] (b) -- (c);
+% Edge-to-edge only --- never draw through node text
+\draw[-{Latex},Steel,thick] (a.south) -- (b.north);
+\draw[-{Latex},Amber,thick] (b.south) -- (c.north);
 
 \node[verdictBox,anchor=north] at (3.3,0.75) {
   \textbf{\color{Ember}Will not happen soon}\par\vspace{0.35em}

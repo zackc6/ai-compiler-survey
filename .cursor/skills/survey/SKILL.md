@@ -104,7 +104,7 @@ edit tex → build_beamer.py → pdftoppm (or open PDF) → inspect that page
   → update transcripts → commit → push main
 ```
 
-Prefer named TikZ styles, consistent pitch between rows, and edge-only connectors (no unnecessary diagonals). If a diagram cannot fit without overlap, **split the claim across slides** rather than shrink into illegibility. **Never** place secondary boxes at coordinates that intersect a multi-line title in the same `tikzpicture` without an explicit vertical gap.
+Prefer named TikZ styles, consistent pitch between rows, and **edge-only connectors** (`(a.south) -- (b.north)`, not `(a) -- (b)` — center-to-center arrows cut through box text). No unnecessary diagonals. If a diagram cannot fit without overlap, **split the claim across slides** rather than shrink into illegibility. **Never** place secondary boxes at coordinates that intersect a multi-line title in the same `tikzpicture` without an explicit vertical gap.
 
 ## Paths
 
