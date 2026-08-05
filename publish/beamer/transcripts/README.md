@@ -15,7 +15,7 @@ Presenter notes that are **intentionally spoken but not shown** on slides:
 | 5 | [`slide-05.md`](slide-05.md) | Architecture — Target Stack (§5.1) |
 | 6 | [`slide-06.md`](slide-06.md) | Architecture Evolution — Today → A → B |
 | 7 | [`slide-07.md`](slide-07.md) | What Ships / Does Not By 2028 |
-| 8 | [`slide-08.md`](slide-08.md) | Checkpoints — When The Prediction Changes |
+| 8 | [`slide-08.md`](slide-08.md) | Roadmap Checkpoints (§5.5) |
 | 9 | [`slide-09.md`](slide-09.md) | Checkpoint C1 — Heuristics Vs Neural Advisors |
 | 10 | [`slide-10.md`](slide-10.md) | Checkpoints C2 + C5 — Gains & Default Path |
 | 11 | [`slide-11.md`](slide-11.md) | Checkpoints C3 / C6 / C9 / C10 — API Width & Scope |

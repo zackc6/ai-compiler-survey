@@ -1,12 +1,17 @@
-# Slide 8: Checkpoints — When The Prediction Changes
+# Slide 8: Roadmap Checkpoints (§5.5)
 
-These are falsifiable settlement signals, not marketing milestones.
+Reshape this as a roadmap spine, not a scatter of bubbles.
 
-C1: Magellan OSS or EmitC as default, 2026 to 27.
-C2: public p50 and p90 on ACF or kernel traces, 2026 to 28.
-C9: second-vendor TritorX-class, 2027 to 28.
-C5: agent or ACF called out in release notes, rolling.
-C3 and C6: whether free rewrite beats advisors through 2028.
-MOCHA: verified rewrite evals open, around 2027 to 28.
+Walk Today (2025–26) → Horizon A (2027–28) → Horizon B (~2029–31). The checkpoints are the near-term milestones from Survey §5.5 — settlement signals that can flip the prediction.
 
-Remind them: we watch settlement signals; we do not average disagreements.
+Above the axis, left to right:
+- C1 (2026–27): Magellan OSS or EmitC becomes default.
+- C2 (2026–28): public p50/p90 on ACF or kernel traces.
+- C9 (2027–28): second-vendor TritorX-class bring-up.
+
+Below the axis:
+- C5 (rolling): agent or ACF workflows named in release notes.
+- C3/C6 (through 2028): does free rewrite beat advisors?
+- MOCHA (~2027–28): verified rewrite evals go open source.
+
+Closing line: we watch these signals; we do not average disagreements. If they settle the other way, Horizon A/B defaults change.

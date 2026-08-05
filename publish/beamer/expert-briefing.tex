@@ -272,34 +272,41 @@
 % 5 Architecture target stack
 \begin{frame}{Architecture --- Target Stack (\S5.1)}
 \begin{center}
-\begin{tikzpicture}
-\node[planeMute,minimum height=0.55cm] (intent) at (0,3.65)
+\vspace{-0.5em}
+\begin{tikzpicture}[node distance=0.48cm]
+% Chain with fixed node-distance gaps --- arrows cannot collapse when text grows
+\node[planeMute,inner sep=4pt] (intent)
   {\textbf{Human / Product Intent} \;$\cdot$\; NL at edge $\cdot$ policy $\cdot$ budget};
-\node[planeSteel,minimum height=1.45cm] (ctrl) at (0,2.5) {%
-  \textbf{\color{Steel}Agent Control Plane}\par\vspace{0.08em}
-  (a) online $\cdot$ (b) offline $\cdot$ (c) review $\cdot$ (d) bring-up\par\vspace{0.04em}
+\node[planeSteel,inner sep=5pt,below=of intent] (ctrl) {%
+  \textbf{\color{Steel}Agent Control Plane}\par\vspace{0.05em}
+  {\scriptsize (a) online $\cdot$ (b) offline $\cdot$ (c) review $\cdot$ (d) bring-up}\par
   {\scriptsize substrate: workflow compile $\cdot$ ADG $\cdot$ freeze $\cdot$ hetero place}};
-\node[planeAmber,minimum height=1.05cm] (data) at (0,0.8) {%
-  \textbf{\color{Amber}Classical Data Plane} \;{\scriptsize(default path stays)}\par\vspace{0.06em}
-  Framework $\rightarrow$ Inductor / XLA / MLIR / Triton / Tile / CuTe\par
+\node[planeAmber,inner sep=5pt,below=0.55cm of ctrl] (data) {%
+  \textbf{\color{Amber}Classical Data Plane} \;{\scriptsize(default path stays)}\par\vspace{0.04em}
+  {\scriptsize Framework $\rightarrow$ Inductor / XLA / MLIR / Triton / Tile / CuTe}\par
   {\scriptsize legality $\cdot$ lowering $\cdot$ admit / fallback}};
-\node[hwLeaf] (hw) at (-4.0,-0.55) {GPU / NPU / ASIC\par{\tiny sim $\rightarrow$ silicon}};
-\node[hwLeaf] (vcs) at (0,-0.55) {VCS Artifacts\par{\tiny ACF $\cdot$ kernels $\cdot$ memory}};
-\node[hwLeaf] (srv) at (4.0,-0.55) {Serving Runtime\par{\tiny freeze for replay}};
-% Codesign lower; feedback elbow routes LEFT of the block (no overlap)
-\node[planeEmber,minimum height=0.7cm] (cd) at (0,-2.35)
+\node[hwLeaf,below=0.70cm of data] (vcs)
+  {VCS Artifacts\par{\tiny ACF $\cdot$ kernels $\cdot$ memory}};
+\node[hwLeaf,left=0.55cm of vcs] (hw)
+  {GPU / NPU / ASIC\par{\tiny sim $\rightarrow$ silicon}};
+\node[hwLeaf,right=0.55cm of vcs] (srv)
+  {Serving Runtime\par{\tiny freeze for replay}};
+\node[planeEmber,inner sep=5pt,below=0.70cm of vcs] (cd)
   {\textbf{\color{Ember}Codesign Feedback} $\rightarrow$ ISA / dialect RFCs \;$\cdot$\; humans+EDA own tape-out (C10)};
-\draw[-{Latex},thick,Mute] (intent) -- (ctrl);
-\draw[-{Latex},thick,Steel] (ctrl) -- node[right,font=\tiny,xshift=2pt]{typed tools $\cdot$ admit $\cdot$ oracles} (data);
-\draw[-{Latex},thick,Amber] (data.south) -- ++(0,-0.18) -| (hw.north);
-\draw[-{Latex},thick,Amber] (data.south) -- ++(0,-0.18) -| (vcs.north);
-\draw[-{Latex},thick,Amber] (data.south) -- ++(0,-0.18) -| (srv.north);
-% Down from HW, left clear of the wide codesign band, then into west side
-\draw[-{Latex},thick,Ember]
-  (hw.south) -- ++(0,-0.55) -- ++(-2.4,0) |- (cd.west);
+\draw[-{Latex},line width=1.15pt,Mute] (intent) -- (ctrl);
+\draw[-{Latex},line width=1.15pt,Steel] (ctrl) -- (data);
+\node[font=\sffamily\tiny,text=Steel,anchor=west]
+  at ($(ctrl.east |- {$(ctrl.south)!0.5!(data.north)$})+(0.12,0)$)
+  {typed tools $\cdot$ admit $\cdot$ oracles};
+\coordinate (fork) at ($(data.south)!0.45!(vcs.north)$);
+\draw[Amber,line width=1.15pt] (data.south) -- (fork);
+\draw[-{Latex},line width=1.15pt,Amber] (fork) -| (hw.north);
+\draw[-{Latex},line width=1.15pt,Amber] (fork) -- (vcs.north);
+\draw[-{Latex},line width=1.15pt,Amber] (fork) -| (srv.north);
+\draw[-{Latex},line width=1.15pt,Ember] (hw.south) -- (hw.south |- cd.north) -- ([xshift=-4.0cm]cd.north);
 \end{tikzpicture}
 \end{center}
-\vspace{-0.15em}
+\vspace{-0.45em}
 {\footnotesize\color{Mute}\centering Invariant: LLM Guides Search --- Does Not Silently Define Unchecked Executable Behavior.\par}
 \end{frame}
 
@@ -374,27 +381,58 @@
 \end{frame}
 
 % ============================================================
-% 8 Checkpoints overview
-\begin{frame}{Checkpoints --- when the prediction changes}
+% 8 Roadmap checkpoints (§5.5)
+\begin{frame}{Roadmap Checkpoints (\S5.5) --- when the prediction changes}
 \begin{center}
+\vspace{-0.35em}
 \begin{tikzpicture}
-\node[cpAmber] (c1) at (0,2.15) {C1};
-\node[cpEmber] (c2) at (3.2,2.15) {C2};
-\node[cpSteel] (c9) at (6.4,2.15) {C9};
-\node[cpInk] (c5) at (1.6,0.15) {C5};
-\node[cpWarn] (c3) at (4.8,0.15) {C3/C6};
-\node[cpOk] (m) at (9.0,1.15) {MOCHA};
+% Era spine (Today → A → B)
+\draw[Line,line width=3pt] (-5.6,0.55) -- (5.6,0.55);
+\fill[Mute] (-5.2,0.55) circle (0.16);
+\fill[Amber] (0.0,0.55) circle (0.16);
+\fill[Ember] (5.2,0.55) circle (0.16);
+\node[headSteel] at (-5.2,1.15) {TODAY};
+\node[font=\sffamily\tiny,text=Mute] at (-5.2,0.15) {2025--26};
+\node[headAmber] at (0.0,1.15) {HORIZON A};
+\node[font=\sffamily\tiny,text=Mute] at (0.0,0.15) {2027--28};
+\node[headEmber] at (5.2,1.15) {HORIZON B};
+\node[font=\sffamily\tiny,text=Mute] at (5.2,0.15) {$\sim$2029--31};
+\draw[-{Latex},Mute,thick] (-3.6,0.55) -- (-2.0,0.55);
+\draw[-{Latex},Mute,thick] (2.0,0.55) -- (3.6,0.55);
 
-\node[cpLab,below=0.15cm of c1] {Magellan OSS /\par EmitC default\par{\tiny 2026--27}};
-\node[cpLab,below=0.15cm of c2] {Public p50/p90\par ACF/kernel traces\par{\tiny 2026--28}};
-\node[cpLab,below=0.15cm of c9] {2nd-vendor\par TritorX-class\par{\tiny 2027--28}};
-\node[cpLab,below=0.15cm of c5] {Agent/ACF in\par release notes\par{\tiny rolling}};
-\node[cpLab,below=0.15cm of c3] {Free rewrite beats\par advisors?\par{\tiny thru 2028}};
-\node[cpLab,below=0.15cm of m] {Verified rewrite\par evals OSS\par{\tiny $\sim$2027--28}};
+% Milestone ticks on Horizon A band (chrono-ish left→right)
+\foreach \x/\col in {-3.6/Amber,-2.0/Ink,-0.4/Ember,1.2/Warn,2.8/Steel,4.2/Ok}{
+  \fill[\col] (\x,0.55) circle (0.09);
+  \draw[\col,line width=1pt] (\x,0.55) -- (\x,0.85);
+}
+
+% Above-axis cards
+\node[draw=Amber,fill=Amber!12,rounded corners=4pt,inner sep=4pt,text width=2.35cm,align=center,font=\sffamily\scriptsize]
+  at (-3.6,2.35) {\textbf{\color{Amber}C1}\par Magellan OSS /\par EmitC default\par{\tiny 2026--27}};
+\node[draw=Ember,fill=Ember!12,rounded corners=4pt,inner sep=4pt,text width=2.35cm,align=center,font=\sffamily\scriptsize]
+  at (-0.4,2.35) {\textbf{\color{Ember}C2}\par Public p50/p90\par ACF/kernel traces\par{\tiny 2026--28}};
+\node[draw=Steel,fill=Steel!12,rounded corners=4pt,inner sep=4pt,text width=2.35cm,align=center,font=\sffamily\scriptsize]
+  at (2.8,2.35) {\textbf{\color{Steel}C9}\par 2nd-vendor\par TritorX-class\par{\tiny 2027--28}};
+
+% Below-axis cards
+\node[draw=Ink,fill=Ink!8,rounded corners=4pt,inner sep=4pt,text width=2.35cm,align=center,font=\sffamily\scriptsize]
+  at (-2.0,-1.25) {\textbf{C5}\par Agent/ACF in\par release notes\par{\tiny rolling}};
+\node[draw=Warn,fill=Warn!12,rounded corners=4pt,inner sep=4pt,text width=2.35cm,align=center,font=\sffamily\scriptsize]
+  at (1.2,-1.25) {\textbf{\color{Warn}C3/C6}\par Free rewrite beats\par advisors?\par{\tiny thru 2028}};
+\node[draw=Ok,fill=Ok!12,rounded corners=4pt,inner sep=4pt,text width=2.35cm,align=center,font=\sffamily\scriptsize]
+  at (4.2,-1.25) {\textbf{\color{Ok}MOCHA}\par Verified rewrite\par evals OSS\par{\tiny $\sim$2027--28}};
+
+% Connectors into cards
+\foreach \x/\col in {-2.0/Ink,1.2/Warn,4.2/Ok}{
+  \draw[\col,line width=1pt] (\x,0.55) -- (\x,-0.50);
+}
+\foreach \x/\col in {-3.6/Amber,-0.4/Ember,2.8/Steel}{
+  \draw[\col,line width=1pt] (\x,0.85) -- (\x,1.55);
+}
 \end{tikzpicture}
 \end{center}
-\vspace{0.25em}
-{\footnotesize\color{Mute}\centering Falsifiable sketch on C1--C10. We watch settlement signals --- we do not average disagreements.\par}
+\vspace{-0.1em}
+{\footnotesize\color{Mute}\centering Near-term milestones from \S5.5 --- falsifiable; watch settlement signals, do not average disagreements.\par}
 \end{frame}
 
 % ============================================================
