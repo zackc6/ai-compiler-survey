@@ -43,6 +43,7 @@ Last updated: **2026-08-05**
 
 | Date | Change |
 |---|---|
+| 2026-08-05 | Restore slides 4/9/11/12/23 pre-readability layouts (fix overlaps); 12 settlement clear below |
 | 2026-08-05 | Transcripts bilingual: `en/` + `zh-TW/` (37 slides); `translate_transcripts.py`; skill requires both langs |
 | 2026-08-05 | Beamer readability pass: larger shared styles; band relayouts 12/18/23/27/34–37; inspect for overflow |
 | 2026-08-05 | Rename Beamer out PDF → `publish/out/next-gen-ai-compiler-sharing.pdf` (was expert-briefing) |
