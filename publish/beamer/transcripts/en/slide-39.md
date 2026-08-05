@@ -1,3 +1,8 @@
-# Slide 39: Appendix — prediction-critical digests (★)
+# Slide 39: Appendix — Tier A open repositories
 
-Band through highest-signal sources: Vision/funded (Compiler 2.0, MOCHA); Offline/online (Magellan, ACCLAIM, EmitC-MLGO PoR); Bring-up/codesign (TritorX, KernelEvolve, Ascend, KForge); Kernels/ladder/data (CompileIQ, FlashInfer-Bench★, KernelBook★, AutoKernel, CuTeGen, Auto, FlowCompile). Point to ~115 digests and SURVEY §5.8.
+Two bands, then tier gloss:
+
+- Offline / review / heuristics: OpenEvolve, HeuriGym, Archer, Compiler-R1, HintPilot, mlirAgent
+- Online / kernels / bring-up: ACCLAIM, CompileIQ, GEAK, KernelAgent, KernelBench(-X), FlashInfer-Bench, AutoKernel, Helion, TritorX / KernelEvolve
+
+Tiers: A = agents + domain oracles; B = data-plane hosts; C = generic forge AI (demoted).

@@ -9,3 +9,5 @@ Survey lean: yes — an e2e-optimal-*seeking* architecture. Product fitness F �
 Walk the stack: F on top; e2e search controller with joint or bilevel policy and credit across bands; L2–L7 remain legality and lower surfaces — local cost models are proposal priors only; physical F-admit via serving A/B, pinned traces, energy and fleet; freeze or classical fallback.
 
 Claimed: joint search plus F-admit plus freeze. Not claimed: unique mathematical global optimum. Complexity bound is not a reason to stop reshaping.
+
+Bridge: next slide separates soft merge of that e2e controller from hard replace of the compiler.

@@ -1,7 +1,15 @@
-# Slide 13: What ships / does not by 2028
+# Slide 13: Merge ≠ replace — three levels
 
-Left — predicted to ship: agent-addressable tool APIs; hot-path specialize rather than silent default-all; Magellan and MLGO both live; oracle PR review in serious orgs; coverage-first ASIC bring-up; Triton-family primary with multi-DSL rising.
+Answer to “when does everything merge so agents replace the AI compiler?”
 
-Right — does not ship: unconstrained LLM replaces opt or Inductor; one agent IR for all vendors; kernel agents uniformly beat eager on fusion ladders; autonomous microarch tape-out.
+Three levels. Do not conflate them.
 
-Pill line: Horizon A success means CI-gated specialize, oracles, and freeze artifacts.
+M1 soft merge — Horizon A into B: one e2e controller and admit/trace bus over band tools. Data plane stays. Agents do *not* replace the compiler. This is the predicted path.
+
+M2 search-surface merge — contested through 2028, maybe partial around 2029–31: fewer agent training IRs if C4 settles. Lowers remain multi-band. Still hybrid.
+
+M3 hard replace — not claimed through Horizon B, about 2031: default production path with no classical admit or fallback. That is the only “compiler replaced by agents.” Requires C6-A settlement.
+
+Perception trap: “I only talk to an agent” is often M1 plus freeze — classical lowering still ran under admit in CI.
+
+Lean A8 / C6-B: merge the optimizer under F; do not delete the execution substrate.

@@ -1,7 +1,7 @@
-# Slide 20: Blocker 2 — Cost, replay, when may the agent run?
+# Slide 20: Blocker 1 — Oracles for money
 
-Three phases: lab is interactive chat and tools; product CI is batch optimize with budget SLOs, Welch, and canary; freeze means ACF or kernels in VCS with zero LLM at serve time.
+Climb the oracle stack: unit and golden and OpInfo are cheap but miss subtle bugs; numerical tolerances invite games; Alive2-style local honesty is strong locally but weak on GPU concurrency; serving A/B catches product issues but is slow and hard to attribute.
 
-Cache key should include IR hash, hardware, compiler version, and agent policy, plus an explicit budget in dollars per percent gain.
+Done looks like: formal, then shape-grid diff, then statistical serving, then staged rollout.
 
-This commercially falsifies chat-with-the-compiler on every build without spend and latency SLOs.
+Room question: who owns false negatives when admit passes and production still miscompiles?

@@ -1,8 +1,3 @@
-# Slide 38: Appendix — Tier A open repositories
+# Slide 38: Appendix — Tier A commercial signals
 
-Two bands, then tier gloss:
-
-- Offline / review / heuristics: OpenEvolve, HeuriGym, Archer, Compiler-R1, HintPilot, mlirAgent
-- Online / kernels / bring-up: ACCLAIM, CompileIQ, GEAK, KernelAgent, KernelBench(-X), FlashInfer-Bench, AutoKernel, Helion, TritorX / KernelEvolve
-
-Tiers: A = agents + domain oracles; B = data-plane hosts; C = generic forge AI (demoted).
+Walk the band list: Google/DeepMind (AlphaEvolve Cloud, Magellan + MLGO); NVIDIA (CompileIQ, Tile IR, TensorRT-LLM skills); AMD (GEAK); Meta (LLM Compiler, KernelLLM, TritorX, KernelEvolve, Helion); FlashInfer-Bench. Close with Tier B baselines agents must plug into.

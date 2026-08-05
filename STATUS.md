@@ -43,6 +43,7 @@ Last updated: **2026-08-05**
 
 | Date | Change |
 |---|---|
+| 2026-08-05 | Goal-align after §5.1.1–5.1.4; §5.1.4 M1/M2/M3 + slide 13; S8; deck 41; thin consistency; PDFs |
 | 2026-08-05 | SURVEY §5.1.3 e2e-optimal-seeking architecture (A7/S7); slide 12; stance #8; deck 40; survey+sharing PDFs |
 | 2026-08-05 | Sharing: slides 10–11 (bands + cost model/plugins); stance #7; deck 39 slides; EN+zh-TW transcripts; survey PDF |
 | 2026-08-05 | SURVEY §5.1.1: one universal cost model — feasibility + size (prior LLM vs local advisors); PDF rebuilt |

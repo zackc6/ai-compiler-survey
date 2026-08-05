@@ -1,3 +1,3 @@
-# 投影片 37：附錄 — A 級證明商業訊號
+# 投影片 36：附錄 — 證據圖
 
-走帶列表：Google/DeepMind（AlphaEvolve Cloud、Magellan + MLGO）； NVIDIA（CompileIQ、Tile IR、TensorRT-LLM 技能）； AMD（GEAK）；元（LLM 編譯器、KernelLLM、TritorX、KernelEvolve、Helion）； FlashInfer-Bench。接近 B 級證明智慧體必須插入基線。
+三個桶。出版物：約 108 篇文獻摘要，每個來源一個檔案，星號表示預測關鍵。產品：商業 SKU 作為預測訊號 — A 級證據塑造未來，B 級證據是資料平面預設值。儲存庫：鍛造 A/B/C 級工件。當檢查站存在爭議時，使用星號文獻摘要和 A 級證據。

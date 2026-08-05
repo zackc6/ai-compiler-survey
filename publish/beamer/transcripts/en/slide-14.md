@@ -1,8 +1,7 @@
-# Slide 14: Roadmap Checkpoints — when the prediction changes
+# Slide 14: What ships / does not by 2028
 
-Walk the spine Today → Horizon A → Horizon B (era labels sit under the axis so they never collide with cards).
+Left — predicted to ship: agent-addressable tool APIs; hot-path specialize rather than silent default-all; Magellan and MLGO both live; oracle PR review in serious orgs; coverage-first ASIC bring-up; Triton-family primary with multi-DSL rising.
 
-Above-axis: C1 Magellan OSS / EmitC; C2 public median/p90 on pinned traces; C9 second-vendor TritorX-class.
-Below-axis: C5 agent/ACF in release notes; C3/C6 free rewrite vs advisors; MOCHA verified-rewrite evals.
+Right — does not ship: unconstrained LLM replaces opt or Inductor; one agent IR for all vendors; kernel agents uniformly beat eager on fusion ladders; autonomous microarch tape-out.
 
-Close: falsifiable milestones — watch settlement signals; do not average disagreements.
+Pill line: Horizon A success means CI-gated specialize, oracles, and freeze artifacts.

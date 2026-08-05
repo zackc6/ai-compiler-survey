@@ -1,3 +1,10 @@
 # Slide 35: plain
 
-Open the appendix. This is the evidence store behind the briefing: publication digests, commercial product signals, and open repositories — tiered for the agentic-compiler prediction, not a full catalog.
+Close on Discussion with a light slide. Thank them. Restate that the hybrid bet remains the ask.
+
+Invite questions:
+1. Which checkpoint flips your investment first — C1, C2, or C9?
+2. Harder commercial bar: oracle strength or replay/freeze?
+3. Building job (a), (b), or (d) first — what do you refuse online?
+
+Close on the hybrid ask. End cleanly.

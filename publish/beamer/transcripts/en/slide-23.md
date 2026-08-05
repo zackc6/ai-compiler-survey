@@ -1,5 +1,5 @@
-# Slide 23: Blocker 5 — Ownership, security, human review
+# Slide 23: Blocker 4 — Distributional production evidence
 
-Three pressures: TCB risk when agent kernels or heuristics enter the trusted base; ownership via CODEOWNERS, signed provenance, and sandbox; HITL capacity where agents raise draft volume and reviewers become the bottleneck.
+Walk the funnel: wide top is curated kernels and opt-in flags; middle is where attribution gets hard across graphs, KV, GEMV; narrow bottom is default-path A/B plus multi-month stability.
 
-Lean: human CODEOWNER, signed admit, sandbox; oracle auto-merge only for narrow action classes. Generic forge AI is not the same as compiler-oracle review — that is checkpoint C7.
+Marketing bar should be p50 and p90 plus cost-to-compile, MLGO-style persistent QPS — not single-kernel headlines.

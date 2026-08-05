@@ -1,6 +1,6 @@
 # Next-Gen AI Compiler Survey
 
-**Last updated:** 2026-08-05 (§5.1.3: e2e-optimal-seeking architecture)  
+**Last updated:** 2026-08-05 (goal-align pass after §5.1.1–5.1.4; thin consistency)  
 **Evidence store:** [`../reference/README.md`](../reference/README.md) → publications · products · repos  
 **Status:** [`../STATUS.md`](../STATUS.md)
 
@@ -10,7 +10,7 @@
 3. Digests / SKUs / forges stay under [`reference/`](../reference/README.md) so the narrative does not become a catalog.  
 4. Maintainers: **§9** add-source loop; `python3 scripts/validate_survey.py`.
 
-**One-page success check:** (1) Predicted agentic compiler? → §5.1 / §5.5. (2) Four jobs + stack? → §5.1 / §5.6. (3) Layers + plugins + **e2e-optimal-seeking** control plane? → **§5.1.1–5.1.3**. (4) Evidence vs noise? → Tier A vs C + §6. (5) Commercial blockers? → §5.7. (6) Which techniques to enhance for the roadmap? → **§5.8**.
+**One-page success check:** (1) Predicted agentic compiler? → §5.1 / §5.5. (2) Four jobs + stack? → §5.1 / §5.6. (3) Layers + e2e-seeking + **when merge/replace**? → **§5.1.1–5.1.4**. (4) Evidence vs noise? → Tier A vs C + §6. (5) Commercial blockers? → §5.7. (6) Which techniques to enhance for the roadmap? → **§5.8**.
 
 ---
 
@@ -26,7 +26,7 @@ Everything else (papers, GitHub/Gerrit, commercial SKUs, forums, ASIC bring-up s
 
 > **Agents own semantic search, orchestration, and artifact synthesis. Compilers own lowering, legality, measurement, and fallback.**
 
-Agents reshape the **control plane** more than they replace the **data plane**. A fourth job — **accelerator bring-up / codesign feedback** on sim+silicon — is now Tier A evidence (TritorX, KernelEvolve), still centered on kernels/IR/oracles. See [§5](#5-future-prediction-what-next-gen-looks-like) (architecture §5.1, roadmap §5.5, stack §5.6, commercial §5.7, techniques §5.8), [§6](#6-conflicts-keep-unresolved-until-evidence-settles), [§4](#4-whats-missing--under-covered-q4).
+Agents reshape the **control plane** more than they replace the **data plane**. That control plane is predicted to become **e2e-optimal-seeking** under a product fitness \(F\) (joint search across multi-band lowers — [§5.1.2](#512-predicted-abstraction-inventory--how-many-layers-for-what-and-if-they-do-not-consolidate)–[§5.1.3](#513-e2e-optimal-seeking-architecture)); **soft merge of the optimizer (M1) ≠ hard replace of the compiler (M3)** ([§5.1.4](#514-when-do-e2e-search-and-layers-merge--and-when-do-agents-replace-the-compiler)). A fourth job — **accelerator bring-up / codesign feedback** on sim+silicon — is now Tier A evidence (TritorX, KernelEvolve), still centered on kernels/IR/oracles. See [§5](#5-future-prediction-what-next-gen-looks-like) (architecture §5.1, roadmap §5.5, stack §5.6, commercial §5.7, techniques §5.8), [§6](#6-conflicts-keep-unresolved-until-evidence-settles), [§4](#4-whats-missing--under-covered-q4).
 
 **Sub-agent substrate (in scope).** Multi-agent **workflow compilers**, **AGI compilers** that freeze agent graphs into deployable artifacts, **static analysis of agent DAGs**, and **heterogeneous agent serving** are first-class evidence for how the control plane is built, secured, and productized—not side topics. Digests: [Auto](../reference/publications/auto-agi-compiler.md), [FlowCompile](../reference/publications/flowcompile.md), [AgentFlow](../reference/publications/agentflow.md), [Heterogeneous agentic AI](../reference/publications/agentic-ai-hetero-systems.md).
 
@@ -671,6 +671,7 @@ Hybrid stack: agents orchestrate; classical compilers execute; silicon feeds the
 5. **Will not happen soon:** unconstrained LLM replaces `opt`/Inductor without oracles (**C6**); autonomous chip tape-out via compiler agents (**C10**).
 6. **Data plane stays multi-band** (~L1–L6 today, + maturing fleet **L7**): not one universal cost-model IR. Cluster/power attach as place/objectives/oracles; missing consolidation → **pluggable interfaces**. Detail: [§5.1.1](#511-how-many-data-plane-abstractions-one-cost-model-is-not-enough)–[§5.1.2](#512-predicted-abstraction-inventory--how-many-layers-for-what-and-if-they-do-not-consolidate) (A6/S6).
 7. **Target e2e optimum as the architecture center:** multi-band lowers stay; **search and admit reshape** around a joint e2e fitness \(F\) (not per-band greed). Detail: [§5.1.3](#513-e2e-optimal-seeking-architecture) (A7/S7).
+8. **Merge ≠ replace:** e2e search can unify the *control plane* (Horizon A→B) while classical lowering/admit stays; **agents replacing the compiler** (no classical data plane) is **not** the Horizon A–B bet (**C6-B**, [§5.1.4](#514-when-do-e2e-search-and-layers-merge--and-when-do-agents-replace-the-compiler)).
 
 **Sub-agent / workflow-compile substrate (must consider).** The control plane is itself becoming a compile target:
 
@@ -714,14 +715,14 @@ A fifth band — **CPU/legacy LLVM pipelines** (PGO, MLGO advisors) — remains 
 | Train **one** model that *replaces* legality + layered oracles + all pass families? | **No for Horizon A** — different labels, oracles, and non-stationary HW/ISA (point 1–3 above). |
 | Cover **future** passes / new ISAs / new cluster collectives? | **Not by one frozen train.** Future ops need **continual / plugin cost models** (per-band advisors + new oracle plugins). A universal weights file cannot predict unmeasured HW behaviors without new labels. |
 | **How large** if someone still tries a “global ranking” prior? | **Parameter count is not the bottleneck.** Shipping local advisors are often **KB–MB** (MLGO-class nets / Ansor cost models). A cross-band *proposer* looks like a **code/IR LLM**: ~**7B–70B+** params and **10¹¹–10¹²-token-class** corpora (Meta LLM Compiler: hundreds of billions of IR/asm tokens) — still only a prior. Making it an *accurate multi-objective cost oracle* across L1–L7 would need **orders of magnitude more labeled (program, action, HW, energy, serving-SLO) tuples** than exist publicly, refreshed every HW/SKU change. |
-| Practical size bet | Keep **small local cost models / advisors per band** (often ≪1B, often classical or tiny NN) + **optional large LLM orchestrator**; do not size one mega-cost-model to “eat” L1–L7. |
+| Practical size bet | Keep **small local cost models / advisors per band** (often ≪1B; proposal priors only) + an **e2e search controller** (joint/bilevel under \(F\) — [§5.1.3](#513-e2e-optimal-seeking-architecture)); do **not** size one mega-cost-model to “eat” L1–L7 or to replace legality. |
 
 **What agents *can* unify (control plane, not data plane).**
 
 | Unify | Do not unify |
 |---|---|
 | One **agent compile interface** schema (region, constraints, actions, admit, artifact hash) across sinks | One IR that is both portable HLO and peak kernel DSL |
-| One **orchestrator policy** (budget, when-to-run, freeze) over many tools | One learned cost that replaces legality + layered oracles |
+| One **e2e search controller / orchestrator** under product \(F\) (budget, band choice, stop, freeze) over many tools (**M1**) | One learned cost that replaces legality + layered oracles; hard replace of the data plane (**M3**) |
 | One **replay/freeze** discipline for artifacts | One online LLM loop that silently defines executable behavior |
 
 **Falsifiers for this lean.**
@@ -872,7 +873,63 @@ When industry does **not** converge on a clean L2/L4/L7 IR, do **not** wait for 
 - Joint / bilevel e2e controllers **never** beat strong single-band greed + classical lower on shared pinned suites (**would demote the reshape**).
 - A single learned policy selects all band actions from \(F\) **without** legality plugins and holds correctness + p50 for months (**would pressure C3/C6** — stronger than this lean, which keeps legality band-local).
 
-**Pointers.** Oracles: [§4.2](#42-oracles--verification-beyond-unit-tests), T2/T6. Budgets: P4/P10/P23. Orchestration: P3/P22. Bands/plugins: [§5.1.1](#511-how-many-data-plane-abstractions-one-cost-model-is-not-enough)–[§5.1.2](#512-predicted-abstraction-inventory--how-many-layers-for-what-and-if-they-do-not-consolidate). Claims: **A7**, **S7**.
+**Pointers.** Oracles: [§4.2](#42-oracles--verification-beyond-unit-tests), T2/T6. Budgets: P4/P10/P23. Orchestration: P3/P22. Bands/plugins: [§5.1.1](#511-how-many-data-plane-abstractions-one-cost-model-is-not-enough)–[§5.1.2](#512-predicted-abstraction-inventory--how-many-layers-for-what-and-if-they-do-not-consolidate). Claims: **A7**, **S7**. When merge/replace: [§5.1.4](#514-when-do-e2e-search-and-layers-merge--and-when-do-agents-replace-the-compiler).
+
+#### 5.1.4 When do e2e search and layers merge — and when do agents replace the compiler?
+
+**Question.** If we pursue e2e-optimal-seeking ([§5.1.3](#513-e2e-optimal-seeking-architecture)) across ~L1–L7 ([§5.1.2](#512-predicted-abstraction-inventory--how-many-layers-for-what-and-if-they-do-not-consolidate)), **when** can everything merge so the AI compiler is **replaced by agents**?
+
+**Survey lean: distinguish three merges. Soft/control-plane merge is the Horizon A–B path. Hard replace (agents *are* the compiler, no classical admit/lower) is not predicted through ~2031.**
+
+| Merge level | What unifies | When (prediction) | Agents “replace” compiler? |
+|---|---|---|---|
+| **M1 — Soft merge (control plane)** | One **e2e search controller** + shared admit/trace bus over many band *tools* | **Horizon A (2027–28)** matures; normal by **early Horizon B** | **No** — agents own search; compilers still lower/legalize/measure (**C6-B**, A1) |
+| **M2 — Search-surface merge** | Fewer *agent training / proposal* IRs (e.g. dominant kernel DSL or portable contract), while lowers stay multi-band | **Contested through 2028 (C4)**; partial consolidation possible **~2029–31** | **No** — one search surface ≠ deleting Inductor/XLA/MLIR/runtime |
+| **M3 — Hard replace** | Default production path is agent-generated lowering **without** classical admit/fallback underneath | **Not claimed through Horizon B (~2029–31)**; only if C6 settlement signal fires | **Yes** — this *is* “AI compiler replaced by agents” |
+
+```text
+  TODAY          HORIZON A              HORIZON B           ??? (not predicted)
+  ad-hoc         M1 soft merge          M1 solid +          M3 hard replace
+  agents on      e2e controller         control plane       (C6-A settlement)
+  classical      over band tools        compiled (T10)      — only if oracles
+  bands          data plane stays       maybe partial M2    + F-admit make
+                                        search surfaces     classical lower
+                                                            commercially dead
+```
+
+##### Why M1 can happen without M3
+
+E2e joint search **merges the optimizer**, not the **execution substrate**. Legality, deterministic lower, golden/serving oracles, and fallback are why production stacks trust the path (mlirAgent: free rewrite loses to identity; **C3**). Merging search under \(F\) *needs* those sinks; deleting them is a different bet.
+
+##### Preconditions for each level
+
+| Level | Must be true first |
+|---|---|
+| **M1** | Typed agent compile interface (T1); layered + **serving** oracles (T2/T6); replay/freeze (T3); budgeted orchestrator (P22/P23); \(F\) as sole win ([§5.1.3](#513-e2e-optimal-seeking-architecture)) |
+| **M2** | Dominant agent training surface *and* peak path on shared suites (**C4** settle); portable summaries still map to multi-band lowers |
+| **M3** | Production **default** lowering with **no** classical admit/fallback holds correctness + p50/p90 \(F\) for months (**C6** settlement); money-grade oracles cover graph→kernel→serve→place failure modes |
+
+##### What users may *perceive* as “compiler replaced”
+
+| Perception | Survey reading |
+|---|---|
+| “I only talk to an agent; never invoke `opt`” | Often **M1 + freeze**: agent loop in CI, **frozen ACF/kernel** at serve — classical data plane still ran under admit |
+| “Vendor shipped an agentic compiler SKU” | Control-plane product over Inductor/XLA/TRT — still hybrid |
+| “No classical compiler binary in the critical path” | **M3** — not the Horizon A–B baseline |
+
+##### Tie to conflicts and horizons
+
+- **Horizon A:** M1 begins (jobs a–d, e2e controller early); M3 explicitly does *not* ship ([§5.5.1](#551-horizon-a--202728-near)).  
+- **Horizon B:** M1 solid (compiled control plane, T10); M2 maybe partial; M3 still “will not happen” for end-to-end LLM-as-`opt` ([§5.5.2](#552-horizon-b--20292031-next-5-years-from-2026)).  
+- **C6:** survey bets **B** (hybrid). Flip only on the settlement signal above.
+
+**Falsifiers.**
+
+- A major AI stack’s **default** serve path has no classical lower/admit and holds \(F\) for months (**M3 early** — would rewrite A1/A5/C6).  
+- M1 e2e controllers never beat siloed band agents + classical `-O3`/Inductor on pinned suites (**would demote soft merge**).  
+- Search-surface consolidation (M2) completes by 2028 across vendors (**would settle C4 early**).
+
+**Pointers.** C6; A1/A5/A8; roadmap [§5.5](#55-roadmap--horizon-a-202728-and-horizon-b-202931); techniques T1/T2/T6/T10.
 
 ### 5.2 How agents change the future (process)
 
@@ -1067,6 +1124,7 @@ Job **(d)** is the HW-codesign extension: still an **agentic compiler/toolchain*
 | S5 | Profilers and compiler internals move from human IDE tools to **agent APIs** | Watch — KernelEvolve MPP, Ascend hierarchy |
 | S6 | Data plane keeps **multiple** abstraction bands; agents unify the *contract/orchestration*, not a single universal cost model over all passes | Supported lean — [§5.1.1](#511-how-many-data-plane-abstractions-one-cost-model-is-not-enough); watch C3/C4/C6 falsifiers |
 | S7 | Control plane is **e2e-optimal-seeking**: joint search under product \(F\); bands are lower/legality, not independent greeds | Supported lean — [§5.1.3](#513-e2e-optimal-seeking-architecture); watch C2/C6 |
+| S8 | Soft merge (M1) of e2e search over band tools by Horizon A–B; hard replace (M3) not predicted through ~2031 | Supported lean — [§5.1.4](#514-when-do-e2e-search-and-layers-merge--and-when-do-agents-replace-the-compiler); **C6-B** |
 
 #### 5.6.4 What *not* to confuse with stack reshape
 
@@ -1599,9 +1657,9 @@ Evidence maps: [`../reference/products.md`](../reference/products.md) · [`../re
 | **A — Agents can build/replace large compiler surfaces** | Anthropic CCC (~100kLoC Rust compiler); some HN/forum optimism | Agent teams author compilers; classical eng bottleneck shrinks |
 | **B — Hybrid control/data plane is the durable pattern** | New Compiler Stack survey; mlirAgent limits; ACCLAIM cooperation framing; vendor stacks still ship TRT-LLM/Inductor/XLA | Data plane (lowering, legality, measure) stays classical; agents search/synthesize/advise |
 
-**Why it matters.** Our survey’s executive verdict bets on **B**. A would rewrite goals toward “agent-authored compilers” as the primary object.
+**Why it matters.** Our survey’s executive verdict bets on **B**. A would rewrite goals toward “agent-authored compilers” as the primary object. Timeline of soft merge vs hard replace: [§5.1.4](#514-when-do-e2e-search-and-layers-merge--and-when-do-agents-replace-the-compiler) (M1 vs M3).
 
-**Settlement signal.** A production AI stack whose *default* lowering path is agent-generated without a classical admit/fallback compiler underneath—not a research demo.
+**Settlement signal.** A production AI stack whose *default* lowering path is agent-generated without a classical admit/fallback compiler underneath—not a research demo (**M3**). Soft merge of e2e search over classical tools (**M1**) does *not* settle A.
 
 ---
 
@@ -1668,6 +1726,7 @@ Evidence maps: [`../reference/products.md`](../reference/products.md) · [`../re
 7. Codesign via **coverage→perf agent ladder** on sim+silicon (C9); do **not** expand into autonomous EDA (C10-B).
 8. Keep **~6–7 data-plane bands** (L1–L6 + maturing fleet L7); power/cluster as objectives/placement/oracles; if bands do not consolidate, ship **pluggable interfaces** ([§5.1.1](#511-how-many-data-plane-abstractions-one-cost-model-is-not-enough)–[§5.1.2](#512-predicted-abstraction-inventory--how-many-layers-for-what-and-if-they-do-not-consolidate), A6/S6).
 9. Target **e2e-optimal-seeking** architecture: joint / bilevel search under product fitness \(F\); bands are lower/legality surfaces, not independent greeds ([§5.1.3](#513-e2e-optimal-seeking-architecture), A7/S7).
+10. Treat **soft merge (M1)** of e2e search over band tools as Horizon A–B; do **not** bet that agents **replace** the classical data plane (M3) through ~2031 (**C6-B**, [§5.1.4](#514-when-do-e2e-search-and-layers-merge--and-when-do-agents-replace-the-compiler), A8).
 
 Update this section when a conflict gains a decisive public settlement.
 
@@ -1691,6 +1750,7 @@ Status: **Supported** · **Contested** · **Watch** · **Falsified**
 | A5 | Unconstrained LLM will not replace `opt`/Inductor soon | Supported | mlirAgent; hybrid Tier A dominance | C3, C6 |
 | A6 | Data plane keeps ~6–7 abstraction bands (L1–L6 + maturing fleet L7); agents unify contracts/plugins, not one universal cost model / one IR | Supported (lean) | §5.1.1–5.1.2; ACCLAIM multi-level; mlirAgent; T1/§4.4 plugins | C3, C4, C6 |
 | A7 | Next-gen targets an **e2e-optimal-seeking** architecture: joint/bilevel search under product fitness \(F\); bands stay as legality/lower surfaces; local costs are proposal priors only | Supported (lean) | §5.1.3; ACCLAIM guide+test; T6; C2; AutoKernel Amdahl | C2, C3, C6 |
+| A8 | Soft merge (M1): e2e controller over band tools by Horizon A–B; hard replace (M3): agents delete classical admit/lower — **not** predicted through ~2031 | Supported (lean) | §5.1.4; C6-B; §5.5 “will not ship” LLM-as-`opt` | **C6**, C3, C4 |
 
 ### Process & stack
 
@@ -1704,6 +1764,7 @@ Status: **Supported** · **Contested** · **Watch** · **Falsified**
 | S5 | Profilers/compiler internals become agent APIs | Watch | KernelEvolve MPP, Ascend hierarchical diagnosis | C3 |
 | S6 | Multiple data-plane abstractions remain (~L1–L7); cluster/power attach as place/objectives/oracles; missing consolidation → pluggable interfaces | Supported (lean) | §5.1.1–5.1.2 · A6 | C3, C4, C6 |
 | S7 | Stack reshape centers on e2e fitness \(F\) + joint controller; freeze only under \(F\)-admit; siloed per-band greed is not next-gen | Supported (lean) | §5.1.3 · A7 | C2, C6 |
+| S8 | Soft merge M1 (e2e controller over tools) by Horizon A–B; hard replace M3 not claimed through ~2031 | Supported (lean) | §5.1.4 · A8 | **C6**, C3, C4 |
 
 ### Codesign (still agentic-compiler-centric)
 

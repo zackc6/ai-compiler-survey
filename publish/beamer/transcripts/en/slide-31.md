@@ -1,11 +1,10 @@
-# Slide 31: Org Adoption Questions
+# Slide 31: Technical Prediction — Critical Missing Parts Now
 
-Use these as discussion prompts, not a quiz.
+Four highest-leverage Horizon A bets (bands; each with without-this consequence):
 
-One: online CompileIQ versus offline Magellan — which matches your release model?
-Two: oracle stack of Alive2, golden, serving A/B — who owns false negatives?
-Three: agent contract surface — LLVM, MLIR, Triton, StableHLO, Tile?
-Four: how do you cache and regress traces across compiler and model upgrades?
-Five: max dollars per build for a median X percent win, and a named maintainer per admitted artifact?
+1. Money-grade oracle stack (T2+T6) — without → demos
+2. Replayable artifact contract (T3) — without → CI rejects
+3. Portable agent compile interface (T1) — without → re-glue
+4. Open ladder + multi-IR data (T7+T8) — without → incomparable
 
-Leave silence after each if the room is engaged.
+Survey lean: T1–T5 ship as product surfaces; T6–T10 equally first-class — mostly outside classical lowering.

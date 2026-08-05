@@ -1,5 +1,9 @@
-# Slide 25: Cross-Cutting Research Agenda
+# Slide 25: Gap map — what blocks the prediction, not a wishlist
 
-Bridge from gap map into technique-shaped prediction. Six near-term themes that make hybrid pipelines build/CI regressable: admit & fallback standards; agent tool / IR schemas; open multi-IR corpora; serving-level oracles; provenance & human review; control-plane compile MVP.
+This is a priority map of gaps that gate the Section 5 prediction, not a research wishlist.
 
-Close: these themes unpack as T1–T10 on the next slides (exists / missing / unlocks).
+High: production evidence, correctness, cost and replay, cross-stack, benchmarks.
+Medium-high: hardware-native APIs, training data.
+Medium: workflow compile, HITL process, security.
+
+If you only fund one band, fund the high row — those are what keep Horizon A from being a slideware story.

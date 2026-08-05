@@ -1,7 +1,7 @@
 # Sharing Deck — Slide Transcripts
 
 Per-slide speaking scripts for [`../expert-briefing.tex`](../expert-briefing.tex).
-Numbering matches the Beamer source comments (`% 1` … `% 40`).
+Numbering matches the Beamer source comments (`% 1` … `% 41`).
 
 ## Languages
 
@@ -11,9 +11,8 @@ Numbering matches the Beamer source comments (`% 1` … `% 40`).
 | **Traditional Chinese** | [`zh-TW/slide-NN.md`](zh-TW/) | Presenter script; regenerate after English edits |
 
 ```bash
-# After editing English transcripts (or when slides change):
-python3 publish/translate_transcripts.py           # all slides
-python3 publish/translate_transcripts.py --slides 12 24 25   # subset
+python3 publish/translate_transcripts.py
+python3 publish/translate_transcripts.py --slides 12 13 33
 ```
 
 Pipeline: English → MT (zh-CN via `publish/translate.py` + glossary) → OpenCC `s2twp` → `zh-TW/`.
@@ -44,31 +43,32 @@ Presenter notes that are **intentionally spoken but not shown** on slides:
 | 10 | [`en/slide-10.md`](en/slide-10.md) | [`zh-TW/slide-10.md`](zh-TW/slide-10.md) | Data plane --- ~6--7 abstraction bands (not one) |
 | 11 | [`en/slide-11.md`](en/slide-11.md) | [`zh-TW/slide-11.md`](zh-TW/slide-11.md) | One universal cost model? --- No (Horizon A) |
 | 12 | [`en/slide-12.md`](en/slide-12.md) | [`zh-TW/slide-12.md`](zh-TW/slide-12.md) | E2E-optimal-seeking --- reshape around $F$ |
-| 13 | [`en/slide-13.md`](en/slide-13.md) | [`zh-TW/slide-13.md`](zh-TW/slide-13.md) | What ships / does not by 2028 |
-| 14 | [`en/slide-14.md`](en/slide-14.md) | [`zh-TW/slide-14.md`](zh-TW/slide-14.md) | Roadmap Checkpoints --- when the prediction changes |
-| 15 | [`en/slide-15.md`](en/slide-15.md) | [`zh-TW/slide-15.md`](zh-TW/slide-15.md) | Checkpoint C1 --- heuristics vs neural advisors |
-| 16 | [`en/slide-16.md`](en/slide-16.md) | [`zh-TW/slide-16.md`](zh-TW/slide-16.md) | Checkpoints C2 + C5 --- gains \& default path |
-| 17 | [`en/slide-17.md`](en/slide-17.md) | [`zh-TW/slide-17.md`](zh-TW/slide-17.md) | Checkpoints C3 / C6 / C9 / C10 --- interface width \& scope |
-| 18 | [`en/slide-18.md`](en/slide-18.md) | [`zh-TW/slide-18.md`](zh-TW/slide-18.md) | Commercial blockers --- top 5 |
-| 19 | [`en/slide-19.md`](en/slide-19.md) | [`zh-TW/slide-19.md`](zh-TW/slide-19.md) | Blocker 1 --- Oracles for money |
-| 20 | [`en/slide-20.md`](en/slide-20.md) | [`zh-TW/slide-20.md`](zh-TW/slide-20.md) | Blocker 2 --- Cost, replay, when may the agent run? |
-| 21 | [`en/slide-21.md`](en/slide-21.md) | [`zh-TW/slide-21.md`](zh-TW/slide-21.md) | Blocker 3 --- Agent$\leftrightarrow$compiler contract |
-| 22 | [`en/slide-22.md`](en/slide-22.md) | [`zh-TW/slide-22.md`](zh-TW/slide-22.md) | Blocker 4 --- Distributional production evidence |
-| 23 | [`en/slide-23.md`](en/slide-23.md) | [`zh-TW/slide-23.md`](zh-TW/slide-23.md) | Blocker 5 --- Ownership, security, human review |
-| 24 | [`en/slide-24.md`](en/slide-24.md) | [`zh-TW/slide-24.md`](zh-TW/slide-24.md) | Gap map --- what blocks the prediction, not a wishlist |
-| 25 | [`en/slide-25.md`](en/slide-25.md) | [`zh-TW/slide-25.md`](zh-TW/slide-25.md) | Cross-Cutting Research Agenda |
-| 26 | [`en/slide-26.md`](en/slide-26.md) | [`zh-TW/slide-26.md`](zh-TW/slide-26.md) | Technical Prediction --- Accelerate The Roadmap (T1--T10) |
-| 27 | [`en/slide-27.md`](en/slide-27.md) | [`zh-TW/slide-27.md`](zh-TW/slide-27.md) | Technical Prediction --- Within The Compiler (T1--T5) |
-| 28 | [`en/slide-28.md`](en/slide-28.md) | [`zh-TW/slide-28.md`](zh-TW/slide-28.md) | Technical Prediction --- Outside The Compiler (T6--T10) |
-| 29 | [`en/slide-29.md`](en/slide-29.md) | [`zh-TW/slide-29.md`](zh-TW/slide-29.md) | Technical Prediction --- What Each Checkpoint Needs |
-| 30 | [`en/slide-30.md`](en/slide-30.md) | [`zh-TW/slide-30.md`](zh-TW/slide-30.md) | Technical Prediction --- Critical Missing Parts Now |
-| 31 | [`en/slide-31.md`](en/slide-31.md) | [`zh-TW/slide-31.md`](zh-TW/slide-31.md) | Org Adoption Questions |
-| 32 | [`en/slide-32.md`](en/slide-32.md) | [`zh-TW/slide-32.md`](zh-TW/slide-32.md) | Working stance until conflicts settle |
-| 33 | [`en/slide-33.md`](en/slide-33.md) | [`zh-TW/slide-33.md`](zh-TW/slide-33.md) | Commercial checklist --- handout |
-| 34 | [`en/slide-34.md`](en/slide-34.md) | [`zh-TW/slide-34.md`](zh-TW/slide-34.md) | Discussion |
-| 35 | [`en/slide-35.md`](en/slide-35.md) | [`zh-TW/slide-35.md`](zh-TW/slide-35.md) | Appendix divider |
-| 36 | [`en/slide-36.md`](en/slide-36.md) | [`zh-TW/slide-36.md`](zh-TW/slide-36.md) | Appendix --- evidence map |
-| 37 | [`en/slide-37.md`](en/slide-37.md) | [`zh-TW/slide-37.md`](zh-TW/slide-37.md) | Appendix --- Tier A commercial signals |
-| 38 | [`en/slide-38.md`](en/slide-38.md) | [`zh-TW/slide-38.md`](zh-TW/slide-38.md) | Appendix --- Tier A open repositories |
-| 39 | [`en/slide-39.md`](en/slide-39.md) | [`zh-TW/slide-39.md`](zh-TW/slide-39.md) | Appendix --- prediction-critical digests ($\bigstar$) |
-| 40 | [`en/slide-40.md`](en/slide-40.md) | [`zh-TW/slide-40.md`](zh-TW/slide-40.md) | Appendix --- publication groups |
+| 13 | [`en/slide-13.md`](en/slide-13.md) | [`zh-TW/slide-13.md`](zh-TW/slide-13.md) | Merge $\neq$ replace --- three levels |
+| 14 | [`en/slide-14.md`](en/slide-14.md) | [`zh-TW/slide-14.md`](zh-TW/slide-14.md) | What ships / does not by 2028 |
+| 15 | [`en/slide-15.md`](en/slide-15.md) | [`zh-TW/slide-15.md`](zh-TW/slide-15.md) | Roadmap Checkpoints --- when the prediction changes |
+| 16 | [`en/slide-16.md`](en/slide-16.md) | [`zh-TW/slide-16.md`](zh-TW/slide-16.md) | Checkpoint C1 --- heuristics vs neural advisors |
+| 17 | [`en/slide-17.md`](en/slide-17.md) | [`zh-TW/slide-17.md`](zh-TW/slide-17.md) | Checkpoints C2 + C5 --- gains \& default path |
+| 18 | [`en/slide-18.md`](en/slide-18.md) | [`zh-TW/slide-18.md`](zh-TW/slide-18.md) | Checkpoints C3 / C6 / C9 / C10 --- interface width \& scope |
+| 19 | [`en/slide-19.md`](en/slide-19.md) | [`zh-TW/slide-19.md`](zh-TW/slide-19.md) | Commercial blockers --- top 5 |
+| 20 | [`en/slide-20.md`](en/slide-20.md) | [`zh-TW/slide-20.md`](zh-TW/slide-20.md) | Blocker 1 --- Oracles for money |
+| 21 | [`en/slide-21.md`](en/slide-21.md) | [`zh-TW/slide-21.md`](zh-TW/slide-21.md) | Blocker 2 --- Cost, replay, when may the agent run? |
+| 22 | [`en/slide-22.md`](en/slide-22.md) | [`zh-TW/slide-22.md`](zh-TW/slide-22.md) | Blocker 3 --- Agent$\leftrightarrow$compiler contract |
+| 23 | [`en/slide-23.md`](en/slide-23.md) | [`zh-TW/slide-23.md`](zh-TW/slide-23.md) | Blocker 4 --- Distributional production evidence |
+| 24 | [`en/slide-24.md`](en/slide-24.md) | [`zh-TW/slide-24.md`](zh-TW/slide-24.md) | Blocker 5 --- Ownership, security, human review |
+| 25 | [`en/slide-25.md`](en/slide-25.md) | [`zh-TW/slide-25.md`](zh-TW/slide-25.md) | Gap map --- what blocks the prediction, not a wishlist |
+| 26 | [`en/slide-26.md`](en/slide-26.md) | [`zh-TW/slide-26.md`](zh-TW/slide-26.md) | Cross-Cutting Research Agenda |
+| 27 | [`en/slide-27.md`](en/slide-27.md) | [`zh-TW/slide-27.md`](zh-TW/slide-27.md) | Technical Prediction --- Accelerate The Roadmap (T1--T10) |
+| 28 | [`en/slide-28.md`](en/slide-28.md) | [`zh-TW/slide-28.md`](zh-TW/slide-28.md) | Technical Prediction --- Within The Compiler (T1--T5) |
+| 29 | [`en/slide-29.md`](en/slide-29.md) | [`zh-TW/slide-29.md`](zh-TW/slide-29.md) | Technical Prediction --- Outside The Compiler (T6--T10) |
+| 30 | [`en/slide-30.md`](en/slide-30.md) | [`zh-TW/slide-30.md`](zh-TW/slide-30.md) | Technical Prediction --- What Each Checkpoint Needs |
+| 31 | [`en/slide-31.md`](en/slide-31.md) | [`zh-TW/slide-31.md`](zh-TW/slide-31.md) | Technical Prediction --- Critical Missing Parts Now |
+| 32 | [`en/slide-32.md`](en/slide-32.md) | [`zh-TW/slide-32.md`](zh-TW/slide-32.md) | Org Adoption Questions |
+| 33 | [`en/slide-33.md`](en/slide-33.md) | [`zh-TW/slide-33.md`](zh-TW/slide-33.md) | Working stance until conflicts settle |
+| 34 | [`en/slide-34.md`](en/slide-34.md) | [`zh-TW/slide-34.md`](zh-TW/slide-34.md) | Commercial checklist --- handout |
+| 35 | [`en/slide-35.md`](en/slide-35.md) | [`zh-TW/slide-35.md`](zh-TW/slide-35.md) | Discussion |
+| 36 | [`en/slide-36.md`](en/slide-36.md) | [`zh-TW/slide-36.md`](zh-TW/slide-36.md) | Appendix divider |
+| 37 | [`en/slide-37.md`](en/slide-37.md) | [`zh-TW/slide-37.md`](zh-TW/slide-37.md) | Appendix --- evidence map |
+| 38 | [`en/slide-38.md`](en/slide-38.md) | [`zh-TW/slide-38.md`](zh-TW/slide-38.md) | Appendix --- Tier A commercial signals |
+| 39 | [`en/slide-39.md`](en/slide-39.md) | [`zh-TW/slide-39.md`](zh-TW/slide-39.md) | Appendix --- Tier A open repositories |
+| 40 | [`en/slide-40.md`](en/slide-40.md) | [`zh-TW/slide-40.md`](zh-TW/slide-40.md) | Appendix --- prediction-critical digests ($\bigstar$) |
+| 41 | [`en/slide-41.md`](en/slide-41.md) | [`zh-TW/slide-41.md`](zh-TW/slide-41.md) | Appendix --- publication groups |

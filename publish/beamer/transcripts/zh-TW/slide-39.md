@@ -1,3 +1,8 @@
-# Slide 39: 附錄 — 預測關鍵 文獻摘要 (★)
+# Slide 39：附錄 — A 級證據開放儲存庫
 
-透過最高訊號源的頻段：願景/資助（Compiler 2.0，MOCHA）；離線/線上（Magellan、ACCLAIM、EmitC-MLGO PoR）；啟動/軟硬體協同設計（TritorX、KernelEvolve、Ascend、KForge）；核心/梯形圖/資料（CompileIQ、FlashInfer-Bench★、KernelBook★、AutoKernel、CuTeGen、Auto、FlowCompile）。指向〜115文獻摘要和調查§5.8。
+兩條帶，然後分層光澤：
+
+- 離線/審查/啟發式：OpenEvolve、HeuriGym、Archer、Compiler-R1、HintPilot、mlir 智慧體
+- Online / kernels /使能/啟動：ACCLAIM、CompileIQ、GEAK、Kernel smartbody、KernelBench(-X)、FlashInfer-Bench、AutoKernel、Helion、TritorX / KernelEvolve
+
+Tiers: A = 智慧體 + 領域判定機; B = 資料平面主機； C = 通用鍛造 AI（降級）。

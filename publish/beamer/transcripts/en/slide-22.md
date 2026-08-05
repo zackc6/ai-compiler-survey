@@ -1,5 +1,10 @@
-# Slide 22: Blocker 4 — Distributional production evidence
+# Slide 22: Blocker 3 — Agent↔compiler contract
 
-Walk the funnel: wide top is curated kernels and opt-in flags; middle is where attribution gets hard across graphs, KV, GEMV; narrow bottom is default-path A/B plus multi-month stability.
+Four full-width options (top to bottom):
 
-Marketing bar should be p50 and p90 plus cost-to-compile, MLGO-style persistent QPS — not single-kernel headlines.
+- **A** Natural language + pasted logs — demo only
+- **B** Structured admit traces — build CI / bill of materials
+- **C** Typed tool interfaces — required action space
+- **D** Hybrid — natural-language view over traces
+
+Show the `admit_record` fields. Lean: **C + B**. Natural language is a view, not source of truth. ACF = portable compiler knobs.

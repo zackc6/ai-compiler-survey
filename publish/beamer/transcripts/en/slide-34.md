@@ -1,10 +1,9 @@
-# Slide 34: plain
+# Slide 34: Commercial checklist — handout
 
-Close on Discussion with a light slide. Thank them. Restate that the hybrid bet remains the ask.
+Leave them with three columns.
 
-Invite questions:
-1. Which checkpoint flips your investment first — C1, C2, or C9?
-2. Harder commercial bar: oracle strength or replay/freeze?
-3. Building job (a), (b), or (d) first — what do you refuse online?
+Architecture: typed tools and admit traces; VCS over dense over scratchpad; FSM or plan for SLA; freeze before default-on.
+Trust: layered oracles; CODEOWNERS and provenance; joint version pins; A/B before calling something production default.
+Business: sell regressable artifacts plus CI quota; customer owns outputs; coverage then performance SLA; token budget per percent gain.
 
-Close on the hybrid ask. End cleanly.
+This is the handout slide — pause so people can photograph it.
