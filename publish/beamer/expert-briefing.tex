@@ -100,12 +100,12 @@
   phaseMute/.style={draw=Mute,fill=Mute!12,rounded corners=6pt,minimum width=3.4cm,minimum height=2.6cm,text width=3.0cm,align=center,font=\sffamily\small},
   phaseAmber/.style={draw=Amber,fill=Amber!12,rounded corners=6pt,minimum width=3.4cm,minimum height=2.6cm,text width=3.0cm,align=center,font=\sffamily\small},
   phaseOk/.style={draw=Ok,fill=Ok!12,rounded corners=6pt,minimum width=3.4cm,minimum height=2.6cm,text width=3.0cm,align=center,font=\sffamily\small},
-  trendSteel/.style={draw=Steel,fill=Steel!10,rounded corners=4pt,minimum width=4.15cm,minimum height=2.55cm,text width=3.85cm,align=left,font=\sffamily\tiny,inner sep=4pt},
-  trendAmber/.style={draw=Amber,fill=Amber!10,rounded corners=4pt,minimum width=4.15cm,minimum height=2.55cm,text width=3.85cm,align=left,font=\sffamily\tiny,inner sep=4pt},
-  trendEmber/.style={draw=Ember,fill=Ember!10,rounded corners=4pt,minimum width=4.15cm,minimum height=2.55cm,text width=3.85cm,align=left,font=\sffamily\tiny,inner sep=4pt},
-  trendInk/.style={draw=Ink,fill=Ink!8,rounded corners=4pt,minimum width=4.15cm,minimum height=2.55cm,text width=3.85cm,align=left,font=\sffamily\tiny,inner sep=4pt},
-  trendOk/.style={draw=Ok,fill=Ok!10,rounded corners=4pt,minimum width=4.15cm,minimum height=2.55cm,text width=3.85cm,align=left,font=\sffamily\tiny,inner sep=4pt},
-  trendMute/.style={draw=Mute,fill=Mute!10,rounded corners=4pt,minimum width=4.15cm,minimum height=2.55cm,text width=3.85cm,align=left,font=\sffamily\tiny,inner sep=4pt},
+  trendSteel/.style={draw=Steel,fill=Steel!10,rounded corners=4pt,minimum width=4.15cm,minimum height=2.72cm,text width=3.85cm,align=left,font=\sffamily\tiny,inner sep=3.5pt},
+  trendAmber/.style={draw=Amber,fill=Amber!10,rounded corners=4pt,minimum width=4.15cm,minimum height=2.72cm,text width=3.85cm,align=left,font=\sffamily\tiny,inner sep=3.5pt},
+  trendEmber/.style={draw=Ember,fill=Ember!10,rounded corners=4pt,minimum width=4.15cm,minimum height=2.72cm,text width=3.85cm,align=left,font=\sffamily\tiny,inner sep=3.5pt},
+  trendInk/.style={draw=Ink,fill=Ink!8,rounded corners=4pt,minimum width=4.15cm,minimum height=2.72cm,text width=3.85cm,align=left,font=\sffamily\tiny,inner sep=3.5pt},
+  trendOk/.style={draw=Ok,fill=Ok!10,rounded corners=4pt,minimum width=4.15cm,minimum height=2.72cm,text width=3.85cm,align=left,font=\sffamily\tiny,inner sep=3.5pt},
+  trendMute/.style={draw=Mute,fill=Mute!10,rounded corners=4pt,minimum width=4.15cm,minimum height=2.72cm,text width=3.85cm,align=left,font=\sffamily\tiny,inner sep=3.5pt},
   okbox/.style={draw=Ok,fill=Ok!10,rounded corners=4pt,minimum width=2.5cm,minimum height=0.7cm,font=\sffamily\scriptsize\bfseries,align=center},
   watchbox/.style={draw=Amber,fill=Amber!12,rounded corners=4pt,minimum width=2.5cm,minimum height=0.7cm,font=\sffamily\scriptsize\bfseries,align=center},
   handSteel/.style={draw=Steel,fill=Steel!8,rounded corners=5pt,minimum width=3.7cm,minimum height=3.7cm,text width=3.35cm,align=left,font=\sffamily\footnotesize,inner sep=7pt},
@@ -243,46 +243,50 @@
 % 4 Six trends
 \begin{frame}{Six active trends}
 \begin{center}
-\vspace{-0.7em}
+\vspace{-0.85em}
 \begin{tikzpicture}
-% 3x2 grid inside ~12.7cm usable width (boxes 4.15cm, centers at +/-4.3)
-\node[trendSteel] at (-4.3,1.25) {%
-  \textbf{\color{Steel}A --- Hybrid guidance}\par\vspace{0.08em}
+% 3x2 grid; mute lines carry org tags (CityU, Meta, AMD, \ldots)
+\node[trendSteel] at (-4.3,1.30) {%
+  \textbf{\color{Steel}A --- Hybrid guidance}\par\vspace{0.06em}
   Free IR rewrite fragile\par
-  (mlirAgent $<$ identity)\par
-  Constrain actions: hints /\par
-  advisory metadata / pass lists\par
-  {\color{Mute}AgentCompile $\cdot$ HintPilot $\cdot$ LLM Compiler}};
-\node[trendAmber] at (0,1.25) {%
-  \textbf{\color{Amber}B --- RL $\rightarrow$ agents}\par\vspace{0.08em}
+  (mlirAgent / UC Berkeley)\par
+  Constrain: hints / metadata / passes\par
+  {\color{Mute}\scriptsize AgentCompile (CityU)\par
+  HintPilot (ZJU)\par Meta LLM Compiler}};
+\node[trendAmber] at (0,1.30) {%
+  \textbf{\color{Amber}B --- RL $\rightarrow$ agents}\par\vspace{0.06em}
   CompilerGym $\rightarrow$ tool agents\par
   Heuristics as shippable C++\par
   Workflow compile $\cdot$ freeze $\cdot$ place\par
-  {\color{Mute}Compiler-R1 $\cdot$ Magellan $\cdot$ FlowCompile}};
-\node[trendEmber] at (4.3,1.25) {%
-  \textbf{\color{Ember}C --- MLIR + Triton}\par\vspace{0.08em}
+  {\color{Mute}\scriptsize Compiler-R1 (ISCAS)\par
+  Magellan (Google DeepMind)\par FlowCompile (UMass/MIT)}};
+\node[trendEmber] at (4.3,1.30) {%
+  \textbf{\color{Ember}C --- MLIR + Triton}\par\vspace{0.06em}
   PyTorch$\rightarrow$Inductor$\rightarrow$Triton\par
-  Also StableHLO$\rightarrow$XLA/IREE\par
-  Peak often vendor libs / Tile\par
-  {\color{Mute}MLIR shared; product paths diverge}};
+  StableHLO$\rightarrow$XLA/IREE\par
+  Peak: vendor libs / Tile / CUTLASS\par
+  {\color{Mute}\scriptsize Meta $\cdot$ OpenXLA/Google\par
+  OpenAI Triton $\cdot$ NVIDIA}};
 \node[trendInk] at (-4.3,-1.55) {%
-  \textbf{D --- Kernel agents}\par\vspace{0.08em}
-  KernelBench: correct \emph{and} faster\par
+  \textbf{D --- Kernel agents}\par\vspace{0.06em}
+  KernelBench (Stanford/Princeton)\par
   One-shot often $<$20\%; fusion hard\par
-  GEAK $\cdot$ KernelLLM $\cdot$ AgentCompile\par
-  {\color{Mute}Refine $\neq$ always faster}};
+  {\color{Mute}\scriptsize GEAK (AMD)\par
+  KernelLLM (Meta)\par AgentCompile (CityU)}};
 \node[trendOk] at (0,-1.55) {%
-  \textbf{\color{Ok}E --- Verify in the loop}\par\vspace{0.08em}
+  \textbf{\color{Ok}E --- Verify in the loop}\par\vspace{0.06em}
   Unit/golden $\rightarrow$ numerical\par
   $\rightarrow$ Alive2-class local formal\par
   Weak on GPU races / FP noise\par
-  {\color{Mute}Stacked oracle ladder for admit}};
+  {\color{Mute}\scriptsize Alive2 (UIUC lineage)\par
+  LLM-VeriOpt $\cdot$ stacked admit}};
 \node[trendMute] at (4.3,-1.55) {%
-  \textbf{F --- Broader object}\par\vspace{0.08em}
+  \textbf{F --- Broader object}\par\vspace{0.06em}
   Mid-decode diagnosis\par
   FMware: prompts / agents / knobs\par
   Agents as compiler engineers\par
-  {\color{Mute}Compiler.next $\cdot$ Magellan $\cdot$ Claude C}};
+  {\color{Mute}\scriptsize Compiler.next (Queen's)\par
+  Magellan (Google)\par Claude C (Anthropic)}};
 \end{tikzpicture}
 \end{center}
 \end{frame}

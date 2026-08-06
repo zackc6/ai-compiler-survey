@@ -1,15 +1,23 @@
 # Slide 4: Six active trends
 
-Walk each box with one concrete beat — this is the §1 backdrop.
+This is the §1 backdrop. Walk each box: claim first, then name the example **with organization**.
 
-A — Hybrid guidance: free IR rewrite is fragile (mlirAgent below identity). Winners constrain the action space — advisory metadata, validated hints, pass lists that opt applies. Name AgentCompile, HintPilot, LLM Compiler.
+**A — Hybrid guidance, not LLM-as-compiler.**
+Free IR rewrite is fragile: mlirAgent from UC Berkeley shows frontier models scoring below identity on IR transforms. Winners constrain the action space. AgentCompile (City University of Hong Kong) emits advisory metadata; templates plus checks admit CUDA. HintPilot (Zhejiang University, with Purdue) inserts compiler-validated pragmas, not arbitrary rewrites. Meta’s LLM Compiler proposes pass lists that `opt` applies. Say out loud: constrain actions; keep the classical applicator.
 
-B — RL to agents: leave CompilerGym-style opaque policies. Move to tool-using and multi-agent loops, heuristic synthesis as shippable C++, and workflow compile / freeze / place. Name Compiler-R1, Magellan, FlowCompile.
+**B — From RL gyms to LLM agents.**
+Leave CompilerGym-style opaque neural policies in the gym era. Move to tool-using and multi-agent loops. Compiler-R1 (ISCAS / UCAS) trains tool-calling pass search with SFT+RL. Magellan (Google DeepMind / Google) synthesizes shippable C++ heuristics inside LLVM/XLA. FlowCompile (UMass Amherst, MIT, MIT-IBM Watson) compiles structured LLM workflows offline — control-plane substrate, not only chat. Also nod to Auto / AgentFlow for freeze and ADG if time allows.
 
-C — MLIR + Triton substrate: PyTorch → Inductor → Triton; parallel StableHLO → XLA/IREE. Peak often still vendor libs, Tile, CUTLASS, FlashAttention. MLIR is shared; product paths diverge.
+**C — MLIR + Triton as default substrate.**
+The production AI path is still classical stacks with org fingerprints: Meta PyTorch → TorchInductor → Triton (OpenAI-origin, community); parallel StableHLO → OpenXLA/Google XLA and IREE. Peak performance often still sits in NVIDIA vendor libraries, CUDA Tile, CUTLASS, FlashAttention-class kernels. MLIR is the shared mid-IR; product lowering paths diverge by vendor.
 
-D — Kernel agents industrial: KernelBench wants correct and faster; one-shot often under 20%, fusion hard. GEAK, KernelLLM, AgentCompile. Refinement raises correctness but not always speed. This is the bottleneck for new models and portability.
+**D — Kernel agents go industrial.**
+KernelBench (Stanford / Princeton Scaling Intelligence) asks for correct *and* faster kernels; one-shot success is often under 20%, fusion remains hard. GEAK (AMD) runs generate–eval–reflect–optimize for Triton on Instinct. KernelLLM (Meta) specializes PyTorch→Triton at smaller model size. AgentCompile (CityU) bounds CUDA specialization for transformer graphs. Closing beat: refinement raises correctness more reliably than speed — the portability bottleneck for new models and non-NVIDIA hardware.
 
-E — Verify in the loop: unit/golden → numerical → Alive2-class local formal. Strong locally; weak on GPU races and floating-point nondeterminism. Admit needs a stacked oracle ladder.
+**E — Verification enters the loop.**
+Stack the oracles: unit and golden tests, numerical checks versus reference (AgentCompile-style), then Alive2-class local formal equivalence (Alive2 from the UIUC / formal-IR lineage; used in LLM-VeriOpt-style rewards). Strong locally; weak on GPU races and floating-point nondeterminism. Admit for money needs this ladder, not a single check.
 
-F — Broader compile object: mid-decode diagnosis, FMware (prompts/agents/knobs), agents as compiler engineers, heuristics rewritten in-tree. Compiler.next, Magellan, Claude C.
+**F — Compilers broaden their object.**
+Beyond graph→binary: mid-decode diagnosis in generative compilation loops; FMware — prompts, agents, free parameters — as a compile object in Compiler.next (Queen’s University). Magellan (Google) treats agents as in-tree heuristic engineers. Anthropic’s Claude C Compiler shows agent teams *building* a compiler (~100kLoC Rust) — adjacent evidence for agents as compiler engineers, not only compile-time optimizers.
+
+Closing line for the slide: six trends, one pattern — hybrid control plane over classical substrates, with named orgs behind each example.
