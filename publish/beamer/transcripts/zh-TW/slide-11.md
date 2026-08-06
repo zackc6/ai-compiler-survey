@@ -1,11 +1,24 @@
-# 幻燈片 11：一個通用成本模型？— 否（Horizon A）
+# 幻燈片 11：一個通用成本模型？— 不行（Horizon A）
 
-直接回答：「能不能訓練一個成本模型，涵蓋所有最佳化 pass（含未來）？」
+直接回答現場問題：「一個成本模型能不能涵蓋所有 pass——包括我們還沒發明的？」Horizon A 的答案是 **不行**。兩欄加底部尺寸標註。
 
-左側——為什麼不行。各層帶的合法性與 oracle 不同：Alive2 不能證明 GPU race 或 serving 等價。選擇在哪一層花預算本身就是產品（ACCLAIM 的 guide agent）。成本模型保持局部：MLGO、Ansor、MetaSchedule 在同一族內有效，無法從 fusion → Triton → regalloc → serving A/B 一路通用。未來 pass／新 ISA 需要新的實測標籤；凍結權重無法憑空預測未量測硬體行為。
+**左欄 — 為什麼不能只有一個模型（琥珀框）。**
+- **各層帶合法性／oracle 不同** — Alive2 認證 LLVM IR 切片；它不認證 **GPU** 競態安全或服務時等價。單一成本張量無法在 L3 與 L6 之間共用標籤。
+- **選哪一層*就是*產品決策** — ACCLAIM 的 guide agent 決定*把搜尋預算花在哪個層帶*；這個 meta 決策無法化約成單一局部成本。
+- **成本模型保持局部** — **MLGO**、Ansor、MetaSchedule 在同一家族內遷移（例如 LLVM inliner features），不是從 fusion → Triton → regalloc → serving A/B 塞進一個權重檔。
+- **未來 pass 需要新量測標籤** — 每個新 ISA SKU 與 pass 都要新的（program, action, HW）tuple；凍結權重無法發明沒量過的硬體行為。
 
-右側——若產業沒有收斂乾淨的 L2／L4／L7 IR，不要乾等。改走可插拔介面：agent compile schema、typed tools／MCP 級伺服器、dialect＋oracle＋objective plugins、以及機群放置 plugins（L7）。
+**右欄 — 若層帶不會合併（鋼框）。**
+別等那個「唯一真 IR」。現在就 ship **可插拔介面**：
+- Agent compile schema 加 admit hash——可重現的智慧體輸出。
+- 型別化工具／**MCP** 級伺服器（Model Context Protocol——智慧體呼叫的型別化工具伺服器）。
+- 各層帶的方言 + oracle + 目標外掛。
+- **L7** 的放置／機群外掛。
 
-尺寸註記：參數量不是瓶頸。上線的局部 advisor 常是 KB–MB；跨層帶的 proposer 看起來像 7B–70B+ 的 IR LLM，卻仍只是 prior。真正難的是標註好的（程式、動作、硬體、能耗、SLO）元組，且每換 SKU 要更新。押注：每層小成本模型＋可選大型編排器——不是一顆吃掉 L1–L7 的巨型成本模型。
+**尺寸標註（底部墨框）。**
+參數量**不是**瓶頸。局部顧問：常 **KB–MB**。跨層帶*提案者*：約 **7B–70B+** IR LLM——仍只是**先驗**，不是地面真值。難的是帶標籤的（program, action, HW, energy, **SLO**）tuple，每個 SKU 都要刷新。
 
-銜接下一張：局部成本只是 prior；架構仍須在產品適應度 \(F\) 下追求 e2e 最佳。
+**押注句 — 口頭說出來。**
+各層帶小成本 + 可選的大型編排器——**不是**一個 mega-cost-model 吃掉 L1–L7。
+
+銜接幻燈片 12：局部成本只是提案先驗；架構仍要在產品適應度 **F** 下追求 **e2e**（端到端）最適。
