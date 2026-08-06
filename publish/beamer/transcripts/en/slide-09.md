@@ -1,13 +1,26 @@
 # Slide 9: Architecture evolution — component changes
 
-Walk left to right, but spend the time inside each box — what components change.
+Walk **left to right** across three eras — TODAY (2025–26), HORIZON A (2027–28), HORIZON B (~2029–31). Four rows: CTRL, DATA, CODE (codesign), ART (artifacts). Spend time *inside* each cell — what actually changes.
 
-**Control plane:** Today is ad-hoc agent loops (chat/tools, GEAK, ACCLAIM, Magellan) with no typed admit contract. Horizon A productizes jobs (a)–(d) and CI-gates specialize. Horizon B compiles the control plane itself: workflow compile, ADG check, freeze, hetero place.
+**Control plane row (steel).**
+- *Today:* Ad-hoc agent loops — chat/tools, GEAK, ACCLAIM, Magellan experiments — **no typed admit** contract; every team reinvents orchestration.
+- *Horizon A:* Jobs **(a)–(d)** productized — online/offline/review/bring-up as SKUs; build-**CI** gated specialize becomes normal.
+- *Horizon B:* Control plane **compiled** — workflow compile, **ADG** check, freeze, audited agent graph amortized like a compiler binary. Not “bigger chat”; compiled orchestration.
 
-**Data plane:** Today is classical MLIR/Triton/Inductor, GPU-mostly, thin tools. Horizon A makes it agent-addressable — multi-DSL fingerprints, typed tool APIs, admit, oracles. Horizon B is multi-backend fleets with ACF, heuristics, and memory as VCS artifacts — still classical lowering.
+**Data plane row (amber).**
+- *Today:* Classical **MLIR**/Triton/Inductor, **GPU**-mostly; agent tools thin.
+- *Horizon A:* **Agent-addressable** — multi-DSL fingerprints, typed tool APIs, admit on hot path, oracles wired per band.
+- *Horizon B:* **Multi-backend fleets** — **ACF**s, heuristics, memory plans as **VCS** artifacts; classical lowering *still* runs underneath.
 
-**Codesign:** Today sparse/manual. Horizon A closes early sim + first-silicon feedback into ISA/dialect RFCs. Horizon B is a steady pre-Si → bring-up → next tape-out loop, not autonomous EDA (C10).
+**Codesign row (ember).**
+- *Today:* Sparse/manual; human bring-up dominant; weak sim↔compiler loop.
+- *Horizon A:* Early feedback — sim + first silicon → ISA/dialect proposals; TritorX / KernelEvolve-class.
+- *Horizon B:* Steady pre-silicon → bring-up → next chip loop — **not** autonomous design (**C10**).
 
-**Artifacts:** binaries → + ACF/hints/kernels/corpora → + frozen agent workflows / cognition binaries.
+**Artifacts row (mute).**
+- *Today:* binaries + sparse hints.
+- *Horizon A:* + control files / kernels / C++ heuristics / corpora.
+- *Horizon B:* + frozen agent workflows (cognition binaries — replayable agent graphs).
 
-Closing line: focus on which components thicken; the data plane never goes away.
+**Closing line on slide footer.**
+Components thicken left→right; data plane stays; agent graph becomes compiled and amortized. Say it: focus on *which components thicken* — the data plane never goes away. Bridge to slide 10: here is the band inventory inside that data plane.

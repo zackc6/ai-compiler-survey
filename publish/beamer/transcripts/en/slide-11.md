@@ -1,11 +1,24 @@
 # Slide 11: One universal cost model? — No (Horizon A)
 
-Direct answer to “can one cost model cover all passes, including future ones?”
+Direct answer to the room’s question: “Can one cost model cover all passes — including ones we have not invented yet?” **No** for Horizon A. Two columns plus a size callout at the bottom.
 
-Left: why not. Different legality and oracles per band — Alive2 does not certify GPU races or serving equivalence. Choosing which level to spend budget on is itself the product — ACCLAIM’s guide agent. Cost models stay local: MLGO, Ansor, MetaSchedule transfer inside a family, not from fusion to Triton to regalloc to serving A/B. Future passes and new ISAs need new measured labels; a frozen weights file cannot invent unmeasured hardware behavior.
+**Left — Why not one model (amber box).**
+- **Different legality / oracles per band** — Alive2 certifies LLVM IR slices; it does not certify **GPU** race freedom or serving-time equivalence. A single cost tensor cannot share labels across L3 vs L6.
+- **Choosing the level *is* the product** — ACCLAIM’s guide agent decides *which band* to spend search budget on; that meta-decision is not reducible to one local cost.
+- **Cost models stay local** — **MLGO**, Ansor, MetaSchedule transfer inside a family (e.g., LLVM inliner features), not from fusion → Triton → regalloc → serving A/B in one weight file.
+- **Future passes need new measured labels** — every new ISA SKU and pass needs fresh (program, action, HW) tuples; frozen weights cannot invent unmeasured hardware behavior.
 
-Right: if industry does not consolidate a clean L2 or L4 or L7 IR, do not wait. Ship pluggable interfaces — agent compile schema, typed tools / MCP-class servers, dialect and oracle and objective plugins, placement plugins for fleet.
+**Right — If bands do not consolidate (steel box).**
+Do not wait for the one true IR. Ship **pluggable interfaces** now:
+- Agent compile schema with admit hash — reproducible agent outputs.
+- Typed tools / **MCP**-class servers (Model Context Protocol — typed tool servers agents call).
+- Dialect + oracle + objective plugins per band.
+- Placement / fleet plugins for **L7**.
 
-Size callout: parameter count is not the bottleneck. Shipping local advisors are often kilobytes to megabytes. A cross-band proposer looks like a 7B–70B IR LLM and is still only a prior. The hard part is labeled program–action–hardware–energy–SLO tuples, refreshed every SKU. Bet: small per-band costs plus optional large orchestrator — not one mega-cost-model that eats L1 through L7.
+**Size callout (bottom ink box).**
+Parameter count is **not** the bottleneck. Local advisors: often **KB–MB**. Cross-band *proposer*: ~**7B–70B+** IR LLM — still only a **prior**, not ground truth. Hard part: labeled (program, action, HW, energy, **SLO**) tuples, refreshed every SKU.
 
-Bridge to next slide: local costs are only priors; the architecture still has to seek e2e optimum under product fitness F.
+**Bet line — say it.**
+Small per-band costs + optional large orchestrator — **not** one mega-cost-model eating L1–L7.
+
+Bridge to slide 12: local costs are proposal priors only; architecture must still seek **e2e** (end-to-end) optimum under product fitness **F**.

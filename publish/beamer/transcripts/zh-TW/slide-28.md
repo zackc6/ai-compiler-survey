@@ -1,23 +1,20 @@
-# 投影片 27：技術預測 — 編譯器內部（T1–T5）
+# 幻燈片 28：技術預測 — 在編譯器內 (T1–T5)
 
-較大字型的帶狀版面。每一項：技術 + 解鎖，然後 Exists，再 Missing。
+帶佈局中的編譯器內技術。幻燈片上：每一行都是技術+解鎖、存在、缺失。口語：主張→證據→所有五個方面的差距。
 
-1. **T1 Typed interfaces** → C3, C5, C6  
-   Exists：CompileIQ · ACCLAIM · mlir-opt-repl · FlashInfer Trace  
-   Missing：跨 MLIR · Triton · Tile · StableHLO 的可攜 schema
+**T1 — 型別化介面 → C3、C5、C6。**
+存在：CompileIQ 智慧體技能、ACCLAIM 工具迴圈、`mlir-opt-repl`、FlashInfer Trace。主張：智慧體需要模式，而不是貼上和祈禱。缺少：跨 MLIR、Triton、Tile、StableHLO 的行動式摘要和操作 — 如今，每個堆疊都重新粘合。透過自由重寫 (C3) 和發行說明 (C5) 中的命名預設路徑解鎖狹窄的 ACF/提示。
 
-2. **T2 Admit / fallback** → C6 hybrid  
-   Exists：AgentCompile · Archer · TritonRL verifiers · FlashInfer-Bench  
-   Missing：共享的接納產品 + 可信的確定性回退路徑
+**T2 — 承認/回退路徑 → C6 混合動力。**
+存在：智慧體編譯數值承認、Archer 判定預測機控 PR、TritonRL 驗證器、FlashInfer-Bench。主張：混合意味著經典的降低仍然低於承認。缺少：共享承認*產品*加上每個供應商文件的可信確定性回退路徑。解鎖 C6-B — 控制面，而不是編譯器替換。
 
-3. **T3 Control files + replay** → C2, C5  
-   Exists：CompileIQ ACFs · FlashInfer Trace + `apply()`  
-   Missing：內容定址金鑰；模型升級時的 golden replay
+**T3 — 控制檔案 + 重播 → C2、C5。**
+存在：CompileIQ ACFs、FlashInfer Trace + `apply()` 到 SGLang/vLLM 中。宣告：凍結工件是您在服務中獲得零 LLM 的方式。缺少：內容定址快取鍵；模型或編譯器升級時的黃金重播。解鎖固定跡線的中值/p90 證據 (C2)。
 
-4. **T4 Heuristic hooks / advisors** → C1  
-   Exists：Magellan / AlphaEvolve · MLGO · EmitC PoR  
-   Missing：在具名應用上，Magellan vs MLGO 誰是預設已定案
+**T4 — 啟發式掛鉤/顧問 → C1.**
+存在：Magellan/AlphaEvolve 可交付 C++、MLGO 樹內顧問程式、EmitC 2026 年 6 月 PoR（記錄計劃：內聯 → Android/Fuchsia → Chrome）。主張：並行賭注——進化的 C++ *和* 學習顧問都是實時的。缺失：指定應用程式的預設設定 - 公共 Magellan 補丁取代 MLGO 或 EmitC-MLGO 客戶預設設定。
 
-5. **T5 Dialect / ISA sinks** → C9, C10  
-   Exists：TritorX · KernelEvolve · Ascend diagnosis  
-   Missing：一流的變更提案介面（不是自動 tape-out）
+**T5 — 方言/ISA 接收器 → C9、C10。**
+存在：TritorX、KernelEvolve、Ascend 診斷 — 智慧體從 sim 和晶片提出方言/ISA 反饋。宣告：在第二供應商 SKU 高峰之前提供保障。缺少：一流的變更-*提案*表面——不是自主的微架構流片（C10 被拒絕）。
+
+結束行：編譯器內的工作約束和承認；它不能取代降低。下一張幻燈片：編譯器之外的 T6-T10 — 大多數和解證據必須來自此處。

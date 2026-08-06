@@ -1,23 +1,20 @@
-# 投影片 28：技術預測 — 編譯器之外 (T6–T10)
+# 幻燈片 29：技術預測 — 編譯器之外 (T6–T10)
 
-與投影片 24 相同的大字型樂隊節奏。
+與幻燈片 28 相同的樂隊節奏，用於古典降低之外的技術。口語：這些對於地平線 A 來說同樣是一流的。
 
-6. **T6 發球 判定預示機 / A/B** → C2  
-   存在：unit/golden/Alive2 · FlashInfer-Bench + `apply()` · VibeServe  
-   缺失：全程式/GPU-race/FP；多月預設路徑 A/B
+**T6 — Serving 判定預示機 / A/B → C2.**
+存在：unit/golden/Alive2ladder、FlashInfer-Bench + `apply()`、VibeServe 早期服務痕跡。主張：地方正規性強；產品真相是為統計服務的。缺少：整個程式檢查、GPU 競賽和 FP 不確定性判定機、多月*預設路徑* A/B。解鎖 C2 — 固定跡線上的中值和 p90，而不是標題核心。
 
-7. **T7 Multi-IR 語料庫** → 選擇器  
-   存在：Meta LLM 編譯器·KernelBook → TritonRL·DRTriton  
-   缺少：版本化 MLIR / Tile / StableHLO + 失敗/錯誤編譯負數
+**T7 — 多 IR 語料庫 → 選擇器。**
+存在：Meta LLM 編譯器透過列表資料、KernelBook→TritonRL、DRTriton。宣告：對於 IR 操作，資料勝過引數計數。缺少：版本化的 MLIR/Tile/StableHLO 轉儲加上“失敗”和錯誤編譯負面影響 - 沒有負面影響，RL 獎勵駭客。解鎖學習選擇器，而不是所有供應商的一個智慧體 IR（C4 部分）。
 
-8. **T8 基準階梯** → C2、C9  
-   存在：KernelBench(-X) · FlashInfer-Bench 服務核心梯級  
-   缺少：完整的 IR → 核心 → 融合 → 服務 + 編譯成本
+**T8 — 基準階梯 → C2、C9。**
+存在：KernelBench(-X) 正確性+速度、FlashInfer-Bench 服務核心梯級。主張：梯子力的可比性。缺少：完整的 IR→核心→融合→服務鏈，每個梯級上都有編譯成本。解鎖分配收益 (C2) 和第二供應商覆蓋策略 (C9)。
 
-9. **T9 出處 / HITL** → C7  
-   存在：Magellan 可審查 C++ · Archer 判定預示機審查  
-   缺少：程式碼所有者 + 簽名的承認記錄 + 提案沙箱
+**T9 — 來源/HITL → C7。**
+存在：Magellan 可審查 C++，Archer 判定預示機審查。索賠：智慧體乘草稿；流程必須進行規模審查。缺少：程式碼所有者+簽署的承認記錄+沙箱作為標準做法。解鎖用於編譯器預測 (C7) 的通用 Forge AI 的降級。
 
-10. **T10 工作流程編譯/凍結** → Horizon B  
-    存在：FlowCompile·Auto·智慧體Flow·VibeServe（早期）  
-    缺失：共享智慧體圖 IR + 故障關閉 CI → Horizon B
+**T10 — 工作流程編譯/凍結 → Horizon B.**
+存在：FlowCompile離線工作流編譯、Auto/智慧體Flow凍結、VibeServe早期。 ADG（智慧體依賴圖）檢查和故障關閉 CI 是目標。缺少：共享智慧體圖 IR 編譯到凍結位置 - Horizo​​n B“控制面編譯”，而不是永遠聊天。
+
+結束語：外部編譯器技術提供證據、資料和過程。僅增強“opt”/Inductor/Triton而不使用T6-T10會讓您得到無法解決檢查點的演示。

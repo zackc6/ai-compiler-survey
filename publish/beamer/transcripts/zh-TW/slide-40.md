@@ -1,3 +1,20 @@
 # Slide 40: 附錄 — 預測關鍵 文獻摘要 (★)
 
-透過最高訊號源的頻段：願景/資助（Compiler 2.0，MOCHA）；離線/線上（Magellan、ACCLAIM、EmitC-MLGO PoR）；啟動/軟硬體協同設計（TritorX、KernelEvolve、Ascend、KForge）；核心/梯形圖/資料（CompileIQ、FlashInfer-Bench★、KernelBook★、AutoKernel、CuTeGen、Auto、FlowCompile）。指向〜115文獻摘要和調查§5.8。
+最高訊號 ★ 來源——機制，而不是頭條新聞。幻燈片上：按主題劃分的四個樂隊。口語：說出範例；指向完整索引。
+
+**願景/資助。**
+Compiler 2.0（Ken Kennedy，麻省理工學院）——編譯器擴大了他們的物件。 DARPA MOCHA / Aarno — 驗證重寫評估（幻燈片 15 上的~2027-28 檢查點）。訊號：資助者下注驗證 + 智慧體編譯，而不是替換 -LLVM 敘述。
+
+**離線/線上。**
+Magellan — 可交付的 C++ 啟發式 (C1)。 ACCLAIM — 線上工具迴圈。 EmitC-MLGO 2026 年 6 月 PoR — 樹內顧問程式路徑（C1 B 端）。機制對比：進化程式碼與訓練網路。
+
+**培養/軟硬體良好設計。**
+TritorX、KernelEvolve — 覆蓋範圍→真實硬體上的效能 (C9)。提升診斷，KForge — 供應商使能/拉起迴圈。建議使用方言/ISA，而不是自主流片（C10 邊界）。
+
+**核心/梯子/資料。**
+CompileIQ — ACF 和智慧體技能。 FlashInfer-Bench ★ — 服務梯子。 KernelBook ★ — TritonRL 的訓練資料。 Auto、FlowCompile — 工作流程編譯/凍結基質 (T10)。 CuTeGen — 硬體原生一代。
+
+**指標。**
+完整的文獻摘要索引證據儲存中約有 115 個條目。技術圖交叉參考：調查§5.8 T1–T10。準備檢查點引數時首先閱讀★。
+
+結束語： ★ 文獻摘要是從權利要求到可引用機制的最短路徑——在一般網路搜尋之前使用它們。

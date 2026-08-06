@@ -115,7 +115,7 @@ edit en/slide-NN.md → python3 publish/translate_transcripts.py --slides NN
   → polish zh-TW/slide-NN.md if presentation-critical → commit both
 ```
 
-Transcripts are presenter scripts (what to say), not a paste of the TeX. Keep them short and aligned with the settled SURVEY claim the slide shows. **Always ship EN + zh-TW together.**
+Transcripts are presenter scripts (what to say), not a paste of the TeX. **Detail bar:** match `en/slide-04.md` (claim → evidence → spoken beat; ~15–35 lines for content slides). **Gloss abbreviations in context** on first use when central (ADG, SLO, SLA, ACF, IR, FSM, MCP, MLGO, T*/C*/M*, fitness F, …). Aligned with the settled SURVEY claim. **Always ship EN + zh-TW together.**
 
 ### Beamer layout (hard — refine until clean)
 

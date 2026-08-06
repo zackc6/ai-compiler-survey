@@ -1,8 +1,17 @@
 # Slide 39：附錄 — A 級證據開放儲存庫
 
-兩條帶，然後分層光澤：
+A 級證明按工作型別開放儲存庫。幻燈片上：兩條帶+一層光澤。口語：將儲存庫對映到作業 (a)–(d) 和層語義。
 
-- 離線/審查/啟發式：OpenEvolve、HeuriGym、Archer、Compiler-R1、HintPilot、mlir 智慧體
-- Online / kernels /使能/啟動：ACCLAIM、CompileIQ、GEAK、Kernel smartbody、KernelBench(-X)、FlashInfer-Bench、AutoKernel、Helion、TritorX / KernelEvolve
+**離線/審查/啟發式。**
+OpenEvolve、HeuriGym — 進化啟發式搜尋。 Archer — 判定預測機門拉取請求審查。 Compiler-R1 — 工具呼叫通道搜尋 (SFT+RL)。 HintPilot — 編譯器驗證的編譯指示。 mlir 智慧體 — IR 變換基線（脆弱；可用作 C3 的負壓）。工作 (b) 離線和工作 (c) 工程審查。
 
-Tiers: A = 智慧體 + 領域判定機; B = 資料平面主機； C = 通用鍛造 AI（降級）。
+**線上/核心/使能/拉起。**
+ACCLAIM、CompileIQ — 線上提出→測量→承認。 GEAK，核心智慧體 — 核心生成迴圈。 KernelBench(-X) — 正確性和速度階梯。 FlashInfer-Bench — 服務跟蹤。 AutoKernel、Helion — 核心 DSL 表面。 TritorX / KernelEvolve — sim/silicon→方言反饋（作業 d）。工作 (a) 線上工作和 (d) 使能/拉起。
+
+**等級定義。**
+A = 智慧體 + 領域 判定預示機改變啟發式、核心、旋鈕或審查 — 預測相關。 B = 智慧體附加到的資料平面主機。 C = 僅通用鍛造 AI — 有用的工具，降級用於檢查點結算 (C7)。
+
+**如何在討論中使用。**
+當有人引用一個儲存庫時，問：A 級證據機制還是 C 級證據演示？指向工作信——它是凍結文物、用判定預測機承認，還是隻是聊天？
+
+結束語：這是一個針對混合預測精心策劃的偽造地圖——並非每個 GitHub 儲存庫都標記為“編譯器 AI”。

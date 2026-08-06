@@ -25,6 +25,8 @@ Polish spoken phrasing in `zh-TW/` when a slide is presentation-critical.
 1. Whenever `expert-briefing.tex` changes, update matching **`en/slide-NN.md` and `zh-TW/slide-NN.md`** (and this index if titles/order change) **in the same commit**.
 2. Prefer: edit English first → `python3 publish/translate_transcripts.py --slides …` → polish zh-TW if needed.
 3. Layout: **no overlapping boxes/arrows**; content must **fit one 16:9 slide**; **refine** (build → inspect PDF → fix) until clean before push.
+4. **Detail bar (all slides):** Match `en/slide-04.md` depth — claim → evidence/example → spoken beat; typically ~15–35 lines for content slides (appendix ~10–20). Not a bullet paste of TeX.
+5. **Abbreviation glosses:** On first use (or when central to the slide), expand in context — e.g. **ADG** (Agent Dependency Graph), **SLO** (Service Level Objective), **SLA** (Service Level Agreement), **ACF** (Advanced Control File), **IR**, **FSM**, **MCP**, **MLGO**, technique IDs **T1–T10**, conflicts **C1–C10**, merge levels **M1/M2/M3**, fitness **F**.
 
 Presenter notes that are **intentionally spoken but not shown** on slides:
 - **Slide 2 (Agenda):** Weight prediction → blockers → technical techniques → trends; contract = diagrams/checkpoints first.
