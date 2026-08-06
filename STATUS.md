@@ -43,6 +43,7 @@ Last updated: **2026-08-05**
 
 | Date | Change |
 |---|---|
+| 2026-08-06 | Beamer slide 11: fix bottom size-callout overlap (fit+below gutter); bet line = priors+e2e controller; EN+zh-TW |
 | 2026-08-06 | All 41 transcripts → slide-04 detail + abbrev glosses (EN+zh-TW); README/skill bar |
 | 2026-08-06 | Beamer slide 4: shrink org tags to tiny foot line; restore claim primacy; transcripts |
 | 2026-08-06 | Beamer slide 4: org tags on six-trend examples; detailed EN+zh-TW transcripts |

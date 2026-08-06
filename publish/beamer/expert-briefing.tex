@@ -539,27 +539,31 @@
 % 11 One cost model + plugins (§5.1.1)
 \begin{frame}{One universal cost model? --- No (Horizon A)}
 \begin{center}
-\vspace{-0.55em}
-\begin{tikzpicture}
-\node[draw=Amber,fill=Amber!10,rounded corners=6pt,minimum width=5.6cm,minimum height=3.15cm,text width=5.1cm,align=left,font=\sffamily\small,text=Ink,inner sep=8pt]
-  at (-3.15,0.85) {%
-  \textbf{\color{Amber}Why not one model}\par\vspace{0.22em}
-  Different legality / oracles per band\par\vspace{0.10em}
-  Choosing the level \emph{is} the product\par\vspace{0.10em}
-  Cost models stay \emph{local} (MLGO, Ansor)\par\vspace{0.10em}
+\vspace{-0.15em}
+\begin{tikzpicture}[
+  card/.style={rounded corners=5pt,minimum width=5.7cm,text width=5.2cm,align=left,
+    font=\sffamily\footnotesize,text=Ink,inner sep=5.5pt},
+  callout/.style={rounded corners=5pt,minimum width=12.2cm,text width=11.6cm,align=left,
+    font=\sffamily\tiny,inner sep=5pt,draw=Ink,fill=white}
+]
+% Named nodes + below=… so the size callout cannot collide with taller left card
+\node[card,anchor=north,draw=Amber,fill=Amber!10] (why) at (-3.15,2.35) {%
+  \textbf{\color{Amber}\small Why not one model}\par\vspace{0.10em}
+  Different legality / oracles per band\par\vspace{0.05em}
+  Choosing the level \emph{is} the product\par\vspace{0.05em}
+  Cost models stay \emph{local} (MLGO, Ansor)\par\vspace{0.05em}
   Future passes need new measured labels};
-\node[draw=Steel,fill=Steel!10,rounded corners=6pt,minimum width=5.6cm,minimum height=3.15cm,text width=5.1cm,align=left,font=\sffamily\small,text=Ink,inner sep=8pt]
-  at (3.15,0.85) {%
-  \textbf{\color{Steel}If bands do not consolidate}\par\vspace{0.22em}
-  Agent compile schema (admit hash)\par\vspace{0.10em}
-  Typed tools / MCP-class servers\par\vspace{0.10em}
-  Dialect + oracle + objective plugins\par\vspace{0.10em}
+\node[card,anchor=north,draw=Steel,fill=Steel!10] (plug) at (3.15,2.35) {%
+  \textbf{\color{Steel}\small If bands do not consolidate}\par\vspace{0.10em}
+  Agent compile schema (admit hash)\par\vspace{0.05em}
+  Typed tools / MCP-class servers\par\vspace{0.05em}
+  Dialect + oracle + objective plugins\par\vspace{0.05em}
   Placement / fleet plugins (L7)};
-\node[draw=Ink,fill=white,rounded corners=5pt,minimum width=12.2cm,minimum height=1.25cm,text width=11.6cm,align=left,font=\sffamily\scriptsize,inner sep=6pt]
-  at (0,-1.95) {%
-  \textbf{Size:} local advisors often KB--MB \;$\cdot$\; cross-band \emph{proposer} $\approx$ 7B--70B+ IR LLM (still only a prior)\par
+\node[fit=(why)(plug),inner sep=0pt] (upper) {};
+\node[callout,below=0.70cm of upper] (size) {%
+  \textbf{\scriptsize Size:} local advisors often KB--MB \;$\cdot$\; cross-band \emph{proposer} $\approx$ 7B--70B+ IR LLM (prior only)\par
   Bottleneck = labeled (program, action, HW, energy, SLO) tuples --- not parameter count.\par
-  \textbf{Bet:} small per-band costs + optional large orchestrator --- not one mega-cost-model for L1--L7.};
+  \textbf{\scriptsize Bet:} small per-band priors + e2e controller under $F$ --- not one mega-cost-model for L1--L7.};
 \end{tikzpicture}
 \end{center}
 \end{frame}

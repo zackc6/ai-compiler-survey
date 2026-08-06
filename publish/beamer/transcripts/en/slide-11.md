@@ -19,6 +19,6 @@ Do not wait for the one true IR. Ship **pluggable interfaces** now:
 Parameter count is **not** the bottleneck. Local advisors: often **KB–MB**. Cross-band *proposer*: ~**7B–70B+** IR LLM — still only a **prior**, not ground truth. Hard part: labeled (program, action, HW, energy, **SLO**) tuples, refreshed every SKU.
 
 **Bet line — say it.**
-Small per-band costs + optional large orchestrator — **not** one mega-cost-model eating L1–L7.
+Small per-band priors + e2e controller under product fitness F — **not** one mega-cost-model eating L1–L7.
 
 Bridge to slide 12: local costs are proposal priors only; architecture must still seek **e2e** (end-to-end) optimum under product fitness **F**.
