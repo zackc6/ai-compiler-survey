@@ -1,6 +1,6 @@
 # Slide 4: Six active trends
 
-This is the §1 backdrop. Walk each box: claim first, then name the example **with organization**.
+This is the §1 backdrop. On-slide: claim lines dominate; org tags are the tiny mute foot line only. Spoken: claim first, then name examples with organization.
 
 **A — Hybrid guidance, not LLM-as-compiler.**
 Free IR rewrite is fragile: mlirAgent from UC Berkeley shows frontier models scoring below identity on IR transforms. Winners constrain the action space. AgentCompile (City University of Hong Kong) emits advisory metadata; templates plus checks admit CUDA. HintPilot (Zhejiang University, with Purdue) inserts compiler-validated pragmas, not arbitrary rewrites. Meta’s LLM Compiler proposes pass lists that `opt` applies. Say out loud: constrain actions; keep the classical applicator.
