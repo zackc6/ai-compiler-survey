@@ -1,6 +1,6 @@
 # 幻燈片 4：六大活躍趨勢
 
-這是 §1 背景。每個框先講主張，再點名例子**與機構**。
+這是 §1 背景。投影片上：主張文字為主；機構只在底部極小字。口頭：先講主張，再帶例子與機構。
 
 **A — 混合引導，不是 LLM 當編譯器。**
 自由 IR 改寫很脆弱：UC Berkeley 的 mlirAgent 顯示前沿模型在 IR 變換上甚至低於 identity。能成的系統會限制動作空間。City University of Hong Kong（CityU）的 AgentCompile 只產出諮詢式 metadata，再用模板＋檢查核准 CUDA。浙江大學（與 Purdue）的 HintPilot 插入編譯器可驗證的 pragma，不是任意改寫。Meta 的 LLM Compiler 提出 pass 序列，由 `opt` 執行。口頭重點：限制動作；保留古典施用器。

@@ -43,6 +43,7 @@ Last updated: **2026-08-05**
 
 | Date | Change |
 |---|---|
+| 2026-08-06 | Beamer slide 4: shrink org tags to tiny foot line; restore claim primacy; transcripts |
 | 2026-08-06 | Beamer slide 4: org tags on six-trend examples; detailed EN+zh-TW transcripts |
 | 2026-08-05 | Goal-align after §5.1.1–5.1.4; §5.1.4 M1/M2/M3 + slide 13; S8; deck 41; thin consistency; PDFs |
 | 2026-08-05 | SURVEY §5.1.3 e2e-optimal-seeking architecture (A7/S7); slide 12; stance #8; deck 40; survey+sharing PDFs |
