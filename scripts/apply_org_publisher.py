@@ -136,6 +136,8 @@ META: dict[str, tuple[str, str]] = {
     "flowcompile.md": ("UMass Amherst · MIT · MIT-IBM Watson AI Lab", "arXiv"),
     "agentflow.md": ("Huazhong University of Science and Technology · Macquarie University", "arXiv"),
     "agentic-ai-hetero-systems.md": ("Stanford · Gimlet Labs · Intel", "arXiv"),
+    "vibeserve.md": ("University of Washington (SyFI)", "arXiv"),
+    "deepseek-harness.md": ("DeepSeek AI", "GitHub"),
 }
 
 

@@ -130,8 +130,9 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | Agent control-plane substrate | Huazhong University of Science and Technology · Macquarie University | arXiv | [AgentFlow: Building Agent Dependency Graphs for Static Analysis of Agent Programs](agentflow.md) | [source](https://arxiv.org/abs/2607.01640) |
 | 2025 | paper | Agent control-plane substrate | Stanford · Gimlet Labs · Intel | arXiv | [Efficient and Scalable Agentic AI with Heterogeneous Systems](agentic-ai-hetero-systems.md) | [source](https://arxiv.org/abs/2507.19635) |
 | 2026 | paper | Agent control-plane substrate | University of Washington (SyFI) | arXiv | [VibeServe: Can AI Agents Build Bespoke LLM Serving Systems?](vibeserve.md) | [source](https://arxiv.org/abs/2605.06068) |
+| 2026 | code | Agent control-plane substrate | DeepSeek AI | GitHub | [DeepSeek Harness (`dsh`)](deepseek-harness.md) plugin runtime / session log | [source](https://github.com/deepseek-ai/deepseek-harness) |
 
-**Total:** 122 digests
+**Total:** 123 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 

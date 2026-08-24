@@ -58,6 +58,7 @@ Companion: [`../docs/SURVEY.md`](../docs/SURVEY.md) §5 · [`../docs/SURVEY.md`]
 | [NVIDIA/TensorRT-LLM](https://github.com/NVIDIA/TensorRT-LLM) | Production serve stack; [PR #12831](https://github.com/NVIDIA/TensorRT-LLM/pull/12831) adds Claude kernel/compile agents (**C4**) |
 | [flashinfer-ai/flashinfer](https://github.com/flashinfer-ai/flashinfer) | Kernel library / generator backing many serve engines; Bench `apply()` target |
 | Hugging Face [GPUMODE/KernelBook](https://huggingface.co/datasets/GPUMODE/KernelBook) | Open PyTorch↔Triton training pairs (**T7**) |
+| [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) | Agent *runtime* (Cordis plugins + session log). **T10** substrate; **C7** — not a compiler harness ([digest](publications/deepseek-harness.md)) |
 
 ---
 

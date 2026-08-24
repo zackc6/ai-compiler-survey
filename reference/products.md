@@ -64,6 +64,7 @@ Brief on purpose: these are **defaults**, not proof that agents win.
 | OctoML (historical TVM SaaS) | Cite only as **lineage** for commercial autotune appetite that later products (CompileIQ, AlphaEvolve Cloud) still sell — not an active next-gen agent compiler |
 | Generic “AI code review” SKUs | Conflict **C7** — HITL UX, not compiler oracles |
 | Anthropic CCC | Process signal (agents-as-engineers), **not** a sold compiler SKU |
+| [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (`dsh`) | Open coding-agent runtime (plugin kernel + session log). **C7** unless compiler oracles mount as seams; T10 color only — [digest](publications/deepseek-harness.md) |
 
 ---
 
