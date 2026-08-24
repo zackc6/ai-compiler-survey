@@ -12,6 +12,6 @@ CODEOWNERS per artifact class, signed provenance on admit records, sandboxed pro
 Agents raise draft volume; reviewers become the bottleneck. Magellan ships reviewable C++; Archer gates pull requests with oracles. Lean: human CODEOWNER + signed admit + sandbox. Oracle auto-merge only for **narrow** action classes — pragma hints, known-safe tile configs — not open-ended kernel rewrites.
 
 **C7 — demote generic forge AI.**
-Bottom callout: GitHub Copilot-class SCM AI ≠ compiler-oracle review. Forge AI helps authors; it does not replace Alive2, golden tests, or serving A/B. Checkpoint C7 says demote generic forge AI for prediction purposes — domain oracles and admit machinery are what matter.
+Bottom callout: GitHub Copilot-class SCM AI *and* generic coding-agent harnesses (including **DeepSeek Harness**) ≠ compiler-oracle review. They help authors; they do not replace Alive2, golden tests, or serving A/B. Checkpoint C7 says demote that class for prediction — domain oracles and admit machinery are what matter. DSH becomes compiler-oracle evidence only if those checks mount as seams and merge *blocks* on them.
 
 Closing line: freeze artifacts you can regress; sign what you ship; keep humans in the loop for anything that enters the trusted base. Agents multiply drafts — your process must multiply qualified reviewers or narrow the merge surface.

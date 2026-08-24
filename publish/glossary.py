@@ -88,6 +88,8 @@ PROTECT_TERMS: list[str] = [
     "IREE",
     "XLA",
     "Inductor",
+    "DeepSeek Harness",
+    "DSH",
     "GEAK v4",
     "GEAK",
     "Cake IR",

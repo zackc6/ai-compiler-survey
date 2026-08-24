@@ -43,6 +43,7 @@ Last updated: **2026-08-24**
 
 | Date | Change |
 |---|---|
+| 2026-08-24 | Beamer + EN/zh-TW: DeepSeek Harness on C7 (24/33) and T10 (29); slide 37 count 123; slide 39 not-A footer; survey + sharing PDFs rebuilt |
 | 2026-08-24 | Add **DeepSeek Harness** (`dsh`, 2026-08-13): Tier B control-plane runtime; **not** a compiler harness (**C7**); T10 color only; INDEX **123**; survey PDF + slide 40/41 counts |
 | 2026-08-24 | Beamer + EN/zh-TW transcripts: fold August wave (Cake, Argus, GEAK v4, Zomboss, T-LLM, llvm-harness) into slides 4/7/12/14/17–18/28–31/38–41; Argus under CausalFlow not AMD; index **122**; sharing PDF rebuilt |
 | 2026-08-24 | Add missed **Argus** ★ (arXiv:2604.18616): data-flow invariants + SMT; INDEX **122**; thin T1/T2/C3/C4; survey PDF rebuilt |

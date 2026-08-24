@@ -934,7 +934,7 @@
   agents $\uparrow$ drafts\par reviewers = bottleneck};
 \node[calloutInk] at (0,-1.55) {%
   Lean: human CODEOWNER + signed admit + sandbox $\cdot$ oracle auto-merge only for \textbf{narrow} action classes\par
-  Generic forge AI $\neq$ compiler-oracle review (C7)};
+  Generic forge AI / coding-agent harnesses $\neq$ compiler-oracle review (C7)};
 \end{tikzpicture}
 \end{center}
 \end{frame}
@@ -1098,7 +1098,7 @@
 % T10
 \node[anchor=west,font=\sffamily\small\bfseries,text=Amber] at (-6.15,-2.24) {T10 Workflow compile / freeze};
 \node[anchor=east,font=\sffamily\small\bfseries,text=Ember] at (6.15,-2.24) {$\rightarrow$ Horiz.\ B};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ok] at (-6.15,-2.58) {Exists: FlowCompile $\cdot$ Auto $\cdot$ AgentFlow $\cdot$ VibeServe (early)};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ok] at (-6.15,-2.58) {Exists: FlowCompile $\cdot$ Auto $\cdot$ AgentFlow $\cdot$ DSH runtime};
 \node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.15,-2.88) {Missing: shared agent-graph IR + fail-closed CI $\rightarrow$ Horizon B};
 \end{tikzpicture}
 \end{center}
@@ -1196,7 +1196,7 @@
   2/1.90/{Magellan $\parallel$ MLGO --- parallel bets (C1)},%
   3/1.30/{Discount single-number speedups (C2)},%
   4/0.70/{Constrained actions + strong oracles (C3)},%
-  5/0.10/{Demote generic SCM AI (C7)},%
+  5/0.10/{Demote generic SCM / coding-agent AI (C7)},%
   6/-0.50/{Coverage$\rightarrow$performance; no autonomous chip design (C9/C10)},%
   7/-1.10/{$\sim$6--7 data-plane bands; plugins if not consolidated (A6/S6)},%
   8/-1.70/{E2E-optimal-\emph{seeking}: joint search under $F$ (A7/S7)},%
@@ -1296,7 +1296,7 @@
 \node[draw=Steel,fill=Steel!10,rounded corners=5pt,minimum width=3.9cm,minimum height=3.5cm,text width=3.55cm,align=left,font=\sffamily\footnotesize,inner sep=7pt]
   at (-4.3,0.2) {%
   \textbf{\color{Steel}Publications}\par\vspace{0.25em}
-  $\sim$115 digests\par
+  123 digests\par
   one file per source\par\vspace{0.2em}
   papers $\cdot$ blogs $\cdot$ talks\par
   forge pages $\cdot$ minutes\par\vspace{0.25em}
@@ -1368,6 +1368,7 @@
 \draw[Line,line width=0.35pt] (-6.15,0.30) -- (6.15,0.30);
 \node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.15,-0.10) {Tiers: A = agents + domain oracles change heuristics/kernels/knobs/review};
 \node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.15,-0.45) {B = data-plane hosts \quad$\cdot$\quad C = generic forge AI (demoted for prediction)};
+\node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.15,-0.80) {Not A: DeepSeek Harness = agent runtime (plugins / session log), not compiler oracles (C7)};
 \end{tikzpicture}
 \end{center}
 \end{frame}

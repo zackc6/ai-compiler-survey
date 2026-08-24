@@ -14,8 +14,8 @@ Vendor headlines vs median/p90 on pinned traces. One kernel at +15% is not defau
 **4. Constrained actions + strong oracles (C3).**
 Free IR rewrite is fragile (mlirAgent below identity). Lean: hints, ACFs, pass lists — advisory metadata the classical applicator validates.
 
-**5. Demote generic SCM AI (C7).**
-Forge Copilot ≠ compiler-oracle review. T9 provenance and domain admit machinery matter; generic code completion does not settle checkpoints.
+**5. Demote generic SCM / coding-agent AI (C7).**
+Forge Copilot and generic coding-agent harnesses (DeepSeek Harness class) ≠ compiler-oracle review. T9 provenance and domain admit machinery matter; generic code completion or a plugin runtime does not settle checkpoints.
 
 **6. Coverage→performance; no autonomous chip design (C9 / C10).**
 TritorX→KernelEvolve ladder is bring-up playbook, not EDA replacement. Agents propose dialect/ISA feedback; humans own tape-out.

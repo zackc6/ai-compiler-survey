@@ -14,8 +14,8 @@
 **4. 收斂行動 + 強 oracle（C3）。**
 自由 IR 改寫很脆弱（mlirAgent 低於 identity）。Lean：hint、ACF、pass 清單——建議性後設資料，由傳統施用器驗證。
 
-**5. 降級通用 SCM AI（C7）。**
-Forge Copilot ≠ 編譯器-oracle 審查。T9 溯源與領域 admit 機制才重要；通用程式碼補全不會落定檢查點。
+**5. 降級通用 SCM／編碼智慧體 AI（C7）。**
+Forge Copilot 與通用編碼智慧體執行期（DeepSeek Harness 這一類）≠ 編譯器判定預言機審查。T9 溯源與領域 admit 機械才重要；通用補全或外掛執行期結不了檢查點。
 
 **6. 覆蓋率→效能；沒有自主晶片設計（C9 / C10）。**
 TritorX→KernelEvolve 階梯是 bring-up 手冊，不是 EDA 替代品。智慧體提案方言／ISA 回饋；人類擁有 tape-out。

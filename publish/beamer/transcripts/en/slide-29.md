@@ -15,6 +15,6 @@ Exists: KernelBench(-X) correctness+speed, FlashInfer-Bench serving-kernel rung,
 Exists: Magellan reviewable C++, Archer oracle review, **llvm-harness** / llvm-bench (true-fix below 22% after expert review). Claim: agents multiply drafts; process must scale review. Missing: CODEOWNERS + signed admit records + sandbox as standard practice. Unlocks demotion of generic forge AI for compiler prediction (C7).
 
 **T10 — Workflow compile / freeze → Horizon B.**
-Exists: FlowCompile offline workflow compile, Auto/AgentFlow freeze, VibeServe early. ADG (Agent Dependency Graph) check and fail-closed CI are the target. Missing: shared agent-graph IR compiled to frozen placements — Horizon B “control plane compiled,” not chat forever.
+Exists: FlowCompile offline workflow compile, Auto/AgentFlow freeze, **DeepSeek Harness** (`dsh`) as a shipping *runtime* — plugin kernel + append-only session log (resume / fork / replay). Claim: a live harness is not a compiled agent-graph IR. Missing: shared agent-graph IR compiled to frozen placements plus fail-closed CI — Horizon B “control plane compiled,” not chat forever. VibeServe stays early serving-stack color; do not read DSH star counts as T10 settlement.
 
 Closing beat: outside-compiler techniques supply evidence, data, and process. Enhancing only `opt`/Inductor/Triton without T6–T10 leaves you with demos that cannot settle checkpoints.

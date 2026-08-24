@@ -15,6 +15,6 @@ Exists：KernelBench(-X) 正確性+速度、FlashInfer-Bench serving 核心階�
 Exists：Magellan 可審查 C++、Archer 判定預言機審查、**llvm-harness**／llvm-bench（專家審查後真正修復低於 22%）。主張：智慧體放大草稿；流程必須放大審查。Missing：CODEOWNERS + 簽署的 admit 紀錄 + 沙箱成為標準做法。解鎖把通用 forge AI 從編譯器預測裡降級（C7）。
 
 **T10 — 工作流編譯／freeze → Horizon B。**
-Exists：FlowCompile 離線工作流編譯、Auto/AgentFlow freeze、VibeServe 早期。目標是 **ADG**（智慧體相依圖）檢查與失敗即關的 CI。Missing：共享智慧體圖 IR 編譯成凍結配置——Horizon B「控制面被編譯」，不是永遠聊天。
+Exists：FlowCompile 離線工作流編譯、Auto/AgentFlow freeze、**DeepSeek Harness**（`dsh`）作為已出貨*執行期*——外掛核心 + 只附加的 session log（resume / fork / replay）。主張：活的 harness 不是已編譯的智慧體圖 IR。Missing：共享智慧體圖 IR 編譯成凍結配置，加上失敗即關 CI——Horizon B「控制面被編譯」，不是永遠聊天。VibeServe 仍是早期 serving 堆疊著色；不要把 DSH 星數讀成 T10 結算。
 
 收尾：編譯器外技術提供證據、資料與流程。只加強 `opt`／Inductor／Triton 而不做 T6–T10，會留下無法結算檢查點的演示。

@@ -9,7 +9,7 @@ Transition from blockers to gaps. On-slide: priority tiers HIGH, MED–HIGH, MED
 4.5 hardware-native interfaces: Tile IR, CuTe, vendor-specific kernel DSLs agents must address. 4.7 training data: open multi-IR corpora with negatives — T7 unlocks selectors, not just bigger LLMs.
 
 **MEDIUM row — process and substrate.**
-4.6 workflow compile: ADG (Agent Dependency Graph — static IR of the agent program) check, freeze, place — T10 path to Horizon B. FlowCompile and AgentFlow are early existence proofs; fail-closed CI on compiled agent graphs is not. 4.8 human-review process: CODEOWNERS, signed admit, HITL (human-in-the-loop) capacity — agents multiply drafts faster than review scales. 4.9 security: sandbox, provenance, supply chain — agent kernels in the TCB need the same bar as hand-written code.
+4.6 workflow compile: ADG (Agent Dependency Graph — static IR of the agent program) check, freeze, place — T10 path to Horizon B. FlowCompile and AgentFlow *compile or analyze* the graph; **DeepSeek Harness** *runs* a live plugin tree with a session log — T10 color, not compiled IR. Fail-closed CI on compiled agent graphs is still missing. 4.8 human-review process: CODEOWNERS, signed admit, HITL (human-in-the-loop) capacity — agents multiply drafts faster than review scales. 4.9 security: sandbox, provenance, supply chain — agent kernels in the TCB need the same bar as hand-written code.
 
 **Priority rule.**
 Gap map is ordered by what falsifies the prediction, not what is fashionable. Cross-stack (4.4) and benchmarks (4.10) look less sexy than bigger IR LLMs — but without them you cannot compare checkpoints across vendors.

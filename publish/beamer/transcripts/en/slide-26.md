@@ -18,6 +18,6 @@ Whole-program and production A/B — T6, gap 4.1. FlashInfer-Bench + `apply()` i
 Signed admit records, CODEOWNERS, sandbox — T9, gaps 4.8 and 4.9. Magellan reviewable C++ and Archer oracle review are templates, not industry standard.
 
 **Control-plane compile MVP.**
-Workflow compile, ADG check, freeze, place — T10, gap 4.6. FlowCompile, Auto, AgentFlow are early; shared agent-graph IR with fail-closed CI is Horizon B substrate.
+Workflow compile, ADG check, freeze, place — T10, gap 4.6. FlowCompile, Auto, AgentFlow compile or analyze the graph; **DeepSeek Harness** is a live runtime (plugins + session-log replay). Shared agent-graph IR with fail-closed CI is still Horizon B substrate.
 
 Closing line: these six themes unpack as the technique map T1–T10 on the next slides — for each: what exists, what is missing, which checkpoint it unlocks. Hybrid lean holds: enhancing only `opt`/Inductor/Triton internals is not enough.

@@ -18,6 +18,6 @@
 簽署的承認記錄、程式碼所有者、沙箱 — T9、差距 4.8 和 4.9。 Magellan 可審查的 C++ 和 Archer 判定預測機審查是模板，而不是行業標準。
 
 **控制平面編譯 MVP。**
-工作流程編譯、ADG 檢查、凍結、放置 — T10，間隙 4.6。 FlowCompile、Auto、智慧體Flow 較早；與故障關閉 CI 共享的智慧體圖 IR 是 Horizo​​n B 基板。
+工作流編譯、ADG 檢查、freeze、放置 — T10，缺口 4.6。FlowCompile、Auto、AgentFlow 編譯或分析圖；**DeepSeek Harness** 是活的執行期（外掛 + session log 重播）。帶失敗即關 CI 的共享智慧體圖 IR 仍是 Horizon B 底層。
 
 結束語：這六個主題在下一張幻燈片中作為技術圖 T1-T10 展開——對於每個主題：存在什麼、缺少什麼、解鎖哪個檢查點。混合精益持有：僅增強“opt”/Inductor/Triton 內部結構是不夠的。
