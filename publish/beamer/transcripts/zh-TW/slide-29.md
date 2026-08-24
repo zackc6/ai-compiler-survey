@@ -1,20 +1,20 @@
 # 幻燈片 29：技術預測 — 編譯器之外 (T6–T10)
 
-與幻燈片 28 相同的樂隊節奏，用於古典降低之外的技術。口語：這些對於地平線 A 來說同樣是一流的。
+與幻燈片 28 相同的帶狀節奏，對象是經典 lowering 之外的技術。口播：對 Horizon A 這些同樣是一等公民。
 
-**T6 — Serving 判定預示機 / A/B → C2.**
-存在：unit/golden/Alive2ladder、FlashInfer-Bench + `apply()`、VibeServe 早期服務痕跡。主張：地方正規性強；產品真相是為統計服務的。缺少：整個程式檢查、GPU 競賽和 FP 不確定性判定機、多月*預設路徑* A/B。解鎖 C2 — 固定跡線上的中值和 p90，而不是標題核心。
+**T6 — Serving 判定預言機／A/B → C2。**
+Exists：Alive2 級局部形式、FlashInfer-Bench + `apply()` 進 SGLang/vLLM、**GEAK v4** 在 Amdahl 分流後做熱伺服器 A/B 與輸出對等。主張：局部形式很強；產品真相是 serving 統計。Missing：全程式檢查、GPU 競態與浮點非確定性判定預言機、多月*預設路徑* A/B 加公開 p50/p90。解鎖 C2——釘死 trace 上的中位與 p90，不是標題核心。
 
-**T7 — 多 IR 語料庫 → 選擇器。**
-存在：Meta LLM 編譯器透過列表資料、KernelBook→TritonRL、DRTriton。宣告：對於 IR 操作，資料勝過引數計數。缺少：版本化的 MLIR/Tile/StableHLO 轉儲加上“失敗”和錯誤編譯負面影響 - 沒有負面影響，RL 獎勵駭客。解鎖學習選擇器，而不是所有供應商的一個智慧體 IR（C4 部分）。
+**T7 — 多 IR 語料 → 選擇器。**
+Exists：Meta LLM Compiler 的 pass 清單資料、KernelBook→TritonRL、DRTriton。主張：對 IR 行動，資料勝過參數數量。Missing：版本化 MLIR/Tile/StableHLO 傾印，加上*失敗*與誤編譯負例——沒有負例，RL 會鑽獎勵漏洞。解鎖學習選擇器，不是一家智慧體 IR 打遍廠商（C4 部分）。
 
-**T8 — 基準階梯 → C2、C9。**
-存在：KernelBench(-X) 正確性+速度、FlashInfer-Bench 服務核心梯級。主張：梯子力的可比性。缺少：完整的 IR→核心→融合→服務鏈，每個梯級上都有編譯成本。解鎖分配收益 (C2) 和第二供應商覆蓋策略 (C9)。
+**T8 — 基準梯子 → C2、C9。**
+Exists：KernelBench(-X) 正確性+速度、FlashInfer-Bench serving 核心階、**llvm-bench**（334 個 LLVM 中端崩潰／誤編譯缺陷）。主張：梯子強迫可比較——serving 核心與編譯器缺陷修復是不同階。Missing：完整 IR→核心→融合→serving 鏈，每一階都報編譯成本。解鎖分佈增益（C2）與第二供應商覆蓋劇本（C9）。
 
-**T9 — 來源/HITL → C7。**
-存在：Magellan 可審查 C++，Archer 判定預示機審查。索賠：智慧體乘草稿；流程必須進行規模審查。缺少：程式碼所有者+簽署的承認記錄+沙箱作為標準做法。解鎖用於編譯器預測 (C7) 的通用 Forge AI 的降級。
+**T9 — 出處／HITL → C7。**
+Exists：Magellan 可審查 C++、Archer 判定預言機審查、**llvm-harness**／llvm-bench（專家審查後真正修復低於 22%）。主張：智慧體放大草稿；流程必須放大審查。Missing：CODEOWNERS + 簽署的 admit 紀錄 + 沙箱成為標準做法。解鎖把通用 forge AI 從編譯器預測裡降級（C7）。
 
-**T10 — 工作流程編譯/凍結 → Horizon B.**
-存在：FlowCompile離線工作流編譯、Auto/智慧體Flow凍結、VibeServe早期。 ADG（智慧體依賴圖）檢查和故障關閉 CI 是目標。缺少：共享智慧體圖 IR 編譯到凍結位置 - Horizo​​n B“控制面編譯”，而不是永遠聊天。
+**T10 — 工作流編譯／freeze → Horizon B。**
+Exists：FlowCompile 離線工作流編譯、Auto/AgentFlow freeze、VibeServe 早期。目標是 **ADG**（智慧體相依圖）檢查與失敗即關的 CI。Missing：共享智慧體圖 IR 編譯成凍結配置——Horizon B「控制面被編譯」，不是永遠聊天。
 
-結束語：外部編譯器技術提供證據、資料和過程。僅增強“opt”/Inductor/Triton而不使用T6-T10會讓您得到無法解決檢查點的演示。
+收尾：編譯器外技術提供證據、資料與流程。只加強 `opt`／Inductor／Triton 而不做 T6–T10，會留下無法結算檢查點的演示。

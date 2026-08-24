@@ -3,7 +3,7 @@
 Digest corpus shape — group counts and usage rules. On-slide: count rows + “how digests are used” footer. Spoken: give scale, then methodology.
 
 **Group counts (read the numbers).**
-17 GPU kernels & inference · 13 agentic & RL · 13 source control & review · 10 classic DL compilers · 10 company infra · 9 forums & workshops · 8 surveys & vision · 8 foundation LLMs · 6 MLGO & RL gyms · 5 HW codesign & bring-up · 4 commercial products · 4 control-plane substrate. Total ~115 digests — tiered, not flat.
+24 GPU kernels & inference · 14 agentic & RL · 14 source control & review · 10 classic DL compilers · 10 company infra · 10 forums & workshops · 8 surveys & vision · 8 foundation LLMs · 6 MLGO & RL gyms · 6 HW codesign & bring-up · 6 commercial products · 5 control-plane substrate · 1 correctness lineage. Total **122** digests — tiered, not flat. Also mention Cake, Argus, GEAK v4, Zomboss, T-LLM, llvm-harness as the August-wave additions if someone asks what moved the counts.
 
 **How digests are used (footer).**
 Mechanism first — what did they build, what oracle, what artifact freezes? Demote generic forge AI — Tier C repos and Copilot-class tooling do not settle C1–C10. Keep both sides of a conflict — Magellan *and* MLGO, free rewrite *and* advisory; do not average opposing evidence into a comfortable middle.

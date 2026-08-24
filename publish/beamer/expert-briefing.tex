@@ -269,14 +269,14 @@
   \textbf{D --- Kernel agents}\par\vspace{0.08em}
   KernelBench: correct \emph{and} faster\par
   One-shot often $<$20\%; fusion hard\par
-  GEAK $\cdot$ KernelLLM $\cdot$ AgentCompile\par
-  {\fontsize{4.5}{5}\selectfont\color{Mute}AMD $\cdot$ Meta $\cdot$ CityU $\cdot$ KernelBench: Stanford/Princeton}};
+  GEAK v4 e2e $\cdot$ Cake $\cdot$ Argus\par
+  {\fontsize{4.5}{5}\selectfont\color{Mute}AMD $\cdot$ NVIDIA/CMU $\cdot$ CausalFlow $\cdot$ KernelBench: Stanford}};
 \node[trendOk] at (0,-1.55) {%
   \textbf{\color{Ok}E --- Verify in the loop}\par\vspace{0.08em}
   Unit/golden $\rightarrow$ numerical\par
-  $\rightarrow$ Alive2-class local formal\par
+  $\rightarrow$ Alive2 / SMT / CBMC\par
   Weak on GPU races / FP noise\par
-  {\fontsize{4.5}{5}\selectfont\color{Mute}Alive2/UIUC lineage $\cdot$ LLM-VeriOpt $\cdot$ stacked admit}};
+  {\fontsize{4.5}{5}\selectfont\color{Mute}Alive2 $\cdot$ Argus SMT $\cdot$ T-LLM/CBMC $\cdot$ LLM-VeriOpt}};
 \node[trendMute] at (4.3,-1.55) {%
   \textbf{F --- Broader object}\par\vspace{0.08em}
   Mid-decode diagnosis\par
@@ -351,7 +351,7 @@
 \node[jobSteel] (a) at (0,0) {%
   \textcolor{Steel}{\textbf{(a) Online}}\par\vspace{0.2em}
   propose $\rightarrow$ measure\par admit\par\vspace{0.25em}
-  {\scriptsize CompileIQ / GEAK\par ACCLAIM / HintPilot}};
+  {\scriptsize CompileIQ / GEAK v4\par Cake / Argus}};
 \node[jobAmber] (b) at (3.55,0) {%
   \textcolor{Amber}{\textbf{(b) Offline}}\par\vspace{0.2em}
   evolve heuristics\par $\rightarrow$ C++ / MLGO\par\vspace{0.25em}
@@ -359,11 +359,11 @@
 \node[jobEmber] (c) at (7.1,0) {%
   \textcolor{Ember}{\textbf{(c) Eng.}}\par\vspace{0.2em}
   oracle-gated\par pull request / change\par\vspace{0.25em}
-  {\scriptsize Archer}};
+  {\scriptsize Archer\par llvm-harness}};
 \node[jobInk] (d) at (10.65,0) {%
   \textbf{(d) Bring-up}\par\vspace{0.2em}
   coverage $\rightarrow$ performance\par sim + silicon\par\vspace{0.25em}
-  {\scriptsize TritorX\par KernelEvolve}};
+  {\scriptsize TritorX / KernelEvolve\par Zomboss}};
 \node[font=\scriptsize\sffamily,text=Mute,text width=12cm,align=center] at (5.3,-1.95)
   {Control plane jobs sit \emph{above} classical lowering --- not instead of it.};
 \end{tikzpicture}
@@ -586,7 +586,7 @@
 }
 \node[font=\sffamily\tiny,text=Mute] at (0,0.15) {bands = legality / lower surfaces \;$\cdot$\; local cost = proposal prior only};
 \node[draw=Ok,fill=Ok!10,rounded corners=5pt,minimum width=12.0cm,minimum height=0.65cm,text width=11.4cm,align=center,font=\sffamily\scriptsize,inner sep=5pt]
-  at (0,-0.50) {\textbf{Physical $F$-admit:} serving A/B $\rightarrow$ pinned traces $\rightarrow$ energy/fleet \;$\cdot$\; freeze or classical fallback};
+  at (0,-0.50) {\textbf{Physical $F$-admit:} serving A/B (GEAK v4) $\rightarrow$ pinned traces $\rightarrow$ energy/fleet \;$\cdot$\; freeze or classical fallback};
 \node[draw=Ink,fill=Ink!6,rounded corners=5pt,minimum width=5.7cm,minimum height=1.35cm,text width=5.3cm,align=left,font=\sffamily\tiny,inner sep=5pt]
   at (-3.1,-1.85) {%
   \textbf{Claimed}\par
@@ -641,7 +641,7 @@
   \textbullet\ Magellan \emph{and} MLGO both live\par\vspace{0.12em}
   \textbullet\ Oracle pull-request review in serious orgs\par\vspace{0.12em}
   \textbullet\ Coverage-first ASIC bring-up\par\vspace{0.12em}
-  \textbullet\ Triton-family primary; multi-DSL rising
+  \textbullet\ Triton-family primary; Cake IR / Argus DSL rising
 };
 \end{tikzpicture}
 \end{column}
@@ -771,7 +771,7 @@
 \begin{tikzpicture}
 \node[c25Box] {
   \textbf{C2} ``Agents become default'' needs \textbf{median (p50) build-CI wins}, not best-kernel blogs.\par\vspace{0.25em}
-  {\color{Mute}\scriptsize p50 / p90 = 50th / 90th percentile of the gain distribution across builds.}\par\vspace{0.35em}
+  {\color{Mute}\scriptsize p50 / p90 = 50th / 90th percentile. GEAK v4 A/B + Argus peak = \emph{pressure}, not settlement.}\par\vspace{0.35em}
   \textbf{C5} Online specialize (control files / hints) vs offline eng (Magellan/MLGO) --- both may live; \emph{which is the default flag?}\par\vspace{0.35em}
   \textbf{Settlement:} pinned public traces + release notes listing agent / control-file workflows.
 };
@@ -789,7 +789,7 @@
 % C3
 \node[anchor=west,font=\sffamily\small\bfseries,text=Warn] at (-6.1,2.20) {C3 --- free rewrite vs advisory};
 \node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.1,1.80) {Flip: shared suite where free rewrite consistently wins};
-\node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.1,1.48) {$\Rightarrow$ wide rewrite API \quad vs \quad narrow ACFs / hints (current lean)};
+\node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.1,1.48) {$\Rightarrow$ wide rewrite API \quad vs \quad ACFs / hints / Cake IR / Argus tags (current lean)};
 \draw[Line,line width=0.35pt] (-6.1,1.26) -- (6.1,1.26);
 % C6
 \node[anchor=west,font=\sffamily\small\bfseries,text=Ember] at (-6.1,0.92) {C6 --- replace vs control plane};
@@ -799,7 +799,7 @@
 % C9
 \node[anchor=west,font=\sffamily\small\bfseries,text=Steel] at (-6.1,-0.36) {C9 --- coverage vs peak};
 \node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.1,-0.76) {Flip: TritorX $\rightarrow$ KernelEvolve ladder becomes a public playbook};
-\node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.1,-1.08) {$\Rightarrow$ SKU: coverage SLA first, then performance SLA};
+\node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.1,-1.08) {$\Rightarrow$ SKU: coverage SLA then perf; Zomboss = academic analog, not 2nd vendor};
 \draw[Line,line width=0.35pt] (-6.1,-1.30) -- (6.1,-1.30);
 % C10
 \node[anchor=west,font=\sffamily\small\bfseries,text=Ink] at (-6.1,-1.64) {C10 --- codesign vs auto tape-out};
@@ -1033,13 +1033,13 @@
 % T1  (title=\small, body=\footnotesize)
 \node[anchor=west,font=\sffamily\small\bfseries,text=Steel] at (-6.15,2.32) {T1 Typed interfaces};
 \node[anchor=east,font=\sffamily\small\bfseries,text=Ember] at (6.15,2.32) {$\rightarrow$ C3, C5, C6};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ok] at (-6.15,1.98) {Exists: CompileIQ $\cdot$ ACCLAIM $\cdot$ mlir-opt-repl $\cdot$ FlashInfer Trace};
-\node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.15,1.68) {Missing: portable schemas across MLIR $\cdot$ Triton $\cdot$ Tile $\cdot$ StableHLO};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ok] at (-6.15,1.98) {Exists: CompileIQ $\cdot$ Cake IR $\cdot$ Argus tags $\cdot$ Zomboss};
+\node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.15,1.68) {Missing: portable schemas across MLIR $\cdot$ Triton $\cdot$ Tile $\cdot$ Cake $\cdot$ Argus};
 \draw[Line,line width=0.35pt] (-6.15,1.48) -- (6.15,1.48);
 % T2
 \node[anchor=west,font=\sffamily\small\bfseries,text=Steel] at (-6.15,1.18) {T2 Admit / fallback};
 \node[anchor=east,font=\sffamily\small\bfseries,text=Ember] at (6.15,1.18) {$\rightarrow$ C6 hybrid};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ok] at (-6.15,0.84) {Exists: AgentCompile $\cdot$ Archer $\cdot$ TritonRL verifiers $\cdot$ FlashInfer-Bench};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ok] at (-6.15,0.84) {Exists: Archer $\cdot$ Cake gates $\cdot$ Argus SMT $\cdot$ FlashInfer-Bench};
 \node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.15,0.54) {Missing: shared admit \emph{product} + trusted deterministic fallback};
 \draw[Line,line width=0.35pt] (-6.15,0.34) -- (6.15,0.34);
 % T3
@@ -1057,7 +1057,7 @@
 % T5
 \node[anchor=west,font=\sffamily\small\bfseries,text=Steel] at (-6.15,-2.24) {T5 Dialect / ISA sinks};
 \node[anchor=east,font=\sffamily\small\bfseries,text=Ember] at (6.15,-2.24) {$\rightarrow$ C9, C10};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ok] at (-6.15,-2.58) {Exists: TritorX $\cdot$ KernelEvolve $\cdot$ Ascend diagnosis};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ok] at (-6.15,-2.58) {Exists: TritorX $\cdot$ KernelEvolve $\cdot$ Cake IR evol $\cdot$ Zomboss};
 \node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.15,-2.88) {Missing: first-class change-\emph{proposal} surfaces (not auto tape-out)};
 \end{tikzpicture}
 \end{center}
@@ -1074,7 +1074,7 @@
 % T6
 \node[anchor=west,font=\sffamily\small\bfseries,text=Amber] at (-6.15,2.32) {T6 Serving oracles / A/B};
 \node[anchor=east,font=\sffamily\small\bfseries,text=Ember] at (6.15,2.32) {$\rightarrow$ C2};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ok] at (-6.15,1.98) {Exists: unit/golden/Alive2 $\cdot$ \textbf{FlashInfer-Bench}+\texttt{apply()} $\cdot$ VibeServe};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ok] at (-6.15,1.98) {Exists: Alive2 $\cdot$ \textbf{FlashInfer-Bench}+\texttt{apply()} $\cdot$ \textbf{GEAK v4} A/B};
 \node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.15,1.68) {Missing: whole-program / GPU-race / FP; multi-month default-path A/B};
 \draw[Line,line width=0.35pt] (-6.15,1.48) -- (6.15,1.48);
 % T7
@@ -1086,13 +1086,13 @@
 % T8
 \node[anchor=west,font=\sffamily\small\bfseries,text=Amber] at (-6.15,0.04) {T8 Benchmark ladder};
 \node[anchor=east,font=\sffamily\small\bfseries,text=Ember] at (6.15,0.04) {$\rightarrow$ C2, C9};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ok] at (-6.15,-0.30) {Exists: KernelBench(-X) $\cdot$ FlashInfer-Bench serving-kernel rung};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ok] at (-6.15,-0.30) {Exists: KernelBench(-X) $\cdot$ FlashInfer-Bench $\cdot$ llvm-bench};
 \node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.15,-0.60) {Missing: full IR$\rightarrow$kernel$\rightarrow$fused$\rightarrow$serving + cost-to-compile};
 \draw[Line,line width=0.35pt] (-6.15,-0.80) -- (6.15,-0.80);
 % T9
 \node[anchor=west,font=\sffamily\small\bfseries,text=Amber] at (-6.15,-1.10) {T9 Provenance / HITL};
 \node[anchor=east,font=\sffamily\small\bfseries,text=Ember] at (6.15,-1.10) {$\rightarrow$ C7};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ok] at (-6.15,-1.44) {Exists: Magellan reviewable C++ $\cdot$ Archer oracle review};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ok] at (-6.15,-1.44) {Exists: Magellan C++ $\cdot$ Archer $\cdot$ llvm-harness};
 \node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.15,-1.74) {Missing: CODEOWNERS + signed admit records + sandbox for proposals};
 \draw[Line,line width=0.35pt] (-6.15,-1.94) -- (6.15,-1.94);
 % T10
@@ -1117,7 +1117,7 @@
 % C2
 \node[anchor=west,font=\sffamily\small\bfseries,text=Ember] at (-6.15,1.48) {C2 $\leftarrow$ T3 + T6 + T8};
 \node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,1.13) {Replayable artifacts + serving oracles + ladder};
-\node[anchor=west,font=\sffamily\scriptsize,text=Mute] at (-6.15,0.88) {FlashInfer-Bench = pressure, not settlement};
+\node[anchor=west,font=\sffamily\scriptsize,text=Mute] at (-6.15,0.88) {FlashInfer-Bench + GEAK v4 A/B = pressure, not settlement};
 \draw[Line,line width=0.35pt] (-6.15,0.66) -- (6.15,0.66);
 % C5
 \node[anchor=west,font=\sffamily\small\bfseries,text=Ink] at (-6.15,0.36) {C5 $\leftarrow$ T1 + T3};
@@ -1129,7 +1129,7 @@
 \draw[Line,line width=0.35pt] (-6.15,-1.08) -- (6.15,-1.08);
 % C9
 \node[anchor=west,font=\sffamily\small\bfseries,text=Steel] at (-6.15,-1.38) {C9 $\leftarrow$ T5 + T8};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,-1.73) {Coverage$\rightarrow$perf agents + dialect sinks; need 2nd-vendor TritorX-class path};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,-1.73) {Coverage$\rightarrow$perf + dialect sinks; Zomboss analog $\neq$ 2nd-vendor shipping};
 \draw[Line,line width=0.35pt] (-6.15,-1.95) -- (6.15,-1.95);
 % C10
 \node[anchor=west,font=\sffamily\small\bfseries,text=Mute] at (-6.15,-2.25) {C10 $\leftarrow$ T5};
@@ -1158,7 +1158,7 @@
 % 3
 \node[anchor=west,font=\sffamily\small\bfseries,text=Steel] at (-6.15,0.36) {3. Portable agent compile interface (T1)};
 \node[anchor=east,font=\sffamily\footnotesize,text=Mute] at (6.15,0.36) {w/o $\rightarrow$ re-glue};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,0.01) {summaries $\cdot$ actions $\cdot$ admit records across MLIR / Triton / Tile / StableHLO};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,0.01) {summaries $\cdot$ actions $\cdot$ admit across MLIR / Triton / Tile / Cake / Argus};
 \draw[Line,line width=0.35pt] (-6.15,-0.22) -- (6.15,-0.22);
 % 4
 \node[anchor=west,font=\sffamily\small\bfseries,text=Ink] at (-6.15,-0.56) {4. Open ladder + multi-IR data (T7+T8)};
@@ -1334,18 +1334,21 @@
 \node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-2.4,2.20) {AlphaEvolve Cloud (GA); Magellan + MLGO (heuristics \emph{and} advisors)};
 \draw[Line,line width=0.3pt] (-6.15,1.95) -- (6.15,1.95);
 \node[anchor=west,font=\sffamily\footnotesize\bfseries,text=Amber] at (-6.15,1.65) {NVIDIA};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-2.4,1.65) {CompileIQ (+ agent-skills); CUDA Tile / Tile IR; TensorRT-LLM agent skills};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-2.4,1.65) {CompileIQ (+ skills); Tile IR; Cake IR (research); TRT-LLM agents};
 \draw[Line,line width=0.3pt] (-6.15,1.40) -- (6.15,1.40);
 \node[anchor=west,font=\sffamily\footnotesize\bfseries,text=Ember] at (-6.15,1.10) {AMD};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-2.4,1.10) {GEAK (multi-agent Triton / Instinct kernel optimization)};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-2.4,1.10) {GEAK v4 e2e A/B (sglang/vLLM warm path)};
 \draw[Line,line width=0.3pt] (-6.15,0.85) -- (6.15,0.85);
-\node[anchor=west,font=\sffamily\footnotesize\bfseries,text=Ink] at (-6.15,0.55) {Meta};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-2.4,0.55) {LLM Compiler / KernelLLM; TritorX + KernelEvolve; Helion};
+\node[anchor=west,font=\sffamily\footnotesize\bfseries,text=Warn] at (-6.15,0.55) {CausalFlow et al.};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-2.4,0.55) {Argus SMT / tags (MI300X research --- not an AMD SKU)};
 \draw[Line,line width=0.3pt] (-6.15,0.30) -- (6.15,0.30);
-\node[anchor=west,font=\sffamily\footnotesize\bfseries,text=Ok] at (-6.15,0.00) {FlashInfer};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-2.4,0.00) {FlashInfer-Bench (serving-trace ladder + \texttt{apply()} into SGLang/vLLM)};
+\node[anchor=west,font=\sffamily\footnotesize\bfseries,text=Ink] at (-6.15,0.00) {Meta};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-2.4,0.00) {LLM Compiler / KernelLLM; TritorX + KernelEvolve; Helion};
 \draw[Line,line width=0.3pt] (-6.15,-0.25) -- (6.15,-0.25);
-\node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.15,-0.60) {Tier B baselines: TensorRT-LLM $\cdot$ Inductor $\cdot$ XLA/StableHLO $\cdot$ FlashInfer $\cdot$ Modular MAX $\cdot$ OpenVINO $\cdot$ Neuron $\cdot$ Hexagon-MLIR};
+\node[anchor=west,font=\sffamily\footnotesize\bfseries,text=Ok] at (-6.15,-0.55) {FlashInfer};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-2.4,-0.55) {FlashInfer-Bench (serving-trace ladder + \texttt{apply()} into SGLang/vLLM)};
+\draw[Line,line width=0.3pt] (-6.15,-0.80) -- (6.15,-0.80);
+\node[anchor=west,font=\sffamily\footnotesize,text=Mute,text width=12.3cm,align=left] at (-6.15,-1.15) {Tier B baselines: TensorRT-LLM $\cdot$ Inductor $\cdot$ XLA/StableHLO $\cdot$ FlashInfer $\cdot$ Modular MAX $\cdot$ OpenVINO $\cdot$ Neuron $\cdot$ Hexagon-MLIR};
 \end{tikzpicture}
 \end{center}
 \end{frame}
@@ -1357,11 +1360,11 @@
 \vspace{-0.4em}
 \begin{tikzpicture}
 \node[anchor=west,font=\sffamily\small\bfseries,text=Steel] at (-6.15,2.30) {Offline / review / heuristics};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,1.90) {OpenEvolve $\cdot$ HeuriGym $\cdot$ Archer $\cdot$ Compiler-R1 $\cdot$ HintPilot $\cdot$ mlirAgent};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,1.90) {OpenEvolve $\cdot$ HeuriGym $\cdot$ Archer $\cdot$ llvm-harness $\cdot$ Compiler-R1 $\cdot$ mlirAgent};
 \draw[Line,line width=0.35pt] (-6.15,1.65) -- (6.15,1.65);
 \node[anchor=west,font=\sffamily\small\bfseries,text=Amber] at (-6.15,1.30) {Online / kernels / bring-up};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,0.90) {ACCLAIM $\cdot$ CompileIQ $\cdot$ GEAK $\cdot$ KernelAgent $\cdot$ KernelBench(-X)};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,0.55) {FlashInfer-Bench $\cdot$ AutoKernel $\cdot$ Helion $\cdot$ TritorX / KernelEvolve};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,0.90) {ACCLAIM $\cdot$ CompileIQ $\cdot$ GEAK v4 $\cdot$ KernelAgent $\cdot$ KernelBench(-X)};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,0.55) {FlashInfer-Bench $\cdot$ AutoKernel $\cdot$ Helion $\cdot$ TritorX / KernelEvolve / Zomboss};
 \draw[Line,line width=0.35pt] (-6.15,0.30) -- (6.15,0.30);
 \node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.15,-0.10) {Tiers: A = agents + domain oracles change heuristics/kernels/knobs/review};
 \node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.15,-0.45) {B = data-plane hosts \quad$\cdot$\quad C = generic forge AI (demoted for prediction)};
@@ -1383,12 +1386,12 @@
 \node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-2.6,1.55) {Magellan $\cdot$ ACCLAIM $\cdot$ EmitC-MLGO June 2026 PoR};
 \draw[Line,line width=0.3pt] (-6.15,1.30) -- (6.15,1.30);
 \node[anchor=west,font=\sffamily\footnotesize\bfseries,text=Ember] at (-6.15,0.95) {Bring-up / codesign};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-2.6,0.95) {TritorX $\cdot$ KernelEvolve $\cdot$ Ascend diagnosis $\cdot$ KForge};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-2.6,0.95) {TritorX $\cdot$ KernelEvolve $\cdot$ Zomboss $\bigstar$ $\cdot$ KForge};
 \draw[Line,line width=0.3pt] (-6.15,0.70) -- (6.15,0.70);
 \node[anchor=west,font=\sffamily\footnotesize\bfseries,text=Ok] at (-6.15,0.35) {Kernels / ladder / data};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-2.6,0.35) {CompileIQ $\cdot$ FlashInfer-Bench $\bigstar$ $\cdot$ KernelBook $\bigstar$ $\cdot$ AutoKernel $\cdot$ CuTeGen $\cdot$ Auto $\cdot$ FlowCompile};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-2.6,0.35) {Cake $\bigstar$ $\cdot$ Argus $\bigstar$ $\cdot$ GEAK v4 $\bigstar$ $\cdot$ FlashInfer-Bench $\bigstar$ $\cdot$ KernelBook};
 \node[font=\sffamily\footnotesize,text=Mute,text width=12cm,align=center] at (0,-0.40)
-  {Full digest index $\sim$115 entries. Technique map: SURVEY §5.8 T1--T10.};
+  {Full digest index 122 entries. Technique map: SURVEY §5.8 T1--T10.};
 \end{tikzpicture}
 \end{center}
 \end{frame}
@@ -1399,10 +1402,10 @@
 \begin{center}
 \vspace{-0.35em}
 \begin{tikzpicture}
-\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,2.20) {\textbf{17} GPU kernels \& inference \quad \textbf{13} Agentic \& RL \quad \textbf{13} Source control \& review};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,1.65) {\textbf{10} Classic DL compilers \quad \textbf{10} Company infra \quad \textbf{9} Forums \& workshops};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,2.20) {\textbf{24} GPU kernels \& inference \quad \textbf{14} Agentic \& RL \quad \textbf{14} Source control \& review};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,1.65) {\textbf{10} Classic DL compilers \quad \textbf{10} Company infra \quad \textbf{10} Forums \& workshops};
 \node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,1.10) {\textbf{8} Surveys \& vision \quad \textbf{8} Foundation LLMs \quad \textbf{6} MLGO \& RL gyms};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,0.55) {\textbf{5} HW codesign \& bring-up \quad \textbf{4} Commercial products \quad \textbf{4} Control-plane substrate};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,0.55) {\textbf{6} HW codesign \& bring-up \quad \textbf{6} Commercial products \quad \textbf{5} Control-plane substrate \quad \textbf{1} Correctness lineage};
 \draw[Line,line width=0.35pt] (-6.15,0.20) -- (6.15,0.20);
 \node[anchor=west,font=\sffamily\small\bfseries,text=Mute] at (-6.15,-0.20) {How digests are used};
 \node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,-0.60) {Mechanism first; demote generic forge AI; keep both sides --- do not average};

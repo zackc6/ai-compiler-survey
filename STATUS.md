@@ -43,6 +43,7 @@ Last updated: **2026-08-24**
 
 | Date | Change |
 |---|---|
+| 2026-08-24 | Beamer + EN/zh-TW transcripts: fold August wave (Cake, Argus, GEAK v4, Zomboss, T-LLM, llvm-harness) into slides 4/7/12/14/17–18/28–31/38–41; Argus under CausalFlow not AMD; index **122**; sharing PDF rebuilt |
 | 2026-08-24 | Add missed **Argus** ★ (arXiv:2604.18616): data-flow invariants + SMT; INDEX **122**; thin T1/T2/C3/C4; survey PDF rebuilt |
 | 2026-08-24 | August evidence wave: Cake ★, Zomboss ★, GEAK v4 ★, T-LLM, GEAK MLA, llvm-harness; INDEX **121**; thin SURVEY §0.1/§1/§4–§8 + T1/T2/T5/T6/T8; goal-align holds hybrid; survey PDF rebuilt |
 | 2026-08-06 | Beamer slide 11: fix bottom size-callout overlap (fit+below gutter); bet line = priors+e2e controller; EN+zh-TW |

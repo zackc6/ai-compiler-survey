@@ -12,10 +12,10 @@
 生產 AI 路徑仍是帶機構指紋的經典堆疊：Meta PyTorch → TorchInductor → Triton（OpenAI 起源、社群維護）；並行 **StableHLO** / **HLO**（高階運算）→ OpenXLA/Google XLA 與 IREE。峰值效能往往仍在 NVIDIA 廠商函式庫、CUDA Tile、CUTLASS、FlashAttention 級核心。**MLIR**（多層中間表示）是共用的中階 IR；產品 lowering 路徑依廠商而分。
 
 **D — 核心智慧體走向工業化。**
-KernelBench（Stanford / Princeton Scaling Intelligence）要求核心既正確*又*更快；一次成功率常低於 20%，融合仍很難。GEAK（AMD）在 Instinct 上對 Triton 跑生成—評估—反思—最佳化。KernelLLM（Meta）以較小模型專做 PyTorch→Triton。AgentCompile（CityU）為 transformer 圖界定 CUDA 特化範圍。收尾：反覆精煉比速度更能可靠拉高正確率——這才是新模型與非 NVIDIA **GPU**（圖形處理單元）硬體的可攜性瓶頸。
+KernelBench（Stanford / Princeton Scaling Intelligence）要求核心既正確*又*更快；一次成功率常低於 20%，融合仍很難。**GEAK v4**（AMD）已不是單核心迴圈：`e2e_workflow` 先用 Amdahl 在熱的 sglang/vLLM 伺服器上分流，只對能動到吞吐量的核心再搜，並做熱伺服器 **A/B** 與輸出對等。**Cake**（NVIDIA / CMU）讓智慧體寫型別化 **Cake IR** 排程——warp 角色、屏障、記憶體層級——並勝過對照的 CUDA/PTX 搜尋；Kimi Delta Attention 已在 SGLang 驗證。**Argus**（CausalFlow / HKUST / Stanford 等）用 tag 函式與編譯期 **SMT**（可滿足性模理論）檢查版面代數；作者報告在 GEMM / attention / MoE 上達到 MI300X 手調組合語言 **TFLOPS** 的 99–104%。收尾：公開梯子上，精煉仍比速度更能可靠拉高正確率——函式庫級峰值仍是精選家族（**C2** 未結）。
 
 **E — 驗證進入迴圈。**
-疊起 oracle 階梯：單元與 golden 測試、相對參考的數值檢查（AgentCompile 式），再到 Alive2 級局部形式等價（Alive2 來自 UIUC / formal-IR 脈絡；用於 LLM-VeriOpt 式獎勵）。局部很強；**GPU** 競態與浮點非確定性上很弱。要拿錢上線，需要這整條階梯，不是單一檢查。
+疊起判定預言機階梯：單元與 golden 測試、相對參考的數值檢查、Alive2 級局部形式等價（UIUC 脈絡；LLM-VeriOpt 式獎勵）、**Argus** 編譯期 SMT 加執行緒級反例，以及 **T-LLM Compiler**（華為）在 PolyBench/C 上串 Alive2 + **CBMC**（C 有界模型檢查器）。局部很強；**GPU** 競態與浮點非確定性上很弱。要拿錢上線，需要這整條階梯，不是單一檢查。
 
 **F — 編譯器擴大可編譯物件。**
 超越圖→二進位：生成式編譯迴圈中的中途解碼診斷；FMware——提示、智慧體、自由參數——在 Compiler.next（Queen's University）裡成為可編譯物件。Magellan（Google）把智慧體當樹內啟發式工程師。Anthropic 的 Claude C Compiler 展示智慧體團隊*打造*編譯器（~100kLoC Rust）——智慧體作為編譯器工程師的鄰近證據，不只是編譯期最佳化器。

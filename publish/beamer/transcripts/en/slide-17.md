@@ -10,7 +10,7 @@ Bar one: **vendor headline ~15%** — best-case kernel or pass-order win on cher
 - **p90** — 90th percentile: near-tail wins; still not single best blog post.
 
 **C2 — agents become default.**
-“Agents are default” requires **median (p50) build-CI wins** on **pinned public traces** — reproducible, distributional evidence. One KernelBench hero or one LLVM inliner win is necessary but not sufficient. Settlement: published trace suite + reported p50/p90, not headline only.
+“Agents are default” requires **median (p50) build-CI wins** on **pinned public traces** — reproducible, distributional evidence. One KernelBench hero, one LLVM inliner win, **Argus** 99–104% of MI300X assembly on three families, or **GEAK v4** warm A/B on a selected serving stack is *pressure*, not settlement. Settlement: published trace suite + reported p50/p90 + cost-to-compile, not headline only.
 
 **C5 — online specialize vs offline eng.**
 Two coexistence modes — both may live:

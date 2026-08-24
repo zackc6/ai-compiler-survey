@@ -1,23 +1,26 @@
-# 幻燈片 38：附錄 — A 級證明商業訊號
+# 幻燈片 38：附錄 — A 級商業訊號
 
-塑造船舶的等級證明產品。幻燈片上：公司樂隊 + B 級證明頁尾。口語：將每個供應商視為“訊號”，而不是認可——他們公開的機制。
+塑造出貨的 A 級產品。幻燈片上：公司帶 + B 級頁尾。口播：把每家當*訊號*，不是背書——他們暴露什麼機制。
 
-**谷歌/DeepMind。**
-AlphaEvolve Cloud (GA) — 雲中的進化編碼。 Magellan + MLGO 並行 — 啟發式綜合*和*樹內學習顧問（C1 正在生產中）。訊號：離線智慧體作為輸出和樹內神經網路顧問共存。
+**Google / DeepMind。**
+AlphaEvolve Cloud（GA）——雲上的演化編碼。Magellan + MLGO 並行——啟發式合成 *與* 樹內學習顧問（C1 已在生產）。訊號：離線智慧體當輸出，與樹內神經顧問共存。
 
-**英偉達。**
-CompileIQ 具有智慧體技能 — 線上專業化 ACF 級控制檔案。 CUDA Tile / Tile IR — 硬體本機核心表面智慧體必須定址。 TensorRT-LLM 智慧體技能 — 服務堆疊整合。 Signal：型別化工具 + 核心 DSL + 服務，不僅僅是聊天。
+**NVIDIA。**
+CompileIQ 加智慧體技能——線上特化、ACF 級控制檔。CUDA Tile / Tile IR——硬體原生核心面。**Cake IR**（與 CMU 的研究）——型別化排程 IR 加演化驗證器；已做 serving 驗證的 KDA。TensorRT-LLM 智慧體技能——服務堆疊整合。訊號：型別化工具 + 核心 DSL + serving，不是只聊天。
 
 **AMD。**
-GEAK — Instinct 上針對 Triton 的多智慧體生成、評估、反映、最佳化。訊號：核心智慧體在第二供應商硬體上走向工業化（C9 壓力）。
+**GEAK v4**——在熱的 sglang/vLLM 上做 Amdahl 分流、遞迴核心工作流、熱伺服器 A/B + 輸出對等。訊號：具名廠商迴圈在追 serving **F**，不只核心 microbench。仍不是公開 p50 預設路徑（**C2**）。
 
-**元。**
-LLM 編譯器/KernelLLM — IR 和 PyTorch→Triton 專業化。 TritorX + KernelEvolve — 使能/啟動/軟硬體良好設計反饋（作業 d）。 Helion — 核心 DSL 路徑。訊號：從行動式圖形到矽反饋的完整堆疊，仍然是混合的。
+**CausalFlow 等。**
+**Argus**——MI300X 上的資料流不變量 + SMT；精選家族達組合語言 TFLOPS 的 99–104%。研究論文，**不是** AMD SKU。訊號：Instinct 級硬體上存在編譯期核心 admit；三個家族的峰值是 C2 *著色*，不是結算。
+
+**Meta。**
+LLM Compiler / KernelLLM — IR 與 PyTorch→Triton 特化。TritorX + KernelEvolve — 使能／拉起／協同設計迴授（工作 d）。Helion — 核心 DSL 路徑。訊號：從可攜圖到矽迴授的完整堆疊，仍是混合。
 
 **FlashInfer。**
-FlashInfer-Bench — 使用“apply()”將跟蹤階梯服務到 SGLang/vLLM。訊號：T6/T8 服務核心梯級存在；結算仍需要預設路徑A/B（C2）。
+FlashInfer-Bench — serving-trace 梯子，用 `apply()` 進 SGLang/vLLM。訊號：T6/T8 serving 核心階存在；結算仍要預設路徑 A/B（C2）。
 
-**B 級證據基線（頁尾）。**
-TensorRT-LLM、Inductor、XLA/StableHLO、FlashInfer 執行時、Modular MAX、OpenVINO、Neuron、Hexagon-MLIR — 智慧體必須互操作而不是替換的資料平面預設值 (C6-B)。
+**B 級基線（頁尾）。**
+TensorRT-LLM、Inductor、XLA/StableHLO、FlashInfer 執行期、Modular MAX、OpenVINO、Neuron、Hexagon-MLIR — 智慧體必須互通、不能取代的資料面預設（C6-B）。
 
-結束節奏：等級證據告訴您供應商在智慧體控制方面下注的地方； B級證據是仍然必須承認和降低的。
+收尾：A 級告訴你廠商把賭注押在智慧體控制面哪裡；B 級是仍必須接納與 lowering 的東西。

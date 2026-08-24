@@ -12,7 +12,7 @@ Joint or bilevel policy with **credit assignment across bands** — a win at L4 
 Bands remain **legality / lower surfaces** — classical compilers still own correctness. Local cost models (slide 11) are **proposal priors only**; physical measurement and **F**-admit decide what ships.
 
 **Physical F-admit (green bar).**
-Serving A/B → pinned traces → energy/fleet measurement. Admit on real **F**, not proxy microbench alone. On failure: **freeze** last good artifact or **classical fallback** — never silent bad codegen in production.
+Serving A/B → pinned traces → energy/fleet measurement. Admit on real **F**, not proxy microbench alone. **GEAK v4** is the first *named vendor loop* that does warm-server A/B plus output parity after Amdahl triage — exists-cell for **T6**, still not multi-month default-path p50/p90 (**C2** open). On failure: **freeze** last good artifact or **classical fallback** — never silent bad codegen in production.
 
 **Claimed vs not claimed (bottom two boxes).**
 *Claimed:* **e2e-optimal-*seeking*** control plane — joint search + **F**-admit + freeze. This is the SURVEY lean for Horizon A–B.

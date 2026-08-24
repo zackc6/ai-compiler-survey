@@ -8,9 +8,9 @@ Walk each bullet with a spoken example:
 - **Agent-addressable tool interfaces** — typed **MCP**-class servers, compile schema, admit hooks on Inductor/XLA/MLIR paths.
 - **Hot-path specialize, not silent default-all** — agents run on pinned traces / hot kernels; classical path remains default for long tail.
 - **Magellan *and* MLGO both live** — evolutionary C++ heuristics *and* in-tree neural advisors; **C1** may settle a default, but both families persist in serious orgs.
-- **Oracle PR review in serious orgs** — Archer-class oracle-gated **PR** (pull request) before agent-generated compiler changes merge.
-- **Coverage-first ASIC bring-up** — job (d): correctness surface before peak perf on new **NPU**/**ASIC** SKUs; TritorX ladder.
-- **Triton-family primary; multi-DSL rising** — Triton/Tile/CuTe coexist; no single kernel DSL monopoly.
+- **Oracle PR review in serious orgs** — Archer-class / **llvm-harness** oracle-gated **PR** (pull request) before agent-generated compiler changes merge.
+- **Coverage-first ASIC bring-up** — job (d): correctness surface before peak perf on new **NPU**/**ASIC** SKUs; TritorX ladder; Zomboss compile-once mapping on research accelerators.
+- **Triton-family primary; Cake IR / Argus DSL rising** — Triton/Tile/CuTe/Cake/Argus coexist; no single kernel DSL monopoly (**C4** more contested).
 
 **Right — Does *not* ship (ember).**
 Say these as explicit non-goals — saves roadmap arguments later:

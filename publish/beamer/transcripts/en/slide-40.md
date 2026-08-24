@@ -9,12 +9,12 @@ Compiler 2.0 (Ken Kennedy, MIT) — compilers broaden their object. DARPA MOCHA 
 Magellan — shippable C++ heuristics (C1). ACCLAIM — online tool loops. EmitC-MLGO June 2026 PoR — in-tree advisor path (C1 B-side). Mechanism contrast: evolve code vs train networks.
 
 **Bring-up / codesign.**
-TritorX, KernelEvolve — coverage→performance on real hardware (C9). Ascend diagnosis, KForge — vendor bring-up loops. Proposals to dialect/ISA, not autonomous tape-out (C10 boundary).
+TritorX, KernelEvolve — coverage→performance on real hardware (C9). **Zomboss** ★ — compile-once mapping contract on Gemmini/PLENA (academic analog, not second-vendor shipping). KForge — multi-DSL bring-up. Proposals to dialect/ISA, not autonomous tape-out (C10 boundary).
 
 **Kernels / ladder / data.**
-CompileIQ — ACF and agent skills. FlashInfer-Bench ★ — serving ladder. KernelBook ★ — training data toward TritonRL. Auto, FlowCompile — workflow compile / freeze substrate (T10). CuTeGen — hardware-native generation.
+**Cake** ★ — typed schedule IR, NVIDIA. **Argus** ★ — data-flow invariants + SMT, MI300X. **GEAK v4** ★ — vendor e2e serving A/B. FlashInfer-Bench ★ — serving-trace ladder + `apply()`. KernelBook ★ — training pairs toward TritonRL.
 
 **Pointers.**
-Full digest index ~115 entries in the evidence store. Technique map cross-ref: SURVEY §5.8 T1–T10. Read ★ first when prepping checkpoint arguments.
+Full digest index **122** entries in the evidence store. Technique map cross-ref: SURVEY §5.8 T1–T10. Read ★ first when prepping checkpoint arguments.
 
 Closing beat: ★ digests are the shortest path from claim to citable mechanism — use them before general web search.

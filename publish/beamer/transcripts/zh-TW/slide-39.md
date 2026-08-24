@@ -1,17 +1,17 @@
-# Slide 39：附錄 — A 級證據開放儲存庫
+# 幻燈片 39：附錄 — A 級開放儲存庫
 
-A 級證明按工作型別開放儲存庫。幻燈片上：兩條帶+一層光澤。口語：將儲存庫對映到作業 (a)–(d) 和層語義。
+依工作類型的 A 級開放儲存庫。幻燈片上：兩條帶 + 層級註。口播：把儲存庫對到工作 (a)–(d) 與層級語意。
 
-**離線/審查/啟發式。**
-OpenEvolve、HeuriGym — 進化啟發式搜尋。 Archer — 判定預測機門拉取請求審查。 Compiler-R1 — 工具呼叫通道搜尋 (SFT+RL)。 HintPilot — 編譯器驗證的編譯指示。 mlir 智慧體 — IR 變換基線（脆弱；可用作 C3 的負壓）。工作 (b) 離線和工作 (c) 工程審查。
+**離線／審查／啟發式。**
+OpenEvolve、HeuriGym — 演化啟發式搜尋。Archer — 判定預言機閘控的拉取請求審查。**llvm-harness** — LLVM 工具 + llvm-bench + 自動修復／自動審查（Archer 系譜）。Compiler-R1 — 工具呼叫 pass 搜尋（SFT+RL）。mlirAgent — IR 變換基線（脆弱；當 C3 的負壓有用）。工作 (b) 離線與工作 (c) 工程審查。
 
-**線上/核心/使能/拉起。**
-ACCLAIM、CompileIQ — 線上提出→測量→承認。 GEAK，核心智慧體 — 核心生成迴圈。 KernelBench(-X) — 正確性和速度階梯。 FlashInfer-Bench — 服務跟蹤。 AutoKernel、Helion — 核心 DSL 表面。 TritorX / KernelEvolve — sim/silicon→方言反饋（作業 d）。工作 (a) 線上工作和 (d) 使能/拉起。
+**線上／核心／使能拉起。**
+ACCLAIM、CompileIQ — 線上提議→量測→接納。**GEAK v4**、KernelAgent — 核心迴圈，現在也有端到端 serving。KernelBench(-X) — 正確性與速度梯子。FlashInfer-Bench — serving trace。AutoKernel、Helion — 核心 DSL 面。TritorX / KernelEvolve / **Zomboss** — 模擬／矽→方言，或一次編譯對映（工作 d）。工作 (a) 線上與 (d) 使能／拉起。
 
-**等級定義。**
-A = 智慧體 + 領域 判定預示機改變啟發式、核心、旋鈕或審查 — 預測相關。 B = 智慧體附加到的資料平面主機。 C = 僅通用鍛造 AI — 有用的工具，降級用於檢查點結算 (C7)。
+**層級定義。**
+A = 智慧體 + 領域判定預言機改變啟發式、核心、旋鈕或審查——與預測相關。B = 智慧體掛上去的資料面宿主。C = 只有通用 forge AI——工具有用，對檢查點結算降級（C7）。
 
-**如何在討論中使用。**
-當有人引用一個儲存庫時，問：A 級證據機制還是 C 級證據演示？指向工作信——它是凍結文物、用判定預測機承認，還是隻是聊天？
+**討論怎麼用。**
+有人引用儲存庫時問：A 級機制還是 C 級演示？指到工作字母——它是 freeze 產物、用判定預言機接納，還是只聊天？
 
-結束語：這是一個針對混合預測精心策劃的偽造地圖——並非每個 GitHub 儲存庫都標記為“編譯器 AI”。
+收尾：這是給混合預測策展的 forge 地圖——不是每個標了「compiler AI」的 GitHub 儲存庫。

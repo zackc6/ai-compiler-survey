@@ -12,7 +12,7 @@
 層帶仍是**合法性／lowering 介面**——經典編譯器仍擁有正確性。局部成本模型（幻燈片 11）**只是提案先驗**；實測與 **F**-admit 決定什麼能出貨。
 
 **實測 F-admit（綠色條）。**
-Serving A/B → 釘死的 trace → 能耗／機群量測。在真實 **F** 上 admit，不能只靠 proxy microbench。失敗時：**freeze** 上一版好產物或**經典 fallback**——生產絕不默默放行爛 codegen。
+Serving A/B → 釘死的 trace → 能耗／機群量測。在真實 **F** 上 admit，不能只靠 proxy microbench。**GEAK v4** 是第一個*具名廠商迴圈*：Amdahl 分流後做熱伺服器 A/B 與輸出對等——這是 **T6** 的 exists 格，仍不是多月預設路徑 p50/p90（**C2** 未結）。失敗時：**freeze** 上一版好產物或**經典 fallback**——生產絕不默默放行爛 codegen。
 
 **主張 vs 不主張（底部兩框）。**
 *主張：* **e2e-optimal-*seeking*** 控制面——聯合搜尋 + **F**-admit + freeze。這是 SURVEY 對 Horizon A–B 的 lean。
