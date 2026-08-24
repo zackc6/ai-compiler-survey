@@ -10,7 +10,7 @@
 | **Link** | [https://arxiv.org/abs/2512.23236](https://arxiv.org/abs/2512.23236) |
 | **Venue** | ISCA 2026 (arXiv:2512.23236) |
 | **Evidence tier** | **A** — production-scale agentic kernels across NVIDIA / AMD / MTIA |
-| **Also** | [Meta Engineering blog](kernelevolve-blog.md) (Ranking Engineer Agent series, 2026-04-02) |
+| **Also** | [Meta Engineering blog](kernelevolve-blog.md) (Ranking Engineer Agent series, 2026-04-02); arXiv v4 technical report (2026-08-11) + ISCA 2026 paper |
 
 ## Key contributions
 

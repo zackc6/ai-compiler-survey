@@ -62,6 +62,7 @@ META: dict[str, tuple[str, str]] = {
     "hintpilot.md": ("Zhejiang University · Purdue", "arXiv"),
     "acclaim.md": ("AWS AI · Georgia Tech", "arXiv"),
     "acclaim-github.md": ("Amazon Science / AWS AI", "GitHub"),
+    "t-llm-compiler.md": ("Huawei Technologies, Heterogeneous Compiler Lab", "arXiv"),
     "generative-compilation.md": ("ETH Zurich · INSAIT/Sofia University · UC Berkeley", "arXiv"),
     # GPU kernels
     "kernelbench.md": ("Stanford · Princeton", "arXiv"),
@@ -72,6 +73,8 @@ META: dict[str, tuple[str, str]] = {
     "geak-rocm-blog.md": ("AMD", "AMD ROCm blog"),
     "geak-github.md": ("AMD AGI", "GitHub"),
     "geak-v3-rocm-blog.md": ("AMD", "AMD ROCm blog"),
+    "geak-v4-github.md": ("AMD", "GitHub"),
+    "geak-mla-rocm-blog.md": ("AMD", "AMD ROCm blog"),
     "kernelllm.md": ("Meta", "Hugging Face"),
     "reasoning-compiler.md": ("UC San Diego", "arXiv"),
     "agentcompile.md": ("City University of Hong Kong", "arXiv"),
@@ -80,6 +83,7 @@ META: dict[str, tuple[str, str]] = {
     "autokernel-github.md": ("RightNow AI", "GitHub"),
     "kernel-forge.md": ("University of Michigan", "arXiv"),
     "kernelblaster.md": ("NVIDIA · UC Berkeley", "arXiv"),
+    "cake.md": ("NVIDIA · Carnegie Mellon University", "arXiv"),
     "awesome-llm-kernel-generation.md": ("FlagOpen / flagos-ai", "GitHub"),
     "kernelagent.md": ("Meta (PyTorch)", "GitHub"),
     # Company infra
@@ -109,6 +113,7 @@ META: dict[str, tuple[str, str]] = {
     "souper.md": ("Google", "GitHub"),
     "archer-paper.md": ("CUHK (cuhk-s3)", "arXiv"),
     "archer-github.md": ("CUHK (cuhk-s3)", "GitHub"),
+    "llvm-harness.md": ("SUSTech · ETH Zurich · The Chinese University of Hong Kong", "arXiv"),
     "gerrit-ai-code-review.md": ("Google", "Gerrit googlesource"),
     "reviewai-gerrit-plugin.md": ("Amarula Solutions", "GitHub"),
     "gerritforge-ai-review-provider.md": ("GerritForge", "GitHub"),
@@ -124,6 +129,7 @@ META: dict[str, tuple[str, str]] = {
     "kernelevolve-blog.md": ("Meta", "Engineering at Meta"),
     "compiler-grounded-triton-npu.md": ("Huawei Technologies", "arXiv"),
     "kforge.md": ("Gimlet Labs", "MLArchSys @ ISCA 2026 · arXiv"),
+    "zomboss.md": ("University of Michigan · The University of Texas at Austin", "arXiv"),
     # Agent control-plane substrate
     "auto-agi-compiler.md": ("RightNow AI", "arXiv"),
     "flowcompile.md": ("UMass Amherst · MIT · MIT-IBM Watson AI Lab", "arXiv"),

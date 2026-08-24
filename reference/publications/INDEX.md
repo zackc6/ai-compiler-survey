@@ -43,6 +43,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | Agentic & RL compilers | Shaanxi Normal University · Northwest University · University of Leeds | arXiv | [AutoPass: Evidence-Guided LLM Agents for Compiler Performance Tuning](autopass.md) | [source](https://arxiv.org/pdf/2606.20373) |
 | 2026 | paper | Agentic & RL compilers | Zhejiang University · Purdue | arXiv | [HintPilot: LLM-based Compiler Hint Synthesis for Code Optimization](hintpilot.md) | [source](https://arxiv.org/abs/2604.15041) |
 | 2026 | paper | Agentic & RL compilers | AWS AI · Georgia Tech | arXiv | [Agentic Code Optimization via Compiler-LLM Cooperation (ACCLAIM)](acclaim.md) ★ Tier A Q2/Q3 | [source](https://arxiv.org/abs/2604.04238) |
+| 2026 | paper | Agentic & RL compilers | Huawei Technologies, Heterogeneous Compiler Lab | arXiv | [T-LLM Compiler: Trusted LLM-based Code Optimization and Verification Framework](t-llm-compiler.md) | [source](https://arxiv.org/abs/2608.14953) |
 | 2026 | code | Agentic & RL compilers | Amazon Science / AWS AI | GitHub | [amazon-science/acclaim (GitHub)](acclaim-github.md) ★ Tier A | [source](https://github.com/amazon-science/acclaim) |
 | 2026 | paper | Agentic & RL compilers | ETH Zurich · INSAIT/Sofia University · UC Berkeley | arXiv | [Generative Compilation: On-the-Fly Compiler Feedback as AI Generates Code](generative-compilation.md) | [source](https://arxiv.org/abs/2607.13921) |
 | 2025 | paper | GPU kernels & inference compilers | Stanford · Princeton | arXiv | [KernelBench: Can LLMs Write Efficient GPU Kernels?](kernelbench.md) | [source](https://arxiv.org/abs/2502.10517) |
@@ -81,6 +82,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2010s+ | code | Correctness lineage | Google | GitHub | [Souper: A superoptimizer for LLVM IR](souper.md) | [source](https://github.com/google/souper) |
 
 | 2026 | paper | Source control & review agents | CUHK (cuhk-s3) | arXiv | [Archer: Towards Agentic Review for Compiler Optimizations](archer-paper.md) | [source](https://arxiv.org/html/2607.01808) |
+| 2026 | paper | Source control & review agents | SUSTech · ETH Zurich · CUHK | arXiv | [Agentic Harness for Real-World Compilers (llvm-harness)](llvm-harness.md) ★ job (c) harness | [source](https://arxiv.org/abs/2603.20075) |
 | 2026 | code | Source control & review agents | CUHK (cuhk-s3) | GitHub | [cuhk-s3/Archer (GitHub)](archer-github.md) | [source](https://github.com/cuhk-s3/Archer) |
 | 2024+ | code | Source control & review agents | Google | Gerrit googlesource | [Gerrit plugin: ai-code-review (googlesource)](gerrit-ai-code-review.md) | [source](https://gerrit.googlesource.com/plugins/ai-code-review/) |
 | 2025+ | code | Source control & review agents | Amarula Solutions | GitHub | [amarula/reviewai-gerrit-plugin](reviewai-gerrit-plugin.md) | [source](https://github.com/amarula/reviewai-gerrit-plugin) |
@@ -97,6 +99,8 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | Surveys & vision | BAAI · PKU · HKUST(GZ) et al. | arXiv | [Towards Automated Kernel Generation in the Era of LLMs](automated-kernel-generation-survey.md) | [source](https://arxiv.org/abs/2601.15727) |
 | 2025+ | code | GPU kernels & inference compilers | FlagOpen / flagos-ai | GitHub | [flagos-ai/awesome-LLM-driven-kernel-generation](awesome-llm-kernel-generation.md) | [source](https://github.com/flagos-ai/awesome-LLM-driven-kernel-generation) |
 | 2026 | company | Commercial products & proposals | AMD | AMD ROCm blog | [AMD ROCm: GEAK v3 kernel optimization agent](geak-v3-rocm-blog.md) | [source](https://rocm.blogs.amd.com/artificial-intelligence/kernel-optimization-agent/README.html) |
+| 2026 | code | Commercial products & proposals | AMD | GitHub | [GEAK v4: end-to-end GPU performance optimization system](geak-v4-github.md) ★ e2e serving A/B | [source](https://github.com/AMD-AGI/GEAK/releases) |
+| 2026 | company | Commercial products & proposals | AMD | AMD ROCm blog | [GEAK Agent-Driven Optimization of the DeepSeekV4 MLA Kernel](geak-mla-rocm-blog.md) | [source](https://rocm.blogs.amd.com/software-tools-optimization/geak-mla-optimization/README.html) |
 | 2025 | forum | Forums & workshops | Google / LLVM community | LLVM Discourse | [LLVM Discourse RFC: EmitC support for MLGO](mlgo-emitc-rfc.md) | [source](https://discourse.llvm.org/t/rfc-emitc-support-for-mlgo/87728) |
 | 2026 | forum | Forums & workshops | Google / LLVM community | LLVM Discourse | [LLVM MLGO sync minutes: EmitC path PoR (June 8, 2026)](mlgo-emitc-sync-2026-06.md) ★ C1 checkpoint | [source](https://discourse.llvm.org/t/mlgo-meeting-june-5-moved-to-june-8-2026/90976) |
 | 2026 | forum | Forums & workshops | LLVM / MLIR community | LLVM Discourse | [LLVM Discourse RFC: mlir-opt-repl + MCP server](mlir-opt-repl-rfc.md) | [source](https://discourse.llvm.org/t/rfc-mlir-opt-repl-interactive-mlir-pass-pipeline-explorer-and-mcp-server/91068) |
@@ -108,12 +112,14 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2025/26 | paper | HW codesign & accelerator bring-up | Meta | ISCA 2026 · arXiv | [KernelEvolve: Scaling Agentic Kernel Coding for Heterogeneous AI Accelerators at Meta](kernelevolve.md) ★ multi-HW prod | [source](https://arxiv.org/abs/2512.23236) |
 | 2026 | company | HW codesign & accelerator bring-up | Meta | Engineering at Meta | [Meta Engineering blog: KernelEvolve / Ranking Engineer Agent](kernelevolve-blog.md) | [source](https://engineering.fb.com/2026/04/02/developer-tools/kernelevolve-how-metas-ranking-engineer-agent-optimizes-ai-infrastructure/) |
 | 2026 | paper | HW codesign & accelerator bring-up | Huawei Technologies | arXiv | [Compiler-Grounded Hierarchical Diagnosis for Triton on NPUs](compiler-grounded-triton-npu.md) ★ Ascend | [source](https://arxiv.org/abs/2607.23089) |
+| 2026 | paper | HW codesign & accelerator bring-up | University of Michigan · The University of Texas at Austin | arXiv | [Rethinking Agentic Kernel Generation for Emerging Accelerators (Zomboss)](zomboss.md) ★ compile-once mapping contract | [source](https://arxiv.org/abs/2608.00894) |
 | 2026 | paper | HW codesign & accelerator bring-up | Gimlet Labs | MLArchSys @ ISCA 2026 · arXiv | [KForge: Cross-Platform Kernel Generation for AI Accelerators](kforge.md) ★ multi-DSL | [source](https://arxiv.org/abs/2606.02963) |
 | 2026 | paper | GPU kernels & inference compilers | RightNow AI | arXiv | [AutoKernel: Autonomous GPU Kernel Optimization](autokernel.md) ★ Amdahl agent loop | [source](https://arxiv.org/abs/2603.21331) |
 | 2026 | code | GPU kernels & inference compilers | RightNow AI | GitHub | [RightNow-AI/autokernel (GitHub)](autokernel-github.md) ★ | [source](https://github.com/RightNow-AI/autokernel) |
 | 2026 | paper | GPU kernels & inference compilers | University of Michigan | arXiv | [Kernel Forge: Agent Harness for CUDA Kernel Opt](kernel-forge.md) | [source](https://arxiv.org/abs/2607.24762) |
 | 2026 | paper | GPU kernels & inference compilers | University of Toronto · Standard Kernel | arXiv | [CuTeGen: Agentic GPU Kernels using CuTe](cutegen.md) ★ CuTe lane / C4 | [source](https://arxiv.org/abs/2604.01489) |
 | 2026 | paper | GPU kernels & inference compilers | NVIDIA · UC Berkeley | arXiv | [KernelBlaster: Memory-Augmented In-Context RL for CUDA](kernelblaster.md) | [source](https://arxiv.org/abs/2602.14293) |
+| 2026 | paper | GPU kernels & inference compilers | NVIDIA · Carnegie Mellon University | arXiv | [CAKE: Compiler–Agent Co-Design for Frontier Kernel Evolution](cake.md) ★ typed schedule IR | [source](https://arxiv.org/abs/2608.12629) |
 | 2025 | company | Classic DL compilers | Meta (PyTorch) | PyTorch blog | [Helion: High-Level DSL for Portable ML Kernels](helion-blog.md) | [source](https://pytorch.org/blog/helion/) |
 | 2026 | paper | Classic DL compilers | Qualcomm | arXiv | [Hexagon-MLIR: AI Compilation Stack for Hexagon NPUs](hexagon-mlir.md) | [source](https://arxiv.org/abs/2602.19762) |
 | 2025+ | code | Classic DL compilers | Meta (PyTorch) | GitHub | [pytorch/helion (GitHub)](helion-github.md) | [source](https://github.com/pytorch/helion) |
@@ -124,7 +130,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2025 | paper | Agent control-plane substrate | Stanford · Gimlet Labs · Intel | arXiv | [Efficient and Scalable Agentic AI with Heterogeneous Systems](agentic-ai-hetero-systems.md) | [source](https://arxiv.org/abs/2507.19635) |
 | 2026 | paper | Agent control-plane substrate | University of Washington (SyFI) | arXiv | [VibeServe: Can AI Agents Build Bespoke LLM Serving Systems?](vibeserve.md) | [source](https://arxiv.org/abs/2605.06068) |
 
-**Total:** 115 digests
+**Total:** 121 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 

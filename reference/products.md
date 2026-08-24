@@ -27,12 +27,13 @@ Companion: [`../docs/SURVEY.md`](../docs/SURVEY.md) §5 · [`../docs/SURVEY.md`]
 | **Google** | Magellan (prod inlining narrative) + MLGO | ControlPlane-Agent / Autotune | Offline heuristic synthesis *and* neural advisors in production | **C1** |
 | **NVIDIA** | [CompileIQ](https://developer.nvidia.com/cuda/compileiq) (+ [agent-skills](https://nvidia.github.io/CompileIQ/stable/install.html)) | ControlPlane-Autotune / ControlPlane-Agent | Workload-specialized compiler controls; versioned ACFs; AGENTS.md skill pack drives search+Welch validate | **C2** (blog vs docs) |
 | **NVIDIA** | [CUDA Tile / Tile IR](https://developer.nvidia.com/blog/focus-on-your-algorithm-nvidia-cuda-tile-handles-the-hardware/) | Kernel-Platform | Next agent IR vs Triton | **C4** |
-| **AMD** | [GEAK](https://rocm.blogs.amd.com/artificial-intelligence/kernel-optimization-agent/README.html) (v3) | ControlPlane-Agent, Kernel-Platform | Repo-level multi-DSL kernel agents on Instinct | **C2**, **C4** |
+| **AMD** | [GEAK v4](https://github.com/AMD-AGI/GEAK) (`e2e_workflow` + kernel_workflow) | ControlPlane-Agent, Kernel-Platform | Amdahl triage on warm sglang/vLLM; warm-server A/B + output parity; multi-DSL kernels | **C2**, **C4**, T6 |
 | **Meta** | [LLM Compiler](https://ai.meta.com/research/publications/meta-large-language-model-compiler-foundation-models-of-compiler-optimization/) / [KernelLLM](https://huggingface.co/facebook/KernelLLM) | Research-release | Open foundation / specialist models | — |
 | **NVIDIA** | TensorRT-LLM + [Claude agents/skills PR](https://github.com/NVIDIA/TensorRT-LLM/pull/12831) | DataPlane-Serve + ControlPlane-Agent | Agents wired into flagship serve compiler (multi-DSL) | **C4** |
 | **Meta** | TritorX + KernelEvolve (MTIA + hetero GPUs) | ControlPlane-Agent + Kernel-Platform | Agentic ASIC bring-up + production ranking kernels | **C9**, C2 |
 | **Meta / LF** | [Helion](https://pytorch.org/projects/helion/) | Kernel-Platform | Higher-level agent/autotune surface over Triton | **C4** |
 | **FlashInfer / NVIDIA·UW·CMU** | [FlashInfer-Bench](https://github.com/flashinfer-ai/flashinfer-bench) (+ Trace / `apply()`) | ControlPlane-Agent + DataPlane-Serve | Serving-trace kernel ladder; dynamic substitution into SGLang/vLLM | **C2**, T6/T8 |
+| **NVIDIA · CMU** | Cake (Cake IR; FlashInfer PRs) | ControlPlane-Agent, Kernel-Platform | Typed schedule IR + evolving verifier; serving-validated KDA / TinyGEMM | **C3**, **C4**, T1/T5 |
 
 ---
 
@@ -69,7 +70,7 @@ Brief on purpose: these are **defaults**, not proof that agents win.
 
 ```text
 Control plane (emerging SKUs)
-  AlphaEvolve Cloud · GEAK · CompileIQ · Magellan/MLGO · TRT-LLM agent skills
+  AlphaEvolve Cloud · GEAK v4 · CompileIQ · Magellan/MLGO · TRT-LLM agent skills · Cake IR
         │
 Data plane (mature defaults)
   TRT-LLM · Inductor · XLA · MAX · OpenVINO · Neuron
@@ -86,7 +87,7 @@ Kernel / tile platforms
 
 | Question | Commercial signal |
 |---|---|
-| Q1 Trends — hybrid control plane | CompileIQ, GEAK, AlphaEvolve Cloud, Magellan/MLGO |
+| Q1 Trends — hybrid control plane | CompileIQ, GEAK v4, Cake, AlphaEvolve Cloud, Magellan/MLGO |
 | §1b Traditional still wins defaults | TRT-LLM, Inductor, XLA, OpenVINO |
 | Q2 How agents help | Evolve code, kernel loops, knob search, specialist models |
 | Q3 Reshape process | ACF-in-VCS; heuristic synthesis; agent skills in TRT-LLM |

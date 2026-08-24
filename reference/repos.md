@@ -30,7 +30,8 @@ Companion: [`../docs/SURVEY.md`](../docs/SURVEY.md) §5 · [`../docs/SURVEY.md`]
 | [ScalingIntelligence/KernelBench](https://github.com/ScalingIntelligence/KernelBench) | GitHub | Kernel LLM benchmark | Trend D; **C2** |
 | [BonnieW05/KernelBenchX](https://github.com/BonnieW05/KernelBenchX) (if public) / paper | GitHub | Correctness≠perf ceilings | **C2** |
 | [meta-pytorch/KernelAgent](https://github.com/meta-pytorch/KernelAgent) | GitHub | PyTorch→verified Triton agents | Trend D |
-| [AMD-AGI/GEAK](https://github.com/AMD-AGI/GEAK) / [GEAK-agent](https://github.com/AMD-AGI/GEAK-agent) | GitHub | Vendor multi-agent kernel + serving opt | Trend D; **C2/C4** |
+| [AMD-AGI/GEAK](https://github.com/AMD-AGI/GEAK) / [GEAK-agent](https://github.com/AMD-AGI/GEAK-agent) | GitHub | v4: e2e sglang/vLLM Amdahl + A/B; multi-DSL kernel_workflow | Trend D; **C2/C4**; T6 |
+| [dtcxzyw/llvm-harness](https://github.com/dtcxzyw/llvm-harness) + [paper](https://arxiv.org/abs/2603.20075) | GitHub | LLVM tools + llvm-bench + autofix/autoreview (Archer lineage) | Job (c); **C7** |
 | [NVIDIA/CompileIQ](https://github.com/NVIDIA/CompileIQ) | GitHub | Evolutionary compiler Advanced Controls → ACF | §4.3; **C2/C5** |
 | [anthropics/claudes-c-compiler](https://github.com/anthropics/claudes-c-compiler) | GitHub | Agents-as-compiler-engineers | Trend F; **C6** |
 | [flagos-ai/awesome-LLM-driven-kernel-generation](https://github.com/flagos-ai/awesome-LLM-driven-kernel-generation) | GitHub | Living kernel-agent bibliography | Trend D watchlist |

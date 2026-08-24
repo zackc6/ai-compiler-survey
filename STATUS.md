@@ -1,6 +1,6 @@
 # Survey status
 
-Last updated: **2026-08-05**
+Last updated: **2026-08-24**
 
 ## Overall progress
 
@@ -14,7 +14,7 @@ Last updated: **2026-08-05**
 | Conflicts | Done | `docs/SURVEY.md` §6 C1–C10 |
 | Survey narrative §0–§9 | Done (v3) | Single reading path; gaps as blockers |
 | **Reference store** | Done | `reference/` guide → publications / products / repos |
-| Publication digests | Done (v8) | **115** digests under `reference/publications/` |
+| Publication digests | Done (v9) | **121** digests under `reference/publications/` |
 | Validate script | Done | `python3 scripts/validate_survey.py` |
 | **PDF publish** | Done | Survey PDF + expert Beamer deck in `publish/out/` |
 | **Survey skill** | Done | `.cursor/skills/survey/` (+ personal `~/.cursor/skills/survey/`) |
@@ -27,9 +27,9 @@ Last updated: **2026-08-05**
 - [x] §0.1 + §5 architecture with job (d) bring-up/codesign
 - [x] SURVEY §5.5 Horizon A (2027–28) + B (~5 years)
 - [x] SURVEY §5.6 SW+HW layer map focused on agentic compiler
-- [x] TritorX, KernelEvolve, Ascend diagnosis, KForge, AutoKernel, Helion digests
+- [x] TritorX, KernelEvolve, Ascend diagnosis, KForge, AutoKernel, Helion, **Zomboss**, **Cake**, **GEAK v4** digests
 - [x] Conflicts C9 (coverage vs peak), C10 (codesign vs autonomous chip)
-- [ ] Second-vendor public TritorX-class reproduction
+- [ ] Second-vendor public TritorX-class reproduction (Zomboss = academic analog only)
 - [ ] Revisit after Magellan/MLGO or KernelBench-X settlement
 
 ### Publications
@@ -43,6 +43,7 @@ Last updated: **2026-08-05**
 
 | Date | Change |
 |---|---|
+| 2026-08-24 | August evidence wave: Cake ★, Zomboss ★, GEAK v4 ★, T-LLM, GEAK MLA, llvm-harness; INDEX **121**; thin SURVEY §0.1/§1/§4–§8 + T1/T2/T5/T6/T8; goal-align holds hybrid; survey PDF rebuilt |
 | 2026-08-06 | Beamer slide 11: fix bottom size-callout overlap (fit+below gutter); bet line = priors+e2e controller; EN+zh-TW |
 | 2026-08-06 | All 41 transcripts → slide-04 detail + abbrev glosses (EN+zh-TW); README/skill bar |
 | 2026-08-06 | Beamer slide 4: shrink org tags to tiny foot line; restore claim primacy; transcripts |
