@@ -1,6 +1,6 @@
 # Next-Gen AI Compiler Survey
 
-**Last updated:** 2026-08-24 (August wave: Cake · Zomboss · T-LLM · GEAK v4 · llvm-harness; goal-align)  
+**Last updated:** 2026-08-24 (August wave + Argus; goal-align)  
 **Evidence store:** [`../reference/README.md`](../reference/README.md) → publications · products · repos  
 **Status:** [`../STATUS.md`](../STATUS.md)
 
@@ -26,7 +26,7 @@ Everything else (papers, GitHub/Gerrit, commercial SKUs, forums, ASIC bring-up s
 
 > **Agents own semantic search, orchestration, and artifact synthesis. Compilers own lowering, legality, measurement, and fallback.**
 
-Agents reshape the **control plane** more than they replace the **data plane**. That control plane is predicted to become **e2e-optimal-seeking** under a product fitness \(F\) (joint search across multi-band lowers — [§5.1.2](#512-predicted-abstraction-inventory--how-many-layers-for-what-and-if-they-do-not-consolidate)–[§5.1.3](#513-e2e-optimal-seeking-architecture)); **soft merge of the optimizer (M1) ≠ hard replace of the compiler (M3)** ([§5.1.4](#514-when-do-e2e-search-and-layers-merge--and-when-do-agents-replace-the-compiler)). A fourth job — **accelerator bring-up / codesign feedback** on sim+silicon — is now Tier A evidence (TritorX, KernelEvolve, Zomboss), still centered on kernels/IR/oracles. August 2026 sources (Cake typed schedule IR, Zomboss compile-once mapping contract, GEAK v4 serving A/B, T-LLM Alive2+CBMC) **reinforce** this hybrid lean — they do not move the goal toward LLM-as-`opt`. See [§5](#5-future-prediction-what-next-gen-looks-like) (architecture §5.1, roadmap §5.5, stack §5.6, commercial §5.7, techniques §5.8), [§6](#6-conflicts-keep-unresolved-until-evidence-settles), [§4](#4-whats-missing--under-covered-q4).
+Agents reshape the **control plane** more than they replace the **data plane**. That control plane is predicted to become **e2e-optimal-seeking** under a product fitness \(F\) (joint search across multi-band lowers — [§5.1.2](#512-predicted-abstraction-inventory--how-many-layers-for-what-and-if-they-do-not-consolidate)–[§5.1.3](#513-e2e-optimal-seeking-architecture)); **soft merge of the optimizer (M1) ≠ hard replace of the compiler (M3)** ([§5.1.4](#514-when-do-e2e-search-and-layers-merge--and-when-do-agents-replace-the-compiler)). A fourth job — **accelerator bring-up / codesign feedback** on sim+silicon — is now Tier A evidence (TritorX, KernelEvolve, Zomboss), still centered on kernels/IR/oracles. August 2026 sources (Cake typed schedule IR, Zomboss compile-once mapping contract, GEAK v4 serving A/B, T-LLM Alive2+CBMC) plus **[Argus](../reference/publications/argus.md)** (compile-time data-flow invariants + SMT) **reinforce** this hybrid lean — they do not move the goal toward LLM-as-`opt`. See [§5](#5-future-prediction-what-next-gen-looks-like) (architecture §5.1, roadmap §5.5, stack §5.6, commercial §5.7, techniques §5.8), [§6](#6-conflicts-keep-unresolved-until-evidence-settles), [§4](#4-whats-missing--under-covered-q4).
 
 **Sub-agent substrate (in scope).** Multi-agent **workflow compilers**, **AGI compilers** that freeze agent graphs into deployable artifacts, **static analysis of agent DAGs**, and **heterogeneous agent serving** are first-class evidence for how the control plane is built, secured, and productized—not side topics. Digests: [Auto](../reference/publications/auto-agi-compiler.md), [FlowCompile](../reference/publications/flowcompile.md), [AgentFlow](../reference/publications/agentflow.md), [Heterogeneous agentic AI](../reference/publications/agentic-ai-hetero-systems.md).
 
@@ -160,6 +160,7 @@ Writing GPU kernels is the bottleneck for new model architectures and non-NVIDIA
 - **KernelBench-X:** refinement raises correctness but can **hurt** average speedup; many correct kernels still lose to eager; fusion tasks remain hard.
 - **GEAK (AMD):** v3 was repo-level multi-DSL (Triton/HIP/FlyDSL). **[v4](../reference/publications/geak-v4-github.md)** adds `e2e_workflow`: Amdahl triage on a warm sglang/vLLM server, recursive kernel search only for kernels that move throughput, warm-server A/B + output parity.
 - **Cake (NVIDIA · CMU):** agents author a typed **Cake IR** schedule (roles/barriers/tiers); the harness returns localized diagnostics and itself evolves. Clean-start Cake IR beats matched CUDA/PTX search; Kimi Delta Attention is SGLang-validated ([digest](../reference/publications/cake.md)).
+- **Argus (CausalFlow / HKUST / Stanford et al.):** tile DSL with **tag functions / assertions**; compile-time layout-algebra + SMT admit and thread-level counterexamples. Reports 99–104% of hand-optimized assembly TFLOPS on MI300X GEMM/attention/MoE ([digest](../reference/publications/argus.md)).
 - **Meta KernelLLM:** 8B model specialized for PyTorch→Triton; competitive Pass@k vs much larger general models on KernelBench-Triton.
 - **AgentCompile:** compiler-bounded CUDA specialization for transformer inference graphs.
 
@@ -409,6 +410,7 @@ The gaps below are not a separate “wishlist”—they are the **blockers to th
 | Numerical checks vs reference (AgentCompile) | Good for kernels with goldens | Tolerance games; training vs infer numerics |
 | Alive2 / formal (LLM-VeriOpt; T-LLM + CBMC) | Strong local IR / bounded-C equivalence | Peephole/local; not GPU concurrency |
 | Cake pre-compile gates | Localized sync/resource/ISA reject before GPU | NVIDIA schedule IR only; not portable |
+| Argus tags + SMT | Compile-time layout/pairing/separation checks; concrete counterexamples | Path-insensitive; MI300X prototype; agent-drafted invariants |
 | Round-trip disassembly checks | Partial trust signal | Exact-match rates still modest |
 
 **What is missing.** Oracles for:
@@ -467,7 +469,7 @@ Dialects, Triton, CUDA Tile IR, PTX, and LLVM IR remain siloed; an agent tuned o
 
 ### 4.5 Hardware-native agent interfaces
 
-**What exists.** mlirAgent: structural IR fingerprinting, knowledge graphs, MCP tool suites; Compiler-R1 tool calls (`instrcount`, etc.); GEAK hardware feedback loops; CompileIQ search spaces over NVCC/PTXAS internals ([NVIDIA/CompileIQ](https://github.com/NVIDIA/CompileIQ)); **Cake IR** + localized verifier/cost tools (NVIDIA schedule IR); **Zomboss** typed mapping surface on generated ASIC backends; **SCM-side tool APIs** in Archer / [llvm-harness](../reference/publications/llvm-harness.md) (`verify`, `difftest`, autofix tools) bound to a local `llvm-project` checkout; Gerrit AI Agent Provider APIs for in-UI chat (generic LLMs unless extended).
+**What exists.** mlirAgent: structural IR fingerprinting, knowledge graphs, MCP tool suites; Compiler-R1 tool calls (`instrcount`, etc.); GEAK hardware feedback loops; CompileIQ search spaces over NVCC/PTXAS internals ([NVIDIA/CompileIQ](https://github.com/NVIDIA/CompileIQ)); **Cake IR** + localized verifier/cost tools (NVIDIA schedule IR); **Argus** tag/assert + SMT over a layout algebra; **Zomboss** typed mapping surface on generated ASIC backends; **SCM-side tool APIs** in Archer / [llvm-harness](../reference/publications/llvm-harness.md) (`verify`, `difftest`, autofix tools) bound to a local `llvm-project` checkout; Gerrit AI Agent Provider APIs for in-UI chat (generic LLMs unless extended).
 
 **What is missing.** **Standards**, not demos:
 
@@ -967,6 +969,7 @@ From Magellan LLVM Dev Meeting slides ([digest](../reference/publications/magell
 | **EmitC-MLGO PoR** (June 2026 sync): internal inliner → Android/Fuchsia → Chrome multi-model | Neural-advisor deploy path is advancing, not abandoned | Customer default still unset (**C1**) |
 | **Hexagon-MLIR** open Triton→Hexagon NPU stack | Non-CUDA data plane agents can address | Device/SDK-gated oracles (gap 4.4/4.5) |
 | **Cake** typed schedule IR + evolving harness ([arXiv:2608.12629](https://arxiv.org/abs/2608.12629)) | Agent-facing L4 IR can beat raw CUDA/PTX search; compiler *and* kernels co-evolve | Portable Cake-class contract vs Triton/Tile (**C4**); public tree |
+| **Argus** data-flow invariants + SMT ([arXiv:2604.18616](https://arxiv.org/abs/2604.18616)) | Dense compile-time counterexamples let agents reach library-class peak on selected AMD kernels | Public tree; NVIDIA port; KernelBench `fast_p` / serving A/B (**C2**) |
 | **Zomboss** compile-once mapping contract ([arXiv:2608.00894](https://arxiv.org/abs/2608.00894)) | Job (d) on *emerging* ASICs works when machine semantics are compiled, not re-prompted | Second-vendor *shipping* ASIC (**C9** still open) |
 | **GEAK v4** `e2e_workflow` (2026-07-08) | Vendor control plane seeks serving \(F\) (Amdahl + warm A/B + parity), not only kernel microbench | Public p50/p90 + cost-to-compile (**C2**) |
 | **llvm-harness** + llvm-bench ([arXiv:2603.20075](https://arxiv.org/abs/2603.20075)) | Job (c) needs LLVM tools/bench, not generic SWE; true-fix below 22% after expert review | Default oracle-review in llvm-project (**C7**) |
@@ -985,12 +988,12 @@ Falsifiable sketch conditioned on C1–C10. Architecture target is [§5.1](#51-a
 | Capability | Predicted state | Leading evidence | Conflicts |
 |---|---|---|---|
 | **Agent-addressable compilers** | Tool APIs, structured IR summaries, admit/fallback become normal in LLVM/Inductor/vendor toolchains | ACCLAIM, HintPilot, AgentCompile, mlirAgent (negative free-rewrite) | C3, C6 |
-| **Online specialization (job a)** | Hot kernels/paths use agent or evolutionary search (ACF, hints, Triton/Helion/Cake refine) in CI for *some* products — not yet silent default for all builds | CompileIQ, **GEAK v4 e2e**, AutoKernel, Cake | C2, C5 |
+| **Online specialization (job a)** | Hot kernels/paths use agent or evolutionary search (ACF, hints, Triton/Helion/Cake/Argus refine) in CI for *some* products — not yet silent default for all builds | CompileIQ, **GEAK v4 e2e**, AutoKernel, Cake, Argus | C2, C5 |
 | **Offline heuristic synthesis (job b)** | Magellan-class C++ heuristic evolution *and* MLGO neural advisors both still live (parallel bets) | Magellan; EmitC-MLGO RFC + [June 2026 PoR](../reference/publications/mlgo-emitc-sync-2026-06.md) | **C1** |
 | **Engineering agents (job c)** | Compiler-oracle PR review (Alive2/`opt`) in serious LLVM/AI-compiler orgs; generic forge AI stays UX | Archer, **llvm-harness** / llvm-bench | **C7** |
 | **Bring-up / codesign agents (job d)** | Coverage-first ATen/Triton backend generation on sim + silicon becomes standard for *new* ASICs; compile-once machine contracts (Zomboss-class) for research accelerators | TritorX, KernelEvolve, Ascend hierarchical diagnosis, **Zomboss** | **C9** |
 | **Verified ML construction (Compiler 2.0 / MOCHA)** | Early open releases of LLM→eqsat→formal-admit rewrite / retarget tooling; not yet default production `opt` | Ken Kennedy plenary 2026; Aarno/MIT/UIUC MOCHA | C3, C6 |
-| **DSL surface** | Triton-family (Triton/Helion) remains primary agent training surface; Tile/CuTe/HIP/FlyDSL/**Cake IR** force multi-DSL skills | Helion, CompileIQ Helion path, TRT-LLM agents, KForge, **CuTeGen**, **Cake** | **C4** |
+| **DSL surface** | Triton-family (Triton/Helion) remains primary agent training surface; Tile/CuTe/HIP/FlyDSL/**Cake IR**/**Argus DSL** force multi-DSL skills | Helion, CompileIQ Helion path, TRT-LLM agents, KForge, **CuTeGen**, **Cake**, **Argus** | **C4** |
 
 ##### What does *not* ship by 2028
 
@@ -1531,8 +1534,8 @@ Adjacent agent-production work stresses **deterministic boundaries** and moving 
 
 | # | Technique | What exists (illustrative) | Critical missing parts today | Accelerates |
 |---|---|---|---|---|
-| **T1** | **Typed agent↔compiler interfaces** (tool APIs, structured summaries, enumerated actions) | CompileIQ search surfaces; ACCLAIM/HintPilot constrained actions; Compiler-R1 tool calls; mlirAgent fingerprints/MCP; [mlir-opt-repl MCP RFC](../reference/publications/mlir-opt-repl-rfc.md) (stateful pass tools); Archer `verify`/`difftest`; FlashInfer Trace schema; **[Cake IR](../reference/publications/cake.md)** (typed schedule + localized findings); **[Zomboss](../reference/publications/zomboss.md)** mapping surface / intent / resolved plan | Portable schemas for region / constraints / action / admit across MLIR·Triton·Tile·StableHLO·Cake; vendor-neutral tool-server conformance (still missing) | **C3**, **C5**, **C6**; jobs (a)(c); §4.4–4.5 |
-| **T2** | **Admit / fallback machinery** (reject illegal agent moves; restore classical path) | Pass-applies-pass patterns (LLM Compiler); template+check admit (AgentCompile); oracle-gated PR review (Archer); TritonRL multi-layer verifiers; FlashInfer-Bench correctness gates before `apply()`; VibeServe Accuracy Judge; Cake pre-compile safety/conformance gates; T-LLM Alive2+CBMC retries; Zomboss Candidate-0 fallback | Shared admit policy as a product surface; deterministic fallback that release eng trusts; open oracles beyond LLVM peephole / single-kernel / NVIDIA-schedule checks | **C6** hybrid bet; money-grade shipping; §4.2 |
+| **T1** | **Typed agent↔compiler interfaces** (tool APIs, structured summaries, enumerated actions) | CompileIQ search surfaces; ACCLAIM/HintPilot constrained actions; Compiler-R1 tool calls; mlirAgent fingerprints/MCP; [mlir-opt-repl MCP RFC](../reference/publications/mlir-opt-repl-rfc.md) (stateful pass tools); Archer `verify`/`difftest`; FlashInfer Trace schema; **[Cake IR](../reference/publications/cake.md)** (typed schedule + localized findings); **[Argus](../reference/publications/argus.md)** tag functions / assertions; **[Zomboss](../reference/publications/zomboss.md)** mapping surface / intent / resolved plan | Portable schemas for region / constraints / action / admit across MLIR·Triton·Tile·StableHLO·Cake·Argus; vendor-neutral tool-server conformance (still missing) | **C3**, **C5**, **C6**; jobs (a)(c); §4.4–4.5 |
+| **T2** | **Admit / fallback machinery** (reject illegal agent moves; restore classical path) | Pass-applies-pass patterns (LLM Compiler); template+check admit (AgentCompile); oracle-gated PR review (Archer); TritonRL multi-layer verifiers; FlashInfer-Bench correctness gates before `apply()`; VibeServe Accuracy Judge; Cake pre-compile safety/conformance gates; **Argus** layout-algebra + SMT (zero runtime); T-LLM Alive2+CBMC retries; Zomboss Candidate-0 fallback | Shared admit policy as a product surface; deterministic fallback that release eng trusts; open oracles beyond LLVM peephole / single-kernel / NVIDIA-schedule / MI300X-tag checks | **C6** hybrid bet; money-grade shipping; §4.2 |
 | **T3** | **Control files, hints, fingerprints + replay** | CompileIQ Advanced Control Files; hint/pragma paths; some seed/budget reporting; FlashInfer Trace + `apply()` as deployable kernel artifacts | Content-addressed cache keys `(IR hash, HW, compiler ver, agent policy)`; golden replay when the agent model upgrades; CI policy for flaky speedups | **C2** (p50/p90), **C5** (default flag); P4/P14; §4.3 |
 | **T4** | **Heuristic hooks & in-tree advisors** (offline job b) | Magellan / AlphaEvolve evolve shippable C++; MLGO neural advisors; EmitC-MLGO June 2026 plan-of-record (deploy path advancing) | Settled **default** between Magellan-class synthesis and MLGO-class advisors on the same apps; customer-default EmitC (or public Magellan llvm patches that displace advisors) | **C1**; Horizon A job (b) |
 | **T5** | **Dialect / ISA feedback sinks** (codesign loop into the compiler) | TritorX / KernelEvolve / Ascend diagnosis turn sim+silicon pain into IR/backend stress; **Cake** turns recurring failures into verifier rules / IR primitives (corpus-gated); **Zomboss** compiles TAIDL machine semantics once into ACT backends; sparse RFC narratives | First-class compiler surfaces that aggregate failure modes into dialect or ISA **change proposals** (still for humans + chip-design tools — not autonomous tape-out) | **C9**, **C10**; job (d); §5.5 codesign roadmap |
@@ -1608,7 +1611,7 @@ Evidence maps: [`../reference/products.md`](../reference/products.md) · [`../re
 
 | Side | Sources | Position |
 |---|---|---|
-| **A — Strong commercial wins** | NVIDIA CompileIQ blog (Meta up to ~15% on TritonBench/Helion); AMD GEAK v4 (e2e sglang/vLLM A/B) + [MLA case study](../reference/publications/geak-mla-rocm-blog.md) (2.10× / 3.71× TTFT, one MI355 shape); Cake serving-validated KDA 2.05×; AlphaEvolve Cloud GA | Agent/autotune control planes already deliver meaningful production speedups |
+| **A — Strong commercial wins** | NVIDIA CompileIQ blog (Meta up to ~15% on TritonBench/Helion); AMD GEAK v4 (e2e sglang/vLLM A/B) + [MLA case study](../reference/publications/geak-mla-rocm-blog.md) (2.10× / 3.71× TTFT, one MI355 shape); Cake serving-validated KDA 2.05×; **[Argus](../reference/publications/argus.md)** 99–104% of MI300X assembly TFLOPS on GEMM/attention/MoE; AlphaEvolve Cloud GA | Agent/autotune control planes already deliver meaningful production speedups |
 | **B — Hard ceilings & regressions** | CompileIQ docs (often **2–3%** on highly optimized kernels); KernelBench / KernelBench-X (many correct kernels slower than eager; refine↑correctness can ↓avg speedup; fusion hard) | Headline speedups are workload-selected; iterative agents can chase correctness at the cost of performance |
 
 **Why it matters.** Prediction of “agents become default compile” needs median/CI wins, not only cherry-picked kernels. Overclaiming delays investment in oracles and traces (§4.2–4.3). [FlashInfer-Bench](../reference/publications/flashinfer-bench.md) and [GEAK v4](../reference/publications/geak-v4-github.md) raise serving-trace / warm-server A/B *pressure* (T6/T8) but do **not** settle C2 — still operator- or workload-selected, not multi-month default-path A/B with public p50/p90 + cost-to-compile.
@@ -1622,7 +1625,7 @@ Evidence maps: [`../reference/products.md`](../reference/products.md) · [`../re
 | Side | Sources | Position |
 |---|---|---|
 | **A — Multi-level LLM rewrite works with tests** | ACCLAIM (compiler–LLM cooperation); GEAK generate–eval–reflect; KernelAgent; T-LLM (Alive2+CBMC retries) | Guiding agents interleave LLM rewrites with compiler tools; tests/profiles/formal admit candidates; speedups reported |
-| **B — Direct IR transform fails** | mlirAgent (frontier models **below identity** on IR transforms); HintPilot/AgentCompile design (hints/templates only); **Cake** (typed schedule beats raw CUDA/PTX); **Zomboss** (mapping intents, not native ISA) | Unconstrained IR/ISA rewrite is unsafe/weak; successful systems **constrain** the action space |
+| **B — Direct IR transform fails** | mlirAgent (frontier models **below identity** on IR transforms); HintPilot/AgentCompile design (hints/templates only); **Cake** (typed schedule beats raw CUDA/PTX); **Argus** (tag/assert + SMT vs 2–600×-behind free HIP); **Zomboss** (mapping intents, not native ISA) | Unconstrained IR/ISA rewrite is unsafe/weak; successful systems **constrain** the action space |
 
 **Why it matters.** Next-gen architecture either exposes a **wide rewrite API** (with strong oracles) or a **narrow advisory API** (hints, knob ACFs, heuristic blocks). These are different products.
 
@@ -1635,7 +1638,7 @@ Evidence maps: [`../reference/products.md`](../reference/products.md) · [`../re
 | Side | Sources | Position |
 |---|---|---|
 | **A — Triton remains the agent surface** | Inductor default path; KernelBench; KernelLLM; GEAK Triton path; awesome-LLM-driven-kernel-generation catalog | Ecosystem, benchmarks, and agents already converge on Triton |
-| **B — Tile / CuTe / HIP / FlyDSL / Cake IR fragment the surface** | NVIDIA CUDA Tile + CompileIQ; TRT-LLM Claude agents for CuTe/TileIR/Triton/CUDA; GEAK multi-language (HIP, FlyDSL, TileLang); **Cake IR** (explicit schedule, no layout algebra) | Vendors push hardware-native tile/schedule IRs; agents must become multi-DSL or lose peak |
+| **B — Tile / CuTe / HIP / FlyDSL / Cake IR / Argus DSL fragment the surface** | NVIDIA CUDA Tile + CompileIQ; TRT-LLM Claude agents for CuTe/TileIR/Triton/CUDA; GEAK multi-language (HIP, FlyDSL, TileLang); **Cake IR** (explicit schedule, *no* layout algebra); **Argus DSL** (layout algebra + SMT tags) | Vendors/labs push hardware-native tile/schedule IRs; agents must become multi-DSL or lose peak |
 
 **Why it matters.** Training data, tool APIs, and “one agent IR” bets succeed or fail with this choice (§4.4, §4.7).
 
@@ -1749,8 +1752,8 @@ Status: **Supported** · **Contested** · **Watch** · **Falsified**
 
 | ID | Claim | Status | Best evidence | Conflicts |
 |---|---|---|---|---|
-| A1 | Agents own search/orchestration/synthesis; compilers own lowering, legality, measure, fallback | Supported | ACCLAIM, AgentCompile, HintPilot, mlirAgent (negative), **Cake**, **Zomboss** | C3, C6 |
-| A2 | Four agent jobs stick: (a) online, (b) offline heuristics, (c) engineering/review, (d) bring-up/codesign | Supported | (a) CompileIQ/**GEAK v4**/AutoKernel/Cake; (b) Magellan; (c) Archer/**llvm-harness**; (d) TritorX/KernelEvolve/**Zomboss** | C5, C9 |
+| A1 | Agents own search/orchestration/synthesis; compilers own lowering, legality, measure, fallback | Supported | ACCLAIM, AgentCompile, HintPilot, mlirAgent (negative), **Cake**, **Argus**, **Zomboss** | C3, C6 |
+| A2 | Four agent jobs stick: (a) online, (b) offline heuristics, (c) engineering/review, (d) bring-up/codesign | Supported | (a) CompileIQ/**GEAK v4**/AutoKernel/Cake/**Argus**; (b) Magellan; (c) Archer/**llvm-harness**; (d) TritorX/KernelEvolve/**Zomboss** | C5, C9 |
 | A3 | ACFs, evolved heuristics, verified kernels, optimization memory, bring-up corpora become first-class artifacts | Supported | CompileIQ, Magellan, KernelBlaster, TritorX, FlashInfer Trace/`apply()` | — |
 | A4 | Defaults stay classical until agents win on *distributions* in CI | Contested | Vendor blogs vs CompileIQ 2–3% docs, KernelBench-X | C2 |
 | A5 | Unconstrained LLM will not replace `opt`/Inductor soon | Supported | mlirAgent; hybrid Tier A dominance | C3, C6 |
@@ -1763,7 +1766,7 @@ Status: **Supported** · **Contested** · **Watch** · **Falsified**
 | ID | Claim | Status | Best evidence | Conflicts |
 |---|---|---|---|---|
 | P1 | Offline heuristic synthesis and MLGO neural advisors remain parallel bets through 2028 | Contested | Magellan vs EmitC-MLGO | **C1** |
-| P2 | Multi-DSL / multi-vendor agent skills become normal | Watch | KForge, GEAK v4, TRT-LLM agents, Helion+CompileIQ, **Cake IR** | **C4** |
+| P2 | Multi-DSL / multi-vendor agent skills become normal | Watch | KForge, GEAK v4, TRT-LLM agents, Helion+CompileIQ, **Cake IR**, **Argus DSL** | **C4** |
 | P3 | Compiler-oracle review beats generic forge AI for opt PRs | Supported (direction) | Archer; llvm-harness / llvm-bench; Tier C demoted | **C7** |
 | S1 | Stack reshape is control-plane agentic over classical data plane | Supported | SURVEY §5.6 · A1 | C6 |
 | S4 | Custom ASIC TTM increasingly gated by agentic bring-up | Supported (industrial) | TritorX, KernelEvolve | **C9** |
@@ -1828,6 +1831,7 @@ Snapshot of representative systems. Numbers are **as reported by authors**; cros
 | Helion | PyTorch→Triton DSL | Autotune (not LLM) | Config search | Geomean > compile/Triton on reported suites | PyTorch 2025 |
 | CuTeGen | CuTe / CUDA | Generate–test–refine + delayed profiling | Compile + numerical + timed | 1.71× avg vs PyTorch on KB L1+L2 (author) | arXiv 2026 |
 | Cake | Cake IR → CUDA/PTX | Agent + evolving verifier/cost harness | Pre-compile gates + numerical + serving | 1.144× vs FlashML clean-start; 2.05× KDA e2e | arXiv 2026 |
+| Argus | Argus tile DSL → AMD ISA | ICRL planner + knowledge base | Tag/assert + layout SMT (compile-time) | 99–104% of MI300X assembly TFLOPS (author) | arXiv 2026 |
 | Zomboss | Generated ASIC backend | Mapping-intent agent | Compiler legalize + verified fallback | 56/56 correct; 3.34× / 1.10× vs default | arXiv 2026 |
 | GEAK v4 | Instinct + sglang/vLLM | JS workflow + multi-agent kernel | Warm-server A/B + output parity | Amdahl e2e loop; MLA case 2.10× / 3.71× TTFT | AMD 2026 |
 | T-LLM Compiler | C loops / LLVM | LLM rewrite + retry | Compiler + Alive2 + CBMC | 83.3% author “accuracy” on PolyBench/C | arXiv 2026 |

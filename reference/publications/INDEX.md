@@ -120,6 +120,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | GPU kernels & inference compilers | University of Toronto · Standard Kernel | arXiv | [CuTeGen: Agentic GPU Kernels using CuTe](cutegen.md) ★ CuTe lane / C4 | [source](https://arxiv.org/abs/2604.01489) |
 | 2026 | paper | GPU kernels & inference compilers | NVIDIA · UC Berkeley | arXiv | [KernelBlaster: Memory-Augmented In-Context RL for CUDA](kernelblaster.md) | [source](https://arxiv.org/abs/2602.14293) |
 | 2026 | paper | GPU kernels & inference compilers | NVIDIA · Carnegie Mellon University | arXiv | [CAKE: Compiler–Agent Co-Design for Frontier Kernel Evolution](cake.md) ★ typed schedule IR | [source](https://arxiv.org/abs/2608.12629) |
+| 2026 | paper | GPU kernels & inference compilers | CausalFlow · HKUST · Tsinghua University · Stanford · UCAS · UC Riverside | arXiv | [ARGUS: Agentic GPU Optimization Guided by Data-Flow Invariants](argus.md) ★ SMT/layout admit | [source](https://arxiv.org/abs/2604.18616) |
 | 2025 | company | Classic DL compilers | Meta (PyTorch) | PyTorch blog | [Helion: High-Level DSL for Portable ML Kernels](helion-blog.md) | [source](https://pytorch.org/blog/helion/) |
 | 2026 | paper | Classic DL compilers | Qualcomm | arXiv | [Hexagon-MLIR: AI Compilation Stack for Hexagon NPUs](hexagon-mlir.md) | [source](https://arxiv.org/abs/2602.19762) |
 | 2025+ | code | Classic DL compilers | Meta (PyTorch) | GitHub | [pytorch/helion (GitHub)](helion-github.md) | [source](https://github.com/pytorch/helion) |
@@ -130,7 +131,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2025 | paper | Agent control-plane substrate | Stanford · Gimlet Labs · Intel | arXiv | [Efficient and Scalable Agentic AI with Heterogeneous Systems](agentic-ai-hetero-systems.md) | [source](https://arxiv.org/abs/2507.19635) |
 | 2026 | paper | Agent control-plane substrate | University of Washington (SyFI) | arXiv | [VibeServe: Can AI Agents Build Bespoke LLM Serving Systems?](vibeserve.md) | [source](https://arxiv.org/abs/2605.06068) |
 
-**Total:** 121 digests
+**Total:** 122 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 

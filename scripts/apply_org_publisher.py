@@ -84,6 +84,7 @@ META: dict[str, tuple[str, str]] = {
     "kernel-forge.md": ("University of Michigan", "arXiv"),
     "kernelblaster.md": ("NVIDIA · UC Berkeley", "arXiv"),
     "cake.md": ("NVIDIA · Carnegie Mellon University", "arXiv"),
+    "argus.md": ("CausalFlow · HKUST · Tsinghua University · Stanford · UCAS · UC Riverside", "arXiv"),
     "awesome-llm-kernel-generation.md": ("FlagOpen / flagos-ai", "GitHub"),
     "kernelagent.md": ("Meta (PyTorch)", "GitHub"),
     # Company infra

@@ -34,6 +34,7 @@ Companion: [`../docs/SURVEY.md`](../docs/SURVEY.md) §5 · [`../docs/SURVEY.md`]
 | **Meta / LF** | [Helion](https://pytorch.org/projects/helion/) | Kernel-Platform | Higher-level agent/autotune surface over Triton | **C4** |
 | **FlashInfer / NVIDIA·UW·CMU** | [FlashInfer-Bench](https://github.com/flashinfer-ai/flashinfer-bench) (+ Trace / `apply()`) | ControlPlane-Agent + DataPlane-Serve | Serving-trace kernel ladder; dynamic substitution into SGLang/vLLM | **C2**, T6/T8 |
 | **NVIDIA · CMU** | Cake (Cake IR; FlashInfer PRs) | ControlPlane-Agent, Kernel-Platform | Typed schedule IR + evolving verifier; serving-validated KDA / TinyGEMM | **C3**, **C4**, T1/T5 |
+| **CausalFlow et al.** | Argus (paper; MI300X) | ControlPlane-Agent, Kernel-Platform | Data-flow invariants + SMT; 99–104% of assembly TFLOPS (author) | **C2**, **C3**, **C4**, T1/T2 |
 
 ---
 

@@ -14,7 +14,7 @@ Last updated: **2026-08-24**
 | Conflicts | Done | `docs/SURVEY.md` §6 C1–C10 |
 | Survey narrative §0–§9 | Done (v3) | Single reading path; gaps as blockers |
 | **Reference store** | Done | `reference/` guide → publications / products / repos |
-| Publication digests | Done (v9) | **121** digests under `reference/publications/` |
+| Publication digests | Done (v9) | **122** digests under `reference/publications/` |
 | Validate script | Done | `python3 scripts/validate_survey.py` |
 | **PDF publish** | Done | Survey PDF + expert Beamer deck in `publish/out/` |
 | **Survey skill** | Done | `.cursor/skills/survey/` (+ personal `~/.cursor/skills/survey/`) |
@@ -43,6 +43,7 @@ Last updated: **2026-08-24**
 
 | Date | Change |
 |---|---|
+| 2026-08-24 | Add missed **Argus** ★ (arXiv:2604.18616): data-flow invariants + SMT; INDEX **122**; thin T1/T2/C3/C4; survey PDF rebuilt |
 | 2026-08-24 | August evidence wave: Cake ★, Zomboss ★, GEAK v4 ★, T-LLM, GEAK MLA, llvm-harness; INDEX **121**; thin SURVEY §0.1/§1/§4–§8 + T1/T2/T5/T6/T8; goal-align holds hybrid; survey PDF rebuilt |
 | 2026-08-06 | Beamer slide 11: fix bottom size-callout overlap (fit+below gutter); bet line = priors+e2e controller; EN+zh-TW |
 | 2026-08-06 | All 41 transcripts → slide-04 detail + abbrev glosses (EN+zh-TW); README/skill bar |
