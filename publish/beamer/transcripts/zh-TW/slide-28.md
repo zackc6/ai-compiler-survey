@@ -3,7 +3,7 @@
 帶狀佈局的編譯器內技術。幻燈片上：每列是技術 + 解鎖、Exists、Missing。口播：五條都走主張 → 證據 → 缺口。
 
 **T1 — 型別化介面 → C3、C5、C6。**
-Exists：CompileIQ 智慧體技能、**Cake IR**（型別化排程，沒有版面代數）、**Argus** tag 函式／斷言、**Zomboss** 對映面／意圖／已解析計畫。主張：智慧體需要 schema，不是貼上然後祈禱。Missing：跨 MLIR、Triton、Tile、Cake、Argus 的可攜摘要與行動——今天每個堆疊都重黏。解鎖窄 ACF／提示壓過自由改寫（C3），以及發行說明裡的具名預設路徑（C5）。
+Exists：CompileIQ 智慧體技能、**Cake IR**（型別化排程，沒有版面代數）、**Argus** tag 函式／斷言、**IntOpt** 意圖序列（經典實現）、**LLM4IR** 作為*負例*（裸 LLVM 傾印在 CFG／執行上失敗）。主張：**面向 LLM 的 IR** 是智慧體可見的臉——schema，不是貼上然後祈禱。Missing：跨 MLIR、Triton、Tile、Cake、Argus 的可攜摘要與行動——今天每個堆疊都重黏。解鎖窄 ACF／提示壓過自由改寫（C3），以及發行說明裡的具名預設路徑（C5）。
 
 **T2 — 接納／回退 → C6 混合。**
 Exists：Archer 判定預言機閘控 PR、**Cake** 編譯前安全／符合性閘、**Argus** 版面代數 + SMT（零執行期、執行緒級反例）、FlashInfer-Bench。主張：混合意味經典 lowering 仍在 admit 底下跑。Missing：共享的 admit *產品*，加上每個廠商文件都信得過的確定性回退。解鎖 C6-B——控制面，不是編譯器替換。

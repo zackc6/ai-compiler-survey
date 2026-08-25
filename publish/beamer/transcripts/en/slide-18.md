@@ -3,7 +3,7 @@
 Four horizontal bands — read each as **title → Flip (what would change our mind) → consequence**. These are scope limiters, not research trivia.
 
 **C3 — Free rewrite vs advisory (warn).**
-*Today lean:* narrow APIs — hints, **ACF**s (Advanced Control Files), pass lists, **Cake IR** schedules, **Argus** tag/assert + SMT; classical applicator or verifier runs. Cake’s matched clean-start: typed schedule beats raw CUDA/PTX. Argus: free HIP sits 2–600× behind libraries. *Flip:* shared public suite where **free IR rewrite** (unconstrained LLM editing MLIR/LLVM) **consistently beats** advisors on p50 traces. *Consequence:* industry widens rewrite API — hybrid control plane thins toward C3-A. Until that flip, hold advisory (**C6-B**).
+*Today lean:* narrow APIs — hints, **ACF**s (Advanced Control Files), pass lists, **intent** stages (IntOpt), **Cake IR** schedules, **Argus** tag/assert + SMT; classical applicator or verifier runs. Cake’s matched clean-start: typed schedule beats raw CUDA/PTX. Argus: free HIP sits 2–600× behind libraries. **LLM4IR:** dumped LLVM IR is a bad agent language (CFG/exec fail). *Flip:* shared public suite where **free IR rewrite** (unconstrained LLM editing MLIR/LLVM) **consistently beats** advisors on p50 traces. *Consequence:* industry widens rewrite API — hybrid control plane thins toward C3-A. Until that flip, hold advisory (**C6-B**).
 
 **C6 — Replace vs control plane (ember).**
 *Today lean:* hybrid — agents above classical admit/fallback. *Flip:* production **default** path with **no** classical admit/fallback — agent output is execution truth. *Consequence:* agents replaced the compiler (**M3**). Survey **rejects** this through Horizon B; watch for it as falsifier, not roadmap.

@@ -3,7 +3,7 @@
 這是 §1 的背景。幻燈片上：主張句占主導；機構標籤只是低調的註腳。口播節奏：先講主張，再點名有機構背書的例子。
 
 **A — 混合式引導，不是把 LLM 當編譯器。**
-放任 **IR**（中間表示）自由改寫很脆弱：UC Berkeley 的 mlirAgent 顯示，前沿模型在 IR 變換上甚至低於恆等變換。贏家都會收斂行動空間。AgentCompile（香港城市大學）輸出建議性後設資料；模板加檢查才放行 CUDA。HintPilot（浙江大學，與 Purdue 合作）插入編譯器驗證過的 pragma，而不是任意改寫。Meta 的 LLM Compiler 提出 `opt` 會套用的 pass 清單。口頭強調：限制行動；保留傳統施用器。
+放任 **IR**（中間表示）自由改寫很脆弱：UC Berkeley 的 mlirAgent 顯示，前沿模型在 IR 變換上甚至低於恆等變換。**LLM4IR / LaMIR**（ICML 2025；Kent State、HUST、PNNL）是互補的*理解*上界：模型能解析傾印的 LLVM 語法，但在 **CFG**（控制流圖）邊與指令級執行上失敗。贏家都會收斂行動空間——提示、**ACF**（進階控制檔）、意圖序列（IntOpt），或型別化智慧體 IR（Cake / Argus）。AgentCompile（香港城市大學）輸出建議性後設資料；模板加檢查才放行 CUDA。HintPilot（浙江大學，與 Purdue 合作）插入編譯器驗證過的 pragma。Meta 的 LLM Compiler 提出 `opt` 會套用的 pass 清單。口頭強調：**面向 LLM 的 IR** 是編譯器對智慧體可見的*臉*，不是傾印 `.ll`，也不是新的 lowering 層帶。
 
 **B — 從 RL 訓練場到 LLM 智慧體。**
 把 CompilerGym 式的不透明神經策略留在健身房時代。轉向會用工具、多智慧體迴圈。Compiler-R1（ISCAS / UCAS）用 **SFT**（監督式微調）+ **RL**（強化學習）訓練工具呼叫式的 pass 搜尋。Magellan（Google DeepMind / Google）在 LLVM/XLA 內合成可出貨的 C++ 啟發式。FlowCompile（UMass Amherst、MIT、MIT-IBM Watson）離線編譯結構化 LLM 工作流程——控制面底層，不只是聊天。時間夠的話也點一下 Auto / AgentFlow 的 freeze 與 **ADG**（智慧體相依圖）。**DeepSeek Harness**（`dsh`）是同一家族裡已出貨的*執行期*——外掛核心 + session log——不是編譯器，也不是判定預言機。

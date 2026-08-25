@@ -25,6 +25,7 @@ Companion: [`../docs/SURVEY.md`](../docs/SURVEY.md) §5 · [`../docs/SURVEY.md`]
 | [cornell-zhang/heurigym](https://github.com/cornell-zhang/heurigym) | GitHub | Agentic heuristic bench incl. compiler tasks | §4.10 |
 | [amazon-science/acclaim](https://github.com/amazon-science/acclaim) + [paper](https://arxiv.org/abs/2604.04238) | GitHub | Multi-level compiler↔LLM cooperation (online job a) | Q2/Q3; §5.4 |
 | [ucb-bar/mlirAgent](https://github.com/ucb-bar/mlirAgent) | GitHub | MCP + fingerprints; **negative** free-IR-rewrite result | §4.5; **C3** |
+| [hjiang13/LLM4IR](https://github.com/hjiang13/LLM4IR) | GitHub | IR *understanding* probe (CFG/exec); not a product compiler | **C3**; T1 |
 | [Mind4Compiler/Compiler-R1](https://github.com/Mind4Compiler/Compiler-R1) | GitHub | Tool-using RL pass agent | Q2 |
 | [ZJU-PL/hintpilot](https://github.com/ZJU-PL/hintpilot) | GitHub | Constrained hint/pragma synthesis | **C3** advisory path |
 | [ScalingIntelligence/KernelBench](https://github.com/ScalingIntelligence/KernelBench) | GitHub | Kernel LLM benchmark | Trend D; **C2** |

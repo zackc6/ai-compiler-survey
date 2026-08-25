@@ -249,10 +249,10 @@
 \node[trendSteel] at (-4.3,1.25) {%
   \textbf{\color{Steel}A --- Hybrid guidance}\par\vspace{0.08em}
   Free IR rewrite fragile\par
-  (mlirAgent $<$ identity)\par
-  Constrain actions: hints /\par
-  advisory metadata / pass lists\par
-  {\fontsize{4.5}{5}\selectfont\color{Mute}AgentCompile/CityU $\cdot$ HintPilot/ZJU $\cdot$ Meta LLM Comp. $\cdot$ mlirAgent/UCB}};
+  mlirAgent $<$ identity; LLM4IR\par
+  CFG/exec fail on dumped LLVM\par
+  Constrain: hints / ACFs / typed IR\par
+  {\fontsize{4.5}{5}\selectfont\color{Mute}AgentCompile $\cdot$ HintPilot $\cdot$ Meta LLM Comp. $\cdot$ mlirAgent $\cdot$ LLM4IR}};
 \node[trendAmber] at (0,1.25) {%
   \textbf{\color{Amber}B --- RL $\rightarrow$ agents}\par\vspace{0.08em}
   CompilerGym $\rightarrow$ tool agents\par
@@ -522,8 +522,8 @@
   at (3.2,0.15) {%
   \textbf{\color{Steel}Not a new IR band}\par
   power/energy $\rightarrow$ objective + oracle\par
-  \$/token $\cdot$ SLOs $\rightarrow$ control policy\par
-  safety $\rightarrow$ provenance / admit};
+  LLM-oriented IR $\rightarrow$ agent \emph{face}\par
+  \$/token $\cdot$ safety $\rightarrow$ policy / admit};
 \node[draw=Ink,fill=Ink!6,rounded corners=5pt,minimum width=5.5cm,minimum height=1.15cm,text width=5.1cm,align=left,font=\sffamily\scriptsize,inner sep=6pt]
   at (3.2,-1.35) {%
   \textbf{Lean (A6/S6)}\par
@@ -789,7 +789,7 @@
 % C3
 \node[anchor=west,font=\sffamily\small\bfseries,text=Warn] at (-6.1,2.20) {C3 --- free rewrite vs advisory};
 \node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.1,1.80) {Flip: shared suite where free rewrite consistently wins};
-\node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.1,1.48) {$\Rightarrow$ wide rewrite API \quad vs \quad ACFs / hints / Cake IR / Argus tags (current lean)};
+\node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.1,1.48) {$\Rightarrow$ wide rewrite API \quad vs \quad ACFs / hints / Cake IR / Argus / intent (LLM4IR: dump fails)};
 \draw[Line,line width=0.35pt] (-6.1,1.26) -- (6.1,1.26);
 % C6
 \node[anchor=west,font=\sffamily\small\bfseries,text=Ember] at (-6.1,0.92) {C6 --- replace vs control plane};
@@ -1033,7 +1033,7 @@
 % T1  (title=\small, body=\footnotesize)
 \node[anchor=west,font=\sffamily\small\bfseries,text=Steel] at (-6.15,2.32) {T1 Typed interfaces};
 \node[anchor=east,font=\sffamily\small\bfseries,text=Ember] at (6.15,2.32) {$\rightarrow$ C3, C5, C6};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ok] at (-6.15,1.98) {Exists: CompileIQ $\cdot$ Cake IR $\cdot$ Argus tags $\cdot$ Zomboss};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ok] at (-6.15,1.98) {Exists: CompileIQ $\cdot$ Cake IR $\cdot$ Argus $\cdot$ IntOpt intent $\cdot$ LLM4IR (neg.)};
 \node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.15,1.68) {Missing: portable schemas across MLIR $\cdot$ Triton $\cdot$ Tile $\cdot$ Cake $\cdot$ Argus};
 \draw[Line,line width=0.35pt] (-6.15,1.48) -- (6.15,1.48);
 % T2
@@ -1080,7 +1080,7 @@
 % T7
 \node[anchor=west,font=\sffamily\small\bfseries,text=Amber] at (-6.15,1.18) {T7 Multi-IR corpora};
 \node[anchor=east,font=\sffamily\small\bfseries,text=Ember] at (6.15,1.18) {$\rightarrow$ Selectors};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ok] at (-6.15,0.84) {Exists: Meta LLM Compiler $\cdot$ \textbf{KernelBook}$\rightarrow$TritonRL $\cdot$ DRTriton};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ok] at (-6.15,0.84) {Exists: Meta LLM Compiler $\cdot$ \textbf{ComPile} $\cdot$ \textbf{KernelBook}$\rightarrow$TritonRL $\cdot$ DRTriton};
 \node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.15,0.54) {Missing: versioned MLIR / Tile / StableHLO + failed / miscompile negatives};
 \draw[Line,line width=0.35pt] (-6.15,0.34) -- (6.15,0.34);
 % T8
@@ -1158,7 +1158,7 @@
 % 3
 \node[anchor=west,font=\sffamily\small\bfseries,text=Steel] at (-6.15,0.36) {3. Portable agent compile interface (T1)};
 \node[anchor=east,font=\sffamily\footnotesize,text=Mute] at (6.15,0.36) {w/o $\rightarrow$ re-glue};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,0.01) {summaries $\cdot$ actions $\cdot$ admit across MLIR / Triton / Tile / Cake / Argus};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,0.01) {LLM-oriented IR: summaries $\cdot$ intent $\cdot$ typed surface $\cdot$ admit --- \emph{not} a new L-band};
 \draw[Line,line width=0.35pt] (-6.15,-0.22) -- (6.15,-0.22);
 % 4
 \node[anchor=west,font=\sffamily\small\bfseries,text=Ink] at (-6.15,-0.56) {4. Open ladder + multi-IR data (T7+T8)};
@@ -1179,7 +1179,7 @@
 % 1.35cm pitch, short single-line rows --- visible gaps between blocks
 \node[qRow] at (0, 2.70) {\textbf{\color{Amber}1.} Online (CompileIQ) vs Offline (Magellan) --- which matches your release model?};
 \node[qRow] at (0, 1.35) {\textbf{\color{Amber}2.} Oracle stack: Alive2 / golden / serving A/B --- who owns false negatives?};
-\node[qRow] at (0, 0.00) {\textbf{\color{Amber}3.} Agent contract surface: LLVM / MLIR / Triton / StableHLO / Tile?};
+\node[qRow] at (0, 0.00) {\textbf{\color{Amber}3.} Agent-visible IR: dump vs summaries / intent / Cake / Argus / Tile?};
 \node[qRow] at (0,-1.35) {\textbf{\color{Amber}4.} How do you cache/regress traces across compiler \emph{and} model upgrades?};
 \node[qRow] at (0,-2.70) {\textbf{\color{Amber}5.} Max \$/build for a median X\% win? Named maintainer per admitted artifact?};
 \end{tikzpicture}
@@ -1296,7 +1296,7 @@
 \node[draw=Steel,fill=Steel!10,rounded corners=5pt,minimum width=3.9cm,minimum height=3.5cm,text width=3.55cm,align=left,font=\sffamily\footnotesize,inner sep=7pt]
   at (-4.3,0.2) {%
   \textbf{\color{Steel}Publications}\par\vspace{0.25em}
-  123 digests\par
+  128 digests\par
   one file per source\par\vspace{0.2em}
   papers $\cdot$ blogs $\cdot$ talks\par
   forge pages $\cdot$ minutes\par\vspace{0.25em}
@@ -1384,7 +1384,7 @@
 \node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-2.6,2.15) {Compiler 2.0 Ken Kennedy (MIT) $\cdot$ DARPA MOCHA / Aarno};
 \draw[Line,line width=0.3pt] (-6.15,1.90) -- (6.15,1.90);
 \node[anchor=west,font=\sffamily\footnotesize\bfseries,text=Amber] at (-6.15,1.55) {Offline / online};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-2.6,1.55) {Magellan $\cdot$ ACCLAIM $\cdot$ EmitC-MLGO June 2026 PoR};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-2.6,1.55) {Magellan $\cdot$ ACCLAIM $\cdot$ EmitC-MLGO $\cdot$ LLM4IR $\bigstar$};
 \draw[Line,line width=0.3pt] (-6.15,1.30) -- (6.15,1.30);
 \node[anchor=west,font=\sffamily\footnotesize\bfseries,text=Ember] at (-6.15,0.95) {Bring-up / codesign};
 \node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-2.6,0.95) {TritorX $\cdot$ KernelEvolve $\cdot$ Zomboss $\bigstar$ $\cdot$ KForge};
@@ -1392,7 +1392,7 @@
 \node[anchor=west,font=\sffamily\footnotesize\bfseries,text=Ok] at (-6.15,0.35) {Kernels / ladder / data};
 \node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-2.6,0.35) {Cake $\bigstar$ $\cdot$ Argus $\bigstar$ $\cdot$ GEAK v4 $\bigstar$ $\cdot$ FlashInfer-Bench $\bigstar$ $\cdot$ KernelBook};
 \node[font=\sffamily\footnotesize,text=Mute,text width=12cm,align=center] at (0,-0.40)
-  {Full digest index 123 entries. Technique map: SURVEY §5.8 T1--T10.};
+  {Full digest index 128 entries. Technique map: SURVEY §5.8 T1--T10.};
 \end{tikzpicture}
 \end{center}
 \end{frame}
@@ -1403,9 +1403,9 @@
 \begin{center}
 \vspace{-0.35em}
 \begin{tikzpicture}
-\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,2.20) {\textbf{24} GPU kernels \& inference \quad \textbf{14} Agentic \& RL \quad \textbf{14} Source control \& review};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,2.20) {\textbf{24} GPU kernels \& inference \quad \textbf{15} Agentic \& RL \quad \textbf{14} Source control \& review};
 \node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,1.65) {\textbf{10} Classic DL compilers \quad \textbf{10} Company infra \quad \textbf{10} Forums \& workshops};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,1.10) {\textbf{8} Surveys \& vision \quad \textbf{8} Foundation LLMs \quad \textbf{6} MLGO \& RL gyms};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,1.10) {\textbf{8} Surveys \& vision \quad \textbf{12} Foundation LLMs \quad \textbf{6} MLGO \& RL gyms};
 \node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,0.55) {\textbf{6} HW codesign \& bring-up \quad \textbf{6} Commercial products \quad \textbf{6} Control-plane substrate \quad \textbf{1} Correctness lineage};
 \draw[Line,line width=0.35pt] (-6.15,0.20) -- (6.15,0.20);
 \node[anchor=west,font=\sffamily\small\bfseries,text=Mute] at (-6.15,-0.20) {How digests are used};

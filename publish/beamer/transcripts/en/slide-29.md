@@ -6,7 +6,7 @@ Same band rhythm as slide 28, for techniques outside classical lowering. Spoken:
 Exists: Alive2-class local formal, FlashInfer-Bench + `apply()` into SGLang/vLLM, **GEAK v4** warm-server A/B with output parity after Amdahl triage. Claim: local formal is strong; product truth is serving statistics. Missing: whole-program checks, GPU race and FP nondeterminism oracles, multi-month *default-path* A/B with public p50/p90. Unlocks C2 — median and p90 on pinned traces, not headline kernels.
 
 **T7 — Multi-IR corpora → selectors.**
-Exists: Meta LLM Compiler pass-list data, KernelBook→TritonRL, DRTriton. Claim: data beats parameter count for IR actions. Missing: versioned MLIR/Tile/StableHLO dumps plus *failed* and miscompile negatives — without negatives, RL reward-hacks. Unlocks learned selectors, not one agent IR for all vendors (C4 partial).
+Exists: Meta LLM Compiler pass-list data, **ComPile** production LLVM IR pile, KernelBook→TritonRL, DRTriton. Claim: data beats parameter count for IR actions; fluency corpora are *priors*, not contracts. Missing: versioned MLIR/Tile/StableHLO dumps plus *failed* and miscompile negatives — without negatives, RL reward-hacks. ComPile/IRCoder do not close GPU/MLIR gaps. Unlocks learned selectors, not one agent IR for all vendors (C4 partial).
 
 **T8 — Benchmark ladder → C2, C9.**
 Exists: KernelBench(-X) correctness+speed, FlashInfer-Bench serving-kernel rung, **llvm-bench** (334 LLVM middle-end crash/miscompile bugs). Claim: ladders force comparability — serving kernels and compiler-bug repair are different rungs. Missing: full IR→kernel→fused→serving chain with cost-to-compile on every rung. Unlocks both distributional gains (C2) and second-vendor coverage playbooks (C9).

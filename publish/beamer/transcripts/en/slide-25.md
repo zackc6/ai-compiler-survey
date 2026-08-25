@@ -3,7 +3,7 @@
 Transition from blockers to gaps. On-slide: priority tiers HIGH, MED–HIGH, MEDIUM with numbered gap IDs. Spoken: this gates Horizon A — it is not a research wishlist.
 
 **HIGH row — prediction stops here without these.**
-4.1 production evidence: default-path A/B, distributional gains (blocker four). 4.2 correctness: money-grade oracle stack — formal → shape-grid → serving statistics (blocker one). 4.3 cost/replay: lab → CI → freeze lifecycle, cache keys, token budget (blocker two). 4.4 cross-stack: portable agent contract across MLIR, Triton, Tile, StableHLO (blocker three). 4.10 benchmarks: unified ladder with cost-to-compile — KernelBench alone is not enough.
+4.1 production evidence: default-path A/B, distributional gains (blocker four). 4.2 correctness: money-grade oracle stack — formal → shape-grid → serving statistics (blocker one). 4.3 cost/replay: lab → CI → freeze lifecycle, cache keys, token budget (blocker two). 4.4 cross-stack: portable **LLM-oriented IR** contract (summaries / intent / typed surface / admit) across MLIR, Triton, Tile, StableHLO — not one dumped LLVM IR (blocker three; LLM4IR). 4.10 benchmarks: unified ladder with cost-to-compile — KernelBench alone is not enough.
 
 **MED–HIGH row — accelerates but does not alone falsify.**
 4.5 hardware-native interfaces: Tile IR, CuTe, vendor-specific kernel DSLs agents must address. 4.7 training data: open multi-IR corpora with negatives — T7 unlocks selectors, not just bigger LLMs.

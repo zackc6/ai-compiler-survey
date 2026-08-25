@@ -5,7 +5,7 @@ Direct answer to the room’s question: “Can one cost model cover all passes �
 **Left — Why not one model (amber box).**
 - **Different legality / oracles per band** — Alive2 certifies LLVM IR slices; it does not certify **GPU** race freedom or serving-time equivalence. A single cost tensor cannot share labels across L3 vs L6.
 - **Choosing the level *is* the product** — ACCLAIM’s guide agent decides *which band* to spend search budget on; that meta-decision is not reducible to one local cost.
-- **Cost models stay local** — **MLGO**, Ansor, MetaSchedule transfer inside a family (e.g., LLVM inliner features), not from fusion → Triton → regalloc → serving A/B in one weight file.
+- **Cost models stay local** — **MLGO**, Ansor, MetaSchedule transfer inside a family (e.g., LLVM inliner features), not from fusion → Triton → regalloc → serving A/B in one weight file. **LLM4IR**: IR *fluency* is not CFG/execution skill, so a bigger IR LLM is still only a prior.
 - **Future passes need new measured labels** — every new ISA SKU and pass needs fresh (program, action, HW) tuples; frozen weights cannot invent unmeasured hardware behavior.
 
 **Right — If bands do not consolidate (steel box).**

@@ -6,7 +6,7 @@ Lead with the headline, then the gloss chips, then the body columns. Do not let 
 Agents reshape the **control plane** (search, orchestrate, synthesize) more than they replace the **data plane** (lower, legality, measure, fallback). This is the executive verdict the rest of the deck defends. If they remember one sentence, it is this.
 
 **Gloss chips — define the planes in the room.**
-Left chip: **Control plane** = search / orchestrate / synthesize — where LLM agents and offline eng live. Right chip: **Data plane** = lower / legality / measure / fallback — Inductor, XLA, MLIR passes, Triton, Tile, classical `opt`. Agents sit *above* via typed tools and admit; they do not silently become the lowering path.
+Left chip: **Control plane** = search / orchestrate / synthesize — where LLM agents and offline eng live. Right chip: **Data plane** = lower / legality / measure / fallback — Inductor, XLA, MLIR passes, Triton, Tile, classical `opt`. Agents sit *above* via typed tools and admit; they do not silently become the lowering path. **LLM-oriented IR** (summaries, intent, typed mutation surfaces) is that *face* — not a new data-plane band.
 
 **Left column — three stacked claims (walk top to bottom).**
 1. **Compilers for AI × AI for compilers** — the two stacks from slide 3 are merging, not one eating the other.

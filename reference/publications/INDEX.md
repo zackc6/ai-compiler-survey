@@ -32,6 +32,10 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2023 | forum | Foundation LLMs for compilers | Hacker News community | Hacker News | [HN: Large Language Models for Compiler Optimization](hn-llm-compiler-opt-2023.md) | [source](https://news.ycombinator.com/item?id=37549216) |
 | 2024 | forum | Foundation LLMs for compilers | Hacker News community | Hacker News | [HN: Meta LLM Compiler (long thread)](hn-meta-llm-compiler-40819479.md) | [source](https://news.ycombinator.com/item?id=40819479) |
 | 2024 | forum | Foundation LLMs for compilers | Hacker News community | Hacker News | [HN: Meta Large Language Model Compiler](hn-meta-llm-compiler-40812436.md) | [source](https://news.ycombinator.com/item?id=40812436) |
+| 2023 | paper | Foundation LLMs for compilers | UC Davis · TUM · LLNL · UIUC · ANL · Google et al. | arXiv · Hugging Face | [ComPile: A Large IR Dataset from Production Sources](compile.md) | [source](https://arxiv.org/abs/2309.15432) |
+| 2024 | paper | Foundation LLMs for compilers | TU Darmstadt · University of Würzburg | ACL 2024 · arXiv | [IRCoder: Intermediate Representations Make Language Models Robust Multilingual Code Generators](ircoder.md) | [source](https://arxiv.org/abs/2403.03894) |
+| 2025 | paper | Foundation LLMs for compilers | Kent State · HUST · PNNL · Chongqing University | ICML 2025 · PMLR · arXiv | [Can Large Language Models Understand Intermediate Representations in Compilers?](llm4ir.md) ★ IR understanding bound | [source](https://arxiv.org/abs/2502.06854) |
+| 2026 | paper | Foundation LLMs for compilers | Barcelona Supercomputing Center · UPC | arXiv | [LLM Translation of Compiler Intermediate Representation](iris-14b.md) | [source](https://arxiv.org/abs/2605.08247) |
 | 2025 | paper | Agentic & RL compilers | ISCAS · UCAS | arXiv | [Compiler-R1: Towards Agentic Compiler Auto-tuning with Reinforcement Learning](compiler-r1.md) | [source](https://arxiv.org/html/2506.15701v1) |
 | 2025 | code | Agentic & RL compilers | ISCAS / Mind4Compiler | GitHub | [Mind4Compiler/Compiler-R1 (code)](compiler-r1-github.md) | [source](https://github.com/Mind4Compiler/Compiler-R1) |
 | 2026 | paper | Agentic & RL compilers | multi-institution | CGO 2026 | [LLM-VeriOpt: Verification-Guided RL for LLM-Based Compiler Optimization](llm-veriopt.md) | [source](https://2026.cgo.org/details/cgo-2026-papers/37/LLM-VeriOpt-Verification-Guided-Reinforcement-Learning-for-LLM-Based-Compiler-Optimi) |
@@ -41,6 +45,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | company | Agentic & RL compilers | Google DeepMind | DeepMind blog | [DeepMind blog: AlphaEvolve impact](alphaevolve-blog.md) | [source](https://deepmind.google/blog/alphaevolve-impact/) |
 | 2025 | paper | Agentic & RL compilers | ISCAS · UCAS · NTU Singapore | arXiv | [AwareCompiler: Agentic Context-Aware Compiler Optimization](awarecompiler.md) | [source](https://arxiv.org/html/2510.11759v1) |
 | 2026 | paper | Agentic & RL compilers | Shaanxi Normal University · Northwest University · University of Leeds | arXiv | [AutoPass: Evidence-Guided LLM Agents for Compiler Performance Tuning](autopass.md) | [source](https://arxiv.org/pdf/2606.20373) |
+| 2026 | paper | Agentic & RL compilers | SKLP, ICT, CAS · UCAS · Jiangnan University · CUHK | arXiv | [Beyond Pass-by-Pass Optimization: Intent-Driven IR Optimization with Large Language Models](intopt.md) | [source](https://arxiv.org/abs/2602.18511) |
 | 2026 | paper | Agentic & RL compilers | Zhejiang University · Purdue | arXiv | [HintPilot: LLM-based Compiler Hint Synthesis for Code Optimization](hintpilot.md) | [source](https://arxiv.org/abs/2604.15041) |
 | 2026 | paper | Agentic & RL compilers | AWS AI · Georgia Tech | arXiv | [Agentic Code Optimization via Compiler-LLM Cooperation (ACCLAIM)](acclaim.md) ★ Tier A Q2/Q3 | [source](https://arxiv.org/abs/2604.04238) |
 | 2026 | paper | Agentic & RL compilers | Huawei Technologies, Heterogeneous Compiler Lab | arXiv | [T-LLM Compiler: Trusted LLM-based Code Optimization and Verification Framework](t-llm-compiler.md) | [source](https://arxiv.org/abs/2608.14953) |
@@ -132,7 +137,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | Agent control-plane substrate | University of Washington (SyFI) | arXiv | [VibeServe: Can AI Agents Build Bespoke LLM Serving Systems?](vibeserve.md) | [source](https://arxiv.org/abs/2605.06068) |
 | 2026 | code | Agent control-plane substrate | DeepSeek AI | GitHub | [DeepSeek Harness (`dsh`)](deepseek-harness.md) plugin runtime / session log | [source](https://github.com/deepseek-ai/deepseek-harness) |
 
-**Total:** 123 digests
+**Total:** 128 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 

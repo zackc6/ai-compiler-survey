@@ -27,4 +27,4 @@ Research framework for AI-guided MLIR/LLVM development via tools, knowledge grap
 
 ## Why it matters for this survey
 
-This source informs the living survey in `docs/SURVEY.md` (trends, agent roles, process reshape, and/or gaps). Prefer the primary link above when citing.
+Negative **C3/A5** result: free IR transform loses to identity. Pair with [LLM4IR](llm4ir.md) (understanding probe) and Cake/Argus (typed agent IR). MCP + fingerprints are T1 family-2, not a data-plane replacement.

@@ -3,7 +3,7 @@
 四條水平帶——每條讀成**標題 → Flip（什麼會讓我們改主意）→ 後果**。這些是範圍限制，不是研究 trivia。
 
 **C3 — 自由改寫 vs 建議（警告色）。**
-*今日 lean：*窄 API——提示、**ACF**（進階控制檔）、pass 清單、**Cake IR** 排程、**Argus** tag/assert + SMT；經典施用器或驗證器在跑。Cake 對照乾淨起點：型別化排程贏過裸 CUDA/PTX。Argus：自由 HIP 比函式庫慢 2–600×。*Flip：*共享公開套件上，**自由 IR 改寫**（無約束 LLM 改 MLIR/LLVM）在 p50 trace 上**穩定贏過**顧問。*後果：*產業加寬改寫 API——混合控制面往 C3-A 變薄。在那之前，守建議式（**C6-B**）。
+*今日 lean：*窄 API——提示、**ACF**（進階控制檔）、pass 清單、**意圖**階段（IntOpt）、**Cake IR** 排程、**Argus** tag/assert + SMT；經典施用器或驗證器在跑。Cake 對照乾淨起點：型別化排程贏過裸 CUDA/PTX。Argus：自由 HIP 比函式庫慢 2–600×。**LLM4IR：**傾印的 LLVM IR 是糟糕的智慧體語言（CFG／執行失敗）。*Flip：*共享公開套件上，**自由 IR 改寫**（無約束 LLM 改 MLIR/LLVM）在 p50 trace 上**穩定贏過**顧問。*後果：*產業加寬改寫 API——混合控制面往 C3-A 變薄。在那之前，守建議式（**C6-B**）。
 
 **C6 — 取代 vs 控制面（餘燼）。**
 *今日 lean：*混合——智慧體在經典 admit／fallback 之上。*Flip：*生產**預設**路徑**沒有**經典 admit／fallback——智慧體輸出就是執行真相。*後果：*智慧體取代了編譯器（**M3**）。調查到 Horizon B 都**拒絕**這條；當證偽訊號看，不當路線圖。

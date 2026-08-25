@@ -16,7 +16,7 @@ Walk each band; name the level and what lives there:
 Maturing band: placement + collectives across nodes. Today often split across L2–L3 plus runtime glue — but once compilation means multi-node **place**, treat L7 as a real band with its own legality and cost surfaces.
 
 **Not a new IR band (steel box).**
-Power/energy → objective + oracle, not a seventh dialect. **$/token** and latency **SLO**s (Service Level Objectives) → **control-plane policy**, not a new lowering stage. Safety → provenance and admit gates. Do not invent “L8 policy IR” — policy sits above bands.
+Power/energy → objective + oracle, not a seventh dialect. **LLM-oriented IR** → agent *face* of existing bands (T1 contract: summaries / intent / typed surface), not an L-llm. **$/token** and safety → control-plane policy and admit, not a new lowering stage. Do not invent “L8 policy IR” or “L-llm.”
 
 **Lean — A6 / S6 (ink box).**
 Keep the bands; agents unify *contracts* and orchestration — **not** one mega-IR swallowing L1–L7. Optional **L0*** for CPU/**LLVM** paths; agents sit *above* all bands via typed tools (**MCP**-class servers, Model Context Protocol).
