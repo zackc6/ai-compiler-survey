@@ -17,6 +17,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2020 | paper | Classic DL compilers | Peking University et al. | ACM ASPLOS 2020 | [FlexTensor: An Automatic Schedule Exploration and Optimization Framework](flextensor-asplos20.md) | [source](https://doi.org/10.1145/3373376.3378508) |
 | 2022 | paper | Classic DL compilers | UW · AWS · OctoML et al. | ACM ASPLOS 2023 | [TensorIR: An Abstraction for Automatic Tensorized Program Optimization](tensorir-asplos.md) | [source](https://dl.acm.org/doi/10.1145/3575693.3576933) |
 | 2026 | company | Classic DL compilers | Apache TVM · MLC (CMU course) | Apache TVM blog | [TIRx: An Open Compiler Stack for Evolving Frontier ML Kernels](tirx.md) | [source](https://tvm.apache.org/2026/06/22/tirx) |
+| 2025/26 | paper | Classic DL compilers | Peking University · Microsoft Research · Imperial College London | arXiv | [TileLang: A Composable Tiled Programming Model for AI Systems](tilelang.md) | [source](https://arxiv.org/abs/2504.17577) |
 | 2021 | paper | Classic DL compilers | Google · multi-institution | arXiv (MLIR) | [MLIR: A Compiler Infrastructure for the End of Moore's Law](mlir-arxiv.md) | [source](https://arxiv.org/abs/2002.11054) |
 | 2025 | company | Classic DL compilers | OpenXLA / Google | OpenXLA | [OpenXLA StableHLO roadmap](stablehlo-roadmap.md) | [source](https://openxla.org/stablehlo/roadmap) |
 | 2021 | paper | MLGO & RL gyms | Google · CMU | arXiv | [MLGO: a Machine Learning Guided Compiler Optimizations Framework](mlgo-paper.md) | [source](https://arxiv.org/abs/2101.04808) |
@@ -127,6 +128,12 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | GPU kernels & inference compilers | NVIDIA · UC Berkeley | arXiv | [KernelBlaster: Memory-Augmented In-Context RL for CUDA](kernelblaster.md) | [source](https://arxiv.org/abs/2602.14293) |
 | 2026 | paper | GPU kernels & inference compilers | NVIDIA · Carnegie Mellon University | arXiv | [CAKE: Compiler–Agent Co-Design for Frontier Kernel Evolution](cake.md) ★ typed schedule IR | [source](https://arxiv.org/abs/2608.12629) |
 | 2026 | paper | GPU kernels & inference compilers | CausalFlow · HKUST · Tsinghua University · Stanford · UCAS · UC Riverside | arXiv | [ARGUS: Agentic GPU Optimization Guided by Data-Flow Invariants](argus.md) ★ SMT/layout admit | [source](https://arxiv.org/abs/2604.18616) |
+| 2025/26 | company | GPU kernels & inference compilers | Triton project (OpenAI / community) | Triton docs | [Gluon: Triton's lower-level GPU programming model](triton-gluon.md) | [source](https://triton-lang.org/main/gluon/index.html) |
+| 2026 | paper | GPU kernels & inference compilers | UC San Diego · Meta | arXiv | [TLX: Hardware-Native, Evolvable MIMW GPU Compiler for Large-scale Production Environments](tlx.md) | [source](https://arxiv.org/abs/2605.10905) |
+| 2026 | company | GPU kernels & inference compilers | AMD | AMD ROCm blog | [FlyDSL: Expert GPU Kernel Development with the Ease of MLIR Python Native DSL on AMD GPUs](flydsl.md) | [source](https://rocm.blogs.amd.com/software-tools-optimization/flydsl-python-native/README.html) |
+| 2025 | company | GPU kernels & inference compilers | NVIDIA | NVIDIA Developer blog | [Achieve CUTLASS C++ Performance with Python APIs Using CuTe DSL](cute-dsl.md) | [source](https://developer.nvidia.com/blog/achieve-cutlass-c-performance-with-python-apis-using-cute-dsl/) |
+| 2026 | paper | GPU kernels & inference compilers | Carnegie Mellon University · NVIDIA et al. | MLSys 2026 · arXiv | [Event Tensor: A Unified Abstraction for Compiling Dynamic Megakernel](event-tensor.md) | [source](https://arxiv.org/abs/2604.13327) |
+| 2026 | company | GPU kernels & inference compilers | Stanford Hazy Research | Hazy Research blog | [ThunderKittens 2.0: Even Faster Kernels for Your GPUs](thunderkittens.md) | [source](https://hazyresearch.stanford.edu/blog/2026-02-19-tk-2) |
 | 2025 | company | Classic DL compilers | Meta (PyTorch) | PyTorch blog | [Helion: High-Level DSL for Portable ML Kernels](helion-blog.md) | [source](https://pytorch.org/blog/helion/) |
 | 2026 | paper | Classic DL compilers | Qualcomm | arXiv | [Hexagon-MLIR: AI Compilation Stack for Hexagon NPUs](hexagon-mlir.md) | [source](https://arxiv.org/abs/2602.19762) |
 | 2025+ | code | Classic DL compilers | Meta (PyTorch) | GitHub | [pytorch/helion (GitHub)](helion-github.md) | [source](https://github.com/pytorch/helion) |
@@ -138,7 +145,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | Agent control-plane substrate | University of Washington (SyFI) | arXiv | [VibeServe: Can AI Agents Build Bespoke LLM Serving Systems?](vibeserve.md) | [source](https://arxiv.org/abs/2605.06068) |
 | 2026 | code | Agent control-plane substrate | DeepSeek AI | GitHub | [DeepSeek Harness (`dsh`)](deepseek-harness.md) plugin runtime / session log | [source](https://github.com/deepseek-ai/deepseek-harness) |
 
-**Total:** 129 digests
+**Total:** 136 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 

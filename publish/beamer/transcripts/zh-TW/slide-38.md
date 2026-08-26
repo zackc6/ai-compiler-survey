@@ -15,7 +15,7 @@ CompileIQ 加智慧體技能——線上特化、ACF 級控制檔。CUDA Tile / 
 **Argus**——MI300X 上的資料流不變量 + SMT；精選家族達組合語言 TFLOPS 的 99–104%。研究論文，**不是** AMD SKU。訊號：Instinct 級硬體上存在編譯期核心 admit；三個家族的峰值是 C2 *著色*，不是結算。
 
 **Meta。**
-LLM Compiler / KernelLLM — IR 與 PyTorch→Triton 特化。TritorX + KernelEvolve — 使能／拉起／協同設計迴授（工作 d）。Helion — 核心 DSL 路徑。訊號：從可攜圖到矽迴授的完整堆疊，仍是混合。
+LLM Compiler / KernelLLM — IR 與 PyTorch→Triton 特化。TritorX + KernelEvolve — 使能／拉起／協同設計迴授（工作 d）。Helion／**TLX** — 把 Triton 往上抬 vs 用 MIMW 擴充（KernelEvolve 已搜 Triton+TLX）。訊號：從可攜圖到矽迴授的完整堆疊，仍是混合。
 
 **FlashInfer。**
 FlashInfer-Bench — serving-trace 梯子，用 `apply()` 進 SGLang/vLLM。訊號：T6/T8 serving 核心階存在；結算仍要預設路徑 A/B（C2）。

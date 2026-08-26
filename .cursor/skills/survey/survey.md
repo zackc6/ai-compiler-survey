@@ -96,6 +96,8 @@ Fold order that worked (information-preserving):
 | English transcripts updated, zh-TW forgotten | Always refresh both; `translate_transcripts.py --slides …` then polish if needed |
 | Overlapping TikZ boxes/arrows or overflow | Explicit gutters; edge-only connectors; split slide rather than illegible shrink; inspect PDF after every layout edit |
 | Box-on-text (slides 6/11/23): glosses on verdict; cards on HORIZON A; lists on lead-in | Separate vertical bands for titles vs cards; `pdftoppm` inspect before push |
+| LLM-oriented IR pass searched only the paper cluster titled LLM+compiler IR | Also walk vendor kernel IRs, docs launches, FFI/tile/LSP, stale stacks (TVM); watch TritorX vs TIRx vs TLX |
+| Named TileLang / FlyDSL / TLX / Gluon / CuTe DSL in C4/GEAK/KernelEvolve with **zero digests** | If SURVEY names a kernel language as an agent *sink*, that language needs a digest — not only the agent paper on top of it |
 
 ## Commercialization survey method (§5.7)
 

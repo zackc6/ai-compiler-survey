@@ -8,7 +8,7 @@
 - **L1 Framework** — 捕捉動態（eager/graph、autograd hooks）；PyTorch/JAX 級。
 - **L2 Portable graph** — **StableHLO** 級可攜式圖、分片註解；廠商分叉前的交換層。
 - **L3 Mid-IR** — **MLIR** 方言、layout、pass pipeline；多數經典最佳化在這裡。
-- **L4 Kernel DSL** — Triton、Helion、Tile、CuTe、**TIRx**（TVM Tensor IR next）；tile 級可程式設計。TIRx 文件裡的搜尋階 L1–L4 是*智慧體搜尋*層級，**不是**這裡的資料面層帶。
+- **L4 Kernel DSL** — Triton、Helion、**TileLang**、CuTe、**TIRx**（TVM Tensor IR next）；tile 級可程式設計。Helion 把 Triton 往上抬；**Gluon**／**TLX** 往下或擴充。TIRx 文件裡的搜尋階 L1–L4 是*智慧體搜尋*層級，**不是**這裡的資料面層帶。**TLX ≠ TIRx ≠ TritorX**。
 - **L5 Backend-ISA** — PTX、CPU 的 LLVM IR、廠商 intrinsics；bring-up 介面。
 - **L6 Runtime-serve** — CUDA Graphs、**KV**（key-value）快取路徑、服務排程器；延遲敏感的推論。
 

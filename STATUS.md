@@ -14,7 +14,7 @@ Last updated: **2026-08-26**
 | Conflicts | Done | `docs/SURVEY.md` §6 C1–C10 |
 | Survey narrative §0–§9 | Done (v3) | Single reading path; gaps as blockers |
 | **Reference store** | Done | `reference/` guide → publications / products / repos |
-| Publication digests | Done (v9) | **129** digests under `reference/publications/` |
+| Publication digests | Done (v10) | **136** digests under `reference/publications/` |
 | Validate script | Done | `python3 scripts/validate_survey.py` |
 | **PDF publish** | Done | Survey PDF + expert Beamer deck in `publish/out/` |
 | **Survey skill** | Done | `.cursor/skills/survey/` (+ personal `~/.cursor/skills/survey/`) |
@@ -37,12 +37,14 @@ Last updated: **2026-08-26**
 - [x] Waves A–D + SCM + prediction wave
 - [x] Codesign/roadmap wave: TritorX, KernelEvolve, Ascend diagnosis, KForge, AutoKernel(+gh), Kernel Forge, KernelBlaster, Helion(+gh)
 - [x] Agent control-plane substrate: Auto, FlowCompile, AgentFlow, Heterogeneous agentic AI
+- [x] Vendor L4 kernel IRs after TIRx miss: TileLang, Gluon, TLX, FlyDSL, CuTe DSL, Event Tensor, ThunderKittens
 - [ ] Wave E — deepen thin digests from full PDFs
 
 ## Change log
 
 | Date | Change |
 |---|---|
+| 2026-08-26 | Re-search after TIRx miss: digest vendor L4 kernel IRs (TileLang, Gluon, TLX, FlyDSL, CuTe DSL, Event Tensor, ThunderKittens 2.0). Lesson: not only arXiv “LLM+IR”; walk docs/FFI/LSP/stale stacks. INDEX **136**. C4 more contested; Event Tensor = L6 not L-llm. Hybrid holds. Survey + sharing PDFs; Beamer 10/28/31–32/36–38/40–41 + EN/zh-TW |
 | 2026-08-26 | Cover **TIRx** in LLM-oriented IR: TVM Tensor IR next as L4 typed agent face (FFI + tile primitives; search rungs ≠ survey L-bands). Tier B. INDEX **129**. Thin T1/T2/C3/C4; survey + sharing PDFs; Beamer 10/28/32/37/41 + EN/zh-TW |
 | 2026-08-25 | Fold **LLM-oriented IR**: vocabulary §0.2 (fluency / summary / intent / typed-agent / translation glue); ★ LLM4IR; IntOpt, IRIS-14B, ComPile, IRCoder; thin T1/T7/C3/A5; **not** a new L-band. INDEX **128**. Survey + sharing PDFs; Beamer 4/10/18/28–32/37/40–41 + EN/zh-TW |
 | 2026-08-24 | Beamer + EN/zh-TW: DeepSeek Harness on C7 (24/33) and T10 (29); slide 37 count 123; slide 39 not-A footer; survey + sharing PDFs rebuilt |

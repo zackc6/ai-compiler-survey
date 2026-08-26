@@ -26,4 +26,4 @@ Compiler abstraction that generalizes loop nests for tensor primitives and autom
 
 ## Why it matters for this survey
 
-TVM kernel-IR lineage. **[TIRx](tirx.md)** (2026) is the next kernel-level structure: agent-visible FFI + tile primitives at **L4**, not a new data-plane band.
+TVM kernel-IR lineage. **[TileLang](tilelang.md)** (tile DSL + layout inference, above TIRx) and **[TIRx](tirx.md)** (2026 FFI + tile primitives) are the next kernel-level structures: **L4**, not a new data-plane band.

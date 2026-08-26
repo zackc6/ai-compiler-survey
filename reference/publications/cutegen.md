@@ -28,7 +28,7 @@ CuTeGen argues that the agent training surface matters: CuTe exposes tiling/layo
 
 ## Why it matters for this survey
 
-★ for prediction: strengthens job **(a)** kernel agents and SURVEY §5.5 DSL surface / **C4** (Triton vs Tile/CuTe). Complements Helion+CompileIQ and KForge multi-DSL evidence. Prefer the arXiv primary; code link is companion.
+★ for prediction: strengthens job **(a)** kernel agents and SURVEY §5.5 DSL surface / **C4** (Triton vs Tile/CuTe). Substrate: **[CuTe DSL](cute-dsl.md)** (CUTLASS 4 Python). Complements Helion+CompileIQ and KForge multi-DSL evidence. Prefer the arXiv primary; code link is companion.
 
 ## Limits / caveats
 

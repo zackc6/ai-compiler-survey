@@ -15,7 +15,7 @@ CompileIQ with agent-skills — online specialize, ACF-class control files. CUDA
 **Argus** — data-flow invariants + SMT on MI300X; 99–104% of assembly TFLOPS on selected families. Research paper, **not** an AMD SKU. Signal: compile-time kernel admit exists on Instinct-class hardware; peak on three families is C2 *color*, not settlement.
 
 **Meta.**
-LLM Compiler / KernelLLM — IR and PyTorch→Triton specialization. TritorX + KernelEvolve — bring-up / codesign feedback (job d). Helion — kernel DSL path. Signal: full stack from portable graph to silicon feedback, still hybrid.
+LLM Compiler / KernelLLM — IR and PyTorch→Triton specialization. TritorX + KernelEvolve — bring-up / codesign feedback (job d). Helion / **TLX** — raise vs extend Triton (KernelEvolve already searches Triton+TLX). Signal: full stack from portable graph to silicon feedback, still hybrid.
 
 **FlashInfer.**
 FlashInfer-Bench — serving-trace ladder with `apply()` into SGLang/vLLM. Signal: T6/T8 serving-kernel rung exists; settlement still needs default-path A/B (C2).

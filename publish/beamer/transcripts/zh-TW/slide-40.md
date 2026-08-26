@@ -15,6 +15,6 @@ TritorX、KernelEvolve — 真實硬體上的覆蓋→效能（C9）。**Zomboss
 **Cake** ★ — 型別化排程 IR，NVIDIA。**Argus** ★ — 資料流不變量 + SMT，MI300X。**GEAK v4** ★ — 廠商端到端 serving A/B。FlashInfer-Bench ★ — serving-trace 梯子 + `apply()`。KernelBook ★ — 朝 TritonRL 的訓練對。
 
 **指標。**
-完整文獻摘要索引 **129** 筆。技術圖交叉參考：調查 §5.8 T1–T10。準備檢查點論證時先讀 ★。
+完整文獻摘要索引 **136** 筆。技術圖交叉參考：調查 §5.8 T1–T10。準備檢查點論證時先讀 ★。
 
 收尾：★ 文獻摘要是從主張到可引用機制的最短路——先用它們，再做一般網路搜尋。

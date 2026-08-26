@@ -53,9 +53,14 @@ Companion: [`../docs/SURVEY.md`](../docs/SURVEY.md) §5 · [`../docs/SURVEY.md`]
 | [llvm/llvm-project](https://github.com/llvm/llvm-project) | Host for MLGO, Magellan heuristics, Archer reviews |
 | [google/ml-compiler-opt](https://github.com/google/ml-compiler-opt) | Neural advisor training stack (parallel bet to Magellan) |
 | [facebookresearch/CompilerGym](https://github.com/facebookresearch/CompilerGym) | RL pass-order gym — substrate for Selector agents, not agent future alone |
-| [triton-lang/triton](https://github.com/triton-lang/triton) | Default GPU DSL many agents target |
 | [apache/tvm](https://github.com/apache/tvm) (`tvm.tirx`) | **TIRx** kernel IR + FFI mutation surface (**T1/C4**; [digest](publications/tirx.md)) |
+| [tile-ai/tilelang](https://github.com/tile-ai/tilelang) + [tilelang-lsp](https://github.com/tile-ai/tilelang-lsp) | TVM tile DSL + layout-inference LSP (**T1/C4**; [digest](publications/tilelang.md)) |
 | [mlc-ai/tirx-kernels](https://github.com/mlc-ai/tirx-kernels) | Community TIRx kernel library / B200 benches |
+| [triton-lang/triton](https://github.com/triton-lang/triton) | Default GPU DSL; **[Gluon](publications/triton-gluon.md)** is the ttg lower face |
+| [facebookexperimental/triton](https://github.com/facebookexperimental/triton) | **[TLX](publications/tlx.md)** MIMW extensions (KernelEvolve sink) |
+| [ROCm/FlyDSL](https://github.com/ROCm/FlyDSL) | AMD Python+MLIR layout DSL (**C4**; [digest](publications/flydsl.md)) |
+| [NVIDIA/cutlass](https://github.com/NVIDIA/cutlass) | **[CuTe DSL](publications/cute-dsl.md)** Python (CUTLASS 4); substrate under CuTeGen |
+| [HazyResearch/ThunderKittens](https://github.com/hazyresearch/thunderkittens) | CUDA-embedded tiles (**C4**; [digest](publications/thunderkittens.md)) |
 | [openxla/xla](https://github.com/openxla/xla) / StableHLO | Portable AI compiler IR; Magellan XLA experiments |
 | PyTorch (`torch.compile` / Inductor) | Default DL compile path agents must plug into |
 | [NVIDIA/TensorRT-LLM](https://github.com/NVIDIA/TensorRT-LLM) | Production serve stack; [PR #12831](https://github.com/NVIDIA/TensorRT-LLM/pull/12831) adds Claude kernel/compile agents (**C4**) |

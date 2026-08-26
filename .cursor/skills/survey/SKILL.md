@@ -172,10 +172,11 @@ Prefer named TikZ styles, consistent pitch between rows, and **edge-only connect
 7. After **settled** narrative batches: `validate` → survey **PDF** → **`git push origin main`**. Beamer only after the SURVEY text for that topic has settled (or the user explicitly asks for slides).
 8. Cite **external primary sources** only — never this survey’s own repo URL/name in digests, covers, or prediction text.
 9. **SURVEY → goal-align → survey PDF → slides** — never slides-first for new prediction content; never leave survey PDF stale after `docs/SURVEY.md` edits.
-10. When searching evidence for §5.8 / prediction: search commercial/pubs/repos externally → digests in `reference/` → thin-update SURVEY → **goal-align** → `build_pdf.py` → push **main** (no PR).
+10. When searching evidence for §5.8 / prediction: search commercial/pubs/repos externally → digests in `reference/` → thin-update SURVEY → **goal-align** → `build_pdf.py` → push **main** (no PR). For kernel/IR faces: vendor blogs/docs/GitHub and stale-stack walk, not only arXiv “LLM + IR” (hard rule 14).
 11. **Slides ⇒ transcripts (EN + zh-TW)** — any Beamer content edit updates matching `en/slide-NN.md` **and** `zh-TW/slide-NN.md` in the same batch (see section above). Never ship a slide PDF with stale spoken scripts or English-only transcript updates.
 12. **Beamer layout** — never overlapping boxes/arrows; **never box-on-text** (glosses/cards must not cover headlines or era labels); every frame must fit one 16:9 slide; refine (build → `pdftoppm`/inspect → fix) until clean before push.
 13. **SURVEY goal-align** — every `docs/SURVEY.md` update: check contexts still match the goal; change the goal **or** the sub-context when they drift (see “When SURVEY.md changes”).
+14. **Search scope (kernel / IR / agent-visible faces)** — do **not** only grep arXiv titles for “LLM + IR / compiler.” Also walk **vendor kernel IRs**, **docs/blog launches**, **FFI + tile primitives + LSP**, and stacks whose last digest is **years old** (TVM froze at TensorIR 2022 until TIRx). Watch name collisions: **TritorX** (Meta ASIC bring-up) ≠ **TIRx** (TVM Tensor IR next) ≠ **TLX** (Triton Low-level Language Extensions). Names already in C4/GEAK/KernelEvolve related-work still need **their own digest** if the survey cites the *language*.
 
 ## Finish-batch checklist
 

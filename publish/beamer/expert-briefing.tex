@@ -504,7 +504,7 @@
   1/Framework/{capture $\cdot$ dynamism}/2.05,%
   2/Portable graph/{StableHLO-class $\cdot$ shard ann.}/1.50,%
   3/Mid-IR/{MLIR $\cdot$ layout $\cdot$ passes}/0.95,%
-  4/Kernel DSL/{Triton/Helion/Tile/CuTe/TIRx}/0.40,%
+  4/Kernel DSL/{Triton/TileLang/CuTe/TIRx}/0.40,%
   5/Backend-ISA/{PTX $\cdot$ bring-up}/-0.15,%
   6/Runtime-serve/{CUDA Graphs $\cdot$ KV}/-0.70%
 }{
@@ -1033,8 +1033,8 @@
 % T1  (title=\small, body=\footnotesize)
 \node[anchor=west,font=\sffamily\small\bfseries,text=Steel] at (-6.15,2.32) {T1 Typed interfaces};
 \node[anchor=east,font=\sffamily\small\bfseries,text=Ember] at (6.15,2.32) {$\rightarrow$ C3, C5, C6};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ok] at (-6.15,1.98) {Exists: CompileIQ $\cdot$ Cake IR $\cdot$ Argus $\cdot$ TIRx $\cdot$ LLM4IR (neg.)};
-\node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.15,1.68) {Missing: portable schemas across MLIR $\cdot$ Triton $\cdot$ Tile $\cdot$ Cake $\cdot$ Argus $\cdot$ TIRx};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ok] at (-6.15,1.98) {Exists: CompileIQ $\cdot$ Cake IR $\cdot$ Argus $\cdot$ TIRx $\cdot$ TileLang LSP $\cdot$ LLM4IR (neg.)};
+\node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.15,1.68) {Missing: portable schemas across MLIR $\cdot$ Triton/Gluon/TLX $\cdot$ Tile $\cdot$ Cake $\cdot$ Argus $\cdot$ TIRx};
 \draw[Line,line width=0.35pt] (-6.15,1.48) -- (6.15,1.48);
 % T2
 \node[anchor=west,font=\sffamily\small\bfseries,text=Steel] at (-6.15,1.18) {T2 Admit / fallback};
@@ -1179,7 +1179,7 @@
 % 1.35cm pitch, short single-line rows --- visible gaps between blocks
 \node[qRow] at (0, 2.70) {\textbf{\color{Amber}1.} Online (CompileIQ) vs Offline (Magellan) --- which matches your release model?};
 \node[qRow] at (0, 1.35) {\textbf{\color{Amber}2.} Oracle stack: Alive2 / golden / serving A/B --- who owns false negatives?};
-\node[qRow] at (0, 0.00) {\textbf{\color{Amber}3.} Agent-visible IR: dump vs summaries / Cake / Argus / TIRx / Tile?};
+\node[qRow] at (0, 0.00) {\textbf{\color{Amber}3.} Agent-visible IR: dump vs summaries / Cake / Argus / TIRx / Gluon?};
 \node[qRow] at (0,-1.35) {\textbf{\color{Amber}4.} How do you cache/regress traces across compiler \emph{and} model upgrades?};
 \node[qRow] at (0,-2.70) {\textbf{\color{Amber}5.} Max \$/build for a median X\% win? Named maintainer per admitted artifact?};
 \end{tikzpicture}
@@ -1296,7 +1296,7 @@
 \node[draw=Steel,fill=Steel!10,rounded corners=5pt,minimum width=3.9cm,minimum height=3.5cm,text width=3.55cm,align=left,font=\sffamily\footnotesize,inner sep=7pt]
   at (-4.3,0.2) {%
   \textbf{\color{Steel}Publications}\par\vspace{0.25em}
-  129 digests\par
+  136 digests\par
   one file per source\par\vspace{0.2em}
   papers $\cdot$ blogs $\cdot$ talks\par
   forge pages $\cdot$ minutes\par\vspace{0.25em}
@@ -1343,7 +1343,7 @@
 \node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-2.4,0.55) {Argus SMT / tags (MI300X research --- not an AMD SKU)};
 \draw[Line,line width=0.3pt] (-6.15,0.30) -- (6.15,0.30);
 \node[anchor=west,font=\sffamily\footnotesize\bfseries,text=Ink] at (-6.15,0.00) {Meta};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-2.4,0.00) {LLM Compiler / KernelLLM; TritorX + KernelEvolve; Helion};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-2.4,0.00) {LLM Compiler / KernelLLM; TritorX + KernelEvolve; Helion / TLX};
 \draw[Line,line width=0.3pt] (-6.15,-0.25) -- (6.15,-0.25);
 \node[anchor=west,font=\sffamily\footnotesize\bfseries,text=Ok] at (-6.15,-0.55) {FlashInfer};
 \node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-2.4,-0.55) {FlashInfer-Bench (serving-trace ladder + \texttt{apply()} into SGLang/vLLM)};
@@ -1392,7 +1392,7 @@
 \node[anchor=west,font=\sffamily\footnotesize\bfseries,text=Ok] at (-6.15,0.35) {Kernels / ladder / data};
 \node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-2.6,0.35) {Cake $\bigstar$ $\cdot$ Argus $\bigstar$ $\cdot$ GEAK v4 $\bigstar$ $\cdot$ FlashInfer-Bench $\bigstar$ $\cdot$ KernelBook};
 \node[font=\sffamily\footnotesize,text=Mute,text width=12cm,align=center] at (0,-0.40)
-  {Full digest index 129 entries. Technique map: SURVEY §5.8 T1--T10.};
+  {Full digest index 136 entries. Technique map: SURVEY §5.8 T1--T10.};
 \end{tikzpicture}
 \end{center}
 \end{frame}
@@ -1403,8 +1403,8 @@
 \begin{center}
 \vspace{-0.35em}
 \begin{tikzpicture}
-\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,2.20) {\textbf{24} GPU kernels \& inference \quad \textbf{15} Agentic \& RL \quad \textbf{14} Source control \& review};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,1.65) {\textbf{11} Classic DL compilers \quad \textbf{10} Company infra \quad \textbf{10} Forums \& workshops};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,2.20) {\textbf{30} GPU kernels \& inference \quad \textbf{15} Agentic \& RL \quad \textbf{14} Source control \& review};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,1.65) {\textbf{12} Classic DL compilers \quad \textbf{10} Company infra \quad \textbf{10} Forums \& workshops};
 \node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,1.10) {\textbf{8} Surveys \& vision \quad \textbf{12} Foundation LLMs \quad \textbf{6} MLGO \& RL gyms};
 \node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,0.55) {\textbf{6} HW codesign \& bring-up \quad \textbf{6} Commercial products \quad \textbf{6} Control-plane substrate \quad \textbf{1} Correctness lineage};
 \draw[Line,line width=0.35pt] (-6.15,0.20) -- (6.15,0.20);

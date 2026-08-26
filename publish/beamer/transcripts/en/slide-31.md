@@ -9,7 +9,7 @@ Local formal (Alive2-class) → shape-grid diff → statistical serving oracles 
 Control files, kernels, heuristics with content-addressed cache keys and golden replay on model/compiler upgrade. ACF freeze is the product shape. Without replay, every agent run is a one-off; build CI cannot regress, and freeze-before-serve is impossible.
 
 **3. Portable agent compile interface (T1) — w/o → re-glue.**
-**LLM-oriented IR:** summaries, intent/actions, typed mutation surface, admit records — portable across MLIR, Triton, Tile, **Cake IR**, **Argus** tags, **TIRx**. This is the agent *face* of existing bands, **not** a new L-band. Cake and Argus prove typed contracts work *inside* one stack; TIRx is the TVM-side FFI face; LLM4IR shows why dumped LLVM is the wrong face. Without T1, hybrid stacks fragment — you ship a demo per substrate, not a platform.
+**LLM-oriented IR:** summaries, intent/actions, typed mutation surface, admit records — portable across MLIR, Triton/Gluon/TLX, TileLang, **Cake IR**, **Argus** tags, **TIRx**. This is the agent *face* of existing bands, **not** a new L-band. Cake and Argus prove typed contracts work *inside* one stack; TIRx is the TVM-side FFI face; TileLang LSP / Gluon layouts are T1-adjacent sinks; LLM4IR shows why dumped LLVM is the wrong face. Without T1, hybrid stacks fragment — you ship a demo per substrate, not a platform.
 
 **4. Open ladder + multi-IR data (T7 + T8) — w/o → incomparable.**
 Correctness × speed × dollars-per-compile on a unified ladder, plus negative (failed) examples in corpora. KernelBench headlines without cost-to-compile and serving rungs cannot settle C2 or C9.

@@ -15,6 +15,6 @@ TritorX, KernelEvolve — coverage→performance on real hardware (C9). **Zombos
 **Cake** ★ — typed schedule IR, NVIDIA. **Argus** ★ — data-flow invariants + SMT, MI300X. **GEAK v4** ★ — vendor e2e serving A/B. FlashInfer-Bench ★ — serving-trace ladder + `apply()`. KernelBook ★ — training pairs toward TritonRL.
 
 **Pointers.**
-Full digest index **129** entries in the evidence store. Technique map cross-ref: SURVEY §5.8 T1–T10. Read ★ first when prepping checkpoint arguments.
+Full digest index **136** entries in the evidence store. Technique map cross-ref: SURVEY §5.8 T1–T10. Read ★ first when prepping checkpoint arguments.
 
 Closing beat: ★ digests are the shortest path from claim to citable mechanism — use them before general web search.
