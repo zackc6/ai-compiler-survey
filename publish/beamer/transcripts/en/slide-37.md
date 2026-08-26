@@ -2,7 +2,7 @@
 
 Appendix overview — three buckets. On-slide: Publications, Products, Repositories columns. Spoken: orient the audience; explain tiers and the ★ marker.
 
-**Publications (128 digests).**
+**Publications (129 digests).**
 One file per source — papers, blogs, talks, forge pages, meeting minutes. ★ = prediction-critical: mechanisms that directly bear on C1–C10, blockers, or T1–T10. Not every digest is equal; star entries are what you read first when a conflict is live.
 
 **Products — commercial SKUs as prediction signals.**

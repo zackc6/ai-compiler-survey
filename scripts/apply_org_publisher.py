@@ -29,6 +29,7 @@ META: dict[str, tuple[str, str]] = {
     "tvm-ansor-blog.md": ("Apache TVM", "Apache TVM blog"),
     "flextensor-asplos20.md": ("Peking University et al.", "ACM ASPLOS 2020"),
     "tensorir-asplos.md": ("UW · AWS · OctoML et al.", "ACM ASPLOS 2023"),
+    "tirx.md": ("Apache TVM · MLC (CMU course)", "Apache TVM blog"),
     "mlir-arxiv.md": ("Google · multi-institution", "arXiv (MLIR)"),
     "stablehlo-roadmap.md": ("OpenXLA / Google", "OpenXLA"),
     "helion-blog.md": ("Meta (PyTorch)", "PyTorch blog"),

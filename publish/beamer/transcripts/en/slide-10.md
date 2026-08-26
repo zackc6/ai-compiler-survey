@@ -8,7 +8,7 @@ Walk each band; name the level and what lives there:
 - **L1 Framework** — capture dynamism (eager/graph, autograd hooks); PyTorch/JAX-class.
 - **L2 Portable graph** — **StableHLO**-class portable graphs, shard annotations; exchange layer before vendor forks.
 - **L3 Mid-IR** — **MLIR** dialects, layout, pass pipelines; where most classical opt lives.
-- **L4 Kernel DSL** — Triton, Helion, Tile, CuTe; tile-level programmability.
+- **L4 Kernel DSL** — Triton, Helion, Tile, CuTe, **TIRx** (TVM Tensor IR next); tile-level programmability. TIRx’s own search rungs L1–L4 are *agent-search* levels, **not** these data-plane bands.
 - **L5 Backend-ISA** — PTX, LLVM IR for CPU, vendor intrinsics; bring-up surface.
 - **L6 Runtime-serve** — CUDA Graphs, **KV** (key-value) cache paths, serving schedulers; latency-sensitive inference.
 

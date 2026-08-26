@@ -78,7 +78,7 @@ Data plane (mature defaults)
   TRT-LLM · Inductor · XLA · MAX · OpenVINO · Neuron
         │
 Kernel / tile platforms
-  Triton · CUDA Tile · CuTe · NKI · HIP / FlyDSL
+  Triton · CUDA Tile · CuTe · NKI · HIP / FlyDSL · TIRx
 ```
 
 **Commercial reality:** revenue still sits on the data plane. Explicit agent control-plane SKUs are newer and often opt-in for hot kernels — consistent with §5 prediction (defaults classical first).

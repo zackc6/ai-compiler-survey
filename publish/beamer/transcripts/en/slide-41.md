@@ -3,7 +3,7 @@
 Digest corpus shape — group counts and usage rules. On-slide: count rows + “how digests are used” footer. Spoken: give scale, then methodology.
 
 **Group counts (read the numbers).**
-24 GPU kernels & inference · 15 agentic & RL · 14 source control & review · 10 classic DL compilers · 10 company infra · 10 forums & workshops · 8 surveys & vision · 12 foundation LLMs · 6 MLGO & RL gyms · 6 HW codesign & bring-up · 6 commercial products · 6 control-plane substrate · 1 correctness lineage. Total **128** digests — tiered, not flat. This wave added **LLM-oriented IR**: LLM4IR ★, IntOpt, IRIS-14B, ComPile, IRCoder. Also mention Cake, Argus, GEAK v4, Zomboss, T-LLM, llvm-harness, and DeepSeek Harness (generic agent runtime, **C7**) if someone asks what moved earlier counts.
+24 GPU kernels & inference · 15 agentic & RL · 14 source control & review · 11 classic DL compilers · 10 company infra · 10 forums & workshops · 8 surveys & vision · 12 foundation LLMs · 6 MLGO & RL gyms · 6 HW codesign & bring-up · 6 commercial products · 6 control-plane substrate · 1 correctness lineage. Total **129** digests — tiered, not flat. This wave added **TIRx** (TVM Tensor IR next, L4 typed face). Previous LLM-oriented IR wave: LLM4IR ★, IntOpt, IRIS-14B, ComPile, IRCoder. Also mention Cake, Argus, GEAK v4, Zomboss, T-LLM, llvm-harness, and DeepSeek Harness (generic agent runtime, **C7**) if someone asks what moved earlier counts.
 
 **How digests are used (footer).**
 Mechanism first — what did they build, what oracle, what artifact freezes? Demote generic forge AI — Tier C repos and Copilot-class tooling do not settle C1–C10. Keep both sides of a conflict — Magellan *and* MLGO, free rewrite *and* advisory; do not average opposing evidence into a comfortable middle.

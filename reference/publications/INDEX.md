@@ -16,6 +16,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2021 | company | Classic DL compilers | Apache TVM | Apache TVM blog | [TVM blog: Introducing Auto-scheduler (Ansor)](tvm-ansor-blog.md) | [source](https://tvm.apache.org/2021/03/03/intro-auto-scheduler) |
 | 2020 | paper | Classic DL compilers | Peking University et al. | ACM ASPLOS 2020 | [FlexTensor: An Automatic Schedule Exploration and Optimization Framework](flextensor-asplos20.md) | [source](https://doi.org/10.1145/3373376.3378508) |
 | 2022 | paper | Classic DL compilers | UW · AWS · OctoML et al. | ACM ASPLOS 2023 | [TensorIR: An Abstraction for Automatic Tensorized Program Optimization](tensorir-asplos.md) | [source](https://dl.acm.org/doi/10.1145/3575693.3576933) |
+| 2026 | company | Classic DL compilers | Apache TVM · MLC (CMU course) | Apache TVM blog | [TIRx: An Open Compiler Stack for Evolving Frontier ML Kernels](tirx.md) | [source](https://tvm.apache.org/2026/06/22/tirx) |
 | 2021 | paper | Classic DL compilers | Google · multi-institution | arXiv (MLIR) | [MLIR: A Compiler Infrastructure for the End of Moore's Law](mlir-arxiv.md) | [source](https://arxiv.org/abs/2002.11054) |
 | 2025 | company | Classic DL compilers | OpenXLA / Google | OpenXLA | [OpenXLA StableHLO roadmap](stablehlo-roadmap.md) | [source](https://openxla.org/stablehlo/roadmap) |
 | 2021 | paper | MLGO & RL gyms | Google · CMU | arXiv | [MLGO: a Machine Learning Guided Compiler Optimizations Framework](mlgo-paper.md) | [source](https://arxiv.org/abs/2101.04808) |
@@ -137,7 +138,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | Agent control-plane substrate | University of Washington (SyFI) | arXiv | [VibeServe: Can AI Agents Build Bespoke LLM Serving Systems?](vibeserve.md) | [source](https://arxiv.org/abs/2605.06068) |
 | 2026 | code | Agent control-plane substrate | DeepSeek AI | GitHub | [DeepSeek Harness (`dsh`)](deepseek-harness.md) plugin runtime / session log | [source](https://github.com/deepseek-ai/deepseek-harness) |
 
-**Total:** 128 digests
+**Total:** 129 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 

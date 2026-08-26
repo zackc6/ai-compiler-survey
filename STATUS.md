@@ -1,6 +1,6 @@
 # Survey status
 
-Last updated: **2026-08-25**
+Last updated: **2026-08-26**
 
 ## Overall progress
 
@@ -14,7 +14,7 @@ Last updated: **2026-08-25**
 | Conflicts | Done | `docs/SURVEY.md` §6 C1–C10 |
 | Survey narrative §0–§9 | Done (v3) | Single reading path; gaps as blockers |
 | **Reference store** | Done | `reference/` guide → publications / products / repos |
-| Publication digests | Done (v9) | **128** digests under `reference/publications/` |
+| Publication digests | Done (v9) | **129** digests under `reference/publications/` |
 | Validate script | Done | `python3 scripts/validate_survey.py` |
 | **PDF publish** | Done | Survey PDF + expert Beamer deck in `publish/out/` |
 | **Survey skill** | Done | `.cursor/skills/survey/` (+ personal `~/.cursor/skills/survey/`) |
@@ -43,6 +43,7 @@ Last updated: **2026-08-25**
 
 | Date | Change |
 |---|---|
+| 2026-08-26 | Cover **TIRx** in LLM-oriented IR: TVM Tensor IR next as L4 typed agent face (FFI + tile primitives; search rungs ≠ survey L-bands). Tier B. INDEX **129**. Thin T1/T2/C3/C4; survey + sharing PDFs; Beamer 10/28/32/37/41 + EN/zh-TW |
 | 2026-08-25 | Fold **LLM-oriented IR**: vocabulary §0.2 (fluency / summary / intent / typed-agent / translation glue); ★ LLM4IR; IntOpt, IRIS-14B, ComPile, IRCoder; thin T1/T7/C3/A5; **not** a new L-band. INDEX **128**. Survey + sharing PDFs; Beamer 4/10/18/28–32/37/40–41 + EN/zh-TW |
 | 2026-08-24 | Beamer + EN/zh-TW: DeepSeek Harness on C7 (24/33) and T10 (29); slide 37 count 123; slide 39 not-A footer; survey + sharing PDFs rebuilt |
 | 2026-08-24 | Add **DeepSeek Harness** (`dsh`, 2026-08-13): Tier B control-plane runtime; **not** a compiler harness (**C7**); T10 color only; INDEX **123**; survey PDF + slide 40/41 counts |

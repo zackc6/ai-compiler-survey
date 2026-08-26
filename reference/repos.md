@@ -54,6 +54,8 @@ Companion: [`../docs/SURVEY.md`](../docs/SURVEY.md) §5 · [`../docs/SURVEY.md`]
 | [google/ml-compiler-opt](https://github.com/google/ml-compiler-opt) | Neural advisor training stack (parallel bet to Magellan) |
 | [facebookresearch/CompilerGym](https://github.com/facebookresearch/CompilerGym) | RL pass-order gym — substrate for Selector agents, not agent future alone |
 | [triton-lang/triton](https://github.com/triton-lang/triton) | Default GPU DSL many agents target |
+| [apache/tvm](https://github.com/apache/tvm) (`tvm.tirx`) | **TIRx** kernel IR + FFI mutation surface (**T1/C4**; [digest](publications/tirx.md)) |
+| [mlc-ai/tirx-kernels](https://github.com/mlc-ai/tirx-kernels) | Community TIRx kernel library / B200 benches |
 | [openxla/xla](https://github.com/openxla/xla) / StableHLO | Portable AI compiler IR; Magellan XLA experiments |
 | PyTorch (`torch.compile` / Inductor) | Default DL compile path agents must plug into |
 | [NVIDIA/TensorRT-LLM](https://github.com/NVIDIA/TensorRT-LLM) | Production serve stack; [PR #12831](https://github.com/NVIDIA/TensorRT-LLM/pull/12831) adds Claude kernel/compile agents (**C4**) |

@@ -26,4 +26,4 @@ Compiler abstraction that generalizes loop nests for tensor primitives and autom
 
 ## Why it matters for this survey
 
-This source informs the living survey in `docs/SURVEY.md` (trends, agent roles, process reshape, and/or gaps). Prefer the primary link above when citing.
+TVM kernel-IR lineage. **[TIRx](tirx.md)** (2026) is the next kernel-level structure: agent-visible FFI + tile primitives at **L4**, not a new data-plane band.
