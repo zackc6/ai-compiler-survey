@@ -43,7 +43,7 @@ Fold order that worked (information-preserving):
 ## What worked (substance)
 
 1. **Prediction-first framing** — Lead with “what wins ~2027–28 / 5 years.” Digests become purposeful; without it the repo is an awesome-list.
-2. **Agentic compiler as the single target** — SW stack reshape and HW codesign stay coherent when both serve that target. Pure EDA drifts.
+2. **Agentic compiler as the single target** — SW stack reshape and HW codesign stay coherent when both serve that target. Pure EDA drifts. Lead §0.1 with the **compiler picture** (control plane → typed kernel → classical lower → freeze-serve); papers/SKUs are evidence, not a second goal.
 3. **Four agent jobs** — Online / offline heuristics / oracle review / **bring-up-codesign**. Collapsing to “agents in compilers” loses roadmap clarity.
 4. **Hybrid clarified for readers** — Data-plane parts *can* be agent-generated (Magellan C++, TritorX kernels) but must **admit then execute classically**. Concern is free IR/`opt` replacement (mlirAgent below-identity; C3/C6), not “agents never touch the data plane.”
 5. **Conflicts register inside the narrative (§6)** — Vendor headlines vs docs, Magellan vs MLGO, coverage vs peak, codesign vs autonomous chip. Settlement signals prevent false consensus. Living next to §5 beats a separate CONFLICTS file.

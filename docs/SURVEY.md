@@ -1,6 +1,6 @@
 # Next-Gen AI Compiler Survey
 
-**Last updated:** 2026-08-26 (vendor L4 kernel IRs after TIRx miss; goal-align)  
+**Last updated:** 2026-08-27 (agentic-compiler top picture; goal-align)  
 **Evidence store:** [`../reference/README.md`](../reference/README.md) → publications · products · repos  
 **Status:** [`../STATUS.md`](../STATUS.md)
 
@@ -25,6 +25,40 @@ Everything else (papers, GitHub/Gerrit, commercial SKUs, forums, ASIC bring-up s
 **Executive verdict.** Compilation is shifting from **fixed pass pipelines + black-box autotuning** toward **hybrid LLM–compiler loops**. Empirically, the winning pattern is:
 
 > **Agents own semantic search, orchestration, and artifact synthesis. Compilers own lowering, legality, measurement, and fallback.**
+
+**The compiler (top of the picture).** This *is* the next-generation agentic compiler. Papers, SKUs, and the rest of this document are **evidence** for that compiler — not a second goal. L1–L7 ([§5.1.2](#512-predicted-abstraction-inventory--how-many-layers-for-what-and-if-they-do-not-consolidate)) are the bands this loop talks *to*, not extra top-level boxes.
+
+```text
+  next-generation agentic compiler     ← the goal
+
+  searcher
+     │
+     ▼
+  control plane     walk a specialize job
+     │                 propose a kernel
+     ▼
+  typed kernel      the program  +  checks before codegen
+     │                 pass → lower     fail → try the next kernel
+     ▼
+  lowering          GPU cubin  or  NPU binary   (classical; not an LLM)
+     │
+     ▼
+  control plane     measure on the real serving path
+                    keep it, or revert
+     │
+     ▼
+  serve             frozen binary only. no model in the loop.
+```
+
+| Piece | Role |
+|---|---|
+| **Goal** | Agentic compiler: agents own search; compilers still own legality and codegen. |
+| **Control plane** | Orchestrates search, admit, freeze, rollback. |
+| **Typed kernel** | The program the agent is allowed to edit (tiles, roles, barriers, layouts). |
+| **Lowering** | Deterministic codegen. Not an LLM. |
+| **Serve** | Load the frozen binary. No agent on the hot path. |
+
+Localized reject (`where` it failed) is a **control-plane edge** back to “try the next kernel,” not a license to rewrite the checker mid-walk. The typed kernel **compiler** may still evolve *across* specialize jobs (new verifier rule / primitive, then re-pin) — that is harness/dialect feedback, not LLM-as-`opt`. Detail: [§5.1.3](#513-e2e-optimal-seeking-architecture)–[§5.1.4](#514-when-do-e2e-search-and-layers-merge--and-when-do-agents-replace-the-compiler), T5 in [§5.8](#58-technical-prediction--techniques-that-accelerate-the-roadmap).
 
 Agents reshape the **control plane** more than they replace the **data plane**. That control plane is predicted to become **e2e-optimal-seeking** under a product fitness \(F\) (joint search across multi-band lowers — [§5.1.2](#512-predicted-abstraction-inventory--how-many-layers-for-what-and-if-they-do-not-consolidate)–[§5.1.3](#513-e2e-optimal-seeking-architecture)); **soft merge of the optimizer (M1) ≠ hard replace of the compiler (M3)** ([§5.1.4](#514-when-do-e2e-search-and-layers-merge--and-when-do-agents-replace-the-compiler)). A fourth job — **accelerator bring-up / codesign feedback** on sim+silicon — is now Tier A evidence (TritorX, KernelEvolve, Zomboss), still centered on kernels/IR/oracles. August 2026 sources (Cake typed schedule IR, Zomboss compile-once mapping contract, GEAK v4 serving A/B, T-LLM Alive2+CBMC) plus **[Argus](../reference/publications/argus.md)** (compile-time data-flow invariants + SMT) **reinforce** this hybrid lean — they do not move the goal toward LLM-as-`opt`. **LLM-oriented IR** is the **agent-visible face** of existing bands (summaries, intent/actions, typed mutation surfaces + admit) — **not** a new L-band and not a license to paste LLVM/MLIR into the prompt ([§0.2](#02-vocabulary-and-taxonomy), [LLM4IR](../reference/publications/llm4ir.md)). **[TIRx](../reference/publications/tirx.md)** (TVM Tensor IR next) is that face on the TVM kernel path: FFI + tile primitives at **L4**, still classical lowering. Vendor L4 DSLs digested after the TIRx miss ([TileLang](../reference/publications/tilelang.md), [Gluon](../reference/publications/triton-gluon.md), [TLX](../reference/publications/tlx.md), [CuTe DSL](../reference/publications/cute-dsl.md), [FlyDSL](../reference/publications/flydsl.md), [ThunderKittens](../reference/publications/thunderkittens.md)) **contest C4** (more sinks) and do **not** add an L-llm band; [Event Tensor](../reference/publications/event-tensor.md) is megakernel IR *above* L4 (L6), not a typed agent face. Hybrid lean holds. See [§5](#5-future-prediction-what-next-gen-looks-like) (architecture §5.1, roadmap §5.5, stack §5.6, commercial §5.7, techniques §5.8), [§6](#6-conflicts-keep-unresolved-until-evidence-settles), [§4](#4-whats-missing--under-covered-q4).
 
@@ -97,16 +131,17 @@ CPU / legacy IR       LLVM opt pipelines, PGO / AutoFDO, MLGO advisors
 
 #### Canonical hybrid loop
 
+Same compiler as [§0.1](#01-primary-goal) (top of the picture), compressed:
+
 ```text
-Capture → Analyze regions → Agent proposes
-        → Compiler checks & lowers
-        → Verify / test (empirical or formal)
-        → Benchmark / select
-        → Feedback to orchestrator
-        → Fallback if unprofitable
+Capture → Analyze regions → Agent proposes a typed kernel
+        → Compiler checks (localized reject → next kernel)
+        → Classical lowering (cubin / NPU binary)
+        → Measure on the serving path → keep or revert
+        → Serve the frozen binary (no model in the loop)
 ```
 
-**Invariant:** LLM outputs guide search; they should not silently define unchecked executable behavior.
+**Invariant:** LLM outputs guide search; they should not silently define unchecked executable behavior. Serve is a freeze, not another agent turn.
 
 ---
 
@@ -632,6 +667,8 @@ Technique-shaped prediction (within vs outside the compiler, missing parts, chec
 Falsifiable sketch for **~2027–2028**, conditioned on conflicts in [§6](#6-conflicts-keep-unresolved-until-evidence-settles).
 
 ### 5.1 Architecture
+
+The **top of the picture** is the agentic compiler in [§0.1](#01-primary-goal): control plane proposes and admits; typed kernel + classical lowering produce a binary; serve loads the freeze. What follows is how that loop sits on **jobs (a)–(d)** and data-plane **L1–L7** — bands are legality/lower surfaces, not a second goal.
 
 Hybrid stack: agents orchestrate; classical compilers execute; silicon feeds the next dialect/ISA RFC. The control plane is itself becoming a compile target (workflow IR → analyze → freeze → place).
 
