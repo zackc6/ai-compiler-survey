@@ -67,6 +67,10 @@ Companion: [`../docs/SURVEY.md`](../docs/SURVEY.md) §5 · [`../docs/SURVEY.md`]
 | [flashinfer-ai/flashinfer](https://github.com/flashinfer-ai/flashinfer) | Kernel library / generator backing many serve engines; Bench `apply()` target |
 | Hugging Face [GPUMODE/KernelBook](https://huggingface.co/datasets/GPUMODE/KernelBook) | Open PyTorch↔Triton training pairs (**T7**) |
 | [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) | Agent *runtime* (Cordis plugins + session log). **T10** substrate; **C7** — not a compiler harness ([digest](publications/deepseek-harness.md)) |
+| [agentskills/agentskills](https://github.com/agentskills/agentskills) | `SKILL.md` spec ([digest](publications/agent-skills-spec.md)). Packaging, not a compiler |
+| [sigilagent/sigil](https://github.com/sigilagent/sigil) | SIGIL: SKILL.md → AG-IR → harness (**T10** ★; [digest](publications/sigil.md)) |
+| [Nexa-Language/Skill-Compiler](https://github.com/Nexa-Language/Skill-Compiler) | SkCC / SkIR emitters ([digest](publications/skcc.md)) |
+| [AetherHeart-AI/Aeloon](https://github.com/AetherHeart-AI/Aeloon) | SkillSmith boundary compile ([digest](publications/skillsmith.md)) |
 
 ---
 

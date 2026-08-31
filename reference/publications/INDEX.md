@@ -144,8 +144,14 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2025 | paper | Agent control-plane substrate | Stanford · Gimlet Labs · Intel | arXiv | [Efficient and Scalable Agentic AI with Heterogeneous Systems](agentic-ai-hetero-systems.md) | [source](https://arxiv.org/abs/2507.19635) |
 | 2026 | paper | Agent control-plane substrate | University of Washington (SyFI) | arXiv | [VibeServe: Can AI Agents Build Bespoke LLM Serving Systems?](vibeserve.md) | [source](https://arxiv.org/abs/2605.06068) |
 | 2026 | code | Agent control-plane substrate | DeepSeek AI | GitHub | [DeepSeek Harness (`dsh`)](deepseek-harness.md) plugin runtime / session log | [source](https://github.com/deepseek-ai/deepseek-harness) |
+| 2026 | paper | Agent control-plane substrate | Google LLC · Purdue University | arXiv | [SKILL.state: Scalable Long-Horizon Agent Skills](skill-state.md) | [source](https://arxiv.org/abs/2608.26263) |
+| 2025–26 | company | Agent control-plane substrate | Anthropic (origin) · agentskills.io ecosystem | agentskills.io / GitHub · Anthropic Engineering | [Agent Skills (`SKILL.md`) open specification](agent-skills-spec.md) | [source](https://agentskills.io/specification) |
+| 2026 | paper | Agent control-plane substrate | University of Michigan | arXiv | [SIGIL: Compiling Agent Skills into Typed Harnesses](sigil.md) ★ skill compilation | [source](https://arxiv.org/abs/2607.27309) |
+| 2026 | paper | Agent control-plane substrate | Sun Yat-sen University | arXiv · ACM CAIS 2026 (AgentSkills'26) | [SkCC: Portable and Secure Skill Compilation for Cross-Framework LLM Agents](skcc.md) | [source](https://arxiv.org/abs/2605.03353) |
+| 2026 | paper | Agent control-plane substrate | Shanghai Jiao Tong University | arXiv | [SkVM: Compiling Skills for Efficient Execution Everywhere](skvm.md) | [source](https://arxiv.org/abs/2604.03088) |
+| 2026 | paper | Agent control-plane substrate | AetherHeart Tech · Renmin University of China · UC San Diego | arXiv | [SkillSmith: Compiling Agent Skills into Boundary-Guided Runtime Interfaces](skillsmith.md) | [source](https://arxiv.org/abs/2605.15215) |
 
-**Total:** 136 digests
+**Total:** 142 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 

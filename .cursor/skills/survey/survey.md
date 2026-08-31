@@ -65,6 +65,7 @@ Fold order that worked (information-preserving):
 20. **§5.8 technical prediction** — Technique-shaped view to accelerate roadmap/checkpoints: **T1–T5 within compiler/toolchain**, **T6–T10 outside**; each row = exists / missing today / accelerates which C*; shortlist money-grade oracles, replayable artifacts, portable agent interface, open ladder+data. Distinct from §4 (gap severity) and §5.7 (commercial packaging).
 21. **Slides and transcripts together (EN + zh-TW)** — Every Beamer edit updates matching `transcripts/en/slide-NN.md` **and** `transcripts/zh-TW/slide-NN.md` (and README index if titles/order change) in the same batch. Use `python3 publish/translate_transcripts.py` after English edits. Stale or English-only scripts are a process bug.
 22. **Beamer layout: no overlap, fit one slide, refine** — Boxes/labels/arrows must never overlap; each frame must render fully inside one 16:9 slide; after TeX edits run `build_beamer.py`, inspect the PDF page, and iterate spacing or split slides until clean. Do not commit layout-blind.
+23. **Skill-scope searches (hard rule 15)** — After the SKILL.state miss: walk the Agent Skills spec, skill compilers (SIGIL / SkCC / SkVM / SkillSmith), and \(\Sigma_t\) runtimes as **control-plane substrate** (P1/P2/T10). Keep three senses of “skill” distinct. Out: generic SWE, CTF benches as compile evidence. Does not add a job or an L-band.
 
 ## What hurt / fix next time
 
@@ -98,6 +99,11 @@ Fold order that worked (information-preserving):
 | Box-on-text (slides 6/11/23): glosses on verdict; cards on HORIZON A; lists on lead-in | Separate vertical bands for titles vs cards; `pdftoppm` inspect before push |
 | LLM-oriented IR pass searched only the paper cluster titled LLM+compiler IR | Also walk vendor kernel IRs, docs launches, FFI/tile/LSP, stale stacks (TVM); watch TritorX vs TIRx vs TLX |
 | Named TileLang / FlyDSL / TLX / Gluon / CuTe DSL in C4/GEAK/KernelEvolve with **zero digests** | If SURVEY names a kernel language as an agent *sink*, that language needs a digest — not only the agent paper on top of it |
+| SKILL.state (arXiv:2608.26263) missed: late-Aug paper, title has no compiler/IR | Hard rule 15: walk SKILL.md spec + skill compile + execution-state runtimes, not only “LLM + compiler.” Homonym: compile skill packs ≠ Agent Skills spec ≠ SKILL.state |
+| “Agent skills” in this repo meant only CompileIQ / TRT-LLM packs | Three senses: (1) vendor compile packs, (2) SKILL.md progressive disclosure, (3) skill *compilation* / explicit \(\Sigma\) |
+| CompileIQ named `SKILL.md` with **no spec digest** | Same miss class as CuTeGen without CuTe DSL — digest the language the product sits on |
+| Two “SkillSmith” papers (2605.15215 compile vs 2606.01314 co-evolve) | Cite arXiv numbers; only the *compile* paper is T10 this wave |
+| Formal Skill / EvoSkill / SSL look like skill-compile cousins | Walk them; keep **watchlist** unless they compile/mount a compiler control plane or an oracle loop |
 
 ## Commercialization survey method (§5.7)
 

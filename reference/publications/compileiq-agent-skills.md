@@ -12,7 +12,7 @@
 
 ## Key contributions
 
-- Ships an agent-agnostic skill set under `agent-skills/` following the agentskills.io `SKILL.md` convention
+- Ships an agent-agnostic skill set under `agent-skills/` following the agentskills.io `SKILL.md` convention ([spec digest](agent-skills-spec.md) — sense (2); this pack is sense (1))
 - Skills cover bootstrap → booster-pack → search-space → author-objective → run-search → validate-result (Welch t-test) → debug
 - Install script mounts skills into Claude Code, Codex, Cursor, Copilot, and other AGENTS.md-aware agents
 

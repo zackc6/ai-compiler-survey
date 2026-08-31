@@ -1,6 +1,6 @@
 # Survey status
 
-Last updated: **2026-08-27**
+Last updated: **2026-08-31**
 
 ## Overall progress
 
@@ -14,7 +14,7 @@ Last updated: **2026-08-27**
 | Conflicts | Done | `docs/SURVEY.md` §6 C1–C10 |
 | Survey narrative §0–§9 | Done (v3) | Single reading path; gaps as blockers |
 | **Reference store** | Done | `reference/` guide → publications / products / repos |
-| Publication digests | Done (v10) | **136** digests under `reference/publications/` |
+| Publication digests | Done (v11) | **142** digests under `reference/publications/` |
 | Validate script | Done | `python3 scripts/validate_survey.py` |
 | **PDF publish** | Done | Survey PDF + expert Beamer deck in `publish/out/` |
 | **Survey skill** | Done | `.cursor/skills/survey/` (+ personal `~/.cursor/skills/survey/`) |
@@ -36,7 +36,7 @@ Last updated: **2026-08-27**
 
 - [x] Waves A–D + SCM + prediction wave
 - [x] Codesign/roadmap wave: TritorX, KernelEvolve, Ascend diagnosis, KForge, AutoKernel(+gh), Kernel Forge, KernelBlaster, Helion(+gh)
-- [x] Agent control-plane substrate: Auto, FlowCompile, AgentFlow, Heterogeneous agentic AI
+- [x] Agent control-plane substrate: Auto, FlowCompile, AgentFlow, Heterogeneous agentic AI, DeepSeek Harness, Agent Skills spec, SKILL.state, SIGIL, SkCC, SkVM, SkillSmith
 - [x] Vendor L4 kernel IRs after TIRx miss: TileLang, Gluon, TLX, FlyDSL, CuTe DSL, Event Tensor, ThunderKittens
 - [ ] Wave E — deepen thin digests from full PDFs
 
@@ -44,6 +44,7 @@ Last updated: **2026-08-27**
 
 | Date | Change |
 |---|---|
+| 2026-08-31 | Skill-scope lesson + re-search (hard rule 15): digest Agent Skills spec, SKILL.state, SIGIL ★, SkCC, SkVM, SkillSmith (2605.15215). Three senses of “skill”; T10/P2/§4.6/§9 grow; **no** C6/C2 move, **no** L-band. INDEX **142**. Survey PDF rebuilt (Beamer unchanged). |
 | 2026-08-27 | §0.1 **top of the picture**: agentic compiler loop (control plane → typed kernel → classical lower → freeze-serve). Survey is evidence, not a second goal. Canonical loop + §5.1 pointer. Survey PDF rebuilt (Beamer unchanged). |
 | 2026-08-26 | Re-search after TIRx miss: digest vendor L4 kernel IRs (TileLang, Gluon, TLX, FlyDSL, CuTe DSL, Event Tensor, ThunderKittens 2.0). Lesson: not only arXiv “LLM+IR”; walk docs/FFI/LSP/stale stacks. INDEX **136**. C4 more contested; Event Tensor = L6 not L-llm. Hybrid holds. Survey + sharing PDFs; Beamer 10/28/31–32/36–38/40–41 + EN/zh-TW |
 | 2026-08-26 | Cover **TIRx** in LLM-oriented IR: TVM Tensor IR next as L4 typed agent face (FFI + tile primitives; search rungs ≠ survey L-bands). Tier B. INDEX **129**. Thin T1/T2/C3/C4; survey + sharing PDFs; Beamer 10/28/32/37/41 + EN/zh-TW |

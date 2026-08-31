@@ -1,6 +1,6 @@
 # Next-Gen AI Compiler Survey
 
-**Last updated:** 2026-08-27 (agentic-compiler top picture; goal-align)  
+**Last updated:** 2026-08-31 (skill-scope fold: spec + \(\Sigma_t\) + skill compile; goal-align)  
 **Evidence store:** [`../reference/README.md`](../reference/README.md) → publications · products · repos  
 **Status:** [`../STATUS.md`](../STATUS.md)
 
@@ -62,7 +62,7 @@ Localized reject (`where` it failed) is a **control-plane edge** back to “try 
 
 Agents reshape the **control plane** more than they replace the **data plane**. That control plane is predicted to become **e2e-optimal-seeking** under a product fitness \(F\) (joint search across multi-band lowers — [§5.1.2](#512-predicted-abstraction-inventory--how-many-layers-for-what-and-if-they-do-not-consolidate)–[§5.1.3](#513-e2e-optimal-seeking-architecture)); **soft merge of the optimizer (M1) ≠ hard replace of the compiler (M3)** ([§5.1.4](#514-when-do-e2e-search-and-layers-merge--and-when-do-agents-replace-the-compiler)). A fourth job — **accelerator bring-up / codesign feedback** on sim+silicon — is now Tier A evidence (TritorX, KernelEvolve, Zomboss), still centered on kernels/IR/oracles. August 2026 sources (Cake typed schedule IR, Zomboss compile-once mapping contract, GEAK v4 serving A/B, T-LLM Alive2+CBMC) plus **[Argus](../reference/publications/argus.md)** (compile-time data-flow invariants + SMT) **reinforce** this hybrid lean — they do not move the goal toward LLM-as-`opt`. **LLM-oriented IR** is the **agent-visible face** of existing bands (summaries, intent/actions, typed mutation surfaces + admit) — **not** a new L-band and not a license to paste LLVM/MLIR into the prompt ([§0.2](#02-vocabulary-and-taxonomy), [LLM4IR](../reference/publications/llm4ir.md)). **[TIRx](../reference/publications/tirx.md)** (TVM Tensor IR next) is that face on the TVM kernel path: FFI + tile primitives at **L4**, still classical lowering. Vendor L4 DSLs digested after the TIRx miss ([TileLang](../reference/publications/tilelang.md), [Gluon](../reference/publications/triton-gluon.md), [TLX](../reference/publications/tlx.md), [CuTe DSL](../reference/publications/cute-dsl.md), [FlyDSL](../reference/publications/flydsl.md), [ThunderKittens](../reference/publications/thunderkittens.md)) **contest C4** (more sinks) and do **not** add an L-llm band; [Event Tensor](../reference/publications/event-tensor.md) is megakernel IR *above* L4 (L6), not a typed agent face. Hybrid lean holds. See [§5](#5-future-prediction-what-next-gen-looks-like) (architecture §5.1, roadmap §5.5, stack §5.6, commercial §5.7, techniques §5.8), [§6](#6-conflicts-keep-unresolved-until-evidence-settles), [§4](#4-whats-missing--under-covered-q4).
 
-**Sub-agent substrate (in scope).** Multi-agent **workflow compilers**, **AGI compilers** that freeze agent graphs into deployable artifacts, **static analysis of agent DAGs**, and **heterogeneous agent serving** are first-class evidence for how the control plane is built, secured, and productized—not side topics. Digests: [Auto](../reference/publications/auto-agi-compiler.md), [FlowCompile](../reference/publications/flowcompile.md), [AgentFlow](../reference/publications/agentflow.md), [Heterogeneous agentic AI](../reference/publications/agentic-ai-hetero-systems.md). Shipping *runtimes* such as **[DeepSeek Harness](../reference/publications/deepseek-harness.md)** (`dsh`: plugin kernel + append-only session log) sit in the same bucket as substrate — they are **not** compiler oracles and do **not** move the hybrid lean.
+**Sub-agent substrate (in scope).** Multi-agent **workflow compilers**, **AGI compilers** that freeze agent graphs into deployable artifacts, **static analysis of agent DAGs**, and **heterogeneous agent serving** are first-class evidence for how the control plane is built, secured, and productized—not side topics. Digests: [Auto](../reference/publications/auto-agi-compiler.md), [FlowCompile](../reference/publications/flowcompile.md), [AgentFlow](../reference/publications/agentflow.md), [Heterogeneous agentic AI](../reference/publications/agentic-ai-hetero-systems.md). Shipping *runtimes* such as **[DeepSeek Harness](../reference/publications/deepseek-harness.md)** (`dsh`: plugin kernel + append-only session log) sit in the same bucket. So do **[Agent Skills](../reference/publications/agent-skills-spec.md)** (`SKILL.md` packaging), **skill compilation** ([SIGIL](../reference/publications/sigil.md) ★, [SkCC](../reference/publications/skcc.md), [SkVM](../reference/publications/skvm.md), [SkillSmith](../reference/publications/skillsmith.md)), and **[SKILL.state](../reference/publications/skill-state.md)** (explicit \(\Sigma_t\); discard reasoning after a validated update). They package, compile, or persist what the loop proposes. They are **not** compiler oracles, **not** a fifth job, **not** a new L-band, and they do **not** move the hybrid lean. **Do not collapse three “skill” senses** — [§0.2](#02-vocabulary-and-taxonomy).
 
 ### 0.2 Vocabulary and taxonomy
 
@@ -100,6 +100,18 @@ Vendor **L4 kernel DSLs** (not a sixth family and not an L-llm): **[TileLang](..
 | **Translation (glue)** | One classical IR → another | Interop without rewriting passes | [IRIS-14B](../reference/publications/iris-14b.md) GIMPLE→LLVM | §4.4 glue; not a band |
 
 **Probe.** [LLM4IR / LaMIR](../reference/publications/llm4ir.md) (ICML 2025): models parse LLVM syntax but fail CFG edges and instruction-level execution — fluency ≠ compiler skill. **Lean:** do not add an L-llm band; type the control↔data boundary (T1). Cake vs Argus vs **TIRx** vs vendor tile DSLs (TileLang / Gluon / TLX / CuTe DSL / FlyDSL / TK) remain competing **L4 agent surfaces** (**C4**), not a universal LLM IR. (TIRx docs also number *agent-search* rungs L1–L4 — those are **not** this survey’s data-plane L1–L7. **TLX** ≠ **TIRx** ≠ **TritorX**.)
+
+#### Three senses of “skill” (do not collapse)
+
+In this survey “skill” is a **homonym**. Treat them as different objects:
+
+| Sense | What it is | Examples | Survey slot |
+|---|---|---|---|
+| **(1) Vendor compile packs** | Installable procedures that drive a *compiler* search + admit | [CompileIQ agent-skills](../reference/publications/compileiq-agent-skills.md); TRT-LLM Claude skills | Job (a); P1/P9; still **C2** |
+| **(2) Agent Skills spec** | Directory + `SKILL.md` (YAML frontmatter + Markdown) + progressive disclosure | [agentskills.io](../reference/publications/agent-skills-spec.md) / Anthropic 2025-12 | P1 packaging; **not** T1 |
+| **(3) Skill compilation / \(\Sigma_t\)** | Compile or VM-execute a skill; or keep explicit execution state instead of a growing transcript | [SIGIL](../reference/publications/sigil.md) (SKILL.md → AG-IR → harness); [SkCC](../reference/publications/skcc.md) (SkIR); [SkVM](../reference/publications/skvm.md); [SkillSmith](../reference/publications/skillsmith.md); [SKILL.state](../reference/publications/skill-state.md) | **T10 / P2** substrate |
+
+This repo’s `.cursor/skills/` is sense (2) for the *survey authors*, not CompileIQ and not SKILL.state. **SKILL.state is in scope as P2**; its CTF *benchmark* is not compiler evidence ([§9](#9-how-to-update-this-survey), hard rule 15). Skill IRs (AG-IR, SkIR) are **not** the shared agent↔compiler contract (T1) and **not** an L-band.
 
 #### Agent roles in the compile loop
 
@@ -186,7 +198,7 @@ CompilerGym exposed LLVM passes as OpenAI Gym environments (Autophase features, 
 2. **Tool-using agents** trained with SFT+RL (Compiler-R1).
 3. **Inference-only multi-agent tuners** that avoid heavy offline training (AutoPass).
 4. **Program-synthesis of heuristics** that land as ordinary C++ (Magellan), recovering deployability that neural-in-the-compiler lacked.
-5. **Control-plane substrate for sub-agents:** compile/freeze agent workflows ([FlowCompile](../reference/publications/flowcompile.md), [Auto](../reference/publications/auto-agi-compiler.md)), analyze agent programs as ADGs ([AgentFlow](../reference/publications/agentflow.md)), and place agent stages on hetero serving ([Heterogeneous agentic AI](../reference/publications/agentic-ai-hetero-systems.md))—so multi-agent compiler loops become compiler-shaped, not only chat-shaped.
+5. **Control-plane substrate for sub-agents:** compile/freeze agent workflows ([FlowCompile](../reference/publications/flowcompile.md), [Auto](../reference/publications/auto-agi-compiler.md)), analyze agent programs as ADGs ([AgentFlow](../reference/publications/agentflow.md)), place agent stages on hetero serving ([Heterogeneous agentic AI](../reference/publications/agentic-ai-hetero-systems.md)), and — separately — **compile or state-bound skills** ([SIGIL](../reference/publications/sigil.md), [SkCC](../reference/publications/skcc.md), [SkVM](../reference/publications/skvm.md), [SkillSmith](../reference/publications/skillsmith.md), [SKILL.state](../reference/publications/skill-state.md); packaging: [Agent Skills spec](../reference/publications/agent-skills-spec.md)) so the control plane is not only a growing chat.
 
 #### Trend C — MLIR + Triton as default substrate
 
@@ -545,12 +557,15 @@ Dialects, Triton (Helion/Gluon/TLX), CUDA Tile IR, CuTe DSL, FlyDSL, TileLang/TI
 
 **What exists.** Compiler.next vision: compile prompts, agent topologies, and free parameters under multi-objective quality gates; generative compilation couples compilers into coding agents; industry agent harnesses (Claude C compiler) stress test construction. Concrete substrate is arriving: [FlowCompile](../reference/publications/flowcompile.md) (compile-time optimize structured LLM workflows), [Auto](../reference/publications/auto-agi-compiler.md) (freeze witnessed-deterministic agent spans into WASM “cognition binaries”), [AgentFlow](../reference/publications/agentflow.md) (Agent Dependency Graphs for static analysis), [heterogeneous agent serving](../reference/publications/agentic-ai-hetero-systems.md) (place dynamic agent graphs across CPU/accelerator tiers), [VibeServe](../reference/publications/vibeserve.md) (agentic end-to-end serving-stack synthesis with accuracy/perf judges), and **[DeepSeek Harness](../reference/publications/deepseek-harness.md)** (open plugin runtime + append-only session log; *runs* a live agent, does not compile/freeze the graph).
 
+**Skill compilation is also not empty (2026-08-31).** The [Agent Skills](../reference/publications/agent-skills-spec.md) spec (`SKILL.md` + progressive disclosure) is the *packaging* those compilers ingest — CompileIQ already follows it ([digest](../reference/publications/compileiq-agent-skills.md)). **[SIGIL](../reference/publications/sigil.md)** ★ compiles `SKILL.md` → AG-IR → a fused harness (mandated steps become graph nodes). **[SkCC](../reference/publications/skcc.md)** compiles to SkIR and analyzes injection. **[SkVM](../reference/publications/skvm.md)** AOT/JIT-compiles skills across models/harnesses (the “LLMs as processors” line is a **metaphor** — do not promote it to “the compiler is an LLM”). **[SkillSmith](../reference/publications/skillsmith.md)** (2605.15215) compiles to a *boundary ABI*, not a unified workflow IR. **[SKILL.state](../reference/publications/skill-state.md)** is P2 (\(\Sigma_t\); discard reasoning after a validated update), not a compiler. Index them as **Tier B substrate**. **Do not** treat `SKILL.md` or SkIR as the kernel IR, and **do not** treat a CTF / exploit bench as compile evidence.
+
 **What is missing.** Mature analogues of DL compilers for FMware:
 
-- Stable IRs for prompt/tool graphs (ADG is a candidate, not yet a shared standard);
-- Compilation that **fails closed** when quality thresholds miss;
-- Interoperability between “prompt/workflow compilers” and classical model compilers;
+- Stable IRs for prompt/tool graphs (ADG is a candidate, not yet a shared standard). Skill IRs (AG-IR, SkIR) are **not** that IR and **not** T1;
+- Compilation that **fails closed** when quality thresholds miss — SIGIL/SkVM/SkillSmith are **not** a fail-closed **compiler** product CI;
+- Interoperability between “prompt/workflow/skill compilers” and classical model compilers;
 - Shared traces for community learning (Compiler.next call-to-action #10).
+- **Kernel** history as a VCS (`git` + tags), not a chat, not DSH’s log, and not SKILL.state’s \(\Sigma_t\).
 
 **Why it blocks progress.** LLM applications (and agentic *compiler* control planes) still tune by hand and folklore while DL graphs enjoy decades of compiler investment. Without workflow-compile + freeze + ADG checks, multi-agent compiler products stay demo-grade.
 
@@ -594,7 +609,7 @@ Dialects, Triton (Helion/Gluon/TLX), CUDA Tile IR, CuTe DSL, FlyDSL, TileLang/TI
 
 ### 4.9 Security / supply chain
 
-**What exists.** Sparse public discussion: Anthropic author notes unease about unverified deployed code; classical compiler supply-chain concerns (trusting opt, binary provenance); almost no dedicated papers in this survey’s catalog on adversarial agent kernels.
+**What exists.** Sparse public discussion: Anthropic author notes unease about unverified deployed code; classical compiler supply-chain concerns (trusting opt, binary provenance); almost no dedicated papers in this survey’s catalog on adversarial *agent kernels*. Adjacent: [SkCC](../reference/publications/skcc.md) compile-time Anti-Skill Injection on untrusted `SKILL.md` (T9 color for **skills**, not CODEOWNERS for admitted kernels). The Agent Skills spec does **not** require oracles or signing.
 
 **What is missing.**
 
@@ -1246,7 +1261,7 @@ Agents must exchange state with the data plane. The medium of that contract is a
 | **C. Typed tool APIs (MCP-class)** | `compile` / `verify` / `bench` / `profile` with typed I/O (mlirAgent, Archer, Compiler-R1 tools) | Clear action space; sandboxes; versionable | Needs toolchain investment; still need a trace store behind tools |
 | **D. Hybrid: NL for humans, structured for machines** | Engineers chat; agents speak schemas; NL is a *view* over traces | HITL-friendly without sacrificing replay | Two surfaces to keep consistent |
 
-**Survey lean.** Prefer **C + B** as the product contract; use **D** at the human edge. Pure **A** is fine for demos, not for commercial compile paths (§4.3–4.5). Concrete artifact shapes already exist: CompileIQ **ACFs**, KernelEvolve **MPP** profiler federation, ACCLAIM tool-calling over clang components.
+**Survey lean.** Prefer **C + B** as the product contract; use **D** at the human edge. Pure **A** is fine for demos, not for commercial compile paths (§4.3–4.5). Concrete artifact shapes already exist: CompileIQ **ACFs**, KernelEvolve **MPP** profiler federation, ACCLAIM tool-calling over clang components. The [Agent Skills](../reference/publications/agent-skills-spec.md) `SKILL.md` pack (and CompileIQ’s mount of it) is **A/D packaging**, not the admit record. Skill IRs (AG-IR, SkIR) and SkillSmith boundary contracts are **skill**-plane typed tools — still not T1 across MLIR·Triton.
 
 **Example (might be true).** The durable contract is not “the prompt,” but a **versioned admit record**: `{graph_hash, hw_id, compiler_ver, action[], oracle[], artifact_digest, policy_id}`. NL rationales are optional commentary attached to that record.
 
@@ -1265,6 +1280,8 @@ Kernel and heuristic search run for hours and hundreds of trials. The agent forg
 | **E. Hybrid: sub-agents + dense + VCS** | Orchestrator + specialists; dense working memory; promote winners to VCS | Matches industrial KernelEvolve / ACCLAIM shapes | Highest systems complexity |
 
 **Survey lean.** Commercial practice needs **E**, with a hard rule: **anything that affects a release build must live in C (external artifacts), not only in chat**. Dense memory is for *search acceleration*; VCS memory is for *product truth*.
+
+**Adjacent substrate (do not promote to product truth).** [DeepSeek Harness](../reference/publications/deepseek-harness.md) is an **append-only** session log — reconstructable, not a kernel VCS. [SKILL.state](../reference/publications/skill-state.md) makes execution state \(\Sigma_t\) first-class and **discards reasoning** after a validated update — a fourth *runtime* shape besides stuff-the-window / summary-RAG / VCS. [SIGIL](../reference/publications/sigil.md) / [SkCC](../reference/publications/skcc.md) / [SkVM](../reference/publications/skvm.md) / [SkillSmith](../reference/publications/skillsmith.md) compile or VM-execute *skills*. None of these is `git` + tags for admitted kernels.
 
 **Example (might be true).** Treat the LLM context as a **scratchpad**, dense memory as a **L2 cache of skills**, and git as **durable store**. If the model is swapped, scratchpad dies, L2 may warm-start, git must still rebuild the binary identically.
 
@@ -1529,7 +1546,7 @@ Adjacent agent-production work stresses **deterministic boundaries** and moving 
 | **Model capability — tools** | Open models often fail **tool-calling** before code quality (ACCLAIM); multi-agent compilers die on malformed tools | `acclaim`, §3.2 |
 | **Model capability — sample efficiency** | Language priors can cut search vs blind autotune (Reasoning Compiler, AutoPass inference-only); Magellan/AlphaEvolve spend offline then ship classical code | `reasoning-compiler`, `autopass`, `magellan` |
 | **Mitigations already shipping** | Freeze ACF/kernel into VCS; HW RAG + skills (KernelEvolve); distill/RL specialists on trajectories; Fast Feedback (~10× vs full IR in-loop); offline job (b) so users never pay LLM at `-O3` time | P2/P4/P12; CompileIQ ACF; Magellan |
-| **Control-plane freeze / workflow compile** | [Auto](../reference/publications/auto-agi-compiler.md): compile witnessed-deterministic agent spans → WASM cognition binaries + deopt; [FlowCompile](../reference/publications/flowcompile.md): offline Pareto configs for sub-agent workflows; hetero placement avoids frontier GPUs for every stage | `auto-agi-compiler`, `flowcompile`, `agentic-ai-hetero-systems`; §4.6 |
+| **Control-plane freeze / workflow compile** | [Auto](../reference/publications/auto-agi-compiler.md): compile witnessed-deterministic agent spans → WASM cognition binaries + deopt; [FlowCompile](../reference/publications/flowcompile.md): offline Pareto configs for sub-agent workflows; hetero placement avoids frontier GPUs for every stage; skill compile ([SIGIL](../reference/publications/sigil.md) / [SkVM](../reference/publications/skvm.md) / [SkillSmith](../reference/publications/skillsmith.md)) and [SKILL.state](../reference/publications/skill-state.md) \(\Sigma_t\) cut *skill*-loop tokens the same way | `auto-agi-compiler`, `flowcompile`, `agentic-ai-hetero-systems`, `sigil`, `skill-state`; §4.6 |
 
 **Adjacent industry signal (agent production, not compiler-specific).** Agentic tasks commonly cost **many×** chatbot tokens (iterative tool use + context re-send—“communication tax”; code-review-like stages dominate token share in agentic SE studies). Prompt caching, model routing (small models for easy steps), and context compaction are becoming mandatory FinOps—not optional polish. This reinforces compiler-agent design: **fewer, higher-value LLM calls** behind oracles beat chatty multi-agent refinement in the hot path—and **compile/freeze the agent graph** when spans are deterministic (Auto), rather than re-paying tokens every run.
 
@@ -1607,8 +1624,8 @@ Adjacent agent-production work stresses **deterministic boundaries** and moving 
 | **T6** | **Serving-level oracles & production A/B** | Unit/golden/OpInfo; numerical checks; Alive2-class local formal; vendor internal suites; **[FlashInfer-Bench](../reference/publications/flashinfer-bench.md)** serving-trace eval + `apply()` into SGLang/vLLM; VibeServe accuracy/perf judges; **[GEAK v4](../reference/publications/geak-v4-github.md)** warm-server A/B + output parity + throughput gate; Cake KDA e2e in SGLang | Whole-program / GPU-race / floating-point contracts; multi-month **default-path** A/B with attribution and public p50/p90; shared open oracles for Triton/Tile beyond FlashInfer operator families | **C2** “agents as default”; P5/P20; §4.1–4.2 |
 | **T7** | **Open multi-IR corpora (+ negative data)** | Meta LLM Compiler (LLVM-heavy); **[ComPile](../reference/publications/compile.md)** production LLVM IR; **[KernelBook](../reference/publications/kernelbook.md)** (~18k torch↔Triton) → KernelLLM / [TritonRL](../reference/publications/tritonrl.md); [DRTriton](../reference/publications/drtriton.md) CSP-DAG synthetic 100k; Compiler-R1; CompilerGym; mostly-closed MLGO corpora | Versioned MLIR / Tile / StableHLO corpora with performance labels **and** failed compiles / miscompiles / slow-but-correct negatives for critics (Triton positives improved; multi-IR + negatives still thin). ComPile/IRCoder do not close GPU/MLIR gaps. | Selector/Generator quality beyond LLVM-centric models; §4.7 |
 | **T8** | **Unified benchmark ladder** | Fragmented: CompilerGym, PolyBench/hints, KernelBench(-X); **FlashInfer-Bench** closes a serving-kernel rung (real traces → leaderboard → deploy); **llvm-bench** (334 middle-end crash/miscompile bugs); GEAK v4 e2e reports; closed vendor suites | Shared ladder IR → single kernel → fused region → full serving graph, reporting **correctness × speed × cost-to-compile** under fixed HW profiles (FlashInfer-Bench / GEAK e2e / llvm-bench are rungs, not the full ladder) | Honest **C2**/**C9** comparison; kills single-kernel theater; §4.10 |
-| **T9** | **Provenance, ownership, human-review process** | Magellan reviewable C++; Archer oracle review; sparse signing/SBOM discussion; VibeServe git-checkpoint history | Named CODEOWNERS for agent artifacts; signed admit records (model, tools, oracles, digest); sandbox policy for untrusted proposals; review-capacity metrics | Trusted-base shipping; C7; P6/P16; §4.8–4.9 |
-| **T10** | **Agent-workflow compile / freeze / place** (control-plane substrate) | FlowCompile, Auto (freeze spans), AgentFlow (agent dependency graphs), hetero agent serving placement; [VibeServe](../reference/publications/vibeserve.md) end-to-end serving-stack synthesis; **[DeepSeek Harness](../reference/publications/deepseek-harness.md)** composable plugin runtime + session-log replay (live harness, not compiled IR) — early evidence **now** (§0.1 / §5.1) | Shared agent-graph IR; fail-closed quality gates; placement under spend/latency targets; CI that regresses multi-agent compiler products (**productization** → Horizon **B**) | Horizon **B** control-plane compile; P3/P22; §4.6 |
+| **T9** | **Provenance, ownership, human-review process** | Magellan reviewable C++; Archer oracle review; sparse signing/SBOM discussion; VibeServe git-checkpoint history; [SkCC](../reference/publications/skcc.md) Anti-Skill Injection (untrusted `SKILL.md` — not kernel CODEOWNERS) | Named CODEOWNERS for agent artifacts; signed admit records (model, tools, oracles, digest); sandbox policy for untrusted proposals; review-capacity metrics | Trusted-base shipping; C7; P6/P16; §4.8–4.9 |
+| **T10** | **Agent-workflow compile / freeze / place** (control-plane substrate) | FlowCompile, Auto (freeze spans), AgentFlow (ADGs), hetero placement; [VibeServe](../reference/publications/vibeserve.md); **[DeepSeek Harness](../reference/publications/deepseek-harness.md)** (live plugin + session log). **Skill plane (2026-08-31):** [Agent Skills spec](../reference/publications/agent-skills-spec.md); **[SIGIL](../reference/publications/sigil.md)** ★ SKILL.md → AG-IR → harness; [SkCC](../reference/publications/skcc.md) SkIR + injection; [SkVM](../reference/publications/skvm.md) AOT/JIT; [SkillSmith](../reference/publications/skillsmith.md) boundary ABI; [SKILL.state](../reference/publications/skill-state.md) \(\Sigma_t\) | Shared **compiler-product** agent-graph IR + fail-closed CI (AG-IR/SkIR are skill IRs, not that RFC); placement under spend/latency; kernel VCS still `git` | Horizon **B** control-plane compile; P2/P3/P22; §4.6 |
 
 #### 5.8.3 Checkpoint → technique map
 
@@ -1739,7 +1756,7 @@ Evidence maps: [`../reference/products.md`](../reference/products.md) · [`../re
 | **A — Forge AI is enough** | Gerrit ai-code-review / ReviewAI / native AI chat; generic GitHub PR bots | Put LLM on the diff; scale human review |
 | **B — Compiler-specialized tools required** | Archer (Alive2/LLUBI/`opt`); [llvm-harness](../reference/publications/llvm-harness.md) / llvm-bench (frontier drop vs SWE-bench; true-fix below 22% after expert review); LLVM Discourse agent-PR experience | Miscompiles need domain oracles; generic review is HITL UX only |
 
-**Why it matters for *this* survey.** Generic Gerrit plugins — and generic coding-agent runtimes such as [DeepSeek Harness](../reference/publications/deepseek-harness.md) — are **weak evidence** for next-gen *compilers*; Archer-class / [llvm-harness](../reference/publications/llvm-harness.md) tools are strong. Cataloguing forge plugins or star-count harnesses without oracles misaligns with the prediction goal.
+**Why it matters for *this* survey.** Generic Gerrit plugins — and generic coding-agent runtimes such as [DeepSeek Harness](../reference/publications/deepseek-harness.md) or a `SKILL.md` pack without oracles ([Agent Skills spec](../reference/publications/agent-skills-spec.md), skill compilers) — are **weak evidence** for next-gen *compilers*; Archer-class / [llvm-harness](../reference/publications/llvm-harness.md) tools are strong. Cataloguing forge plugins, star-count harnesses, or SkillsBench pass rates without compiler oracles misaligns with the prediction goal.
 
 **Settlement signal.** A Gerrit/GitHub bot that blocks merge on failed Alive2/KernelBench-class checks becomes default in llvm-project or a major AI compiler.
 
@@ -1907,6 +1924,8 @@ Snapshot of representative systems. Numbers are **as reported by authors**; cros
 | GEAK v4 | Instinct + sglang/vLLM | JS workflow + multi-agent kernel | Warm-server A/B + output parity | Amdahl e2e loop; MLA case 2.10× / 3.71× TTFT | AMD 2026 |
 | T-LLM Compiler | C loops / LLVM | LLM rewrite + retry | Compiler + Alive2 + CBMC | 83.3% author “accuracy” on PolyBench/C | arXiv 2026 |
 | llvm-harness | LLVM middle-end | Autofix / autoreview agents | Reproducers + expert review | True-fix below 22% after review; 334-bug bench | arXiv 2026 |
+| SIGIL | Skill compile (AG-IR) | SKILL.md → typed harness | Skill-faithfulness (AMC), not Alive2 | Mean AMC 66%→88.6%; 2.4–6× fewer tokens (author) | arXiv 2026 |
+| SKILL.state | Agent runtime state | Explicit \(\Sigma_t\); drop reasoning after validate | State-update check ≠ serving \(F\) | Bounded prompt vs growing transcript (author) | arXiv 2026 |
 
 ### Online vs offline agents
 
@@ -1934,7 +1953,8 @@ Prediction-first loop aimed at the **future agentic compiler** (SW stack + HW co
 ```text
 New source
   ├─ Reshapes agentic compile / heuristics / kernels / oracles / ASIC bring-up?
-  │     YES → Tier A (or B if substrate only: Helion, StableHLO, llvm-project)
+  │     YES → Tier A (or B if substrate only: Helion, StableHLO, llvm-project,
+  │            skill spec / skill compile / \(\Sigma_t\) — P1/P2/T10)
   │     NO  → skip or Tier C one-liner
   ├─ Pure EDA/RTL LLM with no kernel/IR/oracle loop?
   │     YES → out of scope (unless it feeds compiler codesign claims H*)
@@ -1958,6 +1978,19 @@ The LLM-oriented IR pass (2026-08-25) searched the **paper cluster titled LLM + 
 | Disambiguate **TritorX** ≠ **TIRx** ≠ **TLX** | Collapse vendor names |
 
 **Still undigested (watchlist, not this wave):** JAX **Pallas** / Mosaic GPU; **HipKittens** (AMD TK); Modular Mojo GPU kernels. Same rule if they become named agent sinks.
+
+### Search scope (do not repeat the SKILL.state miss)
+
+The post-TIRx walks (2026-08-26) searched **vendor kernel IRs**. **SKILL.state** (arXiv:2608.26263, posted ~2026-08-25) was missed until asked: the title has no compiler/IR, and in this repo “agent skills” had meant CompileIQ / TensorRT-LLM **compile packs**. The public stack also has (a) the **Agent Skills** `SKILL.md` spec and (b) **skill compilation / \(\Sigma_t\)** papers. Those are **P1 / P2 / T10 substrate**, not a fifth compiler job and not a new L-band.
+
+| Do | Do not |
+|---|---|
+| Walk `SKILL.md`, agentskills.io, “skill compilation,” AG-IR / SkIR / SkVM, “agent execution state” | Only treat “skills” as CompileIQ / TRT-LLM packs |
+| Digest the **spec** if SURVEY names `SKILL.md` as the pack format | Digest only the vendor pack that follows it |
+| Keep three senses distinct (compile pack ≠ spec ≠ skill compile / \(\Sigma_t\)) | Collapse homonyms; cite “SkillSmith” without an arXiv number |
+| Mount a compiler control plane or an oracle loop → Tier B substrate | Generic SWE agents, customer-service skills, **CTF / exploit write-ups as compile evidence** |
+
+**Still undigested (skill watchlist, Tier B only):** EvoSkill (skill *discovery*, QA benches); Formal Skill / FairyClaw (runtime-native JSON+hooks, not SKILL.md compile); SSL (skill-text → structure, 2604.24026); Agent skill security (2607.13987); SkillSmith *co-evolve* (2606.01314 — **not** the compile paper 2605.15215). Digest when a compiler/oracle mount appears.
 
 ### Add-source order
 

@@ -151,6 +151,12 @@ META: dict[str, tuple[str, str]] = {
     "agentic-ai-hetero-systems.md": ("Stanford · Gimlet Labs · Intel", "arXiv"),
     "vibeserve.md": ("University of Washington (SyFI)", "arXiv"),
     "deepseek-harness.md": ("DeepSeek AI", "GitHub"),
+    "skill-state.md": ("Google LLC · Purdue University", "arXiv"),
+    "agent-skills-spec.md": ("Anthropic (origin) · agentskills.io ecosystem", "agentskills.io / GitHub · Anthropic Engineering"),
+    "sigil.md": ("University of Michigan", "arXiv"),
+    "skcc.md": ("Sun Yat-sen University", "arXiv · ACM CAIS 2026 (AgentSkills'26)"),
+    "skvm.md": ("Shanghai Jiao Tong University", "arXiv"),
+    "skillsmith.md": ("AetherHeart Tech · Renmin University of China · UC San Diego", "arXiv"),
 }
 
 

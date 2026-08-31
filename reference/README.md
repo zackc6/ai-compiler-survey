@@ -23,7 +23,7 @@ Evidence store for the living survey. Digests, product signals, and repo/forge m
 2. Add an INDEX row (★ only if it moves the prediction).
 3. Update `products.md` / `repos.md` only if the mechanism is a new shipping surface.
 4. Update SURVEY **§6 / §7** if a durable claim or disagreement moved; thin-touch §5 if the prediction moves.
-5. Follow [`../docs/SURVEY.md`](../docs/SURVEY.md) **§9** (How to update this survey).
+5. Follow [`../docs/SURVEY.md`](../docs/SURVEY.md) **§9** (How to update this survey). For “skills”: walk the `SKILL.md` spec, skill compilers, and \(\Sigma_t\) runtimes (hard rule 15) — not only vendor compile packs.
 6. `python3 scripts/validate_survey.py`
 
 Do **not** paste long digests into `docs/SURVEY.md`. Keep the narrative thin; park evidence here. The survey points into this tree.

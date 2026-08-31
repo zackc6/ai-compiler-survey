@@ -65,6 +65,8 @@ Brief on purpose: these are **defaults**, not proof that agents win.
 | Generic “AI code review” SKUs | Conflict **C7** — HITL UX, not compiler oracles |
 | Anthropic CCC | Process signal (agents-as-engineers), **not** a sold compiler SKU |
 | [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (`dsh`) | Open coding-agent runtime (plugin kernel + session log). **C7** unless compiler oracles mount as seams; T10 color only — [digest](publications/deepseek-harness.md) |
+| [Agent Skills spec](https://agentskills.io/specification) (`SKILL.md`) | Packaging format (progressive disclosure). **C7** unless compiler oracles mount; CompileIQ already follows it — [digest](publications/agent-skills-spec.md) |
+| SIGIL / SkCC / SkVM / SkillSmith / SKILL.state | Skill *compilation* or \(\Sigma_t\) runtimes. T10/P2 substrate, not a sold compiler SKU — see publications INDEX |
 
 ---
 
