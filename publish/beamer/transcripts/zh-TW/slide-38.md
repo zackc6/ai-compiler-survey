@@ -6,7 +6,7 @@
 AlphaEvolve Cloud（GA）——雲上的演化編碼。Magellan + MLGO 並行——啟發式合成 *與* 樹內學習顧問（C1 已在生產）。訊號：離線智慧體當輸出，與樹內神經顧問共存。
 
 **NVIDIA。**
-CompileIQ 加智慧體技能——線上特化、ACF 級控制檔。CUDA Tile / Tile IR——硬體原生核心面。**Cake IR**（與 CMU 的研究）——型別化排程 IR 加演化驗證器；已做 serving 驗證的 KDA。TensorRT-LLM 智慧體技能——服務堆疊整合。訊號：型別化工具 + 核心 DSL + serving，不是只聊天。
+CompileIQ 加智慧體技能——線上特化、ACF 級控制檔，並遵循 Agent Skills 的 `SKILL.md` 規格（包裝，不是 T1）。CUDA Tile / Tile IR——硬體原生核心面。**Cake IR**（與 CMU 的研究）——型別化排程 IR 加演化驗證器；已做 serving 驗證的 KDA。TensorRT-LLM 智慧體技能——服務堆疊整合。訊號：型別化工具 + 核心 DSL + serving，不是只聊天。
 
 **AMD。**
 **GEAK v4**——在熱的 sglang/vLLM 上做 Amdahl 分流、遞迴核心工作流、熱伺服器 A/B + 輸出對等。訊號：具名廠商迴圈在追 serving **F**，不只核心 microbench。仍不是公開 p50 預設路徑（**C2**）。

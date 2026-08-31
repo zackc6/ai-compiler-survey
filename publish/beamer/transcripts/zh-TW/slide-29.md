@@ -12,9 +12,9 @@ Exists：Meta LLM Compiler 的 pass 清單資料、**ComPile** 生產 LLVM IR �
 Exists：KernelBench(-X) 正確性+速度、FlashInfer-Bench serving 核心階、**llvm-bench**（334 個 LLVM 中端崩潰／誤編譯缺陷）。主張：梯子強迫可比較——serving 核心與編譯器缺陷修復是不同階。Missing：完整 IR→核心→融合→serving 鏈，每一階都報編譯成本。解鎖分佈增益（C2）與第二供應商覆蓋劇本（C9）。
 
 **T9 — 出處／HITL → C7。**
-Exists：Magellan 可審查 C++、Archer 判定預言機審查、**llvm-harness**／llvm-bench（專家審查後真正修復低於 22%）。主張：智慧體放大草稿；流程必須放大審查。Missing：CODEOWNERS + 簽署的 admit 紀錄 + 沙箱成為標準做法。解鎖把通用 forge AI 從編譯器預測裡降級（C7）。
+Exists：Magellan 可審查 C++、Archer 判定預言機審查、**llvm-harness**／llvm-bench（專家審查後真正修復低於 22%）、**SkCC** 對不受信任 `SKILL.md` 的 Anti-Skill Injection。主張：智慧體放大草稿；流程必須放大審查。Missing：CODEOWNERS + 簽署的 admit 紀錄 + 沙箱成為標準做法。解鎖把通用 forge AI 從編譯器預測裡降級（C7）。SkCC 是*技能*面的 T9 著色，不是核心 CODEOWNERS。
 
-**T10 — 工作流編譯／freeze → Horizon B。**
-Exists：FlowCompile 離線工作流編譯、Auto/AgentFlow freeze、**DeepSeek Harness**（`dsh`）作為已出貨*執行期*——外掛核心 + 只附加的 session log（resume / fork / replay）。主張：活的 harness 不是已編譯的智慧體圖 IR。Missing：共享智慧體圖 IR 編譯成凍結配置，加上失敗即關 CI——Horizon B「控制面被編譯」，不是永遠聊天。VibeServe 仍是早期 serving 堆疊著色；不要把 DSH 星數讀成 T10 結算。
+**T10 — 工作流／技能編譯／freeze → Horizon B。**
+Exists：FlowCompile 離線工作流編譯、Auto freeze、**DeepSeek Harness**（`dsh`）作為已出貨*執行期*（外掛核心 + 只附加的 session log）、**SIGIL ★**（`SKILL.md` → AG-IR → 型別化 harness）、**SKILL.state**（明確 \(\Sigma_t\)；驗證更新後丟掉推理）。同波還有 SkCC／SkVM／SkillSmith（2605.15215）——四個技能編譯設計點，不要平均。主張：活的 harness 不是已編譯的*編譯器產品* IR；技能 IR 不是 T1。Missing：共享智慧體圖 IR 編成凍結配置，加上失敗即關的**編譯器** CI——Horizon B「控制面被編譯」，不是永遠聊天。不要把 DSH 星數或 SkillsBench 通過率讀成 T10 結算。
 
 收尾：編譯器外技術提供證據、資料與流程。只加強 `opt`／Inductor／Triton 而不做 T6–T10，會留下無法結算檢查點的演示。

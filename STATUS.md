@@ -44,6 +44,7 @@ Last updated: **2026-08-31**
 
 | Date | Change |
 |---|---|
+| 2026-08-31 | Beamer + EN/zh-TW: skill-scope fold on 4/22/24–27/29/33/36–41 (T10 exists, C7, ★ SIGIL, INDEX **142**). Sharing PDF rebuilt. |
 | 2026-08-31 | Skill-scope lesson + re-search (hard rule 15): digest Agent Skills spec, SKILL.state, SIGIL ★, SkCC, SkVM, SkillSmith (2605.15215). Three senses of “skill”; T10/P2/§4.6/§9 grow; **no** C6/C2 move, **no** L-band. INDEX **142**. Survey PDF rebuilt (Beamer unchanged). |
 | 2026-08-27 | §0.1 **top of the picture**: agentic compiler loop (control plane → typed kernel → classical lower → freeze-serve). Survey is evidence, not a second goal. Canonical loop + §5.1 pointer. Survey PDF rebuilt (Beamer unchanged). |
 | 2026-08-26 | Re-search after TIRx miss: digest vendor L4 kernel IRs (TileLang, Gluon, TLX, FlyDSL, CuTe DSL, Event Tensor, ThunderKittens 2.0). Lesson: not only arXiv “LLM+IR”; walk docs/FFI/LSP/stale stacks. INDEX **136**. C4 more contested; Event Tensor = L6 not L-llm. Hybrid holds. Survey + sharing PDFs; Beamer 10/28/31–32/36–38/40–41 + EN/zh-TW |

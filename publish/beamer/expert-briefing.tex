@@ -257,8 +257,8 @@
   \textbf{\color{Amber}B --- RL $\rightarrow$ agents}\par\vspace{0.08em}
   CompilerGym $\rightarrow$ tool agents\par
   Heuristics as shippable C++\par
-  Workflow compile $\cdot$ freeze $\cdot$ place\par
-  {\fontsize{4.5}{5}\selectfont\color{Mute}Compiler-R1/ISCAS $\cdot$ Magellan/DeepMind $\cdot$ FlowCompile/UMass+MIT}};
+  Workflow / skill compile $\cdot$ freeze\par
+  {\fontsize{4.5}{5}\selectfont\color{Mute}Compiler-R1 $\cdot$ Magellan $\cdot$ FlowCompile $\cdot$ SIGIL}};
 \node[trendEmber] at (4.3,1.25) {%
   \textbf{\color{Ember}C --- MLIR + Triton}\par\vspace{0.08em}
   PyTorch$\rightarrow$Inductor$\rightarrow$Triton\par
@@ -896,7 +896,7 @@
 \node[monoRec] at (0,-1.35)
   {admit\_record = \{graph\_hash, hw\_id, compiler\_ver, action[], oracle[], artifact\_digest, policy\_id\}};
 \node[font=\sffamily\footnotesize,text=Mute,text width=12cm,align=center] at (0,-2.35)
-  {Lean: \textbf{C + B}; Natural language is a view, not source of truth. ACF = portable compiler knobs.};
+  {Lean: \textbf{C + B}; Natural language / \texttt{SKILL.md} is a view, not source of truth. ACF = portable compiler knobs.};
 \end{tikzpicture}
 \end{center}
 \end{frame}
@@ -934,7 +934,7 @@
   agents $\uparrow$ drafts\par reviewers = bottleneck};
 \node[calloutInk] at (0,-1.55) {%
   Lean: human CODEOWNER + signed admit + sandbox $\cdot$ oracle auto-merge only for \textbf{narrow} action classes\par
-  Generic forge AI / coding-agent harnesses $\neq$ compiler-oracle review (C7)};
+  Generic forge AI / harnesses / \texttt{SKILL.md} packs $\neq$ compiler-oracle review (C7)};
 \end{tikzpicture}
 \end{center}
 \end{frame}
@@ -956,7 +956,7 @@
 \node[gapAmber] at (2.0,0.15) {4.7 training data};
 
 \node[font=\sffamily\small\bfseries,text=Steel] at (0,-0.75) {MEDIUM};
-\node[gapSteel] at (-4.0,-1.45) {4.6 workflow compile};
+\node[gapSteel] at (-4.0,-1.45) {4.6 workflow / skill compile};
 \node[gapSteel] at (0.0,-1.45) {4.8 human-review process};
 \node[gapSteel] at (4.0,-1.45) {4.9 security};
 \end{tikzpicture}
@@ -1015,7 +1015,7 @@
   T7 Open multi-IR corpora (+ negatives)\par
   T8 Unified benchmark ladder\par
   T9 Provenance, ownership, HITL process\par
-  T10 Agent-workflow compile / freeze / place};
+  T10 Agent-workflow / skill compile / freeze};
 \node[font=\sffamily\tiny,text=Mute,text width=12cm,align=center] at (0,-2.35)
   {Enhancing only \texttt{opt}/Inductor/Triton internals is not enough. Next: exists $\cdot$ missing today $\cdot$ checkpoint unlocks.};
 \end{tikzpicture}
@@ -1092,14 +1092,14 @@
 % T9
 \node[anchor=west,font=\sffamily\small\bfseries,text=Amber] at (-6.15,-1.10) {T9 Provenance / HITL};
 \node[anchor=east,font=\sffamily\small\bfseries,text=Ember] at (6.15,-1.10) {$\rightarrow$ C7};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ok] at (-6.15,-1.44) {Exists: Magellan C++ $\cdot$ Archer $\cdot$ llvm-harness};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ok] at (-6.15,-1.44) {Exists: Magellan C++ $\cdot$ Archer $\cdot$ llvm-harness $\cdot$ SkCC (skills)};
 \node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.15,-1.74) {Missing: CODEOWNERS + signed admit records + sandbox for proposals};
 \draw[Line,line width=0.35pt] (-6.15,-1.94) -- (6.15,-1.94);
 % T10
 \node[anchor=west,font=\sffamily\small\bfseries,text=Amber] at (-6.15,-2.24) {T10 Workflow compile / freeze};
 \node[anchor=east,font=\sffamily\small\bfseries,text=Ember] at (6.15,-2.24) {$\rightarrow$ Horiz.\ B};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ok] at (-6.15,-2.58) {Exists: FlowCompile $\cdot$ Auto $\cdot$ AgentFlow $\cdot$ DSH runtime};
-\node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.15,-2.88) {Missing: shared agent-graph IR + fail-closed CI $\rightarrow$ Horizon B};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ok] at (-6.15,-2.58) {Exists: FlowCompile $\cdot$ Auto $\cdot$ DSH $\cdot$ \textbf{SIGIL}$\bigstar$ $\cdot$ SKILL.state};
+\node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.15,-2.88) {Missing: shared \emph{compiler} IR + fail-closed CI (skill IR $\neq$ T1)};
 \end{tikzpicture}
 \end{center}
 \end{frame}
@@ -1196,7 +1196,7 @@
   2/1.90/{Magellan $\parallel$ MLGO --- parallel bets (C1)},%
   3/1.30/{Discount single-number speedups (C2)},%
   4/0.70/{Constrained actions + strong oracles (C3)},%
-  5/0.10/{Demote generic SCM / coding-agent AI (C7)},%
+  5/0.10/{Demote generic SCM / harness / \texttt{SKILL.md} AI (C7)},%
   6/-0.50/{Coverage$\rightarrow$performance; no autonomous chip design (C9/C10)},%
   7/-1.10/{$\sim$6--7 data-plane bands; plugins if not consolidated (A6/S6)},%
   8/-1.70/{E2E-optimal-\emph{seeking}: joint search under $F$ (A7/S7)},%
@@ -1296,7 +1296,7 @@
 \node[draw=Steel,fill=Steel!10,rounded corners=5pt,minimum width=3.9cm,minimum height=3.5cm,text width=3.55cm,align=left,font=\sffamily\footnotesize,inner sep=7pt]
   at (-4.3,0.2) {%
   \textbf{\color{Steel}Publications}\par\vspace{0.25em}
-  136 digests\par
+  142 digests\par
   one file per source\par\vspace{0.2em}
   papers $\cdot$ blogs $\cdot$ talks\par
   forge pages $\cdot$ minutes\par\vspace{0.25em}
@@ -1368,7 +1368,7 @@
 \draw[Line,line width=0.35pt] (-6.15,0.30) -- (6.15,0.30);
 \node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.15,-0.10) {Tiers: A = agents + domain oracles change heuristics/kernels/knobs/review};
 \node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.15,-0.45) {B = data-plane hosts \quad$\cdot$\quad C = generic forge AI (demoted for prediction)};
-\node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.15,-0.80) {Not A: DeepSeek Harness = agent runtime (plugins / session log), not compiler oracles (C7)};
+\node[anchor=west,font=\sffamily\footnotesize,text=Mute] at (-6.15,-0.80) {Not A: DSH / \texttt{SKILL.md} / skill compilers = substrate (C7) unless compiler oracles mount};
 \end{tikzpicture}
 \end{center}
 \end{frame}
@@ -1391,8 +1391,11 @@
 \draw[Line,line width=0.3pt] (-6.15,0.70) -- (6.15,0.70);
 \node[anchor=west,font=\sffamily\footnotesize\bfseries,text=Ok] at (-6.15,0.35) {Kernels / ladder / data};
 \node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-2.6,0.35) {Cake $\bigstar$ $\cdot$ Argus $\bigstar$ $\cdot$ GEAK v4 $\bigstar$ $\cdot$ FlashInfer-Bench $\bigstar$ $\cdot$ KernelBook};
-\node[font=\sffamily\footnotesize,text=Mute,text width=12cm,align=center] at (0,-0.40)
-  {Full digest index 136 entries. Technique map: SURVEY §5.8 T1--T10.};
+\draw[Line,line width=0.3pt] (-6.15,0.10) -- (6.15,0.10);
+\node[anchor=west,font=\sffamily\footnotesize\bfseries,text=Steel] at (-6.15,-0.25) {Control plane / skills};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-2.6,-0.25) {SIGIL $\bigstar$ skill compile $\cdot$ SKILL.state ($\Sigma_t$) $\cdot$ Agent Skills spec};
+\node[font=\sffamily\footnotesize,text=Mute,text width=12cm,align=center] at (0,-0.85)
+  {Full digest index 142 entries. Technique map: SURVEY §5.8 T1--T10.};
 \end{tikzpicture}
 \end{center}
 \end{frame}
@@ -1406,7 +1409,7 @@
 \node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,2.20) {\textbf{30} GPU kernels \& inference \quad \textbf{15} Agentic \& RL \quad \textbf{14} Source control \& review};
 \node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,1.65) {\textbf{12} Classic DL compilers \quad \textbf{10} Company infra \quad \textbf{10} Forums \& workshops};
 \node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,1.10) {\textbf{8} Surveys \& vision \quad \textbf{12} Foundation LLMs \quad \textbf{6} MLGO \& RL gyms};
-\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,0.55) {\textbf{6} HW codesign \& bring-up \quad \textbf{6} Commercial products \quad \textbf{6} Control-plane substrate \quad \textbf{1} Correctness lineage};
+\node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,0.55) {\textbf{6} HW codesign \& bring-up \quad \textbf{6} Commercial products \quad \textbf{12} Control-plane substrate \quad \textbf{1} Correctness lineage};
 \draw[Line,line width=0.35pt] (-6.15,0.20) -- (6.15,0.20);
 \node[anchor=west,font=\sffamily\small\bfseries,text=Mute] at (-6.15,-0.20) {How digests are used};
 \node[anchor=west,font=\sffamily\footnotesize,text=Ink] at (-6.15,-0.60) {Mechanism first; demote generic forge AI; keep both sides --- do not average};

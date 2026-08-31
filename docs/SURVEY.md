@@ -1,6 +1,6 @@
 # Next-Gen AI Compiler Survey
 
-**Last updated:** 2026-08-31 (skill-scope fold: spec + \(\Sigma_t\) + skill compile; goal-align)  
+**Last updated:** 2026-08-31 (skill-scope fold + Beamer T10/C7/★; goal-align)  
 **Evidence store:** [`../reference/README.md`](../reference/README.md) → publications · products · repos  
 **Status:** [`../STATUS.md`](../STATUS.md)
 

@@ -6,7 +6,7 @@ Tier A products that shape what ships. On-slide: company bands + Tier B footer. 
 AlphaEvolve Cloud (GA) — evolutionary coding in cloud. Magellan + MLGO in parallel — heuristic synthesis *and* in-tree learned advisors (C1 live in production). Signal: offline agent-as-output and in-tree NN advisors coexist.
 
 **NVIDIA.**
-CompileIQ with agent-skills — online specialize, ACF-class control files. CUDA Tile / Tile IR — hardware-native kernel surface. **Cake IR** (research, with CMU) — typed schedule IR plus evolving verifier; serving-validated KDA. TensorRT-LLM agent skills — serving-stack integration. Signal: typed tools + kernel DSL + serving, not chat-only.
+CompileIQ with agent-skills — online specialize, ACF-class control files, following the Agent Skills `SKILL.md` spec (packaging, not T1). CUDA Tile / Tile IR — hardware-native kernel surface. **Cake IR** (research, with CMU) — typed schedule IR plus evolving verifier; serving-validated KDA. TensorRT-LLM agent skills — serving-stack integration. Signal: typed tools + kernel DSL + serving, not chat-only.
 
 **AMD.**
 **GEAK v4** — e2e Amdahl triage on warm sglang/vLLM, recursive kernel workflow, warm-server A/B + output parity. Signal: a named vendor loop that seeks serving \(F\), not only kernel microbench. Still not a public p50 default path (**C2**).

@@ -17,4 +17,6 @@ Build CI 與物料清單。每筆 admitted 變更帶 graph hash、硬體 ID、�
 **展示 `admit_record` 區塊。**
 走過欄位：`graph_hash`、`hw_id`、`compiler_ver`、`action[]`、`oracle[]`、`artifact_digest`、`policy_id`。這是跨 MLIR、Triton、Tile、StableHLO 的可攜契約。**ACF** = 進階控制檔——可攜編譯器旋鈕，freeze 進 VCS。
 
-收尾句：lean 是 **C + B**。型別化工具收斂行動；admit trace 讓它們可回歸。自然語言是透鏡，不是編譯器 API。
+Agent Skills 的 `SKILL.md` 包——以及 SIGIL 的 AG-IR／SkCC 的 SkIR——是*技能*包裝或技能 IR，不是這張 admit record。
+
+收尾句：lean 是 **C + B**。型別化工具收斂行動；admit trace 讓它們可回歸。自然語言與 `SKILL.md` 是透鏡，不是編譯器 API。

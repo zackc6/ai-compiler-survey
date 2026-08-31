@@ -9,7 +9,7 @@ OpenEvolve, HeuriGym — evolutionary heuristic search. Archer — oracle-gated 
 ACCLAIM, CompileIQ — online propose→measure→admit. **GEAK v4**, KernelAgent — kernel and now e2e serving loops. KernelBench(-X) — correctness and speed ladder. FlashInfer-Bench — serving traces. AutoKernel, Helion — kernel DSL surfaces. TritorX / KernelEvolve / **Zomboss** — sim/silicon→dialect or compile-once mapping (job d). Jobs (a) online and (d) bring-up.
 
 **Tier definitions.**
-A = agents + domain oracles change heuristics, kernels, knobs, or review — prediction-relevant. B = data-plane hosts agents attach to. C = generic forge AI only — useful tooling, demoted for checkpoint settlement (C7). Footer: **DeepSeek Harness** is *not* Tier A — agent runtime (plugins / session log), not compiler oracles.
+A = agents + domain oracles change heuristics, kernels, knobs, or review — prediction-relevant. B = data-plane hosts agents attach to. C = generic forge AI only — useful tooling, demoted for checkpoint settlement (C7). Footer: **DeepSeek Harness**, the Agent Skills spec, and skill compilers (SIGIL / SkCC / SkVM / SkillSmith) are *not* Tier A unless compiler oracles mount — substrate, C7.
 
 **How to use in discussion.**
 When someone cites a repo, ask: Tier A mechanism or Tier C demo? Point to job letter — does it freeze artifacts, admit with oracles, or just chat?

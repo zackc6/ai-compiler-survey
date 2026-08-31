@@ -9,7 +9,7 @@ OpenEvolve、HeuriGym — 演化啟發式搜尋。Archer — 判定預言機閘�
 ACCLAIM、CompileIQ — 線上提議→量測→接納。**GEAK v4**、KernelAgent — 核心迴圈，現在也有端到端 serving。KernelBench(-X) — 正確性與速度梯子。FlashInfer-Bench — serving trace。AutoKernel、Helion — 核心 DSL 面。TritorX / KernelEvolve / **Zomboss** — 模擬／矽→方言，或一次編譯對映（工作 d）。工作 (a) 線上與 (d) 使能／拉起。
 
 **層級定義。**
-A = 智慧體 + 領域判定預言機改變啟發式、核心、旋鈕或審查——與預測相關。B = 智慧體掛上去的資料面宿主。C = 只有通用 forge AI——工具有用，對檢查點結算降級（C7）。頁尾：**DeepSeek Harness** *不是* A 級——智慧體執行期（外掛／session log），不是編譯器判定預言機。
+A = 智慧體 + 領域判定預言機改變啟發式、核心、旋鈕或審查——與預測相關。B = 智慧體掛上去的資料面宿主。C = 只有通用 forge AI——工具有用，對檢查點結算降級（C7）。頁尾：**DeepSeek Harness**、Agent Skills 規格、以及技能編譯器（SIGIL／SkCC／SkVM／SkillSmith）*不是* A 級——除非掛上編譯器判定預言機，否則只是底層（C7）。
 
 **討論怎麼用。**
 有人引用儲存庫時問：A 級機制還是 C 級演示？指到工作字母——它是 freeze 產物、用判定預言機接納，還是只聊天？

@@ -14,7 +14,10 @@ TritorX、KernelEvolve — 真實硬體上的覆蓋→效能（C9）。**Zomboss
 **核心／梯子／資料。**
 **Cake** ★ — 型別化排程 IR，NVIDIA。**Argus** ★ — 資料流不變量 + SMT，MI300X。**GEAK v4** ★ — 廠商端到端 serving A/B。FlashInfer-Bench ★ — serving-trace 梯子 + `apply()`。KernelBook ★ — 朝 TritonRL 的訓練對。
 
+**控制面／技能。**
+**SIGIL** ★——`SKILL.md` → AG-IR → 型別化 harness（T10）。**SKILL.state**——明確 \(\Sigma_t\)，驗證更新後丟掉推理（P2）。Agent Skills 規格——CompileIQ 已遵循的包裝（P1，不是 T1）。SkCC／SkVM／SkillSmith 是同波底層，不再另標星。
+
 **指標。**
-完整文獻摘要索引 **136** 筆。技術圖交叉參考：調查 §5.8 T1–T10。準備檢查點論證時先讀 ★。
+完整文獻摘要索引 **142** 筆。技術圖交叉參考：調查 §5.8 T1–T10。準備檢查點論證時先讀 ★。
 
 收尾：★ 文獻摘要是從主張到可引用機制的最短路——先用它們，再做一般網路搜尋。

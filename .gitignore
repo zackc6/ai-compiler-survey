@@ -7,6 +7,9 @@ __pycache__/
 .env
 .env.*
 
+# Beamer latex scratch
+publish/beamer/_build/
+
 # publish intermediates + optional locale builds (only English PDF + PPTX tracked)
 publish/out/survey-bundle.md
 publish/out/survey-bundle.*.md
