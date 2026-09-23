@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -95,6 +96,15 @@ def main() -> int:
     for bad in ("鈥", "\ufffd"):
         if bad in index_text:
             errors.append(f"INDEX.md contains mojibake marker {bad!r}")
+
+    blueprint = subprocess.run(
+        [sys.executable, str(ROOT / "scripts" / "build_blueprint.py"), "--check"],
+        capture_output=True, text=True,
+    )
+    if blueprint.returncode != 0:
+        errors.append("docs/blueprint.svg is stale or missing; run python3 scripts/build_blueprint.py")
+    if "blueprint.svg" not in (ROOT / "docs" / "SURVEY.md").read_text(encoding="utf-8"):
+        errors.append("SURVEY.md no longer shows docs/blueprint.svg")
 
     print(f"digests={len(digests)} indexed={len(indexed)}")
     for w in warnings:

@@ -88,11 +88,12 @@ Include hardware research when executable workloads, representations, simulation
 2. Update evidence and the publication index first when facts or sources change.
 3. Refine the relevant narrative sections, unresolved questions, and evidence records together.
 4. Check whole-document consistency: objectives, architectural choices, evidence labels, terminology, dates, and forecast confidence.
-5. Run `python3 scripts/validate_survey.py`.
-6. Rebuild the survey PDF with `python3 publish/build_pdf.py` in the same batch as a narrative edit. Inspect the rendered output and repair unreadable tables, broken links, overlap, and clipping.
-7. Update `README.md`, source guides, publishing metadata, and `STATUS.md` where the change affects them.
-8. Update Beamer only when the narrative is settled and slides are requested or explicitly part of the batch. Otherwise identify the existing presentation as an earlier snapshot if its conclusions differ.
-9. Review the diff and save a coherent commit on main. Publish only when authorized.
+5. Re-render the blueprint when the narrative changes what it depicts: components or their boundaries, the improvement loops (application, compiler, controller), what the optimizer may or may not change, validation and evaluation rules, comparison arms, promotion criteria, or the forecast and checkpoint schedule. Edit `scripts/build_blueprint.py`, never `docs/blueprint.svg` by hand, run it, and update the figure caption in `docs/SURVEY.md`. The drawing must not claim more than the narrative: label thin evidence, keep acceptance rules outside every loop, and show alternatives rather than one required design.
+6. Run `python3 scripts/validate_survey.py`; it fails if the blueprint is stale.
+7. Rebuild the survey PDF with `python3 publish/build_pdf.py` in the same batch as a narrative edit. Inspect the rendered output and repair unreadable tables, broken links, overlap, and clipping.
+8. Update `README.md`, source guides, publishing metadata, and `STATUS.md` where the change affects them.
+9. Update Beamer only when the narrative is settled and slides are requested or explicitly part of the batch. Otherwise identify the existing presentation as an earlier snapshot if its conclusions differ.
+10. Review the diff and save a coherent commit on main. Publish only when authorized.
 
 A consistency check may require changing the goal or architecture recommendation. Never rewrite contrary evidence to make it agree with a preferred thesis.
 
@@ -125,6 +126,7 @@ Commit coherent batches. When publishing is authorized, push main directly using
 - Explain design alternatives, tradeoffs, and experiments in ordinary language.
 - Remove unexplained abbreviations and symbol-heavy cross-references from the revised narrative.
 - Preserve historical record identities and usable links.
+- Re-render `docs/blueprint.svg` from its script if architecture, components, loops, evaluation rules, or the forecast schedule changed; check it on its landscape PDF page.
 - Run repository validation; rebuild and visually inspect the survey PDF.
 - Refresh both transcript languages whenever slides change.
 - Update current status and the change log.

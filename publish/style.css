@@ -154,3 +154,21 @@ hr {
 .source-index col:first-child { width: 13% !important; }
 .source-index col:nth-child(2) { width: 49% !important; }
 .source-index col:nth-child(3) { width: 38% !important; }
+
+/* Wide diagrams (docs/blueprint.svg) print on their own landscape page. */
+@page wide {
+  size: A4 landscape;
+  margin: 12mm 12mm 14mm 12mm;
+}
+.wide-figure {
+  page: wide;
+  break-before: page;
+  break-after: page;
+}
+.wide-figure img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: 176mm;
+  margin: 0 auto;
+}

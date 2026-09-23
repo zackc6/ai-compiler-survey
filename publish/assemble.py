@@ -153,7 +153,14 @@ def rewrite_links(text: str, source: Path) -> str:
     }
 
     def resolve(match: re.Match[str]) -> str:
-        label, target = match.groups()
+        bang, label, target = match.groups()
+        if bang:
+            # Images keep their file; wide figures get their own landscape page in the PDF.
+            if target.startswith(("https://", "http://")):
+                return match.group(0)
+            image = (source.parent / target).resolve()
+            alt = label.replace('"', "&quot;")
+            return f'\n::: {{.wide-figure}}\n<img src="{image.as_uri()}" alt="{alt}">\n:::\n'
         if target.startswith(("https://", "http://", "mailto:", "#")):
             return match.group(0)
         relative, _, fragment = target.partition("#")
@@ -172,7 +179,7 @@ def rewrite_links(text: str, source: Path) -> str:
         # Non-inlined maintenance files remain named, rather than becoming broken file URLs.
         return label
 
-    return re.sub(r"\[([^\]]+)\]\(([^\s)]+)\)", resolve, text)
+    return re.sub(r"(!?)\[([^\]]+)\]\(([^\s)]+)\)", resolve, text)
 
 
 def publication_appendix(text: str) -> str:

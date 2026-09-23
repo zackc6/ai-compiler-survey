@@ -293,6 +293,10 @@ Negative results from mlirAgent, LLM4IR, and KernelBench-X motivate these tests.
 
 Start with a workload specification, an experiment coordinator, several candidate-generation methods, compilation and analysis tools, evaluation, and a store of accepted artifacts. Keep the interfaces explicit enough to compare or replace each component.
 
+![End-to-end blueprint of an agentic compiler: a human-owned contract, three improvement loops, validation gates, measurement, artifact storage, and a deterministic runtime](blueprint.svg)
+
+*Figure: one possible arrangement of these components, not a required architecture.* Humans fix the workload, objective, and validation contract. In the application loop, an agent is one of several candidate generators given the same feedback and budget; validation and target measurement decide what survives. The compiler-improvement loop merges generated components only after a regression check on held-out workloads. The controller-improvement loop starts with a restricted, versioned change and promotes it only after the four-arm comparison in the [controller recommendation](#515-add-controller-improvement-as-a-separately-evaluated-loop). No loop may edit the acceptance rules or the held-out evaluation. Each box can be retained, generated, merged, or replaced as described in the [architecture choices](#514-decide-what-to-retain-generate-merge-or-replace).
+
 For example, initially use an existing backend to implement a generated schedule. If backend limitations repeatedly prevent useful schedules, evaluate a new lowering path or a generated backend component against the existing path. If a direct assembly optimizer improves the final artifact, include it as another candidate-producing stage. Decide from measured behavior rather than from a rule that agents must always remain above the backend.
 
 <a id="4-whats-missing--under-covered-q4"></a>
@@ -978,7 +982,7 @@ Walk primary papers, official documentation, repositories, and first-party engin
 2. Add or update the source digest with organization, publisher, relevance tier, evidence type, and limitations.
 3. Update the publication index and the product or repository map when relevant.
 4. Revise affected design guidance, unresolved questions, and evidence records together.
-5. Check the entire narrative for contradictory objectives, architecture assumptions, and timelines.
+5. Check the entire narrative for contradictory objectives, architecture assumptions, and timelines. If components, improvement loops, evaluation boundaries, or the forecast schedule changed, re-render the [blueprint figure](#33-a-starting-architecture-with-replaceable-components) with `python3 scripts/build_blueprint.py` and revise its caption.
 6. Rebuild and inspect the survey PDF after the narrative is settled. Update slides only when requested or when their content is explicitly being revised; keep both transcript languages synchronized with any slide edit.
 7. Record the change and run repository validation. Commit on the existing main branch and publish only when authorized; an explicit no-push instruction takes precedence.
 
