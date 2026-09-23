@@ -21,6 +21,8 @@ META: dict[str, tuple[str, str]] = {
     # Kernel-language evidence: independent CUDA Tile measurement and Triton Tile IR backend
     "cutile-evaluation.md": ('University of Wisconsin–Milwaukee · Illinois Institute of Technology', 'arXiv'),
     "triton-tileir-backend.md": ('NVIDIA', 'NVIDIA Developer blog'),
+    # Benchmark protocol evidence
+    "kernelbench-verified.md": ('Meta · Stanford University', 'arXiv'),
     # Structured search, distribution, and current tuning evidence
     "mirage.md": ('Carnegie Mellon University · Peking University · Pennsylvania State University · Purdue University · Weizmann Institute of Science', 'USENIX OSDI 2025'),
     "prism.md": ('Carnegie Mellon University · Tsinghua University · Weizmann Institute of Science', 'arXiv'),

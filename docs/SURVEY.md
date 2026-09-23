@@ -137,7 +137,7 @@ The design choice is the balance between automation and explicit control. A high
 
 [KernelEvolve](../reference/publications/kernelevolve-blog.md), [GEAK](../reference/publications/geak-v4-github.md), [Hyperloom](../reference/publications/hyperloom.md), [CAKE](../reference/publications/cake.md), and [Ave, previously Argus](../reference/publications/argus.md) provide evidence across different workloads and organizations. [MaxKernel](../reference/publications/maxkernel.md) extends the picture to Pallas on tensor processing units.
 
-The reported results mix kernel speed, application throughput, search efficiency, and operator coverage. Keep these outcomes separate. KernelBench-X finds that 46.6% of correct generated kernels are slower than its PyTorch eager baseline; that is a result for the evaluated methods and protocol, not a future ceiling. [Benchmark source](https://arxiv.org/abs/2605.04956v1).
+The reported results mix kernel speed, application throughput, search efficiency, and operator coverage. Keep these outcomes separate. KernelBench-X finds that 46.6% of correct generated kernels are slower than its PyTorch eager baseline; that is a result for the evaluated methods and protocol, not a future ceiling. [Benchmark source](https://arxiv.org/abs/2605.04956v1). [KernelBench-Verified](../reference/publications/kernelbench-verified.md) shows how much the protocol matters: with TF32 enabled in the FP32 PyTorch baseline and hidden input transformations, the best single-turn model’s mean speedup falls from 1.43 to 0.88 times. In BF16, where the baseline already uses Tensor Cores, the same model reaches 1.63 times on fused-operator problems.
 
 #### Feedback is becoming more informative
 
@@ -377,9 +377,9 @@ Run generated candidates with appropriate isolation, preserve where released art
 
 ### 4.10 Comparable benchmarks
 
-Use a progression from compiler transformations to individual kernels, fused regions, complete applications, and multi-device execution. Include new-hardware enablement where relevant. KernelBench, KernelBench-X, FlashInfer-Bench, JAXBench, KernelGenBench, and llvm-bench each cover part of this space.
+Use a progression from compiler transformations to individual kernels, fused regions, complete applications, and multi-device execution. Include new-hardware enablement where relevant. KernelBench, KernelBench-X, KernelBench-Verified, FlashInfer-Bench, JAXBench, KernelGenBench, and llvm-bench each cover part of this space.
 
-For every result, record the denominator, validation scope, workload coverage, target, software versions, budget, and variability. Report the fraction of workloads that are correct and faster, the size of gains and regressions, and application benefit. Do not average unrelated headline speedups into a single ranking.
+For every result, record the denominator, validation scope, workload coverage, target, software versions, budget, and variability. Configure the baseline as practitioners would deploy it, including precision modes such as TF32, and test correctness on inputs the generator did not see; [KernelBench-Verified](../reference/publications/kernelbench-verified.md) found shortcuts that assumed positive inputs. Record peak memory as well as time. Report the fraction of workloads that are correct and faster, the size of gains and regressions, and application benefit. Do not average unrelated headline speedups into a single ranking.
 
 <a id="5-future-prediction-what-next-gen-looks-like"></a>
 
@@ -806,6 +806,7 @@ The record identifiers below preserve links from earlier revisions. They are mai
 | [TritorX](https://arxiv.org/abs/2512.10977) | Generated 481 operators passing their corresponding OpInfo tests. | Concrete coverage assistance in Meta's setting. Passing tests is not a peak-performance result or universal correctness proof. |
 | [KernelEvolve](https://engineering.fb.com/2026/04/02/developer-tools/kernelevolve-how-metas-ranking-engineer-agent-optimizes-ai-infrastructure/) | Reports over 60% inference-throughput and over 25% training-throughput improvements on different internal models and hardware. | Production evidence, with private workloads and organization-specific baselines. |
 | [Hyperloom](https://rocm.blogs.amd.com/software-tools-optimization/hyperloom-optimization/README.html) | Reports median 1.73-times inference speedup over 16 workloads. | System-level evidence including framework, precision, serving, and kernel changes; do not attribute the entire gain to kernel generation. |
+| [KernelBench-Verified](https://arxiv.org/abs/2607.16241v1) | Single-turn kernels from seven models on one H200: best geometric-mean speedup 0.88 against a TF32-enabled baseline with hidden tests, versus 1.43 under the standard protocol; 1.63 at Level 2 in BF16. | Baseline precision and hidden tests change the conclusion. Not an agentic or multi-turn result; same evidence family as KernelBench. |
 | [CUDA Tile evaluation](https://arxiv.org/abs/2604.23466v2) | Independent study: one cuTile attention kernel at 2.51 times FlashAttention-2 on B200 and 53% on RTX PRO 6000; cuTile matrix multiplication at 52–79% of cuBLAS. | Kernel throughput only, not application or agent evidence. Tuning is not matched across languages, and no Blackwell-specific attention library is compared. |
 
 Argus was revised and renamed Ave on 14 September 2026. Use version 2's metrics above for current claims. The historical digest filename remains `argus.md` to preserve links.
@@ -886,7 +887,7 @@ This gallery groups systems by the design question they help investigate. Detail
 | Event Tensor, ForgeMegakernel | Dynamic execution and generated persistent execution strategies. | Can reducing launch and scheduling overhead improve the application? |
 | Hyperloom, VibeServe | Broader serving-stack optimization. | How should gains across configurations, frameworks, and kernels be attributed? |
 | AsmEvo | Optimization of compiled assembly/code objects. | What opportunity remains after conventional lowering? |
-| KernelBench, KernelBench-X, FlashInfer-Bench, KernelGenBench | Complementary evaluation surfaces. | Which combination measures correctness, performance, transfer, and search cost? |
+| KernelBench, KernelBench-X, KernelBench-Verified, FlashInfer-Bench, KernelGenBench | Complementary evaluation surfaces. | Which combination measures correctness, performance, transfer, and search cost? |
 | Kernel-headroom study and DLRM-Bench | Profiling and projected application impact. | Which runtime share can the permitted changes reach? |
 | IBM Analog Hardware Acceleration Kit | Repeated evaluation with noise and drift models. | What statistical contract should approximate execution satisfy? |
 | KernelBook, TritonRL, DRTriton, AMDKernelVault | Kernel data generation and model training. | Does better data improve speed as well as correctness? |

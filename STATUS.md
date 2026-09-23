@@ -11,12 +11,12 @@ Last updated: **2026-09-23**
 | Architecture | Passes, lowering, representations, and agent boundaries remain choices to evaluate. |
 | Forecast | Five horizons with separate direction, timing, and architecture confidence; dated predicates and evidence rules. |
 | Design checklist | All 23 product topics and ten technical priorities retained in readable comparisons. |
-| Evidence | 160 source digests; related papers, blogs, and repositories distinguished from independent corroboration. |
-| Updated sources | Added the independent CUDA Tile evaluation and NVIDIA’s Triton backend for CUDA Tile; earlier in the batch, DITRON, kernel-headroom profiling, and analog statistical evaluation. |
+| Evidence | 161 source digests; related papers, blogs, and repositories distinguished from independent corroboration. |
+| Updated sources | Added KernelBench-Verified, the independent CUDA Tile evaluation, and NVIDIA’s Triton backend for CUDA Tile; earlier in the batch, DITRON, kernel-headroom profiling, and analog statistical evaluation. |
 | Survey PDF | Rebuilt with the current narrative and reference appendices; source links open primary references. |
 | Presentation | Existing slides and bilingual transcripts are an earlier snapshot; not aligned with this revision. |
 | Repository skill | Updated with plain-language guidance, evidence standards, architecture flexibility, and publication authorization rules. |
-| Publication | CUDA Tile evidence published to main with maintainer authorization. |
+| Publication | KernelBench-Verified committed on main; publication pending maintainer authorization. |
 
 ## Coverage still to strengthen
 
@@ -30,6 +30,7 @@ Last updated: **2026-09-23**
 
 | Date | Change |
 |---|---|
+| 2026-09-23 | Added KernelBench-Verified: a TF32-enabled baseline and hidden input transformations cut the best single-turn speedup from 1.43 to 0.88 times, while BF16 reaches 1.63 times at Level 2. Recorded it as a refinement within the KernelBench evidence family. Updated the measured-results trend, benchmark guidance, evidence register, and repository map. Index: 161. Rebuilt the PDF. |
 | 2026-09-23 | Added measured evidence to the kernel-language question: an independent CUDA Tile study (one attention kernel at 2.51 times FlashAttention-2 on B200 but 53% on RTX PRO 6000; matrix multiplication slower than Triton) and NVIDIA’s Triton-to-TileIR backend with its documented limits. Recorded unmatched tuning, missing Blackwell-specific attention baselines, and an abstract-only machine review that should not be cited. Updated the hardware-interface trend, evidence register, product and repository maps. Index: 160. Rebuilt the PDF. |
 | 2026-09-23 | Refined the review arguments: scope expansion motivates a controlled agent/non-agent comparison; addressable runtime is workload- and action-dependent; search economics follows artifact lifetime; forecasts now have dated public-evidence predicates; validation includes stochastic execution. Added three digests (158 total), updated the repository skill, and rebuilt the PDF. Preserved the preceding reviewer caveats. |
 | 2026-09-23 | Added reviewer caveats to the design guide. The objective order is now marked segment-dependent: coverage and portability can be the effective primary objective for new-accelerator bring-up, edge, and non-frontier deployments (§5.1.1). Flagged that several informative results, including CAKE and Ave, rest on a single organization or hardware shape and stay tentative until independent reproduction (§5.4). Noted that a workload-dependent answer in the unresolved questions is legitimate only when it names deciding evidence and a review date (§6). Rebuilt the survey PDF. |

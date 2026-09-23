@@ -171,8 +171,9 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2023 | paper | Validation and approximate hardware | IBM Research | APL Machine Learning · arXiv | [Using the IBM Analog In-Memory Hardware Acceleration Kit for Neural Network Training and Inference](analog-validation.md) | [source](https://arxiv.org/abs/2307.09357v2) |
 | 2026 | paper | GPU kernels & inference compilers | University of Wisconsin–Milwaukee · Illinois Institute of Technology | arXiv | [Evaluating CUDA Tile for AI Workloads on Hopper and Blackwell GPUs](cutile-evaluation.md) | [source](https://arxiv.org/abs/2604.23466v2) |
 | 2026 | company | Company infra | NVIDIA | NVIDIA Developer blog | [Advancing GPU Programming with the CUDA Tile IR Backend for OpenAI Triton](triton-tileir-backend.md) | [source](https://developer.nvidia.com/blog/advancing-gpu-programming-with-the-cuda-tile-ir-backend-for-openai-triton/) |
+| 2026 | paper | GPU kernels & inference compilers | Meta · Stanford University | arXiv | [KernelBench-Verified: Do LLM-Generated Kernels Actually Beat PyTorch?](kernelbench-verified.md) | [source](https://arxiv.org/abs/2607.16241v1) |
 
-**Total:** 160 digests
+**Total:** 161 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 

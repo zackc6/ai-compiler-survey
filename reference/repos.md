@@ -35,6 +35,7 @@ Magellan’s papers and [LLVM presentation](publications/magellan-llvm-slides.md
 | [VibeServe](https://github.com/uw-syfi/vibe-serve) | Research on serving-stack synthesis. | Evaluate the whole generated execution path and deployment assumptions. |
 | [Helion](https://github.com/pytorch/helion) | Tile programming, configuration spaces, and tuning. | Consult the [2026 tuning report](publications/helion-llm-autotuning.md) for model-guided search evidence. |
 | [Kernel-headroom artifacts](https://github.com/gauravapiscean/kernel-headroom) | Workload profiles, numerical checks, and DLRM-Bench. | Inspect the classification and projection assumptions before generalizing. |
+| [KernelBench-Verified](https://github.com/facebookresearch/kernel_bench_verified) | TF32 baseline, hidden input transformations, and peak-memory measurement for KernelBench. | Fixed hidden transformations can be anticipated; keep the baseline precision explicit. |
 | [CUDA Tile evaluation artifacts](https://github.com/uwm-se/CuTile) | Matrix-multiplication and attention kernels across cuTile, Triton, and CUDA baselines. | Check tuning parity and baseline versions before comparing languages. |
 | [Kernel generation bibliography](https://github.com/flagos-ai/awesome-LLM-driven-kernel-generation) | Discovery of further primary sources. | A bibliography is not an evaluation. |
 
