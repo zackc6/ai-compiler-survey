@@ -24,7 +24,7 @@ These offerings and first-party reports inform the [design guide](../docs/SURVEY
 | Meta TritorX and KernelEvolve | Hardware enablement and performance optimization across accelerator targets. | Separate coverage results, kernel measurements, and industry deployment reports. |
 | [CAKE](publications/cake.md) | Schedule representation and compiler feedback developed with agents. | Author evaluation; compares complete programming environments. |
 | [Ave, formerly Argus](publications/argus.md) | Compile-time data-flow assertions and useful failure feedback. | Revised September 2026 MI300X results; do not reuse older Argus metrics. |
-| [CUDA Tile](https://developer.nvidia.com/blog/focus-on-your-algorithm-nvidia-cuda-tile-handles-the-hardware/) | Tile-oriented programming and compiler representation. | An interface candidate; its existence does not establish the best agent architecture. |
+| [CUDA Tile](https://developer.nvidia.com/blog/focus-on-your-algorithm-nvidia-cuda-tile-handles-the-hardware/) and its [Triton backend](publications/triton-tileir-backend.md) | Tile-oriented programming and compiler representation. | An [independent evaluation](publications/cutile-evaluation.md) finds strongly target-dependent attention performance; neither establishes the best agent architecture. |
 
 ## Existing compiler and runtime choices
 

@@ -169,8 +169,10 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | Structured and distributed compilation | ByteDance Seed · Peking University · Tsinghua University · Zhejiang University · Shanghai Jiao Tong University | arXiv | [DITRON: Distributed Multi-level Tiling Compiler for Parallel Tensor Programs](ditron.md) | [source](https://arxiv.org/abs/2605.02953v1) |
 | 2026 | paper | GPU kernels & inference compilers | Gaurav Agarwal · Ashish Garg · Isha Singhal (affiliations not stated) | arXiv | [How Much of a Real Workload Can LLM-Generated GPU Kernels Actually Reach?](kernel-headroom.md) | [source](https://arxiv.org/abs/2609.21058v1) |
 | 2023 | paper | Validation and approximate hardware | IBM Research | APL Machine Learning · arXiv | [Using the IBM Analog In-Memory Hardware Acceleration Kit for Neural Network Training and Inference](analog-validation.md) | [source](https://arxiv.org/abs/2307.09357v2) |
+| 2026 | paper | GPU kernels & inference compilers | University of Wisconsin–Milwaukee · Illinois Institute of Technology | arXiv | [Evaluating CUDA Tile for AI Workloads on Hopper and Blackwell GPUs](cutile-evaluation.md) | [source](https://arxiv.org/abs/2604.23466v2) |
+| 2026 | company | Company infra | NVIDIA | NVIDIA Developer blog | [Advancing GPU Programming with the CUDA Tile IR Backend for OpenAI Triton](triton-tileir-backend.md) | [source](https://developer.nvidia.com/blog/advancing-gpu-programming-with-the-cuda-tile-ir-backend-for-openai-triton/) |
 
-**Total:** 158 digests
+**Total:** 160 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 

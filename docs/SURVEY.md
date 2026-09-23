@@ -117,7 +117,7 @@ Two changes organize these trends: **what the compiler can optimize** and **how 
 
 TileLang, Triton Gluon, Triton Low-level Language Extensions, CuTe DSL, FlyDSL, Pallas, CUDA Tile, and TVM TIRx expose different combinations of tiles, layouts, memory spaces, synchronization, and scheduling. Helion provides a higher-level interface with substantial automatic tuning. Their common lesson is to preserve access to decisions that affect performance, while allowing automation to handle details when it performs well.
 
-The design choice is the balance between automation and explicit control. A high-level interface can reduce effort and enable retargeting; a lower-level interface can expose a new hardware capability before an automatic optimizer supports it. Neither choice establishes one universal representation. See the source summaries for [TileLang](../reference/publications/tilelang.md), [Gluon](../reference/publications/triton-gluon.md), [CuTe DSL](../reference/publications/cute-dsl.md), [Pallas](../reference/publications/pallas.md), and [TIRx](../reference/publications/tirx.md).
+The design choice is the balance between automation and explicit control. A high-level interface can reduce effort and enable retargeting; a lower-level interface can expose a new hardware capability before an automatic optimizer supports it. Neither choice establishes one universal representation. An [independent CUDA Tile evaluation](../reference/publications/cutile-evaluation.md) shows the cost of an immature target: the same short attention kernel was the fastest tested implementation on one Blackwell GPU and slower than FlashAttention-2 and Triton on another. See the source summaries for [TileLang](../reference/publications/tilelang.md), [Gluon](../reference/publications/triton-gluon.md), [CuTe DSL](../reference/publications/cute-dsl.md), [Pallas](../reference/publications/pallas.md), and [TIRx](../reference/publications/tirx.md).
 
 #### Optimization is expanding beyond isolated kernels
 
@@ -738,6 +738,10 @@ Hints and typed actions simplify checking; wider synthesis can discover implemen
 
 One language concentrates tooling and training data. Several languages can expose different hardware capabilities and scheduling choices. Triton, Helion, Gluon, TileLang, CuTe DSL, FlyDSL, Pallas, and other interfaces remain relevant candidates. Judge source reuse and competitive per-target performance separately. A dominant training corpus alone does not prove a superior compiler interface.
 
+The [independent CUDA Tile evaluation](../reference/publications/cutile-evaluation.md) measures both axes. With FlashAttention-2 as the reference, one 60-line causal-attention kernel reached 2.51 times its throughput on B200 but 53% on the RTX PRO 6000. For matrix multiplication, cuTile needed fewer lines than Triton but was slower on every tested Blackwell shape; Triton reached 62–101% of cuBLAS on all three GPUs without source changes, although it was autotuned on each. This is one study with incompletely matched tuning and no Blackwell-specific attention baseline. It still shows that a language can lead on its best-supported target while trailing on another. NVIDIA’s [Triton backend for CUDA Tile](../reference/publications/triton-tileir-backend.md) offers a different route: one front end with several target representations. Its documented early limits, including slow tensor-of-pointer access with CUDA 13.1, show that shared source can still require rewriting for performance.
+
+**Test:** for each candidate language, measure the same kernels on every deployment target under a declared tuning budget, and report the worst-target result alongside the best.
+
 <a id="c5--online-compile-time-agents-vs-offline-compiler-engineering-agents"></a>
 
 ### Per-workload optimization or offline compiler improvement?
@@ -802,6 +806,7 @@ The record identifiers below preserve links from earlier revisions. They are mai
 | [TritorX](https://arxiv.org/abs/2512.10977) | Generated 481 operators passing their corresponding OpInfo tests. | Concrete coverage assistance in Meta's setting. Passing tests is not a peak-performance result or universal correctness proof. |
 | [KernelEvolve](https://engineering.fb.com/2026/04/02/developer-tools/kernelevolve-how-metas-ranking-engineer-agent-optimizes-ai-infrastructure/) | Reports over 60% inference-throughput and over 25% training-throughput improvements on different internal models and hardware. | Production evidence, with private workloads and organization-specific baselines. |
 | [Hyperloom](https://rocm.blogs.amd.com/software-tools-optimization/hyperloom-optimization/README.html) | Reports median 1.73-times inference speedup over 16 workloads. | System-level evidence including framework, precision, serving, and kernel changes; do not attribute the entire gain to kernel generation. |
+| [CUDA Tile evaluation](https://arxiv.org/abs/2604.23466v2) | Independent study: one cuTile attention kernel at 2.51 times FlashAttention-2 on B200 and 53% on RTX PRO 6000; cuTile matrix multiplication at 52–79% of cuBLAS. | Kernel throughput only, not application or agent evidence. Tuning is not matched across languages, and no Blackwell-specific attention library is compared. |
 
 Argus was revised and renamed Ave on 14 September 2026. Use version 2's metrics above for current claims. The historical digest filename remains `argus.md` to preserve links.
 
