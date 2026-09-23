@@ -157,7 +157,6 @@ Prefer named TikZ styles, consistent pitch between rows, and **edge-only connect
 | Org sync helper | `python3 scripts/apply_org_publisher.py` |
 | Validate | `python3 scripts/validate_survey.py` |
 | PDF | `python3 publish/build_pdf.py` |
-| Faculty PDF | `python3 publish/build_pdf.py --faculty` → `publish/out/faculty.pdf` from `docs/faculty.md` |
 | Sharing Beamer deck | `python3 publish/build_beamer.py` → `publish/out/next-gen-ai-compiler-sharing.pdf` |
 | **Slide transcripts** | `publish/beamer/transcripts/{en,zh-TW}/slide-NN.md` + `README.md` (both langs whenever Beamer changes) |
 | Translate transcripts | `python3 publish/translate_transcripts.py` (EN → zh-TW via glossary/MT/OpenCC) |
