@@ -14,6 +14,10 @@ INDEX = PUB / "INDEX.md"
 # Org = company/university that produced the work (primary affiliations)
 # Publisher = venue, blog host, forge, or preprint host
 META: dict[str, tuple[str, str]] = {
+    # Review additions: scope, addressable runtime, and statistical validation
+    "ditron.md": ('ByteDance Seed · Peking University · Tsinghua University · Zhejiang University · Shanghai Jiao Tong University', 'arXiv'),
+    "kernel-headroom.md": ('Gaurav Agarwal · Ashish Garg · Isha Singhal (affiliations not stated)', 'arXiv'),
+    "analog-validation.md": ('IBM Research', 'APL Machine Learning · arXiv'),
     # Structured search, distribution, and current tuning evidence
     "mirage.md": ('Carnegie Mellon University · Peking University · Pennsylvania State University · Purdue University · Weizmann Institute of Science', 'USENIX OSDI 2025'),
     "prism.md": ('Carnegie Mellon University · Tsinghua University · Weizmann Institute of Science', 'arXiv'),

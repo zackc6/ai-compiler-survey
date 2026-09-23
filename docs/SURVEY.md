@@ -4,7 +4,7 @@ Evidence reviewed through **23 September 2026**. Forecasts cover **2027, 2029, 2
 
 **Central hypothesis:** the compiler increasingly becomes an agentic optimization system that chooses strategies, synthesizes implementations and compiler components, evaluates results, and adapts using feedback. Current systems support parts of this direction. They do not establish one required architecture or a permanent boundary between an agent and a conventional compiler.
 
-**Design priority:** runtime performance first; developer productivity and portability next, with similar importance. Measure search cost from the start and optimize it after demonstrating a useful performance advantage. Correctness, numerical requirements, and deployment constraints define which implementations are acceptable.
+**Design priority:** runtime performance first; developer productivity and portability next, with similar importance. Measure search cost from the start. When an improvement will be reused enough to repay its cost, establish performance value before optimizing search expense; for short-lived or latency-sensitive deployment, search cost and payback constrain the design immediately. Cheaper search at comparable runtime is a distinct useful outcome. See the [reuse and deployment tradeoff](#per-workload-optimization-or-offline-compiler-improvement). Correctness, numerical requirements, and deployment constraints define which implementations are acceptable.
 
 Read the purpose and evidence rules first, then the trends and design guidance. The unresolved questions and evidence register explain where recommendations remain uncertain. Detailed source summaries stay in the [publication index](../reference/publications/INDEX.md); this document is the single narrative.
 
@@ -54,7 +54,7 @@ The scope includes model graphs, kernels, memory, communication, runtime special
 | Lowering | Turning higher-level computation into a representation or executable closer to the target machine. The function does not require today's sequence of stages. |
 | Control plane | The logic that chooses optimization actions and coordinates experiments. |
 | Compiler substrate | Representations, transformations, analyses, code generation, and tools used by the optimizer. Earlier versions called this the data plane. |
-| Validation contract | The inputs, semantics, numerical tolerances, quality requirements, and deployment conditions an implementation must satisfy. |
+| Validation contract | The inputs, semantics, numerical or statistical acceptance criteria, quality requirements, and operating conditions an implementation must satisfy. |
 | Oracle | A source of evaluation feedback, such as a reference implementation, a proof checker, or a benchmark. Each has a defined scope and can be incomplete. |
 | Performance portability | Obtaining competitive performance on multiple targets. This can use different target-specific implementations. |
 | Hardware bring-up | Making a new accelerator run the required workloads correctly and then efficiently. |
@@ -111,6 +111,8 @@ These periods overlap. New methods do not make earlier methods obsolete by defin
 
 ### 1.3 Six trends that matter for design
 
+Two changes organize these trends: **what the compiler can optimize** and **how it chooses changes**. Expanding scope across kernels, communication, memory, precision, and runtime creates pressure to coordinate decisions; agentic control is one candidate response. Compiler components can also become optimization targets. This is a causal hypothesis to test, not proof that a large search space requires agents: structured search, decomposition, and conventional compiler methods remain alternatives.
+
 #### Hardware decisions are becoming more explicit
 
 TileLang, Triton Gluon, Triton Low-level Language Extensions, CuTe DSL, FlyDSL, Pallas, CUDA Tile, and TVM TIRx expose different combinations of tiles, layouts, memory spaces, synchronization, and scheduling. Helion provides a higher-level interface with substantial automatic tuning. Their common lesson is to preserve access to decisions that affect performance, while allowing automation to handle details when it performs well.
@@ -119,9 +121,11 @@ The design choice is the balance between automation and explicit control. A high
 
 #### Optimization is expanding beyond isolated kernels
 
-[Triton-distributed](../reference/publications/triton-distributed.md) connects computation and communication, while [Shardy](../reference/publications/shardy.md) represents and propagates tensor sharding decisions. [Event Tensor](../reference/publications/event-tensor.md) addresses dynamic dependencies in persistent execution. These are compiler directions in their own right; an agent is not a prerequisite for studying them.
+[Triton-distributed](../reference/publications/triton-distributed.md) and its related [DITRON compiler](../reference/publications/ditron.md) coordinate computation and communication. DITRON reports application gains without agentic control, including gains from overlap despite slower individual matrix multiplications. [Shardy](../reference/publications/shardy.md) handles tensor sharding, while [Event Tensor](../reference/publications/event-tensor.md) addresses dynamic dependencies. These are compiler directions in their own right; an agent is not a prerequisite for studying them.
 
 **Design consequence:** expand the optimization boundary when communication, memory movement, launch overhead, or runtime scheduling dominates. Do not infer that every workload needs one giant kernel or one controller for an entire fleet.
+
+**Testable hypothesis:** with comparable performance headroom, feedback, and resources, agents may gain more over strong non-agent methods when decisions interact and existing rules are incomplete. Test mature local-kernel tasks against coupled application tasks, while giving both methods the same action space and information. Measure held-out application gain, failures, and cost. Equal or better non-agent results in the coupled tasks would weaken the hypothesis. A larger space can also make agent search worse; advantage need not increase monotonically with size.
 
 #### Several search methods remain competitive
 
@@ -288,6 +292,10 @@ Kernel and pass-level gains are abundant relative to controlled application comp
 
 **Design guidance:** select representative training or serving workloads before optimizing. Fix the baseline, precision, quality criteria, hardware, and workload mix. Attribute gains from kernels separately from framework, batching, caching, or runtime changes. Long-running production evaluation strengthens deployment confidence, but is not a prerequisite for a useful research result.
 
+Profile the **addressable fraction**: the time that the permitted optimization actions can actually change. The [kernel-headroom study](../reference/publications/kernel-headroom.md) is an instructive, narrow example: its table projects 1.32–2.49% transformer time savings on selected A100 profiles. Its 58.2% recommender figure is the total addressable share; one embedding kernel is 37.4%. These are not KernelEvolve’s private workloads, so the study cannot explain that system’s reported gains directly.
+
+**Illustrative calculation:** if an affected region occupies 10% of serial runtime and becomes twice as fast, total runtime falls by 5%; application speedup is about 1.053 times. This assumes other work is unchanged. An 80–86% library share alone therefore does not imply a 1% ceiling. Library optimality, achievable kernel gains, and the allowed actions are additional assumptions. With overlapping execution, measure effects on the critical path instead of adding overlapping kernel durations. Fusion, communication changes, or algorithm changes can alter the addressable fraction itself.
+
 <a id="42-correctness-at-scale"></a>
 
 ### 4.2 Correctness and numerical behavior
@@ -299,8 +307,11 @@ Kernel and pass-level gains are abundant relative to controlled application comp
 | Numerical and model-quality checks | Compliance with declared error and application-quality requirements. | A tolerance can be inappropriate for a different model or use. |
 | Invariant and equivalence checking | Properties within the modeled language, assumptions, and checking scope. | Arithmetic models, concurrency, bounds, and invariant completeness matter. |
 | Application replay and staged rollout | Behavior under representative execution and production conditions. | Rare inputs, drift, and interactions can still be missed. |
+| Stochastic or nondeterministic execution | Repeated trials estimate error and quality distributions under specified device states; check confidence bounds and tail requirements. | Finite samples and imperfect noise models can miss rare failures, drift, or untested conditions. |
 
 Combine checks according to the allowed action. A configuration change, a new reduction order, and a generated backend require different evidence. Ave's data-flow assertions and CAKE's schedule checks are useful examples of targeted feedback, not complete proofs for arbitrary accelerator programs.
+
+Stochastic hardware can still have a deterministic mathematical reference; what changes is the acceptance rule. Specify repeated-trial sampling, allowed error or quality loss, failure probability, and operating conditions. IBM’s [analog-hardware evaluation tutorial](../reference/publications/analog-validation.md) already treats variation and drift explicitly. Model-quality checks can therefore be extended to statistical contracts; their meaning is not undefined.
 
 <a id="43-cost--reproducibility-of-agent-compile-loops"></a>
 
@@ -308,7 +319,11 @@ Combine checks according to the allowed action. A configuration change, a new re
 
 Track model calls, tokens, compilation time, device time, failed trials, and elapsed optimization time. Preserve the accepted artifact, its dependencies, and enough records to rerun the measurement. Replaying an accepted artifact is different from reproducing the exact stochastic search trajectory.
 
-For this guide's performance priority, cost reduction follows proof of a useful advantage. Cost still needs measurement immediately: without it, an architecture comparison can confuse a better method with a larger budget. Cache results only when the input assumptions, target, compiler, and validation contract remain compatible.
+For reusable improvements, establish attainable performance before concentrating on cheaper search. For deployment-specific search, check its latency and payback at the outset. Without cost measurement, an architecture comparison can confuse a better method with a larger budget. Cache results only when the input assumptions, target, compiler, and validation contract remain compatible.
+
+A simple decision rule compares search, integration, and maintenance cost with the expected saving over all executions before the artifact becomes invalid. Use one declared accounting unit and separately enforce wall-clock deployment deadlines; tokens, device time, and engineer time are not interchangeable quantities. Count failed attempts as part of the cost of an accepted artifact. One search per deployment can still serve millions of executions, while fleet-wide heuristics still require maintenance. Report campaign totals separately from per-artifact costs.
+
+Helion illustrates a useful alternative outcome: cheaper tuning at roughly comparable final latency. Under an agreed performance tolerance, that is a search-efficiency improvement even without a runtime gain. Keep the two results separate and check per-shape regressions; the tolerance must be chosen before evaluation.
 
 <a id="44-cross-stack-interoperability"></a>
 
@@ -418,7 +433,7 @@ A shared interface can expose several representations. A unified representation 
 
 **Benefit:** the system can find gains that optimizing each component once would miss. **Cost:** the search space and attribution problem grow. **Alternative:** retain local optimizers when their decisions are sufficiently independent and composition performs well. A single central controller is not necessary merely because the application objective is global.
 
-**Test:** compare independent optimization, coordinated search, and broader synthesis under the same workload and budget. Include a larger-budget comparison to examine attainable performance. The objective is better measured performance; no general proof of a global optimum is claimed.
+**Test:** compare independent optimization, coordinated search, and broader synthesis under the same workload and budget. Include a larger-budget comparison to examine attainable performance. The objective is better measured performance; no general proof of a global optimum is claimed. DITRON provides a concrete non-agent comparison for communication and execution decisions; an agent must add value beyond expanding the action space alone.
 
 <a id="514-when-do-e2e-search-and-layers-merge--and-when-do-agents-replace-the-compiler"></a>
 <a id="why-m1-can-happen-without-m3"></a>
@@ -463,9 +478,10 @@ This sequence is a starting recommendation, not a requirement to solve each stag
 | Wider synthesis is worth supporting. | Extra freedom increases failures without improving attainable performance. | Better validated implementations beyond the restricted space. |
 | Coordinated optimization is needed for a workload class. | Local optimizers compose equally well on representative applications. | Integrated search finds repeatable application gains missed by local choices. |
 | Compiler co-evolution improves outcomes. | Generated compiler changes overfit and require more maintenance than their benefit justifies. | New components improve unseen workloads and survive software or hardware updates. |
+| Agent advantage grows with poorly captured decision interactions. | Strong non-agent methods match coupled-task results after controlling headroom, feedback, actions, and budget. | Agent advantage is larger on coupled tasks than local tasks under those controls. |
 | Agentic compilation becomes widely adopted. | Persistent cost, integration, or reliability disadvantages narrow it to specialist uses. | Sustained deployment across independent organizations and workload classes. |
 
-Specify the tasks, budget, and review date when testing a hypothesis. “Agents never improve” and “agents eventually solve everything” are not useful experimental criteria. A negative result can weaken a near-term prediction without disproving a longer-term possibility.
+For the scope/control hypothesis, review available controlled comparisons on **23 September 2027**. If none meet the controls, record the relationship as untested; do not count a collection of unrelated success stories as confirmation. Specify the tasks, budget, and review date when testing a hypothesis. “Agents never improve” and “agents eventually solve everything” are not useful experimental criteria. A negative result can weaken a near-term prediction without disproving a longer-term possibility.
 
 <a id="54-near-term-signals-conditioning-the-sketch"></a>
 
@@ -481,7 +497,11 @@ Read their conditions before drawing architectural conclusions. The detailed evi
 
 ### 5.5 Forecast over five horizons
 
-All dates are measured from September 2026. Confidence describes direction and scope; it is not a calibrated probability. The longer the horizon, the less confidence we should place in today's software boundaries.
+All dates are measured from September 2026. Separate confidence in the **direction**, **timing**, and **architectural form**; none is a calibrated probability. The predicates below are this guide’s declared assessment criteria, not thresholds estimated from the literature. They make the calls reviewable without inventing numerical confidence.
+
+A qualifying result identifies the workload, hardware, strong non-agent baseline, numerical and quality requirements, search budget, validation, and failures. A claimed improvement must exceed reported measurement uncertainty. Count independent implementations or organizations, not several reports about one system. Public artifacts or a sufficiently detailed first-party evaluation qualify where specified; a product announcement alone does not.
+
+At each review date, record each predicate as **met** or **not met by available public evidence**, with source versions and a reason. Missing evidence means a miss for the dated public-evidence call, not proof that no private system exists. Reduce timing confidence when a call misses; reduce direction confidence when controlled comparisons contradict its mechanism. Keep the original prediction and record revisions separately.
 
 <a id="551-horizon-a--20272028-near"></a>
 <a id="what-ships"></a>
@@ -490,15 +510,23 @@ All dates are measured from September 2026. Confidence describes direction and s
 
 #### 5.5.1 One year: 2027
 
-**Central forecast, high confidence in direction:** tuning, kernel synthesis, diagnosis, and selected compiler-engineering tasks become more integrated with existing toolchains. Conventional backends remain common because they already implement useful behavior.
+**Central forecast:** tuning, kernel synthesis, diagnosis, and selected compiler-engineering tasks become more integrated with existing toolchains. Conventional backends remain common because they already implement useful behavior. **Confidence:** direction high; timing medium; architectural form medium.
 
-**More ambitious outcome:** selected workflows routinely adapt across kernels, configurations, and compiler changes. **Needed progress:** dependable evaluation, useful feedback, and repeatable deployment. **Watch:** supported integrations and held-out application gains, rather than additional demonstrations of code generation alone.
+**Observable predicate — review 23 September 2027:** at least two independent organizations publish a compiler/serving integration after 23 September 2026, each adding an optimization action or target backend and providing a qualifying application evaluation showing an agent-derived improvement. Additional papers about an unchanged integration do not count.
+
+**Evidence that changes the call:** fewer than two qualifying integrations misses the timing call; matched evaluations showing no added value from agent decisions lower directional confidence. Two independent reproduced application gains would strengthen it.
+
+**More ambitious outcome:** one workflow adapts kernels, configurations, and compiler components together. **Needed progress:** dependable evaluation, useful feedback, and repeatable deployment.
 
 #### 5.5.2 Three years: 2029
 
-**Central forecast, medium confidence:** leading deployments automate a wider set of graph, kernel, communication, dispatch, and heuristic decisions. Some generated transformations and adaptive compilation paths replace fixed choices.
+**Central forecast:** leading systems coordinate a wider set of graph, kernel, communication, dispatch, and heuristic decisions. Some generated transformations replace fixed choices. **Confidence:** direction medium-high; timing medium; architectural form low.
 
-**More ambitious outcome:** optimization services maintain implementation families across workloads and devices with little task-specific intervention. **Needed progress:** transferable hardware knowledge, broader numerical and concurrency checks, and economical reuse. **Watch:** independent deployments and measured transfer to genuinely new targets.
+**Observable predicate — review 23 September 2029:** at least one public system jointly searches two decision areas, one involving communication or runtime execution, and demonstrates application gains on two workload families over both independently optimized components and a strong non-agent joint-search baseline. The comparison must hold actions, feedback, contracts, and budgets comparable.
+
+**Evidence that changes the call:** broader interfaces without a qualifying comparison do not meet the predicate. Non-agent joint search matching the results weakens the claim about agents, while leaving the case for broader scope intact. Transfer to a second accelerator family strengthens it.
+
+**More ambitious outcome:** an optimization service maintains implementation families with little task-specific intervention. **Needed progress:** transferable hardware knowledge, broader numerical and concurrency checks, and economical reuse.
 
 <a id="552-horizon-b--20292031-next-5-years-from-2026"></a>
 <a id="architecture-evolution"></a>
@@ -507,21 +535,31 @@ All dates are measured from September 2026. Confidence describes direction and s
 
 #### 5.5.3 Five years: 2031
 
-**Central forecast, medium-low confidence:** some compilers behave as continuing optimization services for well-specified workloads. They specialize implementations as conditions change and improve selected parts of their own infrastructure.
+**Central forecast:** some compilers become continuing optimization services for well-specified workloads, improving both implementations and selected compiler components. **Confidence:** direction medium; timing medium-low; architectural form low.
 
-**More ambitious outcome:** workload-specific compilers are synthesized or substantially restructured, with coordinated algorithm, execution, and hardware exploration. **Needed progress:** specifications, evaluation, and component-generation methods that generalize. **Watch:** successful replacement of meaningful compiler components across workload families. A retained checker does not disqualify the result.
+**Observable predicate — review 23 September 2031:** at least one publicly inspectable toolchain generates an analysis, transformation, or lowering component and uses it in its default compilation path across two subsequent releases. Evaluation must show maintained application benefit on two held-out workload families under the declared contracts. Merely selecting pass order or changing scalar tuning parameters does not satisfy this component-generation test.
+
+**Evidence that changes the call:** a component used only on the search workload, or removed because of regressions, does not meet the predicate. Sustained benefit after a hardware or compiler update strengthens the forecast; repeated generalization failures weaken it.
+
+**More ambitious outcome:** workload-specific compilers are synthesized or substantially restructured. **Needed progress:** specifications, evaluation, and component-generation methods that generalize. Retaining a checker or assembler does not disqualify a result.
 
 #### 5.5.4 Ten years: 2036
 
-**Plausible direction, low confidence in timing and form:** some platforms routinely generate substantial compiler components and jointly optimize algorithms, execution strategies, and hardware designs.
+**Central forecast:** some platforms repeatedly generate substantial compiler components and explore algorithms, execution strategies, and hardware together. **Confidence:** direction medium-low; timing low; architectural form low.
 
-**More ambitious outcome:** intent-to-implementation systems make familiar pass and lowering boundaries largely invisible to users and sometimes unnecessary internally. **Needed progress:** richer specifications, scalable validation, accurate hardware feedback, and reliable search over large interacting spaces. **Watch:** independently evaluated systems that work beyond a fixed benchmark or one hardware generation.
+**Observable predicates — review 23 September 2036:** (1) at least two independent toolchains each generate two kinds of component from analysis, transformation, and lowering, with qualifying evaluation across three releases spanning at least six months; (2) at least one public system uses agent proposals to search a hardware design parameter and an execution strategy together, demonstrating a workload benefit against separately optimized baselines on measured hardware or a simulator calibrated against measurements. A hardware design parameter changes a proposed device, such as its memory capacity or execution units; choosing an existing device alone does not count. Record the two outcomes separately. Simulation does not establish fabricated-chip performance.
+
+**Evidence that changes the call:** isolated demonstrations do not satisfy repeated use; uncalibrated hardware estimates do not satisfy the co-design test. Sustained independent results strengthen the direction. Persistent validation or maintenance failures weaken it even if more components can be generated.
+
+**More ambitious outcome:** intent-to-implementation systems make familiar pass and lowering boundaries largely unnecessary internally. **Needed progress:** richer specifications, scalable validation, accurate hardware feedback, and reliable search over interacting spaces. If analog or photonic units are included, partitioning and scheduling must preserve statistical quality, drift, and tail-error requirements; the statistical validation contract above supplies the framework rather than assuming deterministic execution.
 
 #### 5.5.5 Beyond ten years
 
-**Speculative possibility:** a system synthesizes implementations from workload intent, quality requirements, resource constraints, and deployment conditions, while proposing changes to the software and hardware environment. Conventional compilers may become internal tools, generated components, or alternative implementation routes.
+**Speculative scenario:** a system synthesizes implementations from workload intent and deployment requirements while proposing changes to its software and hardware environment. Conventional compilers may be internal tools, generated components, or alternative routes. **Confidence:** direction low; timing unassigned for the full scenario; architectural form very low.
 
-One common representation could emerge, or several representations could remain useful. Present limitations do not rule out either outcome. This survey does not assign a date to universal autonomous compilation or complete chip design.
+**Observable precursor — review 23 September 2039:** at least one public experiment applies the same optimization specification and agent policy to two hardware families, one withheld during system development, and jointly generates program implementations and a compiler component. A qualifying evaluation must compare against existing toolchains and disclose task-specific human interventions. This precursor is a dated test, not a deadline for universal autonomous compilation.
+
+**Evidence that changes the scenario:** repeated dependence on target-specific hand construction weakens broad transfer. Successful independent reproduction strengthens it. If the precursor is not met, record the miss and revise its review schedule rather than moving the original date silently. One representation or several may remain useful; no date is assigned to complete autonomous chip design.
 
 <a id="56-stack-reshape-sw--hw-codesign"></a>
 <a id="561-layer-map-today--agentic"></a>
@@ -706,6 +744,8 @@ One language concentrates tooling and training data. Several languages can expos
 
 Per-workload search adapts to specific inputs and deployments. Offline heuristic or transformation generation amortizes effort across many compilations. Compare the value of specialization against its reuse frequency, deployment latency, and maintenance cost. A system may use both without invoking a language model in the execution path.
 
+The relevant reuse count is the number of useful executions before recompilation, workload drift, or hardware changes invalidate the result—not the number of times a search job runs. For high reuse, even costly search may repay itself. For low reuse, prefer cheap proposals, cached artifacts, or conventional tuning unless broader search clears a declared payback and latency threshold. Review that choice when the workload lifetime changes.
+
 <a id="c6--agents-replace-compilers-vs-agents-are-the-control-plane"></a>
 
 ### How much of the compiler should agents replace?
@@ -750,7 +790,7 @@ The record identifiers below preserve links from earlier revisions. They are mai
 | Agents can improve selected optimization tasks. | Corroborated direction across KernelEvolve, GEAK, CAKE, Ave, and other author evaluations. | Different workloads, budgets, baselines, and validation; not independent replication of a common result. |
 | AI can improve compiler decisions or components. | MLGO, Magellan, and CAKE demonstrate different mechanisms. | Learned policies, heuristic synthesis, and compiler evolution should not be conflated. |
 | Hardware-aware interfaces are useful optimization surfaces. | Multiple documented language and compiler systems. | This does not select one representation or demonstrate that each interface helps agents equally. |
-| Application optimization extends beyond isolated kernels. | Distributed compilation, dynamic execution research, and serving-system reports. | Optimal scope and coordination depend on workload and ownership boundaries. |
+| Application optimization extends beyond isolated kernels. | DITRON, distributed compilation, dynamic execution research, and serving reports. | Broader scope does not establish that agentic control is necessary. |
 
 ### 7.2 Results with narrower support
 
@@ -837,11 +877,13 @@ This gallery groups systems by the design question they help investigate. Detail
 | CAKE, Ave | Representations and structured diagnostic feedback for agents. | Does changing the environment improve attainable performance or search? |
 | KernelEvolve, KForge, AutoKernel, Ascend hierarchical diagnosis | Hardware-aware optimization and diagnosis. | What improves application performance or retargeting on another accelerator? |
 | TritorX, Zomboss | Operator coverage and emerging-hardware compilation. | How much hardware enablement can be automated? |
-| Triton-distributed, Shardy | Communication overlap and tensor partitioning. | When should the compiler coordinate computation and distribution? |
+| Triton-distributed, DITRON, Shardy | Communication overlap, distributed tiling, and tensor partitioning. | What can broader non-agent compilation achieve, and what does an agent add? |
 | Event Tensor, ForgeMegakernel | Dynamic execution and generated persistent execution strategies. | Can reducing launch and scheduling overhead improve the application? |
 | Hyperloom, VibeServe | Broader serving-stack optimization. | How should gains across configurations, frameworks, and kernels be attributed? |
 | AsmEvo | Optimization of compiled assembly/code objects. | What opportunity remains after conventional lowering? |
 | KernelBench, KernelBench-X, FlashInfer-Bench, KernelGenBench | Complementary evaluation surfaces. | Which combination measures correctness, performance, transfer, and search cost? |
+| Kernel-headroom study and DLRM-Bench | Profiling and projected application impact. | Which runtime share can the permitted changes reach? |
+| IBM Analog Hardware Acceleration Kit | Repeated evaluation with noise and drift models. | What statistical contract should approximate execution satisfy? |
 | KernelBook, TritonRL, DRTriton, AMDKernelVault | Kernel data generation and model training. | Does better data improve speed as well as correctness? |
 | Archer, llvm-harness, LLVM review experiments | Compiler-aware review and repair. | How much semantic checking and human review remain necessary? |
 | FlowCompile, Auto, AgentFlow, heterogeneous agent serving | Optimizer-workflow compilation, analysis, and placement. | Can workflow optimization improve a compiler agent in practice? |
@@ -885,7 +927,7 @@ Expand necessary abbreviations at first use. Keep established system names, but 
 
 Distinguish a documented capability, an author result, independent corroboration, a recommendation, and a forecast. For numerical claims, state the baseline, measured object, target, workload, budget when known, and validation scope. Count related publications as one evidence family. Never describe a correctness-only result as a speedup or a kernel speedup as an application gain without application measurements.
 
-Treat failures as current observations with possible solution paths. Describe what evidence would change the prediction. Never rewrite inconvenient evidence merely to preserve the agentic thesis or today's compiler architecture.
+Treat failures as current observations with possible solution paths. Describe what evidence would change the prediction. Never rewrite inconvenient evidence merely to preserve the agentic thesis or today's compiler architecture. Give every forecast a review date, an observable predicate, and an evidence rule; retain the original call when recording its outcome.
 
 ### Known coverage work
 

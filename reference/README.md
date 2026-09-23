@@ -10,11 +10,11 @@ This directory stores the evidence behind the [survey and design guide](../docs/
 
 ## Reading evidence
 
-A paper, blog, repository, and talk about one system are one evidence family. Several systems can support a direction without independently reproducing the same result. Related research such as Mirage and Prism also shares a lineage.
+A paper, blog, repository, and talk about one system are one evidence family. Several systems can support a direction without independently reproducing the same result. Related research such as Mirage and Prism, or DITRON and Triton-distributed, also shares a lineage.
 
 Relevance tiers describe how a source informs a design decision: direct evidence, supporting infrastructure, or background. They are not quality ratings. A star in the index indicates reading priority. Read the evaluation conditions and limitations before using a numerical result.
 
-Distinguish runtime speed from tuning time, kernel gains from application gains, and workload coverage from peak performance. Record the hardware, baseline, budget, source version, and validation scope. The current Ave digest retains its historical `argus.md` filename for compatibility.
+Distinguish runtime speed from tuning time, kernel gains from application gains, and workload coverage from peak performance. Record the hardware, baseline, budget, source version, and validation scope. Label projected application gains separately from measured gains; a runtime profile does not automatically transfer to another workload or organization. The current Ave digest retains its historical `argus.md` filename for compatibility.
 
 ## Adding or refining a source
 

@@ -7,16 +7,16 @@ Last updated: **2026-09-23**
 | Area | Status and practical meaning |
 |---|---|
 | Survey and design guidance | Revised in the existing narrative, retaining sections 0 through 9 and the alternatives section. |
-| Objectives | Runtime performance first; developer productivity and portability next; search cost measured from the start. |
+| Objectives | Runtime performance first within deployment constraints; search payback depends on expected useful reuse. |
 | Architecture | Passes, lowering, representations, and agent boundaries remain choices to evaluate. |
-| Forecast | One, three, five, and ten years from September 2026, plus beyond; confidence and needed progress stated. |
+| Forecast | Five horizons with separate direction, timing, and architecture confidence; dated predicates and evidence rules. |
 | Design checklist | All 23 product topics and ten technical priorities retained in readable comparisons. |
-| Evidence | 155 source digests; related papers, blogs, and repositories distinguished from independent corroboration. |
-| Updated sources | Ave version 2, CAKE result scope, and Helion’s model-guided tuning; structured search and distribution coverage expanded. |
+| Evidence | 158 source digests; related papers, blogs, and repositories distinguished from independent corroboration. |
+| Updated sources | Added DITRON, kernel-headroom profiling, and analog statistical evaluation; qualified the KernelGenBench economics conclusion. |
 | Survey PDF | Rebuilt with the current narrative and reference appendices; source links open primary references. |
 | Presentation | Existing slides and bilingual transcripts are an earlier snapshot; not aligned with this revision. |
 | Repository skill | Updated with plain-language guidance, evidence standards, architecture flexibility, and publication authorization rules. |
-| Publication | Reviewer caveats committed and published to main in this batch. |
+| Publication | Direct publication to main authorized by the maintainer; preserve the preceding reviewer-caveat commit. |
 
 ## Coverage still to strengthen
 
@@ -30,6 +30,7 @@ Last updated: **2026-09-23**
 
 | Date | Change |
 |---|---|
+| 2026-09-23 | Refined the review arguments: scope expansion motivates a controlled agent/non-agent comparison; addressable runtime is workload- and action-dependent; search economics follows artifact lifetime; forecasts now have dated public-evidence predicates; validation includes stochastic execution. Added three digests (158 total), updated the repository skill, and rebuilt the PDF. Preserved the preceding reviewer caveats. |
 | 2026-09-23 | Added reviewer caveats to the design guide. The objective order is now marked segment-dependent: coverage and portability can be the effective primary objective for new-accelerator bring-up, edge, and non-frontier deployments (§5.1.1). Flagged that several informative results, including CAKE and Ave, rest on a single organization or hardware shape and stay tentative until independent reproduction (§5.4). Noted that a workload-dependent answer in the unresolved questions is legitimate only when it names deciding evidence and a review date (§6). Rebuilt the survey PDF. |
 | 2026-09-23 | Reframed the single narrative as a performance-first design guide; retained the section structure, 23 product topics, and 10 technical priorities. Added five forecast horizons, flexible compiler boundaries, explicit evidence scope, and readable design experiments. Added Mirage, Prism, Helion tuning, Triton-distributed, and Shardy; updated Ave and CAKE interpretations. Index: 155. Updated repository skill and PDF pipeline; preserved historical heading links. Presentation remains an earlier snapshot. |
 | 2026-09-23 | September evidence wave: MaxKernel ★, JAXBench ★, Pallas, AMDKernelVault ★, KernelGenBench ★, Hyperloom ★, AsmEvo ★, ForgeMegakernel ★. INDEX **150**. Hybrid holds; **C9** still open (peak ≠ TritorX coverage). Survey PDF + Beamer/EN/zh-TW. |
@@ -107,4 +108,4 @@ Last updated: **2026-09-23**
 1. Test agentic optimization against strong structured-search and conventional baselines.
 2. Seek evidence that changes a design choice, especially application gains, new-target transfer, or component replacement.
 3. Update the presentation and both transcript languages when that work is requested.
-4. Align the presentation and both transcript languages with the revised design guidance and caveats when that work is requested.
+4. Review the scope/control hypothesis and the first dated forecast on 23 September 2027; retain the original calls when recording outcomes.

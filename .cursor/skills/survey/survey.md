@@ -18,7 +18,7 @@ Separate the function a compiler must perform from today's implementation. Gener
 
 A bibliography tells readers what exists. A design guide also explains which choice to start with, why it helps, its cost, when another option is preferable, and how to evaluate the choice.
 
-For this project, runtime performance is primary. Developer productivity and portability have similar secondary importance. Record search cost immediately, but prioritize cost reduction after a useful performance advantage is demonstrated. On new hardware, coverage can enable the first application-performance experiment.
+For this project, runtime performance is primary. Developer productivity and portability have similar secondary importance. Record search cost immediately. For highly reusable artifacts, prioritize cost reduction after a useful performance advantage is demonstrated; for short-lived deployment, impose payback and latency constraints immediately. Per-deployment search does not imply one useful execution, and fleet-wide reuse does not eliminate maintenance. On new hardware, coverage can enable the first application-performance experiment.
 
 Use representative application metrics and strong baselines. Keep kernel speed, application throughput, search efficiency, compilation time, and coverage separate. Define numerical tolerances and model-quality constraints before the optimizer runs.
 
@@ -47,7 +47,7 @@ For representation comparisons, distinguish the full environment from the repres
 
 ## Forecast capability, timing, and architecture separately
 
-Use one-, three-, five-, and ten-year horizons and a longer-term scenario. For each, state the central path, a more ambitious possibility, required advances, confidence, and evidence to watch.
+Use one-, three-, five-, and ten-year horizons and a longer-term scenario. For each, state the central path, a more ambitious possibility, required advances, and separate confidence in direction, timing, and architectural form. Make the dated claim checkable: define a predicate, evidence rules, review date, and what would change the conclusion. Keep original predictions when recording misses. An undated long-term scenario can have a dated precursor test without claiming a deadline for universal capability.
 
 Failures in current models are research challenges, not permanent ceilings. Avoid both “cannot happen” conclusions based on present limitations and claims of inevitable success without mechanisms or evidence. Use bounded experiments and dated review checkpoints rather than unfalsifiable “forever” criteria.
 
@@ -79,3 +79,11 @@ Keep workflow and skill infrastructure adjacent until there is evidence from a c
 ## Success check
 
 A reader should be able to explain the central hypothesis, objective order, main architectural choices, strongest evidence, uncertain forecasts, and next experiments without opening another narrative or decoding record identifiers. The source catalog should support deeper verification when needed.
+
+## Lessons from the scope and economics review
+
+- Scope expansion changes the decisions available to an optimizer; it does not establish which search method wins. DITRON is a useful non-agent comparison and shares the Triton-distributed lineage.
+- An addressable-runtime profile is local to its workload, shape, action space, and classification. A library-heavy profile does not imply an invariant performance ceiling, and cannot be assigned to another organization’s private workload.
+- Read tables and methods as well as abstracts. The kernel-headroom study’s transformer projections span 1.32–2.49%; its full recommender addressable fraction is different from a single embedding kernel’s share.
+- Search cost measurement, search cost optimization, and deployment payback answer different questions. Cheaper tuning at comparable runtime can be valuable even without a speedup.
+- Nondeterminism changes the acceptance contract, not the existence of a mathematical specification. Repeated evaluation, drift, and tail requirements belong in the validation framework.

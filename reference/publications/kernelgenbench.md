@@ -24,7 +24,7 @@ A portability and cost bench, not another single-GPU KernelBench clone. Holding 
 ## Key takeaways
 
 - **T8** rung the survey was missing: correctness × speed × **cost-to-compile**, across sources and chips. Still not the full IR → fused region → serving-graph ladder.
-- **P23:** multi-million tokens per kept operator falsifies “LLM in the loop on every op” as a default SKU. Freeze the artifact; do not rerun the agent per request.
+- High measured search costs motivate artifact reuse. Campaign totals do not equal per-deployment costs, and one optimization job may serve many subsequent executions. Measure cost per accepted artifact and its useful lifetime before ruling out a deployment model.
 - **C9** pressure without settlement. Cross-chip *drop* (87% → 25%) is evidence that a second vendor is not a prompt change. It is not a TritorX-class coverage playbook on a new ASIC.
 - **C2:** do not average a NVIDIA KernelBench number with a non-NVIDIA number from this suite.
 

@@ -35,6 +35,7 @@ These are baselines and possible components. Their maturity is a reason to evalu
 | NVIDIA TensorRT-LLM and CUDA libraries | Established serving and kernel baselines. |
 | [FlashInfer](https://github.com/flashinfer-ai/flashinfer) | Attention and related kernels used by serving systems. |
 | PyTorch `torch.compile` and Inductor | Application capture, compilation, and integration. |
+| [DITRON](publications/ditron.md) / Triton-distributed | A non-agent distributed compiler; evaluate computation/communication overlap and application integration. |
 | OpenXLA XLA, StableHLO, and [Shardy](publications/shardy.md) | Model representation, compilation, and distributed tensor partitioning. |
 | JAX [Pallas](publications/pallas.md) and Mosaic | Kernel programming and compilation on supported accelerators. |
 | Modular MAX and Mojo | An alternative compiler and runtime stack. |

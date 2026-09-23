@@ -166,7 +166,11 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2025 | paper | Structured and distributed compilation | ByteDance Seed · Tsinghua University · Peking University · Shanghai Jiao Tong University · Zhejiang University | arXiv | [Triton-distributed: Programming Overlapping Kernels on Distributed AI Systems with the Triton Compiler](triton-distributed.md) | [source](https://arxiv.org/abs/2504.19442v3) |
 | 2026 | code | Structured and distributed compilation | OpenXLA (GSPMD and PartIR teams) | OpenXLA documentation | [Shardy: A Tensor Partitioning System](shardy.md) | [source](https://openxla.org/shardy/overview) |
 
-**Total:** 155 digests
+| 2026 | paper | Structured and distributed compilation | ByteDance Seed · Peking University · Tsinghua University · Zhejiang University · Shanghai Jiao Tong University | arXiv | [DITRON: Distributed Multi-level Tiling Compiler for Parallel Tensor Programs](ditron.md) | [source](https://arxiv.org/abs/2605.02953v1) |
+| 2026 | paper | GPU kernels & inference compilers | Gaurav Agarwal · Ashish Garg · Isha Singhal (affiliations not stated) | arXiv | [How Much of a Real Workload Can LLM-Generated GPU Kernels Actually Reach?](kernel-headroom.md) | [source](https://arxiv.org/abs/2609.21058v1) |
+| 2023 | paper | Validation and approximate hardware | IBM Research | APL Machine Learning · arXiv | [Using the IBM Analog In-Memory Hardware Acceleration Kit for Neural Network Training and Inference](analog-validation.md) | [source](https://arxiv.org/abs/2307.09357v2) |
+
+**Total:** 158 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 

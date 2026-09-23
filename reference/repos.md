@@ -34,6 +34,7 @@ Magellan’s papers and [LLVM presentation](publications/magellan-llvm-slides.md
 | [FlashInfer-Bench](https://github.com/flashinfer-ai/flashinfer-bench) | Workload traces, kernel evaluation, and serving integration. | Keep kernel validation and application validation distinct. |
 | [VibeServe](https://github.com/uw-syfi/vibe-serve) | Research on serving-stack synthesis. | Evaluate the whole generated execution path and deployment assumptions. |
 | [Helion](https://github.com/pytorch/helion) | Tile programming, configuration spaces, and tuning. | Consult the [2026 tuning report](publications/helion-llm-autotuning.md) for model-guided search evidence. |
+| [Kernel-headroom artifacts](https://github.com/gauravapiscean/kernel-headroom) | Workload profiles, numerical checks, and DLRM-Bench. | Inspect the classification and projection assumptions before generalizing. |
 | [Kernel generation bibliography](https://github.com/flagos-ai/awesome-LLM-driven-kernel-generation) | Discovery of further primary sources. | A bibliography is not an evaluation. |
 
 TritorX and KernelEvolve have important paper and industry-report evidence. Do not assume full public implementations or reproducibility merely because related libraries are public.
@@ -46,7 +47,7 @@ TritorX and KernelEvolve have important paper and industry-report evidence. Do n
 | [TVM](https://github.com/apache/tvm) and [TIRx kernels](https://github.com/mlc-ai/tirx-kernels) | Tensor representations, schedule controls, and example kernels. |
 | [TileLang](https://github.com/tile-ai/tilelang) and [language tools](https://github.com/tile-ai/tilelang-lsp) | Tile programming, layout inference, and editor/tool feedback. |
 | [Triton](https://github.com/triton-lang/triton), [Gluon digest](publications/triton-gluon.md), and [Triton extensions](https://github.com/facebookexperimental/triton) | Different levels of layout and scheduling control. |
-| [Triton-distributed](https://github.com/ByteDance-Seed/Triton-distributed) | Joint computation, memory movement, and communication. |
+| [Triton-distributed](https://github.com/ByteDance-Seed/Triton-distributed), also the [DITRON](publications/ditron.md) project | Related implementations of joint computation, memory movement, and communication; one research lineage. |
 | [FlyDSL](https://github.com/ROCm/FlyDSL) | Python-based control for AMD kernel programming. |
 | [CUTLASS and CuTe](https://github.com/NVIDIA/cutlass) | NVIDIA kernel components and layout/scheduling interfaces. |
 | [ThunderKittens](https://github.com/hazyresearch/thunderkittens) | Tile abstractions embedded in CUDA. |
@@ -55,6 +56,8 @@ TritorX and KernelEvolve have important paper and industry-report evidence. Do n
 | [TensorRT-LLM](https://github.com/NVIDIA/TensorRT-LLM) and [FlashInfer](https://github.com/flashinfer-ai/flashinfer) | Serving execution and kernel integration targets. |
 | [KernelBook](https://huggingface.co/datasets/GPUMODE/KernelBook) | Paired PyTorch and Triton training examples; inspect coverage and leakage. |
 | [Mirage](publications/mirage.md) and [Prism](publications/prism.md) | Structured superoptimization baselines and possible search components. |
+
+[IBM’s analog hardware toolkit](https://github.com/IBM/aihwkit) supplies executable noise and drift models for [statistical evaluation](publications/analog-validation.md); simulation and measured hardware evidence must remain distinct.
 
 ## Workflow infrastructure
 

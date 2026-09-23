@@ -61,14 +61,14 @@ COVER = {
         "verdict": (
             "**Design hypothesis.** The compiler increasingly becomes an agentic optimization system. "
             "Test that hypothesis against strong alternatives. Prioritize runtime performance, "
-            "then developer productivity and portability. Treat passes, lowering, representations, "
+            "then developer productivity and portability. Condition search economics on expected reuse. "
+            "Treat passes, lowering, representations, "
             "and the division between agents and compiler components as choices to evaluate."
         ),
         "export_notes": (
-            "- Detailed digests remain in the repository’s publication directory. Source links in this PDF open external references.\n"
-            "- Product and implementation appendices support the design decisions; they are not independent replications.\n"
-            "- The existing presentation is an earlier snapshot and has not been aligned with this revision.\n"
-            "- Rebuild: `python3 publish/build_pdf.py`.\n"
+            "Source links open primary references; full digests remain in the repository. "
+            "Related records are not independent replications. The presentation is an earlier snapshot. "
+            "Rebuild with `python3 publish/build_pdf.py`.\n"
         ),
     },
     "zh-CN": {

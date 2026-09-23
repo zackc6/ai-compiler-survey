@@ -27,19 +27,19 @@ Keep the narrative's established section numbers from 0 through 9, including the
 
 ## Test the thesis instead of requiring evidence to support it
 
-Use the central hypothesis that the compiler increasingly becomes an agentic optimization system. Survey the broader compiler field to test it. Include strong conventional optimizers, symbolic search, learned policies, compiler/runtime integration, and hardware-aware programming models.
+Use the central hypothesis that the compiler increasingly becomes an agentic optimization system. Survey the broader compiler field to test it. Include strong conventional optimizers, symbolic search, learned policies, compiler/runtime integration, and hardware-aware programming models. Separate optimization scope from the decision method. A larger coupled space motivates comparison; it does not prove agents necessary. Test causal claims with comparable headroom, actions, feedback, and resources.
 
 Treat the division between agents and conventional compiler components as an architectural choice that can evolve. Do not require permanent layers, a fixed number of agent roles, a particular agent topology, or a universal representation. Evaluate retaining, generating, merging, or replacing components according to their results.
 
 Distinguish necessary functions from current implementations. Executable realization and validation remain relevant, but they do not require today's fixed passes or lowering sequence. A generated component can execute deterministically. Retaining a checker or assembler does not disqualify a meaningful compiler replacement.
 
-Treat current failures as challenges with possible solutions, not permanent ceilings. Separate confidence in direction, timeline, and architecture. Forecast at **1, 3, 5, and 10 years, plus beyond**, anchored to the survey date. For each horizon, state the central prediction, a more ambitious possibility, needed progress, and evidence that would change confidence.
+Treat current failures as challenges with possible solutions, not permanent ceilings. Separate confidence in direction, timeline, and architecture. Forecast at **1, 3, 5, and 10 years, plus beyond**, anchored to the survey date. For each horizon, state the central prediction, a more ambitious possibility, needed progress, and evidence that would change confidence. Assign separate qualitative confidence to direction, timing, and architectural form. Add a dated observable predicate, qualifying-evidence rules, and a review date; for an undated long-term scenario, use a dated precursor test. Treat numerical thresholds as declared assessment choices rather than calibrated forecasts. Preserve original calls and record misses explicitly.
 
 ## Apply the agreed objective order
 
-Use runtime performance as the primary objective. Treat developer productivity and portability as secondary objectives of similar importance. Measure search cost immediately and optimize it after demonstrating useful performance value.
+Use runtime performance as the primary objective. Treat developer productivity and portability as secondary objectives of similar importance, while naming coverage constraints that prevent meaningful application evaluation. Measure search cost immediately. Prioritize cost reduction after demonstrating performance value when expected artifact reuse justifies that ordering; apply payback and deployment-latency constraints immediately when reuse is limited. Cheaper search at comparable runtime is a separate useful outcome. Count useful executions before invalidation, not merely search jobs, and separate campaign totals from per-artifact costs.
 
-Define correctness, numerical tolerances, model quality, supported inputs, and deployment constraints before comparing candidates. Use application performance where possible; distinguish kernel speed, application throughput, tuning time, compilation time, and operator coverage.
+Define correctness, numerical or statistical acceptance criteria, model quality, supported inputs, and deployment constraints before comparing candidates. Stochastic execution can retain a deterministic mathematical reference; specify repeated sampling, confidence and tail requirements, noise assumptions, and drift conditions where relevant. Use application performance where possible; distinguish kernel speed, application throughput, tuning time, compilation time, and operator coverage.
 
 Compare strong baselines. Include matched-budget experiments and a larger declared budget to distinguish search efficiency from attainable performance. Do not equate source reuse with performance portability. On new hardware, treat required workload coverage as an enabling condition for application-performance work.
 
@@ -62,7 +62,7 @@ Use the same style in the README, current status, source-guide introductions, PD
 
 Prefer papers, official documentation, repositories, and first-party engineering reports. Use secondary discussion for context and source discovery; identify it as secondary. Check the version and publication date before updating numerical claims or forecasting from a source.
 
-For each result, record the baseline, measured object, hardware, workload coverage, search budget when available, and validation scope. State what the result cannot establish. Distinguish the effect of a whole environment from an isolated representation or model effect. Avoid comparing unrelated headline speedups.
+For each result, record the baseline, measured object, hardware, workload coverage, search budget when available, and validation scope. State what the result cannot establish. Distinguish measured application results from projections based on runtime fractions and assumed local gains. Addressable runtime depends on workload, actions, and classification; do not transfer a profile to a different organization’s private workloads or turn a library share into a universal performance ceiling. Distinguish the effect of a whole environment from an isolated representation or model effect. Avoid comparing unrelated headline speedups.
 
 Keep relevance separate from evidence quality:
 
