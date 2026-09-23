@@ -138,21 +138,35 @@ def cover_md(today: str, lang: str = "en") -> str:
 """
 
 
+def figure_parts() -> list[tuple[str, Path, str]]:
+    """Render the parts of Figure 1 into publish/out/figures for the PDF."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("build_blueprint", ROOT / "scripts" / "build_blueprint.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module.write_parts(OUT / "figures")
+
+
 def rewrite_links(text: str, source: Path) -> str:
     """Resolve repository links to inlined sections or external primary sources."""
     def figure(match: re.Match[str]) -> str:
         label, target, caption = match.groups()
-        image = (source.parent / target).resolve()
-        return (
-            f'::: {{.wide-figure}}\n'
-            f'<img src="{image.as_uri()}" alt="{escape(label, quote=True)}">\n\n'
-            f'{caption}\n:::'
-        )
+        # Figure 1 is one tall SVG in the repository; print each of its parts on its own
+        # landscape page so the text stays legible. The parts come from the same generator.
+        blocks = []
+        for i, (_, path, title) in enumerate(figure_parts()):
+            alt = label if i == 0 else f"{label} Part: {title}."
+            blocks.append(
+                f'::: {{.wide-figure}}\n'
+                f'<img src="{path.as_uri()}" alt="{escape(alt, quote=True)}">\n\n'
+                + (f'{caption}\n' if i == 0 else '') + ':::'
+            )
+        return "\n\n".join(blocks)
 
     # Keep each architecture image and its Markdown caption on the same page.
     # Other images retain their ordinary layout rather than forcing landscape.
     text = re.sub(
-        r'^!\[([^\]]+)\]\((architecture-overview\.svg|controller-development\.svg)\)\n\n(\*Figure \d+\.[^\n]+)',
+        r'^!\[([^\]]+)\]\((architecture-overview\.svg)\)\n\n(\*Figure \d+\.[^\n]+)',
         figure, text, flags=re.MULTILINE,
     )
     sections = {

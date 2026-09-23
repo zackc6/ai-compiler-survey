@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="800" viewBox="0 0 1400 800" role="img" aria-labelledby="title desc">
-<title id="title">Where the agent acts in an end-to-end AI compiler</title><desc id="desc">One possible starting design. Humans fix the workload, objective, allowed actions, budget, and acceptance rules for an experiment. In application optimization, an agent, a learned policy, and structured search propose candidates with the same feedback and budget; compiler tools build them; checks and measurement decide; accepted artifacts are stored and deployed with a fallback and no optimizer-model calls by default. Development traces, excluding final-evaluation tasks, feed two development loops. Compiler development generates heuristics, analyses, transformations, or backend pieces. Optional, late-stage controller development starts with instructions or retrieval logic and widens only after measured failures. Each loop iterates on development feedback, freezes a selected version for a hidden final check, and promotes it only if it passes.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="2618" viewBox="0 0 1400 2618" role="img" aria-labelledby="title desc">
+<title id="title">Agentic compiler blueprint</title><desc id="desc">One possible starting design. Humans fix the workload, objective, allowed actions, budget, and acceptance rules for an experiment. In application optimization, an agent, a learned policy, and structured search propose candidates with the same feedback and budget; compiler tools build them; checks and measurement decide; accepted artifacts are stored and deployed with a fallback and no optimizer-model calls by default. Development traces, excluding final-evaluation tasks, feed two development loops. Compiler development generates heuristics, analyses, transformations, or backend pieces. Optional, late-stage controller development starts with instructions or retrieval logic and widens only after measured failures. Each loop iterates on development feedback, freezes a selected version for a hidden final check, and promotes it only if it passes. Responsibilities in the starting design: application optimization, compiler development, gated controller development, and what stays fixed for the experiment. A fixed proposer uses development traces to change reusable controller instructions or retrieval policy. The candidate controller runs complete application-optimization jobs. Application results, failures, and search cost feed the next proposal. A selected controller is frozen for separate final evaluation against a fixed controller, a memory-only controller, and conventional search. Final tasks and results are withheld from development. Submission limits and reserved or refreshed workloads limit repeated-selection leakage. Promoted versions guide future searches, whose development traces can feed the next cycle. Dated forecast calls from section 5.5, including the 2027 controller checkpoint, with qualitative confidence.</desc>
 <style>
 text{font-family:"IBM Plex Sans",Arial,"Liberation Sans",sans-serif;fill:#182838}
 .title{font-size:25px;font-weight:700}
@@ -22,10 +22,13 @@ text{font-family:"IBM Plex Sans",Arial,"Liberation Sans",sans-serif;fill:#182838
 .rung{fill:white;stroke:#087f70;stroke-width:1;stroke-opacity:.55}
 .rungstart{fill:white;stroke:#087f70;stroke-width:2.2}
 .runglate{fill:white;stroke:#087f70;stroke-width:1;stroke-dasharray:4 3}
+.headrow{fill:#eaf0f7}.rowagent{fill:#e2f3ee}.rowpanel{fill:#f7f9fc}.rowfinal{fill:#fff5ee}.rowplain{fill:white}
+.grid{fill:none;stroke:#b4c2cf;stroke-width:1.1}
+.cell{font-size:13.5px}
 </style>
-<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#33495d"/></marker>
-<marker id="green-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#087f70"/></marker></defs>
-<rect width="1400" height="800" fill="white"/>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#33495d"/></marker><marker id="green-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#087f70"/></marker></defs>
+<rect width="1400" height="2618" fill="white"/>
+<svg x="0" y="0" width="1400" height="800" viewBox="0 0 1400 800">
 <text x="30" y="34" class="title" text-anchor="start">Where the agent acts in an end-to-end AI compiler</text>
 <rect x="30" y="50" width="1340" height="56" rx="7" class="contract"/>
 <text x="46" y="73" class="smallhead" text-anchor="start">Human-owned experiment contract</text>
@@ -193,4 +196,195 @@ text{font-family:"IBM Plex Sans",Arial,"Liberation Sans",sans-serif;fill:#182838
 <text x="656" y="780" class="xs" text-anchor="start">promotion after the final check</text>
 <rect x="880" y="768" width="16" height="14" rx="7" class="final"/>
 <text x="904" y="780" class="xs" text-anchor="start">final evaluation withheld from development</text>
+</svg>
+<line x1="30" y1="818.0" x2="1370" y2="818.0" class="grid"/>
+<svg x="0" y="836" width="1400" height="501" viewBox="0 0 1400 501">
+<text x="30" y="34" class="title" text-anchor="start">Who does what</text>
+<text x="30" y="60" class="note" text-anchor="start">Responsibilities, not required agents or layers.</text>
+<rect x="30" y="78" width="1340" height="34" rx="7" class="headrow"/>
+<text x="42" y="100" class="smallhead" text-anchor="start">Role</text>
+<text x="332" y="100" class="smallhead" text-anchor="start">What it may change</text>
+<text x="872" y="100" class="smallhead" text-anchor="start">What bounds it</text>
+<rect x="30" y="112" width="1340" height="96" class="rowagent"/>
+<line x1="30" y1="112" x2="1370" y2="112" class="grid"/>
+<text x="42" y="136" class="smallhead green" text-anchor="start">Application optimization, per</text>
+<text x="42" y="155" class="smallhead green" text-anchor="start">workload</text>
+<text x="332" y="136" class="cell" text-anchor="start">Configurations and scope across graph, kernel, communication, and</text>
+<text x="332" y="155" class="cell" text-anchor="start">runtime; synthesized kernels, fusions, and rewrites; diagnosis of</text>
+<text x="332" y="174" class="cell" text-anchor="start">rejected or slow candidates; reuse of compatible earlier experiments.</text>
+<text x="332" y="193" class="cell" text-anchor="start">Agents, conventional search, and learned policies can all propose.</text>
+<text x="872" y="136" class="cell" text-anchor="start">Validation and target measurement decide. Search cost must pay back</text>
+<text x="872" y="155" class="cell" text-anchor="start">within the artifact&#x27;s useful life. An agent keeps its place only</text>
+<text x="872" y="174" class="cell" text-anchor="start">where it beats the alternatives at an equal budget.</text>
+<rect x="30" y="208" width="1340" height="96" class="rowagent"/>
+<line x1="30" y1="208" x2="1370" y2="208" class="grid"/>
+<text x="42" y="232" class="smallhead green" text-anchor="start">Compiler development, offline</text>
+<text x="332" y="232" class="cell" text-anchor="start">Heuristics, analyses, transformations, backend support, and operator</text>
+<text x="332" y="251" class="cell" text-anchor="start">coverage for new hardware.</text>
+<text x="872" y="232" class="cell" text-anchor="start">Development workloads supply feedback; a selected version then faces</text>
+<text x="872" y="251" class="cell" text-anchor="start">separate regression and performance evaluation, including after</text>
+<text x="872" y="270" class="cell" text-anchor="start">compiler updates. Merged components need no optimizer-model calls</text>
+<text x="872" y="289" class="cell" text-anchor="start">during normal execution.</text>
+<rect x="30" y="304" width="1340" height="96" class="rowpanel"/>
+<line x1="30" y1="304" x2="1370" y2="304" class="grid"/>
+<text x="42" y="328" class="smallhead green" text-anchor="start">Controller development, offline</text>
+<text x="42" y="347" class="smallhead green" text-anchor="start">and gated</text>
+<text x="332" y="328" class="cell" text-anchor="start">First a restricted decision procedure, such as instructions or retrieval</text>
+<text x="332" y="347" class="cell" text-anchor="start">logic; search strategy, orchestration, or agent code only after</text>
+<text x="332" y="366" class="cell" text-anchor="start">restricted changes leave measured failures. Changing the improvement</text>
+<text x="332" y="385" class="cell" text-anchor="start">procedure itself is a later experiment.</text>
+<text x="872" y="328" class="cell" text-anchor="start">Late-stage: pursue it after the other two loops deliver repeated</text>
+<text x="872" y="347" class="cell" text-anchor="start">value. Compare against a fixed controller, a memory-only variant, and</text>
+<text x="872" y="366" class="cell" text-anchor="start">conventional search with pinned model and toolchain versions. No</text>
+<text x="872" y="385" class="cell" text-anchor="start">application-level evidence yet.</text>
+<rect x="30" y="400" width="1340" height="77" class="rowfinal"/>
+<line x1="30" y1="400" x2="1370" y2="400" class="grid"/>
+<text x="42" y="424" class="smallhead red" text-anchor="start">Fixed for the experiment</text>
+<text x="332" y="424" class="cell" text-anchor="start">Nothing during the experiment: the workload, objective, validation</text>
+<text x="332" y="443" class="cell" text-anchor="start">contract, final-evaluation pool, and its submission limit. The deployed</text>
+<text x="332" y="462" class="cell" text-anchor="start">runtime runs accepted artifacts and keeps a fallback.</text>
+<text x="872" y="424" class="cell" text-anchor="start">Changing these is a separate design decision, never an optimization</text>
+<text x="872" y="443" class="cell" text-anchor="start">action. Final tasks and results stay outside every proposer&#x27;s access.</text>
+<line x1="320" y1="78" x2="320" y2="477" class="grid"/>
+<line x1="860" y1="78" x2="860" y2="477" class="grid"/>
+<rect x="30" y="78" width="1340" height="399" rx="7" class="grid"/>
+</svg>
+<line x1="30" y1="1355.0" x2="1370" y2="1355.0" class="grid"/>
+<svg x="6" y="1373" width="1120" height="630" viewBox="0 0 1120 630">
+<text x="24" y="33" class="title" text-anchor="start">How the controller improves across optimization jobs</text>
+<text x="24" y="58" class="body" text-anchor="start">Optional offline experiment after application search and compiler evolution demonstrate value.</text>
+<rect x="24" y="82" width="710" height="318" rx="7" class="panel"/>
+<text x="42" y="110" class="heading" text-anchor="start">Development: feedback is available to the proposer</text>
+<rect x="42" y="143" width="180" height="114" rx="7" class="card"/>
+<rect x="258" y="143" width="200" height="114" rx="7" class="agent"/>
+<rect x="494" y="143" width="222" height="114" rx="7" class="card"/>
+<text x="56" y="169" class="smallhead" text-anchor="start">Search traces</text>
+<text x="56" y="196" class="body" text-anchor="start">Failures, profiles,</text>
+<text x="56" y="220" class="body" text-anchor="start">workloads and cost</text>
+<text x="272" y="169" class="smallhead green" text-anchor="start">Fixed proposer</text>
+<text x="272" y="196" class="note" text-anchor="start">Agent revises the</text>
+<text x="272" y="219" class="note" text-anchor="start">controller procedure</text>
+<text x="272" y="242" class="note" text-anchor="start">Version memory too</text>
+<text x="508" y="169" class="smallhead" text-anchor="start">Candidate controller</text>
+<text x="508" y="196" class="note" text-anchor="start">Run whole search jobs</text>
+<text x="508" y="219" class="note" text-anchor="start">Pinned model and tools</text>
+<text x="508" y="242" class="note" text-anchor="start">Matched job budget</text>
+<polyline points="222,201 255,201" class="flow"/>
+<polygon points="255,201 245.0,205.0 245.0,197.0" fill="#33495d"/>
+<polyline points="458,201 491,201" class="flow"/>
+<polygon points="491,201 481.0,205.0 481.0,197.0" fill="#33495d"/>
+<polyline points="605,257 605,302 358,302 358,259" class="feedback"/>
+<polygon points="358,259 362.0,269.0 354.0,269.0" fill="#33495d"/>
+<text x="481" y="325" class="note" text-anchor="middle">Application results, failures, search cost</text>
+<text x="481" y="348" class="note" text-anchor="middle">Revise the next proposal; repeat on development tasks</text>
+<text x="42" y="381" class="body" text-anchor="start">Log total compute; measure application speed and search cost separately.</text>
+<rect x="770" y="82" width="326" height="318" rx="7" class="final"/>
+<text x="788" y="110" class="heading red" text-anchor="start">Separate final evaluation</text>
+<text x="788" y="140" class="body" text-anchor="start">Freeze the selected controller.</text>
+<text x="788" y="163" class="body" text-anchor="start">Hide final tasks and results</text>
+<text x="788" y="186" class="body" text-anchor="start">from the proposer and its traces.</text>
+<text x="788" y="224" class="smallhead" text-anchor="start">Compare four methods</text>
+<text x="788" y="249" class="note" text-anchor="start">Fixed controller; fixed plus memory</text>
+<text x="788" y="272" class="note" text-anchor="start">Evolved; conventional search</text>
+<text x="788" y="295" class="note" text-anchor="start">New workload families; repeat runs</text>
+<text x="788" y="337" class="note" text-anchor="start">Limit submissions. Reserve or refresh</text>
+<text x="788" y="360" class="note" text-anchor="start">tasks; count pass/fail disclosures.</text>
+<polyline points="716,201 767,201" class="flow"/>
+<polygon points="767,201 757.0,205.0 757.0,197.0" fill="#33495d"/>
+<text x="743" y="191" class="label" text-anchor="middle">freeze</text>
+<rect x="24" y="436" width="412" height="137" rx="7" class="contract"/>
+<text x="42" y="463" class="heading" text-anchor="start">What can change?</text>
+<text x="42" y="490" class="body" text-anchor="start">Start: reusable instructions or retrieval policy.</text>
+<text x="42" y="515" class="body" text-anchor="start">Later: workflow, controller code, improvement</text>
+<text x="42" y="540" class="body" text-anchor="start">procedure. Recursion is a separate experiment.</text>
+<rect x="470" y="448" width="264" height="112" rx="7" class="card"/>
+<text x="488" y="476" class="heading" text-anchor="start">Future searches</text>
+<text x="488" y="504" class="note" text-anchor="start">Use the promoted controller.</text>
+<text x="488" y="528" class="note" text-anchor="start">Gather development traces.</text>
+<rect x="770" y="436" width="326" height="137" rx="7" class="card"/>
+<text x="788" y="463" class="heading" text-anchor="start">Promote or retain</text>
+<text x="788" y="490" class="body" text-anchor="start">Report speed and search cost.</text>
+<text x="788" y="515" class="body" text-anchor="start">Include total development cost.</text>
+<text x="788" y="540" class="body" text-anchor="start">Version the change; retain rollback.</text>
+<polyline points="934,400 934,433" class="flow"/>
+<polygon points="934,433 930.0,423.0 938.0,423.0" fill="#33495d"/>
+<polyline points="770,504 737,504" class="promote"/>
+<polygon points="737,504 747.0,500.0 747.0,508.0" fill="#087f70"/>
+<polyline points="602,560 602,600 12,600 12,201 39,201" class="feedback"/>
+<polygon points="39,201 29.0,205.0 29.0,197.0" fill="#33495d"/>
+<text x="311" y="621" class="note" text-anchor="middle">Future development traces exclude final-evaluation tasks and results</text>
+</svg>
+<line x1="30" y1="2021.0" x2="1370" y2="2021.0" class="grid"/>
+<svg x="0" y="2039" width="1400" height="579" viewBox="0 0 1400 579">
+<text x="30" y="34" class="title" text-anchor="start">How far the agent reaches, by horizon</text>
+<text x="30" y="60" class="note" text-anchor="start">Each call has a dated public test. Confidence is qualitative, not a probability.</text>
+<rect x="30" y="78" width="1340" height="34" rx="7" class="headrow"/>
+<text x="42" y="100" class="smallhead" text-anchor="start">Horizon</text>
+<text x="242" y="100" class="smallhead" text-anchor="start">Central forecast</text>
+<text x="632" y="100" class="smallhead" text-anchor="start">Dated public test</text>
+<text x="1132" y="100" class="smallhead" text-anchor="start">Confidence</text>
+<rect x="30" y="112" width="1340" height="77" class="rowplain"/>
+<line x1="30" y1="112" x2="1370" y2="112" class="grid"/>
+<text x="42" y="136" class="smallhead" text-anchor="start">2027</text>
+<text x="242" y="136" class="cell" text-anchor="start">Tuning, kernel synthesis, and diagnosis integrated</text>
+<text x="242" y="155" class="cell" text-anchor="start">with existing toolchains; conventional backends</text>
+<text x="242" y="174" class="cell" text-anchor="start">remain.</text>
+<text x="632" y="136" class="cell" text-anchor="start">23 September 2027: two independent organizations publish</text>
+<text x="632" y="155" class="cell" text-anchor="start">integrations with qualifying application gains from agent decisions.</text>
+<text x="1132" y="136" class="cell" text-anchor="start">direction high; timing medium</text>
+<rect x="30" y="189" width="1340" height="77" class="rowpanel"/>
+<line x1="30" y1="189" x2="1370" y2="189" class="grid"/>
+<text x="42" y="213" class="smallhead" text-anchor="start">2027 controller</text>
+<text x="42" y="232" class="smallhead" text-anchor="start">checkpoint</text>
+<text x="242" y="213" class="cell" text-anchor="start">Restricted controller improvement becomes testable</text>
+<text x="242" y="232" class="cell" text-anchor="start">on compiler workloads.</text>
+<text x="632" y="213" class="cell" text-anchor="start">23 September 2027: a public controller change beats a strong fixed</text>
+<text x="632" y="232" class="cell" text-anchor="start">controller and a memory-only variant on two held-out</text>
+<text x="632" y="251" class="cell" text-anchor="start">compiler-workload families.</text>
+<text x="1132" y="213" class="cell" text-anchor="start">medium for restricted</text>
+<text x="1132" y="232" class="cell" text-anchor="start">improvement; low for broad</text>
+<text x="1132" y="251" class="cell" text-anchor="start">recursive improvement</text>
+<rect x="30" y="266" width="1340" height="77" class="rowplain"/>
+<line x1="30" y1="266" x2="1370" y2="266" class="grid"/>
+<text x="42" y="290" class="smallhead" text-anchor="start">2029</text>
+<text x="242" y="290" class="cell" text-anchor="start">Leading systems coordinate graph, kernel,</text>
+<text x="242" y="309" class="cell" text-anchor="start">communication, dispatch, and heuristic decisions.</text>
+<text x="632" y="290" class="cell" text-anchor="start">23 September 2029: a public system jointly searches two decision</text>
+<text x="632" y="309" class="cell" text-anchor="start">areas, one involving communication or runtime, and beats strong</text>
+<text x="632" y="328" class="cell" text-anchor="start">non-agent joint search.</text>
+<text x="1132" y="290" class="cell" text-anchor="start">direction medium-high; timing</text>
+<text x="1132" y="309" class="cell" text-anchor="start">medium</text>
+<rect x="30" y="343" width="1340" height="77" class="rowplain"/>
+<line x1="30" y1="343" x2="1370" y2="343" class="grid"/>
+<text x="42" y="367" class="smallhead" text-anchor="start">2031</text>
+<text x="242" y="367" class="cell" text-anchor="start">Some compilers become continuing optimization</text>
+<text x="242" y="386" class="cell" text-anchor="start">services; generated components enter default paths.</text>
+<text x="632" y="367" class="cell" text-anchor="start">23 September 2031: a generated analysis, transformation, or lowering</text>
+<text x="632" y="386" class="cell" text-anchor="start">component stays in a public toolchain&#x27;s default path for two</text>
+<text x="632" y="405" class="cell" text-anchor="start">releases.</text>
+<text x="1132" y="367" class="cell" text-anchor="start">direction medium; timing</text>
+<text x="1132" y="386" class="cell" text-anchor="start">medium-low</text>
+<rect x="30" y="420" width="1340" height="77" class="rowplain"/>
+<line x1="30" y1="420" x2="1370" y2="420" class="grid"/>
+<text x="42" y="444" class="smallhead" text-anchor="start">2036</text>
+<text x="242" y="444" class="cell" text-anchor="start">Some platforms repeatedly generate substantial</text>
+<text x="242" y="463" class="cell" text-anchor="start">components and explore algorithms, execution, and</text>
+<text x="242" y="482" class="cell" text-anchor="start">hardware together.</text>
+<text x="632" y="444" class="cell" text-anchor="start">23 September 2036: two independent toolchains each generate two</text>
+<text x="632" y="463" class="cell" text-anchor="start">kinds of component, and one system jointly searches a hardware</text>
+<text x="632" y="482" class="cell" text-anchor="start">design parameter and an execution strategy.</text>
+<text x="1132" y="444" class="cell" text-anchor="start">direction medium-low; timing low</text>
+<rect x="30" y="497" width="1340" height="58" class="rowplain"/>
+<line x1="30" y1="497" x2="1370" y2="497" class="grid"/>
+<text x="42" y="521" class="smallhead" text-anchor="start">Beyond</text>
+<text x="242" y="521" class="cell" text-anchor="start">Synthesis from workload intent and deployment</text>
+<text x="242" y="540" class="cell" text-anchor="start">requirements.</text>
+<text x="632" y="521" class="cell" text-anchor="start">23 September 2039 precursor: one specification and agent policy</text>
+<text x="632" y="540" class="cell" text-anchor="start">applied to two hardware families, one withheld during development.</text>
+<text x="1132" y="521" class="cell" text-anchor="start">direction low; timing unassigned</text>
+<line x1="230" y1="78" x2="230" y2="555" class="grid"/>
+<line x1="620" y1="78" x2="620" y2="555" class="grid"/>
+<line x1="1120" y1="78" x2="1120" y2="555" class="grid"/>
+<rect x="30" y="78" width="1340" height="477" rx="7" class="grid"/>
+</svg>
 </svg>

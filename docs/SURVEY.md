@@ -295,22 +295,13 @@ Negative results from mlirAgent, LLM4IR, and KernelBench-X motivate these tests.
 
 Start with a workload specification, an experiment coordinator, several candidate-generation methods, compilation and analysis tools, evaluation, and a store of accepted artifacts. Keep the interfaces explicit enough to compare or replace each component.
 
-![Where the agent acts in an end-to-end AI compiler: a human-owned contract, application optimization, compiler development, and optional controller development, each with development feedback and a hidden final check](architecture-overview.svg)
+![Agentic compiler blueprint in four parts: where the agent acts, who does what, how the controller improves across optimization jobs, and how far the agent reaches by horizon](architecture-overview.svg)
 
-*Figure 1. One possible starting architecture.* Humans fix the experiment contract. In application optimization, an agent, a learned policy, and structured search propose candidates with the same feedback and budget; checks and measurement decide, and deployment needs no optimizer-model calls by default. Development traces exclude final-evaluation tasks. Compiler development and optional, late-stage controller development each iterate on development feedback, freeze a selected version for a hidden final check, and promote it only if it passes. Controller changes start with instructions or retrieval logic and widen only after measured failures. The three targets do not require three agents or permanent layers.
+*Figure 1. One possible starting architecture.* Humans fix the experiment contract. In application optimization, an agent, a learned policy, and structured search propose candidates with the same feedback and budget; checks and measurement decide, and deployment needs no optimizer-model calls by default. Development traces exclude final-evaluation tasks. Compiler development and optional, late-stage controller development each iterate on development feedback, freeze a selected version for a hidden final check, and promote it only if it passes. Controller changes start with instructions or retrieval logic and widen only after measured failures. The three targets do not require three agents or permanent layers. The figure continues with who does what, how the controller improves across optimization jobs, and how far the agent reaches by horizon.
 
 Humans establish the workload, objective, and validation contract for an experiment. Application candidates can come from agents, conventional search, learned policies, or a combination. Compiler development repeatedly builds and evaluates proposed toolchain changes on development workloads; a selected version then faces separate regression and performance evaluation. Controller development repeatedly runs complete application-optimization jobs with proposed controller versions. Neither development loop receives final-evaluation tasks or results as proposal feedback. Acceptance rules stay fixed during the experiment; changing those rules is a separate design decision.
 
 In this starting design, there are **no optimizer-model calls during normal execution**. The deployed application can itself contain models, and its execution need not be deterministic. Retain a working fallback and use production profiles to identify fresh optimization work. Each component can be retained, generated, merged, or replaced as described in the [architecture choices](#514-decide-what-to-retain-generate-merge-or-replace).
-
-**Who does what in this starting design.** The rows are responsibilities, not required agents or layers.
-
-| Role | What it may change | What bounds it |
-|---|---|---|
-| Application optimization, per workload | Configurations and scope across graph, kernel, communication, and runtime; synthesized kernels, fusions, and rewrites; diagnosis of rejected or slow candidates; reuse of compatible earlier experiments. Agents, conventional search, and learned policies can all propose. | Validation and target measurement decide. Search cost must pay back within the artifact's useful life. An agent keeps its place only where it beats the alternatives at an equal budget. |
-| Compiler development, offline | Heuristics, analyses, transformations, backend support, and operator coverage for new hardware. | Development workloads supply feedback; a selected version then faces separate regression and performance evaluation, including after compiler updates. Merged components need no optimizer-model calls during normal execution. |
-| Controller development, offline and gated | First a restricted decision procedure, such as instructions or retrieval logic; search strategy, orchestration, or agent code only after restricted changes leave measured failures. Changing the improvement procedure itself is a later experiment. | Late-stage: pursue it after the other two loops deliver repeated value. Compare against a fixed controller, a memory-only variant, and conventional search with pinned model and toolchain versions. No application-level evidence yet. |
-| Fixed for the experiment | Nothing during the experiment: the workload, objective, validation contract, final-evaluation pool, and its submission limit. The deployed runtime runs accepted artifacts and keeps a fallback. | Changing these is a separate design decision, never an optimization action. Final tasks and results stay outside every proposer's access. |
 
 For example, initially use an existing backend to implement a generated schedule. If backend limitations repeatedly prevent useful schedules, evaluate a new lowering path or a generated backend component against the existing path. If a direct assembly optimizer improves the final artifact, include it as another candidate-producing stage. Decide from measured behavior rather than from a rule that agents must always remain above the backend.
 
@@ -509,10 +500,6 @@ Replacement is incremental. Generating a new heuristic, replacing a transformati
 
 **Recommended starting point:** keep a strong fixed controller and allow offline proposals to change a small, versioned part of it, such as the reusable optimization instructions or retrieval policy. Use ordinary application-search runs to gather development evidence, then evaluate proposed controller versions on separate workloads. Keep the compiler tools fixed for this first comparison. Only accepted controller versions guide subsequent searches.
 
-![Controller development: development traces inform a fixed proposer, complete search jobs return development feedback, and a frozen version faces separate final evaluation before promotion](controller-development.svg)
-
-*Figure 2. Controller development with a separate final evaluation.* Development jobs return application results, failures, and search cost to the proposer. A selected controller is frozen before final evaluation; final tasks and results stay outside development feedback. Promotion affects future searches. Application-level benefit remains unproven in the reviewed evidence; recursive improvement is a further experiment.
-
 Within development, the proposer changes a controller, runs that version through complete application-optimization jobs, examines their results, and revises its next proposal. A controller that merely replays a known winning executable has not demonstrated better search. Record controller versions and memory snapshots separately, and measure the accepted application's performance as well as the resources spent finding it.
 
 This creates three connected loops: application search produces executables; controller development produces a new optimizer version; compiler evolution produces a new toolchain version. Controller development can use the same agent infrastructure as the other loops. It need not run on the application's execution path, modify model weights, or rewrite its own improvement procedure.
@@ -582,16 +569,7 @@ A qualifying result identifies the workload, hardware, strong non-agent baseline
 
 At each review date, record each predicate as **met** or **not met by available public evidence**, with source versions and a reason. Missing evidence means a miss for the dated public-evidence call, not proof that no private system exists. Reduce timing confidence when a call misses; reduce direction confidence when controlled comparisons contradict its mechanism. Keep the original prediction and record revisions separately.
 
-**Summary of the dated calls.** Details, qualifying rules, and evidence that would change each call follow below.
-
-| Horizon | Central forecast | Dated public test | Confidence: direction; timing |
-|---|---|---|---|
-| 2027 | Tuning, kernel synthesis, and diagnosis integrated with existing toolchains; conventional backends remain. | 23 September 2027: two independent organizations publish integrations with qualifying application gains from agent decisions. | High; medium |
-| 2027 controller checkpoint | Restricted controller improvement becomes testable on compiler workloads. | 23 September 2027: a public controller change beats a strong fixed controller and a memory-only variant on two held-out compiler-workload families. | Medium for restricted improvement; low for broad recursive improvement |
-| 2029 | Leading systems coordinate graph, kernel, communication, dispatch, and heuristic decisions. | 23 September 2029: a public system jointly searches two decision areas, one involving communication or runtime, and beats strong non-agent joint search. | Medium-high; medium |
-| 2031 | Some compilers become continuing optimization services; generated components enter default paths. | 23 September 2031: a generated analysis, transformation, or lowering component stays in a public toolchain's default path for two releases. | Medium; medium-low |
-| 2036 | Some platforms repeatedly generate substantial components and explore algorithms, execution, and hardware together. | 23 September 2036: two independent toolchains each generate two kinds of component, and one system jointly searches a hardware design parameter and an execution strategy. | Medium-low; low |
-| Beyond | Synthesis from workload intent and deployment requirements. | 23 September 2039 precursor: one specification and agent policy applied to two hardware families, one withheld during development. | Low; unassigned |
+The last part of [Figure 1](#33-a-starting-architecture-with-replaceable-components) summarizes these dated calls; details, qualifying rules, and evidence that would change each call follow below.
 
 <a id="551-horizon-a--20272028-near"></a>
 <a id="what-ships"></a>

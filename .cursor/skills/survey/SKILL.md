@@ -88,7 +88,7 @@ Include hardware research when executable workloads, representations, simulation
 2. Update evidence and the publication index first when facts or sources change.
 3. Refine the relevant narrative sections, unresolved questions, and evidence records together.
 4. Check whole-document consistency: objectives, architectural choices, evidence labels, terminology, dates, and forecast confidence.
-5. Re-render the blueprint when the narrative changes what it depicts: components or their boundaries, the improvement loops (application, compiler, controller), what the optimizer may or may not change, validation and evaluation rules, comparison arms, promotion criteria, or the forecast and checkpoint schedule. Edit `scripts/build_blueprint.py`, never `docs/blueprint.svg` by hand, run it, and update the figure caption in `docs/SURVEY.md`. The drawing must not claim more than the narrative: label thin evidence, keep acceptance rules outside every loop, and show alternatives rather than one required design. Update the “who does what” table under Figure 1 and the forecast summary table in the same edit when roles, bounds, forecasts, review dates, or confidence change.
+5. Re-render the blueprint when the narrative changes what it depicts: components or their boundaries, the improvement loops (application, compiler, controller), what the optimizer may or may not change, validation and evaluation rules, comparison arms, promotion criteria, or the forecast and checkpoint schedule. Edit `scripts/build_blueprint.py`, never `docs/blueprint.svg` by hand, run it, and update the figure caption in `docs/SURVEY.md`. The drawing must not claim more than the narrative: label thin evidence, keep acceptance rules outside every loop, and show alternatives rather than one required design. Figure 1 also carries the “who does what” table, the controller-development loop, and the forecast summary (`ROLES` and `HORIZONS` in the script); update them in the same edit when roles, bounds, forecasts, review dates, or confidence change. Do not duplicate these parts as separate figures or Markdown tables.
 6. Run `python3 scripts/validate_survey.py`; it fails if the blueprint is stale.
 7. Rebuild the survey PDF with `python3 publish/build_pdf.py` in the same batch as a narrative edit. Inspect the rendered output and repair unreadable tables, broken links, overlap, and clipping.
 8. Update `README.md`, source guides, publishing metadata, and `STATUS.md` where the change affects them.
@@ -126,8 +126,8 @@ Commit coherent batches. When publishing is authorized, push main directly using
 - Explain design alternatives, tradeoffs, and experiments in ordinary language.
 - Remove unexplained abbreviations and symbol-heavy cross-references from the revised narrative.
 - Preserve historical record identities and usable links.
-- Re-render the blueprint figures from their script if architecture, components, loops, evaluation rules, or the forecast schedule changed; check them on their PDF pages.
-- Keep the “who does what” table under Figure 1 and the forecast summary table at the start of the forecast section consistent with the detailed text they summarize.
+- Re-render Figure 1 from its script if architecture, components, loops, roles, evaluation rules, or the forecast schedule changed; check its four PDF pages.
+- Keep Figure 1’s role and forecast parts consistent with the detailed text they summarize, without duplicating them elsewhere.
 - Run repository validation; rebuild and visually inspect the survey PDF.
 - Refresh both transcript languages whenever slides change.
 - Update current status and the change log.

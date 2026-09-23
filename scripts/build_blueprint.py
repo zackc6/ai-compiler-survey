@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Build the two architecture figures in docs/SURVEY.md.
+"""Build Figure 1 in docs/SURVEY.md: the architecture overview, who does what,
+the controller-development loop, and the dated forecast calls, stacked in one SVG.
 
 Edit this script, not the SVGs. Review both against the narrative when components,
 feedback, evaluation boundaries, or promotion rules change. --check verifies file
@@ -34,16 +35,15 @@ text{font-family:"IBM Plex Sans",Arial,"Liberation Sans",sans-serif;fill:#182838
 .rung{fill:white;stroke:#087f70;stroke-width:1;stroke-opacity:.55}
 .rungstart{fill:white;stroke:#087f70;stroke-width:2.2}
 .runglate{fill:white;stroke:#087f70;stroke-width:1;stroke-dasharray:4 3}
+.headrow{fill:#eaf0f7}.rowagent{fill:#e2f3ee}.rowpanel{fill:#f7f9fc}.rowfinal{fill:#fff5ee}.rowplain{fill:white}
+.grid{fill:none;stroke:#b4c2cf;stroke-width:1.1}
+.cell{font-size:13.5px}
 </style>'''
 
 class Drawing:
     def __init__(self, height: int, title: str, description: str, width: int = 1120):
-        self.parts = [
-            f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-labelledby="title desc">',
-            f'<title id="title">{escape(title)}</title><desc id="desc">{escape(description)}</desc>', STYLE,
-            '<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#33495d"/></marker>',
-            '<marker id="green-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#087f70"/></marker></defs>',
-            f'<rect width="{width}" height="{height}" fill="white"/>']
+        self.width, self.height, self.title, self.description = width, height, title, description
+        self.parts: list[str] = []
 
     def box(self, x, y, w, h, kind="card"):
         self.parts.append(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="7" class="{kind}"/>')
@@ -71,10 +71,62 @@ class Drawing:
         self.parts.append(f'<polygon points="{triangle}" fill="{fill}"/>')
 
     def finish(self):
-        return "\n".join([*self.parts, '</svg>']) + "\n"
+        return standalone(self.width, self.height, self.title, self.description, self.parts)
 
 
-def overview() -> str:
+DEFS = ('<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#33495d"/></marker>'
+        '<marker id="green-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#087f70"/></marker></defs>')
+
+
+def standalone(width, height, title, description, body):
+    return "\n".join([
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-labelledby="title desc">',
+        f'<title id="title">{escape(title)}</title><desc id="desc">{escape(description)}</desc>', STYLE, DEFS,
+        f'<rect width="{width}" height="{height}" fill="white"/>', *body, '</svg>']) + "\n"
+
+
+def wrap(value: str, width_px: float, px_per_char: float = 7.0) -> list[str]:
+    """Greedy word wrap using a conservative average glyph width, so text fits in fallback fonts."""
+    limit = max(8, int(width_px / px_per_char))
+    lines, current = [], ""
+    for word in value.split():
+        trial = f"{current} {word}".strip()
+        if len(trial) > limit and current:
+            lines.append(current)
+            current = word
+        else:
+            current = trial
+    return lines + ([current] if current else [])
+
+
+def table(d, x, y, widths, header, rows):
+    """Draw a wrapped-text table; rows are (row_fill_class, head_text_class, cells). Returns the bottom y."""
+    top, total = y, sum(widths)
+    d.box(x, y, total, 34, "headrow")
+    cx = x
+    for w, label in zip(widths, header):
+        d.text(cx + 12, y + 22, label, "smallhead")
+        cx += w
+    y += 34
+    for kind, head_class, cells in rows:
+        wrapped = [wrap(c, w - 24, 8.4 if i == 0 else 7.0) for i, (c, w) in enumerate(zip(cells, widths))]
+        h = max(len(lines) for lines in wrapped) * 19 + 20
+        d.parts.append(f'<rect x="{x}" y="{y}" width="{total}" height="{h}" class="{kind}"/>')
+        d.parts.append(f'<line x1="{x}" y1="{y}" x2="{x + total}" y2="{y}" class="grid"/>')
+        cx = x
+        for i, (w, lines) in enumerate(zip(widths, wrapped)):
+            d.lines(cx + 12, y + 24, lines, head_class if i == 0 else "cell", 19)
+            cx += w
+        y += h
+    cx = x
+    for w in widths[:-1]:
+        cx += w
+        d.parts.append(f'<line x1="{cx}" y1="{top}" x2="{cx}" y2="{y}" class="grid"/>')
+    d.parts.append(f'<rect x="{x}" y="{top}" width="{total}" height="{y - top}" rx="7" class="grid"/>')
+    return y
+
+
+def overview() -> Drawing:
     d = Drawing(800, "Where the agent acts in an end-to-end AI compiler", (
         "One possible starting design. Humans fix the workload, objective, allowed actions, budget, and acceptance "
         "rules for an experiment. In application optimization, an agent, a learned policy, and structured search "
@@ -194,10 +246,10 @@ def overview() -> str:
     d.path([(400, 775), (438, 775)], "feedback"); d.text(446, 780, "development feedback", "xs")
     d.path([(610, 775), (648, 775)], "promote"); d.text(656, 780, "promotion after the final check", "xs")
     d.box(880, 768, 16, 14, "final"); d.text(904, 780, "final evaluation withheld from development", "xs")
-    return d.finish()
+    return d
 
 
-def controller() -> str:
+def controller() -> Drawing:
     d = Drawing(630, "How the controller improves across optimization jobs", (
         "A fixed proposer uses development traces to change reusable controller instructions or retrieval policy. "
         "The candidate controller runs complete application-optimization jobs. Application results, failures, and "
@@ -244,11 +296,111 @@ def controller() -> str:
     d.path([(770, 504), (737, 504)], "promote")
     d.path([(602, 560), (602, 600), (12, 600), (12, 201), (39, 201)], "feedback")
     d.text(311, 621, "Future development traces exclude final-evaluation tasks and results", "note", "middle")
-    return d.finish()
+    return d
+
+
+ROLES = [
+    ("rowagent", "smallhead green", ["Application optimization, per workload",
+     "Configurations and scope across graph, kernel, communication, and runtime; synthesized kernels, fusions, and rewrites; diagnosis of rejected or slow candidates; reuse of compatible earlier experiments. Agents, conventional search, and learned policies can all propose.",
+     "Validation and target measurement decide. Search cost must pay back within the artifact's useful life. An agent keeps its place only where it beats the alternatives at an equal budget."]),
+    ("rowagent", "smallhead green", ["Compiler development, offline",
+     "Heuristics, analyses, transformations, backend support, and operator coverage for new hardware.",
+     "Development workloads supply feedback; a selected version then faces separate regression and performance evaluation, including after compiler updates. Merged components need no optimizer-model calls during normal execution."]),
+    ("rowpanel", "smallhead green", ["Controller development, offline and gated",
+     "First a restricted decision procedure, such as instructions or retrieval logic; search strategy, orchestration, or agent code only after restricted changes leave measured failures. Changing the improvement procedure itself is a later experiment.",
+     "Late-stage: pursue it after the other two loops deliver repeated value. Compare against a fixed controller, a memory-only variant, and conventional search with pinned model and toolchain versions. No application-level evidence yet."]),
+    ("rowfinal", "smallhead red", ["Fixed for the experiment",
+     "Nothing during the experiment: the workload, objective, validation contract, final-evaluation pool, and its submission limit. The deployed runtime runs accepted artifacts and keeps a fallback.",
+     "Changing these is a separate design decision, never an optimization action. Final tasks and results stay outside every proposer's access."]),
+]
+
+HORIZONS = [
+    ("rowplain", "2027", "Tuning, kernel synthesis, and diagnosis integrated with existing toolchains; conventional backends remain.",
+     "23 September 2027: two independent organizations publish integrations with qualifying application gains from agent decisions.",
+     "direction high; timing medium"),
+    ("rowpanel", "2027 controller checkpoint", "Restricted controller improvement becomes testable on compiler workloads.",
+     "23 September 2027: a public controller change beats a strong fixed controller and a memory-only variant on two held-out compiler-workload families.",
+     "medium for restricted improvement; low for broad recursive improvement"),
+    ("rowplain", "2029", "Leading systems coordinate graph, kernel, communication, dispatch, and heuristic decisions.",
+     "23 September 2029: a public system jointly searches two decision areas, one involving communication or runtime, and beats strong non-agent joint search.",
+     "direction medium-high; timing medium"),
+    ("rowplain", "2031", "Some compilers become continuing optimization services; generated components enter default paths.",
+     "23 September 2031: a generated analysis, transformation, or lowering component stays in a public toolchain's default path for two releases.",
+     "direction medium; timing medium-low"),
+    ("rowplain", "2036", "Some platforms repeatedly generate substantial components and explore algorithms, execution, and hardware together.",
+     "23 September 2036: two independent toolchains each generate two kinds of component, and one system jointly searches a hardware design parameter and an execution strategy.",
+     "direction medium-low; timing low"),
+    ("rowplain", "Beyond", "Synthesis from workload intent and deployment requirements.",
+     "23 September 2039 precursor: one specification and agent policy applied to two hardware families, one withheld during development.",
+     "direction low; timing unassigned"),
+]
+
+
+def sized(build):
+    """Draw once to measure, then return a drawing whose height fits its content."""
+    probe = Drawing(4000, "", "", width=1400)
+    bottom = build(probe)
+    d = Drawing(int(bottom) + 24, "", "", width=1400)
+    build(d)
+    return d
+
+
+def roles() -> Drawing:
+    def build(d):
+        d.text(30, 34, "Who does what", "title")
+        d.text(30, 60, "Responsibilities, not required agents or layers.", "note")
+        return table(d, 30, 78, [290, 540, 510], ["Role", "What it may change", "What bounds it"], ROLES)
+    d = sized(build)
+    d.title = "Who does what"
+    d.description = "Responsibilities in the starting design: application optimization, compiler development, gated controller development, and what stays fixed for the experiment."
+    return d
+
+
+def horizons() -> Drawing:
+    rows = [(kind, "smallhead", [year, forecast, test, conf]) for kind, year, forecast, test, conf in HORIZONS]
+    def build(d):
+        d.text(30, 34, "How far the agent reaches, by horizon", "title")
+        d.text(30, 60, "Each call has a dated public test. Confidence is qualitative, not a probability.", "note")
+        return table(d, 30, 78, [200, 390, 500, 250], ["Horizon", "Central forecast", "Dated public test", "Confidence"], rows)
+    d = sized(build)
+    d.title = "How far the agent reaches, by horizon"
+    d.description = "Dated forecast calls from section 5.5, including the 2027 controller checkpoint, with qualitative confidence."
+    return d
+
+
+def parts() -> list[tuple[str, Drawing]]:
+    """The four stacked parts of Figure 1, in reading order."""
+    return [("overview", overview()), ("roles", roles()), ("controller", controller()), ("horizons", horizons())]
+
+
+def combined() -> str:
+    width, gap, y, body, descs = 1400, 36, 0, [], []
+    for i, (_, d) in enumerate(parts()):
+        if i:
+            body.append(f'<line x1="30" y1="{y + gap / 2}" x2="{width - 30}" y2="{y + gap / 2}" class="grid"/>')
+            y += gap
+        x = 6 if d.width < width else 0  # align narrower parts' titles with the others
+        body.append(f'<svg x="{x}" y="{y}" width="{d.width}" height="{d.height}" viewBox="0 0 {d.width} {d.height}">')
+        body.extend(d.parts)
+        body.append('</svg>')
+        descs.append(d.description)
+        y += d.height
+    return standalone(width, y, "Agentic compiler blueprint", " ".join(descs), body)
+
+
+def write_parts(directory: Path) -> list[tuple[str, Path, str]]:
+    """Write each part as its own SVG (used by the PDF build) and return (name, path, title)."""
+    directory.mkdir(parents=True, exist_ok=True)
+    written = []
+    for name, d in parts():
+        path = directory / f"architecture-overview-{name}.svg"
+        path.write_text(d.finish(), encoding="utf-8")
+        written.append((name, path, d.title))
+    return written
 
 
 def main() -> int:
-    outputs = {"architecture-overview.svg": overview(), "controller-development.svg": controller()}
+    outputs = {"architecture-overview.svg": combined()}
     stale = []
     for name, svg in outputs.items():
         path = ROOT / "docs" / name
