@@ -34,7 +34,6 @@ User override only: if they **explicitly** ask for a branch/PR, then follow that
 docs/
   SURVEY.md           # ONLY narrative — §0→§9 smooth read
   SETUP_GITHUB.md     # maintainer git notes only
-  faculty.md          # people catalog (faculty + industry appendix); not a prediction narrative
 reference/
   README.md           # evidence entry guide
   publications/       # digests + INDEX + template

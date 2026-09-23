@@ -9,7 +9,6 @@ Evidence store for the living survey. Digests, product signals, and repo/forge m
 | **Publications** | [`publications/`](publications/) · [`INDEX.md`](publications/INDEX.md) | One digest per searched source (papers, blogs, talks, code pages). ★ = prediction-critical. |
 | **Products** | [`products.md`](products.md) | Commercial SKUs / offerings as **prediction signals** (Tier A/B/C) — not a full catalog. |
 | **Repos** | [`repos.md`](repos.md) | GitHub / Gerrit / forge artifacts tiered for the agentic-compiler prediction — not an exhaustive forge list. |
-| **People** | [`../docs/faculty.md`](../docs/faculty.md) | Faculty by region, then relation to the four agent jobs, plus an industry appendix. Jobs are written out in sentences. |
 
 ## How to use
 
