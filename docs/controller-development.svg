@@ -18,6 +18,10 @@ text{font-family:"IBM Plex Sans",Arial,"Liberation Sans",sans-serif;fill:#182838
 .feedback{stroke:#65798c;stroke-dasharray:6 4}
 .promote{stroke:#087f70;stroke-width:2.2}
 .halo{fill:none;stroke:white;stroke-width:6;stroke-linejoin:round}
+.xs{font-size:13px;fill:#42576a}
+.rung{fill:white;stroke:#087f70;stroke-width:1;stroke-opacity:.55}
+.rungstart{fill:white;stroke:#087f70;stroke-width:2.2}
+.runglate{fill:white;stroke:#087f70;stroke-width:1;stroke-dasharray:4 3}
 </style>
 <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#33495d"/></marker>
 <marker id="green-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#087f70"/></marker></defs>

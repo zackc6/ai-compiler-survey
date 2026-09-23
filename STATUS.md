@@ -16,7 +16,7 @@ Last updated: **2026-09-23**
 | Survey PDF | Rebuilt with the current narrative and reference appendices; source links open primary references. |
 | Presentation | Existing slides and bilingual transcripts are an earlier snapshot; not aligned with this revision. |
 | Repository skill | Updated with plain-language guidance, evidence standards, architecture flexibility, and publication authorization rules. |
-| Publication | Rendered blueprint preview reviewed and approved; direct publication to main authorized. |
+| Publication | Architecture-overview batch: direct publication to main authorized by the maintainer. |
 
 ## Coverage still to strengthen
 
@@ -31,6 +31,7 @@ Last updated: **2026-09-23**
 
 | Date | Change |
 |---|---|
+| 2026-09-23 | Renamed the overview figure to `docs/architecture-overview.svg` and replaced it with a detailed drawing: human-owned contract; application optimization with agent, learned policy, and structured search; checks, artifact store, and deployment without optimizer-model calls by default; compiler development and optional controller development with development feedback, hidden final checks, and promotion paths; the controller scope ladder and four comparison arms. Updated the caption, generator, validator, PDF assembler, and README. Rebuilt the PDF. |
 | 2026-09-23 | Added a “who does what” table under Figure 1 (application optimization, compiler development, gated controller development, and what stays fixed) and a summary table of the dated forecast calls, including the 2027 controller checkpoint, at the start of the forecast section. The skill now keeps both tables consistent with the detailed text. Rebuilt the PDF. |
 | 2026-09-23 | Split the blueprint into an architecture overview and controller-development detail. Added explicit development feedback, complete application-search jobs, and a reserved or refreshed final-evaluation policy that accounts for repeated submissions. Clarified the default absence of optimizer-model calls during normal execution. Kept each figure and caption together at a larger reading size in the PDF. Reviewed the rendered preview and approved publication. |
 | 2026-09-23 | Added reviewer caveats to the controller self-improvement material. Classified a controller change as altering the decision procedure, not just stored data, and noted the learned-policy overlap (§2.4). Stated that control-plane self-improvement has no application-level compiler evidence yet — the strongest result is a hardware-utilization proxy on one target (§4.6). Marked controller improvement as the most expensive, lowest near-term ROI loop and a late-stage gated activity (§5.1.5). Named attribution — a newer model, toolchain drift, or more compute — as the dominant validation threat and required pinned versions plus logged compute (§5.1.5). Rebuilt the survey PDF. |

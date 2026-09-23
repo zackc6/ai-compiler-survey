@@ -1,0 +1,196 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="800" viewBox="0 0 1400 800" role="img" aria-labelledby="title desc">
+<title id="title">Where the agent acts in an end-to-end AI compiler</title><desc id="desc">One possible starting design. Humans fix the workload, objective, allowed actions, budget, and acceptance rules for an experiment. In application optimization, an agent, a learned policy, and structured search propose candidates with the same feedback and budget; compiler tools build them; checks and measurement decide; accepted artifacts are stored and deployed with a fallback and no optimizer-model calls by default. Development traces, excluding final-evaluation tasks, feed two development loops. Compiler development generates heuristics, analyses, transformations, or backend pieces. Optional, late-stage controller development starts with instructions or retrieval logic and widens only after measured failures. Each loop iterates on development feedback, freezes a selected version for a hidden final check, and promotes it only if it passes.</desc>
+<style>
+text{font-family:"IBM Plex Sans",Arial,"Liberation Sans",sans-serif;fill:#182838}
+.title{font-size:25px;font-weight:700}
+.heading{font-size:18px;font-weight:700}
+.smallhead{font-size:16px;font-weight:700}
+.body{font-size:16px}
+.note{font-size:14.5px;fill:#42576a}
+.label{font-size:14.5px;fill:#42576a}
+.green{fill:#096d61}.red{fill:#9c4337}
+.panel{fill:#f7f9fc;stroke:#bcc9d6;stroke-width:1.3}
+.card{fill:white;stroke:#b4c2cf;stroke-width:1.3}
+.agent{fill:#e2f3ee;stroke:#087f70;stroke-width:1.8}
+.final{fill:#fff5ee;stroke:#b36b43;stroke-width:1.6}
+.contract{fill:#eaf0f7;stroke:#aebfd0;stroke-width:1.3}
+.flow,.feedback,.promote{fill:none;stroke:#33495d;stroke-width:1.8;stroke-linejoin:round}
+.feedback{stroke:#65798c;stroke-dasharray:6 4}
+.promote{stroke:#087f70;stroke-width:2.2}
+.halo{fill:none;stroke:white;stroke-width:6;stroke-linejoin:round}
+.xs{font-size:13px;fill:#42576a}
+.rung{fill:white;stroke:#087f70;stroke-width:1;stroke-opacity:.55}
+.rungstart{fill:white;stroke:#087f70;stroke-width:2.2}
+.runglate{fill:white;stroke:#087f70;stroke-width:1;stroke-dasharray:4 3}
+</style>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#33495d"/></marker>
+<marker id="green-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#087f70"/></marker></defs>
+<rect width="1400" height="800" fill="white"/>
+<text x="30" y="34" class="title" text-anchor="start">Where the agent acts in an end-to-end AI compiler</text>
+<rect x="30" y="50" width="1340" height="56" rx="7" class="contract"/>
+<text x="46" y="73" class="smallhead" text-anchor="start">Human-owned experiment contract</text>
+<text x="46" y="96" class="body" text-anchor="start">Workload, objective, allowed actions, budget, and acceptance rules stay fixed within the experiment.</text>
+<text x="1354" y="96" class="note red" text-anchor="end">No loop may relax them</text>
+<rect x="20" y="124" width="1360" height="270" rx="7" class="panel"/>
+<text x="36" y="148" class="heading" text-anchor="start">Application optimization</text>
+<text x="1364" y="148" class="note" text-anchor="end">Start with a strong baseline and a whole-application profile</text>
+<rect x="30" y="166" width="130" height="170" rx="7" class="card"/>
+<text x="42" y="190" class="smallhead" text-anchor="start">Baseline and</text>
+<text x="42" y="210" class="smallhead" text-anchor="start">profile</text>
+<text x="42" y="242" class="xs" text-anchor="start">strong compiled</text>
+<text x="42" y="261" class="xs" text-anchor="start">or library</text>
+<text x="42" y="280" class="xs" text-anchor="start">baseline;</text>
+<text x="42" y="299" class="xs" text-anchor="start">whole-app profile</text>
+<rect x="204" y="166" width="240" height="170" rx="7" class="card"/>
+<text x="216" y="190" class="smallhead green" text-anchor="start">Search controller</text>
+<rect x="214" y="198" width="220" height="50" rx="7" class="agent"/>
+<text x="224" y="218" class="smallhead green" text-anchor="start">Agent</text>
+<text x="224" y="238" class="xs" text-anchor="start">proposes, builds, diagnoses</text>
+<rect x="214" y="254" width="220" height="26" rx="7" class="card"/>
+<text x="324" y="272" class="xs" text-anchor="middle">Learned policy</text>
+<rect x="214" y="286" width="220" height="26" rx="7" class="card"/>
+<text x="324" y="304" class="xs" text-anchor="middle">Structured search / tuner</text>
+<text x="324" y="328" class="xs" text-anchor="middle">same feedback, same budget</text>
+<rect x="488" y="166" width="190" height="170" rx="7" class="card"/>
+<text x="500" y="190" class="smallhead" text-anchor="start">Compiler tools</text>
+<text x="500" y="220" class="xs" text-anchor="start">representations</text>
+<text x="500" y="240" class="xs" text-anchor="start">transformations</text>
+<text x="500" y="260" class="xs" text-anchor="start">lowering</text>
+<text x="500" y="280" class="xs" text-anchor="start">code generation</text>
+<text x="500" y="324" class="xs green" text-anchor="start">keep, generate, or replace</text>
+<rect x="722" y="166" width="200" height="170" rx="7" class="card"/>
+<text x="734" y="190" class="smallhead" text-anchor="start">Check and measure</text>
+<text x="734" y="220" class="xs" text-anchor="start">static checks, compile</text>
+<text x="734" y="239" class="xs" text-anchor="start">tests and numerics</text>
+<text x="734" y="258" class="xs" text-anchor="start">scoped equivalence</text>
+<text x="734" y="277" class="xs" text-anchor="start">kernel time</text>
+<text x="734" y="296" class="xs" text-anchor="start">application metric</text>
+<text x="734" y="315" class="xs" text-anchor="start">search cost</text>
+<rect x="966" y="166" width="180" height="170" rx="7" class="card"/>
+<text x="978" y="190" class="smallhead" text-anchor="start">Artifact and</text>
+<text x="978" y="210" class="smallhead" text-anchor="start">experiment store</text>
+<text x="978" y="242" class="xs" text-anchor="start">accepted artifacts</text>
+<text x="978" y="261" class="xs" text-anchor="start">failed candidates</text>
+<text x="978" y="280" class="xs" text-anchor="start">controller versions</text>
+<text x="978" y="299" class="xs" text-anchor="start">and memory kept</text>
+<text x="978" y="318" class="xs" text-anchor="start">separately</text>
+<rect x="1190" y="166" width="180" height="170" rx="7" class="card"/>
+<text x="1202" y="190" class="smallhead" text-anchor="start">Deploy</text>
+<text x="1202" y="220" class="xs" text-anchor="start">accepted artifacts</text>
+<text x="1202" y="239" class="xs" text-anchor="start">working fallback</text>
+<text x="1202" y="258" class="xs" text-anchor="start">no optimizer-model</text>
+<text x="1202" y="277" class="xs" text-anchor="start">calls by default;</text>
+<text x="1202" y="296" class="xs" text-anchor="start">the app may still</text>
+<text x="1202" y="315" class="xs" text-anchor="start">contain models</text>
+<polyline points="160,252 202,252" class="flow"/>
+<polygon points="202,252 192.0,256.0 192.0,248.0" fill="#33495d"/>
+<polyline points="444,252 486,252" class="flow"/>
+<polygon points="486,252 476.0,256.0 476.0,248.0" fill="#33495d"/>
+<polyline points="678,252 720,252" class="flow"/>
+<polygon points="720,252 710.0,256.0 710.0,248.0" fill="#33495d"/>
+<polyline points="922,252 964,252" class="flow"/>
+<polygon points="964,252 954.0,256.0 954.0,248.0" fill="#33495d"/>
+<polyline points="1146,252 1188,252" class="flow"/>
+<polygon points="1188,252 1178.0,256.0 1178.0,248.0" fill="#33495d"/>
+<polyline points="822,336 822,358 324,358 324,338" class="feedback"/>
+<polygon points="324,338 328.0,348.0 320.0,348.0" fill="#33495d"/>
+<text x="520" y="380" class="xs" text-anchor="middle">failures, profiles, search cost</text>
+<polyline points="1280,336 1280,414 95,414 95,338" class="feedback"/>
+<polygon points="95,338 99.0,348.0 91.0,348.0" fill="#33495d"/>
+<text x="112" y="410" class="xs" text-anchor="start">production profiles for fresh work</text>
+<polyline points="1056,336 1056,432 60,432 60,460" class="feedback"/>
+<polygon points="60,460 56.0,450.0 64.0,450.0" fill="#33495d"/>
+<polyline points="740,432 740,460" class="feedback"/>
+<polygon points="740,460 736.0,450.0 744.0,450.0" fill="#33495d"/>
+<text x="1046" y="428" class="xs" text-anchor="end">development traces, excluding final-evaluation tasks</text>
+<rect x="20" y="460" width="680" height="290" rx="7" class="panel"/>
+<text x="36" y="484" class="heading" text-anchor="start">Controller development (optional)</text>
+<text x="346" y="484" class="note red" text-anchor="start">no application-level evidence yet</text>
+<rect x="34" y="500" width="270" height="200" rx="7" class="agent"/>
+<text x="46" y="522" class="smallhead green" text-anchor="start">Fixed proposer</text>
+<rect x="46" y="534" width="246" height="26" rx="7" class="runglate"/>
+<text x="56" y="552" class="xs" text-anchor="start">improvement procedure</text>
+<text x="284" y="552" class="xs green" text-anchor="end">later</text>
+<rect x="46" y="566" width="246" height="26" rx="7" class="rung"/>
+<text x="56" y="584" class="xs" text-anchor="start">agent code</text>
+<rect x="46" y="598" width="246" height="26" rx="7" class="rung"/>
+<text x="56" y="616" class="xs" text-anchor="start">search strategy, orchestration</text>
+<rect x="46" y="630" width="246" height="26" rx="7" class="rungstart"/>
+<text x="56" y="648" class="xs" text-anchor="start">instructions, retrieval logic</text>
+<text x="284" y="648" class="xs green" text-anchor="end">start</text>
+<text x="46" y="674" class="xs" text-anchor="start">widen only after measured failures;</text>
+<text x="46" y="691" class="xs" text-anchor="start">memory-only change is a test arm</text>
+<rect x="334" y="530" width="150" height="130" rx="7" class="card"/>
+<text x="346" y="554" class="smallhead" text-anchor="start">Search jobs</text>
+<text x="346" y="578" class="xs" text-anchor="start">complete jobs on</text>
+<text x="346" y="597" class="xs" text-anchor="start">development</text>
+<text x="346" y="616" class="xs" text-anchor="start">workloads; pinned</text>
+<text x="346" y="635" class="xs" text-anchor="start">model, toolchain</text>
+<rect x="514" y="500" width="176" height="200" rx="7" class="final"/>
+<text x="526" y="522" class="smallhead red" text-anchor="start">Final check</text>
+<text x="526" y="546" class="xs" text-anchor="start">freeze the version</text>
+<text x="526" y="565" class="xs" text-anchor="start">hidden tasks, results</text>
+<text x="526" y="584" class="xs" text-anchor="start">submission limit</text>
+<text x="526" y="603" class="xs" text-anchor="start">four arms: fixed,</text>
+<text x="526" y="622" class="xs" text-anchor="start">memory only, evolved,</text>
+<text x="526" y="641" class="xs" text-anchor="start">conventional search</text>
+<text x="526" y="660" class="xs" text-anchor="start">new workload families</text>
+<polyline points="304,595 332,595" class="flow"/>
+<polygon points="332,595 322.0,599.0 322.0,591.0" fill="#33495d"/>
+<polyline points="484,595 512,595" class="flow"/>
+<polygon points="512,595 502.0,599.0 502.0,591.0" fill="#33495d"/>
+<polyline points="409,660 409,724 169,724 169,702" class="feedback"/>
+<polygon points="169,702 173.0,712.0 165.0,712.0" fill="#33495d"/>
+<text x="289" y="740" class="xs" text-anchor="middle">application results, failures, search cost</text>
+<text x="602" y="722" class="xs red" text-anchor="middle">results stay out</text>
+<text x="602" y="738" class="xs red" text-anchor="middle">of development</text>
+<rect x="720" y="460" width="660" height="290" rx="7" class="panel"/>
+<text x="736" y="484" class="heading" text-anchor="start">Compiler development</text>
+<rect x="734" y="500" width="220" height="130" rx="7" class="agent"/>
+<text x="746" y="522" class="smallhead green" text-anchor="start">Agent</text>
+<text x="746" y="548" class="xs" text-anchor="start">generates a heuristic,</text>
+<text x="746" y="567" class="xs" text-anchor="start">analysis, transformation,</text>
+<text x="746" y="586" class="xs" text-anchor="start">or backend piece</text>
+<rect x="984" y="500" width="170" height="130" rx="7" class="card"/>
+<text x="996" y="522" class="smallhead" text-anchor="start">Build and run</text>
+<text x="996" y="548" class="xs" text-anchor="start">development</text>
+<text x="996" y="567" class="xs" text-anchor="start">workloads</text>
+<rect x="1184" y="500" width="184" height="170" rx="7" class="final"/>
+<text x="1196" y="522" class="smallhead red" text-anchor="start">Final check</text>
+<text x="1196" y="546" class="xs" text-anchor="start">freeze the version</text>
+<text x="1196" y="565" class="xs" text-anchor="start">hidden regression</text>
+<text x="1196" y="584" class="xs" text-anchor="start">and performance</text>
+<text x="1196" y="603" class="xs" text-anchor="start">tasks</text>
+<text x="1196" y="622" class="xs" text-anchor="start">submission limit</text>
+<polyline points="954,565 982,565" class="flow"/>
+<polygon points="982,565 972.0,569.0 972.0,561.0" fill="#33495d"/>
+<polyline points="1154,565 1182,565" class="flow"/>
+<polygon points="1182,565 1172.0,569.0 1172.0,561.0" fill="#33495d"/>
+<polyline points="1069,630 1069,670 844,670 844,632" class="feedback"/>
+<polygon points="844,632 848.0,642.0 840.0,642.0" fill="#33495d"/>
+<text x="956" y="690" class="xs" text-anchor="middle">development results</text>
+<text x="1276" y="692" class="xs red" text-anchor="middle">results stay out</text>
+<text x="1276" y="708" class="xs red" text-anchor="middle">of development</text>
+<text x="956" y="734" class="xs" text-anchor="middle">Measure each development change alone, then combined.</text>
+<polyline points="602,500 602,446 400,446 400,338" class="halo"/>
+<polyline points="602,500 602,446 400,446 400,338" class="promote"/>
+<polygon points="400,338 404.0,348.0 396.0,348.0" fill="#087f70"/>
+<text x="394" y="384" class="xs green" text-anchor="end">promoted controller</text>
+<polyline points="1276,500 1276,446 640,446 640,338" class="halo"/>
+<polyline points="1276,500 1276,446 640,446 640,338" class="promote"/>
+<polygon points="640,338 644.0,348.0 636.0,348.0" fill="#087f70"/>
+<text x="646" y="384" class="xs green" text-anchor="start">promoted compiler</text>
+<rect x="30" y="768" width="16" height="14" rx="7" class="agent"/>
+<text x="54" y="780" class="xs" text-anchor="start">agent activity</text>
+<polyline points="170,775 208,775" class="flow"/>
+<polygon points="208,775 198.0,779.0 198.0,771.0" fill="#33495d"/>
+<text x="216" y="780" class="xs" text-anchor="start">candidate or artifact flow</text>
+<polyline points="400,775 438,775" class="feedback"/>
+<polygon points="438,775 428.0,779.0 428.0,771.0" fill="#33495d"/>
+<text x="446" y="780" class="xs" text-anchor="start">development feedback</text>
+<polyline points="610,775 648,775" class="promote"/>
+<polygon points="648,775 638.0,779.0 638.0,771.0" fill="#087f70"/>
+<text x="656" y="780" class="xs" text-anchor="start">promotion after the final check</text>
+<rect x="880" y="768" width="16" height="14" rx="7" class="final"/>
+<text x="904" y="780" class="xs" text-anchor="start">final evaluation withheld from development</text>
+</svg>

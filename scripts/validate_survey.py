@@ -104,7 +104,7 @@ def main() -> int:
     if blueprint.returncode != 0:
         errors.append(blueprint.stderr.strip() or "Architecture figure generation failed")
     narrative = (ROOT / "docs" / "SURVEY.md").read_text(encoding="utf-8")
-    for name in ("blueprint.svg", "controller-development.svg"):
+    for name in ("architecture-overview.svg", "controller-development.svg"):
         if not re.search(r'^!\[[^\]]+\]\(' + re.escape(name) + r'\)\n\n\*Figure \d+\.', narrative, re.MULTILINE):
             errors.append(f"SURVEY.md: {name} needs an image and an adjacent numbered caption")
 

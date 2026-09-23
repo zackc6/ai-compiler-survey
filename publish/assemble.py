@@ -152,7 +152,7 @@ def rewrite_links(text: str, source: Path) -> str:
     # Keep each architecture image and its Markdown caption on the same page.
     # Other images retain their ordinary layout rather than forcing landscape.
     text = re.sub(
-        r'^!\[([^\]]+)\]\((blueprint\.svg|controller-development\.svg)\)\n\n(\*Figure \d+\.[^\n]+)',
+        r'^!\[([^\]]+)\]\((architecture-overview\.svg|controller-development\.svg)\)\n\n(\*Figure \d+\.[^\n]+)',
         figure, text, flags=re.MULTILINE,
     )
     sections = {
