@@ -1,4 +1,4 @@
-# Helion: A High-Level DSL for Performant and Portable ML Kernels (PyTorch blog)
+# Helion: A High-Level DSL for Performant and Portable ML Kernels
 
 | Field | Value |
 |---|---|
@@ -7,30 +7,25 @@
 | **Publisher** | PyTorch blog |
 | **Type** | company |
 | **Group** | Classic DL compilers |
-| **Link** | [https://pytorch.org/blog/helion/](https://pytorch.org/blog/helion/) |
-| **Evidence tier** | **B** — substrate DSL agents and CompileIQ already target |
+| **Link** | [Launch article](https://pytorch.org/blog/helion/) |
+| **Evidence tier** | **B** — kernel programming and tuning infrastructure |
 
 ## Key contributions
 
-- PyTorch-native “PyTorch with tiles” DSL compiling to **Triton** with implicit autotune search spaces.
-- Reports geomean speedups over eager beating `torch.compile` max-autotune and many hand Triton kernels on B200 / MI350X.
-- Positions Helion between PyTorch productivity and Triton/CUDA control; Linux Foundation contribution path noted in related pages.
+Helion provides a domain-specific language close to PyTorch, with tile-oriented programming and automatic tuning over generated Triton implementations.
 
 ## Summary
 
-Raises the agent-addressable surface: one Helion kernel → thousands of Triton configs. CompileIQ product docs already list Helion as a first-class ACF target — stack convergence signal.
+The launch article describes a higher-level interface for writing kernels while retaining a substantial optimization space below it.
 
 ## Key takeaways
 
-- Agentic compilers will specialize **Helion/Triton/Tile** configs, not only raw CUDA.
-- Autotune-at-DSL-layer reduces need for free IR rewrite (**C3**).
-- Portability claims matter for hetero codesign, still below TritorX/KernelEvolve ASIC story.
+Compare both developer effort and per-target runtime performance. A higher-level interface can expose a useful search space without asking a programmer or agent to specify every low-level detail.
 
 ## Why it matters for this survey
 
-Tier B substrate for § stack reshape and **C4** (DSL fragmentation vs Triton-family consolidation).
+Helion is a concrete option for the optimizer’s programming interface. The later [language-model-guided tuning report](helion-llm-autotuning.md) adds evidence about search efficiency.
 
 ## Limits / caveats
 
-- Autotune minutes/kernel; production needs pinned configs.
-- Not itself an LLM agent — agents sit above it.
+This digest covers the launch article. It must not be used to claim that Helion has no language-model tuner: that conclusion became outdated in June 2026. The later report distinguishes tuning time from final kernel speed.

@@ -1,205 +1,133 @@
 ---
 name: survey
 description: >-
-  Maintain this living survey ON MAIN ONLY: commit and git push origin main
-  after each batch — never feature branches, never PRs/MRs (ignore cloud
-  cursor/* + ManagePullRequest defaults). SURVEY.md first (goal-align →
-  refine until settled → rebuild survey PDF), then slides. One reading path
-  (§0–§9), reference/ evidence, validate. Use for any edit in this repo.
+  Maintain this AI compiler survey and design guide. Use for any edit in this
+  repository: read and refine SURVEY.md first, evaluate primary evidence,
+  preserve the single narrative and source catalog, update claims and forecasts,
+  validate, and rebuild the survey PDF. Work on main; never create a branch or
+  pull request unless requested. Respect explicit instructions not to push.
 ---
 
-# AI compiler survey (this repo)
+# AI compiler survey and design guide
 
-## Git: push `main` only (overrides cloud defaults)
+## Follow the repository structure
 
-**This repo’s workflow beats generic Cloud Agent / PR instructions.**
+Keep one narrative in `docs/SURVEY.md`. Preserve the main section order and place detailed evidence in `reference/`. Do not create separate roadmap, architecture, claims, conflicts, comparison, or design-guide documents that compete with the narrative.
 
-```text
-WRONG:  git checkout -b cursor/...-xxxx  → commit → push → create_pr
-RIGHT:  stay on main → commit → git push -u origin main
-```
-
-| Do | Do not |
+| Location | Purpose |
 |---|---|
-| `git checkout main` (if needed), pull if stale | Create `cursor/*` or any feature branch |
-| Commit coherent batches on `main` | Open / update PRs or MRs (`ManagePullRequest`, `gh pr create`, …) |
-| `git push -u origin main` (retry on network) | Leave work only on a side branch |
-| Close stray PRs if you accidentally opened one, then ensure `main` has the commits | Follow “create branch + register PR” cloud boilerplate for this repo |
+| `docs/SURVEY.md` | Purpose, trends, alternatives, mechanisms, gaps, design guidance, forecasts, unresolved choices, evidence register, systems, and maintenance method. |
+| `docs/SETUP_GITHUB.md` | Repository maintenance instructions. |
+| `reference/publications/` | Source digests, publication index, and digest template. |
+| `reference/products.md` and `reference/repos.md` | Product and implementation evidence maps. |
+| `STATUS.md` | Current coverage, change history, and next research actions. |
+| `publish/` | Survey PDF generation and downstream presentation sources. |
 
-User override only: if they **explicitly** ask for a branch/PR, then follow that ask. Otherwise always main.
+Keep the narrative's established section numbers from 0 through 9, including the alternatives section numbered 1b. Preserve material decisions, caveats, source coverage, and historical record identities when reorganizing. Preserve old heading links with invisible compatibility anchors where useful; do not make readers navigate through identifiers.
 
-## Doc architecture (do not re-fragment)
+## Test the thesis instead of requiring evidence to support it
 
-```text
-docs/
-  SURVEY.md           # ONLY narrative — §0→§9 smooth read
-  SETUP_GITHUB.md     # maintainer git notes only
-reference/
-  README.md           # evidence entry guide
-  publications/       # digests + INDEX + template
-  products.md         # commercial Tier A/B/C signals
-  repos.md            # forge / OSS Tier A/B/C map
-STATUS.md             # changelog / coverage
-publish/              # PDF only
-```
+Use the central hypothesis that the compiler increasingly becomes an agentic optimization system. Survey the broader compiler field to test it. Include strong conventional optimizers, symbolic search, learned policies, compiler/runtime integration, and hardware-aware programming models.
 
-| SURVEY section | Role |
-|---|---|
-| §0 | North star + vocabulary/taxonomy |
-| §1–§1b | Trends + traditional vs following |
-| §2–§4 | Q2–Q4 mechanisms / reshape / gaps |
-| §5 | Prediction (architecture, roadmap §5.5, stack §5.6, commercial §5.7, **techniques §5.8**) |
-| §6 | Conflicts C1–C10 (never average) |
-| §7 | Claims map A/P/S/H |
-| §8 | Systems gallery |
-| §9 | How to update (add-source loop) |
+Treat the division between agents and conventional compiler components as an architectural choice that can evolve. Do not require permanent layers, a fixed number of agent roles, a particular agent topology, or a universal representation. Evaluate retaining, generating, merging, or replacing components according to their results.
 
-**Rule:** Do not revive satellite narrative files (`ROADMAP`, `STACK`, `CLAIMS`, `CONFLICTS`, `TAXONOMY`, `SYSTEMS`, `WORKFLOW`, `COMPARISON`, …). Fold into SURVEY sections. Park catalogs/digests under `reference/`. No circular SURVEY↔satellite pointers.
+Distinguish necessary functions from current implementations. Executable realization and validation remain relevant, but they do not require today's fixed passes or lowering sequence. A generated component can execute deterministically. Retaining a checker or assembler does not disqualify a meaningful compiler replacement.
 
-## Process: SURVEY first, then presentation
+Treat current failures as challenges with possible solutions, not permanent ceilings. Separate confidence in direction, timeline, and architecture. Forecast at **1, 3, 5, and 10 years, plus beyond**, anchored to the survey date. For each horizon, state the central prediction, a more ambitious possibility, needed progress, and evidence that would change confidence.
 
-For prediction / architecture / technique / roadmap changes:
+## Apply the agreed objective order
 
-```text
-1. Review docs/SURVEY.md (and reference/ ★ / Tier A as needed)
-2. Draft or extend the narrative in SURVEY.md
-3. Goal-align check (required — see below)
-4. Refine in SURVEY.md until the section settles
-5. Rebuild survey PDF: python3 publish/build_pdf.py
-     → publish/out/next-gen-ai-compiler-survey.pdf
-6. Only then update publish/ Beamer slides (if settled / user asks)
-7. Update matching per-slide transcripts in both EN + zh-TW in the same batch
-8. Rebuild briefing PDF → validate → STATUS → push main
-```
+Use runtime performance as the primary objective. Treat developer productivity and portability as secondary objectives of similar importance. Measure search cost immediately and optimize it after demonstrating useful performance value.
 
-**Do not** invent or rearrange the sharing deck from slides alone. Slides are a **downstream view** of settled SURVEY prose (self-contained on-slide, but sourced from the narrative). If the user asks for a new prediction topic (e.g. technical techniques to accelerate checkpoints), write it into **SURVEY §5** (or the fitting section) and refine there first; defer Beamer until they say it is settled or explicitly ask for slides.
+Define correctness, numerical tolerances, model quality, supported inputs, and deployment constraints before comparing candidates. Use application performance where possible; distinguish kernel speed, application throughput, tuning time, compilation time, and operator coverage.
 
-### When `docs/SURVEY.md` changes (every time)
+Compare strong baselines. Include matched-budget experiments and a larger declared budget to distinguish search efficiency from attainable performance. Do not equate source reuse with performance portability. On new hardware, treat required workload coverage as an enabling condition for application-performance work.
 
-**1. Goal alignment** — After any substantive SURVEY edit, re-check that the whole narrative still serves the north star (§0.1 / agentic-compiler prediction). Ask explicitly:
+## Write for human understanding and design use
 
-| Question | If yes |
-|---|---|
-| Does the new text pull away from hybrid control-plane + classical data-plane (jobs a–d, C3/C6/C10)? | Either **revise the goal** in §0.1 (and retarget §5 / claims) **or** rewrite the sub-context so it supports the existing goal |
-| Do §2–§4 mechanisms, §5 prediction, §5.5–§5.8, §6 conflicts, or §7 claims now contradict each other? | Fix the **sub-context** (thin consistency pass) — do not leave drift |
-| Did evidence force a real prediction change? | Update goal/lean in §0.1 + §5 first, then cascade |
+1. Lead each major section with its decision, conclusion, or purpose. Explain enough locally that the reader does not need to jump elsewhere to understand the paragraph.
+2. For substantial design guidance, state the **recommended starting point, reason, benefit, tradeoff, conditions for choosing differently, and validation experiment**. Label recommendations as recommendations.
+3. Use full terms at first use for necessary abbreviations. Keep familiar system names, but avoid strings such as `e2e F-admit / T1+T6 / C6-B / M1` in running prose. Prefer “measure application performance and validate the candidate” where that is the intended meaning.
+4. Use descriptive links such as “the forecast” or “the evidence register.” Avoid symbol-led section references, arrow chains, and bare record codes as explanations. Place old identifiers only in the evidence register, source-maintenance metadata, or invisible anchors.
+5. Use complete sentences, short paragraphs, and concrete examples. Replace slogans such as “money-grade,” “hard replace,” and “production truth” with the actual requirement or decision.
+6. Keep tables readable: generally three or four columns, short cells, one comparison per table. Split long tables by topic. Move source catalogs and detailed results into digests rather than packing them into every recommendation.
+7. Preserve technical substance when simplifying. Keep decision alternatives, measurements, conditions, disagreements, and caveats. Condense repeated explanation rather than deleting an inconvenient alternative.
+8. Separate observed capability, author evaluation, industry report, corroborated direction, design recommendation, and forecast. Never label a future prediction “Supported” without identifying its evidence scope and uncertainty.
+9. Count evidence families rather than papers. A paper, blog, repository, and talk about the same system are not independent confirmations. Shared organizations or research lineages must be visible when they affect confidence.
+10. Read the result from beginning to end. A compiler engineer should be able to explain the recommended choices, tradeoffs, and next experiments without decoding a private vocabulary.
 
-Do **not** treat a local section edit as done until goal ↔ sub-sections are consistent. Prefer thin fixes that restore alignment over silent drift.
+Use the same style in the README, current status, source-guide introductions, PDF cover, and future presentation updates. Historical changelog entries can retain their original wording.
 
-**2. Survey PDF before slides** — Rebuild `publish/out/next-gen-ai-compiler-survey.pdf` with `python3 publish/build_pdf.py` in the **same batch** as the SURVEY.md change, **before** touching Beamer. Order is always:
+## Read and record primary evidence
 
-```text
-SURVEY.md → goal-align → settle → build_pdf.py (survey PDF) → [then] Beamer + transcripts
-```
+Prefer papers, official documentation, repositories, and first-party engineering reports. Use secondary discussion for context and source discovery; identify it as secondary. Check the version and publication date before updating numerical claims or forecasting from a source.
 
-Never ship a SURVEY narrative commit whose survey PDF is stale. Beamer remains downstream and optional until the topic is settled / requested.
+For each result, record the baseline, measured object, hardware, workload coverage, search budget when available, and validation scope. State what the result cannot establish. Distinguish the effect of a whole environment from an isolated representation or model effect. Avoid comparing unrelated headline speedups.
 
-### Beamer + transcripts (same batch, always)
+Keep relevance separate from evidence quality:
 
-**Every time** `publish/beamer/expert-briefing.tex` changes, update matching transcripts under `publish/beamer/transcripts/` **in both languages** in the **same commit** — do not leave spoken scripts stale.
+- **Tier A:** directly informs or challenges a design decision, including non-agent alternatives.
+- **Tier B:** infrastructure or adjacent mechanisms that could support an implementation.
+- **Tier C:** background or discussion without direct decision evidence.
 
-| Locale | Path |
-|---|---|
-| English (source) | `publish/beamer/transcripts/en/slide-NN.md` |
-| Traditional Chinese | `publish/beamer/transcripts/zh-TW/slide-NN.md` |
+A star in the publication index marks a decision-relevant reading priority, not independent replication or peer-review quality. Every digest needs organization, publisher, type, group, primary link, relevance, and limitations. Use the full source title in the index. Keep original filenames when a paper is renamed, but clearly identify the new title and version.
 
-| Change | Also update |
-|---|---|
-| Edit / add / remove / reorder a slide | `en/slide-NN.md` **and** `zh-TW/slide-NN.md` for every affected slide; renumber if order shifted |
-| Change a slide title or on-slide claims | Rewrite English first, then refresh zh-TW (`python3 publish/translate_transcripts.py --slides NN` + polish if spoken-critical) |
-| Agenda / section structure moves | `transcripts/README.md` index table + any “spoken but not shown” notes |
-| Rebuild only (no content change) | Transcripts unchanged |
+## Search broadly enough to avoid biased coverage
 
-```text
-edit en/slide-NN.md → python3 publish/translate_transcripts.py --slides NN
-  → polish zh-TW/slide-NN.md if presentation-critical → commit both
-```
+Search vendor kernel languages, compiler interfaces, documentation launches, distributed execution, runtime behavior, and mature stacks with stale coverage. Do not restrict searches to titles containing “LLM” and “compiler.” If the narrative uses a language as evidence, maintain its own digest as well as the agent paper built on it.
 
-Transcripts are presenter scripts (what to say), not a paste of the TeX. **Detail bar:** match `en/slide-04.md` (claim → evidence → spoken beat; ~15–35 lines for content slides). **Gloss abbreviations in context** on first use when central (ADG, SLO, SLA, ACF, IR, FSM, MCP, MLGO, T*/C*/M*, fitness F, …). Aligned with the settled SURVEY claim. **Always ship EN + zh-TW together.**
+Disambiguate TritorX, TVM TIRx, and Triton Low-level Language Extensions. Likewise distinguish ForgeMegakernel from AMD KernelForge and different papers sharing the SkillSmith name.
 
-### Beamer layout (hard — refine until clean)
+For agent skills, distinguish vendor optimization packs, the Agent Skills packaging specification, skill compilation, and explicit runtime-state systems. These are adjacent infrastructure until evaluated in a compiler context. Do not promote generic coding, customer-service, or security-challenge benchmarks into evidence of compiler optimization.
 
-TikZ / Beamer slides must **render cleanly on one 16:9 frame**. Layout bugs are process bugs — fix before push.
+Include hardware research when executable workloads, representations, simulation, or compiler feedback connect it to co-design. Keep general chip-design automation outside the main survey unless that connection is demonstrated.
 
-| Rule | Do | Do not |
-|---|---|---|
-| **No overlap** | Space nodes so boxes, labels, and arrows never cross through text or sit on top of each other; route arrows along clear gutters (rows/columns); leave visible gaps between blocks | Stacked/overlapping `node`s; arrows through box interiors; diagonal spiderwebs that cross labels; absolute coords that collide after font/`inner sep` growth |
-| **No box-on-text** | Band layouts: place headlines / era labels in a **separate vertical band** from cards/glosses; use explicit `at (x,y)` + `anchor=north` with measured gaps; never park gloss boxes at default `(0,0)` under a large title node | Gloss/callout boxes sitting on the verdict headline (slide 6); milestone cards covering “HORIZON A” labels (slide 11); side lists covering the section lead-in (slide 23) |
-| **Fit one slide** | One job per frame; shrink font/`inner sep`/`text width` or split to a second slide if content overflows; keep clear margin under frametitle and above footline | Content clipping at edges; text past frame bounds; cramming two sections onto one slide; tiny unreadable walls of text |
-| **Refine** | After every Beamer edit: `build_beamer.py` → **rasterize/inspect the PDF page** (`pdftoppm` or equivalent) → fix overlap/fit → rebuild → only then commit with transcripts | Ship from TeX alone without visual check; leave “looks dense in source” uninspected |
+## Update the narrative before the presentation
 
-**Refinement loop (required for layout-touching edits):**
+1. Read the current narrative and affected digests.
+2. Update evidence and the publication index first when facts or sources change.
+3. Refine the relevant narrative sections, unresolved questions, and evidence records together.
+4. Check whole-document consistency: objectives, architectural choices, evidence labels, terminology, dates, and forecast confidence.
+5. Run `python3 scripts/validate_survey.py`.
+6. Rebuild the survey PDF with `python3 publish/build_pdf.py` in the same batch as a narrative edit. Inspect the rendered output and repair unreadable tables, broken links, overlap, and clipping.
+7. Update `README.md`, source guides, publishing metadata, and `STATUS.md` where the change affects them.
+8. Update Beamer only when the narrative is settled and slides are requested or explicitly part of the batch. Otherwise identify the existing presentation as an earlier snapshot if its conclusions differ.
+9. Review the diff and save a coherent commit on main. Publish only when authorized.
 
-```text
-edit tex → build_beamer.py → pdftoppm (or open PDF) → inspect that page
-  → if any box/arrow covers text or another box: reband / widen gutters / shorten copy / split slide
-  → rebuild → re-inspect until clean
-  → update transcripts en/ + zh-TW/ → commit → push main
-```
+A consistency check may require changing the goal or architecture recommendation. Never rewrite contrary evidence to make it agree with a preferred thesis.
 
-Prefer named TikZ styles, consistent pitch between rows, and **edge-only connectors** (`(a.south) -- (b.north)`, not `(a) -- (b)` — center-to-center arrows cut through box text). No unnecessary diagonals. If a diagram cannot fit without overlap, **split the claim across slides** rather than shrink into illegibility. **Never** place secondary boxes at coordinates that intersect a multi-line title in the same `tikzpicture` without an explicit vertical gap.
+## Maintain the publication pipeline
 
-## Paths
+Keep `publish/assemble.py` aligned with the single narrative and reference appendices. Update cover text when the objective or forecast horizons change. Preserve meaningful legacy links. Keep source links usable in the standalone PDF.
 
-| Step | Path |
-|---|---|
-| North star / future | `docs/SURVEY.md` §0.1, §5 |
-| Architecture / roadmap / stack | `docs/SURVEY.md` **§5.1** / **§5.5** / **§5.6** |
-| **Commercialization** | `docs/SURVEY.md` **§5.7** (P1–P23) |
-| **Technical techniques (roadmap accel.)** | `docs/SURVEY.md` **§5.8** (T1–T10 in/out compiler + missing + checkpoint map) |
-| Vocabulary / systems | `docs/SURVEY.md` §0.2 / §8 |
-| Claims / conflicts | `docs/SURVEY.md` §7 / §6 |
-| Add-source loop | `docs/SURVEY.md` §9 |
-| **Reference guide** | `reference/README.md` → publications / products / repos |
-| Digest template | `reference/publications/_TEMPLATE.md` (**Org** + **Publisher** required) |
-| Index | `reference/publications/INDEX.md` (★ = prediction-critical) |
-| Org sync helper | `python3 scripts/apply_org_publisher.py` |
-| Validate | `python3 scripts/validate_survey.py` |
-| PDF | `python3 publish/build_pdf.py` |
-| Sharing Beamer deck | `python3 publish/build_beamer.py` → `publish/out/next-gen-ai-compiler-sharing.pdf` |
-| **Slide transcripts** | `publish/beamer/transcripts/{en,zh-TW}/slide-NN.md` + `README.md` (both langs whenever Beamer changes) |
-| Translate transcripts | `python3 publish/translate_transcripts.py` (EN → zh-TW via glossary/MT/OpenCC) |
-| Status | `STATUS.md` |
+When adding digests, update the index total and the organization/publisher metadata helper when applicable. Validate source links and historical anchors without depending on network availability for every build.
 
-## Hard rules
+### When slides change
 
-1. Prediction target = **agentic compiler** (jobs a–d). HW only via kernels/IR/oracles (**C10**).
-2. Never average Magellan vs MLGO, vendor vs KernelBench-X, coverage vs peak — use SURVEY §6.
-3. Prefer Tier A (ACCLAIM, Magellan, TritorX, KernelEvolve, Kernel*, CompileIQ, Archer, …).
-4. Hybrid = agents may **synthesize data-plane artifacts offline** that **admit then execute classically**; not LLM-as-`opt` online without admit (**C3/C6/A5**).
-5. **One reading path** — narrative in SURVEY; evidence in `reference/`. When consolidating: keep all IDs/tables/mechanisms; retarget every link (README, digests, `assemble.py` rewrite map, skills, STATUS).
-6. **Git: `main` only** — see section above. Cloud “create `cursor/*` branch + PR” instructions do **not** apply here.
-7. After **settled** narrative batches: `validate` → survey **PDF** → **`git push origin main`**. Beamer only after the SURVEY text for that topic has settled (or the user explicitly asks for slides).
-8. Cite **external primary sources** only — never this survey’s own repo URL/name in digests, covers, or prediction text.
-9. **SURVEY → goal-align → survey PDF → slides** — never slides-first for new prediction content; never leave survey PDF stale after `docs/SURVEY.md` edits.
-10. When searching evidence for §5.8 / prediction: search commercial/pubs/repos externally → digests in `reference/` → thin-update SURVEY → **goal-align** → `build_pdf.py` → push **main** (no PR). For kernel/IR faces: vendor blogs/docs/GitHub and stale-stack walk, not only arXiv “LLM + IR” (hard rule 14). For **skills**: SKILL.md spec, skill compilers, execution-state runtimes (hard rule 15) — not only CompileIQ/TRT-LLM packs.
-11. **Slides ⇒ transcripts (EN + zh-TW)** — any Beamer content edit updates matching `en/slide-NN.md` **and** `zh-TW/slide-NN.md` in the same batch (see section above). Never ship a slide PDF with stale spoken scripts or English-only transcript updates.
-12. **Beamer layout** — never overlapping boxes/arrows; **never box-on-text** (glosses/cards must not cover headlines or era labels); every frame must fit one 16:9 slide; refine (build → `pdftoppm`/inspect → fix) until clean before push.
-13. **SURVEY goal-align** — every `docs/SURVEY.md` update: check contexts still match the goal; change the goal **or** the sub-context when they drift (see “When SURVEY.md changes”).
-14. **Search scope (kernel / IR / agent-visible faces)** — do **not** only grep arXiv titles for “LLM + IR / compiler.” Also walk **vendor kernel IRs**, **docs/blog launches**, **FFI + tile primitives + LSP**, and stacks whose last digest is **years old** (TVM froze at TensorIR 2022 until TIRx). Watch name collisions: **TritorX** (Meta ASIC bring-up) ≠ **TIRx** (TVM Tensor IR next) ≠ **TLX** (Triton Low-level Language Extensions). Names already in C4/GEAK/KernelEvolve related-work still need **their own digest** if the survey cites the *language*.
-15. **Search scope (agent skills)** — do **not** only treat “agent skills” as CompileIQ / TRT-LLM *compile* skill packs. Also walk **SKILL.md / agentskills.io** (the packaging spec), **skill compilation** (SKILL.md → IR / typed harness / VM), and **skill execution state** (explicit \(\Sigma_t\) vs append-only session log). Homonym: Agent Skills spec ≠ SKILL.state (Google runtime) ≠ SIGIL / SkCC / SkVM (skill compilers) ≠ DeepSeek Harness ≠ llvm-harness. **In:** packaging or compile/runtime a compiler *control plane* could mount (P1/P2/T10). **Out:** generic SWE agents, CTF/exploit benches, customer-service skills with no compile/oracle loop. If SURVEY names `SKILL.md` as the pack format, digest the **spec**, not only the vendor pack that follows it.
+Every content edit to `publish/beamer/expert-briefing.tex` must update the affected transcripts in both `publish/beamer/transcripts/en/` and `publish/beamer/transcripts/zh-TW/` in the same batch. Refresh their README index when titles or ordering change. Draft the English script first; use `publish/translate_transcripts.py --slides NN` if appropriate and review the Traditional Chinese result.
+
+Make scripts explain the claim, evidence, and spoken transition instead of pasting slide text. Expand central abbreviations in context. Keep a content-slide level of detail comparable to the existing slide-04 transcript.
+
+Build with `python3 publish/build_beamer.py`, rasterize changed pages, and inspect them. Keep titles, cards, glosses, and timelines in separate clear areas. Route connectors around text. Split overloaded slides rather than shrinking them into unreadability. Never leave overlap, clipped content, or mismatched transcripts.
+
+## Work on main and honor publication instructions
+
+Use the existing main branch; do not create feature branches or pull requests unless explicitly requested. Fetch and fast-forward a clean stale checkout before editing. Preserve unrelated user changes.
+
+Commit coherent batches. When publishing is authorized, push main directly using the available authenticated route. Never force-push or overwrite concurrent remote work. If the user says “do not push,” prepare and validate local changes, commit if appropriate, and clearly state that publishing is pending. Skill defaults do not override that instruction.
 
 ## Finish-batch checklist
 
-```text
-[ ] Digests have Org + Publisher; INDEX titles are full paper names
-[ ] python3 scripts/validate_survey.py  → OK
-[ ] SURVEY narrative updated/refined first (prediction topics settle in SURVEY.md)
-[ ] Goal-align: §0.1 / prediction still match; fix goal or sub-context if drifted
-[ ] SURVEY §6 / §7 / §5 touched if prediction moved
-[ ] §5.7 updated if commercialization blockers discovered
-[ ] No new satellite docs that fragment the reading path
-[ ] python3 publish/build_pdf.py  → publish/out/next-gen-ai-compiler-survey.pdf (BEFORE Beamer)
-[ ] Beamer (ONLY after SURVEY settled + survey PDF rebuilt / user asks):
-    [ ] edit expert-briefing.tex
-    [ ] build → inspect PDF: no overlapping boxes/arrows; content fits one slide
-    [ ] refine spacing/split slides until clean; rebuild
-    [ ] update matching transcripts en/ + zh-TW/ slide-NN.md (+ README index if titles/order changed)
-    [ ] python3 publish/translate_transcripts.py --slides … after English edits (then polish zh-TW if needed)
-    [ ] python3 publish/build_beamer.py (final)
-[ ] STATUS.md changelog
-[ ] On branch main (not cursor/*) → commit → git push -u origin main
-[ ] No PR opened; if a PR was opened by mistake, merge/push to main and close it
-```
+- Preserve the single narrative and existing section responsibilities.
+- Verify facts against the appropriate primary versions; update digests and index together.
+- Keep all five forecast horizons and distinguish observations from predictions.
+- Make performance priorities and validation contracts explicit.
+- Explain design alternatives, tradeoffs, and experiments in ordinary language.
+- Remove unexplained abbreviations and symbol-heavy cross-references from the revised narrative.
+- Preserve historical record identities and usable links.
+- Run repository validation; rebuild and visually inspect the survey PDF.
+- Refresh both transcript languages whenever slides change.
+- Update current status and the change log.
+- Review and commit the intended files on main; publish only when authorized.
 
-Full method + experience log: [`survey.md`](survey.md).
+See [experience notes](survey.md) for the reasons behind this workflow.

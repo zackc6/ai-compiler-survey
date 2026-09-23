@@ -1,101 +1,70 @@
-# Source-control & OSS evidence (tiered for next-gen prediction)
+# Implementation and evaluation evidence
 
-**Purpose:** Map GitHub / Gerrit / googlesource artifacts to the survey **prediction** (next-gen compiler + how agents change the future). This is **not** an exhaustive forge catalog.
+Use these projects to investigate interfaces, baselines, and experiments for the [design guide](../docs/SURVEY.md). A repository shows inspectable artifacts; it does not by itself establish measured benefit, current maintenance, or independent reproduction. Check the relevant source digest and version before relying on it.
 
-Companion: [`../docs/SURVEY.md`](../docs/SURVEY.md) §5 · [`../docs/SURVEY.md`](../docs/SURVEY.md) §6 · [`products.md`](products.md) · [guide](README.md)
+## Optimization and compiler engineering
 
----
-
-## Evidence tiers
-
-| Tier | Meaning | Use in prediction |
+| Project | What to inspect | Question to test |
 |---|---|---|
-| **A — Reshapes compile** | Agents change heuristics, kernels, knobs, or compiler review with domain oracles | Primary evidence for §5 |
-| **B — Substrate** | Data-plane hosts agents must address | Required context; not “agent future” alone |
-| **C — Delivery / HITL only** | Generic forge AI or tangential hosting | Demoted; cite only for conflict C7 |
+| [Archer](https://github.com/cuhk-s3/Archer) and [llvm-harness](https://github.com/dtcxzyw/llvm-harness) | Review and repair workflows using compiler-specific tools. | Does feedback improve defect detection and reviewer effort? |
+| [OpenEvolve](https://github.com/algorithmicsuperintelligence/openevolve) and [HeuriGym](https://github.com/cornell-zhang/heurigym) | Evolutionary search and heuristic evaluation. | Do generated heuristics generalize to held-out applications? |
+| [ACCLAIM](https://github.com/amazon-science/acclaim) | Cooperation between a language model and compiler at several levels. | Which interactions contribute measurable gains? |
+| [mlirAgent](https://github.com/ucb-bar/mlirAgent) | Compiler tools and experiments with representation edits. | Which feedback or action-space changes address observed failures? |
+| [LLM4IR](https://github.com/hjiang13/LLM4IR) | Evaluation of models’ understanding of compiler representations. | Does better understanding translate into better optimization? |
+| [Compiler-R1](https://github.com/Mind4Compiler/Compiler-R1) | Reinforcement learning with compiler tools. | How does learned tool use compare with conventional search? |
+| [HintPilot](https://github.com/ZJU-PL/hintpilot) | Restricted compiler hints and pragmas. | What performance is lost or gained by restricting actions? |
+| [CompileIQ](https://github.com/NVIDIA/CompileIQ) | Compiler configuration search and reusable artifacts. | Does the selected configuration improve the intended workload? |
+| [Claude’s C compiler](https://github.com/anthropics/claudes-c-compiler) | An agent-built compiler implementation. | How much workload and target coverage survives independent testing? |
+| [MLGO training tools](https://github.com/google/ml-compiler-opt) | Learned compiler policies. | When is a learned policy preferable to generated heuristic code? |
+| [CompilerGym](https://github.com/facebookresearch/CompilerGym) | Compiler optimization environments. | Are the action space and reward representative of deployment? |
 
----
+Magellan’s papers and [LLVM presentation](publications/magellan-llvm-slides.md) provide the research account. OpenEvolve and HeuriGym offer related public experimentation routes; they should not be represented as independent reproductions of Magellan’s production results.
 
-## Tier A — agents reshape compilation
+## Kernel and application optimization
 
-| Repository | Forge | Future role | Gaps / conflicts |
-|---|---|---|---|
-| [cuhk-s3/Archer](https://github.com/cuhk-s3/Archer) + [paper](https://arxiv.org/html/2607.01808) | GitHub | Compiler-oracle PR review (Alive2/LLUBI/`opt`) | §4.2, §4.8; conflict **C7** |
-| [algorithmicsuperintelligence/openevolve](https://github.com/algorithmicsuperintelligence/openevolve) | GitHub | OSS AlphaEvolve-style loop (Magellan OSS path) | §4.1, **C1** |
-| [cornell-zhang/heurigym](https://github.com/cornell-zhang/heurigym) | GitHub | Agentic heuristic bench incl. compiler tasks | §4.10 |
-| [amazon-science/acclaim](https://github.com/amazon-science/acclaim) + [paper](https://arxiv.org/abs/2604.04238) | GitHub | Multi-level compiler↔LLM cooperation (online job a) | Q2/Q3; §5.4 |
-| [ucb-bar/mlirAgent](https://github.com/ucb-bar/mlirAgent) | GitHub | MCP + fingerprints; **negative** free-IR-rewrite result | §4.5; **C3** |
-| [hjiang13/LLM4IR](https://github.com/hjiang13/LLM4IR) | GitHub | IR *understanding* probe (CFG/exec); not a product compiler | **C3**; T1 |
-| [Mind4Compiler/Compiler-R1](https://github.com/Mind4Compiler/Compiler-R1) | GitHub | Tool-using RL pass agent | Q2 |
-| [ZJU-PL/hintpilot](https://github.com/ZJU-PL/hintpilot) | GitHub | Constrained hint/pragma synthesis | **C3** advisory path |
-| [ScalingIntelligence/KernelBench](https://github.com/ScalingIntelligence/KernelBench) | GitHub | Kernel LLM benchmark | Trend D; **C2** |
-| [BonnieW05/KernelBenchX](https://github.com/BonnieW05/KernelBenchX) (if public) / paper | GitHub | Correctness≠perf ceilings | **C2** |
-| [meta-pytorch/KernelAgent](https://github.com/meta-pytorch/KernelAgent) | GitHub | PyTorch→verified Triton agents | Trend D |
-| [AMD-AGI/GEAK](https://github.com/AMD-AGI/GEAK) / [GEAK-agent](https://github.com/AMD-AGI/GEAK-agent) | GitHub | v4: e2e sglang/vLLM Amdahl + A/B; multi-DSL kernel_workflow | Trend D; **C2/C4**; T6 |
-| [AMD-AGI/Hyperloom](https://github.com/AMD-AGI/Hyperloom) | GitHub | e2e Instinct harness; delegates kernel phase to GEAK or KernelForge; `SKILL.md` pack | **C2**; T6/T10 |
-| [AI-Hypercomputer/accelerator-agents](https://github.com/AI-Hypercomputer/accelerator-agents) | GitHub | MaxKernel + JAXBench (Pallas/TPU search + harness) | **C4/C9**; T1/T8 |
-| [flagos-ai/KernelGenBench](https://github.com/flagos-ai/KernelGenBench) | GitHub | Multi-source × multi-chip Triton bench + token cost | **T8**; **P23**; **C2** |
-| [dtcxzyw/llvm-harness](https://github.com/dtcxzyw/llvm-harness) + [paper](https://arxiv.org/abs/2603.20075) | GitHub | LLVM tools + llvm-bench + autofix/autoreview (Archer lineage) | Job (c); **C7** |
-| [NVIDIA/CompileIQ](https://github.com/NVIDIA/CompileIQ) | GitHub | Evolutionary compiler Advanced Controls → ACF | §4.3; **C2/C5** |
-| [anthropics/claudes-c-compiler](https://github.com/anthropics/claudes-c-compiler) | GitHub | Agents-as-compiler-engineers | Trend F; **C6** |
-| [flagos-ai/awesome-LLM-driven-kernel-generation](https://github.com/flagos-ai/awesome-LLM-driven-kernel-generation) | GitHub | Living kernel-agent bibliography | Trend D watchlist |
-| [RightNow-AI/autokernel](https://github.com/RightNow-AI/autokernel) | GitHub | Amdahl-driven model-level kernel agent loop | Job (a); **C2** |
-| TritorX / KernelEvolve (papers; code mostly internal) | Meta | ASIC bring-up + hetero perf agents (MTIA/NVIDIA/AMD) | Job **(d)**; **C9** |
-| [flashinfer-ai/flashinfer-bench](https://github.com/flashinfer-ai/flashinfer-bench) | GitHub | Serving-trace kernel ladder + `apply()` into SGLang/vLLM | **T6/T8**; **C2** |
-| [uw-syfi/vibe-serve](https://github.com/uw-syfi/vibe-serve) | GitHub | Agentic end-to-end serving-stack synthesis | **T6/T10**; research |
-| [pytorch/helion](https://github.com/pytorch/helion) | GitHub | High-level tile DSL → Triton (agent/CompileIQ surface) | Tier B substrate; **C4** |
+| Project | What to inspect | Evaluation boundary |
+|---|---|---|
+| [KernelBench](https://github.com/ScalingIntelligence/KernelBench) and [KernelBench-X digest](publications/kernelbench-x.md) | Kernel generation, correctness, and performance protocols. | Passing a test does not establish a speedup or full numerical coverage. |
+| [KernelAgent](https://github.com/meta-pytorch/KernelAgent) | Generation and validation of Triton kernels. | Separate kernel outcomes from application outcomes. |
+| [GEAK](https://github.com/AMD-AGI/GEAK) and [GEAK-agent](https://github.com/AMD-AGI/GEAK-agent) | AMD kernel workflows and application-level evaluation. | Match versions, workloads, and baseline configurations. |
+| [Hyperloom](https://github.com/AMD-AGI/Hyperloom) | Serving optimization and delegation to kernel tools. | Attribute runtime/framework gains separately from kernel gains. |
+| [Accelerator agents](https://github.com/AI-Hypercomputer/accelerator-agents) | MaxKernel and JAXBench on supported targets. | Target-specific peak results do not establish new-chip coverage. |
+| [KernelGenBench](https://github.com/flagos-ai/KernelGenBench) | Tasks across sources and devices, including search-cost measurements. | Compare success and regression distributions under declared budgets. |
+| [AutoKernel](https://github.com/RightNow-AI/autokernel) | Profiling-directed application and kernel work. | Measure whether optimizing the selected bottleneck helps the application. |
+| [FlashInfer-Bench](https://github.com/flashinfer-ai/flashinfer-bench) | Workload traces, kernel evaluation, and serving integration. | Keep kernel validation and application validation distinct. |
+| [VibeServe](https://github.com/uw-syfi/vibe-serve) | Research on serving-stack synthesis. | Evaluate the whole generated execution path and deployment assumptions. |
+| [Helion](https://github.com/pytorch/helion) | Tile programming, configuration spaces, and tuning. | Consult the [2026 tuning report](publications/helion-llm-autotuning.md) for model-guided search evidence. |
+| [Kernel generation bibliography](https://github.com/flagos-ai/awesome-LLM-driven-kernel-generation) | Discovery of further primary sources. | A bibliography is not an evaluation. |
 
-**Magellan** itself remains mostly internal (paper + [LLVM Dev Meeting slides](publications/magellan-llvm-slides.md)); track OSS via OpenEvolve + HeuriGym until a public Magellan tree appears (**C1**). Slides next-steps: OpenEvolve OSS path; XLA green-field / auto-sharding — folded into [`../docs/SURVEY.md`](../docs/SURVEY.md) §5.4.
+TritorX and KernelEvolve have important paper and industry-report evidence. Do not assume full public implementations or reproducibility merely because related libraries are public.
 
----
+## Compiler interfaces and reusable components
 
-## Tier B — substrate (data plane hosts)
-
-| Repository | Why it matters for prediction |
+| Project | Why it belongs in an experiment |
 |---|---|
-| [llvm/llvm-project](https://github.com/llvm/llvm-project) | Host for MLGO, Magellan heuristics, Archer reviews |
-| [google/ml-compiler-opt](https://github.com/google/ml-compiler-opt) | Neural advisor training stack (parallel bet to Magellan) |
-| [facebookresearch/CompilerGym](https://github.com/facebookresearch/CompilerGym) | RL pass-order gym — substrate for Selector agents, not agent future alone |
-| [apache/tvm](https://github.com/apache/tvm) (`tvm.tirx`) | **TIRx** kernel IR + FFI mutation surface (**T1/C4**; [digest](publications/tirx.md)) |
-| [tile-ai/tilelang](https://github.com/tile-ai/tilelang) + [tilelang-lsp](https://github.com/tile-ai/tilelang-lsp) | TVM tile DSL + layout-inference LSP (**T1/C4**; [digest](publications/tilelang.md)) |
-| [mlc-ai/tirx-kernels](https://github.com/mlc-ai/tirx-kernels) | Community TIRx kernel library / B200 benches |
-| [triton-lang/triton](https://github.com/triton-lang/triton) | Default GPU DSL; **[Gluon](publications/triton-gluon.md)** is the ttg lower face |
-| [facebookexperimental/triton](https://github.com/facebookexperimental/triton) | **[TLX](publications/tlx.md)** MIMW extensions (KernelEvolve sink) |
-| [ROCm/FlyDSL](https://github.com/ROCm/FlyDSL) | AMD Python+MLIR layout DSL (**C4**; [digest](publications/flydsl.md)) |
-| [NVIDIA/cutlass](https://github.com/NVIDIA/cutlass) | **[CuTe DSL](publications/cute-dsl.md)** Python (CUTLASS 4); substrate under CuTeGen |
-| [HazyResearch/ThunderKittens](https://github.com/hazyresearch/thunderkittens) | CUDA-embedded tiles (**C4**; [digest](publications/thunderkittens.md)) |
-| [openxla/xla](https://github.com/openxla/xla) / StableHLO | Portable AI compiler IR; Magellan XLA experiments |
-| PyTorch (`torch.compile` / Inductor) | Default DL compile path agents must plug into |
-| [NVIDIA/TensorRT-LLM](https://github.com/NVIDIA/TensorRT-LLM) | Production serve stack; [PR #12831](https://github.com/NVIDIA/TensorRT-LLM/pull/12831) adds Claude kernel/compile agents (**C4**) |
-| [flashinfer-ai/flashinfer](https://github.com/flashinfer-ai/flashinfer) | Kernel library / generator backing many serve engines; Bench `apply()` target |
-| Hugging Face [GPUMODE/KernelBook](https://huggingface.co/datasets/GPUMODE/KernelBook) | Open PyTorch↔Triton training pairs (**T7**) |
-| [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) | Agent *runtime* (Cordis plugins + session log). **T10** substrate; **C7** — not a compiler harness ([digest](publications/deepseek-harness.md)) |
-| [agentskills/agentskills](https://github.com/agentskills/agentskills) | `SKILL.md` spec ([digest](publications/agent-skills-spec.md)). Packaging, not a compiler |
-| [sigilagent/sigil](https://github.com/sigilagent/sigil) | SIGIL: SKILL.md → AG-IR → harness (**T10** ★; [digest](publications/sigil.md)) |
-| [Nexa-Language/Skill-Compiler](https://github.com/Nexa-Language/Skill-Compiler) | SkCC / SkIR emitters ([digest](publications/skcc.md)) |
-| [AetherHeart-AI/Aeloon](https://github.com/AetherHeart-AI/Aeloon) | SkillSmith boundary compile ([digest](publications/skillsmith.md)) |
+| [LLVM](https://github.com/llvm/llvm-project) | Existing analyses, transformations, code generation, and learned-policy integration. |
+| [TVM](https://github.com/apache/tvm) and [TIRx kernels](https://github.com/mlc-ai/tirx-kernels) | Tensor representations, schedule controls, and example kernels. |
+| [TileLang](https://github.com/tile-ai/tilelang) and [language tools](https://github.com/tile-ai/tilelang-lsp) | Tile programming, layout inference, and editor/tool feedback. |
+| [Triton](https://github.com/triton-lang/triton), [Gluon digest](publications/triton-gluon.md), and [Triton extensions](https://github.com/facebookexperimental/triton) | Different levels of layout and scheduling control. |
+| [Triton-distributed](https://github.com/ByteDance-Seed/Triton-distributed) | Joint computation, memory movement, and communication. |
+| [FlyDSL](https://github.com/ROCm/FlyDSL) | Python-based control for AMD kernel programming. |
+| [CUTLASS and CuTe](https://github.com/NVIDIA/cutlass) | NVIDIA kernel components and layout/scheduling interfaces. |
+| [ThunderKittens](https://github.com/hazyresearch/thunderkittens) | Tile abstractions embedded in CUDA. |
+| [OpenXLA](https://github.com/openxla/xla), StableHLO, and [Shardy](publications/shardy.md) | Model compilation and distributed tensor decisions. |
+| PyTorch `torch.compile` and Inductor | Application-facing compilation and integration. |
+| [TensorRT-LLM](https://github.com/NVIDIA/TensorRT-LLM) and [FlashInfer](https://github.com/flashinfer-ai/flashinfer) | Serving execution and kernel integration targets. |
+| [KernelBook](https://huggingface.co/datasets/GPUMODE/KernelBook) | Paired PyTorch and Triton training examples; inspect coverage and leakage. |
+| [Mirage](publications/mirage.md) and [Prism](publications/prism.md) | Structured superoptimization baselines and possible search components. |
 
----
+## Workflow infrastructure
 
-## Tier C — demoted (delivery channel only)
+| Project | Scope |
+|---|---|
+| [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) | General agent runtime and session state. |
+| [Agent Skills](https://github.com/agentskills/agentskills) | Skill packaging and discovery. |
+| [SIGIL](https://github.com/sigilagent/sigil) | Skill compilation into executable workflows. |
+| [SkCC](https://github.com/Nexa-Language/Skill-Compiler) | Skill representations and code generation. |
+| [SkillSmith](https://github.com/AetherHeart-AI/Aeloon) | Research on skill boundaries and compilation. |
+| Gerrit [AI review](https://gerrit.googlesource.com/plugins/ai-code-review/), [ReviewAI](https://github.com/amarula/reviewai-gerrit-plugin), and [GerritForge provider](https://github.com/GerritForge/ai-review-agent-provider) | General review interfaces; add and evaluate compiler checks before claiming compiler-specific benefit. |
 
-These show demand to put LLMs **inside** code review UX. They are **not** next-gen compiler semantics unless wired to Alive2/`opt`/KernelBench-class oracles (conflict **C7**).
-
-| Project | Link | Note |
-|---|---|---|
-| Gerrit `ai-code-review` | [googlesource](https://gerrit.googlesource.com/plugins/ai-code-review/) | Generic diff LLM |
-| ReviewAI Gerrit plugin | [amarula/reviewai-gerrit-plugin](https://github.com/amarula/reviewai-gerrit-plugin) | Sidebar chat |
-| GerritForge AI provider | [GerritForge/ai-review-agent-provider](https://github.com/GerritForge/ai-review-agent-provider) | Interface layer only |
-
-**Open opportunity (still Tier A if built):** Gerrit/GitHub plugin that **calls compiler oracles** before commenting — Archer pattern on Gerrit.
-
----
-
-## Implications for the predicted future
-
-1. **SCM is part of the control plane** only when oracles are present (Archer), not when a chatbot comments on a diff (Tier C).
-2. **Offline heuristic evolution** (OpenEvolve/Magellan) and **online knob/kernel agents** (CompileIQ/GEAK) are both Tier A — different jobs (**C5**).
-3. **Negative results are Tier A too** — mlirAgent’s below-identity IR rewrite bounds the architecture (§5.1).
-4. Prefer Tier A/B when enriching digests; do not grow Tier C catalogs.
-
-Digests: [`publications/INDEX.md`](publications/INDEX.md).
+Infrastructure can support a future optimizer without proving that optimizer’s performance. Negative results are useful evidence for choosing the next experiment; they do not establish permanent limits on the architecture. Detailed accounts are in the [publication index](publications/INDEX.md).

@@ -14,6 +14,12 @@ INDEX = PUB / "INDEX.md"
 # Org = company/university that produced the work (primary affiliations)
 # Publisher = venue, blog host, forge, or preprint host
 META: dict[str, tuple[str, str]] = {
+    # Structured search, distribution, and current tuning evidence
+    "mirage.md": ('Carnegie Mellon University · Peking University · Pennsylvania State University · Purdue University · Weizmann Institute of Science', 'USENIX OSDI 2025'),
+    "prism.md": ('Carnegie Mellon University · Tsinghua University · Weizmann Institute of Science', 'arXiv'),
+    "helion-llm-autotuning.md": ('Meta (PyTorch/Helion team)', 'PyTorch blog'),
+    "triton-distributed.md": ('ByteDance Seed · Tsinghua University · Peking University · Shanghai Jiao Tong University · Zhejiang University', 'arXiv'),
+    "shardy.md": ('OpenXLA (GSPMD and PartIR teams)', 'OpenXLA documentation'),
     # Surveys & vision
     "new-compiler-stack-survey.md": ("ICT, CAS · UCAS · University of Leeds", "arXiv"),
     "compiler-next.md": ("Queen's University", "arXiv"),

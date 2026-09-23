@@ -21,6 +21,11 @@ body {
   max-width: 100%;
 }
 
+/* The manuscript supplies its own cover; suppress Pandoc's duplicate title. */
+#title-block-header {
+  display: none;
+}
+
 h1, h2, h3, h4 {
   font-family: "IBM Plex Sans", "Noto Sans", "WenQuanYi Micro Hei", "Noto Sans CJK SC",
     "Noto Sans CJK TC", "Droid Sans Fallback", "Liberation Sans", Helvetica, sans-serif;
@@ -75,6 +80,14 @@ table {
   width: 100%;
   margin: 0.8em 0 1.1em;
   font-size: 0.9em;
+  page-break-inside: auto;
+}
+
+thead {
+  display: table-header-group;
+}
+
+tr {
   page-break-inside: avoid;
 }
 
@@ -82,6 +95,7 @@ th, td {
   border: 1px solid #ccc;
   padding: 0.35em 0.5em;
   vertical-align: top;
+  overflow-wrap: anywhere;
 }
 
 th {
@@ -135,3 +149,8 @@ hr {
 .section-break {
   page-break-before: always;
 }
+
+.source-index table { font-size: 0.86em; table-layout: fixed; }
+.source-index col:first-child { width: 13% !important; }
+.source-index col:nth-child(2) { width: 49% !important; }
+.source-index col:nth-child(3) { width: 38% !important; }

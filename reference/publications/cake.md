@@ -7,35 +7,25 @@
 | **Publisher** | arXiv |
 | **Type** | paper |
 | **Group** | GPU kernels & inference compilers |
-| **Link** | [https://arxiv.org/abs/2608.12629](https://arxiv.org/abs/2608.12629) |
-| **Evidence tier** | **A** — typed agent IR + evolving verifier/cost harness; serving-validated kernels |
+| **Link** | [Version 1](https://arxiv.org/abs/2608.12629v1) |
+| **Evidence tier** | **A** — agent-facing representation and evolving compiler feedback |
 
 ## Key contributions
 
-- **Cake IR:** typed, hardware-explicit *schedule* representation (warp roles, barriers, memory tiers, pipelines) that agents author instead of raw CUDA/PTX; lowering derives addresses/phases; **no layout algebra**.
-- **Localized harness:** pre-compile gates for safety / hardware conformance / data consistency / schedule semantics; cost model ranks before GPU time; numerical + serving oracles admit.
-- **Harness is a target of evolution:** recurring failures become verifier rules, IR primitives, cost-model calibrations, and tactics (test-gated on a kernel corpus). Agents also propose Blackwell primitives from docs/failures.
-- Clean-start Flash-KMeans on B200 (80M tokens, 3 runs): Cake IR median **1.144×** tuned FlashML vs **0.928×** for direct CUDA/PTX.
-- Frontier synthesis: Kimi Delta Attention **2.05×** geo-mean over official FlashKDA, **SGLang e2e** validated; dispatcher families 1.42–2.12× across 400+ shapes; four FlashInfer PRs.
+CAKE exposes schedules and hardware decisions through a typed representation. Its compiler and evaluation harness localize failures; recurring limitations can motivate changes to representations, checks, and tools.
 
 ## Summary
 
-NVIDIA / CMU paper arguing that kernel *agents* and kernel *languages* have advanced separately: agents treat the compiler as a black box (error / pass-fail / latency), while tile DSLs hide expert schedules and low-level DSLs demand a layout calculus. Cake co-designs both. Agents edit Cake IR so hardware decisions are inspectable *before* codegen; the compiler returns localized diagnostics rather than a bit; the harness itself grows when a frontier workload exposes a missing capability. CUDA/PTX remain the execution ISA — Cake IR is the **agent-facing** schedule IR. Targets Ampere–Blackwell; separates single-shape evolution from dispatcher-backed library integration.
+Agents and compiler infrastructure are developed together. The representation is translated into CUDA/PTX code and then machine code; CUDA source is not itself an instruction set.
 
 ## Key takeaways
 
-- Direct CUDA/PTX search loses to a typed schedule IR under a matched token budget — evidence for **constrained action spaces** (C3-B) on kernels, not only LLVM.
-- Localized pre-compile diagnostics + cost ranking are the admit path; on-device measure remains ground truth (C6-B).
-- **Compiler evolution** (new IR primitives / verifier rules from agent failures) is T5-class *toolchain* codesign, not autonomous tape-out (C10-B).
-- Cake IR is another **L4 agent surface** alongside Triton / Tile / CuTe (**C4** more contested, not settled).
-- Serving validation + FlashInfer upstream PRs move past single-shape theater (T6/T8 pressure; C2 still not a public p50/p90 default-path A/B).
+For one B200 Flash-KMeans shape at 80 million tokens, three runs per environment yield median best speedups of 1.144 for CAKE and 0.928 for direct CUDA/PTX, relative to tuned FlashML. Their ranges overlap.
 
 ## Why it matters for this survey
 
-★ prediction-critical for **T1** (typed agent IR + diagnostic contract), **T2** (pre-compile gates), **T5** (IR/verifier evolution from failures), and **C3/C4/C6**. Strengthens the hybrid lean: agents own search on a schedule IR; compilers own legality, lowering, and measure. Cite with GEAK v4 (serving A/B) and Zomboss (compile-once machine semantics on emerging ASICs).
+Compare complete programming environments and test compiler co-evolution. This experiment does not isolate the representation’s effect from feedback and tooling.
 
 ## Limits / caveats
 
-- NVIDIA-only (Ampere–Blackwell); Cake IR is not a portable MLIR/StableHLO/Triton contract.
-- Token budgets are large (tens of millions); model fixed to GPT-5.6-sol xhigh in reported runs.
-- No public Cake tree at digest time — downstream users take FlashInfer CUDA, not a Cake dependency.
+The reported 2.05-times geometric-mean Kimi Delta Attention gain is a kernel result across six B200 shapes, with separate SGLang application validation. It is not a 2.05-times application speedup. Results are author evaluations with large search budgets; broader transfer remains open.

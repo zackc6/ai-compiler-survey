@@ -1,4 +1,4 @@
-# ARGUS: Agentic GPU Optimization Guided by Data-Flow Invariants
+# Ave: Guiding Agentic GPU Optimization Using Data-Flow Invariants
 
 | Field | Value |
 |---|---|
@@ -7,36 +7,26 @@
 | **Publisher** | arXiv |
 | **Type** | paper |
 | **Group** | GPU kernels & inference compilers |
-| **Link** | [https://arxiv.org/abs/2604.18616](https://arxiv.org/abs/2604.18616) |
-| **Evidence tier** | **A** — compile-time data-flow invariants + SMT admit; peak-competitive kernels on MI300X |
+| **Link** | [Version 2](https://arxiv.org/abs/2604.18616v2) |
+| **Evidence tier** | **A** — targeted compiler feedback for agent optimization |
+| **Version** | Ave, 14 September 2026; originally Argus. Filename retained for existing links. |
 
 ## Key contributions
 
-- Diagnoses why agent kernels stay far from libraries: peak needs coordinated tiling / staging / pipelining / scheduling, but agents get **sparse pass/fail** tests and cannot localize global layout/alias/sync bugs.
-- **Argus DSL:** tile-based Pythonic language (CuTe / TileLang-like) with **tag functions** (symbolic annotations through data/control flow) and **tag assertions** (conformity / separation at use sites).
-- **Compile-time admit:** abstract interpretation over a **layout algebra** + SMT (Z3); tags never materialize at runtime. Failures return a counterexample: **thread · data element · program point**.
-- **ICRL planner** treats prompts as mutable parameters; rewards = invariant violations + runtime; retrieves GPU tactics from a persistent knowledge base.
-- AMD **MI300X**: GEMM / flash attention / MoE (authors: >90% of LLM-inference GPU time) reach **99–104%** of hand-optimized assembly TFLOPS (e.g. hipBLASLt / AITER); **2–1543×** geo-mean vs prior agentic systems on those families. KernelBench: **100%** Level 1 and **90%** Level 2 *correct*.
+Data-flow annotations express relationships that the compiler checks before execution. Failed checks provide counterexamples to guide optimization without adding runtime checks.
 
 ## Summary
 
-April 2026 CausalFlow / HKUST / Stanford et al. paper that puts **data-flow invariants** (an information-flow idea) into the GPU agent loop. The compiler owns legality of how tiles are choreographed into MFMA layouts; the agent owns which optimizations to try and which invariants to draft. Complements [Cake](cake.md) (NVIDIA schedule IR, *no* layout algebra, localized gates) with the opposite IR bet: **keep a layout algebra** and discharge it with SMT. Prototype is MI300X; authors claim the design generalizes to NVIDIA. No public tree cited at digest time.
+Ave combines planning and code generation with a language and compiler designed to provide more useful feedback than compilation success or numerical tests alone.
 
 ## Key takeaways
 
-- Strongest **T2** kernel-side formal-ish admit below Triton: compile-time SMT + concrete counterexamples, not only golden/unit tests.
-- **C3-B:** free CUDA/HIP search is the failure mode they measure (2–600× behind libraries); the constrained DSL + invariant feedback is the fix.
-- **C4:** Argus DSL is another L4 agent surface (alongside Triton / Tile / CuTe / Cake IR / TileLang).
-- **C2:** 99–104% of assembly on three families is Claim A *color*, not settlement — MI300X, selected ops, author protocol; KernelBench numbers are **correctness**, not `fast_p` / serving A/B.
-- Path-insensitive analysis is the tractability caveat (can miss path-dependent bugs).
+The revised paper reports 89–99% of expert-library effective throughput on selected MI300X kernel families. KernelBench validity is 100% at Level 1 and 88% at Level 2 within three attempts. Validity and throughput measure different outcomes.
 
 ## Why it matters for this survey
 
-★ for **T1** (tag/assert contract), **T2** (SMT/AI admit + counterexample feedback), **C3**, and **C4**. Pair with Cake (schedule IR, NVIDIA) and GEAK v4 (serving A/B, same AMD fleet). Reinforces hybrid: agents search; compiler verifies choreography before GPU time. Does **not** move the goal toward unconstrained LLM-as-`opt`.
+The system supports testing representations and diagnostic feedback together. It does not establish a permanent boundary between an agent and compiler components.
 
 ## Limits / caveats
 
-- Eval is MI300X kernel families + KernelBench correctness — not a multi-month default-path serving A/B (**C2** open).
-- Path-insensitive; invariants are synthesized by the agent (wrong invariant ⇒ false confidence).
-- 2–1543× vs “existing agentic systems” is family-dependent and baseline-sensitive; do not average into CompileIQ 2–3% docs.
-- No public implementation URL in the preprint.
+Results are author evaluations on a specific target. Assertion checking is not a complete proof of arbitrary program correctness. Path-insensitive analysis limits precision; it should not automatically be described as unsound. Version 1’s title and metrics should not be reused for current claims.

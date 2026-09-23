@@ -1,4 +1,4 @@
-﻿# Publications index
+# Publications index
 
 One digest per searched source. Files live beside this index. **Org** = company/university/lab; **Publisher** = venue, blog host, forge, or preprint host.
 
@@ -127,7 +127,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | GPU kernels & inference compilers | University of Toronto · Standard Kernel | arXiv | [CuTeGen: Agentic GPU Kernels using CuTe](cutegen.md) ★ CuTe lane / C4 | [source](https://arxiv.org/abs/2604.01489) |
 | 2026 | paper | GPU kernels & inference compilers | NVIDIA · UC Berkeley | arXiv | [KernelBlaster: Memory-Augmented In-Context RL for CUDA](kernelblaster.md) | [source](https://arxiv.org/abs/2602.14293) |
 | 2026 | paper | GPU kernels & inference compilers | NVIDIA · Carnegie Mellon University | arXiv | [CAKE: Compiler–Agent Co-Design for Frontier Kernel Evolution](cake.md) ★ typed schedule IR | [source](https://arxiv.org/abs/2608.12629) |
-| 2026 | paper | GPU kernels & inference compilers | CausalFlow · HKUST · Tsinghua University · Stanford · UCAS · UC Riverside | arXiv | [ARGUS: Agentic GPU Optimization Guided by Data-Flow Invariants](argus.md) ★ SMT/layout admit | [source](https://arxiv.org/abs/2604.18616) |
+| 2026 | paper | GPU kernels & inference compilers | CausalFlow · HKUST · Tsinghua University · Stanford · UCAS · UC Riverside | arXiv | [Ave: Guiding Agentic GPU Optimization Using Data-Flow Invariants](argus.md) ★ data-flow checks; formerly Argus | [source](https://arxiv.org/abs/2604.18616v2) |
 | 2025/26 | company | GPU kernels & inference compilers | Triton project (OpenAI / community) | Triton docs | [Gluon: Triton's lower-level GPU programming model](triton-gluon.md) | [source](https://triton-lang.org/main/gluon/index.html) |
 | 2026 | paper | GPU kernels & inference compilers | UC San Diego · Meta | arXiv | [TLX: Hardware-Native, Evolvable MIMW GPU Compiler for Large-scale Production Environments](tlx.md) | [source](https://arxiv.org/abs/2605.10905) |
 | 2026 | company | GPU kernels & inference compilers | AMD | AMD ROCm blog | [FlyDSL: Expert GPU Kernel Development with the Ease of MLIR Python Native DSL on AMD GPUs](flydsl.md) | [source](https://rocm.blogs.amd.com/software-tools-optimization/flydsl-python-native/README.html) |
@@ -160,11 +160,17 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | GPU kernels & inference compilers | AMD | arXiv | [AsmEvo: Agentic Assembly-Level Optimization of AMD GPU Kernels with Functional Equivalence Verification](asmevo.md) ★ binary-diff admit | [source](https://arxiv.org/abs/2608.20711) |
 | 2026 | paper | GPU kernels & inference compilers | Tsinghua University · University of Chinese Academy of Sciences · ModelBest | arXiv | [ForgeMegakernel: A General Framework for Efficient Auto-Regressive Model Decode Megakernels](forgemegakernel.md) ★ mid-state oracle | [source](https://arxiv.org/abs/2609.12379) |
 
-**Total:** 150 digests
+| 2025 | paper | Structured and distributed compilation | Carnegie Mellon University · Peking University · Pennsylvania State University · Purdue University · Weizmann Institute of Science | USENIX OSDI 2025 | [Mirage: A Multi-Level Superoptimizer for Tensor Programs](mirage.md) | [source](https://arxiv.org/abs/2405.05751v3) |
+| 2026 | paper | Structured and distributed compilation | Carnegie Mellon University · Tsinghua University · Weizmann Institute of Science | arXiv | [Prism: Symbolic Superoptimization of Tensor Programs](prism.md) | [source](https://arxiv.org/abs/2604.15272v1) |
+| 2026 | company | Classic DL compilers | Meta (PyTorch/Helion team) | PyTorch blog | [From Minutes to Seconds: LLM-Guided Autotuning for Helion Kernels](helion-llm-autotuning.md) | [source](https://pytorch.org/blog/from-minutes-to-seconds-llm-guided-autotuning-for-helion-kernels/) |
+| 2025 | paper | Structured and distributed compilation | ByteDance Seed · Tsinghua University · Peking University · Shanghai Jiao Tong University · Zhejiang University | arXiv | [Triton-distributed: Programming Overlapping Kernels on Distributed AI Systems with the Triton Compiler](triton-distributed.md) | [source](https://arxiv.org/abs/2504.19442v3) |
+| 2026 | code | Structured and distributed compilation | OpenXLA (GSPMD and PartIR teams) | OpenXLA documentation | [Shardy: A Tensor Partitioning System](shardy.md) | [source](https://openxla.org/shardy/overview) |
+
+**Total:** 155 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 
-★ = high-signal for next-gen **prediction** (prefer these when updating [`docs/SURVEY.md`](../../docs/SURVEY.md) §5).
+★ marks a reading priority for a design decision. It does not indicate independent replication. Several entries about one system count as one evidence family.
 
-See also: [reference guide](../README.md) · [`repos.md`](../repos.md) / [`products.md`](../products.md) (Tier A/B/C) · [`docs/SURVEY.md`](../../docs/SURVEY.md) §6 (conflicts) · [`docs/SURVEY.md`](../../docs/SURVEY.md) §5.6.
+See also: [reference guide](../README.md), [implementation map](../repos.md), [product map](../products.md), and [survey and design guide](../../docs/SURVEY.md).
 

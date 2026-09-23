@@ -5,6 +5,7 @@ from __future__ import annotations
 
 from datetime import date
 from pathlib import Path
+import re
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = Path(__file__).resolve().parent / "out"
@@ -49,57 +50,57 @@ SECTION_TITLES = {
 
 COVER = {
     "en": {
-        "title": "Next-Generation AI Compiler Survey",
+        "title": "Next-Generation AI Compiler Survey and Design Guide",
         "subtitle": (
-            "Predicting the agentic compiler (~2027–28 and ~5 years): "
-            "software-stack reshape and HW–SW codesign"
+            "Evidence, architectural choices, and experiments for a performance-first compiler. "
+            "Forecasts for 2027, 2029, 2031, 2036, and beyond."
         ),
         "living": "Living survey export",
         "generated": "Generated",
-        "primary": "Primary narrative: docs/SURVEY.md (single reading path §0–§9) · Evidence: reference/",
+        "primary": "A single reading path from technical trends to design decisions, with source appendices.",
         "verdict": (
-            "**North star.** Agents own semantic search, orchestration, and artifact synthesis. "
-            "Compilers own lowering, legality, measurement, and fallback. Hardware codesign enters "
-            "only through kernels, IR, tests, and profilers — not autonomous tape-out."
+            "**Design hypothesis.** The compiler increasingly becomes an agentic optimization system. "
+            "Test that hypothesis against strong alternatives. Prioritize runtime performance, "
+            "then developer productivity and portability. Treat passes, lowering, representations, "
+            "and the division between agents and compiler components as choices to evaluate."
         ),
         "export_notes": (
-            "- Full digests remain in `reference/publications/*.md` (not inlined; each has Org + Publisher).\n"
-            "- Reference: `reference/README.md` → publications / products / repos.\n"
-            "- Commercialization critical problems: `docs/SURVEY.md` §5.7 (P1–P23).\n"
-            "- Technical prediction (techniques to accelerate roadmap): `docs/SURVEY.md` §5.8.\n"
+            "- Detailed digests remain in the repository’s publication directory. Source links in this PDF open external references.\n"
+            "- Product and implementation appendices support the design decisions; they are not independent replications.\n"
+            "- The existing presentation is an earlier snapshot and has not been aligned with this revision.\n"
             "- Rebuild: `python3 publish/build_pdf.py`.\n"
         ),
     },
     "zh-CN": {
         "title": "下一代 AI 编译器综述",
-        "subtitle": "预测智能体编译器（约 2027–28 与未来五年）：软件栈重塑与软硬件协同设计",
+        "subtitle": "以性能为首要目标的编译器设计指南：2027、2029、2031、2036 年及更远期预测",
         "living": "持续更新型综述导出",
         "generated": "生成日期",
-        "primary": "主叙事：docs/SURVEY.md（§0–§9 单文件阅读路径）· 证据：reference/",
+        "primary": "从技术趋势到设计决策的完整阅读路径，并附参考资料。",
         "verdict": (
-            "**北极星目标。** 智能体负责语义搜索、编排与产物综合；编译器负责下降、合法性、"
-            "测量与回退。硬件协同设计仅通过内核、IR、测试与 profiling 闭环进入——而非自动流片。"
+            "**设计假设。** 编译器逐渐成为智能体优化系统。用强基线检验这一假设；优先考虑运行性能，"
+            "其次是开发效率和可移植性。编译阶段、降低流程及智能体与编译器的边界都是需要实验评估的选择。"
         ),
         "export_notes": (
             "- 完整文献摘要仍在 `reference/publications/*.md`（未内联）。\n"
             "- 证据分层图：`reference/repos.md`、`reference/products.md`。\n"
-            "- 重新构建：`python3 publish/build_pdf.py`（同时生成 en / zh-CN / zh-TW）。\n"
+            "- 重新构建：`python3 publish/build_pdf.py --lang zh-CN`。\n"
         ),
     },
     "zh-TW": {
         "title": "下一代 AI 編譯器綜述",
-        "subtitle": "預測智能體編譯器（約 2027–28 與未來五年）：軟體堆疊重塑與軟硬體協同設計",
+        "subtitle": "以效能為首要目標的編譯器設計指南：2027、2029、2031、2036 年及更遠期預測",
         "living": "持續更新型綜述匯出",
         "generated": "產生日期",
-        "primary": "主敘事：docs/SURVEY.md（§0–§9 單檔閱讀路徑）· 證據：reference/",
+        "primary": "從技術趨勢到設計決策的完整閱讀路徑，並附參考資料。",
         "verdict": (
-            "**北極星目標。** 智能體負責語意搜尋、編排與產物綜合；編譯器負責下降、合法性、"
-            "量測與回退。硬體協同設計僅透過核心、IR、測試與 profiling 閉環進入——而非自動流片。"
+            "**設計假設。** 編譯器逐漸成為智能體最佳化系統。用強基準檢驗這一假設；優先考慮執行效能，"
+            "其次是開發效率和可攜性。編譯階段、降低流程及智能體與編譯器的邊界都是需要實驗評估的選擇。"
         ),
         "export_notes": (
             "- 完整文獻摘要仍在 `reference/publications/*.md`（未內嵌）。\n"
             "- 證據分層圖：`reference/repos.md`、`reference/products.md`。\n"
-            "- 重新建置：`python3 publish/build_pdf.py`（同時產生 en / zh-CN / zh-TW）。\n"
+            "- 重新建置：`python3 publish/build_pdf.py --lang zh-TW`。\n"
         ),
     },
 }
@@ -136,39 +137,72 @@ def cover_md(today: str, lang: str = "en") -> str:
 """
 
 
-def rewrite_links(text: str) -> str:
-    """Best-effort link rewrite so PDF-relative paths stay meaningful."""
-    replacements = {
-        "](../reference/publications/": "](reference/publications/",
-        "](../publications/": "](reference/publications/",
-        "](../STATUS.md)": "](STATUS.md)",
-        "](../reference/repos.md)": "](#repos-forge-evidence)",
-        "](../reference/products.md)": "](#products-prediction-signals)",
-        "](../reference/README.md)": "](#reference-guide)",
-        "](repos.md)": "](#repos-forge-evidence)",
-        "](products.md)": "](#products-prediction-signals)",
-        "](../docs/SURVEY.md)": "](#survey-narrative)",
-        "](../../docs/SURVEY.md)": "](#survey-narrative)",
-        "](docs/SURVEY.md)": "](#survey-narrative)",
-        # legacy satellite paths → inlined SURVEY sections
-        "](CONFLICTS.md)": "](#6-conflicts-keep-unresolved-until-evidence-settles)",
-        "](../docs/CONFLICTS.md)": "](#6-conflicts-keep-unresolved-until-evidence-settles)",
-        "](../../docs/CONFLICTS.md)": "](#6-conflicts-keep-unresolved-until-evidence-settles)",
-        "](CLAIMS.md)": "](#7-prediction-claims--evidence)",
-        "](../docs/CLAIMS.md)": "](#7-prediction-claims--evidence)",
-        "](SYSTEMS.md)": "](#8-systems-gallery)",
-        "](../docs/SYSTEMS.md)": "](#8-systems-gallery)",
-        "](TAXONOMY.md)": "](#02-vocabulary-and-taxonomy)",
-        "](../docs/TAXONOMY.md)": "](#02-vocabulary-and-taxonomy)",
-        "](WORKFLOW.md)": "](#9-how-to-update-this-survey)",
-        "](../docs/WORKFLOW.md)": "](#9-how-to-update-this-survey)",
-        "](STACK.md)": "](#56-stack-reshape-sw--hw-codesign)",
-        "](../docs/STACK.md)": "](#56-stack-reshape-sw--hw-codesign)",
-        "](publications/": "](reference/publications/",
+def rewrite_links(text: str, source: Path) -> str:
+    """Resolve repository links to inlined sections or external primary sources."""
+    sections = {
+        path.resolve(): title.lower().replace(" ", "-").replace("&", "").replace("--", "-")
+        for title, path in SECTIONS
     }
-    for a, b in replacements.items():
-        text = text.replace(a, b)
-    return text
+    legacy = {
+        "CONFLICTS.md": "6-conflicts-keep-unresolved-until-evidence-settles",
+        "CLAIMS.md": "7-prediction-claims--evidence",
+        "SYSTEMS.md": "8-systems-gallery",
+        "TAXONOMY.md": "02-vocabulary-and-taxonomy",
+        "WORKFLOW.md": "9-how-to-update-this-survey",
+        "STACK.md": "56-stack-reshape-sw--hw-codesign",
+    }
+
+    def resolve(match: re.Match[str]) -> str:
+        label, target = match.groups()
+        if target.startswith(("https://", "http://", "mailto:", "#")):
+            return match.group(0)
+        relative, _, fragment = target.partition("#")
+        path = (source.parent / relative).resolve()
+        if path in sections:
+            return f"[{label}](#{fragment or sections[path]})"
+        if path.name in legacy:
+            return f"[{label}](#{legacy[path.name]})"
+        if path.parent == ROOT / "reference" / "publications" and path.is_file():
+            digest = path.read_text(encoding="utf-8-sig")
+            primary = re.search(r"\| \*\*Link\*\* \|.*?\]\((https?://[^)]+)\)", digest)
+            if primary:
+                return f"[{label}]({primary[1]})"
+        if path == ROOT / "reference" / "publications":
+            return f"[{label}](#publications-index)"
+        # Non-inlined maintenance files remain named, rather than becoming broken file URLs.
+        return label
+
+    return re.sub(r"\[([^\]]+)\]\(([^\s)]+)\)", resolve, text)
+
+
+def publication_appendix(text: str) -> str:
+    """Keep the full catalog while giving its seven-column source table a readable print layout."""
+    groups: dict[str, list[str]] = {}
+    for line in text.splitlines():
+        if not line.startswith("| "):
+            continue
+        cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
+        if len(cells) != 7 or cells[0] == "Year":
+            continue
+        year, kind, group, org, publisher, digest, source = cells
+        title = re.search(r"\[([^\]]+)\]\([^)]+\)", digest)
+        url = re.search(r"\]\((https?://[^)]+)\)", source)
+        if not title or not url:
+            raise ValueError(f"Malformed publication index row: {line}")
+        groups.setdefault(group, []).append(
+            f"| {year}; {kind} | [{title[1]}]({url[1]}) | {org}. Published by {publisher}. |"
+        )
+    parts = [
+        "Each title opens its primary source. The complete source digests remain in the repository. "
+        "Multiple records about one system are one evidence family; the catalog is not a count of independent confirmations.",
+        '<div class="source-index">',
+    ]
+    for group, rows in groups.items():
+        table = "\n".join(["| Date and type | Source | Organization and publisher |",
+                           "|---|---|---|", *rows])
+        parts.extend([f"### {group}", table])
+    parts.extend(["</div>", f"**Total: {sum(map(len, groups.values()))} source digests.**"])
+    return "\n\n".join(parts)
 
 
 def strip_first_h1(text: str) -> str:
@@ -193,7 +227,9 @@ def assemble(lang: str = "en") -> Path:
         if not path.is_file():
             raise FileNotFoundError(path)
         body = strip_first_h1(path.read_text(encoding="utf-8"))
-        body = rewrite_links(body)
+        if path.name == "INDEX.md":
+            body = publication_appendix(body)
+        body = rewrite_links(body, path)
         local_title = titles[title]
         anchor = title.lower().replace(" ", "-").replace("&", "").replace("--", "-")
         parts.append(

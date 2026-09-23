@@ -2,48 +2,35 @@
 
 Last updated: **2026-09-23**
 
-## Overall progress
+## Current state
 
-| Area | Status | Notes |
-|---|---|---|
-| Goals (agentic-compiler prediction) | Done (v3) | + roadmap, stack reshape, HW codesign via job (d) |
-| Future prediction §5 | Done | Four jobs; codesign; §5.5–5.6; **§5.7 commercialization**; **§5.8 techniques** |
-| **Roadmap 2027–28 / ~5yr** | Done | folded into `docs/SURVEY.md` §5.5 |
-| **STACK reshape** | Done | folded into `docs/SURVEY.md` §5.6 |
-| Claims map | Done | `docs/SURVEY.md` §7 (A/P/S/H) |
-| Conflicts | Done | `docs/SURVEY.md` §6 C1–C10 |
-| Survey narrative §0–§9 | Done (v3) | Single reading path; gaps as blockers |
-| **Reference store** | Done | `reference/` guide → publications / products / repos |
-| Publication digests | Done (v12) | **150** digests under `reference/publications/` |
-| Validate script | Done | `python3 scripts/validate_survey.py` |
-| **PDF publish** | Done | Survey PDF + expert Beamer deck in `publish/out/` |
-| **Survey skill** | Done | `.cursor/skills/survey/` (+ personal `~/.cursor/skills/survey/`) |
-| GitHub remote | Available | work on `main` and push |
+| Area | Status and practical meaning |
+|---|---|
+| Survey and design guidance | Revised in the existing narrative, retaining sections 0 through 9 and the alternatives section. |
+| Objectives | Runtime performance first; developer productivity and portability next; search cost measured from the start. |
+| Architecture | Passes, lowering, representations, and agent boundaries remain choices to evaluate. |
+| Forecast | One, three, five, and ten years from September 2026, plus beyond; confidence and needed progress stated. |
+| Design checklist | All 23 product topics and ten technical priorities retained in readable comparisons. |
+| Evidence | 155 source digests; related papers, blogs, and repositories distinguished from independent corroboration. |
+| Updated sources | Ave version 2, CAKE result scope, and Helion’s model-guided tuning; structured search and distribution coverage expanded. |
+| Survey PDF | Rebuilt with the current narrative and reference appendices; source links open primary references. |
+| Presentation | Existing slides and bilingual transcripts are an earlier snapshot; not aligned with this revision. |
+| Repository skill | Updated with plain-language guidance, evidence standards, architecture flexibility, and publication authorization rules. |
+| Publication | Local changes only for this batch. The user’s instruction not to push remains in effect. |
 
-## Coverage checklist
+## Coverage still to strengthen
 
-### Prediction / roadmap / codesign
-
-- [x] §0.1 + §5 architecture with job (d) bring-up/codesign
-- [x] SURVEY §5.5 Horizon A (2027–28) + B (~5 years)
-- [x] SURVEY §5.6 SW+HW layer map focused on agentic compiler
-- [x] TritorX, KernelEvolve, Ascend diagnosis, KForge, AutoKernel, Helion, **Zomboss**, **Cake**, **GEAK v4** digests
-- [x] Conflicts C9 (coverage vs peak), C10 (codesign vs autonomous chip)
-- [ ] Second-vendor public TritorX-class reproduction (Zomboss = academic analog; MaxKernel/Hyperloom = peak on TPU/Instinct, not coverage)
-- [ ] Revisit after Magellan/MLGO or KernelBench-X settlement
-
-### Publications
-
-- [x] Waves A–D + SCM + prediction wave
-- [x] Codesign/roadmap wave: TritorX, KernelEvolve, Ascend diagnosis, KForge, AutoKernel(+gh), Kernel Forge, KernelBlaster, Helion(+gh)
-- [x] Agent control-plane substrate: Auto, FlowCompile, AgentFlow, Heterogeneous agentic AI, DeepSeek Harness, Agent Skills spec, SKILL.state, SIGIL, SkCC, SkVM, SkillSmith
-- [x] Vendor L4 kernel IRs after TIRx miss: TileLang, Gluon, TLX, FlyDSL, CuTe DSL, Event Tensor, ThunderKittens
-- [ ] Wave E — deepen thin digests from full PDFs
+- Independent application-level comparisons under shared workloads, constraints, and search budgets.
+- Transfer of performance and workload coverage to genuinely new hardware and additional vendors.
+- Ablations separating model capability, representation, diagnostic feedback, and search resources.
+- Broader evaluation of generated compiler components, communication choices, and long-term maintenance.
+- Full-text refinement of older, thin digests; historical shorthand remains in parts of the source catalog.
 
 ## Change log
 
 | Date | Change |
 |---|---|
+| 2026-09-23 | Reframed the single narrative as a performance-first design guide; retained the section structure, 23 product topics, and 10 technical priorities. Added five forecast horizons, flexible compiler boundaries, explicit evidence scope, and readable design experiments. Added Mirage, Prism, Helion tuning, Triton-distributed, and Shardy; updated Ave and CAKE interpretations. Index: 155. Updated repository skill and PDF pipeline; preserved historical heading links. Presentation remains an earlier snapshot. |
 | 2026-09-23 | September evidence wave: MaxKernel ★, JAXBench ★, Pallas, AMDKernelVault ★, KernelGenBench ★, Hyperloom ★, AsmEvo ★, ForgeMegakernel ★. INDEX **150**. Hybrid holds; **C9** still open (peak ≠ TritorX coverage). Survey PDF + Beamer/EN/zh-TW. |
 | 2026-08-31 | Beamer + EN/zh-TW: skill-scope fold on 4/22/24–27/29/33/36–41 (T10 exists, C7, ★ SIGIL, INDEX **142**). Sharing PDF rebuilt. |
 | 2026-08-31 | Skill-scope lesson + re-search (hard rule 15): digest Agent Skills spec, SKILL.state, SIGIL ★, SkCC, SkVM, SkillSmith (2605.15215). Three senses of “skill”; T10/P2/§4.6/§9 grow; **no** C6/C2 move, **no** L-band. INDEX **142**. Survey PDF rebuilt (Beamer unchanged). |
@@ -116,6 +103,7 @@ Last updated: **2026-09-23**
 
 ## Next actions
 
-1. Watch C1 customer uptake (Android/Fuchsia EmitC; Chrome multi-model) and Magellan OSS recipes; C2 p50/p90; C9 second-vendor TritorX-class.
-2. Prefer new Tier A codesign/agentic-compile sources; skip pure EDA.
-3. Deepen Wave E digests; keep `validate_survey.py` green.
+1. Test agentic optimization against strong structured-search and conventional baselines.
+2. Seek evidence that changes a design choice, especially application gains, new-target transfer, or component replacement.
+3. Update the presentation and both transcript languages when that work is requested.
+4. Publish this prepared batch only after the maintainer authorizes a push.

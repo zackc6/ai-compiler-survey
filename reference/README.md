@@ -1,33 +1,27 @@
-# Reference
+# Reference guide
 
-Evidence store for the living survey. Digests, product signals, and repo/forge maps live here; the **prediction narrative** stays in [`../docs/SURVEY.md`](../docs/SURVEY.md) (§0–§9).
+This directory stores the evidence behind the [survey and design guide](../docs/SURVEY.md). The narrative explains the design choices; these sources let readers examine their basis.
 
-## Start here
+| Collection | What to use it for |
+|---|---|
+| [Publication index](publications/INDEX.md) | Find a digest and its primary source, organization, publisher, and date. |
+| [Product evidence](products.md) | Understand reported integrations, commercial offerings, and research prototypes. |
+| [Implementation evidence](repos.md) | Find code, evaluation tools, and compiler interfaces for experiments. |
 
-| Category | Path | What it is |
-|---|---|---|
-| **Publications** | [`publications/`](publications/) · [`INDEX.md`](publications/INDEX.md) | One digest per searched source (papers, blogs, talks, code pages). ★ = prediction-critical. |
-| **Products** | [`products.md`](products.md) | Commercial SKUs / offerings as **prediction signals** (Tier A/B/C) — not a full catalog. |
-| **Repos** | [`repos.md`](repos.md) | GitHub / Gerrit / forge artifacts tiered for the agentic-compiler prediction — not an exhaustive forge list. |
+## Reading evidence
 
-## How to use
+A paper, blog, repository, and talk about one system are one evidence family. Several systems can support a direction without independently reproducing the same result. Related research such as Mirage and Prism also shares a lineage.
 
-1. Read [`../docs/SURVEY.md`](../docs/SURVEY.md) §0 → §5 for the prediction (roadmap §5.5, stack §5.6, commercial §5.7).
-2. Open ★ digests from [`publications/INDEX.md`](publications/INDEX.md) when you need mechanism detail.
-3. Use [`products.md`](products.md) / [`repos.md`](repos.md) for Tier A/B/C shipping surfaces (CompileIQ, GEAK, ACCLAIM, Archer, …).
-4. When sources disagree → [`../docs/SURVEY.md`](../docs/SURVEY.md) **§6**. Claim IDs → **§7**. Systems snapshot → **§8**.
+Relevance tiers describe how a source informs a design decision: direct evidence, supporting infrastructure, or background. They are not quality ratings. A star in the index indicates reading priority. Read the evaluation conditions and limitations before using a numerical result.
 
-## Add a source
+Distinguish runtime speed from tuning time, kernel gains from application gains, and workload coverage from peak performance. Record the hardware, baseline, budget, source version, and validation scope. The current Ave digest retains its historical `argus.md` filename for compatibility.
 
-1. Create a digest from [`publications/_TEMPLATE.md`](publications/_TEMPLATE.md) (**Org** + **Publisher** required).
-2. Add an INDEX row (★ only if it moves the prediction).
-3. Update `products.md` / `repos.md` only if the mechanism is a new shipping surface.
-4. Update SURVEY **§6 / §7** if a durable claim or disagreement moved; thin-touch §5 if the prediction moves.
-5. Follow [`../docs/SURVEY.md`](../docs/SURVEY.md) **§9** (How to update this survey). For “skills”: walk the `SKILL.md` spec, skill compilers, and \(\Sigma_t\) runtimes (hard rule 15) — not only vendor compile packs.
-6. `python3 scripts/validate_survey.py`
+## Adding or refining a source
 
-Do **not** paste long digests into `docs/SURVEY.md`. Keep the narrative thin; park evidence here. The survey points into this tree.
+1. Use the [digest template](publications/_TEMPLATE.md), including organization, publisher, primary link, and limitations.
+2. Update the publication index and its total. Keep related sources visibly connected.
+3. Explain which design decision changes, or why the evidence leaves the choice unresolved.
+4. Update product and implementation maps when the source adds a useful interface or deployment fact.
+5. Follow the repository Survey skill, run `python3 scripts/validate_survey.py`, and rebuild the PDF after narrative edits.
 
-## Related narrative
-
-- [`../docs/SURVEY.md`](../docs/SURVEY.md) — single reading path: vocabulary (§0), Q1–Q4, prediction (§5), conflicts (§6), claims (§7), systems (§8), update loop (§9)
+Use descriptive links and plain language. Detailed evidence belongs here; the main guide should remain readable from beginning to end.

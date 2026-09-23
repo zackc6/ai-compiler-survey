@@ -1,105 +1,57 @@
-# Commercial products as prediction signals
+# Product and deployment evidence
 
-**Purpose:** Company offerings that inform **what next-gen compile will ship** and **how agents enter production** — not a full SKU catalog.
+These offerings and first-party reports inform the [design guide](../docs/SURVEY.md). Research prototypes are included when they expose useful implementation choices; their inclusion does not imply a supported commercial product. See also the [implementation map](repos.md).
 
-Companion: [`../docs/SURVEY.md`](../docs/SURVEY.md) §5 · [`../docs/SURVEY.md`](../docs/SURVEY.md) §6 · [`repos.md`](repos.md) · [guide](README.md)
+## Optimization services and integrations
 
----
+| Offering | Reported role | Design implication or limitation |
+|---|---|---|
+| [AlphaEvolve on Google Cloud](https://cloud.google.com/blog/products/ai-machine-learning/alphaevolve-is-available-for-everyone) | Evolutionary optimization offered as a service. | A deployment model for expensive search; service availability does not establish compiler superiority. |
+| Google Magellan and MLGO | Generated compiler heuristics and learned decision policies. | Compare both ways to amortize optimization into a compiler. |
+| [NVIDIA CompileIQ](https://developer.nvidia.com/cuda/compileiq) and [agent skills](https://nvidia.github.io/CompileIQ/stable/install.html) | Workload-specific compiler configuration and optimization workflows. | Preserve reusable configuration artifacts and validate actual application benefit. |
+| [AMD GEAK](https://github.com/AMD-AGI/GEAK) | Kernel optimization and application profiling/measurement workflows. | Let application bottlenecks select kernel work; check the version and protocol. |
+| [AMD Hyperloom](publications/hyperloom.md) | Application optimization with kernel work delegated to GEAK or KernelForge. | Evaluate the complete serving path and separate framework from kernel gains. |
+| NVIDIA TensorRT-LLM [agent integration proposal](https://github.com/NVIDIA/TensorRT-LLM/pull/12831) | Compiler and kernel workflows inside a serving stack. | A proposed integration is a signal, not evidence of universal default deployment. |
+| [Helion](https://pytorch.org/projects/helion/) and its [model-guided tuner](publications/helion-llm-autotuning.md) | Higher-level kernel programming and automated configuration search. | Measure tuning time separately from final kernel latency. |
+| [FlashInfer-Bench](https://github.com/flashinfer-ai/flashinfer-bench) | Evaluation and substitution of kernels in serving workloads. | Connect a kernel experiment to application measurements. |
 
-## Role tags
+## Research systems that affect product design
 
-| Tag | Meaning |
+| System | Useful capability | Scope of evidence |
+|---|---|---|
+| [MaxKernel](publications/maxkernel.md), [Pallas](publications/pallas.md), [JAXBench](publications/jaxbench.md) | Kernel optimization and evaluation on tensor processing units. | Performance on a supported platform; not proof of coverage on a new chip. |
+| Meta LLM Compiler and [KernelLLM](https://huggingface.co/facebook/KernelLLM) | Models specialized for compiler or kernel tasks. | Model releases are ingredients for a system, not complete deployment evidence. |
+| Meta TritorX and KernelEvolve | Hardware enablement and performance optimization across accelerator targets. | Separate coverage results, kernel measurements, and industry deployment reports. |
+| [CAKE](publications/cake.md) | Schedule representation and compiler feedback developed with agents. | Author evaluation; compares complete programming environments. |
+| [Ave, formerly Argus](publications/argus.md) | Compile-time data-flow assertions and useful failure feedback. | Revised September 2026 MI300X results; do not reuse older Argus metrics. |
+| [CUDA Tile](https://developer.nvidia.com/blog/focus-on-your-algorithm-nvidia-cuda-tile-handles-the-hardware/) | Tile-oriented programming and compiler representation. | An interface candidate; its existence does not establish the best agent architecture. |
+
+## Existing compiler and runtime choices
+
+These are baselines and possible components. Their maturity is a reason to evaluate reuse, not a permanent requirement to preserve their boundaries.
+
+| Platform | Role in a design experiment |
 |---|---|
-| **DataPlane-Compile / Serve** | Graph→device or inference engine (baseline agents must plug into) |
-| **ControlPlane-Autotune** | Searches knobs/schedules (classic or evolutionary) |
-| **ControlPlane-Agent** | Explicit LLM/agent in the loop |
-| **Kernel-Platform** | Tile/DSL/IR agents target |
-| **Cloud-Agent** | Sold as cloud agent service |
-| **Research-release** | Important, not a full SKU |
+| NVIDIA TensorRT-LLM and CUDA libraries | Established serving and kernel baselines. |
+| [FlashInfer](https://github.com/flashinfer-ai/flashinfer) | Attention and related kernels used by serving systems. |
+| PyTorch `torch.compile` and Inductor | Application capture, compilation, and integration. |
+| OpenXLA XLA, StableHLO, and [Shardy](publications/shardy.md) | Model representation, compilation, and distributed tensor partitioning. |
+| JAX [Pallas](publications/pallas.md) and Mosaic | Kernel programming and compilation on supported accelerators. |
+| Modular MAX and Mojo | An alternative compiler and runtime stack. |
+| Intel OpenVINO | Deployment toolkit for supported processors and devices. |
+| AWS Neuron and its kernel interface | Compilation and kernel control for AWS accelerators. |
+| Qualcomm AI Hub, Qualcomm Neural Network tools, and [Hexagon-MLIR](https://github.com/qualcomm/hexagon-mlir) | Device deployment and an open compiler path for Hexagon. |
 
----
+## Adjacent infrastructure and historical context
 
-## Tier A — shapes the agent future
-
-| Company | Offering | Roles | Prediction signal | Conflicts |
-|---|---|---|---|---|
-| **Google Cloud / DeepMind** | [AlphaEvolve on Cloud (GA)](https://cloud.google.com/blog/products/ai-machine-learning/alphaevolve-is-available-for-everyone) | Cloud-Agent, ControlPlane-Agent | Evolutionary coding agent as a sold product; Magellan lineage | C5, C1 |
-| **Google** | [MaxKernel](publications/maxkernel.md) on [Pallas](publications/pallas.md) / [JAXBench](publications/jaxbench.md) | ControlPlane-Agent, Kernel-Platform | TPU peak agent; compiler + XProf admit; not ASIC coverage | **C4**, **C9**, T1/T2 |
-| **Google** | Magellan (prod inlining narrative) + MLGO | ControlPlane-Agent / Autotune | Offline heuristic synthesis *and* neural advisors in production | **C1** |
-| **NVIDIA** | [CompileIQ](https://developer.nvidia.com/cuda/compileiq) (+ [agent-skills](https://nvidia.github.io/CompileIQ/stable/install.html)) | ControlPlane-Autotune / ControlPlane-Agent | Workload-specialized compiler controls; versioned ACFs; AGENTS.md skill pack drives search+Welch validate | **C2** (blog vs docs) |
-| **NVIDIA** | [CUDA Tile / Tile IR](https://developer.nvidia.com/blog/focus-on-your-algorithm-nvidia-cuda-tile-handles-the-hardware/) | Kernel-Platform | Next agent IR vs Triton | **C4** |
-| **AMD** | [GEAK v4](https://github.com/AMD-AGI/GEAK) (`e2e_workflow` + kernel_workflow) | ControlPlane-Agent, Kernel-Platform | Amdahl triage on warm sglang/vLLM; warm-server A/B + output parity; multi-DSL kernels | **C2**, **C4**, T6 |
-| **AMD** | [Hyperloom](publications/hyperloom.md) | ControlPlane-Agent, DataPlane-Serve | e2e Instinct harness; kernel phase delegated to GEAK or KernelForge; state-file + critic | **C2**, T6/T10 |
-| **Meta** | [LLM Compiler](https://ai.meta.com/research/publications/meta-large-language-model-compiler-foundation-models-of-compiler-optimization/) / [KernelLLM](https://huggingface.co/facebook/KernelLLM) | Research-release | Open foundation / specialist models | — |
-| **NVIDIA** | TensorRT-LLM + [Claude agents/skills PR](https://github.com/NVIDIA/TensorRT-LLM/pull/12831) | DataPlane-Serve + ControlPlane-Agent | Agents wired into flagship serve compiler (multi-DSL) | **C4** |
-| **Meta** | TritorX + KernelEvolve (MTIA + hetero GPUs) | ControlPlane-Agent + Kernel-Platform | Agentic ASIC bring-up + production ranking kernels | **C9**, C2 |
-| **Meta / LF** | [Helion](https://pytorch.org/projects/helion/) | Kernel-Platform | Higher-level agent/autotune surface over Triton | **C4** |
-| **FlashInfer / NVIDIA·UW·CMU** | [FlashInfer-Bench](https://github.com/flashinfer-ai/flashinfer-bench) (+ Trace / `apply()`) | ControlPlane-Agent + DataPlane-Serve | Serving-trace kernel ladder; dynamic substitution into SGLang/vLLM | **C2**, T6/T8 |
-| **NVIDIA · CMU** | Cake (Cake IR; FlashInfer PRs) | ControlPlane-Agent, Kernel-Platform | Typed schedule IR + evolving verifier; serving-validated KDA / TinyGEMM | **C3**, **C4**, T1/T5 |
-| **CausalFlow et al.** | Argus (paper; MI300X) | ControlPlane-Agent, Kernel-Platform | Data-flow invariants + SMT; 99–104% of assembly TFLOPS (author) | **C2**, **C3**, **C4**, T1/T2 |
-
----
-
-## Tier B — data-plane baselines (agents must integrate)
-
-Brief on purpose: these are **defaults**, not proof that agents win.
-
-| Company | Offering | Roles | Why keep |
-|---|---|---|---|
-| **NVIDIA** | TensorRT-LLM / CUDA libs | DataPlane-Serve/Compile | Peak production path |
-| **FlashInfer** | [flashinfer](https://github.com/flashinfer-ai/flashinfer) kernel library | DataPlane-Serve | Engine-agnostic attention/GEMM/MoE kernels; Bench deploy target |
-| **Meta** | `torch.compile` / Inductor | DataPlane-Compile | De-facto app compile entry |
-| **Google / OpenXLA** | XLA + StableHLO | DataPlane-Compile | Portable HLO; Magellan XLA experiments |
-| **Google (JAX)** | [Pallas](publications/pallas.md) → Mosaic | Kernel-Platform | TPU/GPU kernel DSL; MaxKernel/JAXBench sink; Mosaic still lowers |
-| **Modular** | MAX + Mojo | DataPlane-Serve/Compile | MLIR-rooted alternative stack |
-| **Intel** | OpenVINO | DataPlane-Compile | Edge/CPU deploy toolkit |
-| **AWS** | Neuron (+ NKI) | DataPlane-Compile, Kernel-Platform | Cloud-custom silicon; NKI as agent surface |
-| **Qualcomm** | AI Hub / QNN | Edge compile | On-device compile-as-a-service |
-| **Qualcomm** | [Hexagon-MLIR](https://github.com/qualcomm/hexagon-mlir) | DataPlane-Compile, Kernel-Platform | Open Triton/PyTorch→Hexagon NPU MLIR stack |
-
----
-
-## Demoted / footnote (misaligned with prediction goal)
-
-| Item | Why demoted |
+| Item | Why it is included cautiously |
 |---|---|
-| Olive / ORT / HF Optimum glue | Cross-runtime packaging; little agent-compile signal |
-| OctoML (historical TVM SaaS) | Cite only as **lineage** for commercial autotune appetite that later products (CompileIQ, AlphaEvolve Cloud) still sell — not an active next-gen agent compiler |
-| Generic “AI code review” SKUs | Conflict **C7** — HITL UX, not compiler oracles |
-| Anthropic CCC | Process signal (agents-as-engineers), **not** a sold compiler SKU |
-| [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (`dsh`) | Open coding-agent runtime (plugin kernel + session log). **C7** unless compiler oracles mount as seams; T10 color only — [digest](publications/deepseek-harness.md) |
-| [Agent Skills spec](https://agentskills.io/specification) (`SKILL.md`) | Packaging format (progressive disclosure). **C7** unless compiler oracles mount; CompileIQ already follows it — [digest](publications/agent-skills-spec.md) |
-| SIGIL / SkCC / SkVM / SkillSmith / SKILL.state | Skill *compilation* or \(\Sigma_t\) runtimes. T10/P2 substrate, not a sold compiler SKU — see publications INDEX |
+| Olive, ONNX Runtime, Hugging Face Optimum | Deployment and packaging context; assess separately from agent optimization. |
+| OctoML | Historical commercial context for automated tuning; avoid assuming a current offering. |
+| Generic AI code-review products | Workflow evidence until connected to compiler-specific checks. |
+| Anthropic’s C compiler experiment | Evidence about agents constructing compiler software; not a general commercial compiler result. |
+| [DeepSeek Harness](publications/deepseek-harness.md) | General agent runtime; compiler-specific evaluation must be added. |
+| [Agent Skills specification](publications/agent-skills-spec.md) | A packaging format, not a compiler optimization method. |
+| SIGIL, SkCC, SkVM, SkillSmith, and SKILL.state | Skill compilation and workflow-state research; compiler-task transfer needs measurement. |
 
----
-
-## Architecture placement
-
-```text
-Control plane (emerging SKUs)
-  AlphaEvolve Cloud · GEAK v4 · CompileIQ · Magellan/MLGO · TRT-LLM agent skills · Cake IR
-        │
-Data plane (mature defaults)
-  TRT-LLM · Inductor · XLA · MAX · OpenVINO · Neuron
-        │
-Kernel / tile platforms
-  Triton · Helion · Gluon · TLX · CUDA Tile · CuTe DSL · TileLang · TIRx · FlyDSL · ThunderKittens · NKI · HIP
-```
-
-**Commercial reality:** revenue still sits on the data plane. Explicit agent control-plane SKUs are newer and often opt-in for hot kernels — consistent with §5 prediction (defaults classical first).
-
----
-
-## Mapping to survey questions
-
-| Question | Commercial signal |
-|---|---|
-| Q1 Trends — hybrid control plane | CompileIQ, GEAK v4, Cake, AlphaEvolve Cloud, Magellan/MLGO |
-| §1b Traditional still wins defaults | TRT-LLM, Inductor, XLA, OpenVINO |
-| Q2 How agents help | Evolve code, kernel loops, knob search, specialist models |
-| Q3 Reshape process | ACF-in-VCS; heuristic synthesis; agent skills in TRT-LLM |
-| §5 Future | Tier A rows above + conflicts C1–C5 |
-
-Commercial digests for Tier A/B prediction-relevant items live under [`publications/`](publications/) (CompileIQ, GEAK, AlphaEvolve, Magellan/MLGO, TRT-LLM agents). Skip Olive/OctoML churn.
-
-Update when a vendor ships a **named agent-compile default**, not when another runtime EP appears.
+Update this map when a source changes an interface, deployment fact, or design decision. A paper, product page, and code release about one system remain one evidence family.
