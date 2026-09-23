@@ -303,6 +303,15 @@ Humans establish the workload, objective, and validation contract for an experim
 
 In this starting design, there are **no optimizer-model calls during normal execution**. The deployed application can itself contain models, and its execution need not be deterministic. Retain a working fallback and use production profiles to identify fresh optimization work. Each component can be retained, generated, merged, or replaced as described in the [architecture choices](#514-decide-what-to-retain-generate-merge-or-replace).
 
+**Who does what in this starting design.** The rows are responsibilities, not required agents or layers.
+
+| Role | What it may change | What bounds it |
+|---|---|---|
+| Application optimization, per workload | Configurations and scope across graph, kernel, communication, and runtime; synthesized kernels, fusions, and rewrites; diagnosis of rejected or slow candidates; reuse of compatible earlier experiments. Agents, conventional search, and learned policies can all propose. | Validation and target measurement decide. Search cost must pay back within the artifact's useful life. An agent keeps its place only where it beats the alternatives at an equal budget. |
+| Compiler development, offline | Heuristics, analyses, transformations, backend support, and operator coverage for new hardware. | Development workloads supply feedback; a selected version then faces separate regression and performance evaluation, including after compiler updates. Merged components need no optimizer-model calls during normal execution. |
+| Controller development, offline and gated | First a restricted decision procedure, such as instructions or retrieval logic; search strategy, orchestration, or agent code only after restricted changes leave measured failures. Changing the improvement procedure itself is a later experiment. | Late-stage: pursue it after the other two loops deliver repeated value. Compare against a fixed controller, a memory-only variant, and conventional search with pinned model and toolchain versions. No application-level evidence yet. |
+| Fixed for the experiment | Nothing during the experiment: the workload, objective, validation contract, final-evaluation pool, and its submission limit. The deployed runtime runs accepted artifacts and keeps a fallback. | Changing these is a separate design decision, never an optimization action. Final tasks and results stay outside every proposer's access. |
+
 For example, initially use an existing backend to implement a generated schedule. If backend limitations repeatedly prevent useful schedules, evaluate a new lowering path or a generated backend component against the existing path. If a direct assembly optimizer improves the final artifact, include it as another candidate-producing stage. Decide from measured behavior rather than from a rule that agents must always remain above the backend.
 
 <a id="4-whats-missing--under-covered-q4"></a>
@@ -572,6 +581,17 @@ All dates are measured from September 2026. Separate confidence in the **directi
 A qualifying result identifies the workload, hardware, strong non-agent baseline, numerical and quality requirements, search budget, validation, and failures. A claimed improvement must exceed reported measurement uncertainty. Count independent implementations or organizations, not several reports about one system. Public artifacts or a sufficiently detailed first-party evaluation qualify where specified; a product announcement alone does not.
 
 At each review date, record each predicate as **met** or **not met by available public evidence**, with source versions and a reason. Missing evidence means a miss for the dated public-evidence call, not proof that no private system exists. Reduce timing confidence when a call misses; reduce direction confidence when controlled comparisons contradict its mechanism. Keep the original prediction and record revisions separately.
+
+**Summary of the dated calls.** Details, qualifying rules, and evidence that would change each call follow below.
+
+| Horizon | Central forecast | Dated public test | Confidence: direction; timing |
+|---|---|---|---|
+| 2027 | Tuning, kernel synthesis, and diagnosis integrated with existing toolchains; conventional backends remain. | 23 September 2027: two independent organizations publish integrations with qualifying application gains from agent decisions. | High; medium |
+| 2027 controller checkpoint | Restricted controller improvement becomes testable on compiler workloads. | 23 September 2027: a public controller change beats a strong fixed controller and a memory-only variant on two held-out compiler-workload families. | Medium for restricted improvement; low for broad recursive improvement |
+| 2029 | Leading systems coordinate graph, kernel, communication, dispatch, and heuristic decisions. | 23 September 2029: a public system jointly searches two decision areas, one involving communication or runtime, and beats strong non-agent joint search. | Medium-high; medium |
+| 2031 | Some compilers become continuing optimization services; generated components enter default paths. | 23 September 2031: a generated analysis, transformation, or lowering component stays in a public toolchain's default path for two releases. | Medium; medium-low |
+| 2036 | Some platforms repeatedly generate substantial components and explore algorithms, execution, and hardware together. | 23 September 2036: two independent toolchains each generate two kinds of component, and one system jointly searches a hardware design parameter and an execution strategy. | Medium-low; low |
+| Beyond | Synthesis from workload intent and deployment requirements. | 23 September 2039 precursor: one specification and agent policy applied to two hardware families, one withheld during development. | Low; unassigned |
 
 <a id="551-horizon-a--20272028-near"></a>
 <a id="what-ships"></a>
