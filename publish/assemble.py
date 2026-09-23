@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 from datetime import date
+from html import escape
 from pathlib import Path
 import re
 
@@ -139,6 +140,21 @@ def cover_md(today: str, lang: str = "en") -> str:
 
 def rewrite_links(text: str, source: Path) -> str:
     """Resolve repository links to inlined sections or external primary sources."""
+    def figure(match: re.Match[str]) -> str:
+        label, target, caption = match.groups()
+        image = (source.parent / target).resolve()
+        return (
+            f'::: {{.wide-figure}}\n'
+            f'<img src="{image.as_uri()}" alt="{escape(label, quote=True)}">\n\n'
+            f'{caption}\n:::'
+        )
+
+    # Keep each architecture image and its Markdown caption on the same page.
+    # Other images retain their ordinary layout rather than forcing landscape.
+    text = re.sub(
+        r'^!\[([^\]]+)\]\((blueprint\.svg|controller-development\.svg)\)\n\n(\*Figure \d+\.[^\n]+)',
+        figure, text, flags=re.MULTILINE,
+    )
     sections = {
         path.resolve(): title.lower().replace(" ", "-").replace("&", "").replace("--", "-")
         for title, path in SECTIONS
@@ -155,12 +171,10 @@ def rewrite_links(text: str, source: Path) -> str:
     def resolve(match: re.Match[str]) -> str:
         bang, label, target = match.groups()
         if bang:
-            # Images keep their file; wide figures get their own landscape page in the PDF.
             if target.startswith(("https://", "http://")):
                 return match.group(0)
             image = (source.parent / target).resolve()
-            alt = label.replace('"', "&quot;")
-            return f'\n::: {{.wide-figure}}\n<img src="{image.as_uri()}" alt="{alt}">\n:::\n'
+            return f'<img src="{image.as_uri()}" alt="{escape(label, quote=True)}">'
         if target.startswith(("https://", "http://", "mailto:", "#")):
             return match.group(0)
         relative, _, fragment = target.partition("#")

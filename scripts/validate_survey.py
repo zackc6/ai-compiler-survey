@@ -102,9 +102,11 @@ def main() -> int:
         capture_output=True, text=True,
     )
     if blueprint.returncode != 0:
-        errors.append("docs/blueprint.svg is stale or missing; run python3 scripts/build_blueprint.py")
-    if "blueprint.svg" not in (ROOT / "docs" / "SURVEY.md").read_text(encoding="utf-8"):
-        errors.append("SURVEY.md no longer shows docs/blueprint.svg")
+        errors.append(blueprint.stderr.strip() or "Architecture figure generation failed")
+    narrative = (ROOT / "docs" / "SURVEY.md").read_text(encoding="utf-8")
+    for name in ("blueprint.svg", "controller-development.svg"):
+        if not re.search(r'^!\[[^\]]+\]\(' + re.escape(name) + r'\)\n\n\*Figure \d+\.', narrative, re.MULTILINE):
+            errors.append(f"SURVEY.md: {name} needs an image and an adjacent numbered caption")
 
     print(f"digests={len(digests)} indexed={len(indexed)}")
     for w in warnings:

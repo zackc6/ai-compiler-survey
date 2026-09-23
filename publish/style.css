@@ -155,7 +155,7 @@ hr {
 .source-index col:nth-child(2) { width: 49% !important; }
 .source-index col:nth-child(3) { width: 38% !important; }
 
-/* Wide diagrams (docs/blueprint.svg) print on their own landscape page. */
+/* Architecture diagrams and their captions share a landscape page. */
 @page wide {
   size: A4 landscape;
   margin: 12mm 12mm 14mm 12mm;
@@ -164,11 +164,18 @@ hr {
   page: wide;
   break-before: page;
   break-after: page;
+  break-inside: avoid;
+  margin: 0;
 }
 .wide-figure img {
   display: block;
-  width: auto;
+  width: 100%;
   max-width: 100%;
-  height: 176mm;
+  height: auto;
   margin: 0 auto;
+}
+.wide-figure p {
+  font-size: 10pt;
+  line-height: 1.3;
+  margin: 8pt 0 0;
 }
