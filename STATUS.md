@@ -16,7 +16,7 @@ Last updated: **2026-09-23**
 | Survey PDF | Rebuilt with the current narrative and reference appendices; source links open primary references. |
 | Presentation | Existing slides and bilingual transcripts are an earlier snapshot; not aligned with this revision. |
 | Repository skill | Updated with plain-language guidance, evidence standards, architecture flexibility, and publication authorization rules. |
-| Publication | Local changes only for this batch. The user’s instruction not to push remains in effect. |
+| Publication | Reviewer caveats committed and published to main in this batch. |
 
 ## Coverage still to strengthen
 
@@ -30,6 +30,7 @@ Last updated: **2026-09-23**
 
 | Date | Change |
 |---|---|
+| 2026-09-23 | Added reviewer caveats to the design guide. The objective order is now marked segment-dependent: coverage and portability can be the effective primary objective for new-accelerator bring-up, edge, and non-frontier deployments (§5.1.1). Flagged that several informative results, including CAKE and Ave, rest on a single organization or hardware shape and stay tentative until independent reproduction (§5.4). Noted that a workload-dependent answer in the unresolved questions is legitimate only when it names deciding evidence and a review date (§6). Rebuilt the survey PDF. |
 | 2026-09-23 | Reframed the single narrative as a performance-first design guide; retained the section structure, 23 product topics, and 10 technical priorities. Added five forecast horizons, flexible compiler boundaries, explicit evidence scope, and readable design experiments. Added Mirage, Prism, Helion tuning, Triton-distributed, and Shardy; updated Ave and CAKE interpretations. Index: 155. Updated repository skill and PDF pipeline; preserved historical heading links. Presentation remains an earlier snapshot. |
 | 2026-09-23 | September evidence wave: MaxKernel ★, JAXBench ★, Pallas, AMDKernelVault ★, KernelGenBench ★, Hyperloom ★, AsmEvo ★, ForgeMegakernel ★. INDEX **150**. Hybrid holds; **C9** still open (peak ≠ TritorX coverage). Survey PDF + Beamer/EN/zh-TW. |
 | 2026-08-31 | Beamer + EN/zh-TW: skill-scope fold on 4/22/24–27/29/33/36–41 (T10 exists, C7, ★ SIGIL, INDEX **142**). Sharing PDF rebuilt. |
@@ -106,4 +107,4 @@ Last updated: **2026-09-23**
 1. Test agentic optimization against strong structured-search and conventional baselines.
 2. Seek evidence that changes a design choice, especially application gains, new-target transfer, or component replacement.
 3. Update the presentation and both transcript languages when that work is requested.
-4. Publish this prepared batch only after the maintainer authorizes a push.
+4. Align the presentation and both transcript languages with the revised design guidance and caveats when that work is requested.

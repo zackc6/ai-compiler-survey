@@ -382,6 +382,8 @@ For training, minimize representative step time while preserving the required tr
 
 Developer productivity and portability are secondary objectives of similar importance. Record implementation effort and the work needed to reach competitive performance on another target. For a new accelerator, sufficient operator coverage is an enabling condition: a fast isolated kernel cannot run an unsupported application.
 
+**Caveat on the objective order.** This ordering describes the frontier training and serving segment, where runtime dominates cost and the workload already runs. It is not universal. For new-accelerator bring-up, edge deployments, and the long tail of non-frontier organizations, workload coverage and portability are often the binding constraint and act as the effective primary objective until enough of the application runs to measure performance at all. State the deployment segment when applying this order, and reverse it when coverage or portability, rather than runtime, is what blocks the application. The unresolved question on coverage against peak performance discusses how to allocate work in these cases.
+
 **Example:** if serving throughput is the objective, a faster matrix multiplication is useful only to the extent that it improves the complete serving path. Profile whether the application is instead limited by communication, memory, scheduling, or another operator. Let those findings select the next experiment.
 
 <a id="511-how-many-data-plane-abstractions-one-cost-model-is-not-enough"></a>
@@ -472,6 +474,8 @@ Specify the tasks, budget, and review date when testing a hypothesis. “Agents 
 Several examples are particularly informative. Helion distinguishes cheaper tuning from a faster final kernel. CAKE compares different agent programming environments. Ave demonstrates targeted compile-time feedback. AsmEvo makes the final binary an optimization surface. Magellan shows that agent work can be amortized into compiler source. TritorX studies coverage on emerging hardware.
 
 Read their conditions before drawing architectural conclusions. The detailed evidence register records which results have multiple supporting systems and which depend on one study or organizational setting.
+
+**Watch the experimental base.** Several of these informative results rest on a single organization or a single hardware shape. The CAKE comparison uses three clean-start runs on one accelerator shape, and the Ave results cover selected accelerator families with different denominators for throughput and for validity. Such results are useful for motivating an experiment, but they should stay tentative until independent reproduction across more shapes and vendors. Do not let a single-setting result anchor an architecture decision on its own; require the corroborated-direction claims in the evidence register before committing.
 
 <a id="55-roadmap--horizon-a-202728-and-horizon-b-202931"></a>
 
@@ -669,6 +673,8 @@ Build a trustworthy application benchmark, a strong baseline, and a candidate/ev
 ## 6. Unresolved design questions
 
 These questions preserve the earlier conflict register. Each states competing choices, their implications, and useful evidence for deciding. Outcomes can differ by workload; coexistence is a valid result.
+
+A workload-dependent answer or coexistence is a legitimate conclusion only when the deciding evidence and a review date are stated. Without them, treat the question as open rather than settled, so that "it depends" does not become a way to avoid a testable commitment. This is the cost of the guide's deliberately cautious framing: recording a defensible position must not slide into declining to take one.
 
 <a id="c1--evolve-shippable-c-heuristics-vs-embed-neural-advisors-magellan-vs-mlgo"></a>
 
