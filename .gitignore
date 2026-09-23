@@ -15,6 +15,7 @@ publish/out/survey-bundle.md
 publish/out/survey-bundle.*.md
 publish/out/survey.html
 publish/out/survey.*.html
+publish/out/faculty.html
 publish/out/*.tmp.pdf
 publish/out/*.zh-CN.pdf
 publish/out/*.zh-TW.pdf

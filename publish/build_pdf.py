@@ -149,8 +149,50 @@ def write_locale_bundle(lang: str, translated_body: str) -> Path:
     return out
 
 
+FACULTY_MD = ROOT / "docs" / "faculty.md"
+FACULTY_PDF = OUT / "faculty.pdf"
+FACULTY_TITLE = "Faculty and industry people behind the survey"
+
+
+def render_faculty_pdf(engine: str) -> Path:
+    """Render docs/faculty.md with the survey stylesheet."""
+    if not FACULTY_MD.is_file():
+        raise FileNotFoundError(FACULTY_MD)
+    html = OUT / "faculty.html"
+    md_to_html(FACULTY_MD, html, title=FACULTY_TITLE)
+    # Markdown already has the H1. Drop Pandoc's duplicate title block.
+    text = html.read_text(encoding="utf-8")
+    text = text.replace(
+        '<header id="title-block-header">\n<h1 class="title">'
+        + FACULTY_TITLE
+        + "</h1>\n</header>\n",
+        "",
+    )
+    html.write_text(text, encoding="utf-8")
+    try:
+        if engine == "weasyprint":
+            html_to_pdf_weasy(html, FACULTY_PDF)
+        else:
+            html_to_pdf_wkhtml(html, FACULTY_PDF)
+    except Exception as exc:  # noqa: BLE001
+        print(f"ERROR: PDF engine failed (faculty): {exc}", file=sys.stderr)
+        if engine == "weasyprint" and shutil.which("wkhtmltopdf"):
+            print("Retrying with wkhtmltopdf…", file=sys.stderr)
+            html_to_pdf_wkhtml(html, FACULTY_PDF)
+        else:
+            raise
+    normalize_pdf(FACULTY_PDF, title=FACULTY_TITLE)
+    print(f"PDF[faculty]: {FACULTY_PDF.relative_to(ROOT)} ({FACULTY_PDF.stat().st_size // 1024} KiB)")
+    return FACULTY_PDF
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--faculty",
+        action="store_true",
+        help="Build only publish/out/faculty.pdf from docs/faculty.md",
+    )
     parser.add_argument(
         "--engine",
         choices=("weasyprint", "wkhtmltopdf"),
@@ -170,6 +212,13 @@ def main() -> int:
         return 2
 
     OUT.mkdir(parents=True, exist_ok=True)
+    if args.faculty:
+        try:
+            render_faculty_pdf(args.engine)
+        except Exception as exc:  # noqa: BLE001
+            print(f"ERROR building faculty PDF: {exc}", file=sys.stderr)
+            return 1
+        return 0
     langs = list(LANGS) if args.lang == "all" else [args.lang]
 
     en_bundle = assemble("en")
