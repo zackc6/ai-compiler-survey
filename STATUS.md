@@ -16,7 +16,7 @@ Last updated: **2026-09-23**
 | Survey PDF | Rebuilt with the current narrative and reference appendices; source links open primary references. |
 | Presentation | Existing slides and bilingual transcripts are an earlier snapshot; not aligned with this revision. |
 | Repository skill | Updated with plain-language guidance, evidence standards, architecture flexibility, and publication authorization rules. |
-| Publication | CUDA Tile evidence committed on main; publication pending maintainer authorization. |
+| Publication | CUDA Tile evidence published to main with maintainer authorization. |
 
 ## Coverage still to strengthen
 
