@@ -44,6 +44,7 @@ Last updated: **2026-09-23**
 
 | Date | Change |
 |---|---|
+| 2026-09-23 | People catalog: `docs/faculty.md` (faculty by region and relation; industry appendix). Jobs spelled out in sentences. Narrative and PDFs unchanged. |
 | 2026-09-23 | September evidence wave: MaxKernel ★, JAXBench ★, Pallas, AMDKernelVault ★, KernelGenBench ★, Hyperloom ★, AsmEvo ★, ForgeMegakernel ★. INDEX **150**. Hybrid holds; **C9** still open (peak ≠ TritorX coverage). Survey PDF + Beamer/EN/zh-TW. |
 | 2026-08-31 | Beamer + EN/zh-TW: skill-scope fold on 4/22/24–27/29/33/36–41 (T10 exists, C7, ★ SIGIL, INDEX **142**). Sharing PDF rebuilt. |
 | 2026-08-31 | Skill-scope lesson + re-search (hard rule 15): digest Agent Skills spec, SKILL.state, SIGIL ★, SkCC, SkVM, SkillSmith (2605.15215). Three senses of “skill”; T10/P2/§4.6/§9 grow; **no** C6/C2 move, **no** L-band. INDEX **142**. Survey PDF rebuilt (Beamer unchanged). |
