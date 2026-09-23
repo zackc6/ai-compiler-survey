@@ -254,6 +254,8 @@ For example, trying another tile after a slow measurement changes the current se
 
 Here, **control-plane self-improvement** means an automatic process proposes, evaluates, and retains a reusable controller change. A separate optimizer may perform that process. Reserve **recursive self-improvement** for the stronger case where the mechanism that proposes improvements also changes. Persistent experience can adapt later behavior without either kind of code rewrite; merely storing logs establishes neither improved behavior nor an improved controller.
 
+Use one rule to classify an edit: a controller change alters the decision procedure — instructions, search strategy, retrieval logic, orchestration, or agent code — not merely the data the procedure has stored. Adjusting stored experience alone is memory adaptation, not controller improvement. A retained decision procedure such as a learned stopping rule can also count as a learned policy in the alternatives comparison; classify it by what persists and evaluate it here whenever the reusable procedure, rather than its data, is what changes.
+
 <a id="3-can-agents-reshape-compilation-processes-q3"></a>
 
 ## 3. How compilation processes may change
@@ -379,6 +381,8 @@ The controller is now a research target in its own right. The evidence supports 
 
 **Assessment:** there is direct but narrow kernel evidence for instruction improvement, adjacent evidence for broader controller redesign, and an abstract-only kernel-memory lead. Full compiler-controller self-evolution is a hypothesis to test. Automated Design of Agentic Systems, Darwin Gödel Machine, and Hyperagents share a research lineage; Meta-Harness and GEPA also have author overlap. Count these dependencies instead of treating every paper as independent confirmation.
 
+**No application-level evidence yet.** Note the ceiling on today's direct evidence: the strongest controller-improvement result is a hardware-utilization proxy on a single target and model, not a runtime or application measurement. No study yet shows a retained controller change improving end-to-end application performance in a compiler under a fixed contract. Treat control-plane self-improvement as unproven at the application level for this design, not merely as under-replicated.
+
 [FlowCompile](../reference/publications/flowcompile.md) provides a structured workflow-optimization alternative. AgentFlow supplies analysis, while Auto and skill-compilation research explore reusable execution artifacts. DeepSeek Harness and SKILL.state provide runtime and state-management mechanisms. Such infrastructure can support an evolving controller, but analyzing, compiling, or hosting a workflow does not demonstrate that it improves itself. AFlow, AgentFlow, and FlowCompile are distinct systems.
 
 The main gap is a controlled compiler experiment. A persistent controller change should improve fresh searches, not merely replay a successful kernel or benefit from more accumulated device time. Version the controller and its memory snapshot separately from executable artifacts and compiler components. Keep search traces for diagnosis and evaluation tasks separate from those traces. Test stale or misleading memories after workload and hardware changes, and measure the cost of maintaining the controller as well as running it.
@@ -496,9 +500,13 @@ This creates three connected loops: application search produces executables; con
 
 **Benefit:** one controller improvement may help many future workloads. **Tradeoff:** evaluating it requires many complete search jobs, and repeated selection can overfit the development set. Broader controller-code edits become worth testing when restricted changes leave measurable failures. Recursive modification of the improvement procedure is a further experiment, not a prerequisite. Prefer a fixed controller when adaptation fails to transfer or cannot repay development and maintenance cost.
 
+**Priority caveat.** This is the most expensive loop to evaluate, because its unit of measurement is many complete search jobs on held-out families rather than a single compile. Under the performance-first objective and the guidance to improve search economics last, treat controller self-improvement as a late-stage, gated activity: pursue it only after the application-search and compiler-evolution loops deliver repeated value. The build sequence lists it before final cost reduction for continuity, but its near-term return is usually the lowest of the three loops, so do not schedule it as routine mid-build work.
+
 **Validation experiment:** compare a strong fixed controller, that controller with persistent memory, a controller with evolved instructions or workflow, and a conventional configuration-search baseline. Give them the same compiler actions, hardware access, feedback, model version, and validation contract. Match per-job resources and separately report all controller-development costs; also show performance-versus-budget curves. Hold out workload families and input shapes, repeat noisy measurements, and count failures. Measure the best accepted application performance and the cost to reach it. A cheaper search at comparable application speed is useful, but it is a different result from a faster executable.
 
 Freeze the proposed controller for the initial held-out evaluation. A separate continual-adaptation experiment may update it between tasks, but must disclose task order and prevent future evaluation information from leaking backward. Keep acceptance rules outside the proposed edits. When both the controller and compiler evolve, first measure each change separately, then measure their combination to detect interactions and attribute gains.
+
+The dominant practical threat is attribution rather than contamination alone: a measured gain can come from a newer model snapshot, toolchain drift, or simply more accumulated compute rather than from the controller change itself. Pin the model and toolchain versions for the duration of the comparison, log total compute and wall-clock for every accepted change, and reject a controller version whose apparent benefit does not reproduce under the same fixed versions and a matched budget.
 
 <a id="52-how-agents-change-the-future-process"></a>
 
