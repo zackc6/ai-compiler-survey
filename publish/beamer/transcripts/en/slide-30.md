@@ -6,7 +6,7 @@ Technique-to-checkpoint map. On-slide: band per conflict ID with arrow from tech
 Needs Magellan-class synthesis *or* EmitC-MLGO customer default on named apps. Watch public llvm patches and OpenEvolve recipes quarterly through 2027. Parallel bets stay parallel until evidence picks a default.
 
 **C2 ← T3 + T6 + T8 — median/p90 gains.**
-Needs replayable artifacts (T3 ACF freeze), serving oracles (T6), and a full ladder (T8). FlashInfer-Bench and **GEAK v4** warm A/B are pressure, not settlement — pinned traces + p50/p90 + cost-to-compile + serving stability.
+Needs replayable artifacts (T3 ACF freeze), serving oracles (T6), and a full ladder (T8). FlashInfer-Bench, **GEAK v4**, and **Hyperloom** e2e remeasure are pressure, not settlement — pinned traces + p50/p90 + cost-to-compile + serving stability.
 
 **C5 ← T1 + T3 — default path in release notes.**
 Needs typed interfaces plus freeze-before-serve named in shipping release notes. ACF workflows and control files become the documented default, not a hidden flag.
@@ -15,7 +15,7 @@ Needs typed interfaces plus freeze-before-serve named in shipping release notes.
 C3: free rewrite vs advisory — lean is constrained tools + ACFs/hints (T1), not wide rewrite APIs. C6: replace vs control plane — lean is C6-B hybrid: admit/fallback (T2), classical lowering stays. Flip signal: production default with *no* classical admit means agents replaced the compiler — survey rejects that through Horizon B.
 
 **C9 ← T5 + T8 — coverage vs peak.**
-Needs coverage→performance agents plus dialect sinks and a second-vendor TritorX-class public playbook on a *shipping* ASIC. **Zomboss** is an academic analog (research accelerators + sim), not that settlement. SKU story: coverage SLA (Service Level Agreement) first, performance SLA second.
+Needs coverage→performance agents plus dialect sinks and a second-vendor TritorX-class public playbook on a *shipping* ASIC. **Zomboss** is an academic analog. **MaxKernel** and **Hyperloom** are peak search on TPU and Instinct, not that playbook. **KernelGenBench** shows transfer failure, not coverage. SKU story: coverage SLA (Service Level Agreement) first, performance SLA second.
 
 **C10 ← T5 — codesign vs auto tape-out.**
 Needs ISA/dialect *proposals only* — humans and chip-design tools own tape-out. Agents stress kernels and IR today; autonomous microarch is not claimed.

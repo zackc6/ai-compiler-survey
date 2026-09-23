@@ -24,10 +24,12 @@ Companion: [`../docs/SURVEY.md`](../docs/SURVEY.md) §5 · [`../docs/SURVEY.md`]
 | Company | Offering | Roles | Prediction signal | Conflicts |
 |---|---|---|---|---|
 | **Google Cloud / DeepMind** | [AlphaEvolve on Cloud (GA)](https://cloud.google.com/blog/products/ai-machine-learning/alphaevolve-is-available-for-everyone) | Cloud-Agent, ControlPlane-Agent | Evolutionary coding agent as a sold product; Magellan lineage | C5, C1 |
+| **Google** | [MaxKernel](publications/maxkernel.md) on [Pallas](publications/pallas.md) / [JAXBench](publications/jaxbench.md) | ControlPlane-Agent, Kernel-Platform | TPU peak agent; compiler + XProf admit; not ASIC coverage | **C4**, **C9**, T1/T2 |
 | **Google** | Magellan (prod inlining narrative) + MLGO | ControlPlane-Agent / Autotune | Offline heuristic synthesis *and* neural advisors in production | **C1** |
 | **NVIDIA** | [CompileIQ](https://developer.nvidia.com/cuda/compileiq) (+ [agent-skills](https://nvidia.github.io/CompileIQ/stable/install.html)) | ControlPlane-Autotune / ControlPlane-Agent | Workload-specialized compiler controls; versioned ACFs; AGENTS.md skill pack drives search+Welch validate | **C2** (blog vs docs) |
 | **NVIDIA** | [CUDA Tile / Tile IR](https://developer.nvidia.com/blog/focus-on-your-algorithm-nvidia-cuda-tile-handles-the-hardware/) | Kernel-Platform | Next agent IR vs Triton | **C4** |
 | **AMD** | [GEAK v4](https://github.com/AMD-AGI/GEAK) (`e2e_workflow` + kernel_workflow) | ControlPlane-Agent, Kernel-Platform | Amdahl triage on warm sglang/vLLM; warm-server A/B + output parity; multi-DSL kernels | **C2**, **C4**, T6 |
+| **AMD** | [Hyperloom](publications/hyperloom.md) | ControlPlane-Agent, DataPlane-Serve | e2e Instinct harness; kernel phase delegated to GEAK or KernelForge; state-file + critic | **C2**, T6/T10 |
 | **Meta** | [LLM Compiler](https://ai.meta.com/research/publications/meta-large-language-model-compiler-foundation-models-of-compiler-optimization/) / [KernelLLM](https://huggingface.co/facebook/KernelLLM) | Research-release | Open foundation / specialist models | — |
 | **NVIDIA** | TensorRT-LLM + [Claude agents/skills PR](https://github.com/NVIDIA/TensorRT-LLM/pull/12831) | DataPlane-Serve + ControlPlane-Agent | Agents wired into flagship serve compiler (multi-DSL) | **C4** |
 | **Meta** | TritorX + KernelEvolve (MTIA + hetero GPUs) | ControlPlane-Agent + Kernel-Platform | Agentic ASIC bring-up + production ranking kernels | **C9**, C2 |
@@ -48,6 +50,7 @@ Brief on purpose: these are **defaults**, not proof that agents win.
 | **FlashInfer** | [flashinfer](https://github.com/flashinfer-ai/flashinfer) kernel library | DataPlane-Serve | Engine-agnostic attention/GEMM/MoE kernels; Bench deploy target |
 | **Meta** | `torch.compile` / Inductor | DataPlane-Compile | De-facto app compile entry |
 | **Google / OpenXLA** | XLA + StableHLO | DataPlane-Compile | Portable HLO; Magellan XLA experiments |
+| **Google (JAX)** | [Pallas](publications/pallas.md) → Mosaic | Kernel-Platform | TPU/GPU kernel DSL; MaxKernel/JAXBench sink; Mosaic still lowers |
 | **Modular** | MAX + Mojo | DataPlane-Serve/Compile | MLIR-rooted alternative stack |
 | **Intel** | OpenVINO | DataPlane-Compile | Edge/CPU deploy toolkit |
 | **AWS** | Neuron (+ NKI) | DataPlane-Compile, Kernel-Platform | Cloud-custom silicon; NKI as agent surface |

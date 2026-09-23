@@ -12,12 +12,12 @@ Magellan — 可出貨 C++ 啟發式（C1）。ACCLAIM — 線上工具迴圈。
 TritorX、KernelEvolve — 真實硬體上的覆蓋→效能（C9）。**Zomboss** ★ — Gemmini/PLENA 上的一次編譯對映契約（學術類比，不是第二供應商出貨）。KForge — 多 DSL 使能。提案給方言／ISA，不是自主流片（C10 邊界）。
 
 **核心／梯子／資料。**
-**Cake** ★ — 型別化排程 IR，NVIDIA。**Argus** ★ — 資料流不變量 + SMT，MI300X。**GEAK v4** ★ — 廠商端到端 serving A/B。FlashInfer-Bench ★ — serving-trace 梯子 + `apply()`。KernelBook ★ — 朝 TritonRL 的訓練對。
+第一行仍是 ★：**Cake**（型別化排程 IR）、**Argus**（MI300X 上的 SMT）、**GEAK v4**、FlashInfer-Bench。第二行是 9 月 ★：**MaxKernel**（Pallas/TPU 峰值）、**Hyperloom**（Instinct 端到端；核心階段委派）、**JAXBench**（TPU 階）、**KernelGenBench**（來源 × 晶片 × token）。兩行之外也是 ★：**AsmEvo**（二進位差分接納）、**AMDKernelVault**（HIP+Triton 語料；正確率 ≠ 速度）、**ForgeMegakernel**（中間狀態判定預言機——不是 AMD KernelForge，也不是 Event Tensor）。KernelBook 仍是更早的 Triton 訓練堆。
 
 **控制面／技能。**
 **SIGIL** ★——`SKILL.md` → AG-IR → 型別化 harness（T10）。**SKILL.state**——明確 \(\Sigma_t\)，驗證更新後丟掉推理（P2）。Agent Skills 規格——CompileIQ 已遵循的包裝（P1，不是 T1）。SkCC／SkVM／SkillSmith 是同波底層，不再另標星。
 
 **指標。**
-完整文獻摘要索引 **142** 筆。技術圖交叉參考：調查 §5.8 T1–T10。準備檢查點論證時先讀 ★。
+完整文獻摘要索引 **150** 筆。技術圖交叉參考：調查 §5.8 T1–T10。準備檢查點論證時先讀 ★。9 月來源不結算 C9。
 
 收尾：★ 文獻摘要是從主張到可引用機制的最短路——先用它們，再做一般網路搜尋。

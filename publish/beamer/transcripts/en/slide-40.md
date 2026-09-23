@@ -12,12 +12,12 @@ Magellan — shippable C++ heuristics (C1). ACCLAIM — online tool loops. EmitC
 TritorX, KernelEvolve — coverage→performance on real hardware (C9). **Zomboss** ★ — compile-once mapping contract on Gemmini/PLENA (academic analog, not second-vendor shipping). KForge — multi-DSL bring-up. Proposals to dialect/ISA, not autonomous tape-out (C10 boundary).
 
 **Kernels / ladder / data.**
-**Cake** ★ — typed schedule IR, NVIDIA. **Argus** ★ — data-flow invariants + SMT, MI300X. **GEAK v4** ★ — vendor e2e serving A/B. FlashInfer-Bench ★ — serving-trace ladder + `apply()`. KernelBook ★ — training pairs toward TritonRL.
+First line, still ★: **Cake** (typed schedule IR), **Argus** (SMT on MI300X), **GEAK v4**, FlashInfer-Bench. Second line, September ★: **MaxKernel** (Pallas/TPU peak), **Hyperloom** (Instinct e2e; kernel phase delegated), **JAXBench** (TPU rung), **KernelGenBench** (source × chip × tokens). Also ★ off the two lines: **AsmEvo** (binary-diff admit), **AMDKernelVault** (HIP+Triton corpus; correctness ≠ speed), **ForgeMegakernel** (mid-state oracle — not AMD KernelForge, not Event Tensor). KernelBook remains the earlier Triton training pile.
 
 **Control plane / skills.**
 **SIGIL** ★ — `SKILL.md` → AG-IR → typed harness (T10). **SKILL.state** — explicit \(\Sigma_t\), discard reasoning after a validated update (P2). Agent Skills spec — packaging CompileIQ already follows (P1, not T1). SkCC / SkVM / SkillSmith are same-wave substrate, not extra stars.
 
 **Pointers.**
-Full digest index **142** entries in the evidence store. Technique map cross-ref: SURVEY §5.8 T1–T10. Read ★ first when prepping checkpoint arguments.
+Full digest index **150** entries in the evidence store. Technique map cross-ref: SURVEY §5.8 T1–T10. Read ★ first when prepping checkpoint arguments. September sources do not settle C9.
 
 Closing beat: ★ digests are the shortest path from claim to citable mechanism — use them before general web search.

@@ -32,6 +32,9 @@ Companion: [`../docs/SURVEY.md`](../docs/SURVEY.md) §5 · [`../docs/SURVEY.md`]
 | [BonnieW05/KernelBenchX](https://github.com/BonnieW05/KernelBenchX) (if public) / paper | GitHub | Correctness≠perf ceilings | **C2** |
 | [meta-pytorch/KernelAgent](https://github.com/meta-pytorch/KernelAgent) | GitHub | PyTorch→verified Triton agents | Trend D |
 | [AMD-AGI/GEAK](https://github.com/AMD-AGI/GEAK) / [GEAK-agent](https://github.com/AMD-AGI/GEAK-agent) | GitHub | v4: e2e sglang/vLLM Amdahl + A/B; multi-DSL kernel_workflow | Trend D; **C2/C4**; T6 |
+| [AMD-AGI/Hyperloom](https://github.com/AMD-AGI/Hyperloom) | GitHub | e2e Instinct harness; delegates kernel phase to GEAK or KernelForge; `SKILL.md` pack | **C2**; T6/T10 |
+| [AI-Hypercomputer/accelerator-agents](https://github.com/AI-Hypercomputer/accelerator-agents) | GitHub | MaxKernel + JAXBench (Pallas/TPU search + harness) | **C4/C9**; T1/T8 |
+| [flagos-ai/KernelGenBench](https://github.com/flagos-ai/KernelGenBench) | GitHub | Multi-source × multi-chip Triton bench + token cost | **T8**; **P23**; **C2** |
 | [dtcxzyw/llvm-harness](https://github.com/dtcxzyw/llvm-harness) + [paper](https://arxiv.org/abs/2603.20075) | GitHub | LLVM tools + llvm-bench + autofix/autoreview (Archer lineage) | Job (c); **C7** |
 | [NVIDIA/CompileIQ](https://github.com/NVIDIA/CompileIQ) | GitHub | Evolutionary compiler Advanced Controls → ACF | §4.3; **C2/C5** |
 | [anthropics/claudes-c-compiler](https://github.com/anthropics/claudes-c-compiler) | GitHub | Agents-as-compiler-engineers | Trend F; **C6** |

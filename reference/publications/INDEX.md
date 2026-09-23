@@ -151,7 +151,16 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | Agent control-plane substrate | Shanghai Jiao Tong University | arXiv | [SkVM: Compiling Skills for Efficient Execution Everywhere](skvm.md) | [source](https://arxiv.org/abs/2604.03088) |
 | 2026 | paper | Agent control-plane substrate | AetherHeart Tech · Renmin University of China · UC San Diego | arXiv | [SkillSmith: Compiling Agent Skills into Boundary-Guided Runtime Interfaces](skillsmith.md) | [source](https://arxiv.org/abs/2605.15215) |
 
-**Total:** 142 digests
+| 2026 | paper | GPU kernels & inference compilers | Google · Google DeepMind | arXiv | [MaxKernel: Agentic Kernel Generation for TPUs](maxkernel.md) ★ TPU/Pallas peak agent | [source](https://arxiv.org/abs/2609.04523) |
+| 2026 | paper | GPU kernels & inference compilers | Google · Google DeepMind · Harvard University · UC Berkeley | arXiv | [JAXBench: Benchmarking Autonomous TPU Kernel Optimization](jaxbench.md) ★ T8 TPU rung | [source](https://arxiv.org/abs/2607.20466) |
+| 2024+ | company | Classic DL compilers | Google (JAX) | JAX documentation | [Pallas: JAX kernel language for GPUs and TPUs](pallas.md) | [source](https://docs.jax.dev/en/latest/pallas/design/design.html) |
+| 2026 | paper | GPU kernels & inference compilers | AMD | arXiv | [AMDKernelVault: Large-Scale Datasets and Agentic Training for AMD GPU Kernel Optimization](amdkernelvault.md) ★ T7 HIP+Triton corpus | [source](https://arxiv.org/abs/2609.12471) |
+| 2026 | paper | GPU kernels & inference compilers | BAAI · Beijing Normal University · Beijing Jiaotong University · Institute of Automation, CAS · Peking University | arXiv | [KernelGenBench: Can LLMs and Agents Write Efficient Kernels Across Operator Sources and Hardware Platforms?](kernelgenbench.md) ★ T8 cost × chip | [source](https://arxiv.org/abs/2607.27231) |
+| 2026 | company | Commercial products & proposals | AMD | AMD ROCm blog | [Hyperloom: A Multi-Agent Harness for Autonomous Inference Optimization on AMD GPUs](hyperloom.md) ★ e2e Instinct harness | [source](https://rocm.blogs.amd.com/software-tools-optimization/hyperloom-optimization/README.html) |
+| 2026 | paper | GPU kernels & inference compilers | AMD | arXiv | [AsmEvo: Agentic Assembly-Level Optimization of AMD GPU Kernels with Functional Equivalence Verification](asmevo.md) ★ binary-diff admit | [source](https://arxiv.org/abs/2608.20711) |
+| 2026 | paper | GPU kernels & inference compilers | Tsinghua University · University of Chinese Academy of Sciences · ModelBest | arXiv | [ForgeMegakernel: A General Framework for Efficient Auto-Regressive Model Decode Megakernels](forgemegakernel.md) ★ mid-state oracle | [source](https://arxiv.org/abs/2609.12379) |
+
+**Total:** 150 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 

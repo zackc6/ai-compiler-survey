@@ -1,6 +1,6 @@
 # Survey status
 
-Last updated: **2026-08-31**
+Last updated: **2026-09-23**
 
 ## Overall progress
 
@@ -14,7 +14,7 @@ Last updated: **2026-08-31**
 | Conflicts | Done | `docs/SURVEY.md` §6 C1–C10 |
 | Survey narrative §0–§9 | Done (v3) | Single reading path; gaps as blockers |
 | **Reference store** | Done | `reference/` guide → publications / products / repos |
-| Publication digests | Done (v11) | **142** digests under `reference/publications/` |
+| Publication digests | Done (v12) | **150** digests under `reference/publications/` |
 | Validate script | Done | `python3 scripts/validate_survey.py` |
 | **PDF publish** | Done | Survey PDF + expert Beamer deck in `publish/out/` |
 | **Survey skill** | Done | `.cursor/skills/survey/` (+ personal `~/.cursor/skills/survey/`) |
@@ -29,7 +29,7 @@ Last updated: **2026-08-31**
 - [x] SURVEY §5.6 SW+HW layer map focused on agentic compiler
 - [x] TritorX, KernelEvolve, Ascend diagnosis, KForge, AutoKernel, Helion, **Zomboss**, **Cake**, **GEAK v4** digests
 - [x] Conflicts C9 (coverage vs peak), C10 (codesign vs autonomous chip)
-- [ ] Second-vendor public TritorX-class reproduction (Zomboss = academic analog only)
+- [ ] Second-vendor public TritorX-class reproduction (Zomboss = academic analog; MaxKernel/Hyperloom = peak on TPU/Instinct, not coverage)
 - [ ] Revisit after Magellan/MLGO or KernelBench-X settlement
 
 ### Publications
@@ -44,6 +44,7 @@ Last updated: **2026-08-31**
 
 | Date | Change |
 |---|---|
+| 2026-09-23 | September evidence wave: MaxKernel ★, JAXBench ★, Pallas, AMDKernelVault ★, KernelGenBench ★, Hyperloom ★, AsmEvo ★, ForgeMegakernel ★. INDEX **150**. Hybrid holds; **C9** still open (peak ≠ TritorX coverage). Survey PDF + Beamer/EN/zh-TW. |
 | 2026-08-31 | Beamer + EN/zh-TW: skill-scope fold on 4/22/24–27/29/33/36–41 (T10 exists, C7, ★ SIGIL, INDEX **142**). Sharing PDF rebuilt. |
 | 2026-08-31 | Skill-scope lesson + re-search (hard rule 15): digest Agent Skills spec, SKILL.state, SIGIL ★, SkCC, SkVM, SkillSmith (2605.15215). Three senses of “skill”; T10/P2/§4.6/§9 grow; **no** C6/C2 move, **no** L-band. INDEX **142**. Survey PDF rebuilt (Beamer unchanged). |
 | 2026-08-27 | §0.1 **top of the picture**: agentic compiler loop (control plane → typed kernel → classical lower → freeze-serve). Survey is evidence, not a second goal. Canonical loop + §5.1 pointer. Survey PDF rebuilt (Beamer unchanged). |

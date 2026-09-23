@@ -6,7 +6,7 @@
 需要 Magellan 級合成 *或* 具名應用上的 EmitC-MLGO 客戶預設。到 2027 年每季看公開 llvm 補丁與 OpenEvolve 配方。平行賭注維持平行，直到證據選出預設。
 
 **C2 ← T3 + T6 + T8 — 中位／p90 增益。**
-需要可重播產物（T3 ACF freeze）、serving 判定預言機（T6）、完整梯子（T8）。FlashInfer-Bench 與 **GEAK v4** 熱 A/B 是壓力，不是結算——釘死 trace + p50/p90 + 編譯成本 + serving 穩定。
+需要可重播產物（T3 ACF freeze）、serving 判定預言機（T6）、完整梯子（T8）。FlashInfer-Bench、**GEAK v4** 與 **Hyperloom** 端到端重測是壓力，不是結算——釘死 trace + p50/p90 + 編譯成本 + serving 穩定。
 
 **C5 ← T1 + T3 — 發行說明裡的預設路徑。**
 需要型別化介面，加上出貨發行說明裡具名的 freeze-before-serve。ACF 工作流與控制檔成為文件預設，不是暗旗標。
@@ -15,7 +15,7 @@
 C3：自由改寫 vs 建議——lean 是受約束工具 + ACF／提示（T1），不是寬改寫 API。C6：取代 vs 控制面——lean 是 C6-B 混合：admit／fallback（T2），經典 lowering 留下。翻轉訊號：生產預設*沒有*經典 admit，等於智慧體取代編譯器——調查到 Horizon B 都拒絕。
 
 **C9 ← T5 + T8 — 覆蓋 vs 峰值。**
-需要覆蓋→效能智慧體加上方言匯流排，以及*出貨* ASIC 上的第二供應商 TritorX 級公開劇本。**Zomboss** 是學術類比（研究加速器 + 模擬），不是那次結算。SKU 故事：覆蓋 SLA（服務水準協議）先，效能 SLA 後。
+需要覆蓋→效能智慧體加上方言匯流排，以及*出貨* ASIC 上的第二供應商 TritorX 級公開劇本。**Zomboss** 是學術類比。**MaxKernel** 與 **Hyperloom** 是 TPU 與 Instinct 上的峰值搜尋，不是那份劇本。**KernelGenBench** 顯示的是遷移失敗，不是覆蓋。SKU 故事：覆蓋 SLA（服務水準協議）先，效能 SLA 後。
 
 **C10 ← T5 — 協同設計 vs 自動流片。**
 需要 ISA／方言*只提案*——人與晶片設計工具擁有流片。今天智慧體壓核心與 IR；不主張自主微架構。

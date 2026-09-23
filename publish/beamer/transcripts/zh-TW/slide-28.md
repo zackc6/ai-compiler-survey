@@ -3,10 +3,10 @@
 帶狀佈局的編譯器內技術。幻燈片上：每列是技術 + 解鎖、Exists、Missing。口播：五條都走主張 → 證據 → 缺口。
 
 **T1 — 型別化介面 → C3、C5、C6。**
-Exists：CompileIQ 智慧體技能、**Cake IR**（型別化排程，沒有版面代數）、**Argus** tag 函式／斷言、**TIRx**（TVM FFI + tile primitive；B 級）、**TileLang LSP**（推斷 layout）、**IntOpt** 意圖序列（經典實現）、**LLM4IR** 作為*負例*（裸 LLVM 傾印在 CFG／執行上失敗）。主張：**面向 LLM 的 IR** 是智慧體可見的臉——schema，不是貼上然後祈禱。Missing：跨 MLIR、Triton/Gluon/TLX、Tile、Cake、Argus、TIRx 的可攜摘要與行動——今天每個堆疊都重黏。解鎖窄 ACF／提示壓過自由改寫（C3），以及發行說明裡的具名預設路徑（C5）。
+Exists：CompileIQ 智慧體技能、**Cake IR**、**Argus** tag、**TIRx**、**TileLang LSP**、**Pallas** 的 block spec 與記憶體空間（MaxKernel 的 TPU 臉；Mosaic 仍 lowering）、**IntOpt** 意圖、**LLM4IR** 作為*負例*。主張：**面向 LLM 的 IR** 是智慧體可見的臉——schema，不是貼上然後祈禱。Missing：跨 MLIR、Triton/Gluon/TLX、Tile、Cake、Argus、TIRx、**Pallas** 的可攜摘要與行動——今天每個堆疊都重黏。解鎖窄 ACF／提示壓過自由改寫（C3），以及發行說明裡的具名預設路徑（C5）。
 
 **T2 — 接納／回退 → C6 混合。**
-Exists：Archer 判定預言機閘控 PR、**Cake** 編譯前安全／符合性閘、**Argus** 版面代數 + SMT（零執行期、執行緒級反例）、FlashInfer-Bench。主張：混合意味經典 lowering 仍在 admit 底下跑。Missing：共享的 admit *產品*，加上每個廠商文件都信得過的確定性回退。解鎖 C6-B——控制面，不是編譯器替換。
+本頁 Exists：**Argus** 版面代數 + SMT、**AsmEvo** 對原始 AMDGPU 程式物件的差分檢查，以及 ForgeMegakernel 生成過程中的**中間狀態判定預言機**。Archer、Cake 閘與 FlashInfer-Bench 仍在敘事裡。主張：混合意味經典 lowering 或檢查器仍負責接納。Missing：共享的 admit *產品*，加上每個廠商文件都信得過的確定性回退。解鎖 C6-B——控制面，不是編譯器替換。
 
 **T3 — 控制檔 + 重播 → C2、C5。**
 Exists：CompileIQ ACF、FlashInfer Trace + `apply()` 進 SGLang/vLLM。主張：freeze 產物是服務時零 LLM 的做法。Missing：內容定址快取鍵；模型或編譯器升級時的 golden 重播。解鎖釘死 trace 上的中位／p90 證據（C2）。

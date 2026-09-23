@@ -6,7 +6,7 @@ Tier A open repos by job type. On-slide: two bands + tier gloss. Spoken: map rep
 OpenEvolve, HeuriGym — evolutionary heuristic search. Archer — oracle-gated pull-request review. **llvm-harness** — LLVM tools + llvm-bench + autofix/autoreview (Archer lineage). Compiler-R1 — tool-calling pass search (SFT+RL). mlirAgent — IR transform baseline (fragile; useful as negative pressure for C3). Job (b) offline and job (c) engineering review.
 
 **Online / kernels / bring-up.**
-ACCLAIM, CompileIQ — online propose→measure→admit. **GEAK v4**, KernelAgent — kernel and now e2e serving loops. KernelBench(-X) — correctness and speed ladder. FlashInfer-Bench — serving traces. AutoKernel, Helion — kernel DSL surfaces. TritorX / KernelEvolve / **Zomboss** — sim/silicon→dialect or compile-once mapping (job d). Jobs (a) online and (d) bring-up.
+ACCLAIM, CompileIQ — online propose→measure→admit. **GEAK v4** and **Hyperloom** — e2e serving loops (Hyperloom delegates the kernel phase). **MaxKernel** — Pallas/TPU search in `accelerator-agents`. **JAXBench** and **KernelGenBench** — TPU rung and cross-chip Triton cost. TritorX / KernelEvolve / **Zomboss** — sim/silicon→dialect or compile-once mapping (job d). Jobs (a) online and (d) bring-up. MaxKernel is (a), not (d).
 
 **Tier definitions.**
 A = agents + domain oracles change heuristics, kernels, knobs, or review — prediction-relevant. B = data-plane hosts agents attach to. C = generic forge AI only — useful tooling, demoted for checkpoint settlement (C7). Footer: **DeepSeek Harness**, the Agent Skills spec, and skill compilers (SIGIL / SkCC / SkVM / SkillSmith) are *not* Tier A unless compiler oracles mount — substrate, C7.
