@@ -6,6 +6,8 @@ Runtime performance comes first. Developer productivity and portability are seco
 
 Start with the [survey and design guide](docs/SURVEY.md), or read the [PDF](publish/out/next-gen-ai-compiler-survey.pdf). The guide covers trends, competing optimization methods, necessary compiler functions, gaps, design guidelines, and forecasts for 2027, 2029, 2031, 2036, and beyond. It treats passes, lowering, representations, and agent organization as design choices to test. Each forecast has a review date and an observable outcome; confidence in direction, timing, and architectural form is recorded separately.
 
+The guide now distinguishes application optimization, compiler evolution, and **controller self-improvement**. The controller discussion separates kernel-specific prompt evidence from broader agent research and gives a concrete experiment for evaluating future-search benefit.
+
 ## Where things belong
 
 | Location | Purpose |

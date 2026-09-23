@@ -31,7 +31,7 @@ The thesis has three different strengths:
 
 Today's failures identify challenges and possible research directions. They do not establish permanent limits. Equally, the possibility of a breakthrough does not establish when it will arrive. Forecast direction, timing, and software architecture separately.
 
-The scope includes model graphs, kernels, memory, communication, runtime specialization, compiler construction, deployment, and hardware/software co-design when linked to executable workloads. Coverage is strongest for accelerator tensor workloads. Mobile, embedded, central-processor-only inference, and non-neural machine learning need more coverage before making claims about the entire field. General chip-design automation and generic coding agents are adjacent topics unless they inform a compiler decision.
+The scope includes model graphs, kernels, memory, communication, runtime specialization, compiler construction, controller improvement, deployment, and hardware/software co-design when linked to executable workloads. Coverage is strongest for accelerator tensor workloads. Mobile, embedded, central-processor-only inference, and non-neural machine learning need more coverage before making claims about the entire field. General chip-design automation and generic coding agents are adjacent topics unless they inform a compiler decision.
 
 <a id="02-vocabulary-and-taxonomy"></a>
 <a id="two-meanings-of-ai-compiler"></a>
@@ -53,6 +53,7 @@ The scope includes model graphs, kernels, memory, communication, runtime special
 | Pass | A unit of compiler analysis or transformation. A pass need not be handwritten or run in a fixed order. |
 | Lowering | Turning higher-level computation into a representation or executable closer to the target machine. The function does not require today's sequence of stages. |
 | Control plane | The logic that chooses optimization actions and coordinates experiments. |
+| Controller improvement | Automatically changing reusable optimizer instructions, workflow, or code and evaluating whether future searches improve. It is distinct from improving the current application or the compiler tools. |
 | Compiler substrate | Representations, transformations, analyses, code generation, and tools used by the optimizer. Earlier versions called this the data plane. |
 | Validation contract | The inputs, semantics, numerical or statistical acceptance criteria, quality requirements, and operating conditions an implementation must satisfy. |
 | Oracle | A source of evaluation feedback, such as a reference implementation, a proof checker, or a benchmark. Each has a defined scope and can be incomplete. |
@@ -151,6 +152,8 @@ These checks cover different failure modes. Successful compilation, sampled nume
 
 **Design consequence:** allow the system to improve its tools as well as its programs. Validate generated compiler components across workloads, because an improvement for one kernel can create regressions elsewhere. A component authored by an agent can still execute deterministically.
 
+The optimization controller can also become a target. Changing its reusable instructions or search workflow is a different experiment from changing a kernel or compiler pass. [GEPA](../reference/publications/gepa.md) supplies limited kernel-specific prompt-evolution evidence; broader controller-code and recursive-improvement studies are mostly adjacent agent research. This guide now treats controller improvement as an explicit research direction, with its own evaluation rather than an assumed property of every agentic compiler.
+
 <a id="14-venue-map"></a>
 
 ### 1.4 Where to look for evidence
@@ -210,6 +213,7 @@ A useful first experiment compares a strong conventional pipeline, structured se
 | Choose optimization scope | Move between graph, kernel, communication, and runtime decisions. | Application benefit after integrating all changes. |
 | Evolve compiler components | Generate heuristics, analyses, or backend support. | Regression behavior on a separate workload corpus. |
 | Reuse accumulated experience | Retrieve useful implementations and unsuccessful experiments. | Compatibility with the current hardware, software, and input assumptions. |
+| Improve the controller | Propose reusable instruction, workflow, or controller-code changes. | Better future searches on separate tasks after accounting for development and evaluation cost. |
 
 Reasoning Compiler combines language-model proposals with tree search; ACCLAIM explores multiple abstraction levels; CompileIQ exposes internal tuning controls; Magellan evolves executable heuristics. These are different mechanisms, not interchangeable implementations of one proven agent architecture.
 
@@ -224,7 +228,7 @@ Reasoning Compiler combines language-model proposals with tree search; ACCLAIM e
 5. Reject candidates that violate the applicable checks; compile or materialize the survivors.
 6. Measure candidates on the target and integrate promising ones into the application.
 7. Keep improvements that satisfy the contract; retain a usable fallback and an experiment record.
-8. Use the findings to improve future proposals and, where justified, the compiler tools themselves.
+8. Use the findings to improve future proposals. Where justified, open a separate experiment to change the reusable controller or compiler tools.
 
 This is a reference workflow. Cheap static checks can happen before compilation; some checks require execution. Candidate generation and validation can run in parallel when resources allow. The workflow does not require one specific agent topology.
 
@@ -235,6 +239,20 @@ This is a reference workflow. Cheap static checks can happen before compilation;
 The optimizer can propose changes to programs, transformations, or evaluation tools. It should not silently redefine the acceptance criteria to make its own output pass. Changing numerical tolerances, supported inputs, or model-quality requirements is a separate design decision.
 
 Record whether a candidate was tested, formally checked within a modeled subset, or validated in an application. Keep evaluation inputs separate from search feedback when measuring generalization. This is especially important when the system can modify its own harness.
+
+### 2.4 Three targets of improvement
+
+An agent in the control plane can optimize applications without changing its own implementation. Distinguish the artifact that persists after an experiment:
+
+| Target | What changes | What must improve |
+|---|---|---|
+| Application | Kernels, fusion, layouts, placement, or the runtime plan. | The accepted application's execution under its contract. |
+| Controller | Reusable instructions, search strategy, retrieval policy, orchestration, or agent code. | The quality or cost of future optimization jobs. |
+| Compiler | Analyses, transformations, representations, or backend implementation. | Compilation outcomes across supported workloads and targets. |
+
+For example, trying another tile after a slow measurement changes the current search. Retaining an automatically proposed policy for deciding when to stop tile search and explore fusion changes the controller. Generating a reusable lowering transformation changes the compiler. One agent can perform all three jobs; these are evaluation boundaries, not a requirement for three agents or permanent software layers.
+
+Here, **control-plane self-improvement** means an automatic process proposes, evaluates, and retains a reusable controller change. A separate optimizer may perform that process. Reserve **recursive self-improvement** for the stronger case where the mechanism that proposes improvements also changes. Persistent experience can adapt later behavior without either kind of code rewrite; merely storing logs establishes neither improved behavior nor an improved controller.
 
 <a id="3-can-agents-reshape-compilation-processes-q3"></a>
 
@@ -345,9 +363,21 @@ The open question is how much structure helps the optimizer. An interface that m
 
 ### 4.6 The optimizer's own workflow and memory
 
-FlowCompile, Auto, AgentFlow, heterogeneous agent-serving research, and the skill-compilation literature suggest ways to analyze, optimize, or reuse parts of an agent workflow. DeepSeek Harness and SKILL.state illustrate different execution-history and state-management approaches. These are adjacent mechanisms until evaluated in a compiler setting.
+The controller is now a research target in its own right. The evidence supports several mechanisms with different scopes; it does not establish a single self-evolving compiler architecture.
 
-Keep deployable kernels and compiler changes in durable versioned storage. Use summaries, retrieval, and task state to help search, with compatibility checks on reuse. A monolithic agent, a bounded workflow, and specialists coordinated by another agent are alternatives; the reviewed evidence does not establish one required topology.
+| Mechanism | Relevant evidence | What remains unproven for this compiler design |
+|---|---|---|
+| Evolve reusable instructions | [GEPA](../reference/publications/gepa.md) changes prompts used by kernel-generation agents. | Application benefit and transfer of the learned controller to unseen workload families under comparable total budgets. |
+| Adapt through persistent experience | [KOPE](../reference/publications/kope.md) describes kernel-search memory with a fixed model. | Full-text protocol verification is pending; memory adaptation does not establish autonomous workflow rewriting. |
+| Search workflow or harness code | [Automated Design of Agentic Systems](../reference/publications/adas.md), [AFlow](../reference/publications/aflow.md), and [Meta-Harness](../reference/publications/meta-harness.md) generate agent designs or harnesses. | Their broader-task results need compiler-specific evaluation; the outer optimizer need not change. |
+| Let agents edit their own implementation | [Self-Improving Coding Agent](../reference/publications/self-improving-coding-agent.md) and [Darwin Gödel Machine](../reference/publications/darwin-godel-machine.md) evaluate agent-code changes. | Coding-task gains do not establish better compiler-search decisions. |
+| Change the improvement procedure itself | [Hyperagents](../reference/publications/hyperagents.md) makes the agent-modification procedure editable. | Compiler transfer and sustained gains remain open; its main experiments still fix parts of selection and evaluation. |
+
+**Assessment:** there is direct but narrow kernel evidence for instruction improvement, adjacent evidence for broader controller redesign, and an abstract-only kernel-memory lead. Full compiler-controller self-evolution is a hypothesis to test. Automated Design of Agentic Systems, Darwin Gödel Machine, and Hyperagents share a research lineage; Meta-Harness and GEPA also have author overlap. Count these dependencies instead of treating every paper as independent confirmation.
+
+[FlowCompile](../reference/publications/flowcompile.md) provides a structured workflow-optimization alternative. AgentFlow supplies analysis, while Auto and skill-compilation research explore reusable execution artifacts. DeepSeek Harness and SKILL.state provide runtime and state-management mechanisms. Such infrastructure can support an evolving controller, but analyzing, compiling, or hosting a workflow does not demonstrate that it improves itself. AFlow, AgentFlow, and FlowCompile are distinct systems.
+
+The main gap is a controlled compiler experiment. A persistent controller change should improve fresh searches, not merely replay a successful kernel or benefit from more accumulated device time. Version the controller and its memory snapshot separately from executable artifacts and compiler components. Keep search traces for diagnosis and evaluation tasks separate from those traces. Test stale or misleading memories after workload and hardware changes, and measure the cost of maintaining the controller as well as running it.
 
 <a id="47-training-data-for-compilers"></a>
 
@@ -454,6 +484,18 @@ A shared interface can expose several representations. A unified representation 
 
 Replacement is incremental. Generating a new heuristic, replacing a transformation, changing the representation, or bypassing part of lowering all count as architectural change. Retaining an assembler, checker, or fallback does not mean the rest of the compiler has remained conventional.
 
+#### 5.1.5 Add controller improvement as a separately evaluated loop
+
+**Recommended starting point:** keep a strong fixed controller and allow offline proposals to change a small, versioned part of it, such as the reusable optimization instructions or retrieval policy. Use ordinary application-search runs to gather development evidence, then evaluate proposed controller versions on separate workloads. Keep the compiler tools fixed for this first comparison. Only accepted controller versions guide subsequent searches.
+
+This creates three connected loops: application search produces executables; controller development produces a new optimizer version; compiler evolution produces a new toolchain version. Controller development can use the same agent infrastructure as the other loops. It need not run on the application's execution path, modify model weights, or rewrite its own improvement procedure.
+
+**Benefit:** one controller improvement may help many future workloads. **Tradeoff:** evaluating it requires many complete search jobs, and repeated selection can overfit the development set. Broader controller-code edits become worth testing when restricted changes leave measurable failures. Recursive modification of the improvement procedure is a further experiment, not a prerequisite. Prefer a fixed controller when adaptation fails to transfer or cannot repay development and maintenance cost.
+
+**Validation experiment:** compare a strong fixed controller, that controller with persistent memory, a controller with evolved instructions or workflow, and a conventional configuration-search baseline. Give them the same compiler actions, hardware access, feedback, model version, and validation contract. Match per-job resources and separately report all controller-development costs; also show performance-versus-budget curves. Hold out workload families and input shapes, repeat noisy measurements, and count failures. Measure the best accepted application performance and the cost to reach it. A cheaper search at comparable application speed is useful, but it is a different result from a faster executable.
+
+Freeze the proposed controller for the initial held-out evaluation. A separate continual-adaptation experiment may update it between tasks, but must disclose task order and prevent future evaluation information from leaking backward. Keep acceptance rules outside the proposed edits. When both the controller and compiler evolve, first measure each change separately, then measure their combination to detect interactions and attribute gains.
+
 <a id="52-how-agents-change-the-future-process"></a>
 
 ### 5.2 A practical sequence for a first implementation
@@ -464,7 +506,8 @@ Replacement is incremental. Generating a new heuristic, replacing a transformati
 4. **Expand the action space.** Permit new kernels, cross-operator transformations, or machine-code edits where restricted tuning leaves measurable opportunity.
 5. **Coordinate interacting decisions.** Add runtime and communication choices when profiling shows that they matter.
 6. **Evolve the compiler selectively.** Turn recurring limitations into proposed analyses, transformations, or backend changes; validate against a separate corpus.
-7. **Generalize and reduce cost.** Extend shapes and targets, improve developer interfaces, reuse successful work, and reduce search expense.
+7. **Evaluate controller improvement.** Compare persistent experience, evolved instructions, and workflow changes on fresh optimization jobs before allowing broader self-modification.
+8. **Generalize and reduce cost.** Extend shapes and targets, improve developer interfaces, reuse successful work, and reduce search expense.
 
 This sequence is a starting recommendation, not a requirement to solve each stage completely before exploring the next. A new accelerator may need operator coverage before there is a meaningful performance baseline.
 
@@ -478,10 +521,13 @@ This sequence is a starting recommendation, not a requirement to solve each stag
 | Wider synthesis is worth supporting. | Extra freedom increases failures without improving attainable performance. | Better validated implementations beyond the restricted space. |
 | Coordinated optimization is needed for a workload class. | Local optimizers compose equally well on representative applications. | Integrated search finds repeatable application gains missed by local choices. |
 | Compiler co-evolution improves outcomes. | Generated compiler changes overfit and require more maintenance than their benefit justifies. | New components improve unseen workloads and survive software or hardware updates. |
+| Controller improvement benefits future compiler searches. | Gains disappear on fresh workloads, after accounting for development cost, or against a fixed controller with equivalent memory and resources. | Accepted controller changes improve held-out application results or search efficiency with fixed compiler tools and contracts. |
 | Agent advantage grows with poorly captured decision interactions. | Strong non-agent methods match coupled-task results after controlling headroom, feedback, actions, and budget. | Agent advantage is larger on coupled tasks than local tasks under those controls. |
 | Agentic compilation becomes widely adopted. | Persistent cost, integration, or reliability disadvantages narrow it to specialist uses. | Sustained deployment across independent organizations and workload classes. |
 
 For the scope/control hypothesis, review available controlled comparisons on **23 September 2027**. If none meet the controls, record the relationship as untested; do not count a collection of unrelated success stories as confirmation. Specify the tasks, budget, and review date when testing a hypothesis. “Agents never improve” and “agents eventually solve everything” are not useful experimental criteria. A negative result can weaken a near-term prediction without disproving a longer-term possibility.
+
+**Controller research checkpoint — review 23 September 2027:** look for a public controller-change artifact evaluated on at least two held-out compiler-workload families against a strong fixed controller and a memory-only variant. Require fixed toolchain and model versions, comparable per-job resources, disclosed development cost, and application-level validation. Record missing evidence as untested, not as proof of impossibility. This is a new research checkpoint; it does not replace the existing horizon predictions. Confidence in useful restricted improvement is medium; timing and architectural form of broad recursive compiler-controller improvement remain low.
 
 <a id="54-near-term-signals-conditioning-the-sketch"></a>
 
@@ -578,7 +624,7 @@ At each review date, record each predicate as **met** or **not met by available 
 | Artifact and experiment storage | Reuse kernels, configurations, compiler changes, and failed experiments. | Which assumptions invalidate prior results. |
 | Hardware development | Use simulation and executable workloads to reveal capability and performance gaps. | How compiler findings become tested hardware proposals. |
 
-Four useful work categories remain: workload specialization, compiler improvement, validation and review, and hardware enablement/co-design. They are a practical taxonomy rather than a prediction that exactly four roles will remain forever.
+Workload specialization, compiler improvement, validation and review, and hardware enablement/co-design remain useful work categories. Controller improvement cuts across them by changing how the system proposes and coordinates that work. These categories describe responsibilities; they do not prescribe an agent count or a permanent topology.
 
 For new hardware, separate coverage from performance. First determine whether the required application can run under its contract. Then optimize its important paths; some coverage and performance work can proceed together. Simulation can start before silicon is available, but performance claims must account for simulator fidelity. Longer-term co-design can be more ambitious than today's feedback loop without assuming autonomous chip completion by a fixed date.
 
@@ -684,7 +730,7 @@ These 23 topics form a product-design checklist whose choices depend on the inte
 | Multi-representation data with failures | Train models on what fails and what merely runs slowly. | Test transfer to unseen operators, hardware, and software versions. |
 | Comparable benchmark progression | Separate transformation, kernel, application, and hardware-coverage outcomes. | Publish full success/regression distributions and performance-versus-budget curves. |
 | Artifact provenance and review processes | Maintain generated code after initial optimization. | Measure review effort, escaped defects, and recovery time. |
-| Optimizer workflow and memory | Improve long search sessions and reuse. | Compare one agent, specialists, and compiled workflows with equivalent resources. |
+| Optimizer workflow and memory | Improve future searches through reusable experience or controller changes. | Separate memory-only adaptation, evolved instructions, workflow search, and recursive changes; compare fresh tasks with equivalent resources and disclose development cost. |
 
 <a id="553-success-metrics-for-this-roadmap"></a>
 <a id="583-checkpoint--technique-map"></a>
@@ -750,6 +796,12 @@ Per-workload search adapts to specific inputs and deployments. Offline heuristic
 
 The relevant reuse count is the number of useful executions before recompilation, workload drift, or hardware changes invalidate the result—not the number of times a search job runs. For high reuse, even costly search may repay itself. For low reuse, prefer cheap proposals, cached artifacts, or conventional tuning unless broader search clears a declared payback and latency threshold. Review that choice when the workload lifetime changes.
 
+### Should the controller improve itself, and at what scope?
+
+Memory adaptation, instruction evolution, workflow redesign, and recursive modification are separate choices. The recommended first experiment changes a restricted controller component and keeps the compiler fixed. General coding-agent success supports trying broader edits, but does not settle their value for compiler optimization.
+
+Expand scope only if it improves accepted application performance or search efficiency on fresh tasks after accounting for cost and regressions. Revisit this choice at the September 2027 controller checkpoint. The answer can differ by workload reuse and deployment constraints; record the evidence that makes a fixed or adaptive controller preferable.
+
 <a id="c6--agents-replace-compilers-vs-agents-are-the-control-plane"></a>
 
 ### How much of the compiler should agents replace?
@@ -795,6 +847,7 @@ The record identifiers below preserve links from earlier revisions. They are mai
 | AI can improve compiler decisions or components. | MLGO, Magellan, and CAKE demonstrate different mechanisms. | Learned policies, heuristic synthesis, and compiler evolution should not be conflated. |
 | Hardware-aware interfaces are useful optimization surfaces. | Multiple documented language and compiler systems. | This does not select one representation or demonstrate that each interface helps agents equally. |
 | Application optimization extends beyond isolated kernels. | DITRON, distributed compilation, dynamic execution research, and serving reports. | Broader scope does not establish that agentic control is necessary. |
+| Reusable agent instructions and harnesses can be optimized automatically. | GEPA, AFlow, Meta-Harness, and agent-code evolution studies supply different mechanisms. | Corroborated outside compilers; compiler-specific breadth and recursive improvement have much narrower support. |
 
 ### 7.2 Results with narrower support
 
@@ -808,6 +861,7 @@ The record identifiers below preserve links from earlier revisions. They are mai
 | [Hyperloom](https://rocm.blogs.amd.com/software-tools-optimization/hyperloom-optimization/README.html) | Reports median 1.73-times inference speedup over 16 workloads. | System-level evidence including framework, precision, serving, and kernel changes; do not attribute the entire gain to kernel generation. |
 | [KernelBench-Verified](https://arxiv.org/abs/2607.16241v1) | Single-turn kernels from seven models on one H200: best geometric-mean speedup 0.88 against a TF32-enabled baseline with hidden tests, versus 1.43 under the standard protocol; 1.63 at Level 2 in BF16. | Baseline precision and hidden tests change the conclusion. Not an agentic or multi-turn result; same evidence family as KernelBench. |
 | [CUDA Tile evaluation](https://arxiv.org/abs/2604.23466v2) | Independent study: one cuTile attention kernel at 2.51 times FlashAttention-2 on B200 and 53% on RTX PRO 6000; cuTile matrix multiplication at 52–79% of cuBLAS. | Kernel throughput only, not application or agent evidence. Tuning is not matched across languages, and no Blackwell-specific attention library is compared. |
+| [GEPA kernel experiments](../reference/publications/gepa.md) | On AMD XDNA2, one evolved prompt raises mean vector utilization from 4.25% to 26.85% with the same GPT-4o refinement agent. | Limited instruction-improvement evidence. Extra search cost and the kernel evaluation protocol matter; no application or broad controller-transfer conclusion. |
 
 Argus was revised and renamed Ave on 14 September 2026. Use version 2's metrics above for current claims. The historical digest filename remains `argus.md` to preserve links.
 
@@ -825,6 +879,7 @@ Argus was revised and renamed Ave on 14 September 2026. Use version 2's metrics 
 | A6 | Responsibilities may use one or several representations. | Multiple approaches exist; a fixed layer count is unproven. | Architecture remains open. |
 | A7 | Coordinate interacting decisions and evaluate application benefit. | Design recommendation with related system examples. | Medium for broader scope; one controller not required. |
 | A8 | Compiler replacement can proceed component by component. | Early examples; extent and timing remain forecasts. | Medium-low at five years; low at ten years. |
+| A9 | The controller is a separate possible target of improvement. | Narrow kernel prompt evidence; broader agent redesign and recursive mechanisms mainly adjacent. | Medium for restricted improvement; low timing and form confidence for broad recursive compiler-controller evolution. |
 
 <a id="process--stack"></a>
 <a id="codesign-still-agentic-compiler-centric"></a>
@@ -852,7 +907,7 @@ Argus was revised and renamed Ave on 14 September 2026. Use version 2's metrics 
 
 ### 7.5 Evidence to seek next
 
-Prioritize independent new-hardware reproduction, matched agent/non-agent comparisons, performance transfer after compiler or hardware updates, and validation of generated compiler components. Watch public deployment reports for both generated heuristics and learned policies. Update forecasts when the evidence changes, rather than requiring every new source to support the current architecture.
+Prioritize independent new-hardware reproduction, matched agent/non-agent comparisons, performance transfer after compiler or hardware updates, validation of generated compiler components, and controller changes evaluated on fresh application searches. Verify KOPE's full protocol before using its numerical claims. Watch public deployment reports for both generated heuristics and learned policies. Update forecasts when the evidence changes, rather than requiring every new source to support the current architecture.
 
 <a id="8-systems-gallery"></a>
 <a id="online-vs-offline-agents"></a>
@@ -892,7 +947,11 @@ This gallery groups systems by the design question they help investigate. Detail
 | IBM Analog Hardware Acceleration Kit | Repeated evaluation with noise and drift models. | What statistical contract should approximate execution satisfy? |
 | KernelBook, TritonRL, DRTriton, AMDKernelVault | Kernel data generation and model training. | Does better data improve speed as well as correctness? |
 | Archer, llvm-harness, LLVM review experiments | Compiler-aware review and repair. | How much semantic checking and human review remain necessary? |
-| FlowCompile, Auto, AgentFlow, heterogeneous agent serving | Optimizer-workflow compilation, analysis, and placement. | Can workflow optimization improve a compiler agent in practice? |
+| GEPA | Reusable prompt evolution, including preliminary kernel experiments. | Does the improved instruction transfer to fresh application searches? |
+| Automated Design of Agentic Systems, AFlow, Meta-Harness | Automated agent or workflow design. | Which controller edits improve compiler search under comparable resources? |
+| Self-Improving Coding Agent, Darwin Gödel Machine, Hyperagents | Agent-code and improvement-procedure evolution. | Does better coding or agent design transfer to better compiler optimization? |
+| KOPE | Kernel-search memory adaptation; abstract-only review. | Does the full protocol establish transfer beyond repeated-task reuse? |
+| FlowCompile, Auto, AgentFlow, heterogeneous agent serving | Optimizer-workflow compilation, analysis, and placement. | Does this infrastructure help a compiler controller, independently of self-modification? |
 | Agent Skills, SIGIL, SkCC, SkVM, SkillSmith, SKILL.state, DeepSeek Harness | Instruction packaging, skill compilation, and runtime state. | Which adjacent mechanisms improve long-running optimization? |
 | Anthropic Claude C Compiler | Agent-assisted compiler construction. | What do construction experiments reveal about tests, specifications, and maintenance? |
 
@@ -931,7 +990,7 @@ Expand necessary abbreviations at first use. Keep established system names, but 
 
 ### Keep the evidence honest
 
-Distinguish a documented capability, an author result, independent corroboration, a recommendation, and a forecast. For numerical claims, state the baseline, measured object, target, workload, budget when known, and validation scope. Count related publications as one evidence family. Never describe a correctness-only result as a speedup or a kernel speedup as an application gain without application measurements.
+Distinguish a documented capability, an author result, independent corroboration, a recommendation, and a forecast. For numerical claims, state the baseline, measured object, target, workload, budget when known, and validation scope. Count related publications as one evidence family. Never describe a correctness-only result as a speedup or a kernel speedup as an application gain without application measurements. For self-improvement claims, identify the changed artifact: application, persistent memory, controller instruction/workflow, compiler component, or the improvement procedure itself. A feedback loop or an architecture diagram alone establishes none of these improvements.
 
 Treat failures as current observations with possible solution paths. Describe what evidence would change the prediction. Never rewrite inconvenient evidence merely to preserve the agentic thesis or today's compiler architecture. Give every forecast a review date, an observable predicate, and an evidence rule; retain the original call when recording its outcome.
 

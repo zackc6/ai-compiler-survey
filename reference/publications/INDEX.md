@@ -173,7 +173,16 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | company | Company infra | NVIDIA | NVIDIA Developer blog | [Advancing GPU Programming with the CUDA Tile IR Backend for OpenAI Triton](triton-tileir-backend.md) | [source](https://developer.nvidia.com/blog/advancing-gpu-programming-with-the-cuda-tile-ir-backend-for-openai-triton/) |
 | 2026 | paper | GPU kernels & inference compilers | Meta · Stanford University | arXiv | [KernelBench-Verified: Do LLM-Generated Kernels Actually Beat PyTorch?](kernelbench-verified.md) | [source](https://arxiv.org/abs/2607.16241v1) |
 
-**Total:** 161 digests
+| 2024/25 | paper | Controller improvement | University of British Columbia · Vector Institute | ICLR 2025 · arXiv | [Automated Design of Agentic Systems](adas.md) | [source](https://arxiv.org/abs/2408.08435v2) |
+| 2024/25 | paper | Controller improvement | DeepWisdom · HKUST (Guangzhou) · Renmin University of China · Nanjing University · Fudan University · KAUST · Université de Montréal / Mila · HKUST | ICLR 2025 · arXiv | [AFlow: Automating Agentic Workflow Generation](aflow.md) | [source](https://arxiv.org/abs/2410.10762v4) |
+| 2025/26 | paper | Controller improvement | UC Berkeley · Stanford University · BespokeLabs.ai · University of Notre Dame · Databricks · MIT | ICLR 2026 · arXiv | [GEPA: Reflective Prompt Evolution Can Outperform Reinforcement Learning](gepa.md) | [source](https://arxiv.org/abs/2507.19457v2) |
+| 2025 | paper | Controller improvement | University of Bristol · iGent AI | arXiv | [A Self-Improving Coding Agent](self-improving-coding-agent.md) | [source](https://arxiv.org/abs/2504.15228v2) |
+| 2025/26 | paper | Controller improvement | University of British Columbia · Vector Institute · Sakana AI | ICLR 2026 · arXiv | [Darwin Gödel Machine: Open-Ended Evolution of Self-Improving Agents](darwin-godel-machine.md) | [source](https://arxiv.org/abs/2505.22954v3) |
+| 2026 | paper | Controller improvement | University of British Columbia · Meta · Vector Institute · University of Edinburgh (among listed affiliations) | arXiv | [Hyperagents](hyperagents.md) | [source](https://arxiv.org/abs/2603.19461v1) |
+| 2026 | paper | Controller improvement | Stanford University · KRAFTON · MIT | arXiv | [Meta-Harness: End-to-End Optimization of Model Harnesses](meta-harness.md) | [source](https://arxiv.org/abs/2603.28052v1) |
+| 2026 | paper | Controller improvement | Affiliations not verified in the accessible primary abstract | arXiv | [Beyond Scaling: Self-Evolving LLM Agents for Hardware Kernel Optimization via an Experience-Driven Workflow and Experience Graph Memory](kope.md) | [source](https://arxiv.org/abs/2608.25570v1) |
+
+**Total:** 169 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 

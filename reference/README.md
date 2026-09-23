@@ -16,6 +16,8 @@ Relevance tiers describe how a source informs a design decision: direct evidence
 
 Distinguish runtime speed from tuning time, kernel gains from application gains, and workload coverage from peak performance. Record the hardware, baseline, budget, source version, and validation scope. Label projected application gains separately from measured gains; a runtime profile does not automatically transfer to another workload or organization. The current Ave digest retains its historical `argus.md` filename for compatibility.
 
+Controller-improvement sources distinguish reusable instructions, persistent experience, workflow code, and recursive changes to the improvement procedure. Begin with [GEPA](publications/gepa.md) for limited kernel-specific evidence, then [Meta-Harness](publications/meta-harness.md) and [Hyperagents](publications/hyperagents.md) for broader mechanisms. [KOPE](publications/kope.md) remains an abstract-only lead. General agent benchmarks do not establish compiler-performance gains.
+
 ## Adding or refining a source
 
 1. Use the [digest template](publications/_TEMPLATE.md), including organization, publisher, primary link, and limitations.

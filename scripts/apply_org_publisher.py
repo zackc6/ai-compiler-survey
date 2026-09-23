@@ -14,6 +14,15 @@ INDEX = PUB / "INDEX.md"
 # Org = company/university that produced the work (primary affiliations)
 # Publisher = venue, blog host, forge, or preprint host
 META: dict[str, tuple[str, str]] = {
+    # Controller improvement: distinguish memory, prompt, workflow, and recursive changes
+    'adas.md': ('University of British Columbia · Vector Institute', 'ICLR 2025 · arXiv'),
+    'aflow.md': ('DeepWisdom · HKUST (Guangzhou) · Renmin University of China · Nanjing University · Fudan University · KAUST · Université de Montréal / Mila · HKUST', 'ICLR 2025 · arXiv'),
+    'gepa.md': ('UC Berkeley · Stanford University · BespokeLabs.ai · University of Notre Dame · Databricks · MIT', 'ICLR 2026 · arXiv'),
+    'self-improving-coding-agent.md': ('University of Bristol · iGent AI', 'arXiv'),
+    'darwin-godel-machine.md': ('University of British Columbia · Vector Institute · Sakana AI', 'ICLR 2026 · arXiv'),
+    'hyperagents.md': ('University of British Columbia · Meta · Vector Institute · University of Edinburgh (among listed affiliations)', 'arXiv'),
+    'meta-harness.md': ('Stanford University · KRAFTON · MIT', 'arXiv'),
+    'kope.md': ('Affiliations not verified in the accessible primary abstract', 'arXiv'),
     # Review additions: scope, addressable runtime, and statistical validation
     "ditron.md": ('ByteDance Seed · Peking University · Tsinghua University · Zhejiang University · Shanghai Jiao Tong University', 'arXiv'),
     "kernel-headroom.md": ('Gaurav Agarwal · Ashish Garg · Isha Singhal (affiliations not stated)', 'arXiv'),

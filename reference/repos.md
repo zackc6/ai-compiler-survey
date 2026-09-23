@@ -61,6 +61,17 @@ TritorX and KernelEvolve have important paper and industry-report evidence. Do n
 
 [IBM’s analog hardware toolkit](https://github.com/IBM/aihwkit) supplies executable noise and drift models for [statistical evaluation](publications/analog-validation.md); simulation and measured hardware evidence must remain distinct.
 
+## Controller improvement experiments
+
+| Project | What to inspect | Evaluation boundary |
+|---|---|---|
+| [GEPA](https://github.com/gepa-ai/gepa) | Reflective optimization of reusable instructions. | Reproduce kernel results with strong baselines and fresh workloads. |
+| [Automated Design of Agentic Systems](https://github.com/ShengranHu/ADAS) and [AFlow](https://github.com/FoundationAgents/AFlow) | Agent-code and workflow search. | Generated task agents do not imply an evolving outer optimizer. |
+| [Meta-Harness](https://github.com/stanford-iris-lab/meta-harness) | Harness-code search using prior source and execution traces. | General-task evidence; compiler adaptation requires measurement. |
+| [Hyperagents](https://github.com/facebookresearch/HyperAgents) | Editable task and modification agents. | Some outer selection and evaluation components remain fixed. |
+
+These are experiment starting points, not demonstrations that a complete compiler controller evolves autonomously. See the [controller source summaries](publications/INDEX.md) for versions, evaluation scope, and research-family dependencies.
+
 ## Workflow infrastructure
 
 | Project | Scope |

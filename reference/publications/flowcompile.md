@@ -12,24 +12,20 @@
 
 ## Key contributions
 
-- Treats structured LLM workflows (specialized sub-agents on a predefined graph) as a **compilation** problem, not only runtime routing.
-- Before deployment, globally explores model choices, reasoning budgets, and workflow structures; builds a reusable set of workflow-level configurations across accuracy–latency trade-offs.
-- Explicitly draws inspiration from **ML compilers** for compile-time search vs inference-time routing alone.
+FlowCompile treats structured language-model workflows as a compilation target. It searches model choices, reasoning budgets, and workflow configurations before deployment, seeking useful accuracy and latency tradeoffs.
 
 ## Summary
 
-Formalizes what ACCLAIM/GEAK/KernelEvolve do operationally: multi-agent graphs have a combinatorial config space that should be *compiled* (explored offline, frozen configs) rather than rediscovered per query. Bridges Compiler.next-style FMware compile and classical compiler thinking.
+This is optimization of the workflow that runs agents. It is not evidence that the workflow independently rewrites its own optimizer, nor a measured evaluation of a compiler agent.
 
 ## Key takeaways
 
-- Sub-agent topology is a first-class compile object (P3, P10, P18).
-- Compile-time Pareto fronts of workflows mirror ACF/heuristic freezing in AI compilers.
-- Supports §5.7 lean: batch/CI specialize → freeze, not always-on frontier routing only.
+A compiler controller could be optimized offline and reused. Whether compiling its workflow improves kernel-search quality, total search time, or application performance needs a compiler-specific comparison.
 
 ## Why it matters for this survey
 
-★ Control-plane substrate for agentic compilers that *are* multi-agent (ACCLAIM levels, GEAK loops, KernelEvolve synthesizer/search/eval). Cite with Compiler.next and P23 amortization.
+Provides a structured alternative to broad controller-code synthesis. Compare fixed workflows, searched configurations, and generated workflows under the same task and budget. [AFlow](aflow.md) generates workflows; [AgentFlow](agentflow.md) analyzes agent dependencies. They are different systems.
 
 ## Limits / caveats
 
-- Targets general LLM workflows; not LLVM/Triton-specific — use as architecture evidence, not kernel speedups.
+Targets general language-model workflows. Accuracy and agent latency must not be reported as compiled-application speedups. Reusing or compiling a workflow does not by itself establish recursive self-improvement.
