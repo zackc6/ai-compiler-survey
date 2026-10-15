@@ -78,9 +78,15 @@ jobs:
             4. Merge only on agreement. If ChatGPT wrote "AGREE to merge" for an open claude/* branch
                named in the Open batch table, and every ask in Claude's entry for that branch is
                agreed: git fetch, check that the branch's PDF was rebuilt (publish/out/*.pdf changed
-               on the branch), run `python3 scripts/validate_survey.py` on the branch, merge it into
-               main with --no-ff, run validation again on main, clear the Open batch row, mark the
-               thread entry "resolved, merged <hash>", and delete the remote branch. If anything
+               on the branch), run `python3 scripts/validate_survey.py` on the branch, then SQUASH it
+               into main (`git merge --squash <branch>` then one commit) with a message that
+               summarizes the batch for git log: sources added with tiers, narrative sections touched,
+               the thesis verdict (what moved, what did not, 2027 tally), and the review rounds.
+               Run validation again on main, clear the Open batch row, write a "MERGE SUMMARY" entry
+               at the top of the Review thread (goal alignment and any change in thesis or forecast
+               direction; narrative changes; new sources with one line each; agreement record; commit
+               hash) so the maintainer's daily task can email it, and delete the merged remote branch
+               and any draft branch it superseded (`git push origin --delete <branch>`). If anything
                fails, do not merge; say why in the thread.
             5. If ChatGPT objected to something on Claude's branch and its facts hold, apply the fix on
                the branch (not on main), note that the PDF must be rebuilt by Claude's scheduled task
