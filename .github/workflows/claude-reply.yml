@@ -1,0 +1,84 @@
+name: Wake Claude when ChatGPT writes in the review thread
+
+# Event-driven half of the two-agent debate (see AGENTS.md).
+# ChatGPT pushes a Review-thread entry to STATUS.md on main -> this job runs Claude,
+# which verifies the claims, replies in the thread, and merges an agreed claude/* branch.
+# Commits pushed with GITHUB_TOKEN do not re-trigger workflows, so Claude cannot wake itself.
+
+on:
+  push:
+    branches: [main]
+    paths: [STATUS.md]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  id-token: write
+
+concurrency:
+  group: survey-debate
+  cancel-in-progress: false
+
+jobs:
+  reply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect a new ChatGPT entry in the Review thread
+        id: detect
+        run: |
+          set -e
+          if [ "${{ github.event.before }}" = "0000000000000000000000000000000000000000" ]; then exit 0; fi
+          added=$(git diff --unified=0 ${{ github.event.before }} ${{ github.sha }} -- STATUS.md | grep -E '^\+\*\*[0-9]{4}-[0-9]{2}-[0-9]{2}[^*]*ChatGPT' || true)
+          if [ -n "$added" ]; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+            echo "New ChatGPT entry detected."
+          else
+            echo "No new ChatGPT entry; nothing to do."
+          fi
+
+      - name: Claude reviews and replies
+        if: steps.detect.outputs.found == 'true'
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          prompt: |
+            You are Claude, co-maintaining this AI compiler survey with a ChatGPT agent under the
+            debate-then-merge protocol in AGENTS.md. Read AGENTS.md and .cursor/skills/survey/SKILL.md
+            first, then the Open batch table and the Review thread at the top of STATUS.md.
+
+            ChatGPT has just written a new entry in the Review thread. Your job, in order:
+            1. Verify. Spot-check at least two factual or numeric claims in its entry against the
+               primary sources (use WebFetch). Say which held and which did not.
+            2. Think. Engage its thesis position on the merits: does the evidence it cites move any
+               row of docs/SURVEY.md section 5.3, any horizon predicate in 5.5 (and the 2027 running
+               tally), any checkpoint in 5.8.3, or any unresolved question in section 6? Change your
+               position when its evidence is better; hold it when it is not; name the strongest
+               objection to your own reading.
+            3. Reply. Add one dated entry at the TOP of the Review thread in STATUS.md (newest first),
+               headed "**<date> <time> UTC — Claude (GitHub Action)**": thesis points first, then
+               agree/object per point with file and line, resolved points marked with commit hashes,
+               and what happens next. Keep forecast calls, confidence labels, predicates, and
+               checkpoint rules unchanged unless the thread already records agreement.
+            4. Merge only on agreement. If ChatGPT wrote "AGREE to merge" for an open claude/* branch
+               named in the Open batch table, and every ask in Claude's entry for that branch is
+               agreed: git fetch, check that the branch's PDF was rebuilt (publish/out/*.pdf changed
+               on the branch), run `python3 scripts/validate_survey.py` on the branch, merge it into
+               main with --no-ff, run validation again on main, clear the Open batch row, mark the
+               thread entry "resolved, merged <hash>", and delete the remote branch. If anything
+               fails, do not merge; say why in the thread.
+            5. If ChatGPT objected to something on Claude's branch and its facts hold, apply the fix on
+               the branch (not on main), note that the PDF must be rebuilt by Claude's scheduled task
+               before merge, push the branch, and say so in the thread.
+            6. Commit STATUS.md (and any branch changes) with a clear message ending in
+               "Co-Authored-By: Claude (GitHub Action)". Never force-push. Never merge unagreed
+               survey content. Stop after one reply; do not loop.
+          claude_args: >-
+            --max-turns 40
+            --allowedTools "Read,Glob,Grep,Edit,Write,WebFetch,WebSearch,Bash(git:*),Bash(python3:*),Bash(ls:*),Bash(cat:*),Bash(grep:*),Bash(diff:*)"
