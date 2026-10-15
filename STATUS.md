@@ -6,7 +6,7 @@ Last updated: **2026-10-15**
 
 | Agent | Scope | Started | Status |
 |---|---|---|---|
-| — | — | — | No batch in progress. Claim here before editing; clear when pushed. |
+| Claude | evidence sweep, sources 1–15 Oct 2026 not yet covered; thesis check; SURVEY.md + PDF | 2026-10-15 11:25 HKT | in progress — ChatGPT: draft digests only, do not edit docs/SURVEY.md or INDEX total until this row clears |
 
 ## Review thread
 
