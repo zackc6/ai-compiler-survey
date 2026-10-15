@@ -1,6 +1,6 @@
 # Next-Generation AI Compiler Survey and Design Guide
 
-Evidence reviewed through **15 October 2026**. Forecasts cover **2027, 2029, 2031, 2036, and the longer-term future**. This is a living research and design document; forecasts are conditional judgments, not established results.
+Evidence reviewed through **15 October 2026** (second sweep). Forecasts cover **2027, 2029, 2031, 2036, and the longer-term future**. This is a living research and design document; forecasts are conditional judgments, not established results.
 
 **Central hypothesis:** the compiler increasingly becomes an agentic optimization system that chooses strategies, synthesizes implementations and compiler components, evaluates results, and adapts using feedback. Current systems support parts of this direction. They do not establish one required architecture or a permanent boundary between an agent and a conventional compiler.
 
@@ -75,7 +75,7 @@ Three uses of **skill** must stay distinct: a vendor's optimization instructions
 
 The source catalog's relevance tiers answer a different question. **Tier A** directly informs or challenges a design decision; **Tier B** provides infrastructure or adjacent mechanisms; **Tier C** provides context. A non-agent optimizer can be Tier A. A company blog can be highly relevant while still offering limited evidence for generalization. A star in the index marks a source worth prioritizing, not a quality certification.
 
-Count evidence families, not documents. A paper, blog, talk, and repository for one system do not constitute four independent confirmations. Magellan and AlphaEvolve share a lineage. TritorX and KernelEvolve share a Meta setting. Mirage and Prism share researchers. TIRx, the TIRx Harness, KCoral, KDA², and CAKE come from one Carnegie Mellon / MLC / NVIDIA research community and count as one family; MetaKernelBench is independently authored but built on TIRx, so treat it as correlated through the toolchain rather than as a member of that family. Record these relationships when assessing confidence.
+Count evidence families, not documents. A paper, blog, talk, and repository for one system do not constitute four independent confirmations. Magellan and AlphaEvolve share a lineage. TritorX and KernelEvolve share a Meta setting. Mirage, Prism, and MPK share Carnegie Mellon researchers. TIRx, the TIRx Harness, KCoral, KDA², and CAKE come from one Carnegie Mellon / MLC / NVIDIA research community and count as one family; MetaKernelBench is independently authored but built on TIRx, so treat it as correlated through the toolchain rather than as a member of that family. Record these relationships when assessing confidence.
 
 <a id="1-whats-the-trend-now-q1"></a>
 
@@ -122,7 +122,7 @@ The design choice is the balance between automation and explicit control. A high
 
 #### Optimization is expanding beyond isolated kernels
 
-[Triton-distributed](../reference/publications/triton-distributed.md) and its related [DITRON compiler](../reference/publications/ditron.md) coordinate computation and communication. DITRON reports application gains without agentic control, including gains from overlap despite slower individual matrix multiplications. [Shardy](../reference/publications/shardy.md) handles tensor sharding, while [Event Tensor](../reference/publications/event-tensor.md) addresses dynamic dependencies. These are compiler directions in their own right; an agent is not a prerequisite for studying them.
+[Triton-distributed](../reference/publications/triton-distributed.md) and its related [DITRON compiler](../reference/publications/ditron.md) coordinate computation and communication. DITRON reports application gains without agentic control, including gains from overlap despite slower individual matrix multiplications. [Shardy](../reference/publications/shardy.md) handles tensor sharding, while [Event Tensor](../reference/publications/event-tensor.md) addresses dynamic dependencies. [MPK](../reference/publications/mpk.md) compiles a whole multi-GPU inference step into one persistent mega-kernel and reports 1.0–1.7× over vLLM and SGLang on single GPUs (1.1–1.4× on eight H100s) from launch elimination and compute–communication overlap; [Ada-MK](../reference/publications/ada-mk.md) deploys an offline-searched megakernel in a production advertising system at up to 23.6% over TensorRT-LLM on small-batch decode. These are compiler directions in their own right; an agent is not a prerequisite for studying them.
 
 **Design consequence:** expand the optimization boundary when communication, memory movement, launch overhead, or runtime scheduling dominates. Do not infer that every workload needs one giant kernel or one controller for an entire fleet.
 
@@ -130,7 +130,7 @@ The design choice is the balance between automation and explicit control. A high
 
 #### Several search methods remain competitive
 
-[Mirage](../reference/publications/mirage.md) and [Prism](../reference/publications/prism.md) use structured search and equivalence reasoning. [MLGO](../reference/publications/mlgo-llvm-docs.md) embeds learned decision policies. [Helion's language-model-guided tuner](../reference/publications/helion-llm-autotuning.md) combines model proposals with conventional refinement.
+[Mirage](../reference/publications/mirage.md) and [Prism](../reference/publications/prism.md) use structured search and equivalence reasoning. [EquiForge](../reference/publications/equiforge.md) shows how far that path reaches without a language model: equality saturation over a unified tensor-and-tile language derives FlashAttention-style fused kernels, beating the fastest baseline in 18 of 21 configurations (1.32× geometric mean, up to 1.87× FlashAttention for decode attention on A100 and RTX 5090) under a declared four-hour budget, and reports the configurations it loses. [MLGO](../reference/publications/mlgo-llvm-docs.md) embeds learned decision policies; a [learned compiler world model](../reference/publications/compiler-world-models.md) matches Ansor with ten times fewer hardware measurements, a search-efficiency result rather than a better optimum. [Helion's language-model-guided tuner](../reference/publications/helion-llm-autotuning.md) combines model proposals with conventional refinement.
 
 **Design consequence:** compare methods under the same objective and validation contract. An agent can use these methods as tools; describing the surrounding system as agentic does not establish the value of its reasoning component.
 
@@ -632,7 +632,7 @@ The last part of [Figure 1](#33-a-starting-architecture-with-replaceable-compone
 
 **Central forecast:** some platforms repeatedly generate substantial compiler components and explore algorithms, execution strategies, and hardware together. **Confidence:** direction medium-low; timing low; architectural form low.
 
-**Observable predicates — review 23 September 2036:** (1) at least two independent toolchains each generate two kinds of component from analysis, transformation, and lowering, with qualifying evaluation across three releases spanning at least six months; (2) at least one public system uses agent proposals to search a hardware design parameter and an execution strategy together, demonstrating a workload benefit against separately optimized baselines on measured hardware or a simulator calibrated against measurements. A hardware design parameter changes a proposed device, such as its memory capacity or execution units; choosing an existing device alone does not count. Record the two outcomes separately. Simulation does not establish fabricated-chip performance.
+**Observable predicates — review 23 September 2036:** (1) at least two independent toolchains each generate two kinds of component from analysis, transformation, and lowering, with qualifying evaluation across three releases spanning at least six months; (2) at least one public system uses agent proposals to search a hardware design parameter and an execution strategy together, demonstrating a workload benefit against separately optimized baselines on measured hardware or a simulator calibrated against measurements. A hardware design parameter changes a proposed device, such as its memory capacity or execution units; choosing an existing device alone does not count. Record the two outcomes separately. Simulation does not establish fabricated-chip performance. [ServeTwin](../reference/publications/servetwin.md) is a reference point for what "calibrated against measurements" means: published error against public serving benchmarks on measured hardware (3.6% mean on 27 operating points; 9.9% on multi-turn traces) with a stated recalibration scope. A co-design claim built on an uncalibrated or unpublished simulator does not meet the predicate.
 
 **Evidence that changes the call:** isolated demonstrations do not satisfy repeated use; uncalibrated hardware estimates do not satisfy the co-design test. Sustained independent results strengthen the direction. Persistent validation or maintenance failures weaken it even if more components can be generated.
 
@@ -912,6 +912,10 @@ The record identifiers below preserve links from earlier revisions. They are mai
 | [KCoral](../reference/publications/kcoral.md) | 2.58× more GPU evaluations/minute in reported B200 study; median timing difference from local measurement 0.425%. | Evaluation service throughput, not kernel speed. |
 | [D2K-Bench](../reference/publications/d2k-bench.md) | Expert design guidance raises frontier-agent speedup from 1.69× to 2.49× (geometric mean, 26 tasks, B200). | Design-discovery gap under one harness and judge; guidance cost excluded. |
 | [PeepholeBench](../reference/publications/peepholebench.md) | Agent patches for 40 missed LLVM peephole optimizations are 97–98% valid but profitable on 9–17% of test cases; best agent profitable on 8 of 19 PRs. | Small InstCombine tasks; snapshot of fast-moving agents. |
+| [EquiForge](../reference/publications/equiforge.md) | Non-agent equality saturation beats the fastest baseline in 18 of 21 tensor-program configurations, 1.32× geometric mean; up to 1.87× FlashAttention in decode. | Two GPUs, four-hour budgets, tolerance-based correctness; no application measurement. |
+| [MPK](../reference/publications/mpk.md) | Single persistent mega-kernel per inference step: 1.0–1.7× over vLLM/SGLang (single GPU), 1.1–1.4× on eight H100s. | Offline batched inference; gains shrink for larger models; same CMU lineage as Mirage and Prism. |
+| [Ada-MK](../reference/publications/ada-mk.md) | Production megakernel via offline MLIR DAG search: up to 23.6% over TensorRT-LLM on small-batch decode (L20). | One GPU model, two 1.5–1.7B models; advantage narrows at large batch. |
+| [ServeTwin](../reference/publications/servetwin.md) | Serving simulator with 3.6% mean error on 27 measured operating points (H200/B200/GB200), 9.9% on multi-turn. | An instrument for co-design claims, not a co-design result; GB200 is a transferred prediction. |
 
 Argus was revised and renamed Ave on 14 September 2026. Use version 2's metrics above for current claims. The historical digest filename remains `argus.md` to preserve links.
 
@@ -970,7 +974,8 @@ This gallery groups systems by the design question they help investigate. Detail
 | Systems | Mechanism or role | Useful design question |
 |---|---|---|
 | TVM, Ansor, TensorIR, FlexTensor | Representations and schedule search. | How far does conventional optimization already go? |
-| Mirage, Prism | Structural and symbolic tensor-program search. | What can non-agent search discover across execution levels? |
+| Mirage, Prism, EquiForge | Structural and symbolic tensor-program search. | What can non-agent search discover across execution levels? |
+| MPK, Ada-MK | Whole-step mega-kernel compilation and runtime. | When does expanding the compiled unit beat faster individual kernels? |
 | MLGO, Magellan | Learned decisions and generated executable heuristics. | Should an optimization be learned online, synthesized offline, or implemented manually? |
 | Meta LLM Compiler, Compiler-R1, AwareCompiler, AutoPass | Pass selection and compiler tuning. | When is choosing existing actions enough? |
 | HintPilot, IntOpt, AgentCompile | Hints, optimization intent, and constrained implementation generation. | How much structure improves the search? |
