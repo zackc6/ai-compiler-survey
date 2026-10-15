@@ -17,12 +17,12 @@ ServeTwin pairs analytical timing with a stateful, closed-loop serving simulatio
 
 ## Summary
 
-Validation against measured systems: InferenceX steady-state throughput–interactivity frontier on H200, B200, and GB200 NVL72 with DeepSeek-R1 (671B MoE, FP8) and Qwen3-32B—**3.6% mean error across 27 operating points, all within 10%** (held-out 3.7%); LMBenchmark multi-turn on two H100s with Dynamo and vLLM—**9.9% error** (per-scenario −23% to +14%); iSTAGE step time 3.7% median on mixed batches; disaggregated transfer 3.1%; extreme concurrency 7–12%.
+Two validations with separate denominators. (1) InferenceX: the steady-state throughput–interactivity frontier for DeepSeek-R1 (671B MoE, FP8) on H200, B200, and GB200 NVL72, validated against the **public performance data published by SemiAnalysis**, not the authors' own telemetry—**3.6% mean error across 27 operating points, all within 10%**, with the model calibrated on a subset of those points (3.5%) and evaluated on the held-out remainder (3.7%); the paper does not break the 27 points down by platform. (2) LMBenchmark multi-turn on the authors' own two-H100 setup with Dynamo and vLLM—**9.9% error** (per-scenario −23% to +14%). Also: iSTAGE step time 3.7% median on mixed batches; disaggregated transfer 3.1%; extreme concurrency 7–12%. A separate GB200 decode-step comparison (section 4.8) is explicitly a transferred platform-model prediction, not a measurement.
 
 ## Key takeaways
 
 - Pre-silicon sweeps: HBM bandwidth and capacity each at 0.7×, 1×, 1.4× show the preferred tradeoff reversing with workload state; tripling bandwidth and cutting scheduler/runtime cost 40% at concurrencies up to 2,048 shifts the bottleneck from memory to scheduler and runtime overheads.
-- GB200 results are transferred-model predictions, not measurements; several model families are covered only by analytical templates.
+- The section 4.8 GB200 decode result is a transferred-model prediction; the InferenceX frontier points are third-party published measurements rather than the authors' own; several model families are covered only by analytical templates.
 
 ## Why it matters for this survey
 

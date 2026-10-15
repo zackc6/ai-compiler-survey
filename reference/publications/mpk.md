@@ -4,10 +4,10 @@
 |---|---|
 | **Year** | 2025/26 |
 | **Org** | Carnegie Mellon University · Tsinghua University · NVIDIA · University of Michigan · Peking University |
-| **Publisher** | arXiv |
+| **Publisher** | USENIX OSDI 2026 · arXiv |
 | **Type** | paper |
 | **Group** | Structured and distributed compilation |
-| **Link** | [arXiv 2512.22219](https://arxiv.org/abs/2512.22219) |
+| **Link** | [arXiv 2512.22219](https://arxiv.org/abs/2512.22219) · [OSDI '26](https://www.usenix.org/conference/osdi26/presentation/cheng) |
 | **Evidence tier** | **A** — compiler-level expansion of the optimization boundary to a whole multi-GPU inference step, without agentic control |
 | **Version / reviewed** | v1 22 December 2025, v2 10 June 2026; reviewed 15 October 2026 |
 
