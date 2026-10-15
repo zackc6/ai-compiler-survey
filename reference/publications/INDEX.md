@@ -189,6 +189,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | GPU kernels & inference compilers | Alibaba Group · HKUST · USTC | arXiv | [D2K-Bench: Can LLM Agents Turn Expert Designs into Efficient GPU Kernels?](d2k-bench.md) ★ design vs implementation gap | [source](https://arxiv.org/abs/2610.03226) |
 | 2026 | paper | Agentic & RL compilers | Pennsylvania State University | arXiv | [Verified Learning for Compiler Optimization: An LLM-Guided Architecture with Formal Control](verified-learning-lazification.md) | [source](https://arxiv.org/abs/2609.27214) |
 | 2026 | paper | Agentic & RL compilers | University of Waterloo | arXiv | [Can Coding Agents Implement Missed Compiler Optimizations? Evaluating LLM Agents on LLVM Peephole Optimizations](peepholebench.md) | [source](https://arxiv.org/abs/2607.02684) |
+| 2026 | paper | Foundation LLMs for compilers | Jiangnan University | ICML 2026 (PMLR 306) | [CIRBench: Evaluating Large Language Models as LLVM IR Optimizers](cirbench.md) ★ Tier A, layered-correctness IR rewriting | [source](https://proceedings.mlr.press/v306/yang26m.html) |
 
 | 2024/25 | paper | Controller improvement | University of British Columbia · Vector Institute | ICLR 2025 · arXiv | [Automated Design of Agentic Systems](adas.md) | [source](https://arxiv.org/abs/2408.08435v2) |
 | 2024/25 | paper | Controller improvement | DeepWisdom · HKUST (Guangzhou) · Renmin University of China · Nanjing University · Fudan University · KAUST · Université de Montréal / Mila · HKUST | ICLR 2025 · arXiv | [AFlow: Automating Agentic Workflow Generation](aflow.md) | [source](https://arxiv.org/abs/2410.10762v4) |
@@ -200,7 +201,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | Controller improvement | Affiliations not verified in the accessible primary abstract | arXiv | [Beyond Scaling: Self-Evolving LLM Agents for Hardware Kernel Optimization via an Experience-Driven Workflow and Experience Graph Memory](kope.md) | [source](https://arxiv.org/abs/2608.25570v1) |
 | 2026 | paper | Controller improvement | Westlake University · Shanghai Jiao Tong University · Zhejiang University | arXiv | [MetaKernelBench: Measuring GPU Kernel Knowledge Transfer Beyond Code](metakernelbench.md) ★ negative transfer measured | [source](https://arxiv.org/abs/2610.05014) |
 
-**Total:** 187 digests
+**Total:** 188 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 
