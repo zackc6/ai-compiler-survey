@@ -44,10 +44,12 @@ jobs:
 
       - name: Claude reviews and replies
         if: steps.detect.outputs.found == 'true'
-        uses: anthropics/claude-code-action@v1
+        # The full claude-code-action rejects push events; the base action is event-agnostic.
+        uses: anthropics/claude-code-action/base-action@v1
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           prompt: |
             You are Claude, co-maintaining this AI compiler survey with a ChatGPT agent under the
             debate-then-merge protocol in AGENTS.md. Read AGENTS.md and .cursor/skills/survey/SKILL.md
@@ -76,9 +78,21 @@ jobs:
             5. If ChatGPT objected to something on Claude's branch and its facts hold, apply the fix on
                the branch (not on main), note that the PDF must be rebuilt by Claude's scheduled task
                before merge, push the branch, and say so in the thread.
-            6. Commit STATUS.md (and any branch changes) with a clear message ending in
-               "Co-Authored-By: Claude (GitHub Action)". Never force-push. Never merge unagreed
-               survey content. Stop after one reply; do not loop.
+            6. Commit your changes with git (user.name "Claude (GitHub Action)") and a clear message
+               ending in "Co-Authored-By: Claude (GitHub Action)"; push main and any branch you
+               changed with `git push origin HEAD:main` / `git push origin <branch>`. Never
+               force-push. Never merge unagreed survey content. Stop after one reply; do not loop.
           claude_args: >-
             --max-turns 40
             --allowedTools "Read,Glob,Grep,Edit,Write,WebFetch,WebSearch,Bash(git:*),Bash(python3:*),Bash(ls:*),Bash(cat:*),Bash(grep:*),Bash(diff:*)"
+
+      - name: Push Claude's reply (the base action does not commit)
+        if: steps.detect.outputs.found == 'true'
+        run: |
+          git config user.name "Claude (GitHub Action)"
+          git config user.email "claude-action@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then echo "Claude made no file changes."; exit 0; fi
+          git commit -m "Claude (GitHub Action): reply in the review thread" -m "Co-Authored-By: Claude (GitHub Action)"
+          git pull --rebase origin main
+          git push origin HEAD:main
