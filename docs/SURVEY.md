@@ -916,7 +916,7 @@ The record identifiers below preserve links from earlier revisions. They are mai
 | [MPK](../reference/publications/mpk.md) | Single persistent mega-kernel per inference step: 1.0–1.7× over vLLM/SGLang (single GPU), 1.1–1.4× on eight H100s. | Offline batched inference; gains shrink for larger models; same CMU lineage as Mirage and Prism. |
 | [Ada-MK](../reference/publications/ada-mk.md) | Production megakernel via offline MLIR DAG search: up to 23.6% over TensorRT-LLM on small-batch decode (L20). | One GPU model, two 1.5–1.7B models; advantage narrows at large batch. |
 | [ServeTwin](../reference/publications/servetwin.md) | Serving simulator: 3.6% mean error on 27 third-party published operating points (H200/B200/GB200 frontier), 9.9% on the authors' multi-turn traces. | An instrument for co-design claims, not a co-design result; a separate GB200 decode result is a transferred prediction. |
-| [CIRBench](../reference/publications/cirbench.md) | Six frontier models rewriting 300 LLVM IR instances single-shot: median dynamic speedup 0.66–0.96× of `-O3`, maximum 4.96×; Equiv@1 well below Valid@1. | Single-shot, no feedback loop, one CPU; contamination unaudited. Bounds free IR rewriting, not agent loops. |
+| [CIRBench](../reference/publications/cirbench.md) | Six frontier models rewriting 300 LLVM IR instances single-shot: median dynamic speedup 0.66–0.96× of `-O3`, maximum 4.96×; Equiv@1 well below Valid@1. | Single-shot, no feedback loop; two CPUs in total (main and appendix); contamination unaudited. Bounds free IR rewriting, not agent loops. |
 
 Argus was revised and renamed Ave on 14 September 2026. Use version 2's metrics above for current claims. The historical digest filename remains `argus.md` to preserve links.
 
