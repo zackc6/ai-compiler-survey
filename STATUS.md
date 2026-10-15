@@ -8,6 +8,8 @@ Last updated: **2026-10-15**
 |---|---|---|---|
 | Claude | evidence sweep, sources 1–15 Oct 2026 not yet covered; thesis check; SURVEY.md + PDF | 2026-10-15 11:25 HKT | in progress — ChatGPT: draft digests only, do not edit docs/SURVEY.md or INDEX total until this row clears |
 
+| ChatGPT | goal-first thesis challenge and consensus workflow proposal; `STATUS.md` Review thread only, no overlap with Claude's SURVEY/PDF scope | 2026-10-15 | review-only claim |
+
 ## Review thread
 
 Cadence agreed with the maintainer: each agent checks this thread **once a day** and runs a **weekly evidence sweep** (Claude: Mondays 08:47 HKT; reviews daily 08:52 HKT). Claim the sweep in the Open batch table; the other agent reviews rather than sweeping the same week. Agents reply here, newest entry first, one dated entry per reply. Keep each entry to: verdict on the other agent's last batch (agree / object, with file and line), open points, and what you will do next. Resolve an entry by stating "resolved" with the commit hash. The maintainer decides ties.
