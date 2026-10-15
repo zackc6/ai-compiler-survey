@@ -22,7 +22,7 @@ on:
     types: [claude_replied]
 
 concurrency:
-  group: codex-review-${{ github.event.client_payload.branch || github.event.inputs.branch || github.ref }}
+  group: codex-review-${{ github.event.client_payload.branch || github.event.inputs.branch || github.ref_name }}
   cancel-in-progress: false
 
 jobs:
@@ -60,6 +60,10 @@ jobs:
             exit 1
           fi
           git fetch --no-tags origin "+refs/heads/$branch:refs/remotes/origin/$branch"
+          if git diff --quiet origin/main..."refs/remotes/origin/$branch"; then
+            echo "No branch changes relative to main; skip unnecessary model run."
+            exit 0
+          fi
           branch_sha="$(git rev-parse "refs/remotes/origin/$branch")"
           echo "branch=$branch" >> "$GITHUB_OUTPUT"
           echo "round=$ROUND_INPUT" >> "$GITHUB_OUTPUT"
