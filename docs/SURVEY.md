@@ -418,7 +418,7 @@ Record failed compilations, numerical errors, and correct-but-slow candidates as
 
 Assign ownership to accepted compiler changes and generated kernels. Measure review effort and escaped defects, not only the number of generated patches. Compiler-specific tools such as Archer and llvm-harness provide relevant evidence; generic code-review automation alone is weaker evidence for semantic compiler changes.
 
-LLVM-Bench's failure funnel is a useful calibration for review effort: among incorrect agent patches, 35.77% apply and only 17.88% of those build, so most failures are caught before any semantic review; the remainder needs compiler-specific checks, not generic code review. Automate acceptance only for action classes with adequate checks. Larger changes can become more autonomous as the evaluation improves. Human review requirements are a deployment choice and current confidence measure, not a permanent limit on synthesis.
+LLVM-Bench reports substantial rejection at the patch-application and build gates: among incorrect agent patches, 35.77% apply and only 17.88% of those build. These automated checks eliminate many incorrect candidates, but the reported rates do not measure human review effort or establish semantic correctness among the survivors. Automate acceptance only for action classes with adequate checks. Larger changes can become more autonomous as the evaluation improves. Human review requirements are a deployment choice and current confidence measure, not a permanent limit on synthesis.
 
 <a id="49-security--supply-chain"></a>
 
