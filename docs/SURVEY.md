@@ -75,7 +75,7 @@ Three uses of **skill** must stay distinct: a vendor's optimization instructions
 
 The source catalog's relevance tiers answer a different question. **Tier A** directly informs or challenges a design decision; **Tier B** provides infrastructure or adjacent mechanisms; **Tier C** provides context. A non-agent optimizer can be Tier A. A company blog can be highly relevant while still offering limited evidence for generalization. A star in the index marks a source worth prioritizing, not a quality certification.
 
-Count evidence families, not documents. A paper, blog, talk, and repository for one system do not constitute four independent confirmations. Magellan and AlphaEvolve share a lineage. TritorX and KernelEvolve share a Meta setting. Mirage and Prism share researchers. TIRx, the TIRx Harness, KCoral, KDA², MetaKernelBench, and CAKE come from one Carnegie Mellon / MLC / NVIDIA research community and count as one family. Record these relationships when assessing confidence.
+Count evidence families, not documents. A paper, blog, talk, and repository for one system do not constitute four independent confirmations. Magellan and AlphaEvolve share a lineage. TritorX and KernelEvolve share a Meta setting. Mirage and Prism share researchers. TIRx, the TIRx Harness, KCoral, KDA², and CAKE come from one Carnegie Mellon / MLC / NVIDIA research community and count as one family; MetaKernelBench is independently authored but built on TIRx, so treat it as correlated through the toolchain rather than as a member of that family. Record these relationships when assessing confidence.
 
 <a id="1-whats-the-trend-now-q1"></a>
 
