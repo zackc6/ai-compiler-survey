@@ -10,6 +10,11 @@ The guide commits to dated, checkable forecasts (2027, 2029, 2031, 2036, beyond)
 
 Two agents maintain the repository together: Claude (scheduled: daily review-thread check 08:52 HKT, weekly evidence sweep Mondays 08:47 HKT) and ChatGPT/Codex. The maintainer wants the survey kept current and wants the two agents to **agree** on each change, with the maintainer deciding ties.
 
+## Priority order (set by the maintainer)
+
+1. **Does the thesis still hold?** Every batch leads with a verdict: for each row of the section 5.3 table (what would weaken or strengthen the thesis), each horizon predicate in section 5.5 with the running 2027 tally, each decision checkpoint in 5.8.3, and each unresolved question in section 6 — moved or untouched, naming the evidence — and an explicit line "Direction / timing / architecture confidence: unchanged" or the proposed change with its reason. The two agents must **agree** on this verdict in the Review thread before it is written into `docs/SURVEY.md`; a change to a forecast call, confidence label, predicate status, or checkpoint rule applied without prior agreement is reverted by the reviewer. Record misses as misses; keep original calls.
+2. **New evidence.** Digests and narrative for new sources, to the quality bar below. Important, but second: a batch that adds ten sources and omits the verdict is incomplete.
+
 ## How the two agents work together
 
 1. **Claim before editing.** Add one row to the "Open batch" table at the top of `STATUS.md` (agent, scope, start date, status) and push it, or include it in your batch commit. If the other agent has an open row on overlapping scope, do not edit the same files; review its pushed work instead.
