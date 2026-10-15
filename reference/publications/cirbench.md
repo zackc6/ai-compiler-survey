@@ -1,0 +1,52 @@
+# CIRBench: Evaluating Large Language Models as LLVM IR Optimizers
+
+| Field | Value |
+|---|---|
+| **Year** | 2026 |
+| **Org** | Jiangnan University (School of Artificial Intelligence and Computer Science, Wuxi) |
+| **Publisher** | ICML 2026 (PMLR 306) |
+| **Type** | paper |
+| **Group** | Foundation LLMs for compilers |
+| **Link** | [PMLR page](https://proceedings.mlr.press/v306/yang26m.html) · [PDF](https://raw.githubusercontent.com/mlresearch/v306/main/assets/yang26m/yang26m.pdf) · [yilingqinghan/CIRBench](https://github.com/yilingqinghan/CIRBench) |
+| **Evidence tier** | **A** — a large multi-track, layered-correctness measurement of single-shot LLM rewriting of compiler IR; a measured floor for the "wider synthesis" question on the LLVM side |
+| **Version / reviewed** | ICML 2026 camera-ready, published 29 September 2026; full paper read 15 October 2026 (proposed by ChatGPT, digested by Claude) |
+
+## Key contributions
+
+800 curated LLVM IR instances in four tracks: **Analysis** (100; inferring IR properties such as aliasing, dominance, and attributes), **Repair** (200; fixing verifier-invalid IR, with and without the verifier's error hint), **Refactor** (200; applying one named semantics-preserving pass, 10 instances per pass for 20 passes), and **Transform** (300; performance-oriented rewrites in five sets of 60, including a high-headroom "Challenge" set curated with autotuning and profile-guided optimization). Correctness is layered in three levels, and the paper reports all three. **Valid@k**: at least one of k samples passes the LLVM verifier (syntactic). **Equiv@k**: at least one of k samples passes the verifier *and* the equivalence check, where the check is Alive2 when it returns a definite result and a checksum-based differential harness (TSVC-style, fixed floating-point tolerance) when Alive2 is inconclusive (timeout, unknown, unsupported, out of memory) or inapplicable (module-level); an Alive2 *not-equivalent* verdict is never overridden by harness agreement. **Equiv_formal@k** (Appendix, Table 8): credit only when Alive2 proves equivalence; every inconclusive outcome counts as failure, so it is a conservative lower bound. Speedups are computed only for candidates that pass Valid and Equiv; rejected candidates are excluded from the speedup statistics rather than counted as zero. Performance is reported statically (llvm-mca) and dynamically (`perf`) against `-O3` on an AMD Ryzen 9 7950X, LLVM 19.1.0, fixed flags, with 95% bootstrap intervals. Two Transform modes: **direct** (the model's IR is the final IR) and **copilot** (the model's IR is fed to `opt -O3`).
+
+## Summary
+
+Six models (GPT-5, Claude Sonnet 4.5, Gemini 2.5 Flash, Grok 4 Fast, Qwen3-Max-Preview, DeepSeek-V3.2-Exp; three open-weight models in an appendix), single-shot with k = 1 or 5 samples. **Every model's median dynamic speedup on Transform is below `-O3`**: direct-mode medians 0.66–0.96× (GPT-5 0.85×), copilot-mode medians 0.92–0.99×. The positive tail is real: maximum dynamic speedups 4.09–4.96× over `-O3` in direct mode (the 4.96× is DeepSeek-V3.2-Exp on one kernel, accepted under the mixed Alive2-or-checksum oracle; the paper does not say whether that candidate was Alive2-proved), and copilot-mode llvm-mca medians are above parity (1.17–1.23×) while `perf` medians are not.
+
+## Key takeaways
+
+- **Three correctness levels, two populations (Transform track).** Valid@k and Equiv@k (Table 4) are over all 300 Transform instances; Equiv_formal@k (Table 8) is over the single-function subset only (the paper states no count for this subset; the track has five sets of 60 and the module-level set is the one Alive2 cannot handle, so about 240 is an inference, not a published figure), so the formal rate is not directly subtractable from the other two. With that caveat: GPT-5 Valid@1 80.6% and Equiv@1 73.3% on 300; Equiv_formal@1 40.8% on the single-function subset. Claude Sonnet 4.5: 38.3% / 28.0% on 300; 12.1% formal. DeepSeek-V3.2-Exp: Valid@5 91.3% / Equiv@5 40.7% on 300; Equiv_formal@5 28.8% formal. The Valid–Equiv gap consists of candidates that passed the verifier and then failed Alive2 or the checksum harness (a detected mismatch under the paper's oracle, which for checksum cases is test-based rather than proved). The separately reported formal-only acceptance rate is a conservative lower bound under bounded translation validation: inconclusive Alive2 outcomes count as failures, which the authors attribute to solver limits rather than to error; because its population differs, it is reported on its own and not subtracted from Equiv@k. A verifier gate alone admits IR that the oracle later rejects; a proof-only gate rejects much that tests cannot distinguish from correct.
+- **Refactor is hard even when named.** Applying one specified pass yields Equiv@1 of 10.5–24.0% across models (semantic result). Exact match after normalization (EM@k, a syntax-level metric measuring whether the output is textually the pass's output) is 0.0–0.1%; the authors describe EM as a stricter syntactic measure of pass identity, so the two numbers answer different questions and should be read separately.
+- **Repair is where models are strongest** (Equiv@1 67–85.5% with the verifier hint; 39–74% without), consistent with the survey's view that diagnostic feedback is the most reliable lever.
+- Failure modes on Transform candidates (Table 6): type and operand errors dominate for weaker models (DeepSeek 260, Gemini 140 of the k=5 pool); semantic mismatch after passing the verifier is 20–69 per model.
+- Speedup statistics (Table 5) are min/median/max over *accepted* candidates per model; a model that produces few accepted candidates can show a flattering median. Read the medians together with Equiv@k.
+- Stated limitation: no systematic contamination audit; the authors cannot quantify memorization and call it "an important limitation rather than a solved issue."
+
+## Why it matters for this survey
+
+Additional evidence, from a different and larger task set (800 instances in four tracks; LLM4IR and mlirAgent probe other tasks and are not unit-comparable), for what those probes showed: single-shot free rewriting of compiler IR by a general model is, at the median, worse than the compiler, and passing the verifier does not establish semantic preservation. This is evidence about single-shot rewriting. It motivates testing restricted actions against free rewriting on the same instances; it does not establish that restricted actions are better, because no restricted-action arm was run. For the "restricted actions or wider code synthesis?" question it is a measured floor for free single-shot rewriting on the LLVM middle end, not a verdict between the two sides, and it supplies the measurement the survey's validation table asks for — speedups reported only for candidates accepted by Alive2 or differential testing, with the Valid/Equiv gap visible. Two things it does *not* show: it is single-shot (k ≤ 5 samples, no execution feedback, no iterative repair), so it does not bound what a budget-matched agent loop with profiler and equivalence feedback could reach; and its positive tail (up to 4.96×) is the headroom such a loop would be chasing. Read with [AI as a Compiler](ai-as-compiler.md), where an iterative loop on GPU kernels achieved verified gains on some kernels, and with [Verified Learning](verified-learning-lazification.md) and [PeepholeBench](peepholebench.md), which bound the same question from the compiler-engineering side. Lineage: the Jiangnan group also produced IR-OptSet; count the two together.
+
+## Limits / caveats
+
+- Single-shot evaluation of general models (k ≤ 5 samples); no agent harness, no feedback loop, no budget-matched comparison with search-based superoptimizers (Souper-class) on the same instances.
+- Main results on one CPU (Ryzen 9 7950X) and one LLVM version with fixed flags; Appendix Table 21 repeats Transform on an Intel Core i9-11900K with nine models and medians again below 1.0×, so the median finding is not single-CPU. Dynamic speedups are on function-level fragments, not applications.
+- Alive2 coverage is bounded; the appendix reports a conservative lower bound for cases outside translation validation.
+- Possible training-set contamination is acknowledged and unquantified.
+
+## Source excerpts for offline verification
+
+Copied from the camera-ready PDF (PMLR 306, `yang26m.pdf`, pages 7–8 and Appendix F.8/Table 8), so a reviewer without network access can check the figures above.
+
+Table 4 (Transform columns; Valid@1, Valid@5, Equiv@1, Equiv@5): GPT-5 80.6 97.0 73.3 92.7 · Claude Sonnet 4.5 38.3 65.0 28.0 50.0 · Gemini 2.5 Flash 71.6 93.8 31.5 46.6 · Grok 4 Fast 41.7 85.7 31.7 76.3 · Qwen3-Max-Preview 56.3 90.6 37.3 75.3 · Deepseek-V3.2-Exp 56.3 91.3 15.3 40.7. Refactor-Normal (Valid@1, Valid@5, Equiv@1, Equiv@5, EM@1, EM@5): GPT-5 42.0 57.0 22.5 29.5 0.0 0.0 · Claude 48.0 65.0 24.0 31.0 0.0 0.0 · Gemini 36.5 62.5 15.5 28.5 0.0 0.0 · Grok 33.5 56.5 16.5 27.5 0.0 0.1 · Qwen 24.0 37.0 10.5 18.0 0.0 0.1 · Deepseek 27.5 57.0 11.5 24.0 0.0 0.0.
+
+Table 5 (Transform, speedup over -O3, `perf` dynamic, min/median/max; direct mode then copilot mode): GPT-5 0.08/0.85/4.89, 0.19/0.99/3.23 · Claude Sonnet 4.5 0.25/0.96/4.53, 0.47/0.98/2.36 · Gemini 2.5 Flash 0.14/0.86/4.64, 0.42/0.92/4.50 · Grok 4 Fast 0.07/0.66/4.09, 0.45/0.98/4.64 · Qwen3-Max-Preview 0.07/0.83/4.89, 0.30/0.99/1.69 · Deepseek-V3.2-Exp 0.08/0.90/**4.96**, 0.40/0.97/2.44. llvm-mca static medians in copilot mode are 1.17–1.23× (above parity); `perf` medians are not.
+
+Table 8 (Equiv_formal@1, Equiv_formal@5, **single-function Transform instances only** — Alive2 proof only; the paper does not state the subset size [reviewer note: at most 240, since the module-level set of 60 is outside Alive2's scope; not a published figure]): GPT-5 40.8 48.3 · Claude Sonnet 4.5 12.1 21.7 · Gemini 2.5 Flash 28.8 38.8 · Grok 4 Fast 17.9 39.2 · Qwen3-Max 21.3 42.1 · Deepseek-V3.2-Exp 12.9 28.8.
+
+Setup (Section 3–4): 100 Analysis, 200 Refactor, 200 Repair, 300 Transform instances; six models; k ∈ {1, 5} samples with identical decoding budgets; LLVM 19.1.0; AMD Ryzen 9 7950X; 95% bootstrap intervals over instances. Affiliation: School of Artificial Intelligence and Computer Science, Jiangnan University, Wuxi. Appendix I.4: contamination not audited.

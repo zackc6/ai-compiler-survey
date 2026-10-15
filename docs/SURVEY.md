@@ -291,7 +291,7 @@ Passes are useful units of implementation and review. They are not a required us
 | Search is expensive. | Reuse results, improve proposal quality, learn small policies, and generate reusable heuristics. | Better performance-versus-budget curves. |
 | Changing the compiler can break unrelated workloads. | Separate evaluation sets, component-level checks, reproducible builds, and staged deployment. | Sustained improvements after compiler and workload updates. |
 
-Negative results from mlirAgent, LLM4IR, and KernelBench-X motivate these tests. They do not determine the capabilities of models or compilers five or ten years from now.
+Negative results from mlirAgent, LLM4IR, [CIRBench](../reference/publications/cirbench.md), and KernelBench-X motivate these tests. CIRBench adds single-shot evidence from a larger task set: on 300 LLVM IR transformation instances, every one of six frontier models has a median dynamic speedup below `-O3` among its accepted candidates (0.66–0.96×) even though individual rewrites reach 4.96×, and the correctness level chosen changes the picture—GPT-5 passes the verifier on 80.6% of the 300 instances and passes Alive2-or-differential equivalence on 73.3%, while on the single-function subset where Alive2 applies it is Alive2-proved on only 40.8%. The Valid-to-Equiv difference is candidates the paper's oracle rejected after the verifier accepted them. The separately reported formal-only acceptance rate is a conservative lower bound under bounded translation validation, on a different population. They do not determine the capabilities of models or compilers five or ten years from now.
 
 <a id="33-practical-architecture-recommendation"></a>
 
@@ -816,7 +816,7 @@ Production reports establish value in particular settings. Public benchmarks exp
 
 ### Restricted actions or wider code synthesis?
 
-Hints and typed actions simplify checking; wider synthesis can discover implementations outside a fixed space. CAKE and Ave motivate better representations and feedback, while direct-rewrite failures identify current weaknesses. Compare the full environment and, where possible, isolate representation, feedback, and model effects. Report speedups at the verification level the deployment requires: AI as a Compiler reports both, and the gap between numerically tested and provably equivalent results (1.37× versus 0.78× for FlashAttention) is itself a measurement of how much freedom the current checkers can afford. Current failures do not establish an advisory-only future.
+Hints and typed actions simplify checking; wider synthesis can discover implementations outside a fixed space. CAKE and Ave motivate better representations and feedback, while direct-rewrite failures identify current weaknesses. Compare the full environment and, where possible, isolate representation, feedback, and model effects. CIRBench measures the single-shot end of this spectrum for the LLVM middle end: median below the compiler, a wide gap between passing the verifier and preserving semantics, but a positive tail up to 4.96× that an iterative, equivalence-checked loop would be chasing. Report speedups at the verification level the deployment requires: AI as a Compiler reports both, and the gap between numerically tested and provably equivalent results (1.37× versus 0.78× for FlashAttention) is itself a measurement of how much freedom the current checkers can afford. Current failures do not establish an advisory-only future.
 
 <a id="c4--kernel-dsl-future-triton-vs-cuda-tile-and-friends"></a>
 
@@ -916,6 +916,7 @@ The record identifiers below preserve links from earlier revisions. They are mai
 | [MPK](../reference/publications/mpk.md) | Single persistent mega-kernel per inference step: 1.0–1.7× over vLLM/SGLang (single GPU), 1.1–1.4× on eight H100s. | Offline batched inference; gains shrink for larger models; same CMU lineage as Mirage and Prism. |
 | [Ada-MK](../reference/publications/ada-mk.md) | Production megakernel via offline MLIR DAG search: up to 23.6% over TensorRT-LLM on small-batch decode (L20). | One GPU model, two 1.5–1.7B models; advantage narrows at large batch. |
 | [ServeTwin](../reference/publications/servetwin.md) | Serving simulator: 3.6% mean error on 27 third-party published operating points (H200/B200/GB200 frontier), 9.9% on the authors' multi-turn traces. | An instrument for co-design claims, not a co-design result; a separate GB200 decode result is a transferred prediction. |
+| [CIRBench](../reference/publications/cirbench.md) | Six frontier models rewriting 300 LLVM IR instances single-shot: median dynamic speedup 0.66–0.96× of `-O3`, maximum 4.96×; Equiv@1 well below Valid@1. | Single-shot, no feedback loop; two CPUs in total (main and appendix); contamination unaudited. Measures single-shot free IR rewriting under the tested conditions, not agent loops. |
 
 Argus was revised and renamed Ave on 14 September 2026. Use version 2's metrics above for current claims. The historical digest filename remains `argus.md` to preserve links.
 
@@ -981,7 +982,7 @@ This gallery groups systems by the design question they help investigate. Detail
 | HintPilot, IntOpt, AgentCompile | Hints, optimization intent, and constrained implementation generation. | How much structure improves the search? |
 | ACCLAIM, Reasoning Compiler | Multi-level optimization and model-guided tree search. | What does agent reasoning add to compiler tools and structured search? |
 | LLM-VeriOpt, T-LLM Compiler | Verification-guided transformations. | Which semantic guarantees can be checked for the allowed changes? |
-| mlirAgent, LLM4IR / LaMIR | Tool use and probes of representation understanding. | What information should the optimizer receive, and where does current capability fail? |
+| mlirAgent, LLM4IR / LaMIR, CIRBench | Tool use and probes of representation understanding; layered-correctness IR rewriting. | What information should the optimizer receive, and where does current capability fail? |
 | IRIS-14B, ComPile, IRCoder | Representation translation and training data. | How do source and compiler-representation knowledge transfer? |
 | Generative Compilation | Compiler feedback during partial code generation. | Can earlier feedback reduce failed candidates? |
 | Compiler.next, Compiler 2.0, MOCHA | Research agendas for broader compilation and compiler construction. | Which future claims need concrete experiments? |
