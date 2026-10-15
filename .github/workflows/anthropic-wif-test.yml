@@ -37,6 +37,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Smallest possible Claude Code run via WIF
+        id: claude
+        continue-on-error: true
         uses: anthropics/claude-code-action/base-action@v1
         with:
           anthropic_federation_rule_id: fdrl_01DKHqwLcAaLqSg3d3HXNrFm
@@ -45,3 +47,15 @@ jobs:
           anthropic_workspace_id: wrkspc_01BkqD2efdXZes9mPFndddKQ
           prompt: "Reply with the single word OK and stop."
           claude_args: "--max-turns 1"
+      - name: Show the API error in the job summary
+        if: always()
+        run: |
+          f="${{ steps.claude.outputs.execution_file }}"
+          echo "conclusion=${{ steps.claude.outputs.conclusion }}" | tee -a "$GITHUB_STEP_SUMMARY"
+          if [ -n "$f" ] && [ -f "$f" ]; then
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+            tail -c 4000 "$f" | sed -E 's/(sk-ant-[A-Za-z0-9_-]+|eyJ[A-Za-z0-9._-]+)/<redacted>/g' | tee -a "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "no execution file" | tee -a "$GITHUB_STEP_SUMMARY"
+          fi
