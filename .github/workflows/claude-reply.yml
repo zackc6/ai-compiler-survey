@@ -9,6 +9,8 @@ on:
   push:
     branches: [main]
     paths: [STATUS.md]
+  repository_dispatch:
+    types: [chatgpt_replied]
 
 permissions:
   contents: write
@@ -33,6 +35,11 @@ jobs:
         id: detect
         run: |
           set -e
+          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+            echo "Codex explicitly requested a reply."
+            exit 0
+          fi
           if [ "${{ github.event.before }}" = "0000000000000000000000000000000000000000" ]; then exit 0; fi
           added=$(git diff --unified=0 ${{ github.event.before }} ${{ github.sha }} -- STATUS.md | grep -E '^\+\*\*[0-9]{4}-[0-9]{2}-[0-9]{2}[^*]*ChatGPT' || true)
           if [ -n "$added" ]; then
@@ -96,3 +103,43 @@ jobs:
           git commit -m "Claude (GitHub Action): reply in the review thread" -m "Co-Authored-By: Claude (GitHub Action)"
           git pull --rebase origin main
           git push origin HEAD:main
+
+      - name: Wake Codex for another round if Claude replied
+        if: steps.detect.outputs.found == 'true' && github.event_name == 'repository_dispatch'
+        uses: actions/github-script@v7
+        env:
+          DEBATE_BRANCH: ${{ github.event.client_payload.branch }}
+          DEBATE_ROUND: ${{ github.event.client_payload.round }}
+          STATUS_BEFORE: ${{ github.event.client_payload.status_file_sha }}
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            const owner = context.repo.owner, repo = context.repo.repo;
+            const branch = process.env.DEBATE_BRANCH || '';
+            const round = Number(process.env.DEBATE_ROUND);
+            if (!/^claude\/[A-Za-z0-9._/-]+$/.test(branch) || !(round >= 1 && round <= 3)) {
+              core.warning('No valid Claude debate branch/round; not dispatching.');
+              return;
+            }
+            const status = await github.rest.repos.getContent({owner, repo, path: 'STATUS.md', ref: 'main'});
+            if (status.data.sha === process.env.STATUS_BEFORE) {
+              core.warning('Claude did not publish a STATUS.md reply; stopping debate loop.');
+              return;
+            }
+            if (round >= 3) {
+              core.notice('Reached max debate rounds; no further automatic review.');
+              return;
+            }
+            try {
+              await github.rest.repos.getBranch({owner, repo, branch});
+            } catch (err) {
+              if (err.status === 404) {
+                core.notice('Branch was merged/deleted; no further review required.');
+                return;
+              }
+              throw err;
+            }
+            await github.rest.repos.createDispatchEvent({
+              owner, repo, event_type: 'claude_replied',
+              client_payload: {branch, round: round + 1}
+            });
