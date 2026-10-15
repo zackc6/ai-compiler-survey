@@ -28,3 +28,20 @@ jobs:
             "workspace_id": "wrkspc_01BkqD2efdXZes9mPFndddKQ"
           }
           JSON
+
+  minimal-claude-run:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Smallest possible Claude Code run via WIF
+        uses: anthropics/claude-code-action/base-action@v1
+        with:
+          anthropic_federation_rule_id: fdrl_01DKHqwLcAaLqSg3d3HXNrFm
+          anthropic_organization_id: c7c14a13-8313-432e-930e-a4da174f4c20
+          anthropic_service_account_id: svac_01TiJjuCLRkekDY7ULbZQXPJ
+          anthropic_workspace_id: wrkspc_01BkqD2efdXZes9mPFndddKQ
+          prompt: "Reply with the single word OK and stop."
+          claude_args: "--max-turns 1"
