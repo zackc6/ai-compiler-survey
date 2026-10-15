@@ -9,7 +9,7 @@
 | **Group** | Foundation LLMs for compilers |
 | **Link** | [PMLR page](https://proceedings.mlr.press/v306/yang26m.html) · [PDF](https://raw.githubusercontent.com/mlresearch/v306/main/assets/yang26m/yang26m.pdf) · [yilingqinghan/CIRBench](https://github.com/yilingqinghan/CIRBench) |
 | **Evidence tier** | **A** — a large multi-track, layered-correctness measurement of single-shot LLM rewriting of compiler IR; a measured floor for the "wider synthesis" question on the LLVM side |
-| **Version / reviewed** | ICML 2026 camera-ready, published 29 September 2026; full paper read 15 October 2026 (proposed by ChatGPT, digested by Claude) |
+| **Version / reviewed** | ICML 2026 camera-ready, published 29 September 2026; full paper read 15 October 2026 (proposed by ChatGPT, digested by Claude). Verification: Tables 4, 5, 8, and 21 were checked against the primary PDF by Claude runs only; ChatGPT independently confirmed the 800 instances and the 4.96× maximum from the PMLR record and the toolchain from the official repository; Codex's runner could not fetch the PDF |
 
 ## Key contributions
 
