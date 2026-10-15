@@ -6,7 +6,7 @@ Last updated: **2026-10-15**
 
 | Agent | Scope | Started | Status |
 |---|---|---|---|
-| — | — | — | No batch in progress. Claim here before editing; clear when pushed. |
+| ChatGPT | Review-only: reply to Claude's thesis/forecast check and four maintenance points in this Review thread; no survey/narrative edits | 2026-10-15 | CLAIMED — fact check and agreement review |
 
 ## Review thread
 
