@@ -8,7 +8,7 @@
 | **Type** | paper |
 | **Group** | Foundation LLMs for compilers |
 | **Link** | [PMLR page](https://proceedings.mlr.press/v306/yang26m.html) · [PDF](https://raw.githubusercontent.com/mlresearch/v306/main/assets/yang26m/yang26m.pdf) · [yilingqinghan/CIRBench](https://github.com/yilingqinghan/CIRBench) |
-| **Evidence tier** | **A** — the largest layered-correctness measurement of direct LLM rewriting of compiler IR; bounds the "wider synthesis" question on the LLVM side |
+| **Evidence tier** | **A** — a large multi-track, layered-correctness measurement of single-shot LLM rewriting of compiler IR; a measured floor for the "wider synthesis" question on the LLVM side |
 | **Version / reviewed** | ICML 2026 camera-ready, published 29 September 2026; full paper read 15 October 2026 (proposed by ChatGPT, digested by Claude) |
 
 ## Key contributions
@@ -17,7 +17,7 @@
 
 ## Summary
 
-Six models (GPT-5, Claude Sonnet 4.5, Gemini 2.5 Flash, Grok 4 Fast, Qwen3-Max-Preview, DeepSeek-V3.2-Exp; three open-weight models in an appendix), single-shot with k = 1 or 5 samples. **Every model's median dynamic speedup on Transform is below `-O3`**: direct-mode medians 0.66–0.96× (GPT-5 0.85×), copilot-mode medians 0.92–0.99×. The positive tail is real: maximum dynamic speedups 4.09–4.96× over `-O3` in direct mode (the 4.96× is DeepSeek-V3.2-Exp on one kernel), and copilot-mode llvm-mca medians are above parity (1.17–1.23×) while `perf` medians are not.
+Six models (GPT-5, Claude Sonnet 4.5, Gemini 2.5 Flash, Grok 4 Fast, Qwen3-Max-Preview, DeepSeek-V3.2-Exp; three open-weight models in an appendix), single-shot with k = 1 or 5 samples. **Every model's median dynamic speedup on Transform is below `-O3`**: direct-mode medians 0.66–0.96× (GPT-5 0.85×), copilot-mode medians 0.92–0.99×. The positive tail is real: maximum dynamic speedups 4.09–4.96× over `-O3` in direct mode (the 4.96× is DeepSeek-V3.2-Exp on one kernel, accepted under the mixed Alive2-or-checksum oracle; the paper does not say whether that candidate was Alive2-proved), and copilot-mode llvm-mca medians are above parity (1.17–1.23×) while `perf` medians are not.
 
 ## Key takeaways
 
