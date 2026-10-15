@@ -4,8 +4,8 @@ description: >-
   Maintain this AI compiler survey and design guide. Use for any edit in this
   repository: read and refine SURVEY.md first, evaluate primary evidence,
   preserve the single narrative and source catalog, update claims and forecasts,
-  validate, and rebuild the survey PDF. Work on main; never create a branch or
-  pull request unless requested. Respect explicit instructions not to push.
+  validate, and rebuild the survey PDF. Stage evidence on agent branches;
+  squash to main after two-agent agreement. Respect instructions not to push.
 ---
 
 # AI compiler survey and design guide
@@ -94,7 +94,7 @@ Include hardware research when executable workloads, representations, simulation
 7. Rebuild the survey PDF with `python3 publish/build_pdf.py` in the same batch as a narrative edit. Inspect the rendered output and repair unreadable tables, broken links, overlap, and clipping.
 8. Update `README.md`, source guides, publishing metadata, and `STATUS.md` where the change affects them.
 9. Update Beamer only when the narrative is settled and slides are requested or explicitly part of the batch. Otherwise identify the existing presentation as an earlier snapshot if its conclusions differ.
-10. Review the diff and save a coherent commit on main. Publish only when authorized.
+10. Review the diff and commit the coherent evidence batch on an agent branch. After two-agent agreement and final validation, squash it into one content commit on main with a descriptive message; publish only when authorized.
 
 A consistency check may require changing the goal or architecture recommendation. Never rewrite contrary evidence to make it agree with a preferred thesis.
 
@@ -112,13 +112,13 @@ Make scripts explain the claim, evidence, and spoken transition instead of pasti
 
 Build with `python3 publish/build_beamer.py`, rasterize changed pages, and inspect them. Keep titles, cards, glosses, and timelines in separate clear areas. Route connectors around text. Split overloaded slides rather than shrinking them into unreadability. Never leave overlap, clipped content, or mismatched transcripts.
 
-## Work on main and honor publication instructions
+## Stage evidence on branches, squash agreed batches, and honor publication instructions
 
-The maintainer's current rule (15 October 2026) is debate-then-merge: evidence and thesis batches are prepared on an agent branch (`claude/…`, `chatgpt/…`), argued in the Review thread in `STATUS.md`, and merged to `main` only after both agents agree or the maintainer rules. Thread entries, Open-batch rows, and pure fact fixes go to `main` directly. Do not create pull requests unless requested; a branch plus the thread is the review. Fetch and fast-forward a clean stale checkout before editing. Preserve unrelated user changes.
+The maintainer's current rule (15 October 2026) is debate-then-squash: evidence and thesis batches are prepared and validated on an agent branch (`claude/…`, `chatgpt/…`), argued in the Review thread in `STATUS.md`, and **squashed as one content commit on `main`** only after both agents agree or the maintainer rules. The squash commit message summarizes the sources/tiers, narrative changes, thesis verdict including the 2027 tally, and review resolution. After the verified merge, write a MERGE SUMMARY in `STATUS.md`; the ChatGPT hourly Gmail watcher emails the maintainer about survey-goal alignment and notable changes, deduplicated by commit SHA. Delete merged and superseded draft branches, verifying deletion. Thread entries, Open-batch rows, and pure fact fixes go to `main` directly. Do not create pull requests unless requested; a branch plus the thread is the review. Fetch and fast-forward a clean stale checkout before editing. Preserve unrelated user changes.
 
 Several agents (Claude, ChatGPT/Codex, Cursor) may edit this repository. Before starting, read the **Open batch** block at the top of `STATUS.md`. Claim your scope there, in one row, before editing; if another agent has claimed overlapping scope, review its pushed work against the finish-batch checklist instead of editing the same files. Clear the row in the same commit that publishes the batch. Sign commits so the change log shows which agent made each batch.
 
-Commit coherent batches. When publishing is authorized, push main directly using the available authenticated route. Never force-push or overwrite concurrent remote work. If the user says “do not push,” prepare and validate local changes, commit if appropriate, and clearly state that publishing is pending. Skill defaults do not override that instruction.
+Commit coherent evidence batches on the agent branch; once agreement and validation are complete, squash and push the single summary commit to `main` using the available authenticated route. Never force-push or overwrite concurrent remote work. If the user says “do not push,” prepare and validate local changes, commit if appropriate, and clearly state that publishing is pending. Skill defaults do not override that instruction.
 
 ## Finish-batch checklist
 
@@ -134,6 +134,6 @@ Commit coherent batches. When publishing is authorized, push main directly using
 - Run repository validation; rebuild and visually inspect the survey PDF.
 - Refresh both transcript languages whenever slides change.
 - Update current status and the change log.
-- Review and commit the intended files on main; publish only when authorized.
+- Review and commit the intended content on a branch; after agreement, squash the validated batch into one summary commit on main and verify cleanup. Publish only when authorized.
 
 See [experience notes](survey.md) for the reasons behind this workflow.
