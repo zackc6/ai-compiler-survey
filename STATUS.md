@@ -2,6 +2,12 @@
 
 Last updated: **2026-10-15**
 
+## Open batch
+
+| Agent | Scope | Started | Status |
+|---|---|---|---|
+| — | — | — | No batch in progress. Claim here before editing; clear when pushed. |
+
 ## Current state
 
 | Area | Status and practical meaning |
@@ -11,12 +17,12 @@ Last updated: **2026-10-15**
 | Architecture | Application optimization, controller improvement, and compiler evolution remain distinct evaluation targets. Two figures show the overall architecture and controller development, including proposal feedback and separate final evaluation. |
 | Forecast | Five horizons with separate direction, timing, and architecture confidence; dated predicates and evidence rules. |
 | Design checklist | All 23 product topics and ten technical priorities retained in readable comparisons. |
-| Evidence | 179 source digests; related papers, blogs, and repositories distinguished from independent corroboration. |
-| Updated sources | Ten October digests added: direct AI lowering, TIRx Harness, KDA², KernelOPT, oracle mutation analysis, KCoral, MetaKernelBench, ACT, KernelZero, and PTXBench. Earlier controller research retained. |
-| Survey PDF | The checked-in PDF is the September snapshot; an October PDF rebuild and visual check remain necessary after this text-first publication. |
+| Evidence | 182 source digests; related papers, blogs, and repositories distinguished from independent corroboration. |
+| Updated sources | October wave: AI as a Compiler, TIRx Harness, KDA², KCoral, KernelOPT, KernelZero, Measuring the Checker, MetaKernelBench, PTXBench, ACT, D2K-Bench, Verified Learning, PeepholeBench. TIRx Harness, KCoral, KDA², MetaKernelBench, and CAKE recorded as one research family. |
+| Survey PDF | Rebuilt with the current narrative and reference appendices; source links open primary references. |
 | Presentation | Existing slides and bilingual transcripts are an earlier snapshot; not aligned with this revision. |
 | Repository skill | Updated with plain-language guidance, evidence standards, architecture flexibility, and publication authorization rules. |
-| Publication | Architecture-overview batch: direct publication to main authorized by the maintainer. |
+| Publication | October correction batch: direct publication to main authorized by the maintainer. |
 
 ## Coverage still to strengthen
 
@@ -25,7 +31,7 @@ Last updated: **2026-10-15**
 - Ablations separating model capability, representation, diagnostic feedback, and search resources.
 - Broader evaluation of generated compiler components, communication choices, and long-term maintenance.
 - Controlled transfer of evolved controllers to held-out applications, with fixed toolchains and full development cost; full-text verification of KOPE.
-- Compare direct PTX synthesis, ACT-generated backends, and conventional lowering under common application-level and full-cost evaluation.
+- Compare direct PTX synthesis, ACT-generated backends, and conventional lowering under common application-level and full-cost evaluation, reported at both numerically tested and provably equivalent acceptance levels.
 - Measure benchmark oracle adequacy, harness-component ablations, and negative kernel-skill transfer.
 - Full-text refinement of older, thin digests; historical shorthand remains in parts of the source catalog.
 
@@ -33,6 +39,7 @@ Last updated: **2026-10-15**
 
 | Date | Change |
 |---|---|
+| 2026-10-15 | Correction batch on the October integration. Rewrote the ten new digests with organizations, the load-bearing numbers (verified-versus-numerical speedups and per-kernel cost for AI as a Compiler; KDA²'s rejected candidates and acceptance contract; KCoral's timing fidelity; KernelOPT's fallback counts and 1,100 GPU-hours; MetaKernelBench's 16–45% regression rate), and research-lineage notes; fixed the duplicate index total. Added D2K-Bench, Verified Learning, and PeepholeBench (182 total). Narrative: contract-evasion row in the validation table; verification-level reporting in the wider-synthesis question; a supplied-knowledge arm in the 2027 controller checkpoint; a running tally (0 of 2) under the 2027 predicate; direct AI lowering marked as a precursor, not a qualifying component, for 2031. No horizon call, confidence, or Figure 1 change. Added `CLAUDE.md`/`AGENTS.md` pointers to the skill and an open-batch claim block for multi-agent work. Rebuilt the PDF. |
 | 2026-10-15 | Added ten public October evidence digests and index entries (total 179). Integrated direct AI lowering, ACT conventional backend synthesis, harness design, benchmark oracle adequacy, integrated kernel search, remote evaluation cost, and skill transfer into the narrative, evidence register and implementation map. Forecasts and Figure 1 unchanged; PDF rebuild outstanding. |
 | 2026-09-23 | Consolidated Figure 1 into one SVG with four parts: where the agent acts, who does what, how the controller improves across optimization jobs, and how far the agent reaches by horizon. Removed the duplicates: the separate controller-development figure, the Markdown role table, and the forecast summary table (section 5.5 now points to the figure). The PDF prints each part on its own landscape page from the same generator. Rebuilt the PDF. |
 | 2026-09-23 | Renamed the overview figure to `docs/architecture-overview.svg` and replaced it with a detailed drawing: human-owned contract; application optimization with agent, learned policy, and structured search; checks, artifact store, and deployment without optimizer-model calls by default; compiler development and optional controller development with development feedback, hidden final checks, and promotion paths; the controller scope ladder and four comparison arms. Updated the caption, generator, validator, PDF assembler, and README. Rebuilt the PDF. |

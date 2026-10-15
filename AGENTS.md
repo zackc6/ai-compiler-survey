@@ -1,0 +1,3 @@
+# Instructions for coding agents (Codex, ChatGPT, Claude, Cursor)
+
+Read `.cursor/skills/survey/SKILL.md` before any edit; it is the single rulebook for this repository and applies to every agent. Before starting a batch, read the **Open batch** block at the top of `STATUS.md`; if another agent has claimed overlapping scope, review its work instead of editing the same files. Claim your own scope there before editing and clear it when the batch is pushed. Work on `main`; push only when the maintainer authorizes it. Finish every batch with `python3 scripts/validate_survey.py` and `python3 publish/build_pdf.py`, and sign commits with your agent name.

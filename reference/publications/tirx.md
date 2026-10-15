@@ -36,6 +36,6 @@ Tier B substrate for **T1/T2** and **C3-B/C4**. Completes the LLM-oriented IR fo
 
 ## Limits / caveats
 
-- Launch blog + docs + [`mlc-ai/tirx-kernels`](https://github.com/mlc-ai/tirx-kernels); no public agent-loop p50/p90.
+- Launch blog + docs + [`mlc-ai/tirx-kernels`](https://github.com/mlc-ai/tirx-kernels); no public agent-loop p50/p90 at launch. The September 2026 [TIRx Harness](tirx-harness.md) and [KDA²](kda2.md) supply the first author-measured agent-loop results on this surface (same research community; one evidence family).
 - Blackwell-centric reported kernels; megakernel/Event Tensor integration is follow-up.
 - Layout algebra vs Cake: TIRx layout is a **storage** contract consumed by dispatch; Cake IR has **no** layout algebra — competing L4 designs, not one LLM IR.

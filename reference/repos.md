@@ -48,7 +48,7 @@ TritorX and KernelEvolve have important paper and industry-report evidence. Do n
 | Project | Why it belongs in an experiment |
 |---|---|
 | [LLVM](https://github.com/llvm/llvm-project) | Existing analyses, transformations, code generation, and learned-policy integration. |
-| [ACT backend generation](https://doi.org/10.1145/3839457) | Non-LLM synthesis of compiler backends from accelerator instructions; compare coverage, performance and engineering costs. |
+| [ACT backend generation](https://github.com/act-compiler/act) | Non-LLM synthesis of compiler backends from accelerator instructions; compare coverage, performance and engineering costs. |
 | [TVM](https://github.com/apache/tvm) and [TIRx kernels](https://github.com/mlc-ai/tirx-kernels) | Tensor representations, schedule controls, and example kernels. |
 | [TileLang](https://github.com/tile-ai/tilelang) and [language tools](https://github.com/tile-ai/tilelang-lsp) | Tile programming, layout inference, and editor/tool feedback. |
 | [Triton](https://github.com/triton-lang/triton), [Gluon digest](publications/triton-gluon.md), and [Triton extensions](https://github.com/facebookexperimental/triton) | Different levels of layout and scheduling control. |

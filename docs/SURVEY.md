@@ -75,7 +75,7 @@ Three uses of **skill** must stay distinct: a vendor's optimization instructions
 
 The source catalog's relevance tiers answer a different question. **Tier A** directly informs or challenges a design decision; **Tier B** provides infrastructure or adjacent mechanisms; **Tier C** provides context. A non-agent optimizer can be Tier A. A company blog can be highly relevant while still offering limited evidence for generalization. A star in the index marks a source worth prioritizing, not a quality certification.
 
-Count evidence families, not documents. A paper, blog, talk, and repository for one system do not constitute four independent confirmations. Magellan and AlphaEvolve share a lineage. TritorX and KernelEvolve share a Meta setting. Mirage and Prism share researchers. Record these relationships when assessing confidence.
+Count evidence families, not documents. A paper, blog, talk, and repository for one system do not constitute four independent confirmations. Magellan and AlphaEvolve share a lineage. TritorX and KernelEvolve share a Meta setting. Mirage and Prism share researchers. TIRx, the TIRx Harness, KCoral, KDA², MetaKernelBench, and CAKE come from one Carnegie Mellon / MLC / NVIDIA research community and count as one family. Record these relationships when assessing confidence.
 
 <a id="1-whats-the-trend-now-q1"></a>
 
@@ -152,7 +152,7 @@ These checks cover different failure modes. Successful compilation, sampled nume
 
 [Magellan](../reference/publications/magellan.md) evolves compiler heuristics. CAKE describes changes to its representations and compiler harness. AsmEvo operates after conventional compilation. [Compiler 2.0](../reference/publications/compiler-2.0-cgo2026.md) and [MOCHA](../reference/publications/compiler-2.0-mocha-aarno.md) provide broader research agendas for compiler construction and retargeting.
 
-**Compiler implementation is now a stronger experimental choice.** [AI as a Compiler](../reference/publications/ai-as-compiler.md) directly synthesizes specialized Triton-to-PTX kernels and reports 0.83–3.34× autotuned Triton on selected GPU cases. [PTXBench](../reference/publications/ptxbench.md) provides important contrary evidence: directly generated target-specific instructions do not consistently match expert libraries across a different H100/B200 workload suite. [ACT](../reference/publications/act-backend.md) generates accelerator backends from instruction-set descriptions using equality saturation and constraint programming, without an LLM. These are competing paths, not a reason to assume all future compilers must be agentic.
+**Compiler implementation is now a stronger experimental choice.** [AI as a Compiler](../reference/publications/ai-as-compiler.md) directly synthesizes specialized Triton-to-PTX kernels and reports 0.83–3.34× autotuned Triton on selected GPU cases. [PTXBench](../reference/publications/ptxbench.md) provides important contrary evidence: directly generated target-specific instructions do not consistently match expert libraries across a different H100/B200 workload suite. [ACT](../reference/publications/act-backend.md) generates accelerator backends from instruction-set descriptions using equality saturation and constraint programming, without an LLM. The AI-lowering result also shows that the deployable gain depends on the acceptance level: when provable equivalence against the Triton reference is required, the same kernels fall to 0.24× (matrix multiplication), 0.78× (FlashAttention), and 0.77× (convolution), because the verifier covers fewer instructions than the model can use. Each kernel costs dollars rather than milliseconds to produce, so the per-workload-versus-offline reuse condition applies in full. These are competing paths, not a reason to assume all future compilers must be agentic.
 
 **Design consequence:** allow the system to improve its tools as well as its programs. Validate generated compiler components across workloads, because an improvement for one kernel can create regressions elsewhere. A component authored by an agent can still execute deterministically.
 
@@ -340,6 +340,7 @@ Profile the **addressable fraction**: the time that the permitted optimization a
 | Invariant and equivalence checking | Properties within the modeled language, assumptions, and checking scope. | Arithmetic models, concurrency, bounds, and invariant completeness matter. |
 | Application replay and staged rollout | Behavior under representative execution and production conditions. | Rare inputs, drift, and interactions can still be missed. |
 | Stochastic or nondeterministic execution | Repeated trials estimate error and quality distributions under specified device states; check confidence bounds and tail requirements. | Finite samples and imperfect noise models can miss rare failures, drift, or untested conditions. |
+| Contract-evasion checks | Fresh seeds and held-out input distributions per scoring run, a written specification of legal inputs, replay with new tensors after timing, stress probes at boundary conditions, real application traces, and an evaluator outside the optimizer's environment. | Catches candidates that improve the score without improving the workload; cannot prove the absence of untested evasions. |
 
 Combine checks according to the allowed action. A configuration change, a new reduction order, and a generated backend require different evidence. Ave's data-flow assertions and CAKE's schedule checks are useful examples of targeted feedback, not complete proofs for arbitrary accelerator programs.
 
@@ -347,7 +348,7 @@ Stochastic hardware can still have a deterministic mathematical reference; what 
 
 <a id="43-cost--reproducibility-of-agent-compile-loops"></a>
 
-[Measuring the Checker](../reference/publications/measuring-the-checker.md) makes the benchmark oracle itself a measurable component. The official KernelBench checker misses 16.9% of 7,384 independently witnessed synthetic faults across 188 tasks; this is not a production error rate. [KDA²](../reference/publications/kda2.md) also reports excluding faster-seeming candidates that violated the evaluation contract. Use injected faults, held-out inputs, and false-rejection tests to assess acceptance machinery before trusting an agent's speedup.
+[Measuring the Checker](../reference/publications/measuring-the-checker.md) makes the benchmark oracle itself a measurable component. The official KernelBench checker misses 16.9% of 7,384 independently witnessed synthetic faults across 188 tasks; this is not a production error rate. [KDA²](../reference/publications/kda2.md) shows what the contract-evasion row catches in practice: candidates claiming 3.74×, 3.57×, and 5.16× were rejected for a hard-coded normalization constant, overflow to NaN on every real case, and illegal history truncation; the accepted result was 2.96×. Use injected faults, held-out inputs, and false-rejection tests to assess acceptance machinery before trusting an agent's speedup.
 
 ### 4.3 Search cost and reproducibility
 
@@ -379,7 +380,7 @@ The open question is how much structure helps the optimizer. An interface that m
 
 <a id="46-fmware--agent-app-compilation"></a>
 
-[TIRx Harness](../reference/publications/tirx-harness.md) distinguishes a compiler intermediate representation from the surrounding agent environment: a kernel programming face, synchronization and race checks, numerical simulation, documentation and reference kernels, profiling, and evaluation services. Selected Blackwell attention-family kernel results are promising, but do not isolate the benefit of each component. **Test:** compare a conventional compiler interface, tools alone, tools with references, and the complete harness using fixed models, workloads, and budgets. Report incomplete checker verdicts instead of treating them as success.
+[TIRx Harness](../reference/publications/tirx-harness.md) distinguishes a compiler intermediate representation from the surrounding agent environment: a kernel programming face, synchronization and race checks, numerical simulation, documentation and reference kernels, profiling, and evaluation services. Selected Blackwell attention-family kernel results are promising, but do not isolate the benefit of each component, and the harness, KCoral, KDA², and CAKE are one research community rather than independent confirmations. One measured detail is useful on its own: with the same agent and acceptance contract, KDA² reached 2.85–2.96× across three kernel languages, so for that operator the language mattered less than the surrounding environment. **Test:** compare a conventional compiler interface, tools alone, tools with references, and the complete harness using fixed models, workloads, and budgets. Report incomplete checker verdicts instead of treating them as success.
 
 ### 4.6 The optimizer's own workflow and memory
 
@@ -403,7 +404,7 @@ The main gap is a controlled compiler experiment. A persistent controller change
 
 <a id="47-training-data-for-compilers"></a>
 
-[MetaKernelBench](../reference/publications/metakernelbench.md) transfers distilled optimization advice between CuTe DSL and TIRx on the same 74 paired problems. Across six models, reported matched-target-attempt lift ranges from −19% to +29%, with negative transfer. Source-experience development cost is additional. Distinguish retained examples, memory-only adaptation, skill instructions, learned policies, and changes to the controller procedure; none is automatically beneficial on fresh tasks.
+[MetaKernelBench](../reference/publications/metakernelbench.md) transfers distilled optimization advice between CuTe DSL and TIRx on the same 74 paired problems. Across six models, reported matched-target-attempt lift ranges from −19% to +29%, with negative transfer. Source-experience development cost is additional. Regressions occur on 16–45% of problems for every model and direction. [D2K-Bench](../reference/publications/d2k-bench.md) measures the other direction: when expert design guidance is supplied, the three frontier agents correct on all 26 tasks move from 1.69× to 2.49× geometric-mean speedup on B200, and correctness rises from 93.1% to 98.5%. Knowledge supplied to the controller helps far more consistently than knowledge the controller distills for itself, and much of the remaining gap is design discovery rather than implementation. Distinguish retained examples, memory-only adaptation, skill instructions, learned policies, and changes to the controller procedure; none is automatically beneficial on fresh tasks.
 
 ### 4.7 Training and evaluation data
 
@@ -431,7 +432,7 @@ Run generated candidates with appropriate isolation, preserve where released art
 
 ### 4.10 Comparable benchmarks
 
-Use a progression from compiler transformations to individual kernels, fused regions, complete applications, and multi-device execution. Include new-hardware enablement where relevant. KernelBench, KernelBench-X, KernelBench-Verified, FlashInfer-Bench, JAXBench, KernelGenBench, and llvm-bench each cover part of this space.
+Use a progression from compiler transformations to individual kernels, fused regions, complete applications, and multi-device execution. Include new-hardware enablement where relevant. KernelBench, KernelBench-X, KernelBench-Verified, FlashInfer-Bench, JAXBench, KernelGenBench, PTXBench, and llvm-bench each cover part of this space. Two newer benchmarks measure the evaluation itself rather than the kernels: [Measuring the Checker](../reference/publications/measuring-the-checker.md) quantifies what an oracle misses, and [D2K-Bench](../reference/publications/d2k-bench.md) separates design discovery from implementation by running each task with and without expert guidance. [PeepholeBench](../reference/publications/peepholebench.md) extends the progression to compiler-engineering tasks and scores profitability, not only validity.
 
 For every result, record the denominator, validation scope, workload coverage, target, software versions, budget, and variability. Configure the baseline as practitioners would deploy it, including precision modes such as TF32, and test correctness on inputs the generator did not see; [KernelBench-Verified](../reference/publications/kernelbench-verified.md) found shortcuts that assumed positive inputs. Record peak memory as well as time. Report the fraction of workloads that are correct and faster, the size of gains and regressions, and application benefit. Do not average unrelated headline speedups into a single ranking.
 
@@ -561,7 +562,7 @@ This sequence is a starting recommendation, not a requirement to solve each stag
 
 For the scope/control hypothesis, review available controlled comparisons on **23 September 2027**. If none meet the controls, record the relationship as untested; do not count a collection of unrelated success stories as confirmation. Specify the tasks, budget, and review date when testing a hypothesis. “Agents never improve” and “agents eventually solve everything” are not useful experimental criteria. A negative result can weaken a near-term prediction without disproving a longer-term possibility.
 
-**Controller research checkpoint — review 23 September 2027:** look for a public controller-change artifact evaluated on at least two held-out compiler-workload families against a strong fixed controller and a memory-only variant. Require fixed toolchain and model versions, comparable per-job resources, disclosed development cost, and application-level validation. Record missing evidence as untested, not as proof of impossibility. This is a new research checkpoint; it does not replace the existing horizon predictions. Confidence in useful restricted improvement is medium; timing and architectural form of broad recursive compiler-controller improvement remain low.
+**Controller research checkpoint — review 23 September 2027:** look for a public controller-change artifact evaluated on at least two held-out compiler-workload families against a strong fixed controller, a memory-only variant, and a supplied-knowledge variant (the same controller given curated references or expert designs, so that a reference-library gain is not scored as a procedure improvement). Require fixed toolchain and model versions, comparable per-job resources, disclosed development cost, and application-level validation. Record missing evidence as untested, not as proof of impossibility. This is a new research checkpoint; it does not replace the existing horizon predictions. Confidence in useful restricted improvement is medium; timing and architectural form of broad recursive compiler-controller improvement remain low.
 
 <a id="54-near-term-signals-conditioning-the-sketch"></a>
 
@@ -598,6 +599,8 @@ The last part of [Figure 1](#33-a-starting-architecture-with-replaceable-compone
 
 **Evidence that changes the call:** fewer than two qualifying integrations misses the timing call; matched evaluations showing no added value from agent decisions lower directional confidence. Two independent reproduced application gains would strengthen it.
 
+**Running tally (updated 15 October 2026): 0 of 2.** KDA² (NVIDIA, 27 September) and AI as a Compiler (Stanford/EPFL, 29 September) are kernel-level results without an application evaluation; the TIRx Harness and KCoral are infrastructure; KernelOPT is a benchmark integration. None qualifies yet. Record candidates here as they appear so the September 2027 review has a trail.
+
 **More ambitious outcome:** one workflow adapts kernels, configurations, and compiler components together. **Needed progress:** dependable evaluation, useful feedback, and repeatable deployment.
 
 #### 5.5.2 Three years: 2029
@@ -623,7 +626,7 @@ The last part of [Figure 1](#33-a-starting-architecture-with-replaceable-compone
 
 **Evidence that changes the call:** a component used only on the search workload, or removed because of regressions, does not meet the predicate. Sustained benefit after a hardware or compiler update strengthens the forecast; repeated generalization failures weaken it.
 
-**More ambitious outcome:** workload-specific compilers are synthesized or substantially restructured. **Needed progress:** specifications, evaluation, and component-generation methods that generalize. Retaining a checker or assembler does not disqualify a result.
+**More ambitious outcome:** workload-specific compilers are synthesized or substantially restructured. **Needed progress:** specifications, evaluation, and component-generation methods that generalize. Retaining a checker or assembler does not disqualify a result. Direct AI lowering is a precursor, not a qualifying component: it produces one kernel per paid search rather than a reusable lowering used in a default path; ACT's symbolic backend generation is the conventional comparison arm for this predicate.
 
 #### 5.5.4 Ten years: 2036
 
@@ -813,7 +816,7 @@ Production reports establish value in particular settings. Public benchmarks exp
 
 ### Restricted actions or wider code synthesis?
 
-Hints and typed actions simplify checking; wider synthesis can discover implementations outside a fixed space. CAKE and Ave motivate better representations and feedback, while direct-rewrite failures identify current weaknesses. Compare the full environment and, where possible, isolate representation, feedback, and model effects. Current failures do not establish an advisory-only future.
+Hints and typed actions simplify checking; wider synthesis can discover implementations outside a fixed space. CAKE and Ave motivate better representations and feedback, while direct-rewrite failures identify current weaknesses. Compare the full environment and, where possible, isolate representation, feedback, and model effects. Report speedups at the verification level the deployment requires: AI as a Compiler reports both, and the gap between numerically tested and provably equivalent results (1.37× versus 0.78× for FlashAttention) is itself a measurement of how much freedom the current checkers can afford. Current failures do not establish an advisory-only future.
 
 <a id="c4--kernel-dsl-future-triton-vs-cuda-tile-and-friends"></a>
 
@@ -906,7 +909,9 @@ The record identifiers below preserve links from earlier revisions. They are mai
 | [Checker mutation study](../reference/publications/measuring-the-checker.md) | The official checker misses 16.9% of independently witnessed synthetic mutants. | Checker adequacy on this fault population, not real-world error rates. |
 | [MetaKernelBench](../reference/publications/metakernelbench.md) | −19% to +29% paired cross-DSL transferred-skill lift. | Same-problem transfer; extra source cost and negative transfer. |
 | [ACT](../reference/publications/act-backend.md) | Six target platforms, 2.3× more Trainium code-generation coverage than reported baseline. | Compiler coverage, not speed, from a non-LLM alternative. |
-| [KCoral](../reference/publications/kcoral.md) | 2.58× more GPU evaluations/minute in reported B200 study. | Evaluation service throughput, not kernel speed. |
+| [KCoral](../reference/publications/kcoral.md) | 2.58× more GPU evaluations/minute in reported B200 study; median timing difference from local measurement 0.425%. | Evaluation service throughput, not kernel speed. |
+| [D2K-Bench](../reference/publications/d2k-bench.md) | Expert design guidance raises frontier-agent speedup from 1.69× to 2.49× (geometric mean, 26 tasks, B200). | Design-discovery gap under one harness and judge; guidance cost excluded. |
+| [PeepholeBench](../reference/publications/peepholebench.md) | Agent patches for 40 missed LLVM peephole optimizations are 97–98% valid but profitable on 9–17% of test cases; best agent profitable on 8 of 19 PRs. | Small InstCombine tasks; snapshot of fast-moving agents. |
 
 Argus was revised and renamed Ave on 14 September 2026. Use version 2's metrics above for current claims. The historical digest filename remains `argus.md` to preserve links.
 

@@ -2,8 +2,6 @@
 
 One digest per searched source. Files live beside this index. **Org** = company/university/lab; **Publisher** = venue, blog host, forge, or preprint host.
 
-**Total:** 179
-
 | Year | Kind | Group | Org | Publisher | Digest | Source |
 |---|---|---|---|---|---|---|
 | 2026 | paper | Surveys & vision | ICT, CAS · UCAS · University of Leeds | arXiv | [The New Compiler Stack: A Survey on the Synergy of LLMs and Compilers](new-compiler-stack-survey.md) | [source](https://arxiv.org/abs/2601.02045) |
@@ -55,7 +53,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | Agentic & RL compilers | Huawei Technologies, Heterogeneous Compiler Lab | arXiv | [T-LLM Compiler: Trusted LLM-based Code Optimization and Verification Framework](t-llm-compiler.md) | [source](https://arxiv.org/abs/2608.14953) |
 | 2026 | code | Agentic & RL compilers | Amazon Science / AWS AI | GitHub | [amazon-science/acclaim (GitHub)](acclaim-github.md) ★ Tier A | [source](https://github.com/amazon-science/acclaim) |
 | 2026 | paper | Agentic & RL compilers | ETH Zurich · INSAIT/Sofia University · UC Berkeley | arXiv | [Generative Compilation: On-the-Fly Compiler Feedback as AI Generates Code](generative-compilation.md) | [source](https://arxiv.org/abs/2607.13921) |
-| 2026 | paper | Agentic & RL compilers | Research authors | arXiv | [AI as a Compiler: Direct Triton-to-PTX Generation](ai-as-compiler.md) | [source](https://arxiv.org/abs/2609.36800) |
+| 2026 | paper | Agentic & RL compilers | Stanford University · EPFL | arXiv | [AI as a Compiler: Compiling Triton kernels without the Triton compiler](ai-as-compiler.md) ★ Tier A | [source](https://arxiv.org/abs/2609.36800) |
 | 2025 | paper | GPU kernels & inference compilers | Stanford · Princeton | arXiv | [KernelBench: Can LLMs Write Efficient GPU Kernels?](kernelbench.md) | [source](https://arxiv.org/abs/2502.10517) |
 | 2025 | company | GPU kernels & inference compilers | Stanford (Scaling Intelligence) | Stanford blog | [Stanford blog: KernelBench](kernelbench-blog.md) | [source](https://scalingintelligence.stanford.edu/blogs/kernelbench/) |
 | 2025 | code | GPU kernels & inference compilers | Stanford (Scaling Intelligence) | GitHub | [ScalingIntelligence/KernelBench](kernelbench-github.md) | [source](https://github.com/ScalingIntelligence/KernelBench/) |
@@ -153,7 +151,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | Agent control-plane substrate | Sun Yat-sen University | arXiv · ACM CAIS 2026 (AgentSkills'26) | [SkCC: Portable and Secure Skill Compilation for Cross-Framework LLM Agents](skcc.md) | [source](https://arxiv.org/abs/2605.03353) |
 | 2026 | paper | Agent control-plane substrate | Shanghai Jiao Tong University | arXiv | [SkVM: Compiling Skills for Efficient Execution Everywhere](skvm.md) | [source](https://arxiv.org/abs/2604.03088) |
 | 2026 | paper | Agent control-plane substrate | AetherHeart Tech · Renmin University of China · UC San Diego | arXiv | [SkillSmith: Compiling Agent Skills into Boundary-Guided Runtime Interfaces](skillsmith.md) | [source](https://arxiv.org/abs/2605.15215) |
-| 2026 | company | Agent control-plane substrate | MLC Community | MLC blog | [KCoral: Lightweight Benchmark Server for Agentic GPU Programming](kcoral.md) | [source](https://blog.mlc.ai/2026/10/05/kcoral-lightweight-benchmark-server-for-agentic-gpu-programming) |
+| 2026 | company | Agent control-plane substrate | MLC community (CMU · Apache TVM) | MLC blog · GitHub | [KCoral: Lightweight Benchmark Server for Agentic GPU Programming](kcoral.md) | [source](https://blog.mlc.ai/2026/10/05/kcoral-lightweight-benchmark-server-for-agentic-gpu-programming) |
 
 | 2026 | paper | GPU kernels & inference compilers | Google · Google DeepMind | arXiv | [MaxKernel: Agentic Kernel Generation for TPUs](maxkernel.md) ★ TPU/Pallas peak agent | [source](https://arxiv.org/abs/2609.04523) |
 | 2026 | paper | GPU kernels & inference compilers | Google · Google DeepMind · Harvard University · UC Berkeley | arXiv | [JAXBench: Benchmarking Autonomous TPU Kernel Optimization](jaxbench.md) ★ T8 TPU rung | [source](https://arxiv.org/abs/2607.20466) |
@@ -167,22 +165,25 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2025 | paper | Structured and distributed compilation | Carnegie Mellon University · Peking University · Pennsylvania State University · Purdue University · Weizmann Institute of Science | USENIX OSDI 2025 | [Mirage: A Multi-Level Superoptimizer for Tensor Programs](mirage.md) | [source](https://arxiv.org/abs/2405.05751v3) |
 | 2026 | paper | Structured and distributed compilation | Carnegie Mellon University · Tsinghua University · Weizmann Institute of Science | arXiv | [Prism: Symbolic Superoptimization of Tensor Programs](prism.md) | [source](https://arxiv.org/abs/2604.15272v1) |
 | 2026 | company | Classic DL compilers | Meta (PyTorch/Helion team) | PyTorch blog | [From Minutes to Seconds: LLM-Guided Autotuning for Helion Kernels](helion-llm-autotuning.md) | [source](https://pytorch.org/blog/from-minutes-to-seconds-llm-guided-autotuning-for-helion-kernels/) |
-| 2026 | paper | Classic DL compilers | Research authors | ACM OOPSLA 2026 | [ACT: Automatically Generating ML Compiler Backends from Tensor Accelerator Descriptions](act-backend.md) | [source](https://doi.org/10.1145/3839457) |
+| 2025/26 | paper | Classic DL compilers | University of Illinois Urbana-Champaign | ACM OOPSLA 2026 · arXiv | [Automatically Generating ML Compiler Backends from Tensor Accelerator ISA Descriptions (ACT)](act-backend.md) ★ non-agent alternative | [source](https://arxiv.org/abs/2510.09932) |
 | 2025 | paper | Structured and distributed compilation | ByteDance Seed · Tsinghua University · Peking University · Shanghai Jiao Tong University · Zhejiang University | arXiv | [Triton-distributed: Programming Overlapping Kernels on Distributed AI Systems with the Triton Compiler](triton-distributed.md) | [source](https://arxiv.org/abs/2504.19442v3) |
 | 2026 | code | Structured and distributed compilation | OpenXLA (GSPMD and PartIR teams) | OpenXLA documentation | [Shardy: A Tensor Partitioning System](shardy.md) | [source](https://openxla.org/shardy/overview) |
 
 | 2026 | paper | Structured and distributed compilation | ByteDance Seed · Peking University · Tsinghua University · Zhejiang University · Shanghai Jiao Tong University | arXiv | [DITRON: Distributed Multi-level Tiling Compiler for Parallel Tensor Programs](ditron.md) | [source](https://arxiv.org/abs/2605.02953v1) |
 | 2026 | paper | GPU kernels & inference compilers | Gaurav Agarwal · Ashish Garg · Isha Singhal (affiliations not stated) | arXiv | [How Much of a Real Workload Can LLM-Generated GPU Kernels Actually Reach?](kernel-headroom.md) | [source](https://arxiv.org/abs/2609.21058v1) |
 | 2023 | paper | Validation and approximate hardware | IBM Research | APL Machine Learning · arXiv | [Using the IBM Analog In-Memory Hardware Acceleration Kit for Neural Network Training and Inference](analog-validation.md) | [source](https://arxiv.org/abs/2307.09357v2) |
-| 2026 | paper | Validation and approximate hardware | Research authors | arXiv | [Measuring the Checker: Mutation Analysis for GPU Kernel Benchmark Oracles](measuring-the-checker.md) | [source](https://arxiv.org/abs/2609.22220) |
+| 2026 | paper | Validation and approximate hardware | National University of Singapore · Nanyang Technological University · VinUniversity | arXiv | [Measuring the Checker: Mutation Analysis for GPU-Kernel Benchmark Oracles](measuring-the-checker.md) ★ Tier A | [source](https://arxiv.org/abs/2609.22220) |
 | 2026 | paper | GPU kernels & inference compilers | University of Wisconsin–Milwaukee · Illinois Institute of Technology | arXiv | [Evaluating CUDA Tile for AI Workloads on Hopper and Blackwell GPUs](cutile-evaluation.md) | [source](https://arxiv.org/abs/2604.23466v2) |
 | 2026 | company | Company infra | NVIDIA | NVIDIA Developer blog | [Advancing GPU Programming with the CUDA Tile IR Backend for OpenAI Triton](triton-tileir-backend.md) | [source](https://developer.nvidia.com/blog/advancing-gpu-programming-with-the-cuda-tile-ir-backend-for-openai-triton/) |
 | 2026 | paper | GPU kernels & inference compilers | Meta · Stanford University | arXiv | [KernelBench-Verified: Do LLM-Generated Kernels Actually Beat PyTorch?](kernelbench-verified.md) | [source](https://arxiv.org/abs/2607.16241v1) |
-| 2026 | company | GPU kernels & inference compilers | MLC Community · TVM ecosystem | MLC blog · GitHub | [TIRx Harness: An Open Compiler Harness for Agentic GPU Programming](tirx-harness.md) | [source](https://blog.mlc.ai/2026/09/29/tirx-harness-an-open-compiler-harness-for-agentic-gpu-programming) |
-| 2026 | company | GPU kernels & inference compilers | NVIDIA researchers | KDA project blog | [KDA²: Kernel Design Agents Optimize Kimi Delta Attention](kda2.md) | [source](https://nvlabs.github.io/kda/blog/2026-09-27-kda-for-kda/) |
-| 2026 | paper | GPU kernels & inference compilers | Research authors | arXiv | [KernelOPT: Dispatch-Aware Agentic Kernel Optimization](kernelopt.md) | [source](https://arxiv.org/abs/2609.30059) |
-| 2026 | paper | GPU kernels & inference compilers | Research authors | arXiv | [KernelZero: Co-Evolving Proposer and Coder for GPU Kernel Generation](kernelzero.md) | [source](https://arxiv.org/abs/2609.33074) |
-| 2026 | paper | GPU kernels & inference compilers | Research authors | arXiv | [PTXBench: Architecture-Specific PTX Kernel Evaluation](ptxbench.md) | [source](https://arxiv.org/abs/2608.17379) |
+| 2026 | company | GPU kernels & inference compilers | MLC community (CMU · Apache TVM) · NVIDIA KDA team | MLC blog · GitHub | [TIRx Harness: An Open Compiler Harness for Agentic GPU Programming](tirx-harness.md) ★ harness design | [source](https://blog.mlc.ai/2026/09/29/tirx-harness-an-open-compiler-harness-for-agentic-gpu-programming) |
+| 2026 | company | GPU kernels & inference compilers | NVIDIA (Agentic CUDA Effort) · CMU/MLC | NVLabs project blog | [KDA²: Kernel Design Agents (KDA) optimize Kimi Delta Attention (KDA)](kda2.md) ★ acceptance contract | [source](https://nvlabs.github.io/kda/blog/2026-09-27-kda-for-kda/) |
+| 2026 | paper | GPU kernels & inference compilers | Red Hat (PyTorch team) | arXiv | [KernelOPT: Dispatch-Aware Agentic Search for GPU Kernel Optimization](kernelopt.md) | [source](https://arxiv.org/abs/2609.30059) |
+| 2026 | paper | GPU kernels & inference compilers | Institute of Computing Technology, CAS · UCAS · Institute of Software, CAS | arXiv | [KernelZero: Co-Evolving Proposer and Coder for Continuously Improved GPU Kernel Generation](kernelzero.md) | [source](https://arxiv.org/abs/2609.33074) |
+| 2026 | paper | GPU kernels & inference compilers | Stanford University · Carnegie Mellon University · RadixArk | arXiv | [PTXBench: Benchmarking and Adapting LLMs for GPU Kernel Optimization with Architecture-specific PTX](ptxbench.md) ★ contrary case | [source](https://arxiv.org/abs/2608.17379) |
+| 2026 | paper | GPU kernels & inference compilers | Alibaba Group · HKUST · USTC | arXiv | [D2K-Bench: Can LLM Agents Turn Expert Designs into Efficient GPU Kernels?](d2k-bench.md) ★ design vs implementation gap | [source](https://arxiv.org/abs/2610.03226) |
+| 2026 | paper | Agentic & RL compilers | Pennsylvania State University | arXiv | [Verified Learning for Compiler Optimization: An LLM-Guided Architecture with Formal Control](verified-learning-lazification.md) | [source](https://arxiv.org/abs/2609.27214) |
+| 2026 | paper | Agentic & RL compilers | University of Waterloo | arXiv | [Can Coding Agents Implement Missed Compiler Optimizations? Evaluating LLM Agents on LLVM Peephole Optimizations](peepholebench.md) | [source](https://arxiv.org/abs/2607.02684) |
 
 | 2024/25 | paper | Controller improvement | University of British Columbia · Vector Institute | ICLR 2025 · arXiv | [Automated Design of Agentic Systems](adas.md) | [source](https://arxiv.org/abs/2408.08435v2) |
 | 2024/25 | paper | Controller improvement | DeepWisdom · HKUST (Guangzhou) · Renmin University of China · Nanjing University · Fudan University · KAUST · Université de Montréal / Mila · HKUST | ICLR 2025 · arXiv | [AFlow: Automating Agentic Workflow Generation](aflow.md) | [source](https://arxiv.org/abs/2410.10762v4) |
@@ -192,9 +193,9 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | Controller improvement | University of British Columbia · Meta · Vector Institute · University of Edinburgh (among listed affiliations) | arXiv | [Hyperagents](hyperagents.md) | [source](https://arxiv.org/abs/2603.19461v1) |
 | 2026 | paper | Controller improvement | Stanford University · KRAFTON · MIT | arXiv | [Meta-Harness: End-to-End Optimization of Model Harnesses](meta-harness.md) | [source](https://arxiv.org/abs/2603.28052v1) |
 | 2026 | paper | Controller improvement | Affiliations not verified in the accessible primary abstract | arXiv | [Beyond Scaling: Self-Evolving LLM Agents for Hardware Kernel Optimization via an Experience-Driven Workflow and Experience Graph Memory](kope.md) | [source](https://arxiv.org/abs/2608.25570v1) |
-| 2026 | paper | Controller improvement | Research authors | arXiv | [MetaKernelBench: Kernel Optimization Knowledge Transfer Across DSLs](metakernelbench.md) | [source](https://arxiv.org/abs/2610.05014) |
+| 2026 | paper | Controller improvement | Westlake University · Shanghai Jiao Tong University · Zhejiang University | arXiv | [MetaKernelBench: Measuring GPU Kernel Knowledge Transfer Beyond Code](metakernelbench.md) ★ negative transfer measured | [source](https://arxiv.org/abs/2610.05014) |
 
-**Total:** 169 digests
+**Total:** 182 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 

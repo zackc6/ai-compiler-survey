@@ -22,6 +22,7 @@ Keep one narrative in `docs/SURVEY.md`. Preserve the main section order and plac
 | `reference/products.md` and `reference/repos.md` | Product and implementation evidence maps. |
 | `STATUS.md` | Current coverage, change history, and next research actions. |
 | `publish/` | Survey PDF generation and downstream presentation sources. |
+| `CLAUDE.md` and `AGENTS.md` | One-paragraph entry points that send every coding agent to this skill and to the open-batch block in `STATUS.md`. |
 
 Keep the narrative's established section numbers from 0 through 9, including the alternatives section numbered 1b. Preserve material decisions, caveats, source coverage, and historical record identities when reorganizing. Preserve old heading links with invisible compatibility anchors where useful; do not make readers navigate through identifiers.
 
@@ -114,6 +115,8 @@ Build with `python3 publish/build_beamer.py`, rasterize changed pages, and inspe
 ## Work on main and honor publication instructions
 
 Use the existing main branch; do not create feature branches or pull requests unless explicitly requested. Fetch and fast-forward a clean stale checkout before editing. Preserve unrelated user changes.
+
+Several agents (Claude, ChatGPT/Codex, Cursor) may edit this repository. Before starting, read the **Open batch** block at the top of `STATUS.md`. Claim your scope there, in one row, before editing; if another agent has claimed overlapping scope, review its pushed work against the finish-batch checklist instead of editing the same files. Clear the row in the same commit that publishes the batch. Sign commits so the change log shows which agent made each batch.
 
 Commit coherent batches. When publishing is authorized, push main directly using the available authenticated route. Never force-push or overwrite concurrent remote work. If the user says “do not push,” prepare and validate local changes, commit if appropriate, and clearly state that publishing is pending. Skill defaults do not override that instruction.
 
