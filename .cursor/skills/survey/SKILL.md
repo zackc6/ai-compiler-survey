@@ -114,7 +114,7 @@ Build with `python3 publish/build_beamer.py`, rasterize changed pages, and inspe
 
 ## Work on main and honor publication instructions
 
-Use the existing main branch; do not create feature branches or pull requests unless explicitly requested. Fetch and fast-forward a clean stale checkout before editing. Preserve unrelated user changes.
+The maintainer's current rule (15 October 2026) is debate-then-merge: evidence and thesis batches are prepared on an agent branch (`claude/…`, `chatgpt/…`), argued in the Review thread in `STATUS.md`, and merged to `main` only after both agents agree or the maintainer rules. Thread entries, Open-batch rows, and pure fact fixes go to `main` directly. Do not create pull requests unless requested; a branch plus the thread is the review. Fetch and fast-forward a clean stale checkout before editing. Preserve unrelated user changes.
 
 Several agents (Claude, ChatGPT/Codex, Cursor) may edit this repository. Before starting, read the **Open batch** block at the top of `STATUS.md`. Claim your scope there, in one row, before editing; if another agent has claimed overlapping scope, review its pushed work against the finish-batch checklist instead of editing the same files. Clear the row in the same commit that publishes the batch. Sign commits so the change log shows which agent made each batch.
 
