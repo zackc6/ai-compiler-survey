@@ -1,6 +1,6 @@
 # Next-Generation AI Compiler Survey and Design Guide
 
-Evidence reviewed through **23 September 2026**. Forecasts cover **2027, 2029, 2031, 2036, and the longer-term future**. This is a living research and design document; forecasts are conditional judgments, not established results.
+Evidence reviewed through **15 October 2026**. Forecasts cover **2027, 2029, 2031, 2036, and the longer-term future**. This is a living research and design document; forecasts are conditional judgments, not established results.
 
 **Central hypothesis:** the compiler increasingly becomes an agentic optimization system that chooses strategies, synthesizes implementations and compiler components, evaluates results, and adapts using feedback. Current systems support parts of this direction. They do not establish one required architecture or a permanent boundary between an agent and a conventional compiler.
 
@@ -140,6 +140,8 @@ The design choice is the balance between automation and explicit control. A high
 
 The reported results mix kernel speed, application throughput, search efficiency, and operator coverage. Keep these outcomes separate. KernelBench-X finds that 46.6% of correct generated kernels are slower than its PyTorch eager baseline; that is a result for the evaluated methods and protocol, not a future ceiling. [Benchmark source](https://arxiv.org/abs/2605.04956v1). [KernelBench-Verified](../reference/publications/kernelbench-verified.md) shows how much the protocol matters: with TF32 enabled in the FP32 PyTorch baseline and hidden input transformations, the best single-turn model’s mean speedup falls from 1.43 to 0.88 times. In BF16, where the baseline already uses Tensor Cores, the same model reaches 1.63 times on fused-operator problems.
 
+[KernelOPT](../reference/publications/kernelopt.md) demonstrates integration-aware optimization: preserve vendor libraries and optimize the generated Triton portions of compiled models, with fallbacks included in its KernelBench results. [KernelZero](../reference/publications/kernelzero.md) explores a different path, improving the code-generation model and task curriculum offline. Compare integrated runtime, kernel speed, training/search resources, and operator coverage separately.
+
 #### Feedback is becoming more informative
 
 Compiler diagnostics, profilers, reference tests, invariant checks, and equivalence tools can explain why a candidate failed. CAKE supplies localized schedule and hardware findings. Ave checks specified data-flow relationships. [AsmEvo](../reference/publications/asmevo.md) checks assembly edits against an existing binary. [T-LLM Compiler](../reference/publications/t-llm-compiler.md) combines compiler feedback with verification tools.
@@ -149,6 +151,8 @@ These checks cover different failure modes. Successful compilation, sampled nume
 #### The compiler itself can become an optimization target
 
 [Magellan](../reference/publications/magellan.md) evolves compiler heuristics. CAKE describes changes to its representations and compiler harness. AsmEvo operates after conventional compilation. [Compiler 2.0](../reference/publications/compiler-2.0-cgo2026.md) and [MOCHA](../reference/publications/compiler-2.0-mocha-aarno.md) provide broader research agendas for compiler construction and retargeting.
+
+**Compiler implementation is now a stronger experimental choice.** [AI as a Compiler](../reference/publications/ai-as-compiler.md) directly synthesizes specialized Triton-to-PTX kernels and reports 0.83–3.34× autotuned Triton on selected GPU cases. [PTXBench](../reference/publications/ptxbench.md) provides important contrary evidence: directly generated target-specific instructions do not consistently match expert libraries across a different H100/B200 workload suite. [ACT](../reference/publications/act-backend.md) generates accelerator backends from instruction-set descriptions using equality saturation and constraint programming, without an LLM. These are competing paths, not a reason to assume all future compilers must be agentic.
 
 **Design consequence:** allow the system to improve its tools as well as its programs. Validate generated compiler components across workloads, because an improvement for one kernel can create regressions elsewhere. A component authored by an agent can still execute deterministically.
 
@@ -343,6 +347,8 @@ Stochastic hardware can still have a deterministic mathematical reference; what 
 
 <a id="43-cost--reproducibility-of-agent-compile-loops"></a>
 
+[Measuring the Checker](../reference/publications/measuring-the-checker.md) makes the benchmark oracle itself a measurable component. The official KernelBench checker misses 16.9% of 7,384 independently witnessed synthetic faults across 188 tasks; this is not a production error rate. [KDA²](../reference/publications/kda2.md) also reports excluding faster-seeming candidates that violated the evaluation contract. Use injected faults, held-out inputs, and false-rejection tests to assess acceptance machinery before trusting an agent's speedup.
+
 ### 4.3 Search cost and reproducibility
 
 Track model calls, tokens, compilation time, device time, failed trials, and elapsed optimization time. Preserve the accepted artifact, its dependencies, and enough records to rerun the measurement. Replaying an accepted artifact is different from reproducing the exact stochastic search trajectory.
@@ -354,6 +360,8 @@ A simple decision rule compares search, integration, and maintenance cost with t
 Helion illustrates a useful alternative outcome: cheaper tuning at roughly comparable final latency. Under an agreed performance tolerance, that is a search-efficiency improvement even without a runtime gain. Keep the two results separate and check per-shape regressions; the tolerance must be chosen before evaluation.
 
 <a id="44-cross-stack-interoperability"></a>
+
+Shared evaluation infrastructure is part of search cost. [KCoral](../reference/publications/kcoral.md) reports 2.58× more **GPU evaluations per minute** than a local sequential baseline on one B200, through remote execution and CPU/GPU overlap. This is not a kernel speedup and excludes model generation. Measure GPU occupancy, timing fidelity, queueing, isolated test time, and failure recovery.
 
 ### 4.4 Interoperability across compiler stacks
 
@@ -370,6 +378,8 @@ Expose layouts, synchronization, memory use, available instructions, and profili
 The open question is how much structure helps the optimizer. An interface that makes experiments reliable is valuable; an interface that excludes the winning implementation limits attainable performance. Compare both restricted and wider action spaces under the same evaluation.
 
 <a id="46-fmware--agent-app-compilation"></a>
+
+[TIRx Harness](../reference/publications/tirx-harness.md) distinguishes a compiler intermediate representation from the surrounding agent environment: a kernel programming face, synchronization and race checks, numerical simulation, documentation and reference kernels, profiling, and evaluation services. Selected Blackwell attention-family kernel results are promising, but do not isolate the benefit of each component. **Test:** compare a conventional compiler interface, tools alone, tools with references, and the complete harness using fixed models, workloads, and budgets. Report incomplete checker verdicts instead of treating them as success.
 
 ### 4.6 The optimizer's own workflow and memory
 
@@ -392,6 +402,8 @@ The controller is now a research target in its own right. The evidence supports 
 The main gap is a controlled compiler experiment. A persistent controller change should improve fresh searches, not merely replay a successful kernel or benefit from more accumulated device time. Version the controller and its memory snapshot separately from executable artifacts and compiler components. Keep search traces for diagnosis and evaluation tasks separate from those traces. Test stale or misleading memories after workload and hardware changes, and measure the cost of maintaining the controller as well as running it.
 
 <a id="47-training-data-for-compilers"></a>
+
+[MetaKernelBench](../reference/publications/metakernelbench.md) transfers distilled optimization advice between CuTe DSL and TIRx on the same 74 paired problems. Across six models, reported matched-target-attempt lift ranges from −19% to +29%, with negative transfer. Source-experience development cost is additional. Distinguish retained examples, memory-only adaptation, skill instructions, learned policies, and changes to the controller procedure; none is automatically beneficial on fresh tasks.
 
 ### 4.7 Training and evaluation data
 
@@ -495,6 +507,8 @@ A shared interface can expose several representations. A unified representation 
 | Compile-time or offline optimization | Reuse accepted artifacts where workloads are stable. | New shapes or operating conditions justify adaptation. | The performance gain pays for adaptation within deployment constraints. |
 
 Replacement is incremental. Generating a new heuristic, replacing a transformation, changing the representation, or bypassing part of lowering all count as architectural change. Retaining an assembler, checker, or fallback does not mean the rest of the compiler has remained conventional.
+
+The next useful controlled comparison places direct PTX synthesis ([AI as a Compiler](../reference/publications/ai-as-compiler.md)), automatically generated conventional backends ([ACT](../reference/publications/act-backend.md)), and compiler-centered agent harnesses ([TIRx Harness](../reference/publications/tirx-harness.md)) against an established compiler. Keep hardware and workload contracts fixed. Measure accepted application runtime, coverage, validation effort, search cost, and maintenance across toolchain changes; a peak kernel speedup cannot settle total engineering value.
 
 #### 5.1.5 Add controller improvement as a separately evaluated loop
 
@@ -741,6 +755,7 @@ These 23 topics form a product-design checklist whose choices depend on the inte
 | Reproducible artifacts and replay | Reuse improvements independently of a search session. | Rebuild and remeasure after model, compiler, and hardware updates. |
 | Heuristic and transformation generation | Amortize optimization into the compiler. | Compare generated logic, learned policies, and expert heuristics on held-out applications. |
 | Hardware feedback and compiler evolution | Address recurring unsupported or poorly performing schedules. | Turn a diagnosed limitation into a component change and measure its benefit and regressions. |
+| Direct target-code generation and synthesized backends | Competing routes to reducing hand-coded lowering. | Compare accepted results, operator coverage, semantics, optimization cost, and retargeting against established lowering. |
 
 <a id="582-outside-the-compiler"></a>
 
@@ -828,7 +843,7 @@ Expand scope only if it improves accepted application performance or search effi
 
 ### How much of the compiler should agents replace?
 
-Using existing compiler tools is a useful near-term strategy. Generating or replacing those tools is also part of the thesis. CAKE's compiler evolution, Magellan's heuristics, and AsmEvo's post-compilation edits make the boundary more flexible than a permanent control-plane/data-plane split suggests. Evaluate replacement component by component; preserving validation does not disqualify architectural change.
+Using existing compiler tools is a useful near-term strategy. Generating or replacing those tools is also part of the thesis. CAKE's compiler evolution, Magellan's heuristics, and AsmEvo's post-compilation edits make the boundary more flexible than a permanent control-plane/data-plane split suggests. Evaluate replacement component by component; preserving validation does not disqualify architectural change. Direct AI PTX generation and ACT's non-LLM backend generation now provide concrete competing paths, while [PTXBench](../reference/publications/ptxbench.md) cautions against extrapolating from the best direct-PTX cases. Measure accepted performance, supported workloads, verification coverage, and total cost.
 
 <a id="c7--generic-scm-ai-review-vs-compiler-oracle-review"></a>
 
@@ -884,6 +899,14 @@ The record identifiers below preserve links from earlier revisions. They are mai
 | [KernelBench-Verified](https://arxiv.org/abs/2607.16241v1) | Single-turn kernels from seven models on one H200: best geometric-mean speedup 0.88 against a TF32-enabled baseline with hidden tests, versus 1.43 under the standard protocol; 1.63 at Level 2 in BF16. | Baseline precision and hidden tests change the conclusion. Not an agentic or multi-turn result; same evidence family as KernelBench. |
 | [CUDA Tile evaluation](https://arxiv.org/abs/2604.23466v2) | Independent study: one cuTile attention kernel at 2.51 times FlashAttention-2 on B200 and 53% on RTX PRO 6000; cuTile matrix multiplication at 52–79% of cuBLAS. | Kernel throughput only, not application or agent evidence. Tuning is not matched across languages, and no Blackwell-specific attention library is compared. |
 | [GEPA kernel experiments](../reference/publications/gepa.md) | On AMD XDNA2, one evolved prompt raises mean vector utilization from 4.25% to 26.85% with the same GPT-4o refinement agent. | Limited instruction-improvement evidence. Extra search cost and the kernel evaluation protocol matter; no application or broad controller-transfer conclusion. |
+
+| [AI as a Compiler](../reference/publications/ai-as-compiler.md) | 0.83–3.34× autotuned Triton for selected direct-PTX GPU kernels. | Kernel performance, with incomplete proof coverage and nontrivial search cost. |
+| [TIRx Harness](../reference/publications/tirx-harness.md) | 1.33–6.84× across selected Blackwell attention-kernel families. | Integrated system; harness component benefits not isolated. |
+| [KernelOPT](../reference/publications/kernelopt.md) | KernelBench Levels 1–3: 1.40× / 1.15× / 1.07× over `torch.compile`, including fallbacks. | Benchmark integration, not production serving A/B. |
+| [Checker mutation study](../reference/publications/measuring-the-checker.md) | The official checker misses 16.9% of independently witnessed synthetic mutants. | Checker adequacy on this fault population, not real-world error rates. |
+| [MetaKernelBench](../reference/publications/metakernelbench.md) | −19% to +29% paired cross-DSL transferred-skill lift. | Same-problem transfer; extra source cost and negative transfer. |
+| [ACT](../reference/publications/act-backend.md) | Six target platforms, 2.3× more Trainium code-generation coverage than reported baseline. | Compiler coverage, not speed, from a non-LLM alternative. |
+| [KCoral](../reference/publications/kcoral.md) | 2.58× more GPU evaluations/minute in reported B200 study. | Evaluation service throughput, not kernel speed. |
 
 Argus was revised and renamed Ave on 14 September 2026. Use version 2's metrics above for current claims. The historical digest filename remains `argus.md` to preserve links.
 

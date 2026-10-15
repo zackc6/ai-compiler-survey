@@ -1,6 +1,6 @@
 # Survey status
 
-Last updated: **2026-09-23**
+Last updated: **2026-10-15**
 
 ## Current state
 
@@ -11,9 +11,9 @@ Last updated: **2026-09-23**
 | Architecture | Application optimization, controller improvement, and compiler evolution remain distinct evaluation targets. Two figures show the overall architecture and controller development, including proposal feedback and separate final evaluation. |
 | Forecast | Five horizons with separate direction, timing, and architecture confidence; dated predicates and evidence rules. |
 | Design checklist | All 23 product topics and ten technical priorities retained in readable comparisons. |
-| Evidence | 169 source digests; related papers, blogs, and repositories distinguished from independent corroboration. |
-| Updated sources | Added eight controller-improvement digests: GEPA, ADAS, AFlow, Self-Improving Coding Agent, Darwin Gödel Machine, Hyperagents, Meta-Harness, and KOPE (abstract-only lead). Refined FlowCompile's scope. |
-| Survey PDF | Rebuilt with the current narrative and reference appendices; source links open primary references. |
+| Evidence | 179 source digests; related papers, blogs, and repositories distinguished from independent corroboration. |
+| Updated sources | Ten October digests added: direct AI lowering, TIRx Harness, KDA², KernelOPT, oracle mutation analysis, KCoral, MetaKernelBench, ACT, KernelZero, and PTXBench. Earlier controller research retained. |
+| Survey PDF | The checked-in PDF is the September snapshot; an October PDF rebuild and visual check remain necessary after this text-first publication. |
 | Presentation | Existing slides and bilingual transcripts are an earlier snapshot; not aligned with this revision. |
 | Repository skill | Updated with plain-language guidance, evidence standards, architecture flexibility, and publication authorization rules. |
 | Publication | Architecture-overview batch: direct publication to main authorized by the maintainer. |
@@ -25,12 +25,15 @@ Last updated: **2026-09-23**
 - Ablations separating model capability, representation, diagnostic feedback, and search resources.
 - Broader evaluation of generated compiler components, communication choices, and long-term maintenance.
 - Controlled transfer of evolved controllers to held-out applications, with fixed toolchains and full development cost; full-text verification of KOPE.
+- Compare direct PTX synthesis, ACT-generated backends, and conventional lowering under common application-level and full-cost evaluation.
+- Measure benchmark oracle adequacy, harness-component ablations, and negative kernel-skill transfer.
 - Full-text refinement of older, thin digests; historical shorthand remains in parts of the source catalog.
 
 ## Change log
 
 | Date | Change |
 |---|---|
+| 2026-10-15 | Added ten public October evidence digests and index entries (total 179). Integrated direct AI lowering, ACT conventional backend synthesis, harness design, benchmark oracle adequacy, integrated kernel search, remote evaluation cost, and skill transfer into the narrative, evidence register and implementation map. Forecasts and Figure 1 unchanged; PDF rebuild outstanding. |
 | 2026-09-23 | Consolidated Figure 1 into one SVG with four parts: where the agent acts, who does what, how the controller improves across optimization jobs, and how far the agent reaches by horizon. Removed the duplicates: the separate controller-development figure, the Markdown role table, and the forecast summary table (section 5.5 now points to the figure). The PDF prints each part on its own landscape page from the same generator. Rebuilt the PDF. |
 | 2026-09-23 | Renamed the overview figure to `docs/architecture-overview.svg` and replaced it with a detailed drawing: human-owned contract; application optimization with agent, learned policy, and structured search; checks, artifact store, and deployment without optimizer-model calls by default; compiler development and optional controller development with development feedback, hidden final checks, and promotion paths; the controller scope ladder and four comparison arms. Updated the caption, generator, validator, PDF assembler, and README. Rebuilt the PDF. |
 | 2026-09-23 | Added a “who does what” table under Figure 1 (application optimization, compiler development, gated controller development, and what stays fixed) and a summary table of the dated forecast calls, including the 2027 controller checkpoint, at the start of the forecast section. The skill now keeps both tables consistent with the detailed text. Rebuilt the PDF. |

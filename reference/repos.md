@@ -37,6 +37,8 @@ Magellan’s papers and [LLVM presentation](publications/magellan-llvm-slides.md
 | [Kernel-headroom artifacts](https://github.com/gauravapiscean/kernel-headroom) | Workload profiles, numerical checks, and DLRM-Bench. | Inspect the classification and projection assumptions before generalizing. |
 | [KernelBench-Verified](https://github.com/facebookresearch/kernel_bench_verified) | TF32 baseline, hidden input transformations, and peak-memory measurement for KernelBench. | Fixed hidden transformations can be anticipated; keep the baseline precision explicit. |
 | [CUDA Tile evaluation artifacts](https://github.com/uwm-se/CuTile) | Matrix-multiplication and attention kernels across cuTile, Triton, and CUDA baselines. | Check tuning parity and baseline versions before comparing languages. |
+| [Triton AI Compiler](https://github.com/francois141/triton_ai_compiler) and [PTX Gym](https://github.com/francois141/ptx_gym) | Direct PTX candidates, checking and optimization traces. | Does direct synthesis beat Triton after counting all failed trials and GPU time? |
+| [TIRx Harness](https://github.com/mlc-ai/TIRx-harness) | Compiler analysis, references, experiments and candidate frontiers. | Which harness components make an independent contribution? |
 | [Kernel generation bibliography](https://github.com/flagos-ai/awesome-LLM-driven-kernel-generation) | Discovery of further primary sources. | A bibliography is not an evaluation. |
 
 TritorX and KernelEvolve have important paper and industry-report evidence. Do not assume full public implementations or reproducibility merely because related libraries are public.
@@ -46,6 +48,7 @@ TritorX and KernelEvolve have important paper and industry-report evidence. Do n
 | Project | Why it belongs in an experiment |
 |---|---|
 | [LLVM](https://github.com/llvm/llvm-project) | Existing analyses, transformations, code generation, and learned-policy integration. |
+| [ACT backend generation](https://doi.org/10.1145/3839457) | Non-LLM synthesis of compiler backends from accelerator instructions; compare coverage, performance and engineering costs. |
 | [TVM](https://github.com/apache/tvm) and [TIRx kernels](https://github.com/mlc-ai/tirx-kernels) | Tensor representations, schedule controls, and example kernels. |
 | [TileLang](https://github.com/tile-ai/tilelang) and [language tools](https://github.com/tile-ai/tilelang-lsp) | Tile programming, layout inference, and editor/tool feedback. |
 | [Triton](https://github.com/triton-lang/triton), [Gluon digest](publications/triton-gluon.md), and [Triton extensions](https://github.com/facebookexperimental/triton) | Different levels of layout and scheduling control. |
@@ -67,6 +70,7 @@ TritorX and KernelEvolve have important paper and industry-report evidence. Do n
 |---|---|---|
 | [GEPA](https://github.com/gepa-ai/gepa) | Reflective optimization of reusable instructions. | Reproduce kernel results with strong baselines and fresh workloads. |
 | [Automated Design of Agentic Systems](https://github.com/ShengranHu/ADAS) and [AFlow](https://github.com/FoundationAgents/AFlow) | Agent-code and workflow search. | Generated task agents do not imply an evolving outer optimizer. |
+| [MetaKernelBench](https://arxiv.org/abs/2610.05014) | Same-problem cross-DSL skill-transfer evaluation. | Which reused instructions help, and how often does negative transfer occur? |
 | [Meta-Harness](https://github.com/stanford-iris-lab/meta-harness) | Harness-code search using prior source and execution traces. | General-task evidence; compiler adaptation requires measurement. |
 | [Hyperagents](https://github.com/facebookresearch/HyperAgents) | Editable task and modification agents. | Some outer selection and evaluation components remain fixed. |
 
@@ -76,6 +80,7 @@ These are experiment starting points, not demonstrations that a complete compile
 
 | Project | Scope |
 |---|---|
+| [KCoral](https://kcoral.mlc.ai/) | Isolated shared GPU evaluation and remote diagnostics. |
 | [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) | General agent runtime and session state. |
 | [Agent Skills](https://github.com/agentskills/agentskills) | Skill packaging and discovery. |
 | [SIGIL](https://github.com/sigilagent/sigil) | Skill compilation into executable workflows. |
