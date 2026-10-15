@@ -164,6 +164,11 @@ One digest per searched source. Files live beside this index. **Org** = company/
 
 | 2025 | paper | Structured and distributed compilation | Carnegie Mellon University · Peking University · Pennsylvania State University · Purdue University · Weizmann Institute of Science | USENIX OSDI 2025 | [Mirage: A Multi-Level Superoptimizer for Tensor Programs](mirage.md) | [source](https://arxiv.org/abs/2405.05751v3) |
 | 2026 | paper | Structured and distributed compilation | Carnegie Mellon University · Tsinghua University · Weizmann Institute of Science | arXiv | [Prism: Symbolic Superoptimization of Tensor Programs](prism.md) | [source](https://arxiv.org/abs/2604.15272v1) |
+| 2026 | paper | Structured and distributed compilation | Zhejiang University | arXiv | [Unleashing the Power of Equality Saturation for Tensor Program Superoptimization (EqiForge)](eqiforge.md) ★ non-agent alternative | [source](https://arxiv.org/abs/2609.12330) |
+| 2025/26 | paper | Structured and distributed compilation | Carnegie Mellon University · Tsinghua University · NVIDIA · University of Michigan · Peking University | USENIX OSDI 2026 · arXiv | [MPK: A Compiler and Runtime for Mega-Kernelizing Tensor Programs](mpk.md) ★ scope expansion without an agent | [source](https://arxiv.org/abs/2512.22219) |
+| 2026 | paper | Structured and distributed compilation | Baidu | arXiv | [Ada-MK: Adaptive MegaKernel Optimization via Automated DAG-based Search for LLM Inference](ada-mk.md) | [source](https://arxiv.org/abs/2605.11581) |
+| 2026 | paper | HW codesign & bring-up | Samsung Advanced Institute of Technology | arXiv | [ServeTwin: A Benchmark-Validated Simulator for Distributed LLM Architecture Exploration](servetwin.md) | [source](https://arxiv.org/abs/2610.02732) |
+| 2026 | paper | MLGO & RL gyms | Institute of Software, CAS · UCAS | arXiv | [Toward Compiler World Models: Learning Latent Dynamics for Efficient Tensor Program Search](compiler-world-models.md) | [source](https://arxiv.org/abs/2606.09312) |
 | 2026 | company | Classic DL compilers | Meta (PyTorch/Helion team) | PyTorch blog | [From Minutes to Seconds: LLM-Guided Autotuning for Helion Kernels](helion-llm-autotuning.md) | [source](https://pytorch.org/blog/from-minutes-to-seconds-llm-guided-autotuning-for-helion-kernels/) |
 | 2025/26 | paper | Classic DL compilers | University of Illinois Urbana-Champaign | ACM OOPSLA 2026 · arXiv | [Automatically Generating ML Compiler Backends from Tensor Accelerator ISA Descriptions (ACT)](act-backend.md) ★ non-agent alternative | [source](https://arxiv.org/abs/2510.09932) |
 | 2025 | paper | Structured and distributed compilation | ByteDance Seed · Tsinghua University · Peking University · Shanghai Jiao Tong University · Zhejiang University | arXiv | [Triton-distributed: Programming Overlapping Kernels on Distributed AI Systems with the Triton Compiler](triton-distributed.md) | [source](https://arxiv.org/abs/2504.19442v3) |
@@ -195,7 +200,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | Controller improvement | Affiliations not verified in the accessible primary abstract | arXiv | [Beyond Scaling: Self-Evolving LLM Agents for Hardware Kernel Optimization via an Experience-Driven Workflow and Experience Graph Memory](kope.md) | [source](https://arxiv.org/abs/2608.25570v1) |
 | 2026 | paper | Controller improvement | Westlake University · Shanghai Jiao Tong University · Zhejiang University | arXiv | [MetaKernelBench: Measuring GPU Kernel Knowledge Transfer Beyond Code](metakernelbench.md) ★ negative transfer measured | [source](https://arxiv.org/abs/2610.05014) |
 
-**Total:** 182 digests
+**Total:** 187 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 

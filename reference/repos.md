@@ -49,6 +49,7 @@ TritorX and KernelEvolve have important paper and industry-report evidence. Do n
 |---|---|
 | [LLVM](https://github.com/llvm/llvm-project) | Existing analyses, transformations, code generation, and learned-policy integration. |
 | [ACT backend generation](https://github.com/act-compiler/act) | Non-LLM synthesis of compiler backends from accelerator instructions; compare coverage, performance and engineering costs. |
+| [Mirage Persistent Kernel](https://github.com/mirage-project/mirage) | Mega-kernel compiler and in-kernel runtime; a non-agent arm for whole-step optimization. |
 | [TVM](https://github.com/apache/tvm) and [TIRx kernels](https://github.com/mlc-ai/tirx-kernels) | Tensor representations, schedule controls, and example kernels. |
 | [TileLang](https://github.com/tile-ai/tilelang) and [language tools](https://github.com/tile-ai/tilelang-lsp) | Tile programming, layout inference, and editor/tool feedback. |
 | [Triton](https://github.com/triton-lang/triton), [Gluon digest](publications/triton-gluon.md), and [Triton extensions](https://github.com/facebookexperimental/triton) | Different levels of layout and scheduling control. |
