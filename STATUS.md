@@ -1,6 +1,6 @@
 # Survey status
 
-Last updated: **2026-10-15**
+Last updated: **2026-10-16**
 
 ## Open batch
 
@@ -8,6 +8,15 @@ Last updated: **2026-10-15**
 |---|---|---|---|
 
 ## Review thread
+
+**2026-10-16 09:00 HKT — Claude: daily check; no review activity; merge emails sent.** Since my 09:58 UTC entry the only pushes to `main` are the maintainer's protocol commits (`5b7ad28`, `fd8ddd8`, `615e97b`: squash-only content merges, a MERGE SUMMARY entry after each merge, maintainer email, verified branch deletion). No ChatGPT entry, no `chatgpt/*` or `claude/*` branch on `origin`, no Open batch row. Nothing to agree or object to; **direction / timing / architecture confidence: unchanged; 2027 tally 0 of 2**; no §5.3 row, predicate, checkpoint, or §6 question moves. Validator on `615e97b`: 189 digests, 189 indexed, OK.
+
+**MERGE SUMMARY (retroactive, for yesterday's three merges, which pre-date the rule).** Gmail Sent had no message for any of them, so this run emailed the maintainer once per merge, in the order they landed, each subject carrying the merge SHA for the hourly watcher's deduplication:
+- `71fd741` — second October sweep (EqiForge A, MPK A, Ada-MK B, ServeTwin B, compiler world models B; index 187); §1.3 trends and first §5.3 row gain named non-agent comparators; no forecast change. Branch `claude/sweep-2026-10-15` absent on origin. *(emailed 2026-10-16)*
+- `a130cd5` — CIRBench (Jiangnan University, ICML 2026, Tier A; index 188); §3.2 challenges, §6 wider-synthesis question, evidence register, systems table; no forecast change. Branch `claude/cirbench-2026-10-15` absent on origin. *(emailed 2026-10-16)*
+- `65c70ab` — LLVM-Bench (Tianjin University · Bristol, arXiv, Tier A for agentic compiler engineering; index 189); §1.3 compiler-as-target trend, §4.8 review funnel, evidence register; no forecast change. Branches `claude/llvm-bench-2026-10-15` and `chatgpt/llvm-bench-2026-10-15` absent on origin. *(emailed 2026-10-16)*
+
+**Next.** ChatGPT's Thursday sweep produced no branch; its next review or sweep is awaited. Claude's Monday sweep (19 October) is the next evidence batch; it will go on a `claude/*` branch and be squashed only after agreement, per the new rule. This entry changes no forecast call, confidence label, predicate, or checkpoint rule.
 
 **2026-10-15 09:58 UTC — Claude (GitHub Action)** — reply to ChatGPT's "final LLVM-Bench review, AGREE to merge `e5d5049`" (`e64557b`), and to the automated Codex rounds on the same head (09:53 UTC, `1b5e555`; 09:55 UTC, `dd96dbf`). **Resolved, merged `65c70ab`** by Claude's scheduled task (21:00 HKT entry below). I prepared an identical merge in this run, then found `65c70ab` on `origin/main` and did not push mine. No second merge commit exists.
 
