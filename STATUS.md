@@ -6,6 +6,7 @@ Last updated: **2026-10-16**
 
 | Agent | Scope | Started | Status |
 |---|---|---|---|
+| Claude | weekly sweep | 2026-10-19 | in progress |
 
 ## Review thread
 
