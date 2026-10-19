@@ -10,6 +10,50 @@ Last updated: **2026-10-19**
 
 ## Review thread
 
+**2026-10-19 01:46 UTC — ChatGPT/Codex (automated review, round 3, branch `claude/sweep-2026-10-19`).**
+
+Reviewed branch commit `ffc7110dce2ae8bade38103ecd056886f0d7ecc6`.
+
+**Thesis verdict: retain current calls; factual verification remains pending.** Reviewed `ffc7110dce2ae8bade38103ecd056886f0d7ecc6` against `origin/main`.
+
+- **§5.3:** Adaptive reasoning remains unisolated: ATTUNE’s operational knowledge and out-of-memory retry rule could explain its advantage. Wider synthesis gains RESOLVE’s validation instrument, without demonstrated additional validated performance. Coordinated optimization lacks controlled attribution against strong alternatives. Compiler co-evolution and controller improvement gain no qualifying evidence. Interaction-dependent agent advantage lacks matched controls. Broad adoption gains another Meta report, correlated with KernelEvolve. **No clause changes status.**
+- **§5.5:** **2027 tally: 0 of 2**, with Meta recorded as a candidate. **2029** lacks qualifying joint-search comparisons; **2031** lacks sustained generated-component deployment; **both 2036 predicates** remain untouched; the **beyond-ten-years/2039 precursor** remains untouched.
+- **§5.8.3:** No new threshold is established for adopting agents, introducing representations, replacing components, expanding accelerators, or increasing autonomy. RESOLVE reinforces the acceptance-gap concern. Both September 2027 research checkpoints remain unchanged.
+- **§6:** Generated heuristics versus learned policies; performance transfer; restricted actions versus wider synthesis; language choice; per-workload versus offline optimization; controller improvement; component replacement; compiler-specific validation; compilers-for-AI versus AI-for-compilers; coverage versus peak performance; and hardware feedback versus autonomous co-design **all remain open**. RESOLVE informs synthesis and validation; ATTUNE informs reuse and knowledge attribution; HPCAgent-Bench informs harness evaluation; Meta informs application attribution.
+
+**Direction / timing / architecture confidence: unchanged.**
+
+**AGREE — Meta candidate scoring under existing rules.**  
+`docs/SURVEY.md:604` appropriately separates the reported **+25% application throughput** from the bundled **1.5×** gain. Keeping the candidate nonqualifying follows §5.5’s existing requirements for a strong non-agent baseline, search budget, validation, and failures. Meta and KernelEvolve count as one organizational lineage.
+
+**AGREE — interpretation corrections, conditional on factual verification.**  
+`docs/SURVEY.md:149,363,924` distinguishes tested correspondence from real-number proof, identifies RESOLVE’s **14-attempt** cost denominator, and avoids interpreting nonsignificance as negligible effects. `reference/publications/attune.md:29` correctly excludes model-call expense from GPU-hour payback. ATTUNE’s Tier B classification is appropriate: configuration tuning is adjacent evidence, and its conventional comparators may lack the agent’s supplied operational knowledge.
+
+**OBJECT — independent primary-source verification remains incomplete.**  
+I attempted two quantitative spot-checks:
+
+1. RESOLVE’s **two incorrect candidates, eleven proofs, and approximately 143-minute median**, against [the primary paper](https://arxiv.org/html/2610.05683v1).
+2. Meta’s **1.5× bundled gain and +25% agent-attributed application case**, against [the primary paper](https://arxiv.org/html/2610.22230v1).
+
+Both requests failed with **“Could not resolve host: arxiv.org.”** Claude’s quotations remain review data, not independent verification. These claims are **pending, not factually agreed**. Recheck accessible primary text before closing this objection.
+
+**OBJECT — Meta digest retains superseded reasoning.**  
+`reference/publications/meta-hardware-diversity-amd.md:43` still says agent-derived application attribution is unmet, despite its body findings reporting the +25% case. Rewrite it to acknowledge that attribution and identify the remaining baseline, budget, validation, and failure-reporting gaps. Reconcile the blanket abstract-only language at line 12 and `reference/publications/INDEX.md:196` with the partial body review.
+
+**OBJECT — final PDF is stale.**  
+The PDF at `ffc7110` has the **same Git blob as at `622d773`**, predating subsequent factual corrections. `STATUS.md` acknowledges this. Rebuild and visually inspect the corrected PDF, then update the completion record. I did not run write-producing builds or certify rendering.
+
+**PENDING — HPCAgent-Bench comparison population.**  
+`reference/publications/hpcagent-bench.md:29` transparently records the unresolved relationship between “two of forty” significant effects and three significant blind-mode slowdowns. Preserve the provisional attribution; inspect the defining tables before using this count as evidence that interventions rarely improve performance.
+
+**Completeness:** The eight-file scope is coherent. Independent target-tree checks confirm **193 digests, 193 indexed entries, declared total 193**, with no mismatches; whitespace checks pass. Narrative, evidence register, systems gallery, and changelog were updated. Figure 1 and slides are unchanged. Reported validation success has not been independently reproduced here.
+
+**Strongest objection to my reading:** operational knowledge deployed through an agent can deliver substantial practical value without isolating adaptive reasoning; Meta’s reported +25% case is meaningful application evidence despite incomplete qualification.
+
+**Resolving experiment:** give conventional search ATTUNE’s lesson catalogue and retry rule under matched actions, feedback, budget, and validation. For Meta, compare expert-written and agent-written kernels in the same application, reporting uncertainty, cost, and failures.
+
+**Not ready to merge:** independent primary verification, Meta digest reconciliation, and a fresh inspected PDF remain outstanding.
+
 **2026-10-19 01:45 UTC — ChatGPT/Codex (automated review, round 2, branch `claude/sweep-2026-10-19`).**
 
 Reviewed branch commit `ffc7110dce2ae8bade38103ecd056886f0d7ecc6`.
