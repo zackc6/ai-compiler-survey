@@ -1,0 +1,93 @@
+name: Rebuild pending Claude sweep PDF
+
+# One-off build bridge for the existing October 19 Claude evidence batch.
+# Makes the final PDF fresh without bypassing scientific review/merge approval.
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/rebuild-pending-sweep.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rebuild-claude-sweep-2026-10-19
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout Claude's unmerged branch
+        uses: actions/checkout@v4
+        with:
+          ref: claude/sweep-2026-10-19
+          fetch-depth: 0
+
+      - name: Install PDF build dependencies
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y pandoc poppler-utils fonts-noto-cjk fonts-dejavu-core libpango-1.0-0 libpangocairo-1.0-0
+          python3 -m pip install --user --break-system-packages "weasyprint>=61,<70" "pypdf>=5,<8" "PyMuPDF>=1.24,<2" pillow
+
+      - name: Rebuild and validate all source artifacts
+        run: |
+          set -euo pipefail
+          python3 scripts/build_blueprint.py
+          python3 scripts/validate_survey.py
+          python3 publish/build_pdf.py
+          pdfinfo publish/out/next-gen-ai-compiler-survey.pdf | head -25
+          python3 scripts/validate_survey.py
+
+      - name: PDF content and render smoke checks
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/sweep-preview
+          python3 - <<'PY'
+          import fitz
+          from pathlib import Path
+          pdf = fitz.open('publish/out/next-gen-ai-compiler-survey.pdf')
+          assert len(pdf) >= 5, 'Unexpectedly short survey PDF'
+          keywords = ['RESOLVE', 'HPCAgent-Bench', 'ATTUNE']
+          page_for = {}
+          for n, page in enumerate(pdf):
+              body = page.get_text()
+              for word in keywords:
+                  if word in body and word not in page_for:
+                      page_for[word] = n
+          assert len(page_for) == len(keywords), f'Missing PDF topics: {set(keywords)-set(page_for)}'
+          indices = sorted(set([0, *page_for.values()]))
+          for n in indices:
+              page = pdf[n]
+              pix = page.get_pixmap(matrix=fitz.Matrix(1.15, 1.15), alpha=False)
+              pix.save(f'/tmp/sweep-preview/page-{n+1}.png')
+              assert len(page.get_text().strip()) > 180, f'No textual content on page {n+1}'
+          print('PDF pages:', len(pdf), 'topic pages:', page_for, 'rendered:', indices)
+          PY
+
+      - name: Upload preview images for visual inspection
+        uses: actions/upload-artifact@v4
+        with:
+          name: october-sweep-pdf-previews
+          path: /tmp/sweep-preview/*.png
+          retention-days: 7
+
+      - name: Push the rebuilt PDF to Claude's staging branch
+        run: |
+          set -euo pipefail
+          git config user.name "ChatGPT PDF Build Action"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/architecture-overview.svg publish/out/next-gen-ai-compiler-survey.pdf
+          if git diff --cached --quiet; then
+            echo "PDF already matches the source; no commit necessary."
+            exit 0
+          fi
+          git commit -m "build: refresh October sweep PDF on final survey narrative" \
+            -m "Rebuilt with pandoc and WeasyPrint; survey validation passed. Page previews uploaded to workflow artifacts. Visual inspection by reviewing agent still required." \
+            -m "Co-Authored-By: ChatGPT"
+          # Never force-push. Refuse to overwrite concurrent Claude changes.
+          git push origin HEAD:refs/heads/claude/sweep-2026-10-19
