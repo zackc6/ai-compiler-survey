@@ -100,6 +100,27 @@ jobs:
                     ' (dispatch-based runs can show main).',
                   '- Check STATUS.md for the actual AGREE/OBJECT. A successful workflow is not merge approval.'
                 ]);
+              // If a branch was created inside another Action with
+              // GITHUB_TOKEN, GitHub may suppress the normal create hook.
+              // A completed Claude workflow is an independent event: surface
+              // open Claude branches not previously reported, without claiming
+              // they were created at this exact moment.
+              if (label.startsWith('Claude')) {
+                const active = await github.rest.repos.listBranches({
+                  owner,repo,per_page:100
+                });
+                for (const b of active.data) {
+                  if (!/^claude\/[A-Za-z0-9._/-]+$/.test(b.name)) continue;
+                  await alert('branch:' + b.name,
+                    'Claude branch observed after workflow completion',[
+                      '- Branch: [' + b.name + '](' + home + '/tree/' +
+                        b.name.split('/').map(encodeURIComponent).join('/') + ')',
+                      '- Current SHA: ' + b.commit.sha,
+                      '- Fallback for branch creation that did not emit a downstream workflow.',
+                      '- Exact creation time is not inferred; this is discovery, not approval.'
+                    ]);
+                }
+              }
               // GITHUB_TOKEN merges may suppress a new main-push workflow.
               // A completed Claude workflow provides a separate event path.
               if (label.startsWith('Claude') && run.conclusion === 'success') {
