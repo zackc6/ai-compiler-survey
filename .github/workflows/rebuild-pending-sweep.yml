@@ -76,6 +76,33 @@ jobs:
           path: /tmp/sweep-preview/*.png
           retention-days: 7
 
+      - name: Publish isolated JPEG page previews for independent visual review
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          src = Path('/tmp/sweep-preview')
+          assert len(list(src.glob('*.png'))) >= 2, 'Need at least two rendered pages'
+          for p in src.glob('*.png'):
+              im = Image.open(p).convert('RGB')
+              im.thumbnail((1200, 1600))
+              im.save(src / (p.stem + '.jpg'), quality=77, optimize=True)
+          print([(p.name, p.stat().st_size) for p in src.glob('*.jpg')])
+          PY
+          git fetch origin main
+          git worktree add -b chatgpt/pdf-preview-2026-10-21 /tmp/sweep-pdf-review origin/main
+          mkdir -p /tmp/sweep-pdf-review/ops-tests/pdf-visual-review
+          cp /tmp/sweep-preview/*.jpg /tmp/sweep-pdf-review/ops-tests/pdf-visual-review/
+          cd /tmp/sweep-pdf-review
+          git config user.name "ChatGPT PDF Build Action"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add ops-tests/pdf-visual-review
+          git commit -m "review: render temporary PDF page previews for 2026-10-19 survey" \
+            -m "Temporary isolated review images; not part of the published survey." \
+            -m "Co-Authored-By: ChatGPT"
+          git push origin HEAD:refs/heads/chatgpt/pdf-preview-2026-10-21
+
       - name: Push the rebuilt PDF to Claude's staging branch
         run: |
           set -euo pipefail
