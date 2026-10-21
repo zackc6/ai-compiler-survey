@@ -1,0 +1,143 @@
+name: AI Compiler event alerts
+
+# No schedule or mail-service secret. GitHub @mentions deliver according to
+# the maintainer's GitHub notification settings.
+on:
+  create:
+  push:
+    branches: [main]
+  workflow_run:
+    workflows:
+      - "Codex review of Claude branch"
+      - "Wake Claude when ChatGPT writes in the review thread"
+    types: [completed]
+  repository_dispatch:
+    types: [survey_content_published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Notify maintainer in GitHub issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner, repo = context.repo.repo;
+            const issue_number = 4;
+            const home = 'https://github.com/' + owner + '/' + repo;
+            const state = await github.rest.issues.get({owner,repo,issue_number});
+            if (state.data.state !== 'open') {
+              core.setFailed('Reopen event inbox issue #4 to receive notifications.');
+              return;
+            }
+            const known = await github.paginate(github.rest.issues.listComments, {
+              owner,repo,issue_number,per_page:100
+            });
+            async function alert(key,heading,lines) {
+              const marker = '<!-- ai-compiler-event:' +
+                key.replace(/[^a-zA-Z0-9:_-]/g,'_') + ' -->';
+              if (known.some(c => (c.body || '').includes(marker))) return;
+              const body = marker + '\n@zackc6\n\n**' + heading + '**\n\n' +
+                lines.join('\n') + '\n\n[Review thread](' +
+                home + '/blob/main/STATUS.md)\n';
+              const result = await github.rest.issues.createComment({
+                owner,repo,issue_number,body
+              });
+              known.push({body});
+              core.info('Alert: ' + result.data.html_url);
+            }
+            async function checkPublished(sha) {
+              if (!/^[a-f0-9]{40}$/.test(sha || '')) return false;
+              const result = (await github.rest.repos.getCommit({owner,repo,ref:sha})).data;
+              const paths = (result.files || []).map(f => f.filename);
+              if (!paths.includes('docs/SURVEY.md') ||
+                  !paths.includes('reference/publications/INDEX.md') ||
+                  !paths.some(x => /^reference\/publications\/[^/]+\.md$/.test(x) &&
+                    x !== 'reference/publications/INDEX.md')) return false;
+              const pdf = paths.some(x => /^publish\/out\/.*\.pdf$/.test(x));
+              await alert('published:' + sha,
+                'Survey content published on main', [
+                  '- Commit: [' + sha.slice(0,8) + '](' + home + '/commit/' + sha + ')',
+                  '- Subject: ' + result.commit.message.split('\n')[0].replace(/[<>]/g,''),
+                  '- Changed: survey narrative, source index and source digests.',
+                  '- PDF included: **' + (pdf ? 'yes' : 'NO — check') + '**.',
+                  '- This notification establishes publication, NOT independent proof of the agreed squash, validation, or branch deletion; check the Review thread.'
+                ]);
+              return true;
+            }
+            if (context.eventName === 'create') {
+              const branch = context.payload.ref || '';
+              if (context.payload.ref_type !== 'branch' ||
+                  !/^claude\/[A-Za-z0-9._/-]+$/.test(branch)) return;
+              let sha = '';
+              try {
+                const b = await github.rest.repos.getBranch({owner,repo,branch});
+                sha = b.data.commit.sha;
+              } catch (e) { if (e.status !== 404) throw e; }
+              await alert('branch:' + branch,'Claude research branch created',[
+                '- Branch: [' + branch + '](' + home + '/tree/' +
+                  branch.split('/').map(encodeURIComponent).join('/') + ')',
+                '- Observed SHA: ' + (sha || 'branch no longer exists'),
+                '- GitHub create event (not scheduled polling).',
+                '- Branch creation is not research approval.'
+              ]);
+              return;
+            }
+            if (context.eventName === 'workflow_run') {
+              const run = context.payload.workflow_run;
+              const label = (run.name || '').startsWith('Codex') ?
+                'Codex review workflow' : 'Claude reply workflow';
+              await alert('review:' + run.id,label + ' completed: ' +
+                (run.conclusion || 'unknown'),[
+                  '- [Workflow run #' + run.run_number + '](' + run.html_url + ')',
+                  '- Event branch: ' + (run.head_branch || 'unknown') +
+                    ' (dispatch-based runs can show main).',
+                  '- Check STATUS.md for the actual AGREE/OBJECT. A successful workflow is not merge approval.'
+                ]);
+              // GITHUB_TOKEN merges may suppress a new main-push workflow.
+              // A completed Claude workflow provides a separate event path.
+              if (label.startsWith('Claude') && run.conclusion === 'success') {
+                const start = new Date(Date.parse(
+                  run.run_started_at || run.created_at) - 120000);
+                const end = new Date(Date.parse(
+                  run.updated_at || new Date().toISOString()) + 120000);
+                const commits = await github.rest.repos.listCommits({
+                  owner,repo,sha:'main',since:start.toISOString(),
+                  until:end.toISOString(),per_page:50
+                });
+                for (const c of commits.data) await checkPublished(c.sha);
+              }
+              return;
+            }
+            if (context.eventName === 'push') {
+              if (context.ref !== 'refs/heads/main') return;
+              const before = context.payload.before, after = context.payload.after;
+              if (!after || /^0+$/.test(after)) return;
+              if (before && !/^0+$/.test(before)) {
+                const diff = await github.rest.repos.compareCommits({
+                  owner,repo,base:before,head:after,per_page:100
+                });
+                for (const c of diff.data.commits || []) await checkPublished(c.sha);
+              } else await checkPublished(after);
+              return;
+            }
+            if (context.eventName === 'repository_dispatch') {
+              const sha = context.payload.client_payload &&
+                context.payload.client_payload.commit_sha;
+              if (!await checkPublished(sha)) {
+                core.warning('Dispatch did not reference a survey content commit.');
+              }
+              return;
+            }
+            if (context.eventName === 'workflow_dispatch') {
+              await alert('test:' + context.runId,'Live event-alert test',[
+                '- [Workflow run](' + home + '/actions/runs/' + context.runId + ')',
+                '- Tests GitHub issue notification, not a survey merge.'
+              ]);
+            }
