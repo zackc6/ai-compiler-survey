@@ -191,6 +191,10 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | Agentic & RL compilers | University of Waterloo | arXiv | [Can Coding Agents Implement Missed Compiler Optimizations? Evaluating LLM Agents on LLVM Peephole Optimizations](peepholebench.md) | [source](https://arxiv.org/abs/2607.02684) |
 | 2026 | paper | Foundation LLMs for compilers | Jiangnan University | ICML 2026 (PMLR 306) | [CIRBench: Evaluating Large Language Models as LLVM IR Optimizers](cirbench.md) ★ Tier A, layered-correctness IR rewriting | [source](https://proceedings.mlr.press/v306/yang26m.html) |
 | 2026 | paper | Agentic & RL compilers | Tianjin University · University of Bristol | arXiv | [LLVM-Bench: Benchmarking and Advancing Large Language Models for LLVM Compiler Issue Resolution](llvm-bench.md) ★ Tier A for compiler-engineering agents | [source](https://arxiv.org/abs/2607.00700) |
+| 2026 | paper | Validation and approximate hardware | Microsoft Research · University of California, Riverside · Math, Inc. | arXiv | [RESOLVE: Language-Agnostic Validation of GPU Kernels Through Testing, Reduction, and Proof](resolve.md) ★ Tier A, tolerance test → equivalence proof for AI-generated kernels | [source](https://arxiv.org/abs/2610.05683) |
+| 2026 | paper | Validation and approximate hardware | ETH Zurich (SPCL) · A*STAR IHPC | arXiv | [HPCAgent-Bench: A Framework for Sound Benchmarking of Code-Optimizing Agents, Harnesses, and Skills](hpcagent-bench.md) ★ Tier A, matched-intervention protocol (full v1 text read; "two of 40" not itemized in the paper) | [source](https://arxiv.org/abs/2610.20673) |
+| 2026 | paper | Company infra | Meta | arXiv · MICRO 2026 | [Architecting for Hardware Diversity: Meta's End-to-End Co-Design for High-Performance AI Training on AMD GPUs](meta-hardware-diversity-amd.md) ★ 2027-predicate candidate (full v1 text read; agent validation, cost, and failures not reported) | [source](https://arxiv.org/abs/2610.22230) |
+| 2026 | paper | Agent control-plane substrate | Amazon | arXiv | [ATTUNE: Agentic Throughput Tuning for LLM Training](attune.md) | [source](https://arxiv.org/abs/2610.17528) |
 
 | 2024/25 | paper | Controller improvement | University of British Columbia · Vector Institute | ICLR 2025 · arXiv | [Automated Design of Agentic Systems](adas.md) | [source](https://arxiv.org/abs/2408.08435v2) |
 | 2024/25 | paper | Controller improvement | DeepWisdom · HKUST (Guangzhou) · Renmin University of China · Nanjing University · Fudan University · KAUST · Université de Montréal / Mila · HKUST | ICLR 2025 · arXiv | [AFlow: Automating Agentic Workflow Generation](aflow.md) | [source](https://arxiv.org/abs/2410.10762v4) |
@@ -202,7 +206,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | Controller improvement | Affiliations not verified in the accessible primary abstract | arXiv | [Beyond Scaling: Self-Evolving LLM Agents for Hardware Kernel Optimization via an Experience-Driven Workflow and Experience Graph Memory](kope.md) | [source](https://arxiv.org/abs/2608.25570v1) |
 | 2026 | paper | Controller improvement | Westlake University · Shanghai Jiao Tong University · Zhejiang University | arXiv | [MetaKernelBench: Measuring GPU Kernel Knowledge Transfer Beyond Code](metakernelbench.md) ★ negative transfer measured | [source](https://arxiv.org/abs/2610.05014) |
 
-**Total:** 189 digests
+**Total:** 193 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 
