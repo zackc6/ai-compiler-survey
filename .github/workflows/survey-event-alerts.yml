@@ -123,6 +123,17 @@ jobs:
                 const diff = await github.rest.repos.compareCommits({
                   owner,repo,base:before,head:after,per_page:100
                 });
+                // One-time setup validation, also useful after workflow edits.
+                // This is intentionally NOT called a survey merge.
+                if ((diff.data.files || []).some(
+                  item => item.filename === '.github/workflows/survey-event-alerts.yml')) {
+                  await alert('setup:' + after, 'GitHub event-alert delivery test', [
+                    '- Real main-branch push triggered this Action without a schedule.',
+                    '- [Configuration commit](' + home + '/commit/' + after + ')',
+                    '- A bot-written comment in this issue proves the issue-alert channel.',
+                    '- It does not prove external email or mobile push delivery.'
+                  ]);
+                }
                 for (const c of diff.data.commits || []) await checkPublished(c.sha);
               } else await checkPublished(after);
               return;
