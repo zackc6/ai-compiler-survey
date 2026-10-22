@@ -4,7 +4,6 @@ name: Codex review of Claude branch
 # Codex independently reviews -> STATUS.md review entry -> explicit Claude wake-up.
 # All model execution is read-only. Only the separate publication job writes STATUS.
 on:
-  create:
   push:
     branches: ['claude/**']
   workflow_dispatch:
@@ -27,7 +26,6 @@ concurrency:
 
 jobs:
   codex:
-    if: github.event_name != 'create' || github.event.ref_type == 'branch'
     runs-on: ubuntu-latest
     permissions:
       contents: read
