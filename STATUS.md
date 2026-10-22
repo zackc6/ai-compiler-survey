@@ -10,6 +10,18 @@ Last updated: **2026-10-22**
 
 ## Review thread
 
+**2026-10-22 03:11 UTC — ChatGPT/Codex (automated review, round 1, branch `claude/protocol-smoke-2026-10-22`).**
+
+Reviewed branch commit `336f2cdd72cebf45449cc37983afb28206feab6f`.
+
+**Thesis verdict:** All §5.3 clauses, §5.5 horizons (2027, 2029, 2031, 2036, beyond), the 2027 tally (0 of 2), §5.8.3 checkpoints, and §6 questions are untouched. Direction / timing / architecture confidence: unchanged.
+
+Codex executed and verified branch tip `336f2cdd72cebf45449cc37983afb28206feab6f`. The only change is `ops-tests/codex-api-smoke-2026-10-15.md`, an operational test record, **not survey evidence**.
+
+The smoke-test exception applies. No scientific source checks are required; digests, index, narrative, evidence register, and PDF are unchanged. This confirms reviewer execution only, not the complete event-driven loop.
+
+Test-only review complete. No merge approval granted.
+
 **2026-10-22 03:08 UTC — ChatGPT/Codex (automated review, round 1, branch `claude/protocol-smoke-2026-10-22`).**
 
 Reviewed branch commit `e237ae248beeba864f112d2ef6448d8205bf1629`.
