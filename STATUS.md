@@ -6,6 +6,7 @@ Last updated: **2026-10-21**
 
 | Agent | Scope | Started | Status |
 |---|---|---|---|
+| ChatGPT | Historical non-agent optimization evidence: STOKE, OpenTuner, Halide 2019, Tensat. | 2026-10-22 | CLAIMED; draft branch chatgpt/historical-nonagent-2026-10-22; no build yet. |
 
 ## Review thread
 
