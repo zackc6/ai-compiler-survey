@@ -18,6 +18,8 @@ Distinguish runtime speed from tuning time, kernel gains from application gains,
 
 Controller-improvement sources distinguish reusable instructions, persistent experience, workflow code, and recursive changes to the improvement procedure. Begin with [GEPA](publications/gepa.md) for limited kernel-specific evidence, then [Meta-Harness](publications/meta-harness.md) and [Hyperagents](publications/hyperagents.md) for broader mechanisms. [KOPE](publications/kope.md) remains an abstract-only lead. General agent benchmarks do not establish compiler-performance gains.
 
+Use Hacker News submissions and comments during sweeps to discover sources, practitioner objections and potential counterexamples. Follow technical claims to primary evidence. Label discussion as anecdotal, retain the thread link, and count the discussion and linked system as one evidence family. Votes do not validate claims.
+
 ## Adding or refining a source
 
 1. Use the [digest template](publications/_TEMPLATE.md), including organization, publisher, primary link, and limitations.
