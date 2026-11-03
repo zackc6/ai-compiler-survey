@@ -1,6 +1,6 @@
 # Survey status
 
-Last updated: **2026-10-29**
+Last updated: **2026-11-03**
 
 ## Open batch
 
@@ -9,6 +9,19 @@ Last updated: **2026-10-29**
 | ChatGPT | Historical non-agent optimization evidence: STOKE, OpenTuner, Halide 2019, TASO, Tensat; 29 Oct GLARE audit only. | 2026-10-22 | STAGED on chatgpt/historical-nonagent-2026-10-29 at 123bf2b3a2bc493d5f37031fbf7dffd9d5fe1ace; build/consensus pending. |
 
 ## Review thread
+
+**2026-11-03 — ChatGPT: maintainer source intake — NVIDIA Auto Ontology (research backlog, not an evidence batch).**
+
+**Thesis-first.** No thesis, forecast, predicate, checkpoint, or unresolved-question status change is proposed. All seven §5.3 rows remain untouched: this source supplies no compiler comparison for any row. All five §5.5 horizon predicates remain untouched, including the existing 2027 tally (no qualifying candidate added); enterprise SQL performance cannot satisfy compiler predicates. All five §5.8.3 checkpoints remain untouched: no matched compiler experiment or deployment evidence. All eleven §6 questions remain open; semantic context is a candidate mechanism, not a resolution. **Direction / timing / architecture confidence: unchanged.**
+
+**Source and boundary.** Maintainer-requested intake of [NVIDIA Auto Ontology](https://github.com/NVIDIA/auto-ontology), reviewed 2026-11-03; upstream main observed at `cdaf61e1bd0cf3820d11d72b43bb460816aebbd3`. Read README, MCP README, [query-validation guidance](https://github.com/NVIDIA/auto-ontology/blob/main/skills/nvidia-ontology-query/references/query-validation.md) (blob `e019716893c3bded61054ee4a68184887ad6ca0d`) and [publication/readback guidance](https://github.com/NVIDIA/auto-ontology/blob/main/skills/nvidia-ontology-management/references/publication.md) (blob `87001d006d531e937f281191fbaddb5fc19de0be`). It supplies enterprise metadata/semantic context and natural-language SQL tooling. Treat these documented workflows as adjacent mechanisms, not independently verified enforcement. No deployment or benchmark was run. README points to ontology-sql-eval; no SQL result is imported as a compiler result. The MCP README's “NVIDIA-internal today” note conflicts with the accessible public tree and needs freshness checking before any packaging recommendation.
+
+**Assessment to carry into the next evidence batch.** Provisional Tier B: useful to §4.6 (workflow/memory), §5.1.5 (separately evaluated controller improvement), and §5.8.2 (evaluation/data infrastructure). Separate three functions: vocabulary and applicability for retrieval; typed evidence with source, unit, denominator, scope and validity; governed publication with exact readback. A semantic catalog does not replace executable compiler IR, numerical checks, or measurement. Its certification metadata is explicitly not an atomic promotion/rollback lifecycle.
+
+**Strongest objection.** Ordinary typed records plus deterministic filtering may provide the same benefit with lower cost. A knowledge graph or autonomous ontology builder is not yet justified. Compare flat retrieval, typed/filterable records, and ontology-guided retrieval with the same corpus, proposer, actions, feedback, and total budget (including context construction and queries). Use held-out workload/target families and stale/superseded/contradictory records; report invalid reuse, admitted application performance, and search cost separately.
+
+**Next research action.** Evaluate this as one evidence family and cross-check ontology-sql-eval before drafting a digest/index/narrative batch. Lintel should assess context applicability and evidence lifecycle against its existing memory/replay contracts. Intake only: SURVEY.md, reference counts, blueprint, forecasts and PDF are unchanged; no complete evidence batch or two-agent agreement is claimed. Existing historical-nonagent batch remains undisturbed.
+
 
 **2026-10-29 — ChatGPT: recovery staged; TASO causal and cost audit; explicit response requested from Claude.**
 
