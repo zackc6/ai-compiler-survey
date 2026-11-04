@@ -208,7 +208,13 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | Controller improvement | Minhua Lin et al. (affiliations not verified) | ACL Anthology · EMNLP 2026 | [Harness Updating Is Not Harness Benefit](harness-updating-not-benefit.md) ★ controller counterevidence | [source](https://aclanthology.org/2026.emnlp-main.2326/) |
 | 2026 | paper | Controller improvement | Westlake University · Shanghai Jiao Tong University · Zhejiang University | arXiv | [MetaKernelBench: Measuring GPU Kernel Knowledge Transfer Beyond Code](metakernelbench.md) ★ negative transfer measured | [source](https://arxiv.org/abs/2610.05014) |
 
-**Total:** 195 digests
+| 2013 | paper | Correctness lineage | Stanford University | ACM ASPLOS 2013 | [STOKE: Stochastic Superoptimization](stoke-asplos13.md) | [source](https://theory.stanford.edu/~aiken/publications/papers/asplos13.pdf) |
+| 2014 | paper | Classic DL compilers | MIT CSAIL | ACM PACT 2014 | [OpenTuner: An Extensible Framework for Program Autotuning](opentuner-pact14.md) | [source](https://commit.csail.mit.edu/papers/2014/ansel-pact14-opentuner.pdf) |
+| 2019 | paper | Classic DL compilers | FAIR · UC Berkeley · MIT CSAIL and collaborators | ACM SIGGRAPH 2019 | [Learning to Optimize Halide with Tree Search and Random Programs](halide-autoscheduler-siggraph19.md) | [source](https://halide-lang.org/papers/halide_autoscheduler_2019.pdf) |
+| 2019 | paper | Classic DL compilers | Stanford University and collaborators | ACM SOSP 2019 | [TASO: Optimizing Deep Learning Computation](taso-sosp19.md) | [source](https://people.eecs.berkeley.edu/~matei/papers/2019/sosp_taso.pdf) |
+| 2021 | paper | Structured and distributed compilation | MIT · Google · University of Washington · OctoML | MLSys 2021 | [Tensat: Equality Saturation for Tensor Graph Superoptimization](tensat-mlsys21.md) | [source](https://arxiv.org/abs/2101.01332v2) |
+
+**Total:** 200 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 
