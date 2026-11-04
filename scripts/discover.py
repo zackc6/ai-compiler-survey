@@ -261,6 +261,17 @@ def _openalex_sources(term: str) -> list[str]:
                 ids.append(r["id"].rsplit("/", 1)[-1])
         except Exception as e:  # noqa: BLE001
             log(f"  openalex sources parse failed for {term}: {e}")
+    # keep only sources whose name contains the key phrase (drops ICMLA for ICML, etc.)
+    if data:
+        try:
+            keep = []
+            for r in json.loads(data).get("results", []):
+                dn = (r.get("display_name") or "").lower()
+                if term.lower() in dn or all(w in dn for w in term.lower().split()[:3]):
+                    keep.append(r["id"].rsplit("/", 1)[-1])
+            ids = keep or ids[:1]
+        except Exception:  # noqa: BLE001
+            pass
     log(f"  openalex sources '{term[:40]}': {ids}")
     _SRC_CACHE[term] = ids
     time.sleep(1.2)
@@ -291,7 +302,7 @@ def venue_candidates(years: list[int]) -> list[dict]:
     for name in USENIX:
         for y in years:
             for title in _usenix_program(name, y):
-                kh = keyword_hit(title)
+                kh = [k for k in CORE if k in title.lower()] or [k for k in ("serving", "inference", "accelerator", "distributed training") if k in title.lower()]
                 if kh:
                     out.append({"channel": "venue", "id": "", "title": title, "date": str(y),
                                 "url": f"https://www.usenix.org/conference/{USENIX[name].format(yy=str(y)[2:])}/technical-sessions",
@@ -300,7 +311,7 @@ def venue_candidates(years: list[int]) -> list[dict]:
         for y in years:
             for r in _openalex_venue(name, term, y):
                 title = (r.get("title") or "").strip()
-                kh = keyword_hit(title)
+                kh = [k for k in CORE if k in title.lower()]
                 if not kh:
                     continue
                 doi = (r.get("doi") or "").replace("https://doi.org/", "")
@@ -313,11 +324,15 @@ def venue_candidates(years: list[int]) -> list[dict]:
 
 
 # --------------------------------------------------------------------------- citations
-def cited_by_candidates(idx: dict, since: dt.date, max_seeds: int = 40) -> list[dict]:
-    """OpenAlex: works citing our Tier A arXiv seeds, filtered to the window."""
+def cited_by_candidates(idx: dict, since: dt.date, max_seeds: int = 60) -> list[dict]:
+    """OpenAlex: works citing our Tier A arXiv seeds. Citation indexing lags, so the
+    window is widened to 180 days; dedupe against the index removes known works."""
+    since = min(since, dt.date.today() - dt.timedelta(days=180))
     out = []
     seeds = []
     for p in sorted(PUBS.glob("*.md")):
+        if p.name in ("INDEX.md", "_TEMPLATE.md"):
+            continue
         t = p.read_text(encoding="utf-8", errors="ignore")
         if "| **Evidence tier** | **A**" in t:
             m = re.search(r"arxiv\.org/abs/(\d{4}\.\d{4,5})", t)
@@ -327,6 +342,8 @@ def cited_by_candidates(idx: dict, since: dt.date, max_seeds: int = 40) -> list[
     for aid in seeds:
         h1 = ""
         for p2 in PUBS.glob("*.md"):
+            if p2.name in ("INDEX.md", "_TEMPLATE.md"):
+                continue
             t2 = p2.read_text(encoding="utf-8", errors="ignore")
             if aid in t2:
                 h1 = t2.splitlines()[0].lstrip("# ").split(" (")[0].split(": ")[-1].strip() or t2.splitlines()[0].lstrip("# ").strip()
