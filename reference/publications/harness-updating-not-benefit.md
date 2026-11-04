@@ -9,7 +9,7 @@
 | **Group** | Controller improvement |
 | **Link** | [Primary publication](https://aclanthology.org/2026.emnlp-main.2326/) |
 | **Evidence tier** | B: direct controller-evolution decision relevance, no compiler benchmark |
-| **Version / reviewed** | EMNLP 2026, DOI 10.18653/2026.emnlp-main.2326; primary abstract and full-text methodological details reviewed by Claude 4 November 2026 |
+| **Version / reviewed** | EMNLP 2026, DOI 10.18653/2026.emnlp-main.2326; ACL Anthology page and abstract reviewed by ChatGPT and Claude 4 November 2026; full-text PDF (https://aclanthology.org/2026.emnlp-main.2326.pdf) not yet read, so tier-level models, task counts and denominators are unverified |
 
 ## Key contributions
 
