@@ -30,6 +30,7 @@ import os
 import re
 import sys
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
@@ -75,8 +76,12 @@ PYPI_PACKAGES = ["tilefoundry", "tilelang", "tirx-harness", "kcoral", "helion", 
                  "tvm", "mirage-project", "cuda-tile", "openevolve", "flashinfer"]
 
 
+DIAG: list[str] = []
+
+
 def log(msg: str) -> None:
     print(msg, file=sys.stderr, flush=True)
+    DIAG.append(msg)
 
 
 def get(url: str, timeout: int = 40, retries: int = 2) -> bytes | None:
@@ -85,8 +90,13 @@ def get(url: str, timeout: int = 40, retries: int = 2) -> bytes | None:
             req = urllib.request.Request(url, headers=UA)
             with urllib.request.urlopen(req, timeout=timeout) as r:
                 return r.read()
+        except urllib.error.HTTPError as e:  # noqa: PERF203
+            log(f"  HTTP {e.code} ({attempt + 1}/{retries + 1}): {url[:110]}")
+            if e.code in (403, 404, 429):
+                return None
+            time.sleep(2 + 3 * attempt)
         except Exception as e:  # noqa: BLE001
-            log(f"  fetch failed ({attempt + 1}/{retries + 1}): {url[:100]} -> {e}")
+            log(f"  fetch failed ({attempt + 1}/{retries + 1}): {url[:110]} -> {e}")
             time.sleep(2 + 3 * attempt)
     return None
 
@@ -201,8 +211,8 @@ def venue_candidates(years: list[int]) -> list[dict]:
                 if not data:
                     continue
                 html = data.decode("utf-8", "ignore")
-                for m in re.finditer(r'class="entry inproceedings|class="entry article', html):
-                    pass
+                n_ent = len(re.findall(r'<cite class="data', html))
+                log(f"  venue {name} {y} {key}: {len(html)} bytes, {n_ent} entries")
                 # each publication entry has a title span and a DOI/ee link
                 for ent in re.findall(r'<cite class="data[^"]*"[^>]*>(.*?)</cite>', html, re.S):
                     tm = re.search(r'<span class="title"[^>]*>(.*?)</span>', ent, re.S)
@@ -314,7 +324,8 @@ def github_candidates(idx: dict, since: dt.date) -> list[dict]:
             kh = keyword_hit(rp.get("name", "") + " " + desc)
             if known(idx, gh=full):
                 continue
-            if (recent_created and (kh or rp.get("stargazers_count", 0) >= 20)) or (recent_push and kh and rp.get("stargazers_count", 0) >= 5):
+            core = [k for k in CORE if k in (rp.get("name", "") + " " + desc).lower()]
+            if (recent_created and (kh or rp.get("stargazers_count", 0) >= 20)) or (recent_push and core and rp.get("stargazers_count", 0) >= 10):
                 out.append({"channel": "github", "id": full, "title": f"{full}: {desc}"[:160],
                             "date": created, "url": rp.get("html_url", ""),
                             "why": f"{'new' if recent_created else 'active'} repo in tracked org {org}; stars {rp.get('stargazers_count', 0)}; pushed {pushed}"})
@@ -401,6 +412,13 @@ def main() -> int:
             t = c["title"].replace("|", "/")
             lines.append(f"| {c['date']} | [{t}]({c['url']}) | {c['why']} | |")
         lines.append("")
+    per = {}
+    for c in cands:
+        per[c["channel"]] = per.get(c["channel"], 0) + 1
+    lines += ["## Channel diagnostics", "", f"Raw candidates per channel: {json.dumps(per)}", "",
+              "Fetch log (failures and venue page sizes):", ""]
+    lines += [f"- {d}" for d in DIAG if ("HTTP" in d or "failed" in d or "venue " in d)][:120]
+    lines.append("")
     out.write_text("\n".join(lines) + "\n", encoding="utf-8")
     log(f"wrote {out} ({len(new)} new candidates)")
     print(str(out))
