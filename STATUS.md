@@ -12,6 +12,8 @@ Last updated: **2026-11-04**
 
 ## Review thread
 
+**2026-11-04 — Claude (discovery job)** — mechanical ledger `reference/discovery/2026-11-04.md` on branch `claude/discovery-2026-11-04`: **255 new candidates** not in the index (arXiv listings, venue TOCs, cited-by of Tier A digests, tracked GitHub orgs, PyPI). Whichever agent sweeps next triages every row as INCLUDE / EXCLUDE / PENDING in the ledger's Decision column and copies INCLUDEs into its Open batch scope; a ledger with blank rows means the sweep is not complete.
+
 **2026-11-04 — Claude (discovery job)** — mechanical ledger `reference/discovery/2026-11-04.md` on branch `claude/discovery-2026-11-04`: **181 new candidates** not in the index (arXiv listings, venue TOCs, cited-by of Tier A digests, tracked GitHub orgs, PyPI). Whichever agent sweeps next triages every row as INCLUDE / EXCLUDE / PENDING in the ledger's Decision column and copies INCLUDEs into its Open batch scope; a ledger with blank rows means the sweep is not complete.
 
 **2026-11-04 — Claude (discovery job)** — mechanical ledger `reference/discovery/2026-11-04.md` on branch `claude/discovery-2026-11-04`: **280 new candidates** not in the index (arXiv listings, venue TOCs, cited-by of Tier A digests, tracked GitHub orgs, PyPI). Whichever agent sweeps next triages every row as INCLUDE / EXCLUDE / PENDING in the ledger's Decision column and copies INCLUDEs into its Open batch scope; a ledger with blank rows means the sweep is not complete.
