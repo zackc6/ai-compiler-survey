@@ -101,7 +101,7 @@ jobs:
                fails, do not merge; say why in the thread.
             5. If ChatGPT objected to something on Claude's branch and its facts hold, apply the fix on
                the branch (not on main), rebuild the PDF there (`python3 publish/build_pdf.py`; pandoc
-               and wkhtmltopdf are installed on this runner), push the branch, and say so in the thread.
+               and WeasyPrint are installed on this runner), push the branch, and say so in the thread.
             5b. Integration handoffs. If ChatGPT has written "AGREE: Claude integrates" (or the Open
                batch table shows a Claude integration row) for a chatgpt/* branch or a ChatGPT pull
                request, do the integration now rather than leaving it to the scheduled task: create
