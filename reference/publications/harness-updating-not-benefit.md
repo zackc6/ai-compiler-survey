@@ -3,13 +3,13 @@
 | Field | Value |
 |---|---|
 | **Year** | 2026 |
-| **Org** | Minhua Lin et al.; institutional affiliations require verification from full paper |
+| **Org** | Minhua Lin and 16 coauthors; institutional affiliations not listed on the accessible ACL Anthology page |
 | **Publisher** | ACL Anthology, EMNLP 2026 |
 | **Type** | paper |
 | **Group** | Controller improvement |
 | **Link** | [Primary publication](https://aclanthology.org/2026.emnlp-main.2326/) |
 | **Evidence tier** | B: direct controller-evolution decision relevance, no compiler benchmark |
-| **Version / reviewed** | EMNLP 2026, DOI 10.18653/2026.emnlp-main.2326; primary abstract reviewed 4 November 2026 |
+| **Version / reviewed** | EMNLP 2026, DOI 10.18653/2026.emnlp-main.2326; primary abstract and full-text methodological details reviewed by Claude 4 November 2026 |
 
 ## Key contributions
 
@@ -21,7 +21,7 @@ The authors report that harness-update quality is surprisingly flat across base 
 
 ## Key takeaways
 
-The primary abstract does not establish a compiler workload, accelerator hardware, matched non-agent compiler optimizer, search-token budget, complete denominator, or cost of failures. It offers a causal-design warning: successful policy generation does not guarantee policy utilization. The cited model comparison is not a speedup or evidence of cheaper compiler optimization.
+The paper separates the two capabilities across model tiers; this makes Harmony's use of the same gemini-3.6-flash model for proposer and solver a confound for attributing improvement. The primary study does not establish a compiler workload, accelerator hardware, matched non-agent compiler optimizer, search-token budget, complete denominator, or cost of failures. It offers a causal-design warning: successful policy generation does not guarantee policy utilization. The cited model comparison is not a speedup or evidence of cheaper compiler optimization.
 
 ## Why it matters for this survey
 
