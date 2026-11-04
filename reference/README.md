@@ -24,6 +24,8 @@ Every sweep independently searches (1) compiler-specific agent and strong non-ag
 
 Before declaring a sweep complete, reconcile newly found titles and arXiv/DOI IDs against the publication index and existing digests. Record INCLUDE, EXCLUDE, or PENDING with a reason under STATUS.md Next research actions, not as an unindexed digest. Treat one system's paper, repository, blog and talk as one evidence family. Regression check: explicitly search for **Harmony Harness**, **2610.15150**, and known related families; if a known source is missing, explain its disposition. Review coverage omissions, not only the sources already discovered. Record search date, scope, primary-source verification and unresolved full-text or budget gaps.
 
+Use Hacker News submissions and comments during sweeps to discover sources, practitioner objections and potential counterexamples. Follow technical claims to primary evidence. Label discussion as anecdotal, retain the thread link, and count the discussion and linked system as one evidence family. Votes do not validate claims.
+
 ## Adding or refining a source
 
 1. Use the [digest template](publications/_TEMPLATE.md), including organization, publisher, primary link, and limitations.
