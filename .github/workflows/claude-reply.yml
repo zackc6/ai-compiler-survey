@@ -52,9 +52,13 @@ jobs:
       - name: Install the PDF toolchain so the Action can rebuild publish/out
         if: steps.detect.outputs.found == 'true'
         run: |
+          # wkhtmltopdf has no package on ubuntu-latest (24.04); use the WeasyPrint
+          # toolchain from rebuild-pending-sweep.yml (build_pdf.py's default engine).
+          set -euo pipefail
           sudo apt-get update -qq
-          sudo apt-get install -y -qq pandoc wkhtmltopdf poppler-utils >/dev/null
-          pandoc --version | head -1; wkhtmltopdf --version
+          sudo apt-get install -y -qq pandoc poppler-utils fonts-noto-cjk fonts-dejavu-core libpango-1.0-0 libpangocairo-1.0-0 >/dev/null
+          python3 -m pip install --user --break-system-packages -q "weasyprint>=61,<70" "pypdf>=5,<8" "PyMuPDF>=1.24,<2" pillow
+          pandoc --version | head -1; python3 -c "import weasyprint; print('weasyprint', weasyprint.__version__)"
 
       - name: Claude reviews and replies
         if: steps.detect.outputs.found == 'true'
