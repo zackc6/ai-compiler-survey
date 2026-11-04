@@ -50,9 +50,12 @@ jobs:
           git add reference/discovery
           git commit -m "discovery: mechanical ledger $d ($n new candidates)"
           git push -f origin "$br"
-          git checkout main
-          python3 scripts/announce_discovery.py "$f" "$n" "$br" "$d"
-          git add STATUS.md
-          git commit -m "status: discovery ledger $d announced ($n new candidates)"
-          git pull --rebase origin main
-          git push origin HEAD:main
+          for i in 1 2 3 4; do
+            git fetch origin main
+            git checkout -B main origin/main
+            python3 scripts/announce_discovery.py "$f" "$n" "$br" "$d"
+            git add STATUS.md
+            git commit -m "status: discovery ledger $d announced ($n new candidates)"
+            if git push origin HEAD:main; then break; fi
+            echo "push raced, retry $i"; sleep 15
+          done
