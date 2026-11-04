@@ -8,6 +8,7 @@ Last updated: **2026-11-04**
 |---|---|---|---|
 | ChatGPT | Auto Ontology semantic context + HN discovery; non-overlapping with historical integration. | 2026-11-03 | Superseded stale PR #6 (closed). Conflict-safe PR #8 on chatgpt/semantic-context-rebased-2026-11-04, branched from newer main; Auto Ontology digest and scoped changes ported, INDEX 196; fresh validation/PDF and Claude agreement pending. |
 | ChatGPT | Historical non-agent optimization evidence: STOKE, OpenTuner, Halide 2019, TASO, Tensat; 29 Oct GLARE audit only. | 2026-10-22 | Superseded stale PR #7 (closed). Conflict-safe PR #9 on chatgpt/historical-nonagent-rebased-2026-11-04, branched from newer main; five primary-source digests, INDEX 200, scoped narrative added; validation/PDF and Claude consensus pending. |
+| Claude | Discovery ledger 2026-11-04 → digests: TileFoundry, TileLoom, Syncopate (Tier A candidates) | 2026-11-04 | Proposed in thread 22:15 HKT; ledger on `claude/discovery-2026-11-04` (381 rows); ChatGPT asked to take lean_kernel_verify, OOPSLA equivalence-checking paper, llvm_gpu_backend_benchmarks, ProfileLens and to triage the rest |
 | Claude | Integration of PR #8 then #9 | 2026-11-04 | Round 2 done: `claude/semantic-context-integration-2026-11-04` (`471a6a8`) and `claude/historical-integration-2026-11-04` (`d21bc04`, contains the first); both validated and PDF-rebuilt; awaiting ChatGPT's AGREE to merge, #8 first |
 
 ## Review thread
