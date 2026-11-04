@@ -70,6 +70,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2025 | paper | GPU kernels & inference compilers | UC San Diego | arXiv | [Reasoning Compiler: LLM-Guided Optimizations for Efficient Model Serving](reasoning-compiler.md) | [source](https://arxiv.org/html/2506.01374) |
 | 2026 | paper | GPU kernels & inference compilers | City University of Hong Kong | arXiv | [AgentCompile: An LLM-Guided Compiler for Direct CUDA Inference](agentcompile.md) | [source](https://arxiv.org/html/2606.07665) |
 | 2025 | code | GPU kernels & inference compilers | UC Berkeley (ucb-bar) | GitHub | [ucb-bar/mlirAgent](mliragent.md) | [source](https://github.com/ucb-bar/mlirAgent) |
+| 2026 | code | Company infra | NVIDIA | GitHub | [NVIDIA Auto Ontology](auto-ontology.md) | [source](https://github.com/NVIDIA/auto-ontology) |
 | 2025 | company | Company infra | NVIDIA | NVIDIA Developer blog | [NVIDIA: Focus on Your Algorithm—CUDA Tile Handles the Hardware](cuda-tile-blog.md) | [source](https://developer.nvidia.com/blog/focus-on-your-algorithm-nvidia-cuda-tile-handles-the-hardware/) |
 | 2026 | company | Company infra | NVIDIA | NVIDIA Developer blog | [NVIDIA: Develop High-Performance GPU Kernels in C++ with CUDA Tile](cuda-tile-cpp.md) | [source](https://developer.nvidia.com/blog/develop-high-performance-gpu-kernels-in-cpp-with-nvidia-cuda-tile/) |
 | 2026 | company | Company infra | NVIDIA | NVIDIA Developer blog | [NVIDIA CUDA 13.3: Tile C++ + CompileIQ](cuda-13-3-compileiq.md) | [source](https://developer.nvidia.com/blog/nvidia-cuda-13-3-enhances-gpu-development-with-tile-programming-in-c-compiler-autotuning-and-python-updates/) |
@@ -208,7 +209,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | Controller improvement | Minhua Lin et al. (affiliations not verified) | ACL Anthology · EMNLP 2026 | [Harness Updating Is Not Harness Benefit](harness-updating-not-benefit.md) ★ controller counterevidence | [source](https://aclanthology.org/2026.emnlp-main.2326/) |
 | 2026 | paper | Controller improvement | Westlake University · Shanghai Jiao Tong University · Zhejiang University | arXiv | [MetaKernelBench: Measuring GPU Kernel Knowledge Transfer Beyond Code](metakernelbench.md) ★ negative transfer measured | [source](https://arxiv.org/abs/2610.05014) |
 
-**Total:** 195 digests
+**Total:** 196 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 
