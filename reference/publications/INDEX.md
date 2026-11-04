@@ -204,9 +204,11 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | Controller improvement | University of British Columbia · Meta · Vector Institute · University of Edinburgh (among listed affiliations) | arXiv | [Hyperagents](hyperagents.md) | [source](https://arxiv.org/abs/2603.19461v1) |
 | 2026 | paper | Controller improvement | Stanford University · KRAFTON · MIT | arXiv | [Meta-Harness: End-to-End Optimization of Model Harnesses](meta-harness.md) | [source](https://arxiv.org/abs/2603.28052v1) |
 | 2026 | paper | Controller improvement | Affiliations not verified in the accessible primary abstract | arXiv | [Beyond Scaling: Self-Evolving LLM Agents for Hardware Kernel Optimization via an Experience-Driven Workflow and Experience Graph Memory](kope.md) | [source](https://arxiv.org/abs/2608.25570v1) |
+| 2026 | paper | Controller improvement | Google Cloud AI Research · Google DeepMind · Carnegie Mellon University | arXiv | [Harmony Harness: Multi-Objective Self-Evolution of Agent Harnesses](harmony-harness.md) ★ multi-objective controller | [source](https://arxiv.org/abs/2610.15150) |
+| 2026 | paper | Controller improvement | Minhua Lin et al. (affiliations not verified) | ACL Anthology · EMNLP 2026 | [Harness Updating Is Not Harness Benefit](harness-updating-not-benefit.md) ★ controller counterevidence | [source](https://aclanthology.org/2026.emnlp-main.2326/) |
 | 2026 | paper | Controller improvement | Westlake University · Shanghai Jiao Tong University · Zhejiang University | arXiv | [MetaKernelBench: Measuring GPU Kernel Knowledge Transfer Beyond Code](metakernelbench.md) ★ negative transfer measured | [source](https://arxiv.org/abs/2610.05014) |
 
-**Total:** 193 digests
+**Total:** 195 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 
