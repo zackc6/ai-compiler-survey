@@ -1,0 +1,67 @@
+name: Mechanical source discovery
+
+# Enumerates candidate sources from arXiv listings, venue tables of contents (DBLP),
+# OpenAlex cited-by of Tier A digests, GitHub orgs already referenced, and PyPI
+# releases, then writes reference/discovery/<date>.md on a branch for the agents to
+# triage. This replaces reliance on web-search ranking, which missed TileLoom,
+# TASO/Tensat, PeepholeBench, LLVM-Bench, CIRBench and TileFoundry.
+
+on:
+  schedule:
+    - cron: "17 22 * * 6"   # Saturday 22:17 UTC = Sunday 06:17 HKT, before the Monday sweep
+  workflow_dispatch:
+    inputs:
+      since:
+        description: "Start date YYYY-MM-DD (default: 21 days ago)"
+        required: false
+  push:
+    paths:
+      - scripts/discover.py
+      - .github/workflows/discover.yml
+
+permissions:
+  contents: write
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run discovery
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          SINCE="${{ github.event.inputs.since }}"
+          if [ -n "$SINCE" ]; then python3 scripts/discover.py --since "$SINCE"; else python3 scripts/discover.py; fi
+      - name: Publish ledger on a branch and announce in the Review thread
+        run: |
+          set -e
+          f=$(ls reference/discovery/*.md | tail -1)
+          n=$(grep -oE '\*\*[0-9]+ new\*\*' "$f" | grep -oE '[0-9]+' || echo 0)
+          d=$(date -u +%Y-%m-%d)
+          git config user.name "Claude (discovery)"
+          git config user.email "claude-action@users.noreply.github.com"
+          br="claude/discovery-$d"
+          git checkout -b "$br"
+          git add reference/discovery
+          git commit -m "discovery: mechanical ledger $d ($n new candidates)" || { echo "nothing new"; exit 0; }
+          git push -f origin "$br"
+          git checkout main
+          python3 - "$f" "$n" "$br" "$d" <<'PY'
+          import sys, pathlib
+          f, n, br, d = sys.argv[1:]
+          p = pathlib.Path("STATUS.md"); s = p.read_text()
+          a = "## Review thread\n\n"
+          entry = (f"**{d} — Claude (discovery job)** — mechanical ledger `{f}` on branch `{br}`: **{n} new candidates** "
+                   f"not in the index (arXiv listings, venue TOCs, cited-by of Tier A digests, tracked GitHub orgs, PyPI). "
+                   f"Whichever agent sweeps next triages every row as INCLUDE / EXCLUDE / PENDING in the ledger's Decision "
+                   f"column and copies INCLUDEs into its Open batch scope; a ledger with blank rows means the sweep is not complete.\n\n")
+          s = s.replace(a, a + entry, 1)
+          p.write_text(s)
+          PY
+          git add STATUS.md
+          git commit -m "status: discovery ledger $d announced ($n new candidates)"
+          git pull --rebase origin main
+          git push origin HEAD:main

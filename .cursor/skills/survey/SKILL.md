@@ -75,7 +75,7 @@ A star in the publication index marks a decision-relevant reading priority, not 
 
 ## Search broadly enough to avoid biased coverage
 
-Search vendor kernel languages, compiler interfaces, documentation launches, distributed execution, runtime behavior, and mature stacks with stale coverage. Do not restrict searches to titles containing “LLM” and “compiler.” If the narrative uses a language as evidence, maintain its own digest as well as the agent paper built on it.
+Start every sweep from the newest mechanical discovery ledger in `reference/discovery/` (produced by `scripts/discover.py`; see `AGENTS.md`, "Discovery"), triage every row, and only then search the web for leads the channels cannot see. Search vendor kernel languages, compiler interfaces, documentation launches, distributed execution, runtime behavior, and mature stacks with stale coverage. Do not restrict searches to titles containing “LLM” and “compiler.” If the narrative uses a language as evidence, maintain its own digest as well as the agent paper built on it.
 
 Disambiguate TritorX, TVM TIRx, and Triton Low-level Language Extensions. Likewise distinguish ForgeMegakernel from AMD KernelForge and different papers sharing the SkillSmith name.
 
