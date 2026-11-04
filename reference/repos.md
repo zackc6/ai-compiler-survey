@@ -81,6 +81,7 @@ These are experiment starting points, not demonstrations that a complete compile
 
 | Project | Scope |
 |---|---|
+| [Auto Ontology](https://github.com/NVIDIA/auto-ontology) | Enterprise semantic context; [reviewed applicability and lifecycle limits](publications/auto-ontology.md). No compiler-memory evaluation. |
 | [KCoral](https://kcoral.mlc.ai/) | Isolated shared GPU evaluation and remote diagnostics. |
 | [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) | General agent runtime and session state. |
 | [Agent Skills](https://github.com/agentskills/agentskills) | Skill packaging and discovery. |
