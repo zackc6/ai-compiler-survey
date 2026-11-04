@@ -18,6 +18,12 @@ Distinguish runtime speed from tuning time, kernel gains from application gains,
 
 Controller-improvement sources distinguish reusable instructions, persistent experience, workflow code, and recursive changes to the improvement procedure. Begin with [GEPA](publications/gepa.md) for limited kernel-specific evidence, then [Meta-Harness](publications/meta-harness.md) and [Hyperagents](publications/hyperagents.md) for broader mechanisms. [KOPE](publications/kope.md) remains an abstract-only lead. General agent benchmarks do not establish compiler-performance gains.
 
+## Sweep discovery coverage and omission regression
+
+Every sweep independently searches (1) compiler-specific agent and strong non-agent methods, (2) adjacent harness/controller evolution, multi-objective evolutionary search, program synthesis, intermediate representations and system/runtime research. Follow related work and competing systems from primary papers such as Meta-Harness, Darwin Gödel Machine, and GEPA. Inspect Hacker News as a lead source only; follow each useful lead to a primary publication or repository, and do not count votes or multiple posts as independent evidence.
+
+Before declaring a sweep complete, reconcile newly found titles and arXiv/DOI IDs against the publication index and existing digests. Record INCLUDE, EXCLUDE, or PENDING with a reason under STATUS.md Next research actions, not as an unindexed digest. Treat one system's paper, repository, blog and talk as one evidence family. Regression check: explicitly search for **Harmony Harness**, **2610.15150**, and known related families; if a known source is missing, explain its disposition. Review coverage omissions, not only the sources already discovered. Record search date, scope, primary-source verification and unresolved full-text or budget gaps.
+
 ## Adding or refining a source
 
 1. Use the [digest template](publications/_TEMPLATE.md), including organization, publisher, primary link, and limitations.
