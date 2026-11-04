@@ -201,33 +201,67 @@ TOC = {  # DBLP table-of-contents keys; {y} is the year, {yy} the two-digit year
 }
 
 
+def _dblp_toc_api(key: str) -> list[dict] | None:
+    """DBLP search API with a toc: query; returns hits or None on failure."""
+    q = urllib.parse.quote(f"toc:{key}.bht:", safe="")
+    data = get(f"https://dblp.org/search/publ/api?q={q}&h=1000&format=json", timeout=40, retries=1)
+    if not data:
+        return None
+    try:
+        j = json.loads(data)
+        hits = j["result"]["hits"].get("hit", []) or []
+        return [h.get("info", {}) for h in hits]
+    except Exception as e:  # noqa: BLE001
+        log(f"  dblp api parse failed for {key}: {e}; first bytes: {data[:80]!r}")
+        return None
+
+
+USENIX = {"OSDI": "osdi{yy}", "ATC": "atc{yy}"}
+
+
+def _usenix_program(name: str, y: int) -> list[str]:
+    slug = USENIX[name].format(yy=str(y)[2:])
+    data = get(f"https://www.usenix.org/conference/{slug}/technical-sessions", timeout=40, retries=1)
+    if not data:
+        return []
+    html = data.decode("utf-8", "ignore")
+    titles = re.findall(r'<h2[^>]*class="[^"]*node-title[^"]*"[^>]*>\s*<a[^>]*>(.*?)</a>', html, re.S)
+    if not titles:
+        titles = re.findall(r'<a href="/conference/' + slug + r'/presentation/[^"]+">(.*?)</a>', html, re.S)
+    titles = [re.sub(r"<[^>]+>", "", t).strip() for t in titles]
+    log(f"  usenix {name} {y}: {len(html)} bytes, {len(titles)} titles")
+    return titles
+
+
 def venue_candidates(years: list[int]) -> list[dict]:
     out = []
     for name, keys in TOC.items():
         for y in years:
+            got = 0
             for k in keys:
-                key = k.format(y=y, yy=str(y)[2:], v=y - 2016)  # PACMPL volume 10 = 2026
-                data = get(f"https://dblp.org/{key}.html", timeout=40, retries=1)
-                if not data:
+                key = k.format(y=y, yy=str(y)[2:], v=y - 2016)
+                infos = _dblp_toc_api(key)
+                if infos is None:
                     continue
-                html = data.decode("utf-8", "ignore")
-                n_ent = len(re.findall(r'<cite class="data', html))
-                log(f"  venue {name} {y} {key}: {len(html)} bytes, {n_ent} entries")
-                # each publication entry has a title span and a DOI/ee link
-                for ent in re.findall(r'<cite class="data[^"]*"[^>]*>(.*?)</cite>', html, re.S):
-                    tm = re.search(r'<span class="title"[^>]*>(.*?)</span>', ent, re.S)
-                    if not tm:
-                        continue
-                    title = re.sub(r"<[^>]+>", "", tm.group(1)).rstrip(".").strip()
+                got += len(infos)
+                for info in infos:
+                    title = (info.get("title") or "").rstrip(".").strip()
                     kh = keyword_hit(title)
                     if not kh:
                         continue
-                    dm = re.search(r'https?://doi\.org/([^"\s]+)', ent)
-                    doi = dm.group(1) if dm else ""
-                    out.append({"channel": "venue", "id": doi, "title": title, "date": str(y),
-                                "url": f"https://doi.org/{doi}" if doi else f"https://dblp.org/{key}.html",
+                    doi = info.get("doi", "") or ""
+                    out.append({"channel": "venue", "id": doi, "title": title, "date": str(info.get("year", y)),
+                                "url": info.get("ee", "") or (f"https://doi.org/{doi}" if doi else ""),
                                 "why": f"{name} {y}: " + ", ".join(kh[:5])})
-                time.sleep(1)
+                time.sleep(1.5)
+            log(f"  venue {name} {y}: {got} dblp entries")
+            if got == 0 and name in USENIX:
+                for title in _usenix_program(name, y):
+                    kh = keyword_hit(title)
+                    if kh:
+                        out.append({"channel": "venue", "id": "", "title": title, "date": str(y),
+                                    "url": f"https://www.usenix.org/conference/{USENIX[name].format(yy=str(y)[2:])}/technical-sessions",
+                                    "why": f"{name} {y} (USENIX program): " + ", ".join(kh[:5])})
     return out
 
 
@@ -271,6 +305,7 @@ def cited_by_candidates(idx: dict, since: dt.date, max_seeds: int = 40) -> list[
             w = res0[0]
         cb = w.get("cited_by_api_url")
         if not cb:
+            log(f"  cites {aid}: no cited_by url")
             continue
         data = get(cb + f"&per-page=100&filter=from_publication_date:{since.isoformat()}&select=id,title,doi,publication_date,primary_location")
         if not data:
@@ -279,6 +314,7 @@ def cited_by_candidates(idx: dict, since: dt.date, max_seeds: int = 40) -> list[
             res = json.loads(data).get("results", [])
         except Exception:  # noqa: BLE001
             continue
+        log(f"  cites {aid}: {len(res)} citing works since {since}")
         for r in res:
             title = r.get("title") or ""
             loc = (r.get("primary_location") or {}).get("landing_page_url") or ""
@@ -417,7 +453,7 @@ def main() -> int:
         per[c["channel"]] = per.get(c["channel"], 0) + 1
     lines += ["## Channel diagnostics", "", f"Raw candidates per channel: {json.dumps(per)}", "",
               "Fetch log (failures and venue page sizes):", ""]
-    lines += [f"- {d}" for d in DIAG if ("HTTP" in d or "failed" in d or "venue " in d)][:120]
+    lines += [f"- {d}" for d in DIAG if any(t in d for t in ("HTTP", "failed", "venue ", "usenix ", "cites ", "dblp"))][:160]
     lines.append("")
     out.write_text("\n".join(lines) + "\n", encoding="utf-8")
     log(f"wrote {out} ({len(new)} new candidates)")
