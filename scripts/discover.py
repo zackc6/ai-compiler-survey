@@ -55,6 +55,12 @@ KEYWORDS = [
     "harness", "self-improv", "agentic", "coding agent", "benchmark",
     "verification", "equivalence", "translation validation", "alive2",
 ]
+CORE = [
+    "compiler", "superoptim", "autotun", "auto-tun", "autoschedul", "kernel", "megakernel",
+    "mega-kernel", "triton", "mlir", "llvm", "ptx", "tensor program", "tensor compiler",
+    "equality saturation", "e-graph", "egraph", "lowering", "scheduling language", "halide",
+    "tvm", "xla", "inductor", "torch.compile", "cost model", "cuda", "tile",
+]
 ARXIV_CATS = ["cs.PL", "cs.DC", "cs.AR", "cs.LG", "cs.SE", "cs.PF"]
 # DBLP venue keys (stream keys), checked for the current and previous year.
 VENUES = {
@@ -158,7 +164,9 @@ def arxiv_candidates(since: dt.date, max_per_cat: int = 400) -> list[dict]:
                 summ = e.findtext("a:summary", default="", namespaces=ns)
                 aid = e.findtext("a:id", default="", namespaces=ns).rsplit("/", 1)[-1]
                 hits = keyword_hit(title + " " + summ[:1500])
-                if len(hits) >= 2:
+                core_title = [k for k in CORE if k in title.lower()]
+                core_abs = [k for k in CORE if k in summ[:1500].lower()]
+                if core_title or (len(core_abs) >= 2 and len(hits) >= 3):
                     out.append({"channel": "arxiv", "id": aid, "title": title, "date": pub,
                                 "url": f"https://arxiv.org/abs/{aid.split('v')[0]}",
                                 "why": ", ".join(hits[:6]), "cat": cat})
@@ -170,30 +178,46 @@ def arxiv_candidates(since: dt.date, max_per_cat: int = 400) -> list[dict]:
 
 
 # --------------------------------------------------------------------------- venues
+TOC = {  # DBLP table-of-contents keys; {y} is the year, {yy} the two-digit year
+    "OSDI": ["db/conf/osdi/osdi{y}"], "SOSP": ["db/conf/sosp/sosp{y}"],
+    "ASPLOS": ["db/conf/asplos/asplos{y}", "db/conf/asplos/asplos{y}-1", "db/conf/asplos/asplos{y}-2",
+               "db/conf/asplos/asplos{y}-3", "db/conf/asplos/asplos{y}-4"],
+    "PLDI": ["db/conf/pldi/pldi{y}", "db/journals/pacmpl/pacmpl{v}"], "CGO": ["db/conf/cgo/cgo{y}"],
+    "CC": ["db/conf/cc/cc{y}"], "MLSys": ["db/conf/mlsys/mlsys{y}"], "ISCA": ["db/conf/isca/isca{y}"],
+    "MICRO": ["db/conf/micro/micro{y}"], "EuroSys": ["db/conf/eurosys/eurosys{y}"],
+    "SC": ["db/conf/sc/sc{y}"], "PPoPP": ["db/conf/ppopp/ppopp{y}"], "ATC": ["db/conf/usenix/usenix{y}"],
+    "HPCA": ["db/conf/hpca/hpca{y}"], "ICML": ["db/conf/icml/icml{y}"], "NeurIPS": ["db/conf/nips/neurips{y}"],
+    "ICLR": ["db/conf/iclr/iclr{y}"], "EMNLP": ["db/conf/emnlp/emnlp{y}"], "OOPSLA": ["db/journals/pacmpl/pacmpl{v}"],
+}
+
+
 def venue_candidates(years: list[int]) -> list[dict]:
     out = []
-    for name, key in VENUES.items():
+    for name, keys in TOC.items():
         for y in years:
-            url = (f"https://dblp.org/search/publ/api?q=streamid%3A{urllib.parse.quote(key, safe='')}"
-                   f"%3A%20year%3A{y}%3A&h=1000&format=json")
-            data = get(url)
-            if not data:
-                continue
-            try:
-                hits = json.loads(data)["result"]["hits"].get("hit", [])
-            except Exception:  # noqa: BLE001
-                continue
-            for h in hits:
-                info = h.get("info", {})
-                title = info.get("title", "").rstrip(".")
-                kh = keyword_hit(title)
-                if not kh:
+            for k in keys:
+                key = k.format(y=y, yy=str(y)[2:], v=y - 2016)  # PACMPL volume 10 = 2026
+                data = get(f"https://dblp.org/{key}.html", timeout=40, retries=1)
+                if not data:
                     continue
-                out.append({"channel": "venue", "id": info.get("doi", "") or info.get("key", ""),
-                            "title": title, "date": str(info.get("year", y)),
-                            "url": info.get("ee", "") or f"https://dblp.org/rec/{info.get('key','')}",
-                            "why": f"{name} {y}: " + ", ".join(kh[:5])})
-            time.sleep(1)
+                html = data.decode("utf-8", "ignore")
+                for m in re.finditer(r'class="entry inproceedings|class="entry article', html):
+                    pass
+                # each publication entry has a title span and a DOI/ee link
+                for ent in re.findall(r'<cite class="data[^"]*"[^>]*>(.*?)</cite>', html, re.S):
+                    tm = re.search(r'<span class="title"[^>]*>(.*?)</span>', ent, re.S)
+                    if not tm:
+                        continue
+                    title = re.sub(r"<[^>]+>", "", tm.group(1)).rstrip(".").strip()
+                    kh = keyword_hit(title)
+                    if not kh:
+                        continue
+                    dm = re.search(r'https?://doi\.org/([^"\s]+)', ent)
+                    doi = dm.group(1) if dm else ""
+                    out.append({"channel": "venue", "id": doi, "title": title, "date": str(y),
+                                "url": f"https://doi.org/{doi}" if doi else f"https://dblp.org/{key}.html",
+                                "why": f"{name} {y}: " + ", ".join(kh[:5])})
+                time.sleep(1)
     return out
 
 
@@ -210,13 +234,31 @@ def cited_by_candidates(idx: dict, since: dt.date, max_seeds: int = 40) -> list[
                 seeds.append(m.group(1))
     seeds = seeds[:max_seeds]
     for aid in seeds:
-        wq = get(f"https://api.openalex.org/works/https://arxiv.org/abs/{aid}?select=id,cited_by_api_url,title")
-        if not wq:
-            continue
-        try:
-            w = json.loads(wq)
-        except Exception:  # noqa: BLE001
-            continue
+        w = None
+        wq = get(f"https://api.openalex.org/works/https://arxiv.org/abs/{aid}?select=id,cited_by_api_url,title", retries=0)
+        if wq:
+            try:
+                w = json.loads(wq)
+            except Exception:  # noqa: BLE001
+                w = None
+        if not w or not w.get("cited_by_api_url"):
+            # fall back to a title search using the digest's H1
+            h1 = ""
+            for p2 in PUBS.glob("*.md"):
+                t2 = p2.read_text(encoding="utf-8", errors="ignore")
+                if aid in t2:
+                    h1 = t2.splitlines()[0].lstrip("# ").split("(")[0].strip()
+                    break
+            if not h1:
+                continue
+            sq = get("https://api.openalex.org/works?search=" + urllib.parse.quote(h1) + "&per-page=1&select=id,cited_by_api_url,title", retries=0)
+            try:
+                res0 = json.loads(sq).get("results", []) if sq else []
+            except Exception:  # noqa: BLE001
+                res0 = []
+            if not res0:
+                continue
+            w = res0[0]
         cb = w.get("cited_by_api_url")
         if not cb:
             continue
@@ -267,12 +309,15 @@ def github_candidates(idx: dict, since: dt.date) -> list[dict]:
             desc = rp.get("description") or ""
             if rp.get("fork") or rp.get("archived"):
                 continue
-            recent = (created and dt.date.fromisoformat(created) >= since)
+            recent_created = bool(created) and dt.date.fromisoformat(created) >= since
+            recent_push = bool(pushed) and dt.date.fromisoformat(pushed) >= since
             kh = keyword_hit(rp.get("name", "") + " " + desc)
-            if recent and (kh or rp.get("stargazers_count", 0) >= 20):
+            if known(idx, gh=full):
+                continue
+            if (recent_created and (kh or rp.get("stargazers_count", 0) >= 20)) or (recent_push and kh and rp.get("stargazers_count", 0) >= 5):
                 out.append({"channel": "github", "id": full, "title": f"{full}: {desc}"[:160],
                             "date": created, "url": rp.get("html_url", ""),
-                            "why": f"new repo in tracked org {org}; stars {rp.get('stargazers_count', 0)}; pushed {pushed}"})
+                            "why": f"{'new' if recent_created else 'active'} repo in tracked org {org}; stars {rp.get('stargazers_count', 0)}; pushed {pushed}"})
         time.sleep(0.3)
     for pkg in PYPI_PACKAGES:
         data = get(f"https://pypi.org/pypi/{pkg}/json", timeout=20, retries=1)
