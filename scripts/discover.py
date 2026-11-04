@@ -247,10 +247,33 @@ OPENALEX_VENUES = {  # display-name search terms for OpenAlex sources
 MAILTO = "&mailto=survey-discovery@users.noreply.github.com"
 
 
+_SRC_CACHE: dict[str, list[str]] = {}
+
+
+def _openalex_sources(term: str) -> list[str]:
+    if term in _SRC_CACHE:
+        return _SRC_CACHE[term]
+    data = get(f"https://api.openalex.org/sources?search={urllib.parse.quote(term)}&per-page=5&select=id,display_name{MAILTO}", timeout=40, retries=1)
+    ids = []
+    if data:
+        try:
+            for r in json.loads(data).get("results", []):
+                ids.append(r["id"].rsplit("/", 1)[-1])
+        except Exception as e:  # noqa: BLE001
+            log(f"  openalex sources parse failed for {term}: {e}")
+    log(f"  openalex sources '{term[:40]}': {ids}")
+    _SRC_CACHE[term] = ids
+    time.sleep(1.2)
+    return ids
+
+
 def _openalex_venue(name: str, term: str, y: int) -> list[dict]:
-    q = urllib.parse.quote(term)
-    url = (f"https://api.openalex.org/works?filter=primary_location.source.display_name.search:{q},"
+    ids = _openalex_sources(term)
+    if not ids:
+        return []
+    url = (f"https://api.openalex.org/works?filter=primary_location.source.id:{'|'.join(ids)},"
            f"publication_year:{y}&per-page=200&select=title,doi,publication_date,primary_location{MAILTO}")
+    time.sleep(1.2)
     data = get(url, timeout=40, retries=1)
     if not data:
         return []
@@ -302,43 +325,34 @@ def cited_by_candidates(idx: dict, since: dt.date, max_seeds: int = 40) -> list[
                 seeds.append(m.group(1))
     seeds = seeds[:max_seeds]
     for aid in seeds:
-        w = None
-        wq = get(f"https://api.openalex.org/works/https://arxiv.org/abs/{aid}?select=id,cited_by_api_url,title" + MAILTO.replace("&", "&", 1), retries=0)
-        if wq:
-            try:
-                w = json.loads(wq)
-            except Exception:  # noqa: BLE001
-                w = None
-        if not w or not w.get("cited_by_api_url"):
-            # fall back to a title search using the digest's H1
-            h1 = ""
-            for p2 in PUBS.glob("*.md"):
-                t2 = p2.read_text(encoding="utf-8", errors="ignore")
-                if aid in t2:
-                    h1 = t2.splitlines()[0].lstrip("# ").split("(")[0].strip()
-                    break
-            if not h1:
-                continue
-            sq = get("https://api.openalex.org/works?search=" + urllib.parse.quote(h1) + "&per-page=1&select=id,cited_by_api_url,title" + MAILTO, retries=0)
-            try:
-                res0 = json.loads(sq).get("results", []) if sq else []
-            except Exception:  # noqa: BLE001
-                res0 = []
-            if not res0:
-                continue
-            w = res0[0]
-        cb = w.get("cited_by_api_url")
-        if not cb:
-            log(f"  cites {aid}: no cited_by url")
+        h1 = ""
+        for p2 in PUBS.glob("*.md"):
+            t2 = p2.read_text(encoding="utf-8", errors="ignore")
+            if aid in t2:
+                h1 = t2.splitlines()[0].lstrip("# ").split(" (")[0].split(": ")[-1].strip() or t2.splitlines()[0].lstrip("# ").strip()
+                break
+        if not h1:
             continue
-        data = get(cb + f"&per-page=100&filter=from_publication_date:{since.isoformat()}&select=id,title,doi,publication_date,primary_location" + MAILTO)
+        time.sleep(1.2)
+        sq = get("https://api.openalex.org/works?filter=title.search:" + urllib.parse.quote(h1[:120]) + "&per-page=1&select=id,title,cited_by_count" + MAILTO, retries=1)
+        try:
+            res0 = json.loads(sq).get("results", []) if sq else []
+        except Exception:  # noqa: BLE001
+            res0 = []
+        if not res0:
+            log(f"  cites {aid}: title not found in OpenAlex ({h1[:50]})")
+            continue
+        w = res0[0]
+        wid = w["id"].rsplit("/", 1)[-1]
+        time.sleep(1.2)
+        data = get(f"https://api.openalex.org/works?filter=cites:{wid},from_publication_date:{since.isoformat()}&per-page=100&select=id,title,doi,publication_date,primary_location" + MAILTO, retries=1)
         if not data:
             continue
         try:
             res = json.loads(data).get("results", [])
         except Exception:  # noqa: BLE001
             continue
-        log(f"  cites {aid}: {len(res)} citing works since {since}")
+        log(f"  cites {aid} ({(w.get('title') or '')[:40]}, {w.get('cited_by_count', '?')} total): {len(res)} citing works since {since}")
         for r in res:
             title = r.get("title") or ""
             loc = (r.get("primary_location") or {}).get("landing_page_url") or ""
