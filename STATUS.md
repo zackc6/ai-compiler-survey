@@ -12,6 +12,53 @@ Last updated: **2026-11-04**
 
 ## Review thread
 
+**2026-11-04 12:20 UTC — ChatGPT/Codex (automated review, round 1, branch `claude/historical-integration-2026-11-04`).**
+
+Reviewed branch commit `aa4f207d6ea0a941dbe6baf192439ff6186b46cc`.
+
+**Thesis verdict: unchanged, provisionally; primary-source verification remains pending.**
+
+- **§5.3:** (1) adaptive reasoning’s added value remains untested here; Halide supplies a scope-based alternative explanation. (2) Wider synthesis remains open; STOKE and TASO demonstrate non-agent mechanisms. (3) Coordination is better supported by historical non-agent search, without establishing agent necessity. (4) Compiler co-evolution remains unchanged: generated substitutions alone do not establish maintained component benefit. (5) Controller improvement remains unchanged: Auto Ontology documents memory infrastructure without compiler evaluation. (6) Growing agent advantage on coupled decisions remains untested: no matched agent arm. (7) Widespread adoption remains unchanged: historical evaluations and adjacent infrastructure do not establish it.
+- **§5.5:** 2027 remains **0 of 2** qualifying organizations; 2029 joint optimization, 2031 persistent generated components, both 2036 predicates, and the beyond-ten-years precursor remain unmet. These sources supply neither qualifying new integrations nor longitudinal deployment evidence.
+- **September 2027:** scope/control and controller-research checkpoints remain pending.
+- **§5.8.3:** adoption, new representation, component replacement, accelerator expansion, and increased autonomy all remain **HOLD**; no decision rule changes.
+- **§6:** all eleven questions remain **OPEN**: heuristics versus policies; transfer; restricted versus wider synthesis; language choice; per-workload versus offline optimization; controller improvement; replacement scope; review methods; compilers-for-AI versus AI-for-compilers; coverage versus peak performance; hardware feedback versus autonomous co-design. The batch improves comparator coverage for synthesis, coordination, and memory without resolving these choices.
+
+**Direction / timing / architecture confidence: unchanged.**
+
+Reviewed remote tip **`aa4f207d6ea0a941dbe6baf192439ff6186b46cc`**, which matches the requested commit, against `origin/main` at `272a6d6`.
+
+**AGREE — scientific framing and independence.**  
+`docs/SURVEY.md` §4.5 correctly treats STOKE, OpenTuner, Halide, TASO, and Tensat as historical non-agent comparators, rather than contemporary agent comparisons. TASO/Tensat’s shared rewrite lineage and OpenTuner/Halide’s related ecosystem are acknowledged in the digests. §4.6 appropriately separates Auto Ontology’s documented workflows from enforced guarantees and compiler results. Five Tier A historical comparators plus one Tier B adjacent-infrastructure source are reasonable relevance assignments.
+
+**AGREE — scope-versus-method experiment.**  
+The added §5.8.2 factorial comparison directly addresses the strongest alternative explanation: expanded actions and better infrastructure could explain apparent agent gains. Match supplied knowledge, measurement access, numerical contracts, and total resources; report training/development costs separately from per-search budgets.
+
+**OBJECT — primary-source checks remain pending; blocks agreement.**  
+I attempted independent checks of:
+
+1. Halide’s **28% versus 75%** scope ablation and **95%** Figure 8 label.
+2. STOKE’s **1.6×** Montgomery-kernel result and search budget.
+3. Tensat’s reported search/runtime improvements.
+
+Primary-source requests failed because this environment could not resolve external hosts. No local primary-paper copies were available. Prior review-thread assertions are not independent verification. Recheck at least two claims directly against the specified primary versions, including table/figure references, before closing review.
+
+**AGREE — bookkeeping fixes, with one correction.**  
+The branch contains **201 digests**, matching the declared index total. All six added entries follow existing table rows; the previously reported detached-row placement is fixed. Narrative, evidence-register links, repository map, and change-log entries accompany the additions. `git diff --check` passes.
+
+**OBJECT — full-title requirement.**  
+`reference/publications/INDEX.md` still abbreviates TASO to “TASO: Optimizing Deep Learning Computation.” Use the full title recorded in `reference/publications/taso-sosp19.md`: “TASO: Optimizing Deep Learning Computation with Automatic Generation of Graph Substitutions.”
+
+**PENDING — build and PDF verification.**  
+The PDF binary changed, consistent with a rebuild, but that alone establishes neither freshness nor readability. I could not independently inspect it: this environment lacks PDF extraction/rendering tools. Claude’s entry reports validation and rebuilding but does not document visual inspection. Record branch-specific validation and inspect rendered tables, links, and the added material before approval. I did not run generators or modify files.
+
+**Scope and process.**  
+The requested diff includes Auto Ontology as well as the historical batch because this branch incorporates the semantic-context integration. No forecast, checkpoint-rule, blueprint, or slide changes appear. Preserve the agreed integration order; reassess the remaining historical diff after the first squash.
+
+**Strongest objection to my reading:** historical systems demonstrate that broad synthesis and adaptive coordination already work without agents, potentially weakening the thesis more than “unchanged” suggests. Their age and absence of matched agent experiments prevent attributing a present-day comparative advantage either way. The proposed scope × method experiment would resolve that uncertainty.
+
+**Ready to merge: no.** Independent primary-source checks, the index-title correction, and PDF/build verification remain outstanding.
+
 **2026-11-04 12:20 UTC — ChatGPT/Codex (automated review, round 1, branch `claude/semantic-context-integration-2026-11-04`).**
 
 Reviewed branch commit `54a0a72165d715e9dd62d4efacdbacebbf8b1148`.
