@@ -233,35 +233,59 @@ def _usenix_program(name: str, y: int) -> list[str]:
     return titles
 
 
+OPENALEX_VENUES = {  # display-name search terms for OpenAlex sources
+    "ASPLOS": "Architectural Support for Programming Languages and Operating Systems",
+    "PLDI": "Programming Language Design and Implementation", "CGO": "Code Generation and Optimization",
+    "CC": "Compiler Construction", "MLSys": "Machine Learning and Systems", "ISCA": "International Symposium on Computer Architecture",
+    "MICRO": "International Symposium on Microarchitecture", "EuroSys": "European Conference on Computer Systems",
+    "SC": "High Performance Computing, Networking, Storage and Analysis", "PPoPP": "Principles and Practice of Parallel Programming",
+    "HPCA": "High-Performance Computer Architecture", "SOSP": "Symposium on Operating Systems Principles",
+    "OOPSLA": "Proceedings of the ACM on Programming Languages", "ICML": "International Conference on Machine Learning",
+    "NeurIPS": "Neural Information Processing Systems", "ICLR": "International Conference on Learning Representations",
+    "EMNLP": "Empirical Methods in Natural Language Processing",
+}
+MAILTO = "&mailto=survey-discovery@users.noreply.github.com"
+
+
+def _openalex_venue(name: str, term: str, y: int) -> list[dict]:
+    q = urllib.parse.quote(term)
+    url = (f"https://api.openalex.org/works?filter=primary_location.source.display_name.search:{q},"
+           f"publication_year:{y}&per-page=200&select=title,doi,publication_date,primary_location{MAILTO}")
+    data = get(url, timeout=40, retries=1)
+    if not data:
+        return []
+    try:
+        res = json.loads(data).get("results", [])
+    except Exception as e:  # noqa: BLE001
+        log(f"  openalex venue parse failed {name} {y}: {e}")
+        return []
+    log(f"  openalex venue {name} {y}: {len(res)} works")
+    return res
+
+
 def venue_candidates(years: list[int]) -> list[dict]:
     out = []
-    for name, keys in TOC.items():
+    for name in USENIX:
         for y in years:
-            got = 0
-            for k in keys:
-                key = k.format(y=y, yy=str(y)[2:], v=y - 2016)
-                infos = _dblp_toc_api(key)
-                if infos is None:
+            for title in _usenix_program(name, y):
+                kh = keyword_hit(title)
+                if kh:
+                    out.append({"channel": "venue", "id": "", "title": title, "date": str(y),
+                                "url": f"https://www.usenix.org/conference/{USENIX[name].format(yy=str(y)[2:])}/technical-sessions",
+                                "why": f"{name} {y} (USENIX program): " + ", ".join(kh[:5])})
+    for name, term in OPENALEX_VENUES.items():
+        for y in years:
+            for r in _openalex_venue(name, term, y):
+                title = (r.get("title") or "").strip()
+                kh = keyword_hit(title)
+                if not kh:
                     continue
-                got += len(infos)
-                for info in infos:
-                    title = (info.get("title") or "").rstrip(".").strip()
-                    kh = keyword_hit(title)
-                    if not kh:
-                        continue
-                    doi = info.get("doi", "") or ""
-                    out.append({"channel": "venue", "id": doi, "title": title, "date": str(info.get("year", y)),
-                                "url": info.get("ee", "") or (f"https://doi.org/{doi}" if doi else ""),
-                                "why": f"{name} {y}: " + ", ".join(kh[:5])})
-                time.sleep(1.5)
-            log(f"  venue {name} {y}: {got} dblp entries")
-            if got == 0 and name in USENIX:
-                for title in _usenix_program(name, y):
-                    kh = keyword_hit(title)
-                    if kh:
-                        out.append({"channel": "venue", "id": "", "title": title, "date": str(y),
-                                    "url": f"https://www.usenix.org/conference/{USENIX[name].format(yy=str(y)[2:])}/technical-sessions",
-                                    "why": f"{name} {y} (USENIX program): " + ", ".join(kh[:5])})
+                doi = (r.get("doi") or "").replace("https://doi.org/", "")
+                src = ((r.get("primary_location") or {}).get("source") or {}).get("display_name", "")
+                out.append({"channel": "venue", "id": doi, "title": title, "date": r.get("publication_date", str(y)),
+                            "url": f"https://doi.org/{doi}" if doi else ((r.get("primary_location") or {}).get("landing_page_url") or ""),
+                            "why": f"{name} {y} via OpenAlex ({src[:40]}): " + ", ".join(kh[:5])})
+            time.sleep(0.3)
     return out
 
 
@@ -279,7 +303,7 @@ def cited_by_candidates(idx: dict, since: dt.date, max_seeds: int = 40) -> list[
     seeds = seeds[:max_seeds]
     for aid in seeds:
         w = None
-        wq = get(f"https://api.openalex.org/works/https://arxiv.org/abs/{aid}?select=id,cited_by_api_url,title", retries=0)
+        wq = get(f"https://api.openalex.org/works/https://arxiv.org/abs/{aid}?select=id,cited_by_api_url,title" + MAILTO.replace("&", "&", 1), retries=0)
         if wq:
             try:
                 w = json.loads(wq)
@@ -295,7 +319,7 @@ def cited_by_candidates(idx: dict, since: dt.date, max_seeds: int = 40) -> list[
                     break
             if not h1:
                 continue
-            sq = get("https://api.openalex.org/works?search=" + urllib.parse.quote(h1) + "&per-page=1&select=id,cited_by_api_url,title", retries=0)
+            sq = get("https://api.openalex.org/works?search=" + urllib.parse.quote(h1) + "&per-page=1&select=id,cited_by_api_url,title" + MAILTO, retries=0)
             try:
                 res0 = json.loads(sq).get("results", []) if sq else []
             except Exception:  # noqa: BLE001
@@ -307,7 +331,7 @@ def cited_by_candidates(idx: dict, since: dt.date, max_seeds: int = 40) -> list[
         if not cb:
             log(f"  cites {aid}: no cited_by url")
             continue
-        data = get(cb + f"&per-page=100&filter=from_publication_date:{since.isoformat()}&select=id,title,doi,publication_date,primary_location")
+        data = get(cb + f"&per-page=100&filter=from_publication_date:{since.isoformat()}&select=id,title,doi,publication_date,primary_location" + MAILTO)
         if not data:
             continue
         try:
@@ -453,7 +477,9 @@ def main() -> int:
         per[c["channel"]] = per.get(c["channel"], 0) + 1
     lines += ["## Channel diagnostics", "", f"Raw candidates per channel: {json.dumps(per)}", "",
               "Fetch log (failures and venue page sizes):", ""]
-    lines += [f"- {d}" for d in DIAG if any(t in d for t in ("HTTP", "failed", "venue ", "usenix ", "cites ", "dblp"))][:160]
+    pri = [d for d in DIAG if "cites " in d or "openalex" in d.lower()]
+    rest = [d for d in DIAG if d not in pri and any(t in d for t in ("HTTP", "failed", "venue ", "usenix "))]
+    lines += [f"- {d}" for d in (pri + rest)[:200]]
     lines.append("")
     out.write_text("\n".join(lines) + "\n", encoding="utf-8")
     log(f"wrote {out} ({len(new)} new candidates)")
