@@ -89,6 +89,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2025 | company | Forums & workshops | IEEE EMBS Pulse | IEEE Pulse | [IEEE Pulse: LLMs in Compiler Optimization — Challenges and Future Direction](ieee-pulse-llm-compilers.md) | [source](https://www.embs.org/pulse/articles/llms-in-compiler-optimization-challenges-and-future-direction/) |
 | 2026 | company | Forums & workshops | Moonlight | Moonlight | [Moonlight literature review: Magellan](moonlight-magellan-review.md) | [source](https://www.themoonlight.io/en/review/magellan-autonomous-discovery-of-novel-compiler-optimization-heuristics-with-alphaevolve) |
 | 2010s+ | code | Correctness lineage | Google | GitHub | [Souper: A superoptimizer for LLVM IR](souper.md) | [source](https://github.com/google/souper) |
+| 2013 | paper | Correctness lineage | Stanford University | ACM ASPLOS 2013 | [Stochastic Superoptimization (STOKE)](stoke-asplos13.md) | [source](https://theory.stanford.edu/~aiken/publications/papers/asplos13.pdf) |
 
 | 2026 | paper | Source control & review agents | CUHK (cuhk-s3) | arXiv | [Archer: Towards Agentic Review for Compiler Optimizations](archer-paper.md) | [source](https://arxiv.org/html/2607.01808) |
 | 2026 | paper | Source control & review agents | SUSTech · ETH Zurich · CUHK | arXiv | [Agentic Harness for Real-World Compilers (llvm-harness)](llvm-harness.md) ★ job (c) harness | [source](https://arxiv.org/abs/2603.20075) |
@@ -172,10 +173,14 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | MLGO & RL gyms | Institute of Software, CAS · UCAS | arXiv | [Toward Compiler World Models: Learning Latent Dynamics for Efficient Tensor Program Search](compiler-world-models.md) | [source](https://arxiv.org/abs/2606.09312) |
 | 2026 | company | Classic DL compilers | Meta (PyTorch/Helion team) | PyTorch blog | [From Minutes to Seconds: LLM-Guided Autotuning for Helion Kernels](helion-llm-autotuning.md) | [source](https://pytorch.org/blog/from-minutes-to-seconds-llm-guided-autotuning-for-helion-kernels/) |
 | 2025/26 | paper | Classic DL compilers | University of Illinois Urbana-Champaign | ACM OOPSLA 2026 · arXiv | [Automatically Generating ML Compiler Backends from Tensor Accelerator ISA Descriptions (ACT)](act-backend.md) ★ non-agent alternative | [source](https://arxiv.org/abs/2510.09932) |
+| 2014 | paper | Classic DL compilers | MIT CSAIL | ACM PACT 2014 | [OpenTuner: An Extensible Framework for Program Autotuning](opentuner-pact14.md) | [source](https://commit.csail.mit.edu/papers/2014/ansel-pact14-opentuner.pdf) |
+| 2019 | paper | Classic DL compilers | Facebook AI Research · UC Berkeley · MIT CSAIL · Adobe · Google · Stanford University | ACM SIGGRAPH 2019 | [Learning to Optimize Halide with Tree Search and Random Programs](halide-autoscheduler-siggraph19.md) | [source](https://halide-lang.org/papers/halide_autoscheduler_2019.pdf) |
+| 2019 | paper | Classic DL compilers | Stanford University | ACM SOSP 2019 | [TASO: Optimizing Deep Learning Computation with Automatic Generation of Graph Substitutions](taso-sosp19.md) | [source](https://people.eecs.berkeley.edu/~matei/papers/2019/sosp_taso.pdf) |
 | 2025 | paper | Structured and distributed compilation | ByteDance Seed · Tsinghua University · Peking University · Shanghai Jiao Tong University · Zhejiang University | arXiv | [Triton-distributed: Programming Overlapping Kernels on Distributed AI Systems with the Triton Compiler](triton-distributed.md) | [source](https://arxiv.org/abs/2504.19442v3) |
 | 2026 | code | Structured and distributed compilation | OpenXLA (GSPMD and PartIR teams) | OpenXLA documentation | [Shardy: A Tensor Partitioning System](shardy.md) | [source](https://openxla.org/shardy/overview) |
 
 | 2026 | paper | Structured and distributed compilation | ByteDance Seed · Peking University · Tsinghua University · Zhejiang University · Shanghai Jiao Tong University | arXiv | [DITRON: Distributed Multi-level Tiling Compiler for Parallel Tensor Programs](ditron.md) | [source](https://arxiv.org/abs/2605.02953v1) |
+| 2021 | paper | Structured and distributed compilation | MIT · Google · University of Washington · OctoML | MLSys 2021 | [Equality Saturation for Tensor Graph Superoptimization (Tensat)](tensat-mlsys21.md) | [source](https://arxiv.org/abs/2101.01332v2) |
 | 2026 | paper | GPU kernels & inference compilers | Gaurav Agarwal · Ashish Garg · Isha Singhal (affiliations not stated) | arXiv | [How Much of a Real Workload Can LLM-Generated GPU Kernels Actually Reach?](kernel-headroom.md) | [source](https://arxiv.org/abs/2609.21058v1) |
 | 2023 | paper | Validation and approximate hardware | IBM Research | APL Machine Learning · arXiv | [Using the IBM Analog In-Memory Hardware Acceleration Kit for Neural Network Training and Inference](analog-validation.md) | [source](https://arxiv.org/abs/2307.09357v2) |
 | 2026 | paper | Validation and approximate hardware | National University of Singapore · Nanyang Technological University · VinUniversity | arXiv | [Measuring the Checker: Mutation Analysis for GPU-Kernel Benchmark Oracles](measuring-the-checker.md) ★ Tier A | [source](https://arxiv.org/abs/2609.22220) |
@@ -209,7 +214,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | Controller improvement | Minhua Lin et al. (affiliations not verified) | ACL Anthology · EMNLP 2026 | [Harness Updating Is Not Harness Benefit](harness-updating-not-benefit.md) ★ controller counterevidence | [source](https://aclanthology.org/2026.emnlp-main.2326/) |
 | 2026 | paper | Controller improvement | Westlake University · Shanghai Jiao Tong University · Zhejiang University | arXiv | [MetaKernelBench: Measuring GPU Kernel Knowledge Transfer Beyond Code](metakernelbench.md) ★ negative transfer measured | [source](https://arxiv.org/abs/2610.05014) |
 
-**Total:** 196 digests
+**Total:** 201 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 
