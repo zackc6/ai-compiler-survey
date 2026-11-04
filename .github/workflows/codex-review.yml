@@ -83,6 +83,10 @@ jobs:
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           permission-profile: ':read-only'
+          # drop-sudo (default) crashes on the current ubuntu-latest image
+          # ("Could not restrict access to /run/dbus/system_bus_socket", first seen
+          # 2026-11-04). Job is ephemeral, contents: read, and Codex stays read-only.
+          safety-strategy: unsafe
           allow-bots: true
           prompt: |
             You are ChatGPT/Codex, independent scientific reviewer of zackc6/ai-compiler-survey.

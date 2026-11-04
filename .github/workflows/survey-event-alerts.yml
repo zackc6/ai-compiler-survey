@@ -29,11 +29,11 @@ jobs:
         with:
           script: |
             const owner = context.repo.owner, repo = context.repo.repo;
-            const issue_number = 4;
+            const issue_number = 10;
             const home = 'https://github.com/' + owner + '/' + repo;
             const state = await github.rest.issues.get({owner,repo,issue_number});
             if (state.data.state !== 'open') {
-              core.setFailed('Reopen event inbox issue #4 to receive notifications.');
+              core.setFailed('Reopen event inbox issue #10 to receive notifications.');
               return;
             }
             const known = await github.paginate(github.rest.issues.listComments, {
