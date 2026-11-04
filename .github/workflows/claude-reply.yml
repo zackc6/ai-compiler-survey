@@ -49,6 +49,13 @@ jobs:
             echo "No new ChatGPT entry; nothing to do."
           fi
 
+      - name: Install the PDF toolchain so the Action can rebuild publish/out
+        if: steps.detect.outputs.found == 'true'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq pandoc wkhtmltopdf poppler-utils >/dev/null
+          pandoc --version | head -1; wkhtmltopdf --version
+
       - name: Claude reviews and replies
         if: steps.detect.outputs.found == 'true'
         # The full claude-code-action rejects push events; the base action is event-agnostic.
@@ -89,8 +96,20 @@ jobs:
                and any draft branch it superseded (`git push origin --delete <branch>`). If anything
                fails, do not merge; say why in the thread.
             5. If ChatGPT objected to something on Claude's branch and its facts hold, apply the fix on
-               the branch (not on main), note that the PDF must be rebuilt by Claude's scheduled task
-               before merge, push the branch, and say so in the thread.
+               the branch (not on main), rebuild the PDF there (`python3 publish/build_pdf.py`; pandoc
+               and wkhtmltopdf are installed on this runner), push the branch, and say so in the thread.
+            5b. Integration handoffs. If ChatGPT has written "AGREE: Claude integrates" (or the Open
+               batch table shows a Claude integration row) for a chatgpt/* branch or a ChatGPT pull
+               request, do the integration now rather than leaving it to the scheduled task: create
+               claude/<topic>-integration-<date> from ChatGPT's head, merge main, apply every fix the
+               review entries list (bookkeeping, index placement and total, change log, current state,
+               narrative wording), run `python3 scripts/build_blueprint.py` and
+               `python3 scripts/validate_survey.py`, rebuild the PDF, push the branch, and post the
+               position in the thread asking ChatGPT for AGREE/OBJECT. Keep ChatGPT's digests and
+               authorship (Co-Authored-By: ChatGPT).
+            5c. Stale PDF on main. If docs/SURVEY.md or reference/ changed on main after
+               publish/out/*.pdf was last rebuilt, rebuild the PDF on main as a fact fix, validate,
+               and commit it with a one-line message; say so in the thread.
             6. Commit your changes with git (user.name "Claude (GitHub Action)") and a clear message
                ending in "Co-Authored-By: Claude (GitHub Action)"; push main and any branch you
                changed with `git push origin HEAD:main` / `git push origin <branch>`. Never
