@@ -3,7 +3,7 @@
 
 Enumerates candidate sources from structured feeds instead of web search, which
 is where recent sweeps missed TileLoom, TASO/Tensat, PeepholeBench, LLVM-Bench,
-CIRBench and TileFoundry. Four channels:
+CIRBench and TileFoundry. Six channels:
 
   arxiv   - arXiv API listings by category and keyword, over a date window
   venues  - DBLP tables of contents for a fixed venue set (OSDI, SOSP, ASPLOS,
@@ -12,6 +12,12 @@ CIRBench and TileFoundry. Four channels:
   github  - new or recently pushed repositories in organizations the survey
             already references (TileFoundry-class misses), plus PyPI releases
             for known packages
+  ghsearch - GitHub repository search by topic across all owners, for new
+            projects outside tracked organizations
+  blogs   - RSS/Atom feeds of project blogs, forums and independent writers
+            listed in reference/discovery/feeds.txt, plus Hacker News stories,
+            for position pieces such as TVM's "Rethinking abstractions in the
+            agentic era" that never appear on arXiv
 
 Every candidate is deduplicated against reference/publications/INDEX.md by
 arXiv id, DOI, GitHub path and normalized title. Output is a Markdown ledger
@@ -77,6 +83,9 @@ PYPI_PACKAGES = ["tilefoundry", "tilelang", "tirx-harness", "kcoral", "helion", 
 
 
 DIAG: list[str] = []
+# Diagnostic categories rendered into the ledger's fetch log (failures, venue sizes, and the
+# recall limits of the blogs/HN/GitHub channels: truncation, star-threshold drops, unparsable pages).
+DIAG_KEEP = ("HTTP", "failed", "venue ", "usenix ", "feed ", "truncated", "threshold", "unparsable")
 
 
 def log(msg: str) -> None:
@@ -126,7 +135,9 @@ def load_index() -> dict:
         if m:
             titles.add(norm_title(m.group(1)))
     orgs = sorted({g.split("/")[0] for g in ghs})
-    return {"arxiv": arxiv_ids, "doi": dois, "github": ghs, "titles": titles, "orgs": orgs}
+    urls = {u.lower().rstrip("/") for u in re.findall(r"https?://[^\s)\]|>]+", blob)}
+    urls |= {u + "/" for u in urls}
+    return {"arxiv": arxiv_ids, "doi": dois, "github": ghs, "titles": titles, "orgs": orgs, "urls": urls}
 
 
 def known(idx: dict, *, arxiv: str = "", doi: str = "", gh: str = "", title: str = "") -> bool:
@@ -444,11 +455,232 @@ def github_candidates(idx: dict, since: dt.date) -> list[dict]:
     return out
 
 
+# --------------------------------------------------------------------------- blogs, forums, HN
+FEEDS = OUT_DIR / "feeds.txt"
+AGENT_TERMS = ["agent", "agentic", "llm", "language model", "claude", "gpt", "codex", "gemini",
+               "self-improv", "autonomous", "ai-generated", "ai generated", "ai compiler", "ai-written"]
+HN_QUERIES = ["compiler agent", "agentic compiler", "AI compiler", "kernel agent", "LLM kernel",
+              "GPU kernel LLM", "MLIR", "Triton kernel", "tile language", "megakernel", "TVM", "superoptimizer"]
+GH_QUERIES = ["agentic compiler", "compiler agent", "kernel agent", "kernel generation llm", "agent gpu kernel",
+              "tile language", "tile programming", "megakernel", "tensor compiler", "kernel optimization agent",
+              "mlir agent", "superoptimizer", "lean kernel verification", "equality saturation",
+              "autotuning", "tensor program optimization"]
+# Compiler-specific CORE terms: on a general ("theme") feed these alone admit an item, with or
+# without agent vocabulary, so non-agent alternatives (equality saturation, autotuning, cost
+# models) are not filtered out. Broad CORE terms ("kernel", "cuda", "tile", "ptx") also occur in
+# unrelated posts (Linux kernel, CUDA release notes), so on theme feeds they need an OPT_CONTEXT
+# word (below) or an agent term.
+# Agent terms are otherwise used only as tags.
+STRICT_CORE = [k for k in CORE if k not in ("kernel", "cuda", "tile", "ptx")]
+# Optimization / code-generation context: a broad CORE term plus one of these admits a theme-feed
+# item without agent vocabulary, so non-agent GPU posts ("Optimizing CUDA matrix multiplication",
+# "Faster PTX code generation") are not filtered out by an agent-vocabulary gate.
+OPT_CONTEXT = ["optimiz", "code generation", "codegen", "scheduling", "matrix multipl", "matmul",
+               "gemm", "fusion", "vectoriz", "occupancy", "register allocation", "instruction selection"]
+HN_MAX_PAGES, HN_MIN_POINTS = 3, 5
+GH_MAX_PAGES, GH_MIN_STARS_NEW, GH_MIN_STARS_ACTIVE = 3, 5, 25
+
+
+def _theme_hit(text: str, scope: str) -> list[str]:
+    low = text.lower()
+    core = [k for k in CORE if k in low]
+    if not core:
+        return []
+    agent = [k for k in AGENT_TERMS if k in low]
+    if scope == "core" or any(k in STRICT_CORE for k in core):
+        return core + agent
+    ctx = [k for k in OPT_CONTEXT if k in low]
+    if ctx:
+        return core + ctx + agent
+    return core + agent if agent else []
+
+
+def _parse_date(s: str) -> str:
+    s = (s or "").strip()
+    m = re.search(r"(\d{4}-\d{2}-\d{2})", s)
+    if m:
+        return m.group(1)
+    for fmt in ("%a, %d %b %Y %H:%M:%S %z", "%a, %d %b %Y %H:%M:%S %Z", "%d %b %Y %H:%M:%S %z"):
+        try:
+            return dt.datetime.strptime(s, fmt).date().isoformat()
+        except ValueError:
+            continue
+    return ""
+
+
+def parse_feed(data: bytes, base: str = "") -> list[dict]:
+    """RSS 2.0 and Atom items as {title, url, date, summary}. Namespace-tolerant.
+
+    Relative item links (e.g. Jekyll feeds that emit "/2026/11/03/post") are resolved
+    against `base`, the feed URL, so ledger links work and deduplication sees one form."""
+    try:
+        root = ET.fromstring(data)
+    except ET.ParseError:
+        return []
+    def local(tag: str) -> str:
+        return tag.rsplit("}", 1)[-1]
+    items = []
+    for el in root.iter():
+        if local(el.tag) not in ("item", "entry"):
+            continue
+        rec = {"title": "", "url": "", "date": "", "summary": ""}
+        for ch in el:
+            t = local(ch.tag)
+            if t == "title":
+                rec["title"] = (ch.text or "").strip()
+            elif t == "link":
+                # Atom: prefer rel="alternate" (or no rel, which defaults to alternate) over
+                # rel="self"/"edit"/"replies", which point at API or feed endpoints.
+                href = (ch.get("href") or (ch.text or "")).strip()
+                rel = ch.get("rel", "alternate")
+                if rel == "alternate" and href and not rec.get("_alt"):
+                    rec["url"], rec["_alt"] = href, True
+                elif href and not rec["url"]:
+                    rec["url"] = href
+            elif t in ("pubDate", "published", "updated", "date") and not rec["date"]:
+                rec["date"] = _parse_date(ch.text or "")
+            elif t in ("description", "summary", "content") and not rec["summary"]:
+                rec["summary"] = re.sub(r"<[^>]+>", " ", ch.text or "")[:600]
+        rec.pop("_alt", None)
+        if rec["url"] and base:
+            rec["url"] = urllib.parse.urljoin(base, rec["url"])
+        if rec["title"]:
+            items.append(rec)
+    return items
+
+
+def load_feeds() -> list[tuple[str, str, str]]:
+    if not FEEDS.exists():
+        return []
+    out = []
+    for line in FEEDS.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        parts = [p.strip() for p in line.split("|")]
+        if len(parts) >= 2:
+            out.append((parts[0], parts[1], parts[2] if len(parts) > 2 else "theme"))
+    return out
+
+
+def blog_candidates(since: dt.date) -> list[dict]:
+    out = []
+    for url, label, scope in load_feeds():
+        data = get(url, timeout=25, retries=1)
+        if not data:
+            DIAG.append(f"feed failed: {label} {url}")
+            continue
+        items = parse_feed(data, base=url)
+        if not items:
+            DIAG.append(f"feed empty or unparsable: {label} {url}")
+            continue
+        for it in items:
+            if it["date"] and dt.date.fromisoformat(it["date"]) < since:
+                continue
+            hits = _theme_hit(it["title"] + " " + it["summary"], scope)
+            if not hits:
+                continue
+            out.append({"channel": "blog", "id": it["url"], "title": f"{label}: {it['title']}"[:160],
+                        "date": it["date"], "url": it["url"],
+                        "why": f"{scope} feed; terms: {', '.join(sorted(set(hits))[:5])}"})
+        time.sleep(0.2)
+    # Hacker News stories (Algolia API) with discussion, for posts on sites no feed covers.
+    ts = int(dt.datetime.combine(since, dt.time()).timestamp())
+    # Threshold: HN_MIN_POINTS drops unvoted self-promotion (most stories below it have no
+    # comments). It is a recall trade-off, so the ledger reports it; set 0 to disable.
+    for q in HN_QUERIES:
+        hits = []
+        for page in range(HN_MAX_PAGES):
+            u = ("https://hn.algolia.com/api/v1/search_by_date?tags=story&hitsPerPage=100"
+                 f"&page={page}&query={urllib.parse.quote(q)}"
+                 f"&numericFilters=created_at_i>{ts},points>{HN_MIN_POINTS}")
+            data = get(u, timeout=20, retries=1)
+            if not data:
+                DIAG.append(f"hn failed: {q} (page {page})")
+                break
+            try:
+                j = json.loads(data)
+            except Exception:  # noqa: BLE001
+                DIAG.append(f"hn unparsable: {q} (page {page})")
+                break
+            hits += j.get("hits", [])
+            if page + 1 >= int(j.get("nbPages", 0) or 0):
+                break
+        else:
+            DIAG.append(f"hn truncated: {q}: stopped after {HN_MAX_PAGES} pages ({len(hits)} stories)")
+        for h in hits:
+            title = h.get("title") or ""
+            th = _theme_hit(title, "theme") or _theme_hit(title, "core")
+            if not th:
+                continue
+            link = h.get("url") or f"https://news.ycombinator.com/item?id={h.get('objectID')}"
+            out.append({"channel": "blog", "id": link, "title": f"HN: {title}"[:160],
+                        "date": (h.get("created_at") or "")[:10], "url": link,
+                        "why": f"Hacker News {h.get('points', 0)} points, {h.get('num_comments', 0)} comments; "
+                               f"thread news.ycombinator.com/item?id={h.get('objectID')}"})
+        time.sleep(0.3)
+    return out
+
+
+def ghsearch_candidates(idx: dict, since: dt.date) -> list[dict]:
+    """GitHub repository search by topic, across all owners (not only tracked orgs)."""
+    out = []
+    hdr = dict(UA)
+    token = os.environ.get("GITHUB_TOKEN", "")
+    if token:
+        hdr["Authorization"] = f"Bearer {token}"
+    # Thresholds: GH_MIN_STARS_NEW / GH_MIN_STARS_ACTIVE keep the ledger triageable (an unstarred
+    # repository pushed in the window is usually a course exercise or fork-like copy). They are a
+    # recall trade-off, so the number of repositories they drop is reported per query.
+    for q in GH_QUERIES:
+        query = f"{q} in:name,description,readme pushed:>={since.isoformat()} fork:false archived:false"
+        items, total = [], 0
+        for page in range(1, GH_MAX_PAGES + 1):
+            u = (f"https://api.github.com/search/repositories?q={urllib.parse.quote(query)}"
+                 f"&sort=stars&order=desc&per_page=100&page={page}")
+            try:
+                req = urllib.request.Request(u, headers=hdr)
+                with urllib.request.urlopen(req, timeout=30) as r:
+                    j = json.loads(r.read())
+            except Exception as e:  # noqa: BLE001
+                DIAG.append(f"ghsearch failed: {q} (page {page}): {e}")
+                break
+            total = int(j.get("total_count", 0) or 0)
+            batch = j.get("items", [])
+            items += batch
+            if len(batch) < 100 or len(items) >= total:
+                break
+            time.sleep(2.5)
+        if total > len(items):
+            DIAG.append(f"ghsearch truncated: {q}: {len(items)} of {total} repositories retrieved")
+        below = 0
+        for rp in items:
+            full = rp.get("full_name", "")
+            if not full or known(idx, gh=full):
+                continue
+            stars = rp.get("stargazers_count", 0)
+            created = (rp.get("created_at") or "")[:10]
+            new_repo = bool(created) and dt.date.fromisoformat(created) >= since
+            if stars < (GH_MIN_STARS_NEW if new_repo else GH_MIN_STARS_ACTIVE):
+                below += 1
+                continue
+            desc = rp.get("description") or ""
+            if not _theme_hit(full + " " + desc, "core"):
+                continue
+            out.append({"channel": "github", "id": full, "title": f"{full}: {desc}"[:160],
+                        "date": created, "url": rp.get("html_url", ""),
+                        "why": f"GitHub search '{q}'; {'new' if new_repo else 'active'}; stars {stars}"})
+        if below:
+            DIAG.append(f"ghsearch threshold: {q}: {below} repositories below the star threshold dropped")
+        time.sleep(2.5)  # search API: 30 requests/min with a token
+    return out
+
+
 # --------------------------------------------------------------------------- main
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--since", help="YYYY-MM-DD; default: 21 days ago")
-    ap.add_argument("--channels", default="arxiv,venues,cites,github")
+    ap.add_argument("--channels", default="arxiv,venues,cites,github,ghsearch,blogs")
     ap.add_argument("--out", help="output ledger path")
     args = ap.parse_args()
     today = dt.date.today()
@@ -467,6 +699,10 @@ def main() -> int:
         cands += cited_by_candidates(idx, since)
     if "github" in chans:
         cands += github_candidates(idx, since)
+    if "ghsearch" in chans:
+        cands += ghsearch_candidates(idx, since)
+    if "blogs" in chans:
+        cands += blog_candidates(since)
 
     seen = set()
     new, already = [], 0
@@ -478,6 +714,9 @@ def main() -> int:
         aid = c["id"] if c["channel"] == "arxiv" else ""
         doi = c["id"] if c["channel"] in ("venue", "cites") and c["id"].startswith("10.") else ""
         gh = c["id"] if c["channel"] == "github" else ""
+        if c["channel"] == "blog" and c["id"].lower() in idx["urls"]:
+            already += 1
+            continue
         if known(idx, arxiv=aid, doi=doi, gh=gh, title=c["title"]):
             already += 1
             continue
@@ -494,7 +733,7 @@ def main() -> int:
              "Triage every row in the Review thread as INCLUDE (digest it), EXCLUDE (reason), or PENDING "
              "(what is missing). Mark the decision in the last column of this file in the same batch. "
              "A row left blank means the sweep is not complete.", ""]
-    for ch in ("github", "pypi", "arxiv", "venue", "cites"):
+    for ch in ("blog", "github", "pypi", "arxiv", "venue", "cites"):
         rows = by.get(ch, [])
         if not rows:
             continue
@@ -509,7 +748,7 @@ def main() -> int:
     lines += ["## Channel diagnostics", "", f"Raw candidates per channel: {json.dumps(per)}", "",
               "Fetch log (failures and venue page sizes):", ""]
     pri = [d for d in DIAG if "cites " in d or "openalex" in d.lower()]
-    rest = [d for d in DIAG if d not in pri and any(t in d for t in ("HTTP", "failed", "venue ", "usenix "))]
+    rest = [d for d in DIAG if d not in pri and any(t in d for t in DIAG_KEEP)]
     lines += [f"- {d}" for d in (pri + rest)[:200]]
     lines.append("")
     out.write_text("\n".join(lines) + "\n", encoding="utf-8")

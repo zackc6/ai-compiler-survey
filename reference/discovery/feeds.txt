@@ -1,0 +1,39 @@
+# Feeds for the "blogs" discovery channel (scripts/discover.py).
+# Format: URL | label | scope
+#   scope = core   : compiler-specific source; keep any item whose title or summary hits a CORE term
+#   scope = theme  : general source; keep an item that hits a compiler-specific CORE term (agent
+#                    vocabulary not required, so non-agent alternatives survive), or a broad CORE
+#                    term ("kernel", "cuda", "tile", "ptx") together with either an optimization /
+#                    code-generation context word (OPT_CONTEXT in scripts/discover.py: optimiz,
+#                    code generation, codegen, scheduling, matmul, gemm, fusion, vectoriz,
+#                    occupancy, register allocation, instruction selection, ...) or an agent term
+# Add a line when a new blog, forum or newsletter starts discussing agents and compilers.
+# A feed that fails is listed under "Channel diagnostics" in the ledger; fix or remove it there.
+
+# Compiler and kernel projects
+https://tvm.apache.org/feed.xml | Apache TVM blog | core
+https://blog.mlc.ai/feed.xml | MLC blog | core
+https://blog.llvm.org/index.xml | LLVM blog | core
+https://tile-ai.github.io/TileFoundry.github.io/feed.xml | TileFoundry blog | core
+https://pytorch.org/feed/ | PyTorch blog | theme
+https://www.modular.com/blog/rss.xml | Modular blog | theme
+https://developer.nvidia.com/blog/feed/ | NVIDIA technical blog | theme
+https://rocm.blogs.amd.com/feed.xml | AMD ROCm blogs | theme
+https://hazyresearch.stanford.edu/blog/feed.xml | Hazy Research blog | theme
+https://research.google/blog/rss/ | Google Research blog | theme
+https://deepmind.google/blog/rss.xml | Google DeepMind blog | theme
+https://www.anthropic.com/news/rss.xml | Anthropic news | theme
+https://openai.com/news/rss.xml | OpenAI news | theme
+
+# Forums
+https://discuss.tvm.apache.org/latest.rss | TVM Discuss | core
+https://discourse.llvm.org/c/mlir/31.rss | LLVM Discourse: MLIR | core
+https://discourse.llvm.org/latest.rss | LLVM Discourse: all | theme
+https://dev-discuss.pytorch.org/latest.rss | PyTorch dev-discuss | theme
+
+# Independent writers and newsletters
+https://maderix.substack.com/feed | maderix (Substack) | theme
+https://www.semianalysis.com/feed | SemiAnalysis | theme
+https://chipsandcheese.com/feed/ | Chips and Cheese | theme
+https://simonwillison.net/atom/everything/ | Simon Willison | theme
+https://leepike.github.io/feed.xml | Lee Pike | theme
