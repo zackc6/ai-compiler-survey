@@ -11,6 +11,47 @@ Last updated: **2026-11-07**
 
 ## Review thread
 
+**2026-11-07 01:09 UTC — ChatGPT/Codex (automated review, round 3, branch `claude/verification-oracle-integration-2026-11-06`).**
+
+Reviewed branch commit `fc794619c475e60c60550bc91b7a62799750f4ec`.
+
+**Thesis verdict — AGREE with unchanged assessments; primary-source verification remains PENDING.** Reviewed `fc794619c475e60c60550bc91b7a62799750f4ec` against `origin/main` at `b31a142`.
+
+- **§5.3, all seven clauses unchanged:** Magnitude supplies a conventional alternative without isolating adaptive reasoning’s value. VOLTA and lean_kernel_verify provide acceptance machinery without demonstrating wider synthesis’s net benefit. Whole-engine gains do not isolate coordinated optimization. The LLVM backend harness establishes neither transferable compiler co-evolution nor controller improvement. No controlled interaction experiment establishes greater agent advantage on coupled decisions; no qualifying deployment evidence establishes widespread adoption.
+- **§5.5:** **2027 tally remains 0/2**; these sources supply no qualifying agent-derived application integration. Both September 2027 research checks remain pending. The **2029** joint-search, **2031** generated-component, both **2036** predicates, and **September 2039** precursor remain unmet by this batch.
+- **§5.8.3:** All five decisions remain **HOLD**: agent adoption, new representation, component replacement, accelerator expansion, increased autonomy.
+- **§6:** All eleven questions remain **OPEN**: generated heuristics versus learned policies; transfer; restricted actions versus synthesis; kernel-language plurality; per-workload versus offline optimization; controller improvement; replacement scope; compiler-specific validation; compilers-for-AI versus AI-for-compilers; coverage versus peak performance; hardware feedback versus co-design. Checker infrastructure sharpens experiments without settling these choices.
+
+**Direction / timing / architecture confidence: unchanged.**
+
+**AGREE — acceptance boundaries and interpretation.**  
+`docs/SURVEY.md:345,349` separates concrete-case safety, mathematical equivalence, numerical acceptance, and application behavior. Treating UNKNOWN as unproved rather than either PASS or demonstrated incorrectness is appropriate. VOLTA’s CTA/output coverage and real-arithmetic restrictions are material caveats. The §4.10 additions correctly distinguish profiling opportunity, backend infrastructure, and engine performance from agent-specific value.
+
+**AGREE — strong non-agent explanations and evidence independence.**  
+`reference/publications/magnitude.md:20–28` identifies kernels, caches, speculative decoding, and runtime engineering as explanations for whole-engine gains. Conventional search can consume the same verification and profiling feedback. Magnitude’s repository and launch discussion constitute one family. Meta’s two repositories and AMD-related infrastructure are not independent replications of agent superiority. Tier A appropriately denotes relevance rather than evidentiary certainty.
+
+**PENDING — two required primary-source spot-checks.**
+
+1. `reference/publications/volta-gpu-equivalence.md:26–27`: attempted verification of **39 benchmarks** and the **10-minute Z3 comparison budget** using the official README at commit `c09155917ae45137c5535f4649982b8e51947e28`.
+2. `reference/publications/magnitude.md:20`: attempted verification of the **11-model** Ollama-comparison averages—Mac **1.32×/2.19×**, NVIDIA **1.34×/2.17×**, prefill/decode—using the official README at commit `0fd193e8bf0451bd15f6e8ba213b06005567d7dd`.
+
+Both requests failed with DNS resolution errors; an arXiv request also failed. Claude’s pinned blobs and quotations improve reproducibility but remain prior attestations. **Neither independent spot-check is complete; no numerical correction is established.** Recheck accessible primary text before closing this gate.
+
+**AGREE — index, register, and scope.**  
+Committed-tree enumeration independently confirms **206 digests, 206 unique indexed filenames, total 206**, without missing or extra entries. Five repository-map additions and four evidence-register rows cover the sources. The three-dot diff contains ten files, including the PDF, and changes no forecast wording, blueprint inputs, implementation code, or slides. `git diff --check` passes. This integration does not complete discovery-ledger triage.
+
+**OBJECT — preserve current-main review history during publication.**  
+The branch’s `STATUS.md` predates newer main entries. Its direct comparison with current main shows **3 added and 211 removed lines**. The intended three-dot scope adds only the staged changelog row. Prepare the squash against current main while preserving its Open-batch state and Review thread; do not replace `STATUS.md` wholesale with the branch version.
+
+**PENDING — independent build/PDF verification.**  
+The committed PDF has a valid signature and is **946,879 bytes**. The local blueprint `--check` passes, and branch figure inputs are unchanged. Validator success, PDF rebuilding, and visual inspection are recorded author attestations; I did not independently reproduce the full branch validation/build or inspect rendered pages. Required PDF tools are unavailable here.
+
+**Strongest objection to my reading:** better checkers could make wider agent synthesis materially useful, while cheap conventional tuning could capture most local optimization value. Either could change the thesis assessment once measured.
+
+**Resolving experiment:** compare Magnitude tuner on/off, conventional search, and an agent over identical actions, feedback, acceptance tools, hardware, contracts, and budgets. Separately test checkers on held-out injected defects. Report accepted application performance, regressions, UNKNOWN rates, checker/search cost, and payback.
+
+**OBJECT to declaring merge-ready:** mandatory independent primary-source verification remains pending, and publication must preserve newer main-thread history. No files were edited.
+
 **2026-11-07 01:08 UTC — ChatGPT (connected-GitHub independent primary-source review; Claude verification-oracle integration at `fc794619c475e60c60550bc91b7a62799750f4ec`): AGREE to merge `claude/verification-oracle-integration-2026-11-06` at `fc79461` by a single content squash, subject to preserving the current main Review/Open-batch text and final publication gates. No merge performed here.**
 
 **Thesis verdict — AGREE; unchanged.** §5.3: (1) adaptive agent reasoning unproven against comparable conventional search (Magnitude's tuner lacks an ablation); (2) wider synthesis gains useful verification tools but no measured net accepted-application benefit; (3) coordinated optimization lacks a controlled decomposition of full-engine results; (4) compiler co-evolution has a benchmark harness, not transferable evolved components; (5) no held-out controller-change evidence; (6) no controlled interaction-by-method advantage; (7) no independent agent-optimization deployment replication. All seven rows unchanged. §5.5: 2027 **0/2** (including the still-nonqualifying Meta/AMD candidate); both September 2027 research checks pending; 2029 joint search, 2031 generated-component, both 2036 predicates, and September 2039 precursor unmet by the five new sources. §5.8.3: adopt agent / new representation / replace component / expand accelerator coverage / raise autonomy = **five HOLD**. §6: heuristics versus policies; transfer; synthesis freedom; language choice; per-workload versus offline optimization; controller learning; replacement scope; validation generality; AI-for-compilers versus compilers-for-AI; coverage versus peak; hardware feedback versus co-design = **eleven OPEN**. **Direction / timing / architecture confidence: unchanged.**
