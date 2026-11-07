@@ -40,6 +40,11 @@ Magellan’s papers and [LLVM presentation](publications/magellan-llvm-slides.md
 | [Triton AI Compiler](https://github.com/francois141/triton_ai_compiler) and [PTX Gym](https://github.com/francois141/ptx_gym) | Direct PTX candidates, checking and optimization traces. | Does direct synthesis beat Triton after counting all failed trials and GPU time? |
 | [TIRx Harness](https://github.com/mlc-ai/TIRx-harness) | Compiler analysis, references, experiments and candidate frontiers. | Which harness components make an independent contribution? |
 | [Kernel generation bibliography](https://github.com/flagos-ai/awesome-LLM-driven-kernel-generation) | Discovery of further primary sources. | A bibliography is not an evaluation. |
+| [VOLTA](https://github.com/willtunnels/volta) | PTX-level equivalence and race checking over the reals; 39 paper benchmarks ([digest](publications/volta-gpu-equivalence.md)). | A proof covers CTA 0 and the nominated outputs in real arithmetic, not IEEE results or application speed. |
+| [lean_kernel_verify](https://github.com/facebookresearch/lean_kernel_verify) | Lean-checked bounds, write coverage and barrier contracts from TLX/Triton and CuTe DSL IR ([digest](publications/lean-kernel-verify.md)). | Concrete case inputs only; UNDECIDED is not PASS; no production detection rate. |
+| [ProfileLens](https://github.com/AMD-AGI/ProfileLens) | Trace, counter and empirical-roofline opportunity ranking on ROCm 7.x ([digest](publications/profilelens.md)). | Ranked headroom is an optimistic upper bound, not an achieved speedup. |
+| [LLVM GPU Backend Benchmarks](https://github.com/facebookexperimental/llvm_gpu_backend_benchmarks) | DSL-produced LLVM IR cases for AMDGPU/NVPTX backend comparisons ([digest](publications/llvm-gpu-backend-benchmarks.md)). | No aggregate result published; hold backend revision, inputs and measurement protocol fixed. |
+| [Magnitude](https://github.com/magnitudedev/magnitude) | Non-agent on-device kernel-parameter tuning inside a local inference engine ([digest](publications/magnitude.md)). | Whole-engine ratios against Ollama do not isolate the tuner; test tuner on versus off. |
 
 TritorX and KernelEvolve have important paper and industry-report evidence. Do not assume full public implementations or reproducibility merely because related libraries are public.
 

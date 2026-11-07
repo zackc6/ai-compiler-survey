@@ -72,6 +72,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2025 | code | GPU kernels & inference compilers | UC Berkeley (ucb-bar) | GitHub | [ucb-bar/mlirAgent](mliragent.md) | [source](https://github.com/ucb-bar/mlirAgent) |
 | 2026 | code | Company infra | NVIDIA | GitHub | [NVIDIA Auto Ontology](auto-ontology.md) | [source](https://github.com/NVIDIA/auto-ontology) |
 | 2025 | company | Company infra | NVIDIA | NVIDIA Developer blog | [NVIDIA: Focus on Your Algorithm—CUDA Tile Handles the Hardware](cuda-tile-blog.md) | [source](https://developer.nvidia.com/blog/focus-on-your-algorithm-nvidia-cuda-tile-handles-the-hardware/) |
+| 2026 | code | Company infra | AMD-AGI | GitHub | [AMD ProfileLens: trace-to-roofline profiling and opportunity ranking](profilelens.md) | [source](https://github.com/AMD-AGI/ProfileLens) |
 | 2026 | company | Company infra | NVIDIA | NVIDIA Developer blog | [NVIDIA: Develop High-Performance GPU Kernels in C++ with CUDA Tile](cuda-tile-cpp.md) | [source](https://developer.nvidia.com/blog/develop-high-performance-gpu-kernels-in-cpp-with-nvidia-cuda-tile/) |
 | 2026 | company | Company infra | NVIDIA | NVIDIA Developer blog | [NVIDIA CUDA 13.3: Tile C++ + CompileIQ](cuda-13-3-compileiq.md) | [source](https://developer.nvidia.com/blog/nvidia-cuda-13-3-enhances-gpu-development-with-tile-programming-in-c-compiler-autotuning-and-python-updates/) |
 | 2026 | company | Company infra | NVIDIA | NVIDIA Developer blog | [NVIDIA: Extract More Kernel Performance with CompileIQ](compileiq-deep-dive.md) | [source](https://developer.nvidia.com/blog/extract-more-kernel-performance-with-nvidia-compileiq-auto-tuning/) |
@@ -108,6 +109,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 
 | 2026 | paper | Surveys & vision | BAAI · PKU · HKUST(GZ) et al. | arXiv | [Towards Automated Kernel Generation in the Era of LLMs](automated-kernel-generation-survey.md) | [source](https://arxiv.org/abs/2601.15727) |
 | 2025+ | code | GPU kernels & inference compilers | FlagOpen / flagos-ai | GitHub | [flagos-ai/awesome-LLM-driven-kernel-generation](awesome-llm-kernel-generation.md) | [source](https://github.com/flagos-ai/awesome-LLM-driven-kernel-generation) |
+| 2026 | code | Commercial products & proposals | Magnitude | GitHub · HN linked launch | [Magnitude: Hardware-Specific Local Inference Tuning](magnitude.md) | [source](https://github.com/magnitudedev/magnitude) |
 | 2026 | company | Commercial products & proposals | AMD | AMD ROCm blog | [AMD ROCm: GEAK v3 kernel optimization agent](geak-v3-rocm-blog.md) | [source](https://rocm.blogs.amd.com/artificial-intelligence/kernel-optimization-agent/README.html) |
 | 2026 | code | Commercial products & proposals | AMD | GitHub | [GEAK v4: end-to-end GPU performance optimization system](geak-v4-github.md) ★ e2e serving A/B | [source](https://github.com/AMD-AGI/GEAK/releases) |
 | 2026 | company | Commercial products & proposals | AMD | AMD ROCm blog | [GEAK Agent-Driven Optimization of the DeepSeekV4 MLA Kernel](geak-mla-rocm-blog.md) | [source](https://rocm.blogs.amd.com/software-tools-optimization/geak-mla-optimization/README.html) |
@@ -183,6 +185,9 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2021 | paper | Structured and distributed compilation | MIT · Google · University of Washington · OctoML | MLSys 2021 | [Equality Saturation for Tensor Graph Superoptimization (Tensat)](tensat-mlsys21.md) | [source](https://arxiv.org/abs/2101.01332v2) |
 | 2026 | paper | GPU kernels & inference compilers | Gaurav Agarwal · Ashish Garg · Isha Singhal (affiliations not stated) | arXiv | [How Much of a Real Workload Can LLM-Generated GPU Kernels Actually Reach?](kernel-headroom.md) | [source](https://arxiv.org/abs/2609.21058v1) |
 | 2023 | paper | Validation and approximate hardware | IBM Research | APL Machine Learning · arXiv | [Using the IBM Analog In-Memory Hardware Acceleration Kit for Neural Network Training and Inference](analog-validation.md) | [source](https://arxiv.org/abs/2307.09357v2) |
+| 2026 | paper | Validation and approximate hardware | Stanford University · Microsoft Research India | PACMPL OOPSLA2 2026 · arXiv | [Equivalence Checking of ML GPU Kernels (VOLTA)](volta-gpu-equivalence.md) ★ Tier A | [source](https://doi.org/10.1145/3839470) |
+| 2026 | code | Validation and approximate hardware | Meta / Facebook Research | GitHub | [lean_kernel_verify: Lean-checked GPU kernel safety from compiler IR](lean-kernel-verify.md) | [source](https://github.com/facebookresearch/lean_kernel_verify) |
+| 2026 | code | Validation and approximate hardware | Meta / Facebook Experimental | GitHub | [LLVM GPU Backend Benchmarks: reproducible kernel code-generation comparisons](llvm-gpu-backend-benchmarks.md) | [source](https://github.com/facebookexperimental/llvm_gpu_backend_benchmarks) |
 | 2026 | paper | Validation and approximate hardware | National University of Singapore · Nanyang Technological University · VinUniversity | arXiv | [Measuring the Checker: Mutation Analysis for GPU-Kernel Benchmark Oracles](measuring-the-checker.md) ★ Tier A | [source](https://arxiv.org/abs/2609.22220) |
 | 2026 | paper | GPU kernels & inference compilers | University of Wisconsin–Milwaukee · Illinois Institute of Technology | arXiv | [Evaluating CUDA Tile for AI Workloads on Hopper and Blackwell GPUs](cutile-evaluation.md) | [source](https://arxiv.org/abs/2604.23466v2) |
 | 2026 | company | Company infra | NVIDIA | NVIDIA Developer blog | [Advancing GPU Programming with the CUDA Tile IR Backend for OpenAI Triton](triton-tileir-backend.md) | [source](https://developer.nvidia.com/blog/advancing-gpu-programming-with-the-cuda-tile-ir-backend-for-openai-triton/) |
@@ -214,7 +219,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | Controller improvement | Minhua Lin et al. (affiliations not verified) | ACL Anthology · EMNLP 2026 | [Harness Updating Is Not Harness Benefit](harness-updating-not-benefit.md) ★ controller counterevidence | [source](https://aclanthology.org/2026.emnlp-main.2326/) |
 | 2026 | paper | Controller improvement | Westlake University · Shanghai Jiao Tong University · Zhejiang University | arXiv | [MetaKernelBench: Measuring GPU Kernel Knowledge Transfer Beyond Code](metakernelbench.md) ★ negative transfer measured | [source](https://arxiv.org/abs/2610.05014) |
 
-**Total:** 201 digests
+**Total:** 206 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 
