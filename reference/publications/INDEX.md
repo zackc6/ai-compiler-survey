@@ -81,6 +81,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | company | Company infra | Anthropic | Anthropic Engineering | [Anthropic: Building a C compiler with a team of parallel Claudes](anthropic-claude-c-compiler.md) | [source](https://www.anthropic.com/engineering/building-c-compiler) |
 | 2026 | company | Company infra | Ars Technica (covering Anthropic) | Ars Technica | [Ars Technica: Sixteen Claude agents created a C compiler](ars-claude-c-compiler.md) | [source](https://arstechnica.com/ai/2026/02/sixteen-claude-ai-agents-working-together-created-a-new-c-compiler/) |
 | 2026 | company | Company infra | Modular | Modular blog | [Modular/Lattner: The Claude C Compiler — Future of Software](modular-claude-c-compiler.md) | [source](https://www.modular.com/blog/the-claude-c-compiler-what-it-reveals-about-the-future-of-software) |
+| 2026 | company | Company infra | Modular | Modular blog | [Modular: LLVM Dev Meeting 2026 — Durable Infrastructure in the Agentic Era](modular-llvm-devmtg-2026.md) | [source](https://www.modular.com/blog/llvm-dev-meeting-2026-durable-infrastructure-in-the-agentic-era) |
 | 2026 | forum | Company infra | Hacker News community | Hacker News | [HN: We tasked Opus 4.6 agent teams to build a C Compiler](hn-claude-c-compiler.md) | [source](https://news.ycombinator.com/item?id=46903616) |
 | 2025 | forum | Forums & workshops | LLVM community | LLVM Discourse | [LLVM Discourse: LLVM ♥ ML Workshop 2025 agenda](llvm-ml-workshop-2025.md) | [source](https://discourse.llvm.org/t/llvm-dev25-llvm-ml-workshop/87488/4) |
 | 2026 | forum | Forums & workshops | LLVM community | LLVM Discourse | [LLVM Discourse: LLVM ♥ ML Workshop 2026 CFP](llvm-ml-workshop-2026.md) | [source](https://discourse.llvm.org/t/llvm-dev26-llvm-ml-workshop/91148) |
@@ -194,6 +195,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | GPU kernels & inference compilers | Meta · Stanford University | arXiv | [KernelBench-Verified: Do LLM-Generated Kernels Actually Beat PyTorch?](kernelbench-verified.md) | [source](https://arxiv.org/abs/2607.16241v1) |
 | 2026 | company | GPU kernels & inference compilers | MLC community (CMU · Apache TVM) · NVIDIA KDA team | MLC blog · GitHub | [TIRx Harness: An Open Compiler Harness for Agentic GPU Programming](tirx-harness.md) ★ harness design | [source](https://blog.mlc.ai/2026/09/29/tirx-harness-an-open-compiler-harness-for-agentic-gpu-programming) |
 | 2026 | company | GPU kernels & inference compilers | NVIDIA (Agentic CUDA Effort) · CMU/MLC | NVLabs project blog | [KDA²: Kernel Design Agents (KDA) optimize Kimi Delta Attention (KDA)](kda2.md) ★ acceptance contract | [source](https://nvlabs.github.io/kda/blog/2026-09-27-kda-for-kda/) |
+| 2026 | code | GPU kernels & inference compilers | AMD (AMD-AGI) | GitHub | [AKLR: Agentic Kernel Library for ROCm (knowledge-base on/off kernel-search study)](aklr.md) ★ A | [source](https://github.com/AMD-AGI/AKLR) |
 | 2026 | paper | GPU kernels & inference compilers | Red Hat (PyTorch team) | arXiv | [KernelOPT: Dispatch-Aware Agentic Search for GPU Kernel Optimization](kernelopt.md) | [source](https://arxiv.org/abs/2609.30059) |
 | 2026 | paper | GPU kernels & inference compilers | Institute of Computing Technology, CAS · UCAS · Institute of Software, CAS | arXiv | [KernelZero: Co-Evolving Proposer and Coder for Continuously Improved GPU Kernel Generation](kernelzero.md) | [source](https://arxiv.org/abs/2609.33074) |
 | 2026 | paper | GPU kernels & inference compilers | Stanford University · Carnegie Mellon University · RadixArk | arXiv | [PTXBench: Benchmarking and Adapting LLMs for GPU Kernel Optimization with Architecture-specific PTX](ptxbench.md) ★ contrary case | [source](https://arxiv.org/abs/2608.17379) |
@@ -219,7 +221,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | Controller improvement | Minhua Lin et al. (affiliations not verified) | ACL Anthology · EMNLP 2026 | [Harness Updating Is Not Harness Benefit](harness-updating-not-benefit.md) ★ controller counterevidence | [source](https://aclanthology.org/2026.emnlp-main.2326/) |
 | 2026 | paper | Controller improvement | Westlake University · Shanghai Jiao Tong University · Zhejiang University | arXiv | [MetaKernelBench: Measuring GPU Kernel Knowledge Transfer Beyond Code](metakernelbench.md) ★ negative transfer measured | [source](https://arxiv.org/abs/2610.05014) |
 
-**Total:** 206 digests
+**Total:** 208 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 

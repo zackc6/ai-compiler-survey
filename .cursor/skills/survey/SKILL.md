@@ -77,7 +77,7 @@ A star in the publication index marks a decision-relevant reading priority, not 
 
 Start every sweep from the newest mechanical discovery ledger in `reference/discovery/` (produced by `scripts/discover.py`; see `AGENTS.md`, "Discovery"), triage every row, and only then search the web for leads the channels cannot see. Search vendor kernel languages, compiler interfaces, documentation launches, distributed execution, runtime behavior, and mature stacks with stale coverage. Do not restrict searches to titles containing “LLM” and “compiler.” If the narrative uses a language as evidence, maintain its own digest as well as the agent paper built on it.
 
-Disambiguate TritorX, TVM TIRx, and Triton Low-level Language Extensions. Likewise distinguish ForgeMegakernel from AMD KernelForge and different papers sharing the SkillSmith name.
+Disambiguate TritorX, TVM TIRx, and Triton Low-level Language Extensions. Likewise distinguish ForgeMegakernel, AMD KernelForge, the Kernel Forge harness (University of Michigan) and ForgeKernel (OpenBMB), and different papers sharing the SkillSmith name. FlashKDA's "KDA" is Kimi Delta Attention, not NVIDIA's Kernel Design Agents.
 
 For agent skills, distinguish vendor optimization packs, the Agent Skills packaging specification, skill compilation, and explicit runtime-state systems. These are adjacent infrastructure until evaluated in a compiler context. Do not promote generic coding, customer-service, or security-challenge benchmarks into evidence of compiler optimization.
 

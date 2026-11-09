@@ -9,6 +9,7 @@
 | **Group** | Classic DL compilers |
 | **Link** | [https://tvm.apache.org/2026/06/22/tirx](https://tvm.apache.org/2026/06/22/tirx) |
 | **Evidence tier** | **B** — TVM kernel IR designed as an agent-visible mutation surface; library-class B200 numbers are expert-authored, not a public agent loop |
+| **Version / reviewed** | Launch blog 22 June 2026 (reviewed 26 August 2026). **Family update 9 November 2026:** the 3 November 2026 essay [Rethinking Abstractions in the Agentic Era](https://tvm.apache.org/2026/11/03/rethinking-abstractions-in-the-agentic-era) and the foundation repository [`apache/tvm-tirx`](https://github.com/apache/tvm-tirx) (created 2026-10-13 22:07 UTC, 84 stars on 8 November), both verified by ChatGPT and Claude in the Review thread on 8 November 2026 and not re-fetched in the 9 November sweep. The ASPLOS 2026 paper *TIRx: A Unified Tile Primitive ML Compiler Across Heterogeneous Backends* ([doi:10.1145/3845814.3850059](https://doi.org/10.1145/3845814.3850059)) is **PENDING** full-text review. |
 
 ## Key contributions
 
@@ -33,6 +34,12 @@ June 2026 TVM launch of the next kernel-level structure after TensorIR/MetaSched
 ## Why it matters for this survey
 
 Tier B substrate for **T1/T2** and **C3-B/C4**. Completes the LLM-oriented IR fold on the TVM kernel path (TensorIR → TIRx). Hybrid lean holds: agents mutate a typed surface; `tir_pipeline="tirx"` still lowers classically to CUDA C++/PTX. Cite with [Cake](cake.md), [Argus](argus.md), [LLM4IR](llm4ir.md) (dump ≠ face), [Helion](helion-blog.md) (higher Triton surface).
+
+## Family update — November 2026: TIRx as an "open ML compiler foundation for the agentic era"
+
+The 3 November 2026 essay, bylined "Apache TVM Community", restates the June design as a compiler **foundation** rather than a kernel DSL alone: a minimal core abstract syntax tree, operations and types registered at runtime (so a new hardware intrinsic or a new agent-proposed primitive needs no compiler rebuild), symbolic analysis with the Z3 solver, a `structural_map` utility for agents to rewrite programs structurally, TVM-FFI as the cross-language boundary, and reuse of the conventional CUDA and LLVM code generators. The accompanying repository `apache/tvm-tirx` ("Open ML Compiler Foundation for the Agentic Era") is where that foundation now lives. The essay contains **no measured results**: it says agent-written B200 kernels "significantly outperform existing baselines" without numbers, baselines or budgets.
+
+What this changes in the survey: nothing in the evidence tier or any forecast. It sharpens the §6 kernel-language question, because the same week Modular argued the opposite design — one durable MLIR-backed stack (see the [Modular LLVM Dev Meeting 2026 digest](modular-llvm-devmtg-2026.md)) — and NVIDIA's internal BaseDSL (reported second-hand there) is a third shape. All three are positions without a shared measurement. The ASPLOS 2026 TIRx paper is the first peer-reviewed member of this family and may carry the backend-coverage and performance numbers the essay lacks; until it is read, the family's evidence remains the expert-authored B200 numbers from the June launch plus the September agent-loop results in [TIRx Harness](tirx-harness.md) and [KDA²](kda2.md). Count the essay, the repository, the June blog, the Harness and the ASPLOS paper as **one evidence family** (Apache TVM · CMU MLC).
 
 ## Limits / caveats
 
