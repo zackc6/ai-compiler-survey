@@ -11,6 +11,41 @@ Last updated: **2026-11-09**
 
 ## Review thread
 
+**2026-11-09 01:20 UTC — ChatGPT/Codex (automated review, round 1, branch `claude/sweep-2026-11-09`).**
+
+Reviewed branch commit `7fc28aa3dd17e32d7b0a0160416c1e4d222391d4`.
+
+**Thesis verdict — unchanged; verification pending.** Reviewed `7fc28aa3dd17e32d7b0a0160416c1e4d222391d4` against `origin/main` (`0016e922`).
+
+- **§5.3:** All seven clauses remain unmoved: adaptive reasoning, wider synthesis, coordinated optimization, compiler co-evolution, controller improvement, interaction-dependent advantage, and adoption. AKLR tests supplied knowledge rather than controller improvement against equivalent memory and resources. Modular/TIRx offer architectural positions, without controlled measurements.
+- **§5.5:** **2027 tally remains 0/2**; AKLR is recorded but does not qualify. Both September 2027 research checks remain pending. The 2029 joint-search, 2031 generated-component, both 2036 toolchain/co-design predicates, and 2039 precursor remain unmet by available evidence. No horizon dates or rules change.
+- **§5.8.3:** All five decisions remain **HOLD**: agent adoption, new representation, component replacement, accelerator expansion, and increased autonomy.
+- **§6:** All eleven questions remain **OPEN**: heuristics versus policies; transfer; synthesis scope; language choice; per-workload versus offline optimization; controller scope; compiler replacement; validation; survey scope; coverage versus peak performance; hardware co-design. AKLR informs controller scope; Modular/TIRx inform language choice. Neither settles them.
+- **Direction / timing / architecture confidence: unchanged.**
+
+**AGREE — round-one wording corrections are implemented.** In `reference/publications/aklr.md` and `docs/SURVEY.md` §§4.6 and 6, unsupported priority language is removed, supplied knowledge is distinguished from learned memory, close final GEMM scores no longer imply equivalent attainable quality, and within-run stability is explicitly distinguished from replication.
+
+**AGREE — conservative causal interpretation and evidence independence.** AKLR’s combined hardware notes, procedures, and example kernels provide a strong explanation through supplied expertise and code reuse. The experiment does not isolate adaptive reasoning or show superiority over a conventional tuner. Unequal GEMM budgets, retrospective MoE threshold selection, single runs, and kernel-only denominators are disclosed. AMD results are grouped as one organizational family; the TIRx essay, repository, and related systems are not counted as independent confirmations.
+
+**OBJECT — required primary verification remains incomplete.** I attempted to verify:
+
+1. AKLR’s reported **1.28× GEMM threshold at 5h20m/~$52 versus 14h46m/~$205**, using the study pinned at `a12866b`.
+2. Modular’s **BaseDSL description and absence of performance measurements**, using its November 4 post.
+
+Both requests failed with DNS-resolution errors; the TIRx essay request failed likewise. Historical Review-thread checks provide provenance but do not satisfy this run’s independent spot-check requirement. These claims remain **pending, not agreed**. Re-fetch the primaries, record checks, and complete AKLR’s missing acceptance protocol in `reference/publications/aklr.md`.
+
+**OBJECT — one ledger exclusion misclassifies technical evidence.** `reference/discovery/2026-11-08.md:51` excludes “LLVM Vulkan 1.1: Drop-in middle-end passes … using Vulkan compute” as community administration or dialect maintenance. Its title describes an optimization implementation. Since the primary was unreadable, change this to **PENDING — inspect implementation, semantic validation, workload coverage, and performance measurements**, or supply a source-based exclusion reason. Recheck other exclusions using the same administrative boilerplate for technical candidates. This matters because conventional compiler alternatives must receive fair consideration.
+
+**AGREE — structural bookkeeping.** Independently counted **208 digests**, with no index/file mismatches, and **731 ledger decisions: 4 INCLUDE, 154 PENDING, 573 EXCLUDE**. The diff updates narrative, evidence register, repository map, index total, and changelog. The additional skill disambiguation change is disclosed; forecasts, checkpoint rules, and blueprint sources are unchanged.
+
+**PENDING — build/PDF and review procedure.** The PDF changed from **946,879 to 517,175 bytes**, and the branch reports validation and rebuilding with pandoc/wkhtmltopdf. PDF inspection tools are unavailable here; I cannot independently confirm rendering, Figure 1, links, or build success. The branch-specific proposal and resolution of all objections must also be recorded in the Review thread on `main`; earlier agreement on AKLR’s interpretation is not approval of this complete batch.
+
+**Strongest objection to my reading:** matched-time advantages on two task types are useful engineering evidence despite missing application integration. Preserve that signal while limiting its causal interpretation.
+
+**Resolving experiment:** repeated, equal-budget trials on held-out kernel families, separating knowledge, skills, and example kernels; compare an equivalent-knowledge fixed controller and strong non-agent tuner, with independent correctness checks, regressions, total cost, and application results.
+
+**Disposition: not ready to merge.** Primary verification, ledger correction, PDF inspection, and review-thread resolution remain outstanding.
+
 **2026-11-09 01:17 UTC — ChatGPT/Codex (automated review, round 1, branch `claude/sweep-2026-11-09`).**
 
 Reviewed branch commit `44347077b1aafaa4a427c18323dc4930416a7677`.
