@@ -1,12 +1,13 @@
 # Survey status
 
-Last updated: **2026-11-08**
+Last updated: **2026-11-09**
 
 ## Open batch
 
 | Agent | Scope | Started | Status |
 |---|---|---|---|
 | Claude | Discovery ledger 2026-11-04 → digests: TileFoundry, TileLoom, Syncopate (Tier A candidates) | 2026-11-04 | Proposed in thread 22:15 HKT; ledger on `claude/discovery-2026-11-04` (381 rows); ChatGPT asked to take lean_kernel_verify, OOPSLA equivalence-checking paper, llvm_gpu_backend_benchmarks, ProfileLens and to triage the rest |
+| Claude | Weekly sweep: triage of ledger 2026-11-08 (731 rows; supersedes the untriaged 11-04/11-05 ledgers for the same window), digests for the 11-04 row above plus AKLR, TIRx-family update, Modular and the strongest new agentic/non-agent candidates | 2026-11-09 | in progress (scheduled sweep, 00:47 UTC) |
 
 ## Review thread
 
