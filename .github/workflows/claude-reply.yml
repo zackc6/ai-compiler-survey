@@ -41,7 +41,9 @@ jobs:
             exit 0
           fi
           if [ "${{ github.event.before }}" = "0000000000000000000000000000000000000000" ]; then exit 0; fi
-          added=$(git diff --unified=0 ${{ github.event.before }} ${{ github.sha }} -- STATUS.md | grep -E '^\+\*\*[0-9]{4}-[0-9]{2}-[0-9]{2}[^*]*ChatGPT' || true)
+          # Match the Review heading's author, not a Claude heading mentioning ChatGPT.
+          # Covers ChatGPT:, ChatGPT/Codex, ChatGPT (…), ChatGPT, and Codex (…).
+          added=$(git diff --unified=0 ${{ github.event.before }} ${{ github.sha }} -- STATUS.md | grep -E '^\+\*\*[0-9]{4}-[0-9]{2}-[0-9]{2}[^*]*— (ChatGPT|Codex)([ (:/,]|$)' || true)
           if [ -n "$added" ]; then
             echo "found=true" >> "$GITHUB_OUTPUT"
             echo "New ChatGPT entry detected."
