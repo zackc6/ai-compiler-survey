@@ -39,21 +39,27 @@ jobs:
         run: |
           set -e
           f=$(ls reference/discovery/*.md | tail -1)
-          n=$(grep -oE '\*\*[0-9]+ new\*\*' "$f" | grep -oE '[0-9]+' || echo 0)
+          n=$(grep -oE '\*\*[0-9]+ new source leads\*\*' "$f" | grep -oE '[0-9]+' | head -1)
+          events=$(grep -oE '\*\*[0-9]+ indexed-repo events\*\*' "$f" | grep -oE '[0-9]+' | head -1)
           d=$(date -u +%Y-%m-%d)
-          echo "ledger=$f new=$n"
+          echo "ledger=$f new_source_leads=$n indexed_repo_events=$events"
           { echo "## Discovery $d"; echo; head -c 6000 "$f"; } >> "$GITHUB_STEP_SUMMARY"
           git config user.name "Claude (discovery)"
           git config user.email "claude-action@users.noreply.github.com"
           br="claude/discovery-$d"
+          # Never rewrite a discovery branch being reviewed or triaged.
+          if git ls-remote --exit-code --heads origin "$br" >/dev/null; then
+            echo "Existing discovery branch $br preserved; skip duplicate publication"
+            exit 0
+          fi
           git checkout -b "$br"
           git add reference/discovery
-          git commit -m "discovery: mechanical ledger $d ($n new candidates)"
-          git push -f origin "$br"
+          git commit -m "discovery: mechanical ledger $d ($n new source leads, $events repo events)"
+          git push origin "$br"
           for i in 1 2 3 4; do
             git fetch origin main
             git checkout -B main origin/main
-            python3 scripts/announce_discovery.py "$f" "$n" "$br" "$d"
+            python3 scripts/announce_discovery.py "$f" "$n" "$events" "$br" "$d"
             git add STATUS.md
             git commit -m "status: discovery ledger $d announced ($n new candidates)"
             if git push origin HEAD:main; then break; fi
