@@ -15,6 +15,9 @@ on:
         description: "Start date YYYY-MM-DD (default: 21 days ago)"
         required: false
   push:
+    # Only reviewed code from main may publish a discovery ledger.
+    branches:
+      - main
     paths:
       - scripts/discover.py
       - .github/workflows/discover.yml
@@ -68,7 +71,7 @@ jobs:
             git checkout -B main origin/main
             python3 scripts/announce_discovery.py "$f" "$n" "$events" "$br" "$d"
             git add STATUS.md
-            git commit -m "status: discovery ledger $d announced ($n new candidates)"
+            git commit -m "status: discovery ledger $d announced ($n new source leads, $events indexed-repo events)"
             if git push origin HEAD:main; then break; fi
             echo "push raced, retry $i"; sleep 15
           done
