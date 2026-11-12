@@ -467,8 +467,7 @@ def indexed_repo_event_candidates(idx: dict, since: dt.date, *, max_repos: int =
     Truncation and fetch failures must remain visible in Channel diagnostics.
     """
     priority = ("apache/tvm-tirx", "tile-ai/tilelang",
-                "nvidia/auto-ontology", "triton-lang/triton",
-                "mlc-ai/tirx-harness", "llvm/llvm-project")
+                "mlc-ai/tirx-harness", "nvidia/auto-ontology")
     repos = sorted(r for r in idx["github"] if re.fullmatch(r"[\w.-]+/[\w.-]+", r))
     repos = [r for r in priority if r in repos] + [r for r in repos if r not in priority]
     if max_repos > 0 and len(repos) > max_repos:
@@ -487,8 +486,9 @@ def indexed_repo_event_candidates(idx: dict, since: dt.date, *, max_repos: int =
     fetch_json = fetch_json or fetch
     out = []
     for repo in repos:
+        repo_limit = max(max_events, 50) if repo in priority else max_events
         url = (f"https://api.github.com/repos/{repo}/commits?since={since.isoformat()}T00%3A00%3A00Z"
-               f"&per_page={max_events+1}")
+               f"&per_page={min(repo_limit+1, 100)}")
         try:
             commits = fetch_json(url)
             if not isinstance(commits, list):
@@ -496,10 +496,10 @@ def indexed_repo_event_candidates(idx: dict, since: dt.date, *, max_repos: int =
         except Exception as exc:  # fail soft, but record omissions
             DIAG.append(f"repoevent failed: {repo}: {exc}")
             continue
-        if len(commits) > max_events:
-            DIAG.append(f"repoevent truncated: {repo}: first {max_events} of >{max_events} commits; "
+        if len(commits) > repo_limit:
+            DIAG.append(f"repoevent truncated: {repo}: first {repo_limit} of >{repo_limit} commits; "
                         "older updates require review")
-        for event in commits[:max_events]:
+        for event in commits[:repo_limit]:
             sha = event.get("sha", "")
             data = event.get("commit") or {}
             date = ((data.get("committer") or {}).get("date") or "")[:10]
