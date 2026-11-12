@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 """Mechanical source discovery for the survey.
 
-Enumerates candidate sources from structured feeds instead of web search, which
+Enumerates candidate sources and changes to known systems from structured feeds, not web search, which
 is where recent sweeps missed TileLoom, TASO/Tensat, PeepholeBench, LLVM-Bench,
-CIRBench and TileFoundry. Six channels:
+CIRBench and TileFoundry. Seven channels:
 
   arxiv   - arXiv API listings by category and keyword, over a date window
   venues  - DBLP tables of contents for a fixed venue set (OSDI, SOSP, ASPLOS,
             PLDI, CGO, MLSys, ISCA, MICRO, ICML, NeurIPS, ICLR, EMNLP)
   cites   - OpenAlex "cited by" for the Tier A digests (citation expansion)
+  repoevent - commit updates in already-indexed repositories (event-level, no popularity filter)
   github  - new or recently pushed repositories in organizations the survey
             already references (TileFoundry-class misses), plus PyPI releases
             for known packages
@@ -455,6 +456,86 @@ def github_candidates(idx: dict, since: dt.date) -> list[dict]:
     return out
 
 
+
+# --------------------------------------------------------------------------- indexed repository commit history
+def indexed_repo_event_candidates(idx: dict, since: dt.date, *, max_repos: int = 120,
+                                  max_events: int = 8, fetch_json=None) -> list[dict]:
+    """Enumerate commit events even for repositories ALREADY in the index.
+
+    These are review leads, not new systems or independent evidence families.
+    The optional fetch_json callback permits network-free deterministic tests.
+    Truncation and fetch failures must remain visible in Channel diagnostics.
+    """
+    priority = ("apache/tvm-tirx", "tile-ai/tilelang",
+                "mlc-ai/tirx-harness", "nvidia/auto-ontology")
+    repos = sorted(r for r in idx["github"] if re.fullmatch(r"[\w.-]+/[\w.-]+", r))
+    repos = [r for r in priority if r in repos] + [r for r in repos if r not in priority]
+    if max_repos > 0 and len(repos) > max_repos:
+        DIAG.append(f"repoevent truncated: only {max_repos}/{len(repos)} indexed repos checked; "
+                    f"unvisited include {', '.join(repos[max_repos:max_repos+5])}")
+        repos = repos[:max_repos]
+
+    def fetch(url: str):
+        headers = dict(UA)
+        if os.environ.get("GITHUB_TOKEN"):
+            headers["Authorization"] = f"Bearer {os.environ['GITHUB_TOKEN']}"
+        request = urllib.request.Request(url, headers=headers)
+        with urllib.request.urlopen(request, timeout=30) as response:
+            return json.load(response)
+
+    fetch_json = fetch_json or fetch
+    out = []
+    for repo in repos:
+        repo_limit = max(max_events, 50) if repo in priority else max_events
+        url = (f"https://api.github.com/repos/{repo}/commits?since={since.isoformat()}T00%3A00%3A00Z"
+               f"&per_page={min(repo_limit+1, 100)}")
+        try:
+            commits = fetch_json(url)
+            if not isinstance(commits, list):
+                raise ValueError("non-list GitHub commits response")
+        except Exception as exc:  # fail soft, but record omissions
+            DIAG.append(f"repoevent failed: {repo}: {exc}")
+            continue
+        if len(commits) > repo_limit:
+            DIAG.append(f"repoevent truncated: {repo}: first {repo_limit} of >{repo_limit} commits; "
+                        "older updates require review")
+        for event in commits[:repo_limit]:
+            sha = event.get("sha", "")
+            data = event.get("commit") or {}
+            date = ((data.get("committer") or {}).get("date") or "")[:10]
+            if not sha or (date and date < since.isoformat()):
+                continue
+            subject = (data.get("message") or "").split("\n", 1)[0]
+            out.append({"channel": "repoevent", "id": f"{repo}@{sha}",
+                        "title": f"{repo}: {subject}"[:160], "date": date,
+                        "url": event.get("html_url") or f"https://github.com/{repo}/commit/{sha}",
+                        "why": f"indexed-repo COMMIT event {sha[:12]}; family {repo}; "
+                               f"observed in sweep {dt.date.today()}; "
+                               "inspect changed files, tests and design impact"})
+        # A tag may mark an already-existing commit; commit enumeration alone misses
+        # a newly published release. Treat release metadata as its own event.
+        releases_url = f"https://api.github.com/repos/{repo}/releases?per_page=5"
+        try:
+            releases = fetch_json(releases_url)
+            if not isinstance(releases, list):
+                raise ValueError("non-list GitHub releases response")
+        except Exception as exc:
+            DIAG.append(f"repoevent releases failed: {repo}: {exc}")
+            continue
+        for release in releases:
+            published = (release.get("published_at") or "")[:10]
+            tag = release.get("tag_name") or ""
+            if not published or published < since.isoformat() or not tag:
+                continue
+            out.append({"channel": "repoevent", "id": f"{repo}@release:{tag}",
+                        "title": f"{repo}: release {tag}"[:160], "date": published,
+                        "url": release.get("html_url") or f"https://github.com/{repo}/releases/tag/{tag}",
+                        "why": f"indexed-repo RELEASE {tag}; family {repo}; "
+                               f"observed in sweep {dt.date.today()}; "
+                               "review changelog, design and compatibility"})
+    return out
+
+
 # --------------------------------------------------------------------------- blogs, forums, HN
 FEEDS = OUT_DIR / "feeds.txt"
 AGENT_TERMS = ["agent", "agentic", "llm", "language model", "claude", "gpt", "codex", "gemini",
@@ -680,7 +761,7 @@ def ghsearch_candidates(idx: dict, since: dt.date) -> list[dict]:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--since", help="YYYY-MM-DD; default: 21 days ago")
-    ap.add_argument("--channels", default="arxiv,venues,cites,github,ghsearch,blogs")
+    ap.add_argument("--channels", default="arxiv,venues,cites,github,ghsearch,blogs,repoevent")
     ap.add_argument("--out", help="output ledger path")
     args = ap.parse_args()
     today = dt.date.today()
@@ -703,11 +784,14 @@ def main() -> int:
         cands += ghsearch_candidates(idx, since)
     if "blogs" in chans:
         cands += blog_candidates(since)
+    if "repoevent" in chans:
+        cands += indexed_repo_event_candidates(idx, since)
 
     seen = set()
     new, already = [], 0
     for c in cands:
-        key = (c["channel"], norm_title(c["title"])[:80])
+        # A known repository may repeat a commit subject: only its SHA identifies the event.
+        key = (c["channel"], c["id"]) if c["channel"] == "repoevent" else (c["channel"], norm_title(c["title"])[:80])
         if key in seen:
             continue
         seen.add(key)
@@ -717,7 +801,7 @@ def main() -> int:
         if c["channel"] == "blog" and c["id"].lower() in idx["urls"]:
             already += 1
             continue
-        if known(idx, arxiv=aid, doi=doi, gh=gh, title=c["title"]):
+        if c["channel"] != "repoevent" and known(idx, arxiv=aid, doi=doi, gh=gh, title=c["title"]):
             already += 1
             continue
         new.append(c)
@@ -727,17 +811,27 @@ def main() -> int:
     by = {}
     for c in new:
         by.setdefault(c["channel"], []).append(c)
+    source_count = sum(c["channel"] != "repoevent" for c in new)
+    event_count = len(new) - source_count
     lines = [f"# Discovery ledger — {today.isoformat()}", "",
              f"Window: since {since.isoformat()}. Channels: {', '.join(sorted(chans))}. "
-             f"Candidates: {len(cands)} raw, {already} already indexed, **{len(new)} new**.", "",
-             "Triage every row in the Review thread as INCLUDE (digest it), EXCLUDE (reason), or PENDING "
-             "(what is missing). Mark the decision in the last column of this file in the same batch. "
-             "A row left blank means the sweep is not complete.", ""]
-    for ch in ("blog", "github", "pypi", "arxiv", "venue", "cites"):
+             f"Candidates: {len(cands)} raw, {already} already indexed, "
+             f"**{source_count} new source leads**, **{event_count} indexed-repo events**.", "",
+             "Triage source rows as INCLUDE (digest it), EXCLUDE (reason), or PENDING "
+             "(what is missing). For indexed-repo events use UPDATE-DIGEST, "
+             "NOTE-IN-REPOS or IGNORE with a reason. Mark every Decision cell "
+             "on the batch branch; blank means the sweep is unfinished.", ""]
+    for ch in ("repoevent", "blog", "github", "pypi", "arxiv", "venue", "cites"):
         rows = by.get(ch, [])
         if not rows:
             continue
-        lines += [f"## {ch} ({len(rows)})", "", "| Date | Candidate | Why it surfaced | Decision |", "|---|---|---|---|"]
+        heading = ("Events in indexed repositories" if ch == "repoevent" else ch)
+        lines += [f"## {heading} ({len(rows)})", ""]
+        if ch == "repoevent":
+            lines.append("Existing evidence-family updates only; decide UPDATE-DIGEST, "
+                         "NOTE-IN-REPOS or IGNORE. These rows never count as new sources.")
+            lines.append("")
+        lines += ["| Date | Candidate | Why it surfaced | Decision |", "|---|---|---|---|"]
         for c in sorted(rows, key=lambda r: r["date"], reverse=True):
             t = c["title"].replace("|", "/")
             lines.append(f"| {c['date']} | [{t}]({c['url']}) | {c['why']} | |")
