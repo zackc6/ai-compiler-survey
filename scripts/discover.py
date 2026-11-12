@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Mechanical source discovery for the survey.
 
-Enumerates candidate sources from structured feeds instead of web search, which
+Enumerates candidate sources and changes to known systems from structured feeds, not web search, which
 is where recent sweeps missed TileLoom, TASO/Tensat, PeepholeBench, LLVM-Bench,
-CIRBench and TileFoundry. Six channels:
+CIRBench and TileFoundry. Seven channels:
 
   arxiv   - arXiv API listings by category and keyword, over a date window
   venues  - DBLP tables of contents for a fixed venue set (OSDI, SOSP, ASPLOS,
@@ -509,7 +509,8 @@ def indexed_repo_event_candidates(idx: dict, since: dt.date, *, max_repos: int =
             out.append({"channel": "repoevent", "id": f"{repo}@{sha}",
                         "title": f"{repo}: {subject}"[:160], "date": date,
                         "url": event.get("html_url") or f"https://github.com/{repo}/commit/{sha}",
-                        "why": f"indexed-repo COMMIT event {sha[:12]} (no name/star/agent-keyword gate); "
+                        "why": f"indexed-repo COMMIT event {sha[:12]}; family {repo}; "
+                               f"first seen in sweep {dt.date.today()}; "
                                "inspect changed files, tests and design impact"})
         # A tag may mark an already-existing commit; commit enumeration alone misses
         # a newly published release. Treat release metadata as its own event.
@@ -529,7 +530,9 @@ def indexed_repo_event_candidates(idx: dict, since: dt.date, *, max_repos: int =
             out.append({"channel": "repoevent", "id": f"{repo}@release:{tag}",
                         "title": f"{repo}: release {tag}"[:160], "date": published,
                         "url": release.get("html_url") or f"https://github.com/{repo}/releases/tag/{tag}",
-                        "why": f"indexed-repo RELEASE {tag}; review changelog, design and compatibility"})
+                        "why": f"indexed-repo RELEASE {tag}; family {repo}; "
+                               f"first seen in sweep {dt.date.today()}; "
+                               "review changelog, design and compatibility"})
     return out
 
 
