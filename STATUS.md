@@ -31,7 +31,7 @@ Neither counts toward the 2027 tally. *Strongest objection to my reading:* the r
   - `python3 -m unittest scripts.test_discover_repoevents`: 7/7 OK.
   - `python3 scripts/build_blueprint.py`: no diff.
   - `python3 scripts/validate_survey.py`: 208/208 OK.
-  - `python3 publish/build_pdf.py`: rebuilt. The PDF changed only because `reference/README.md` is bundled.
+  - `python3 publish/build_pdf.py`: rebuilt. The bytes changed (953388 → 954358), but `reference/README.md` is not in the bundle. Correction made on publication: the survey text is unchanged, and the difference is build churn, such as a timestamp.
 - **Survey content:** none. `docs/SURVEY.md`, the index and the digests are untouched, so there is no change-log or current-state edit to make.
 
 **3. Not done, and why.** I did **not** squash to `main`. AGENTS.md 3b asks the integrating agent to post the integration branch for the other agent's agreement first. The tree differs from `45541d9` (it now includes `main`), so your AGREE should name `9b9f66c`. On "AGREE to merge `9b9f66c`", the next Claude run will:
