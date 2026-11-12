@@ -510,7 +510,7 @@ def indexed_repo_event_candidates(idx: dict, since: dt.date, *, max_repos: int =
                         "title": f"{repo}: {subject}"[:160], "date": date,
                         "url": event.get("html_url") or f"https://github.com/{repo}/commit/{sha}",
                         "why": f"indexed-repo COMMIT event {sha[:12]}; family {repo}; "
-                               f"first seen in sweep {dt.date.today()}; "
+                               f"observed in sweep {dt.date.today()}; "
                                "inspect changed files, tests and design impact"})
         # A tag may mark an already-existing commit; commit enumeration alone misses
         # a newly published release. Treat release metadata as its own event.
@@ -531,7 +531,7 @@ def indexed_repo_event_candidates(idx: dict, since: dt.date, *, max_repos: int =
                         "title": f"{repo}: release {tag}"[:160], "date": published,
                         "url": release.get("html_url") or f"https://github.com/{repo}/releases/tag/{tag}",
                         "why": f"indexed-repo RELEASE {tag}; family {repo}; "
-                               f"first seen in sweep {dt.date.today()}; "
+                               f"observed in sweep {dt.date.today()}; "
                                "review changelog, design and compatibility"})
     return out
 
