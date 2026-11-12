@@ -9,6 +9,7 @@ CIRBench and TileFoundry. Six channels:
   venues  - DBLP tables of contents for a fixed venue set (OSDI, SOSP, ASPLOS,
             PLDI, CGO, MLSys, ISCA, MICRO, ICML, NeurIPS, ICLR, EMNLP)
   cites   - OpenAlex "cited by" for the Tier A digests (citation expansion)
+  repoevent - commit updates in already-indexed repositories (event-level, no popularity filter)
   github  - new or recently pushed repositories in organizations the survey
             already references (TileFoundry-class misses), plus PyPI releases
             for known packages
@@ -455,6 +456,64 @@ def github_candidates(idx: dict, since: dt.date) -> list[dict]:
     return out
 
 
+
+# --------------------------------------------------------------------------- indexed repository commit history
+def indexed_repo_event_candidates(idx: dict, since: dt.date, *, max_repos: int = 120,
+                                  max_events: int = 8, fetch_json=None) -> list[dict]:
+    """Enumerate commit events even for repositories ALREADY in the index.
+
+    These are review leads, not new systems or independent evidence families.
+    The optional fetch_json callback permits network-free deterministic tests.
+    Truncation and fetch failures must remain visible in Channel diagnostics.
+    """
+    priority = ("apache/tvm-tirx", "tile-ai/tilefoundry", "tile-ai/tileops",
+                "tile-ai/tilelang", "nvidia/auto-ontology", "triton-lang/triton",
+                "mlc-ai/tirx-harness", "llvm/llvm-project")
+    repos = sorted(r for r in idx["github"] if re.fullmatch(r"[\w.-]+/[\w.-]+", r))
+    repos = [r for r in priority if r in repos] + [r for r in repos if r not in priority]
+    if max_repos > 0 and len(repos) > max_repos:
+        DIAG.append(f"repoevent truncated: only {max_repos}/{len(repos)} indexed repos checked; "
+                    f"unvisited include {', '.join(repos[max_repos:max_repos+5])}")
+        repos = repos[:max_repos]
+
+    def fetch(url: str):
+        headers = dict(UA)
+        if os.environ.get("GITHUB_TOKEN"):
+            headers["Authorization"] = f"Bearer {os.environ['GITHUB_TOKEN']}"
+        request = urllib.request.Request(url, headers=headers)
+        with urllib.request.urlopen(request, timeout=30) as response:
+            return json.load(response)
+
+    fetch_json = fetch_json or fetch
+    out = []
+    for repo in repos:
+        url = (f"https://api.github.com/repos/{repo}/commits?since={since.isoformat()}T00%3A00%3A00Z"
+               f"&per_page={max_events+1}")
+        try:
+            commits = fetch_json(url)
+            if not isinstance(commits, list):
+                raise ValueError("non-list GitHub commits response")
+        except Exception as exc:  # fail soft, but record omissions
+            DIAG.append(f"repoevent failed: {repo}: {exc}")
+            continue
+        if len(commits) > max_events:
+            DIAG.append(f"repoevent truncated: {repo}: first {max_events} of >{max_events} commits; "
+                        "older updates require review")
+        for event in commits[:max_events]:
+            sha = event.get("sha", "")
+            data = event.get("commit") or {}
+            date = ((data.get("committer") or {}).get("date") or "")[:10]
+            if not sha or (date and date < since.isoformat()):
+                continue
+            subject = (data.get("message") or "").split("\n", 1)[0]
+            out.append({"channel": "repoevent", "id": f"{repo}@{sha}",
+                        "title": f"{repo}: {subject}"[:160], "date": date,
+                        "url": event.get("html_url") or f"https://github.com/{repo}/commit/{sha}",
+                        "why": f"indexed-repo COMMIT event {sha[:12]} (no name/star/agent-keyword gate); "
+                               "inspect changed files, tests and design impact"})
+    return out
+
+
 # --------------------------------------------------------------------------- blogs, forums, HN
 FEEDS = OUT_DIR / "feeds.txt"
 AGENT_TERMS = ["agent", "agentic", "llm", "language model", "claude", "gpt", "codex", "gemini",
@@ -680,7 +739,7 @@ def ghsearch_candidates(idx: dict, since: dt.date) -> list[dict]:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--since", help="YYYY-MM-DD; default: 21 days ago")
-    ap.add_argument("--channels", default="arxiv,venues,cites,github,ghsearch,blogs")
+    ap.add_argument("--channels", default="arxiv,venues,cites,github,ghsearch,blogs,repoevent")
     ap.add_argument("--out", help="output ledger path")
     args = ap.parse_args()
     today = dt.date.today()
@@ -703,6 +762,8 @@ def main() -> int:
         cands += ghsearch_candidates(idx, since)
     if "blogs" in chans:
         cands += blog_candidates(since)
+    if "repoevent" in chans:
+        cands += indexed_repo_event_candidates(idx, since)
 
     seen = set()
     new, already = [], 0
@@ -717,7 +778,7 @@ def main() -> int:
         if c["channel"] == "blog" and c["id"].lower() in idx["urls"]:
             already += 1
             continue
-        if known(idx, arxiv=aid, doi=doi, gh=gh, title=c["title"]):
+        if c["channel"] != "repoevent" and known(idx, arxiv=aid, doi=doi, gh=gh, title=c["title"]):
             already += 1
             continue
         new.append(c)
@@ -733,7 +794,7 @@ def main() -> int:
              "Triage every row in the Review thread as INCLUDE (digest it), EXCLUDE (reason), or PENDING "
              "(what is missing). Mark the decision in the last column of this file in the same batch. "
              "A row left blank means the sweep is not complete.", ""]
-    for ch in ("blog", "github", "pypi", "arxiv", "venue", "cites"):
+    for ch in ("repoevent", "blog", "github", "pypi", "arxiv", "venue", "cites"):
         rows = by.get(ch, [])
         if not rows:
             continue
