@@ -768,7 +768,8 @@ def main() -> int:
     seen = set()
     new, already = [], 0
     for c in cands:
-        key = (c["channel"], norm_title(c["title"])[:80])
+        # A known repository may repeat a commit subject: only its SHA identifies the event.
+        key = (c["channel"], c["id"]) if c["channel"] == "repoevent" else (c["channel"], norm_title(c["title"])[:80])
         if key in seen:
             continue
         seen.add(key)
