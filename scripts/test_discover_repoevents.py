@@ -44,11 +44,11 @@ class IndexedRepoEventTests(unittest.TestCase):
     def test_priority_and_skipped_repositories_recorded(self):
         called = []
         d.indexed_repo_event_candidates(
-            {"github": {"other/old", "tile-ai/tilefoundry", "apache/tvm-tirx"}},
+            {"github": {"other/old", "tile-ai/tilelang", "apache/tvm-tirx"}},
             self.start, max_repos=2, fetch_json=lambda url: called.append(url) or [])
         commit_urls = [u for u in called if "/commits?" in u]
         self.assertIn("apache/tvm-tirx", commit_urls[0])
-        self.assertIn("tile-ai/tilefoundry", commit_urls[1])
+        self.assertIn("tile-ai/tilelang", commit_urls[1])
         self.assertTrue(any("unvisited include" in x for x in d.DIAG))
 
     def test_release_is_found_without_new_commit(self):
