@@ -39,8 +39,15 @@ jobs:
         run: |
           set -e
           f=$(ls reference/discovery/*.md | tail -1)
-          n=$(grep -oE '\*\*[0-9]+ new source leads\*\*' "$f" | grep -oE '[0-9]+' | head -1)
-          events=$(grep -oE '\*\*[0-9]+ indexed-repo events\*\*' "$f" | grep -oE '[0-9]+' | head -1)
+          # Accept the published legacy ledger and the staged event-aware header.
+          if grep -qE '\*\*[0-9]+ new source leads\*\*' "$f"; then
+            n=$(grep -oE '\*\*[0-9]+ new source leads\*\*' "$f" | grep -oE '[0-9]+' | head -1)
+            events=$(grep -oE '\*\*[0-9]+ indexed-repo events\*\*' "$f" | grep -oE '[0-9]+' | head -1)
+          else
+            n=$(grep -oE '\*\*[0-9]+ new\*\*' "$f" | grep -oE '[0-9]+' | head -1)
+            events=0  # Legacy discovery has no indexed-repository event channel.
+          fi
+          test -n "$n" && test -n "$events"
           d=$(date -u +%Y-%m-%d)
           echo "ledger=$f new_source_leads=$n indexed_repo_events=$events"
           { echo "## Discovery $d"; echo; head -c 6000 "$f"; } >> "$GITHUB_STEP_SUMMARY"
