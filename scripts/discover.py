@@ -466,8 +466,8 @@ def indexed_repo_event_candidates(idx: dict, since: dt.date, *, max_repos: int =
     The optional fetch_json callback permits network-free deterministic tests.
     Truncation and fetch failures must remain visible in Channel diagnostics.
     """
-    priority = ("apache/tvm-tirx", "tile-ai/tilefoundry", "tile-ai/tileops",
-                "tile-ai/tilelang", "nvidia/auto-ontology", "triton-lang/triton",
+    priority = ("apache/tvm-tirx", "tile-ai/tilelang",
+                "nvidia/auto-ontology", "triton-lang/triton",
                 "mlc-ai/tirx-harness", "llvm/llvm-project")
     repos = sorted(r for r in idx["github"] if re.fullmatch(r"[\w.-]+/[\w.-]+", r))
     repos = [r for r in priority if r in repos] + [r for r in repos if r not in priority]
@@ -511,6 +511,25 @@ def indexed_repo_event_candidates(idx: dict, since: dt.date, *, max_repos: int =
                         "url": event.get("html_url") or f"https://github.com/{repo}/commit/{sha}",
                         "why": f"indexed-repo COMMIT event {sha[:12]} (no name/star/agent-keyword gate); "
                                "inspect changed files, tests and design impact"})
+        # A tag may mark an already-existing commit; commit enumeration alone misses
+        # a newly published release. Treat release metadata as its own event.
+        releases_url = f"https://api.github.com/repos/{repo}/releases?per_page=5"
+        try:
+            releases = fetch_json(releases_url)
+            if not isinstance(releases, list):
+                raise ValueError("non-list GitHub releases response")
+        except Exception as exc:
+            DIAG.append(f"repoevent releases failed: {repo}: {exc}")
+            continue
+        for release in releases:
+            published = (release.get("published_at") or "")[:10]
+            tag = release.get("tag_name") or ""
+            if not published or published < since.isoformat() or not tag:
+                continue
+            out.append({"channel": "repoevent", "id": f"{repo}@release:{tag}",
+                        "title": f"{repo}: release {tag}"[:160], "date": published,
+                        "url": release.get("html_url") or f"https://github.com/{repo}/releases/tag/{tag}",
+                        "why": f"indexed-repo RELEASE {tag}; review changelog, design and compatibility"})
     return out
 
 
@@ -789,17 +808,27 @@ def main() -> int:
     by = {}
     for c in new:
         by.setdefault(c["channel"], []).append(c)
+    source_count = sum(c["channel"] != "repoevent" for c in new)
+    event_count = len(new) - source_count
     lines = [f"# Discovery ledger — {today.isoformat()}", "",
              f"Window: since {since.isoformat()}. Channels: {', '.join(sorted(chans))}. "
-             f"Candidates: {len(cands)} raw, {already} already indexed, **{len(new)} new**.", "",
-             "Triage every row in the Review thread as INCLUDE (digest it), EXCLUDE (reason), or PENDING "
-             "(what is missing). Mark the decision in the last column of this file in the same batch. "
-             "A row left blank means the sweep is not complete.", ""]
+             f"Candidates: {len(cands)} raw, {already} already indexed, "
+             f"**{source_count} new source leads**, **{event_count} indexed-repo events**.", "",
+             "Triage source rows as INCLUDE (digest it), EXCLUDE (reason), or PENDING "
+             "(what is missing). For indexed-repo events use UPDATE-DIGEST, "
+             "NOTE-IN-REPOS or IGNORE with a reason. Mark every Decision cell "
+             "on the batch branch; blank means the sweep is unfinished.", ""]
     for ch in ("repoevent", "blog", "github", "pypi", "arxiv", "venue", "cites"):
         rows = by.get(ch, [])
         if not rows:
             continue
-        lines += [f"## {ch} ({len(rows)})", "", "| Date | Candidate | Why it surfaced | Decision |", "|---|---|---|---|"]
+        heading = ("Events in indexed repositories" if ch == "repoevent" else ch)
+        lines += [f"## {heading} ({len(rows)})", ""]
+        if ch == "repoevent":
+            lines.append("Existing evidence-family updates only; decide UPDATE-DIGEST, "
+                         "NOTE-IN-REPOS or IGNORE. These rows never count as new sources.")
+            lines.append("")
+        lines += ["| Date | Candidate | Why it surfaced | Decision |", "|---|---|---|---|"]
         for c in sorted(rows, key=lambda r: r["date"], reverse=True):
             t = c["title"].replace("|", "/")
             lines.append(f"| {c['date']} | [{t}]({c['url']}) | {c['why']} | |")
