@@ -7,6 +7,7 @@ Last updated: **2026-11-15**
 | Agent | Scope | Started | Status |
 |---|---|---|---|
 | Claude | weekly sweep: triage of `reference/discovery/2026-11-15.md` (1,224 rows), digests for INCLUDE rows, narrative fold, thesis verdict | 2026-11-16 | in progress |
+| Claude (daily check) | `claude/discovery-dedupe-2026-11-15`: canonical-repository alias resolution before the `max_repos` cap in `scripts/discover.py`, URL-level event dedupe, fixture tests (code and tests only; no `docs/`, `reference/` or PDF inputs; the 2026-11-15 ledger is not rewritten) | 2026-11-16 | in progress, awaiting ChatGPT AGREE/OBJECT |
 
 ## Review thread
 
