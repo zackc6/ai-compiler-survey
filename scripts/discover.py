@@ -504,12 +504,15 @@ def resolve_canonical_repos(names: list[str], fetch_json) -> list[dict]:
     its indexed name and reported, never dropped.
     """
     groups: dict[str, dict] = {}
+    unresolved = []
     for name in sorted(names):
         try:
             meta = github_repo_metadata(name, fetch_json)
         except Exception as exc:  # noqa: BLE001 - fail visibly, keep the name
-            DIAG.append(f"repoevent metadata failed: {name}: {exc}; fetched under its indexed name")
+            DIAG.append(f"repoevent metadata failed: {name}: {exc}; "
+                        "identity unresolved, events will be attempted under its indexed name")
             identity, repo = f"name:{name}", name
+            unresolved.append(name)
         else:
             repo = str(meta["full_name"]).lower()
             identity = f"id:{meta['id']}" if meta.get("id") else f"name:{repo}"
@@ -520,8 +523,11 @@ def resolve_canonical_repos(names: list[str], fetch_json) -> list[dict]:
         renamed = [a for a in g["aliases"] if a != g["repo"]]
         if renamed:
             DIAG.append(f"repoevent alias: {', '.join(renamed)} -> {g['repo']} ({g['identity']})")
-    DIAG.append(f"repoevent coverage: {len(names)} indexed names resolve to "
-                f"{len(records)} distinct repositories")
+    resolved = len(records) - len(unresolved)
+    DIAG.append(f"repoevent coverage: {len(names)} indexed names -> {resolved} resolved canonical "
+                f"repositories + {len(unresolved)} unresolved indexed names"
+                + (f" ({', '.join(unresolved)}); unresolved names may still alias each other"
+                   if unresolved else ""))
     return records
 
 

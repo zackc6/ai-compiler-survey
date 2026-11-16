@@ -71,7 +71,7 @@ class CanonicalRepoTests(unittest.TestCase):
             self.assertEqual(records[0]["identity"], f"id:{GEAK_ID}")
             self.assertEqual(records[0]["aliases"], ["amd-agi/geak", "amd-agi/geak-agent"])
             self.assertTrue(any(x.startswith("repoevent alias: amd-agi/geak-agent -> amd-agi/geak") for x in d.DIAG))
-            self.assertIn("repoevent coverage: 2 indexed names resolve to 1 distinct repositories", d.DIAG)
+            self.assertIn("repoevent coverage: 2 indexed names -> 1 resolved canonical repositories + 0 unresolved indexed names", d.DIAG)
             if redirect:
                 self.assertTrue(any("/repositories/1028816796" in u for u in router.urls))
 
@@ -107,7 +107,7 @@ class CanonicalRepoTests(unittest.TestCase):
                                                self.start, fetch_json=router)
         self.assertEqual(len(rows), 2)
         self.assertEqual(len(d.dedupe_repo_events(rows)), 2)  # different canonical URLs
-        self.assertIn("repoevent coverage: 2 indexed names resolve to 2 distinct repositories", d.DIAG)
+        self.assertIn("repoevent coverage: 2 indexed names -> 2 resolved canonical repositories + 0 unresolved indexed names", d.DIAG)
 
     # (4) a commit and a release of the same repository are different events
     def test_commit_and_release_are_distinct_events(self):
@@ -126,8 +126,24 @@ class CanonicalRepoTests(unittest.TestCase):
         rows = d.indexed_repo_event_candidates({"github": {"aetherheart-ai/aeloon"}}, self.start, fetch_json=router)
         self.assertEqual(len(rows), 1)
         self.assertTrue(any(x.startswith("repoevent metadata failed: aetherheart-ai/aeloon: HTTP Error 404")
-                            for x in d.DIAG))
-        self.assertIn("repoevent coverage: 1 indexed names resolve to 1 distinct repositories", d.DIAG)
+                            and "attempted under its indexed name" in x for x in d.DIAG))
+        self.assertIn("repoevent coverage: 1 indexed names -> 0 resolved canonical repositories + "
+                      "1 unresolved indexed names (aetherheart-ai/aeloon); unresolved names may still alias each other",
+                      d.DIAG)
+
+    # (2)/(5) mixed success and failure: unresolved names are counted apart from resolved identities
+    def test_mixed_resolution_counts_unresolved_separately(self):
+        router = Router(GEAK_META, {"amd-agi/geak": [commit(GEAK_SHAS[0])],
+                                    "org/gone": [], "org/gone-mirror": []})
+        idx = {"github": {"amd-agi/geak", "amd-agi/geak-agent", "org/gone", "org/gone-mirror"}}
+        rows = d.indexed_repo_event_candidates(idx, self.start, fetch_json=router)
+        self.assertEqual(len(rows), 1)
+        self.assertIn("repoevent coverage: 4 indexed names -> 1 resolved canonical repositories + "
+                      "2 unresolved indexed names (org/gone, org/gone-mirror); unresolved names may still alias each other",
+                      d.DIAG)
+        self.assertEqual(sum(x.startswith("repoevent metadata failed:") for x in d.DIAG), 2)
+        # Unresolved names are still attempted, once each, never dropped.
+        self.assertEqual(sum("/commits?" in u for u in router.urls), 3)
 
     # (5) cap-boundary coverage: the slot freed by an alias reaches a repository the alias displaced
     def test_alias_slot_reaches_boundary_repository(self):
