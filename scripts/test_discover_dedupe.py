@@ -145,6 +145,15 @@ class CanonicalRepoTests(unittest.TestCase):
         # Unresolved names are still attempted, once each, never dropped.
         self.assertEqual(sum("/commits?" in u for u in router.urls), 3)
 
+    # (5) Codex round 2, point 2: a binding cap labels unresolved groups instead of calling them repositories
+    def test_cap_notice_counts_unresolved_groups_separately(self):
+        router = Router(GEAK_META, {"amd-agi/geak": [], "org/gone": [], "org/gone-mirror": []})
+        idx = {"github": {"amd-agi/geak", "amd-agi/geak-agent", "org/gone", "org/gone-mirror"}}
+        d.indexed_repo_event_candidates(idx, self.start, max_repos=2, fetch_json=router)
+        line = next(x for x in d.DIAG if x.startswith("repoevent truncated: only"))
+        self.assertIn("only 2/3 repository groups selected for event fetching "
+                      "(1 resolved + 2 unresolved; 4 indexed names)", line)
+
     # (5) cap-boundary coverage: the slot freed by an alias reaches a repository the alias displaced
     def test_alias_slot_reaches_boundary_repository(self):
         meta = dict(GEAK_META)
@@ -164,7 +173,8 @@ class CanonicalRepoTests(unittest.TestCase):
         router = Router(meta, {})
         d.indexed_repo_event_candidates({"github": set(meta)}, self.start, max_repos=2, fetch_json=router)
         line = next(x for x in d.DIAG if x.startswith("repoevent truncated: only"))
-        self.assertIn("only 2/4 distinct indexed repos checked (4 indexed names)", line)
+        self.assertIn("only 2/4 repository groups selected for event fetching "
+                      "(4 resolved + 0 unresolved; 4 indexed names)", line)
         self.assertIn("unvisited include org/r2, org/r3", line)
 
     # (3) URL dedupe keeps the first row, records the other family, reports counts; deterministic

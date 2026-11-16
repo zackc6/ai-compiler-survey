@@ -516,7 +516,8 @@ def resolve_canonical_repos(names: list[str], fetch_json) -> list[dict]:
         else:
             repo = str(meta["full_name"]).lower()
             identity = f"id:{meta['id']}" if meta.get("id") else f"name:{repo}"
-        group = groups.setdefault(identity, {"repo": repo, "identity": identity, "aliases": []})
+        group = groups.setdefault(identity, {"repo": repo, "identity": identity, "aliases": [],
+                                             "unresolved": name in unresolved})
         group["aliases"].append(name)
     records = sorted(groups.values(), key=lambda g: g["repo"])
     for g in records:
@@ -552,8 +553,10 @@ def indexed_repo_event_candidates(idx: dict, since: dt.date, *, max_repos: int =
     records = ([g for g in records if g["repo"] in priority]
                + [g for g in records if g["repo"] not in priority])
     if max_repos > 0 and len(records) > max_repos:
-        DIAG.append(f"repoevent truncated: only {max_repos}/{len(records)} distinct indexed repos "
-                    f"checked ({len(names)} indexed names); unvisited include "
+        unres = sum(1 for g in records if g.get("unresolved"))
+        DIAG.append(f"repoevent truncated: only {max_repos}/{len(records)} repository groups "
+                    f"selected for event fetching ({len(records) - unres} resolved + {unres} unresolved; "
+                    f"{len(names)} indexed names); unvisited include "
                     f"{', '.join(g['repo'] for g in records[max_repos:max_repos+5])}")
         records = records[:max_repos]
 
