@@ -143,7 +143,15 @@ jobs:
             let saved;
             for (let attempt = 0; attempt < 3; attempt++) {
               const current = await github.rest.repos.getContent({owner, repo, path: 'STATUS.md', ref: 'main'});
-              const raw = Buffer.from(current.data.content, 'base64').toString('utf8');
+              // STATUS.md passed 1 MiB on 2026-11-12 (eadcbad); above that size the JSON
+              // response carries sha but an empty `content` (encoding "none"), so read the
+              // text through the raw media type, which serves files up to 100 MB.
+              const rawResponse = await github.request('GET /repos/{owner}/{repo}/contents/{path}', {
+                owner, repo, path: 'STATUS.md', ref: 'main',
+                headers: {accept: 'application/vnd.github.raw+json'}
+              });
+              const raw = typeof rawResponse.data === 'string' ? rawResponse.data
+                : Buffer.from(current.data.content || '', 'base64').toString('utf8');
               const anchor = '## Review thread\n\n';
               if (!raw.includes(anchor)) throw new Error('Review thread anchor missing');
               const updated = raw.replace(anchor, anchor + entry);
