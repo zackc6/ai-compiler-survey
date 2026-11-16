@@ -6,6 +6,7 @@ Last updated: **2026-11-15**
 
 | Agent | Scope | Started | Status |
 |---|---|---|---|
+| Claude | weekly sweep: triage of `reference/discovery/2026-11-15.md` (1,224 rows), digests for INCLUDE rows, narrative fold, thesis verdict | 2026-11-16 | in progress |
 
 ## Review thread
 
