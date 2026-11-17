@@ -86,7 +86,8 @@ PYPI_PACKAGES = ["tilefoundry", "tilelang", "tirx-harness", "kcoral", "helion", 
 DIAG: list[str] = []
 # Diagnostic categories rendered into the ledger's fetch log (failures, venue sizes, and the
 # recall limits of the blogs/HN/GitHub channels: truncation, star-threshold drops, unparsable pages).
-DIAG_KEEP = ("HTTP", "failed", "venue ", "usenix ", "feed ", "truncated", "threshold", "unparsable")
+DIAG_KEEP = ("HTTP", "failed", "venue ", "usenix ", "feed ", "truncated", "threshold", "unparsable",
+             "repoevent ")
 
 
 def log(msg: str) -> None:
@@ -458,6 +459,79 @@ def github_candidates(idx: dict, since: dt.date) -> list[dict]:
 
 
 # --------------------------------------------------------------------------- indexed repository commit history
+def _github_fetch_json(url: str):
+    headers = dict(UA)
+    if os.environ.get("GITHUB_TOKEN"):
+        headers["Authorization"] = f"Bearer {os.environ['GITHUB_TOKEN']}"
+    request = urllib.request.Request(url, headers=headers)
+    with urllib.request.urlopen(request, timeout=30) as response:
+        return json.load(response)
+
+
+def github_repo_metadata(name: str, fetch_json, max_hops: int = 3) -> dict:
+    """Return the GitHub repository object for an indexed name, following renames.
+
+    GitHub answers ``GET /repos/<old-name>`` for a renamed repository either with a
+    301 to ``/repositories/<id>`` (which urllib follows on its own) or, through a
+    client that does not follow redirects, with the redirect itself. Both end in a
+    body whose ``full_name`` is the canonical name. Anything else (404, rate limit,
+    a non-object body) raises, so the caller can report it; nothing is guessed.
+    """
+    url = f"https://api.github.com/repos/{name}"
+    for _ in range(max_hops + 1):
+        try:
+            data = fetch_json(url)
+        except urllib.error.HTTPError as exc:
+            location = (exc.headers or {}).get("Location") if exc.code in (301, 302, 307, 308) else None
+            if not location:
+                raise
+            url = location
+            continue
+        if not isinstance(data, dict) or not data.get("full_name"):
+            raise ValueError("repository metadata without full_name")
+        return data
+    raise ValueError(f"more than {max_hops} redirects")
+
+
+def resolve_canonical_repos(names: list[str], fetch_json) -> list[dict]:
+    """Group indexed repository names by the repository they actually denote.
+
+    Returns one record per distinct repository, ``{"repo": canonical lower-case
+    full name, "identity": "id:<n>" | "name:<n>", "aliases": [indexed names]}``,
+    sorted by canonical name. Two names collapse only when GitHub reports the same
+    repository id: a genuine fork has its own id and stays separate even when its
+    commits carry the same SHAs. A name whose metadata cannot be read is kept under
+    its indexed name and reported, never dropped.
+    """
+    groups: dict[str, dict] = {}
+    unresolved = []
+    for name in sorted(names):
+        try:
+            meta = github_repo_metadata(name, fetch_json)
+        except Exception as exc:  # noqa: BLE001 - fail visibly, keep the name
+            DIAG.append(f"repoevent metadata failed: {name}: {exc}; "
+                        "identity unresolved, events will be attempted under its indexed name")
+            identity, repo = f"name:{name}", name
+            unresolved.append(name)
+        else:
+            repo = str(meta["full_name"]).lower()
+            identity = f"id:{meta['id']}" if meta.get("id") else f"name:{repo}"
+        group = groups.setdefault(identity, {"repo": repo, "identity": identity, "aliases": [],
+                                             "unresolved": name in unresolved})
+        group["aliases"].append(name)
+    records = sorted(groups.values(), key=lambda g: g["repo"])
+    for g in records:
+        renamed = [a for a in g["aliases"] if a != g["repo"]]
+        if renamed:
+            DIAG.append(f"repoevent alias: {', '.join(renamed)} -> {g['repo']} ({g['identity']})")
+    resolved = len(records) - len(unresolved)
+    DIAG.append(f"repoevent coverage: {len(names)} indexed names -> {resolved} resolved canonical "
+                f"repositories + {len(unresolved)} unresolved indexed names"
+                + (f" ({', '.join(unresolved)}); unresolved names may still alias each other"
+                   if unresolved else ""))
+    return records
+
+
 def indexed_repo_event_candidates(idx: dict, since: dt.date, *, max_repos: int = 120,
                                   max_events: int = 8, fetch_json=None) -> list[dict]:
     """Enumerate commit events even for repositories ALREADY in the index.
@@ -465,27 +539,33 @@ def indexed_repo_event_candidates(idx: dict, since: dt.date, *, max_repos: int =
     These are review leads, not new systems or independent evidence families.
     The optional fetch_json callback permits network-free deterministic tests.
     Truncation and fetch failures must remain visible in Channel diagnostics.
+
+    Indexed names are first resolved to canonical repositories (a renamed
+    repository such as ``amd-agi/geak-agent`` -> ``amd-agi/geak`` is one
+    repository, not two), so the ``max_repos`` cap counts distinct repositories,
+    each repository is fetched once, and one truncation line names its aliases.
     """
     priority = ("apache/tvm-tirx", "tile-ai/tilelang",
                 "mlc-ai/tirx-harness", "nvidia/auto-ontology")
-    repos = sorted(r for r in idx["github"] if re.fullmatch(r"[\w.-]+/[\w.-]+", r))
-    repos = [r for r in priority if r in repos] + [r for r in repos if r not in priority]
-    if max_repos > 0 and len(repos) > max_repos:
-        DIAG.append(f"repoevent truncated: only {max_repos}/{len(repos)} indexed repos checked; "
-                    f"unvisited include {', '.join(repos[max_repos:max_repos+5])}")
-        repos = repos[:max_repos]
+    fetch_json = fetch_json or _github_fetch_json
+    names = sorted(r for r in idx["github"] if re.fullmatch(r"[\w.-]+/[\w.-]+", r))
+    records = resolve_canonical_repos(names, fetch_json)
+    records = ([g for g in records if g["repo"] in priority]
+               + [g for g in records if g["repo"] not in priority])
+    if max_repos > 0 and len(records) > max_repos:
+        unres = sum(1 for g in records if g.get("unresolved"))
+        DIAG.append(f"repoevent truncated: only {max_repos}/{len(records)} repository groups "
+                    f"selected for event fetching ({len(records) - unres} resolved + {unres} unresolved; "
+                    f"{len(names)} indexed names); unvisited include "
+                    f"{', '.join(g['repo'] for g in records[max_repos:max_repos+5])}")
+        records = records[:max_repos]
 
-    def fetch(url: str):
-        headers = dict(UA)
-        if os.environ.get("GITHUB_TOKEN"):
-            headers["Authorization"] = f"Bearer {os.environ['GITHUB_TOKEN']}"
-        request = urllib.request.Request(url, headers=headers)
-        with urllib.request.urlopen(request, timeout=30) as response:
-            return json.load(response)
-
-    fetch_json = fetch_json or fetch
     out = []
-    for repo in repos:
+    for group in records:
+        repo, aliases = group["repo"], group["aliases"]
+        renamed = [a for a in aliases if a != repo]
+        label = f"{repo} (indexed as {', '.join(aliases)})" if renamed else repo
+        provenance = f"family {repo}" + (f" (indexed as {', '.join(aliases)})" if renamed else "")
         repo_limit = max(max_events, 50) if repo in priority else max_events
         url = (f"https://api.github.com/repos/{repo}/commits?since={since.isoformat()}T00%3A00%3A00Z"
                f"&per_page={min(repo_limit+1, 100)}")
@@ -494,10 +574,10 @@ def indexed_repo_event_candidates(idx: dict, since: dt.date, *, max_repos: int =
             if not isinstance(commits, list):
                 raise ValueError("non-list GitHub commits response")
         except Exception as exc:  # fail soft, but record omissions
-            DIAG.append(f"repoevent failed: {repo}: {exc}")
+            DIAG.append(f"repoevent failed: {label}: {exc}")
             continue
         if len(commits) > repo_limit:
-            DIAG.append(f"repoevent truncated: {repo}: first {repo_limit} of >{repo_limit} commits; "
+            DIAG.append(f"repoevent truncated: {label}: first {repo_limit} of >{repo_limit} commits; "
                         "older updates require review")
         for event in commits[:repo_limit]:
             sha = event.get("sha", "")
@@ -509,7 +589,7 @@ def indexed_repo_event_candidates(idx: dict, since: dt.date, *, max_repos: int =
             out.append({"channel": "repoevent", "id": f"{repo}@{sha}",
                         "title": f"{repo}: {subject}"[:160], "date": date,
                         "url": event.get("html_url") or f"https://github.com/{repo}/commit/{sha}",
-                        "why": f"indexed-repo COMMIT event {sha[:12]}; family {repo}; "
+                        "why": f"indexed-repo COMMIT event {sha[:12]}; {provenance}; "
                                f"observed in sweep {dt.date.today()}; "
                                "inspect changed files, tests and design impact"})
         # A tag may mark an already-existing commit; commit enumeration alone misses
@@ -520,7 +600,7 @@ def indexed_repo_event_candidates(idx: dict, since: dt.date, *, max_repos: int =
             if not isinstance(releases, list):
                 raise ValueError("non-list GitHub releases response")
         except Exception as exc:
-            DIAG.append(f"repoevent releases failed: {repo}: {exc}")
+            DIAG.append(f"repoevent releases failed: {label}: {exc}")
             continue
         for release in releases:
             published = (release.get("published_at") or "")[:10]
@@ -530,9 +610,47 @@ def indexed_repo_event_candidates(idx: dict, since: dt.date, *, max_repos: int =
             out.append({"channel": "repoevent", "id": f"{repo}@release:{tag}",
                         "title": f"{repo}: release {tag}"[:160], "date": published,
                         "url": release.get("html_url") or f"https://github.com/{repo}/releases/tag/{tag}",
-                        "why": f"indexed-repo RELEASE {tag}; family {repo}; "
+                        "why": f"indexed-repo RELEASE {tag}; {provenance}; "
                                f"observed in sweep {dt.date.today()}; "
                                "review changelog, design and compatibility"})
+    return out
+
+
+def canonical_event_url(url: str) -> str:
+    """Normalize a GitHub event URL for deduplication, without conflating events.
+
+    Host and the owner/repository path segments are case-insensitive on GitHub and
+    are lower-cased; a commit SHA or release tag is kept as is (tags are
+    case-sensitive). Query strings, fragments and a trailing slash are dropped.
+    ``/commit/<sha>`` and ``/releases/tag/<tag>`` therefore never collide.
+    """
+    parts = urllib.parse.urlsplit(url.strip())
+    segments = [s for s in parts.path.split("/") if s]
+    segments[:2] = [s.lower() for s in segments[:2]]
+    return f"{parts.scheme.lower()}://{parts.netloc.lower()}/" + "/".join(segments)
+
+
+def dedupe_repo_events(rows: list[dict]) -> list[dict]:
+    """Second guard: collapse indexed-repo event rows that share a canonical URL.
+
+    Keeps the first row (input order is deterministic: priority repositories, then
+    canonical name order, then API order), appends the other rows' families to its
+    provenance, and reports the before/after counts in the diagnostics. Title or
+    SHA-prefix equality never merges rows; only the normalized event URL does.
+    """
+    kept: dict[str, dict] = {}
+    for row in rows:
+        key = canonical_event_url(row["url"])
+        if key not in kept:
+            kept[key] = dict(row)
+            continue
+        family = re.search(r"family ([^\s;]+)", row["why"])
+        other = family.group(1) if family else row["id"].split("@", 1)[0]
+        if other not in kept[key]["why"]:
+            kept[key]["why"] += f"; also listed under {other}"
+    out = list(kept.values())
+    if len(out) != len(rows):
+        DIAG.append(f"repoevent dedupe: {len(rows)} event rows before URL dedupe, {len(out)} after")
     return out
 
 
@@ -785,7 +903,7 @@ def main() -> int:
     if "blogs" in chans:
         cands += blog_candidates(since)
     if "repoevent" in chans:
-        cands += indexed_repo_event_candidates(idx, since)
+        cands += dedupe_repo_events(indexed_repo_event_candidates(idx, since))
 
     seen = set()
     new, already = [], 0
@@ -832,7 +950,7 @@ def main() -> int:
                          "NOTE-IN-REPOS or IGNORE. These rows never count as new sources.")
             lines.append("")
         lines += ["| Date | Candidate | Why it surfaced | Decision |", "|---|---|---|---|"]
-        for c in sorted(rows, key=lambda r: r["date"], reverse=True):
+        for c in sorted(rows, key=lambda r: (r["date"], r["title"], r["url"]), reverse=True):
             t = c["title"].replace("|", "/")
             lines.append(f"| {c['date']} | [{t}]({c['url']}) | {c['why']} | |")
         lines.append("")
