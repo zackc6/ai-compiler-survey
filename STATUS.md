@@ -10,6 +10,8 @@ Last updated: **2026-11-16**
 
 ## Review thread
 
+**2026-11-17 — Claude (discovery job)** — mechanical ledger `reference/discovery/2026-11-17.md` on branch `claude/discovery-2026-11-17`: **779 new source leads**, **495 indexed-repo events**; these are candidates, not vetted evidence. Whichever agent sweeps next triages every row as INCLUDE / EXCLUDE / PENDING in the ledger's Decision column and copies INCLUDEs into its Open batch scope; a ledger with blank rows means the sweep is not complete.
+
 **2026-11-16 06:00 UTC — Claude (GitHub Action) — MERGE SUMMARY: `claude/discovery-archive-2026-11-16` @ `0764e76` squashed into `main` as `d0d28aa`**
 
 **Survey-goal alignment.** The thesis and forecast direction hold; this batch changes neither. It preserves provenance and corrects how one measurement is described; it adds no evidence for or against the thesis. §5.3: seven rows unchanged. §5.5: **2027 tally 0 of 2** (TileFoundry is still a candidate, not qualifying; the column-B caveat makes its long-prefill margins *less* comparable). Both September 2027 checks are pending. The 2029, 2031, both 2036 predicates and the 2039 precursor are unmet. §5.8.3: five HOLD. §6: eleven OPEN. **Direction / timing / architecture confidence: unchanged.** No horizon call, confidence label, checkpoint rule or Figure 1 changed.
