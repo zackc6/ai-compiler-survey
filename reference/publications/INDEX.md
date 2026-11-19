@@ -69,6 +69,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | code | GPU kernels & inference compilers | FlashInfer / NVIDIA · UW · CMU | GitHub | [flashinfer-ai/flashinfer-bench](flashinfer-bench-github.md) ★ | [source](https://github.com/flashinfer-ai/flashinfer-bench) |
 | 2025 | paper | GPU kernels & inference compilers | UC San Diego | arXiv | [Reasoning Compiler: LLM-Guided Optimizations for Efficient Model Serving](reasoning-compiler.md) | [source](https://arxiv.org/html/2506.01374) |
 | 2026 | paper | GPU kernels & inference compilers | City University of Hong Kong | arXiv | [AgentCompile: An LLM-Guided Compiler for Direct CUDA Inference](agentcompile.md) | [source](https://arxiv.org/html/2606.07665) |
+| 2026 | paper | GPU kernels & inference compilers | Together AI Research | arXiv | [Together Compiler: Continual Compilation for AI Inference](together-compiler.md) ★ production integration candidate | [source](https://arxiv.org/html/2611.14681v1) |
 | 2025 | code | GPU kernels & inference compilers | UC Berkeley (ucb-bar) | GitHub | [ucb-bar/mlirAgent](mliragent.md) | [source](https://github.com/ucb-bar/mlirAgent) |
 | 2026 | code | Company infra | NVIDIA | GitHub | [NVIDIA Auto Ontology](auto-ontology.md) | [source](https://github.com/NVIDIA/auto-ontology) |
 | 2025 | company | Company infra | NVIDIA | NVIDIA Developer blog | [NVIDIA: Focus on Your Algorithm—CUDA Tile Handles the Hardware](cuda-tile-blog.md) | [source](https://developer.nvidia.com/blog/focus-on-your-algorithm-nvidia-cuda-tile-handles-the-hardware/) |
@@ -226,7 +227,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | Controller improvement | Minhua Lin et al. (affiliations not verified) | ACL Anthology · EMNLP 2026 | [Harness Updating Is Not Harness Benefit](harness-updating-not-benefit.md) ★ controller counterevidence | [source](https://aclanthology.org/2026.emnlp-main.2326/) |
 | 2026 | paper | Controller improvement | Westlake University · Shanghai Jiao Tong University · Zhejiang University | arXiv | [MetaKernelBench: Measuring GPU Kernel Knowledge Transfer Beyond Code](metakernelbench.md) ★ negative transfer measured | [source](https://arxiv.org/abs/2610.05014) |
 
-**Total:** 213 digests
+**Total:** 214 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 
