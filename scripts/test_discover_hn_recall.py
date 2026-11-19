@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Network-free regression for low-popularity HN direction posts.
 
-Run: python3 -m unittest discover_hn_recall (from scripts/) or
+Run: python3 -m unittest test_discover_hn_recall (from scripts/) or
 python3 scripts/test_discover_hn_recall.py (from repository root).
 """
 import json
