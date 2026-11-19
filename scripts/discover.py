@@ -676,7 +676,9 @@ STRICT_CORE = [k for k in CORE if k not in ("kernel", "cuda", "tile", "ptx")]
 # "Faster PTX code generation") are not filtered out by an agent-vocabulary gate.
 OPT_CONTEXT = ["optimiz", "code generation", "codegen", "scheduling", "matrix multipl", "matmul",
                "gemm", "fusion", "vectoriz", "occupancy", "register allocation", "instruction selection"]
-HN_MAX_PAGES, HN_MIN_POINTS = 3, 5
+# Do not gate HN discovery by popularity: a low-vote first-party architecture post
+# can still be a useful lead. Only the bounded page cap limits retrieval.
+HN_MAX_PAGES, HN_MIN_POINTS = 3, None
 GH_MAX_PAGES, GH_MIN_STARS_NEW, GH_MIN_STARS_ACTIVE = 3, 5, 25
 
 
@@ -762,6 +764,16 @@ def load_feeds() -> list[tuple[str, str, str]]:
     return out
 
 
+def hn_numeric_filters(since_epoch: int, min_points: int | None = None) -> str:
+    """Bound discovery by publication date, not by votes (votes are not evidence).
+
+    Optional thresholds support reproducing an earlier sweep; routine sweeps use
+    min_points=None. The HN_MAX_PAGES limit still warrants truncation diagnostics.
+    """
+    date_filter = f"created_at_i>{since_epoch}"
+    return date_filter if min_points is None else f"{date_filter},points>{min_points}"
+
+
 def blog_candidates(since: dt.date) -> list[dict]:
     out = []
     for url, label, scope in load_feeds():
@@ -785,14 +797,14 @@ def blog_candidates(since: dt.date) -> list[dict]:
         time.sleep(0.2)
     # Hacker News stories (Algolia API) with discussion, for posts on sites no feed covers.
     ts = int(dt.datetime.combine(since, dt.time()).timestamp())
-    # Threshold: HN_MIN_POINTS drops unvoted self-promotion (most stories below it have no
-    # comments). It is a recall trade-off, so the ledger reports it; set 0 to disable.
+    # No popularity threshold: obscure architectural posts must be discoverable.
+    # HN_MAX_PAGES bounds cost and its truncation is explicitly logged.
     for q in HN_QUERIES:
         hits = []
         for page in range(HN_MAX_PAGES):
             u = ("https://hn.algolia.com/api/v1/search_by_date?tags=story&hitsPerPage=100"
                  f"&page={page}&query={urllib.parse.quote(q)}"
-                 f"&numericFilters=created_at_i>{ts},points>{HN_MIN_POINTS}")
+                 f"&numericFilters={hn_numeric_filters(ts, HN_MIN_POINTS)}")
             data = get(u, timeout=20, retries=1)
             if not data:
                 DIAG.append(f"hn failed: {q} (page {page})")
