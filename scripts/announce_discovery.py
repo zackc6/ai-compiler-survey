@@ -4,12 +4,25 @@
 Arguments: ledger, new-lead count, event count, branch, date, and optionally the
 ref@sha that ran. A run from a branch other than main is a live test of unmerged
 discovery code and is labelled so: its ledger is evidence about the script, not a sweep."""
-import pathlib, re, sys
+import os, pathlib, re, subprocess, sys
 f, n, events, br, d = sys.argv[1:6]
 prov = sys.argv[6] if len(sys.argv) > 6 else ""
 p = pathlib.Path("STATUS.md"); s = p.read_text(encoding="utf-8")
 a = "## Review thread\n\n"
-ledger = pathlib.Path(f).read_text(encoding="utf-8") if pathlib.Path(f).exists() else ""
+# The workflow announces from a checkout of main, where the ledger (committed on the discovery
+# branch `br`) is absent. Read it from LEDGER_FILE if given, else the working tree, else the
+# branch itself. `f` stays the path named in the notice.
+src = pathlib.Path(os.environ.get("LEDGER_FILE") or f)
+ledger = src.read_text(encoding="utf-8") if src.exists() else ""
+if not ledger and not os.environ.get("LEDGER_FILE"):
+    for ref in (br, f"origin/{br}"):
+        r = subprocess.run(["git", "show", f"{ref}:{f}"], capture_output=True, text=True)
+        if r.returncode == 0:
+            ledger = r.stdout
+            break
+if prov and not ledger:
+    sys.exit(f"announce_discovery: ledger {f} not readable from {src} or branch {br}; "
+             "refusing to publish an unlabelled notice")
 status = re.search(r"^\*\*Status: [^\n]*", ledger, re.M)
 regress = re.search(r"^Known-positive regression[^\n]*", ledger, re.M)
 test = bool(prov) and not prov.startswith("main@")

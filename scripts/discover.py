@@ -351,6 +351,9 @@ VENUE_TERMS = ["compiler", "superoptim", "autotun", "kernel", "megakernel", "tri
 
 
 VENUE_MAX_PAGES = 25  # 5,000 works per venue-year; NeurIPS/ICLR/ICML main tracks fit
+# Venue-years whose listing is partial (a failed or unparsable page, or the page cap). Any entry
+# marks the venue channel DEGRADED even when other venue-years or proceedings returned rows.
+VENUE_INCOMPLETE: list[str] = []
 
 
 def _openalex_venue(name: str, term: str, y: int) -> list[dict]:
@@ -376,11 +379,14 @@ def _openalex_venue(name: str, term: str, y: int) -> list[dict]:
         if not data:
             log(f"  openalex venue {name} {y}: truncated, page {page} failed after {len(res)} works"
                 + (f" of {total}" if total else "") + (" (breaker)" if OA["breaker"] else ""))
+            VENUE_INCOMPLETE.append(f"{name} {y} page {page} failed after {len(res)}"
+                                    + (f" of {total}" if total else "") + " works")
             return [] if not res and OA["breaker"] else _venue_filter(res)
         try:
             js = json.loads(data)
         except Exception as e:  # noqa: BLE001
             log(f"  openalex venue parse failed {name} {y}: {e}")
+            VENUE_INCOMPLETE.append(f"{name} {y} page {page} unparsable after {len(res)} works")
             break
         total = (js.get("meta") or {}).get("count", total)
         batch = js.get("results", [])
@@ -390,6 +396,7 @@ def _openalex_venue(name: str, term: str, y: int) -> list[dict]:
     else:
         if total and len(res) < total:
             log(f"  openalex venue {name} {y}: truncated at {len(res)} of {total} works")
+            VENUE_INCOMPLETE.append(f"{name} {y} truncated at {len(res)} of {total} works")
     kept = _venue_filter(res)
     log(f"  openalex venue {name} {y}: {len(res)} works listed" + (f" of {total}" if total is not None else "")
         + f", {len(kept)} title-matched")
@@ -410,6 +417,10 @@ def _proceedings_titles(name: str, y: int) -> list[tuple[str, str]]:
     data = get(base, timeout=60, retries=1)
     if not data:
         log(f"  proceedings {name} {y}: unavailable")
+        # A past year's proceedings should exist; the current year's may not be published yet
+        # (NeurIPS posts in the following months), so only past years degrade the channel.
+        if y < dt.date.today().year:
+            VENUE_INCOMPLETE.append(f"{name} {y} proceedings site unavailable")
         return []
     html = data.decode("utf-8", "ignore")
     host = base.split("/paper_files")[0]
@@ -559,6 +570,10 @@ KNOWN_POSITIVES = [
 
 
 REFS_CUT: set[str] = set()  # unindexed refs leads dropped by the top-N cap (for the regression)
+# Referenced works are ranked by citing-digest count and only this many are resolved to titles;
+# a work below the cut has no title, so the known-positive check cannot see it by name.
+REFS_RESOLVE_CAP = 1500
+REFS_AUDIT: dict[str, int] = {}
 
 
 def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> list[dict]:
@@ -585,6 +600,9 @@ def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> lis
             by_title[title] = p.stem
     counts: dict[str, set[str]] = {}
     resolved = empty = 0
+    doi_hit: set[str] = set()       # digests matched by DOI, with or without a reference list
+    doi_hit_refs: set[str] = set()  # ... of which OpenAlex returned a non-empty reference list
+    title_hit: set[str] = set()
 
     def add(work: dict, stem: str) -> None:
         nonlocal resolved, empty
@@ -607,15 +625,19 @@ def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> lis
             res = []
         for r in res:
             d = (r.get("doi") or "").replace("https://doi.org/", "").lower()
-            if d in by_doi:
+            if d in by_doi and by_doi[d] not in doi_hit:
+                doi_hit.add(by_doi[d])
+                if r.get("referenced_works"):
+                    doi_hit_refs.add(by_doi[d])
                 add(r, by_doi[d])
-    resolved_stems = set().union(*counts.values()) if counts else set()
-    for doi, stem in by_doi.items():  # DOI not found in OpenAlex: fall back to the digest title
-        if stem not in resolved_stems:
-            t = (PUBS / f"{stem}.md").read_text(encoding="utf-8", errors="ignore")
-            title = _digest_title(t)
-            if len(title) >= 12:
-                by_title.setdefault(title, stem)
+    # Only a DOI *miss* falls back to a title search. A DOI hit with an empty reference list is the
+    # same OpenAlex record; searching its title again would cost $0.001 and count it twice.
+    doi_miss = [stem for stem in by_doi.values() if stem not in doi_hit]
+    title_only = len(by_title)
+    for stem in doi_miss:
+        title = _digest_title((PUBS / f"{stem}.md").read_text(encoding="utf-8", errors="ignore"))
+        if len(title) >= 12:
+            by_title.setdefault(title, stem)
     for title, stem in by_title.items():
         time.sleep(0.2)
         q = re.sub(r"[,:|]", " ", title)[:120]
@@ -626,10 +648,21 @@ def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> lis
         except Exception:  # noqa: BLE001
             res = []
         if res and norm_title(res[0].get("title") or "")[:30] == norm_title(title)[:30]:
+            title_hit.add(stem)
             add(res[0], stem)
     log(f"  refs: {len(by_doi)} paper digests by DOI, {len(by_title)} by title; {resolved} resolved, "
         f"{empty} with no reference list; {len(counts)} distinct referenced works")
-    ranked = sorted(((len(v), k) for k, v in counts.items() if len(v) >= 1), reverse=True)[:1500]
+    REFS_AUDIT.update({"doi_seeds": len(by_doi), "doi_hit": len(doi_hit), "doi_hit_refs": len(doi_hit_refs),
+                       "doi_miss": len(doi_miss), "title_only": title_only, "title_hit": len(title_hit),
+                       "distinct": len(counts)})
+    DIAG.append(f"refs: audit — DOI seeds {len(by_doi)}: {len(doi_hit)} matched ({len(doi_hit_refs)} with a "
+                f"reference list, {len(doi_hit) - len(doi_hit_refs)} empty), {len(doi_miss)} missed -> title "
+                f"fallback; title-only seeds {title_only}; title searches matched {len(title_hit)}")
+    ranked = sorted(((len(v), k) for k, v in counts.items() if len(v) >= 1), reverse=True)[:REFS_RESOLVE_CAP]
+    REFS_AUDIT["precut"] = max(0, len(counts) - REFS_RESOLVE_CAP)
+    if REFS_AUDIT["precut"]:
+        DIAG.append(f"refs truncated: {REFS_AUDIT['precut']} referenced works ranked below the "
+                    f"{REFS_RESOLVE_CAP:,}-work cap were never resolved to titles")
     out: list[dict] = []
     for i in range(0, len(ranked), 50):
         chunk = [k for _, k in ranked[i:i + 50]]
@@ -1260,15 +1293,25 @@ def main() -> int:
         label = {"venues": "venue (OpenAlex listings)"}.get(ch, ch)
         if ch and ch not in degraded and label not in degraded:
             degraded.append(f"{label}: {n} OpenAlex calls skipped by the budget breaker or search cap")
+    if "venues" in chans and VENUE_INCOMPLETE:
+        degraded.append(f"venue: {len(VENUE_INCOMPLETE)} venue-year listings incomplete ("
+                        + "; ".join(VENUE_INCOMPLETE[:6]) + (" …" if len(VENUE_INCOMPLETE) > 6 else "") + ")")
     regress = []
     for t, ch in KNOWN_POSITIVES:
         key = norm_title(t)[:50]
         got = sorted(raw_titles.get(key, set()))
         if ch in got:
             verdict = "recovered by " + ", ".join(got)
+        elif {"venue": "venues"}.get(ch, ch) not in chans:
+            verdict = f"NOT TESTED: expected channel {ch} omitted from this run" + (f"; seen in {', '.join(got)}" if got else "")
         else:
             if key in REFS_CUT:
                 why = "truncated (ranked below the refs top-N cap)"
+            elif ch == "refs" and REFS_AUDIT.get("precut"):
+                why = (f"possibly truncated before title resolution ({REFS_AUDIT['precut']} works below the "
+                       f"{REFS_RESOLVE_CAP:,}-work cap are unnamed), or not cited by any resolved digest")
+            elif ch == "venue" and VENUE_INCOMPLETE:
+                why = f"possibly truncated ({len(VENUE_INCOMPLETE)} venue-year listings incomplete)"
             elif OA["skipped_in"].get({"venue": "venues"}.get(ch, ch)):
                 why = "fetch failure (OpenAlex budget breaker)"
             elif per_raw.get(ch, 0) == 0:
@@ -1306,6 +1349,12 @@ def main() -> int:
              "",
              "Known-positive regression (sources the method once missed; checked before the index dedupe): "
              + "; ".join(regress) + ".", "",
+             "Limits of this check: it matches titles only, so a work cut before metadata resolution "
+             "(refs cap) or on a failed venue page cannot be named, only flagged as possibly truncated; "
+             "a date-windowed channel cannot recover a source older than its window (out-of-window, not a miss). "
+             "The CoALA mechanism-checklist control is a sweep-checklist test (§4.6 rows), not a channel test, "
+             "and is not run here. Same-day ledgers must still be reconciled as a union with channel provenance "
+             "before discovery is called closed.", "",
              "Triage source rows as INCLUDE (digest it), EXCLUDE (reason), or PENDING "
              "(what is missing). For indexed-repo events use UPDATE-DIGEST, "
              "NOTE-IN-REPOS or IGNORE with a reason. Mark every Decision cell "
