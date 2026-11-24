@@ -653,6 +653,11 @@ REFS_CUT: set[str] = set()  # unindexed refs leads dropped by the top-N cap (for
 REFS_RESOLVE_CAP = 4000  # test-32 (24 Nov): 2,668 distinct referenced works; 1,500 cut 1,168
 REFS_AUDIT: dict[str, int] = {}
 REFS_INCOMPLETE: list[str] = []  # unresolved seeds (with reason) and failed or short metadata batches
+# ChatGPT 24 Nov (review of 6d41a41): the seed audit is rendered in its own uncapped ledger section,
+# not through the capped, keyword-filtered fetch log. Matched-but-empty seeds are a different fact
+# from unresolved identity and are listed apart (they do not mark refs DEGRADED).
+REFS_SEED_GAPS: list[str] = []
+REFS_SEED_EMPTY: list[str] = []
 
 
 def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> list[dict]:
@@ -669,6 +674,7 @@ def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> lis
     # ChatGPT 13:11: every seed that contributes no reference list is named with its reason, and
     # a request failure is kept apart from a valid zero-hit answer; any entry marks refs DEGRADED.
     seed_gaps: list[str] = []
+    dup_seeds: list[tuple[str, str]] = []  # (stem, stem already holding the same DOI or title)
     for p in sorted(PUBS.glob("*.md")):
         if p.name in ("INDEX.md", "_TEMPLATE.md"):
             continue
@@ -677,13 +683,20 @@ def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> lis
             continue
         doi, title = _digest_keys(t)
         if doi:
-            by_doi[doi] = p.stem
+            if doi in by_doi:
+                dup_seeds.append((p.stem, by_doi[doi]))
+            else:
+                by_doi[doi] = p.stem
         elif len(title) >= 12:
-            by_title[title] = p.stem
+            if title in by_title:
+                dup_seeds.append((p.stem, by_title[title]))
+            else:
+                by_title[title] = p.stem
         else:
             seed_gaps.append(f"{p.stem} unresolved (no DOI, no usable title)")
     counts: dict[str, set[str]] = {}
     resolved = empty = 0
+    empty_seeds: list[str] = []  # matched (DOI or unique exact title) but OpenAlex lists no references
     doi_hit: set[str] = set()       # digests matched by DOI, with or without a reference list
     doi_hit_refs: set[str] = set()  # ... of which OpenAlex returned a non-empty reference list
     title_hit: set[str] = set()
@@ -695,6 +708,7 @@ def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> lis
         resolved += 1
         if not refs:
             empty += 1
+            empty_seeds.append(stem)
         for w in refs:
             counts.setdefault(w.rsplit("/", 1)[-1], set()).add(stem)
 
@@ -726,7 +740,10 @@ def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> lis
     for stem in doi_miss:
         title = _digest_title((PUBS / f"{stem}.md").read_text(encoding="utf-8", errors="ignore"))
         if len(title) >= 12:
-            by_title.setdefault(title, stem)
+            if title in by_title:
+                dup_seeds.append((stem, by_title[title]))
+            else:
+                by_title[title] = stem
         else:
             seed_gaps.append(f"{stem} unresolved (DOI miss, no usable title)")
     title_failed: list[str] = []
@@ -774,6 +791,9 @@ def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> lis
                    if title_unconfirmed else ""))
     if seed_gaps:
         DIAG.append(f"refs seeds unresolved: {len(seed_gaps)} — " + "; ".join(seed_gaps))
+    REFS_SEED_GAPS[:] = seed_gaps
+    REFS_SEED_EMPTY[:] = sorted(empty_seeds) + [f"{s} (duplicate key of {o}; its citations are counted under {o})"
+                                                for s, o in dup_seeds]
     ranked = sorted(((len(v), k) for k, v in counts.items() if len(v) >= 1), reverse=True)[:REFS_RESOLVE_CAP]
     REFS_AUDIT["precut"] = max(0, len(counts) - REFS_RESOLVE_CAP)
     if REFS_AUDIT["precut"]:
@@ -1325,6 +1345,34 @@ def ghsearch_candidates(idx: dict, since: dt.date) -> list[dict]:
     return out
 
 
+def render_fetch_log(refs_ran: bool) -> list[str]:
+    """Ledger diagnostics: the refs seed audit in full (uncapped, unfiltered), then the capped fetch log.
+
+    ChatGPT (review of 6d41a41): the `refs seeds unresolved` line matched neither the priority
+    keys nor DIAG_KEEP when every gap was a 0-hit or unconfirmed title, so the ledger could show
+    DEGRADED while omitting the seeds; the status line shows only six. The audit now has its own
+    section that lists every seed, so the ledger is the complete record."""
+    lines: list[str] = []
+    if refs_ran:
+        lines += ["### refs seed audit (complete)", "",
+                  f"Seeds with no reference list because their identity is unresolved or the request failed "
+                  f"({len(REFS_SEED_GAPS)}; any entry marks refs DEGRADED):", ""]
+        lines += [f"- {g}" for g in REFS_SEED_GAPS] or ["- none"]
+        lines += ["", f"Seeds matched, but OpenAlex lists no references, or duplicate keys "
+                      f"({len(REFS_SEED_EMPTY)}; identity resolved, not DEGRADED):", ""]
+        lines += [f"- {s}" for s in REFS_SEED_EMPTY] or ["- none"]
+        lines.append("")
+    lines += ["Fetch log (failures and venue page sizes):", ""]
+    top = [d for d in DIAG if any(k in d for k in ("timing ", "refs:", "refs seeds", "cites:", "proceedings ", "truncated",
+                                                   "openalex venue", "openalex budget", "openalex breaker",
+                                                   "openalex search cap"))]
+    mid = [d for d in DIAG if d not in top and ("openalex" in d.lower() or "HTTP" in d)]
+    low = [d for d in DIAG if d not in top and d not in mid and ("cites " in d or any(t in d for t in DIAG_KEEP))]
+    lines += [f"- {d}" for d in (top + mid + low)[:400]]
+    lines.append("")
+    return lines
+
+
 # --------------------------------------------------------------------------- main
 RUN_START = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M")
 
@@ -1537,14 +1585,8 @@ def main() -> int:
     per = {}
     for c in cands:
         per[c["channel"]] = per.get(c["channel"], 0) + 1
-    lines += ["## Channel diagnostics", "", f"Raw candidates per channel: {json.dumps(per)}", "",
-              "Fetch log (failures and venue page sizes):", ""]
-    top = [d for d in DIAG if any(k in d for k in ("timing ", "refs:", "cites:", "proceedings ", "truncated", "openalex venue",
-                                                   "openalex budget", "openalex breaker", "openalex search cap"))]
-    mid = [d for d in DIAG if d not in top and ("openalex" in d.lower() or "HTTP" in d)]
-    low = [d for d in DIAG if d not in top and d not in mid and ("cites " in d or any(t in d for t in DIAG_KEEP))]
-    lines += [f"- {d}" for d in (top + mid + low)[:400]]
-    lines.append("")
+    lines += ["## Channel diagnostics", "", f"Raw candidates per channel: {json.dumps(per)}", ""]
+    lines += render_fetch_log("refs" in chans)
     out.write_text("\n".join(lines) + "\n", encoding="utf-8")
     log(f"wrote {out} ({len(new)} new candidates)")
     print(str(out))

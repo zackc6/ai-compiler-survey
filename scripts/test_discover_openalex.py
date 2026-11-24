@@ -460,6 +460,45 @@ class OpenAlexBudget(unittest.TestCase):
         self.assertEqual((d.REFS_AUDIT["title_zero"], d.REFS_AUDIT["title_failed"]), (1, 0))
         self.assertEqual(d.REFS_INCOMPLETE, ["miss unresolved (title search: 0 hits)"])
 
+    def test_refs_seed_audit_renders_every_gap_uncapped(self):
+        # ChatGPT (review of 6d41a41): with only 0-hit / unconfirmed gaps, the `refs seeds
+        # unresolved` line matched no fetch-log filter and the status line showed six. Eight 0-hit
+        # seeds, one unconfirmed, one matched-but-empty and one duplicate title must all be in the
+        # rendered ledger, with matched-empty and duplicates kept apart from unresolved identity.
+        import pathlib
+        import tempfile
+        tmp = pathlib.Path(tempfile.mkdtemp())
+        for n in range(8):
+            (tmp / f"zero{n}.md").write_text(f"# Zero hit seed paper number {n}\n\n| **Type** | paper |\n",
+                                            encoding="utf-8")
+        (tmp / "amb.md").write_text("# Ambiguous seed paper title\n\n| **Type** | paper |\n", encoding="utf-8")
+        (tmp / "dupa.md").write_text("# Ambiguous seed paper title\n\n| **Type** | paper |\n", encoding="utf-8")
+        (tmp / "empty.md").write_text("# Empty list seed paper title\n\n| **Type** | paper |\n"
+                                      "| **Link** | https://doi.org/10.1000/e |\n", encoding="utf-8")
+
+        def fake_get(url, timeout=0, retries=0):
+            q = d.urllib.parse.unquote(url)
+            if "filter=doi:" in url:
+                return json.dumps({"results": [{"id": "WE", "doi": "https://doi.org/10.1000/e",
+                                                "referenced_works": []}]}).encode()
+            if "title.search" in url and "Ambiguous" in q:
+                return json.dumps({"results": [{"id": "WX", "title": "Something else"}]}).encode()
+            return json.dumps({"results": []}).encode()
+
+        d.REFS_AUDIT.clear()
+        with mock.patch.object(d, "PUBS", tmp), mock.patch.object(d, "get", fake_get):
+            d.references_candidates({}, min_digests=2)
+        self.assertEqual((d.REFS_AUDIT["title_zero"], d.REFS_AUDIT["title_unconfirmed"]), (8, 1))
+        ledger = "\n".join(d.render_fetch_log(True))
+        for n in range(8):
+            self.assertIn(f"- zero{n} unresolved (title search: 0 hits)", ledger)
+        self.assertIn("- amb title match unconfirmed", ledger)
+        empty_part = ledger.split("identity resolved, not DEGRADED", 1)[1]
+        self.assertIn("- empty\n", empty_part + "\n")
+        self.assertIn("- dupa (duplicate key of amb", empty_part)
+        self.assertNotIn("empty unresolved", ledger)
+        self.assertEqual(len(d.REFS_INCOMPLETE), 9)
+
     def test_bom_title(self):
         self.assertEqual(d._digest_title("﻿# Ansor: Generating High-Performance Tensor Programs (OSDI 2020)\n"),
                          "Ansor: Generating High-Performance Tensor Programs")
