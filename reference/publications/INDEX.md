@@ -8,6 +8,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2025 | paper | Surveys & vision | Queen's University | arXiv | [Compiler.next: A Search-Based Compiler to Power the AI-Native Future of Software Engineering](compiler-next.md) | [source](https://arxiv.org/html/2510.24799v2) |
 | 2026 | paper | Surveys & vision | Qualcomm Technologies International | arXiv | [Reading AI Model Compilation in MLIR Through the Lens of Formal Theories](mlir-formal-theories.md) | [source](https://doi.org/10.48550/arxiv.2606.25244) |
 | 2026 | talk | Surveys & vision | MIT CSAIL | ACM/IEEE Ken Kennedy Award · HPCA/CGO/PPoPP/CC 2026 | [Compiler 2.0: Building the Next Generation Compilers with ML (Ken Kennedy Award plenary, HPCA/CGO/PPoPP/CC 2026)](compiler-2.0-cgo2026.md) ★ vision | [source](https://2026.hpca-cgo-ppopp-cc.org/details/hpca-cgo-ppopp-cc-2026-plenary-keynotes/2/Compiler-2-0-Building-the-Next-Generation-Compilers-with-Machine-Learning) |
+| 2026 | paper | Surveys & vision | Hong Kong Baptist University · South China Normal University · HKUST · NUS · USTB | Findings of ACL 2026 · arXiv | [From Storage to Experience: A Survey on the Evolution of LLM Agent Memory Mechanisms](agent-memory-storage-to-experience.md) | [source](https://aclanthology.org/2026.findings-acl.2069/) |
 | 2022 | talk | Surveys & vision | MIT CSAIL | CGO 2022 · YouTube | [CGO 2022 Keynote: Compiler 2.0](compiler-2.0-cgo2022.md) | [source](https://www.youtube.com/watch?v=w_sX9aZoZxg) |
 | 2020 | talk | Surveys & vision | MIT CSAIL | ACM CC 2020 | [Compiler 2.0: Using ML to Modernize Compiler Technology (CC 2020)](compiler-2.0-modernize-ml.md) | [source](https://doi.org/10.1145/3372799.3397167) |
 | 2025–28 | company | Surveys & vision | Aarno Labs · MIT · UIUC (DARPA MOCHA) | Aarno Labs / DARPA | [DARPA MOCHA / Aarno Labs: Compiler 2.0 project](compiler-2.0-mocha-aarno.md) ★ funded path | [source](https://www.aarno-labs.com/project/compiler-20/) |
@@ -226,8 +227,14 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | Controller improvement | Google Cloud AI Research · Google DeepMind · Carnegie Mellon University | arXiv | [Harmony Harness: Multi-Objective Self-Evolution of Agent Harnesses](harmony-harness.md) ★ multi-objective controller | [source](https://arxiv.org/abs/2610.15150) |
 | 2026 | paper | Controller improvement | Minhua Lin et al. (affiliations not verified) | ACL Anthology · EMNLP 2026 | [Harness Updating Is Not Harness Benefit](harness-updating-not-benefit.md) ★ controller counterevidence | [source](https://aclanthology.org/2026.emnlp-main.2326/) |
 | 2026 | paper | Controller improvement | Westlake University · Shanghai Jiao Tong University · Zhejiang University | arXiv | [MetaKernelBench: Measuring GPU Kernel Knowledge Transfer Beyond Code](metakernelbench.md) ★ negative transfer measured | [source](https://arxiv.org/abs/2610.05014) |
+| 2025/26 | paper | Controller improvement | Stanford University · Amazon Web Services · University of Toronto | MLSys 2026 · arXiv | [AccelOpt: A Self-Improving LLM Agentic System for AI Accelerator Kernel Optimization](accelopt.md) ★ Tier A, memory ablated against matched search (Trainium) | [source](https://arxiv.org/abs/2511.15915) |
+| 2023/24 | paper | Controller improvement | Princeton University | TMLR · arXiv | [Cognitive Architectures for Language Agents (CoALA)](coala.md) | [source](https://arxiv.org/abs/2309.02427) |
+| 2023 | paper | Controller improvement | Northeastern University · MIT · Princeton University | NeurIPS 2023 · arXiv | [Reflexion: Language Agents with Verbal Reinforcement Learning](reflexion.md) | [source](https://arxiv.org/abs/2303.11366) |
+| 2023 | paper | Controller improvement | NVIDIA · Caltech · UT Austin · Stanford University · UW–Madison | arXiv | [Voyager: An Open-Ended Embodied Agent with Large Language Models](voyager.md) | [source](https://arxiv.org/abs/2305.16291) |
+| 2023/25 | paper | Controller improvement | UC Berkeley · Letta | arXiv | [MemGPT: Towards LLMs as Operating Systems (with Sleep-time Compute)](memgpt.md) | [source](https://arxiv.org/abs/2310.08560) |
+| 2025 | paper | Controller improvement | Zep AI | arXiv | [Zep: A Temporal Knowledge Graph Architecture for Agent Memory](zep.md) | [source](https://arxiv.org/abs/2501.13956) |
 
-**Total:** 214 digests
+**Total:** 221 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 
