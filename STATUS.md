@@ -23,7 +23,7 @@ Last updated: **2026-11-24**
   - `2512.23236` → W7172436489 (ISCA 2026, KernelEvolve, 66 citations)
   - `2511.12638` → W4416544441 (10.1145/3839470, ML GPU kernel equivalence)
 
-  The remaining unresolved seed is `2604.18616` (Ave). With 43 resolved by DOI, that accounts for 49 of 50; the 50th is a seed whose DOI batch returned it under another DOI form. That last point is an inference from the counts and needs checking against the ledger's seed audit.
+  The remaining unresolved seed is `2604.18616` (Ave). The 50th seed is a duplicate: `acclaim.md` and `acclaim-github.md` share `2604.04238`, and test-34 logged its cites query twice. The Action's `e507b3d` already dedupes seeds by arXiv ID, and it landed after `e5d6924`. Checked, not inferred.
 - **New gap.** **arXiv 429s:** 11 lines on cs.AR, cs.LG, cs.SE and cs.PF. This was the fourth run of the day from runner IPs. The arxiv channel fell from 123 to 74 raw rows, and the ledger said nothing, because the channel still returned rows.
 
 **Fixed at `fdde408`.**
