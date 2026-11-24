@@ -10,6 +10,29 @@ Last updated: **2026-11-24**
 
 ## Review thread
 
+**2026-11-24 16:32 UTC — ChatGPT/Codex (automated review, round 1, branch `claude/discovery-fix-2026-11-24`).**
+
+Reviewed branch commit `69cc338134f22ce92a681a28399e2d7be39b7fdc`.
+
+**Thesis verdict — AGREE. Direction / timing / architecture confidence: unchanged.** The six-file diff at `69cc338134f22ce92a681a28399e2d7be39b7fdc` changes discovery tooling and supplies no new compiler measurements or independent evidence families.
+
+- **§5.3:** All seven clauses are untouched: adaptive reasoning, wider synthesis, coordinated optimization, compiler co-evolution, controller improvement, advantage on coupled tasks, and adoption. Symbolic search, fixed learned policies, generated backends such as ACT, and vendor libraries remain viable explanations for observed gains. Finding a work through multiple channels increases discovery provenance for that one evidence family.
+- **§5.5:** The 2027 tally remains **1 of 2**, Together Compiler only. The September 2027 scope/control and controller-research reviews remain pending. The 2029 joint-search predicate, 2031 generated-component predicate, both 2036 predicates (component generation and hardware co-design), and the 2039 cross-hardware precursor remain unmet.
+- **§5.8.3:** All five decisions remain on hold: optimizer adoption, new representation, component replacement, accelerator expansion, and greater autonomy.
+- **§6:** All eleven questions remain open: generated heuristics versus learned policies, transfer of gains, action restrictions, kernel languages, per-workload versus offline optimization, controller self-improvement, compiler replacement scope, validation, compiler and AI scope, coverage versus peak performance, and hardware co-design.
+
+**AGREE — frozen cutoff and workflow separation.** `.github/workflows/discover-test.yml:90–107` drops the fixed `--since` and lets `scripts/discover.py` derive it from the selected commit. Git records the default snapshot `4336d72` on September 23 UTC, so the default cutoff is September 24. Lines 78–82 serialize live and frozen jobs within a run. The test workflow has read-only repository access, and `.github/workflows/discover.yml:27–33` limits the publishing job to `main`. The effect of serialization on throttling remains pending.
+
+**OBJECT — annotation size.** `scripts/ledger_notices.py:48–82` caps characters before UTF-8 encoding and workflow-command escaping. I ran the pinned helper with synthetic recovery tables. Both the CJK and percent-sign fixtures produced a maximum notice line of **9,152 bytes**, above the roughly 4 KB working limit reported in the thread. Bound the emitted command by UTF-8 bytes, including escaping, framing, and the truncation marker. Cover both fixtures in the regression test.
+
+**AGREE — content scope.** The source digests, index, narrative, evidence register, Figure 1, and published PDFs have no diff. The unchanged survey validator passed with 221 digests and 221 indexed entries, and `git diff --check` passed. The tooling diff gives no reason to rebuild the PDF. The pinned discovery unit suite was not independently run.
+
+**Primary checks — pending.** The original test-35 ledger records **504 new leads and 544 indexed-repository events** and recovery of **all six selected positives**, with degraded coverage on `fdde4084da08`. There are no new publication claims. GitHub API access failed at DNS, so I could not verify the reported **155 per-second 429s and zero cites rows** in run `45419826954` or inspect live and frozen artifacts for `69cc338`. [Test-35 ledger](https://github.com/zackc6/ai-compiler-survey/blob/claude/discovery-2026-11-24-test-35/reference/discovery/2026-11-24.md) · [Actions run 45419826954](https://github.com/zackc6/ai-compiler-survey/actions/runs/45419826954)
+
+The strongest case for accepting the tooling now is that even a degraded run found all six selected positives and exposed coverage failures. Those controls came from known misses and cannot estimate recall on unseen sources. After the annotation fix, run the unit suite, live discovery, and default and alternate frozen snapshots on the same reviewed SHA after the budget resets. Verify both derived cutoffs and compare recovered identifiers against an independently enumerated venue sample. Reconcile the same-day union with channel provenance and record the separate CoALA mechanism-checklist result.
+
+**Not ready to merge.** The annotation defect and live validation gates remain open.
+
 **2026-11-24 16:31 UTC — ChatGPT/Codex (automated review, round 1, branch `claude/discovery-fix-2026-11-24`).**
 
 Reviewed branch commit `45b0482121ae7ce93c6a105c71432eaaf5270e51`.
