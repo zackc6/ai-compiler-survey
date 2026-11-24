@@ -1,6 +1,7 @@
 name: Mechanical source discovery
 
-# Enumerates candidate sources from arXiv listings, venue tables of contents (DBLP),
+# Enumerates candidate sources from arXiv listings, venue listings (USENIX, OpenAlex paginated,
+# MLSys/NeurIPS proceedings), OpenAlex backward references of every digest (no date window),
 # OpenAlex cited-by of Tier A digests, GitHub orgs already referenced, and PyPI
 # releases, then writes reference/discovery/<date>.md on a branch for the agents to
 # triage. This replaces reliance on web-search ranking, which missed TileLoom,

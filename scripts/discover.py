@@ -3,12 +3,14 @@
 
 Enumerates candidate sources and changes to known systems from structured feeds, not web search, which
 is where recent sweeps missed TileLoom, TASO/Tensat, PeepholeBench, LLVM-Bench,
-CIRBench and TileFoundry. Seven channels:
+CIRBench and TileFoundry. Eight channels:
 
   arxiv   - arXiv API listings by category and keyword, over a date window
   venues  - DBLP tables of contents for a fixed venue set (OSDI, SOSP, ASPLOS,
             PLDI, CGO, MLSys, ISCA, MICRO, ICML, NeurIPS, ICLR, EMNLP)
-  cites   - OpenAlex "cited by" for the Tier A digests (citation expansion)
+  cites   - OpenAlex "cited by" for the Tier A digests (forward citation expansion)
+  refs    - OpenAlex references of every digest (backward expansion; no date window, no
+            keyword filter): foundational and mechanism-layer works our sources build on
   repoevent - commit updates in already-indexed repositories (event-level, no popularity filter)
   github  - new or recently pushed repositories in organizations the survey
             already references (TileFoundry-class misses), plus PyPI releases
@@ -86,7 +88,7 @@ PYPI_PACKAGES = ["tilefoundry", "tilelang", "tirx-harness", "kcoral", "helion", 
 DIAG: list[str] = []
 # Diagnostic categories rendered into the ledger's fetch log (failures, venue sizes, and the
 # recall limits of the blogs/HN/GitHub channels: truncation, star-threshold drops, unparsable pages).
-DIAG_KEEP = ("HTTP", "failed", "venue ", "usenix ", "feed ", "truncated", "threshold", "unparsable",
+DIAG_KEEP = ("HTTP", "refs:", "proceedings ", "failed", "venue ", "usenix ", "feed ", "truncated", "threshold", "unparsable",
              "repoevent ")
 
 
@@ -291,23 +293,55 @@ def _openalex_sources(term: str) -> list[str]:
     return ids
 
 
-def _openalex_venue(name: str, term: str, y: int) -> list[dict]:
+def _openalex_venue(name: str, term: str, y: int, cap: int = 8000) -> list[dict]:
+    """All works of one venue-year, paginated with an OpenAlex cursor. Until 24 November 2026 this
+    read only the first 200 works, so large venues (ICLR, NeurIPS, ICML, MLSys) were silently
+    truncated; AccelOpt (MLSys 2026) was lost that way."""
     ids = _openalex_sources(term)
     if not ids:
         return []
-    url = (f"https://api.openalex.org/works?filter=primary_location.source.id:{'|'.join(ids)},"
-           f"publication_year:{y}&per-page=200&select=title,doi,publication_date,primary_location{MAILTO}")
-    time.sleep(1.2)
-    data = get(url, timeout=40, retries=1)
-    if not data:
-        return []
-    try:
-        res = json.loads(data).get("results", [])
-    except Exception as e:  # noqa: BLE001
-        log(f"  openalex venue parse failed {name} {y}: {e}")
-        return []
+    res: list[dict] = []
+    cursor = "*"
+    while cursor and len(res) < cap:
+        url = (f"https://api.openalex.org/works?filter=primary_location.source.id:{'|'.join(ids)},"
+               f"publication_year:{y}&per-page=200&cursor={urllib.parse.quote(cursor)}"
+               f"&select=title,doi,publication_date,primary_location{MAILTO}")
+        time.sleep(1.0)
+        data = get(url, timeout=40, retries=1)
+        if not data:
+            break
+        try:
+            js = json.loads(data)
+        except Exception as e:  # noqa: BLE001
+            log(f"  openalex venue parse failed {name} {y}: {e}")
+            break
+        page = js.get("results", [])
+        res += page
+        cursor = (js.get("meta") or {}).get("next_cursor") if page else None
+    if len(res) >= cap:
+        log(f"  openalex venue {name} {y}: truncated at cap {cap}")
     log(f"  openalex venue {name} {y}: {len(res)} works")
     return res
+
+
+# Proceedings sites that publish complete title lists (same software for MLSys and NeurIPS).
+PROCEEDINGS = {"MLSys": "https://proceedings.mlsys.org/paper_files/paper/{y}",
+               "NeurIPS": "https://papers.nips.cc/paper_files/paper/{y}"}
+
+
+def _proceedings_titles(name: str, y: int) -> list[tuple[str, str]]:
+    base = PROCEEDINGS[name].format(y=y)
+    data = get(base, timeout=60, retries=1)
+    if not data:
+        log(f"  proceedings {name} {y}: unavailable")
+        return []
+    html = data.decode("utf-8", "ignore")
+    host = base.split("/paper_files")[0]
+    out = []
+    for m in re.finditer(r'<a[^>]*href="(/paper_files/paper/\d{4}/hash/[^"]+)"[^>]*>([^<]{8,300})</a>', html):
+        out.append((re.sub(r"\s+", " ", m.group(2)).strip(), host + m.group(1)))
+    log(f"  proceedings {name} {y}: {len(out)} titles")
+    return out
 
 
 def venue_candidates(years: list[int]) -> list[dict]:
@@ -320,6 +354,13 @@ def venue_candidates(years: list[int]) -> list[dict]:
                     out.append({"channel": "venue", "id": "", "title": title, "date": str(y),
                                 "url": f"https://www.usenix.org/conference/{USENIX[name].format(yy=str(y)[2:])}/technical-sessions",
                                 "why": f"{name} {y} (USENIX program): " + ", ".join(kh[:5])})
+    for name in PROCEEDINGS:
+        for y in years:
+            for title, url in _proceedings_titles(name, y):
+                kh = [k for k in CORE if k in title.lower()]
+                if kh:
+                    out.append({"channel": "venue", "id": "", "title": title, "date": str(y), "url": url,
+                                "why": f"{name} {y} (proceedings site): " + ", ".join(kh[:5])})
     for name, term in OPENALEX_VENUES.items():
         for y in years:
             for r in _openalex_venue(name, term, y):
@@ -347,7 +388,7 @@ def cited_by_candidates(idx: dict, since: dt.date, max_seeds: int = 60) -> list[
         if p.name in ("INDEX.md", "_TEMPLATE.md"):
             continue
         t = p.read_text(encoding="utf-8", errors="ignore")
-        if "| **Evidence tier** | **A**" in t:
+        if re.search(r"\| \*\*Evidence tier\*\* \| (\*\*)?A\b", t):
             m = re.search(r"arxiv\.org/abs/(\d{4}\.\d{4,5})", t)
             if m:
                 seeds.append(m.group(1))
@@ -391,6 +432,71 @@ def cited_by_candidates(idx: dict, since: dt.date, max_seeds: int = 60) -> list[
                         "why": f"cites {aid} ({(w.get('title') or '')[:50]})"})
         time.sleep(0.5)
     return out
+
+
+# --------------------------------------------------------------------------- references
+def _digest_title(t: str) -> str:
+    return t.splitlines()[0].lstrip("# ").split(" (")[0].strip()
+
+
+def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> list[dict]:
+    """Backward references: works that several of our digests cite but the index lacks.
+
+    No date window and no compiler-vocabulary filter, on purpose. Every other channel is
+    time-windowed and keyword-filtered, so a foundational or mechanism-layer source (Reflexion,
+    Voyager, MemGPT, STOKE, TASO) can never surface through them: it is old, and it does not say
+    "compiler". If two or more of our own sources build on it, the survey should know why it is
+    absent. Added 24 November 2026 after the agent-memory miss."""
+    counts: dict[str, set[str]] = {}
+    seeds = 0
+    for p in sorted(PUBS.glob("*.md")):
+        if p.name in ("INDEX.md", "_TEMPLATE.md"):
+            continue
+        title = _digest_title(p.read_text(encoding="utf-8", errors="ignore"))
+        if len(title) < 8:
+            continue
+        time.sleep(1.0)
+        data = get("https://api.openalex.org/works?filter=title.search:" + urllib.parse.quote(title[:120].replace(",", " "))
+                   + "&per-page=1&select=id,title,referenced_works" + MAILTO, retries=1)
+        try:
+            res = json.loads(data).get("results", []) if data else []
+        except Exception:  # noqa: BLE001
+            res = []
+        if not res or norm_title(res[0].get("title") or "")[:40] != norm_title(title)[:40]:
+            continue
+        seeds += 1
+        for w in res[0].get("referenced_works") or []:
+            counts.setdefault(w.rsplit("/", 1)[-1], set()).add(p.stem)
+    log(f"  refs: {seeds} digests resolved in OpenAlex; {len(counts)} distinct referenced works")
+    ranked = sorted(((len(v), k) for k, v in counts.items() if len(v) >= min_digests), reverse=True)
+    out: list[dict] = []
+    for i in range(0, len(ranked), 50):
+        chunk = [k for _, k in ranked[i:i + 50]]
+        time.sleep(1.0)
+        data = get("https://api.openalex.org/works?filter=openalex:" + "|".join(chunk)
+                   + "&per-page=50&select=id,title,doi,publication_date,ids,primary_location" + MAILTO, retries=1)
+        try:
+            res = json.loads(data).get("results", []) if data else []
+        except Exception:  # noqa: BLE001
+            res = []
+        for r in res:
+            wid = r["id"].rsplit("/", 1)[-1]
+            title = r.get("title") or ""
+            doi = (r.get("doi") or "").replace("https://doi.org/", "")
+            ax = ""
+            m = re.search(r"(\d{4}\.\d{4,5})", json.dumps(r.get("ids") or {}) + json.dumps(r.get("primary_location") or {}))
+            if m:
+                ax = m.group(1)
+            if known(idx, arxiv=ax, doi=doi, title=title):
+                continue
+            by = sorted(counts[wid])
+            loc = (r.get("primary_location") or {}).get("landing_page_url") or (f"https://doi.org/{doi}" if doi else r["id"])
+            out.append({"channel": "refs", "id": doi, "title": title, "date": r.get("publication_date", ""),
+                        "url": loc, "n": len(by),
+                        "why": f"cited by {len(by)} digests: " + ", ".join(by[:6]) + (" …" if len(by) > 6 else "")})
+    out.sort(key=lambda c: -c["n"])
+    log(f"  refs: {len(out)} unindexed works cited by >= {min_digests} digests (top {top} kept)")
+    return out[:top]
 
 
 # --------------------------------------------------------------------------- github / pypi
@@ -891,7 +997,7 @@ def ghsearch_candidates(idx: dict, since: dt.date) -> list[dict]:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--since", help="YYYY-MM-DD; default: 21 days ago")
-    ap.add_argument("--channels", default="arxiv,venues,cites,github,ghsearch,blogs,repoevent")
+    ap.add_argument("--channels", default="arxiv,venues,cites,refs,github,ghsearch,blogs,repoevent")
     ap.add_argument("--out", help="output ledger path")
     args = ap.parse_args()
     today = dt.date.today()
@@ -908,6 +1014,8 @@ def main() -> int:
         cands += venue_candidates([today.year, today.year - 1])
     if "cites" in chans:
         cands += cited_by_candidates(idx, since)
+    if "refs" in chans:
+        cands += references_candidates(idx)
     if "github" in chans:
         cands += github_candidates(idx, since)
     if "ghsearch" in chans:
@@ -926,7 +1034,7 @@ def main() -> int:
             continue
         seen.add(key)
         aid = c["id"] if c["channel"] == "arxiv" else ""
-        doi = c["id"] if c["channel"] in ("venue", "cites") and c["id"].startswith("10.") else ""
+        doi = c["id"] if c["channel"] in ("venue", "cites", "refs") and c["id"].startswith("10.") else ""
         gh = c["id"] if c["channel"] == "github" else ""
         if c["channel"] == "blog" and c["id"].lower() in idx["urls"]:
             already += 1
@@ -951,15 +1059,20 @@ def main() -> int:
              "(what is missing). For indexed-repo events use UPDATE-DIGEST, "
              "NOTE-IN-REPOS or IGNORE with a reason. Mark every Decision cell "
              "on the batch branch; blank means the sweep is unfinished.", ""]
-    for ch in ("repoevent", "blog", "github", "pypi", "arxiv", "venue", "cites"):
+    for ch in ("refs", "repoevent", "blog", "github", "pypi", "arxiv", "venue", "cites"):
         rows = by.get(ch, [])
         if not rows:
             continue
-        heading = ("Events in indexed repositories" if ch == "repoevent" else ch)
+        heading = {"repoevent": "Events in indexed repositories",
+                   "refs": "Foundational gaps: works our digests cite that the index lacks"}.get(ch, ch)
         lines += [f"## {heading} ({len(rows)})", ""]
         if ch == "repoevent":
             lines.append("Existing evidence-family updates only; decide UPDATE-DIGEST, "
                          "NOTE-IN-REPOS or IGNORE. These rows never count as new sources.")
+            lines.append("")
+        if ch == "refs":
+            lines.append("No date window and no compiler-keyword filter. Each row is cited by two or more "
+                         "digests; INCLUDE as background, or EXCLUDE with the reason it is outside scope.")
             lines.append("")
         lines += ["| Date | Candidate | Why it surfaced | Decision |", "|---|---|---|---|"]
         for c in sorted(rows, key=lambda r: (r["date"], r["title"], r["url"]), reverse=True):
@@ -971,7 +1084,7 @@ def main() -> int:
         per[c["channel"]] = per.get(c["channel"], 0) + 1
     lines += ["## Channel diagnostics", "", f"Raw candidates per channel: {json.dumps(per)}", "",
               "Fetch log (failures and venue page sizes):", ""]
-    pri = [d for d in DIAG if "cites " in d or "openalex" in d.lower()]
+    pri = [d for d in DIAG if "cites " in d or "refs:" in d or "proceedings " in d or "openalex" in d.lower()]
     rest = [d for d in DIAG if d not in pri and any(t in d for t in DIAG_KEEP)]
     lines += [f"- {d}" for d in (pri + rest)[:200]]
     lines.append("")
