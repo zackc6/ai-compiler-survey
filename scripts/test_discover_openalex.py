@@ -341,6 +341,55 @@ class OpenAlexBudget(unittest.TestCase):
             d.cited_by_candidates({}, datetime.date.today())
         self.assertEqual(d.CITES_INCOMPLETE[0], "DOI batch 1 (1 seeds) failed")
 
+    def _cites_title_fallback(self, hits):
+        # Seed b misses by DOI, so it falls back to a title search that returns `hits`.
+        import datetime
+        import pathlib
+        import tempfile
+        tmp = pathlib.Path(tempfile.mkdtemp())
+        (tmp / "b.md").write_text("# Seed b paper title (ICLR 2026)\n\n| **Evidence tier** | A |\n"
+                                  "| **Link** | https://arxiv.org/abs/2601.00002 |\n", encoding="utf-8")
+        asked = []
+
+        def fake_get(url, timeout=0, retries=0):
+            if "filter=doi:" in url:
+                return json.dumps({"results": []}).encode()
+            if "title.search:" in url:
+                return json.dumps({"results": hits}).encode()
+            asked.append(url.split("filter=cites:")[1].split(",")[0])
+            return json.dumps({"meta": {"count": 1}, "results": [{"id": "WC", "title": "Citer"}]}).encode()
+
+        d.CITES_INCOMPLETE.clear()
+        with mock.patch.object(d, "PUBS", tmp), mock.patch.object(d, "get", fake_get), \
+                mock.patch.object(d.time, "sleep", lambda s: None), mock.patch.dict(d.OA, {"breaker": ""}):
+            d.cited_by_candidates({}, datetime.date.today())
+        return asked
+
+    def test_cites_title_fallback_skips_unrelated_first_hit(self):
+        # ChatGPT 13:01: an unrelated first hit must not be taken as the seed.
+        asked = self._cites_title_fallback([
+            {"id": "https://openalex.org/WWRONG", "title": "Seed b paper title revisited: a survey"},
+            {"id": "https://openalex.org/WRIGHT", "title": "Seed B: paper title"}])
+        self.assertEqual(asked, ["WRIGHT"])
+        self.assertEqual(d.CITES_INCOMPLETE, [])
+
+    def test_cites_title_fallback_prefers_arxiv_id(self):
+        asked = self._cites_title_fallback([
+            {"id": "https://openalex.org/WDUP1", "title": "Seed b paper title"},
+            {"id": "https://openalex.org/WARX", "title": "Seed b paper title",
+             "ids": {"openalex": "https://openalex.org/WARX", "arxiv": "https://arxiv.org/abs/2601.00002"}}])
+        self.assertEqual(asked, ["WARX"])
+
+    def test_cites_title_fallback_unconfirmed_is_incomplete(self):
+        # Only near-misses, or two distinct exact-title records: unresolved, no citers read.
+        for hits in ([{"id": "https://openalex.org/WWRONG", "title": "Seed b paper title revisited"}],
+                     [{"id": "https://openalex.org/W1", "title": "Seed b paper title"},
+                      {"id": "https://openalex.org/W2", "title": "Seed b paper title"}]):
+            asked = self._cites_title_fallback(hits)
+            self.assertEqual(asked, [])
+            self.assertEqual(len(d.CITES_INCOMPLETE), 1)
+            self.assertIn("2601.00002 title match unconfirmed", d.CITES_INCOMPLETE[0])
+
     def test_bom_title(self):
         self.assertEqual(d._digest_title("﻿# Ansor: Generating High-Performance Tensor Programs (OSDI 2020)\n"),
                          "Ansor: Generating High-Performance Tensor Programs")

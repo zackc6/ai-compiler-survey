@@ -487,6 +487,19 @@ CITES_PER_PAGE = 100
 CITES_MAX_PAGES = 5  # 500 in-window citing works per seed; beyond that the seed is logged as truncated
 
 
+def _confirm_seed(aid: str, title: str, hits: list[dict]) -> dict | None:
+    """Pick the title-search hit that is the seed: one carrying the seed's arXiv ID (in `ids` or
+    its DOI) wins; otherwise exactly one hit whose full normalized title equals the digest title.
+    Several exact-title hits with different IDs, or none, are ambiguous and return None."""
+    for h in hits:
+        blob = " ".join(str(v) for v in (h.get("ids") or {}).values()) + " " + (h.get("doi") or "")
+        if aid in blob.lower():
+            return h
+    want = norm_title(title)
+    exact = [h for h in hits if want and norm_title(h.get("title") or "") == want]
+    return exact[0] if len({h.get("id") for h in exact}) == 1 else None
+
+
 def cited_by_candidates(idx: dict, since: dt.date, max_seeds: int = 60) -> list[dict]:
     """OpenAlex: works citing our Tier A arXiv seeds. Citation indexing lags, so the
     window is widened to 180 days; dedupe against the index removes known works."""
@@ -536,7 +549,7 @@ def cited_by_candidates(idx: dict, since: dt.date, max_seeds: int = 60) -> list[
                 CITES_INCOMPLETE.append(f"{aid} unresolved (no DOI match, no digest title)")
                 continue
             sq = get("https://api.openalex.org/works?filter=title.search:" + urllib.parse.quote(re.sub(r"[,:|]", " ", h1)[:120])
-                     + "&per-page=1&select=id,title,cited_by_count" + MAILTO, retries=2)
+                     + "&per-page=5&select=id,title,doi,ids,cited_by_count" + MAILTO, retries=2)
             try:
                 res0 = json.loads(sq).get("results", []) if sq else []
             except Exception:  # noqa: BLE001
@@ -546,7 +559,14 @@ def cited_by_candidates(idx: dict, since: dt.date, max_seeds: int = 60) -> list[
                 if not OA["breaker"]:
                     CITES_INCOMPLETE.append(f"{aid} unresolved by DOI or title")
                 continue
-            w = res0[0]
+            w = _confirm_seed(aid, h1, res0)
+            if w is None:
+                # ChatGPT 13:01: the first title hit is not evidence of identity. A wrong match can
+                # return complete pages for another paper's citers and hide the seed's own network.
+                log(f"  cites {aid}: title search returned {len(res0)} hits, none confirmed as the seed ({h1[:50]})")
+                CITES_INCOMPLETE.append(f"{aid} title match unconfirmed ({len(res0)} hits, none with its arXiv ID "
+                                        f"or a unique exact title)")
+                continue
         wid = w["id"].rsplit("/", 1)[-1]
         time.sleep(0.2)
         res: list[dict] = []
