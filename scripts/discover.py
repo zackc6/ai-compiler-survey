@@ -567,6 +567,13 @@ def cited_by_candidates(idx: dict, since: dt.date, max_seeds: int = 60) -> list[
                 CITES_INCOMPLETE.append(f"{aid} title match unconfirmed ({len(res0)} hits, none with its arXiv ID "
                                         f"or a unique exact title)")
                 continue
+            # ChatGPT 13:01 live-validation ask: show what the fallback selected and why, so each
+            # title-fallback seed can be checked by identifier against an independent resolver.
+            how = "arXiv ID" if aid in (" ".join(str(v) for v in (w.get("ids") or {}).values()) + " "
+                                        + (w.get("doi") or "")).lower() else "unique exact title"
+            log(f"  cites: fallback seed {aid} -> {w['id'].rsplit('/', 1)[-1]} by {how} "
+                f"(doi {(w.get('doi') or 'none').replace('https://doi.org/', '')}, "
+                f"{w.get('cited_by_count', '?')} citations; {len(res0)} hits; \"{(w.get('title') or '')[:60]}\")")
         wid = w["id"].rsplit("/", 1)[-1]
         time.sleep(0.2)
         res: list[dict] = []
