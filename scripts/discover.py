@@ -105,9 +105,9 @@ def get(url: str, timeout: int = 40, retries: int = 2) -> bytes | None:
                 return r.read()
         except urllib.error.HTTPError as e:  # noqa: PERF203
             log(f"  HTTP {e.code} ({attempt + 1}/{retries + 1}): {url[:110]}")
-            if e.code in (403, 404, 429):
+            if e.code in (401, 403, 404):
                 return None
-            time.sleep(2 + 3 * attempt)
+            time.sleep((15 if e.code == 429 else 2) * (attempt + 1))
         except Exception as e:  # noqa: BLE001
             log(f"  fetch failed ({attempt + 1}/{retries + 1}): {url[:110]} -> {e}")
             time.sleep(2 + 3 * attempt)
@@ -293,34 +293,40 @@ def _openalex_sources(term: str) -> list[str]:
     return ids
 
 
-def _openalex_venue(name: str, term: str, y: int, cap: int = 8000) -> list[dict]:
-    """All works of one venue-year, paginated with an OpenAlex cursor. Until 24 November 2026 this
-    read only the first 200 works, so large venues (ICLR, NeurIPS, ICML, MLSys) were silently
-    truncated; AccelOpt (MLSys 2026) was lost that way."""
+VENUE_TERMS = ["compiler", "superoptim", "autotun", "kernel", "megakernel", "triton", "mlir", "llvm",
+               "ptx", "tensor program", "equality saturation", "e-graph", "lowering", "halide", "tvm", "xla",
+               "cost model", "cuda", "tile", "code generation", "accelerator", "scheduling", "agent"]
+
+
+def _openalex_venue(name: str, term: str, y: int) -> list[dict]:
+    """Venue-year works whose title matches the compiler vocabulary, filtered server-side.
+
+    Until 24 November 2026 this listed every work and kept the first 200, silently truncating
+    ICLR, NeurIPS, ICML and MLSys (AccelOpt was lost that way). Cursor pagination answers 401
+    without an API key, so the title filter runs in OpenAlex instead, one OR-group per request,
+    and a full page is reported as truncated."""
     ids = _openalex_sources(term)
     if not ids:
         return []
     res: list[dict] = []
-    cursor = "*"
-    while cursor and len(res) < cap:
+    for i in range(0, len(VENUE_TERMS), 6):
+        group = "|".join(urllib.parse.quote(t) for t in VENUE_TERMS[i:i + 6])
         url = (f"https://api.openalex.org/works?filter=primary_location.source.id:{'|'.join(ids)},"
-               f"publication_year:{y}&per-page=200&cursor={urllib.parse.quote(cursor)}"
+               f"publication_year:{y},title.search:{group}&per-page=200"
                f"&select=title,doi,publication_date,primary_location{MAILTO}")
-        time.sleep(1.0)
-        data = get(url, timeout=40, retries=1)
+        time.sleep(1.2)
+        data = get(url, timeout=40, retries=2)
         if not data:
-            break
+            continue
         try:
-            js = json.loads(data)
+            page = json.loads(data).get("results", [])
         except Exception as e:  # noqa: BLE001
             log(f"  openalex venue parse failed {name} {y}: {e}")
-            break
-        page = js.get("results", [])
+            continue
+        if len(page) >= 200:
+            log(f"  openalex venue {name} {y}: truncated at 200 for terms {VENUE_TERMS[i:i + 6]}")
         res += page
-        cursor = (js.get("meta") or {}).get("next_cursor") if page else None
-    if len(res) >= cap:
-        log(f"  openalex venue {name} {y}: truncated at cap {cap}")
-    log(f"  openalex venue {name} {y}: {len(res)} works")
+    log(f"  openalex venue {name} {y}: {len(res)} title-matched works")
     return res
 
 
@@ -439,6 +445,16 @@ def _digest_title(t: str) -> str:
     return t.splitlines()[0].lstrip("# ").split(" (")[0].strip()
 
 
+def _digest_keys(t: str) -> tuple[str, str]:
+    m = re.search(r"arxiv\.org/(?:abs|pdf|html)/(\d{4}\.\d{4,5})", t)
+    if m:
+        return "10.48550/arxiv." + m.group(1), ""
+    m = re.search(r"doi\.org/(10\.\d{4,9}/[^\s)\]|>]+)", t) or re.search(r"\b(10\.1145/\d+\.\d+|10\.1145/\d+)", t)
+    if m:
+        return m.group(1).lower().rstrip("."), ""
+    return "", _digest_title(t)
+
+
 def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> list[dict]:
     """Backward references: works that several of our digests cite but the index lacks.
 
@@ -446,35 +462,67 @@ def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> lis
     time-windowed and keyword-filtered, so a foundational or mechanism-layer source (Reflexion,
     Voyager, MemGPT, STOKE, TASO) can never surface through them: it is old, and it does not say
     "compiler". If two or more of our own sources build on it, the survey should know why it is
-    absent. Added 24 November 2026 after the agent-memory miss."""
-    counts: dict[str, set[str]] = {}
-    seeds = 0
+    absent. Added 24 November 2026 after the agent-memory miss. Papers are resolved in batches by
+    DOI (arXiv papers by their 10.48550 DOI); title search is a fallback for papers without one."""
+    by_doi: dict[str, str] = {}
+    by_title: dict[str, str] = {}
     for p in sorted(PUBS.glob("*.md")):
         if p.name in ("INDEX.md", "_TEMPLATE.md"):
             continue
-        title = _digest_title(p.read_text(encoding="utf-8", errors="ignore"))
-        if len(title) < 8:
+        t = p.read_text(encoding="utf-8", errors="ignore")
+        if not re.search(r"\| \*\*Type\*\* \| paper", t):
             continue
-        time.sleep(1.0)
-        data = get("https://api.openalex.org/works?filter=title.search:" + urllib.parse.quote(title[:120].replace(",", " "))
-                   + "&per-page=1&select=id,title,referenced_works" + MAILTO, retries=1)
+        doi, title = _digest_keys(t)
+        if doi:
+            by_doi[doi] = p.stem
+        elif len(title) >= 12:
+            by_title[title] = p.stem
+    counts: dict[str, set[str]] = {}
+    resolved = empty = 0
+
+    def add(work: dict, stem: str) -> None:
+        nonlocal resolved, empty
+        refs = work.get("referenced_works") or []
+        resolved += 1
+        if not refs:
+            empty += 1
+        for w in refs:
+            counts.setdefault(w.rsplit("/", 1)[-1], set()).add(stem)
+
+    dois = list(by_doi)
+    for i in range(0, len(dois), 40):
+        chunk = dois[i:i + 40]
+        time.sleep(1.2)
+        data = get("https://api.openalex.org/works?filter=doi:" + "|".join(chunk)
+                   + "&per-page=50&select=id,doi,title,referenced_works" + MAILTO, retries=2)
         try:
             res = json.loads(data).get("results", []) if data else []
         except Exception:  # noqa: BLE001
             res = []
-        if not res or norm_title(res[0].get("title") or "")[:40] != norm_title(title)[:40]:
-            continue
-        seeds += 1
-        for w in res[0].get("referenced_works") or []:
-            counts.setdefault(w.rsplit("/", 1)[-1], set()).add(p.stem)
-    log(f"  refs: {seeds} digests resolved in OpenAlex; {len(counts)} distinct referenced works")
+        for r in res:
+            d = (r.get("doi") or "").replace("https://doi.org/", "").lower()
+            if d in by_doi:
+                add(r, by_doi[d])
+    for title, stem in by_title.items():
+        time.sleep(1.2)
+        q = re.sub(r"[,:|]", " ", title)[:120]
+        data = get("https://api.openalex.org/works?filter=title.search:" + urllib.parse.quote(q)
+                   + "&per-page=1&select=id,title,referenced_works" + MAILTO, retries=2)
+        try:
+            res = json.loads(data).get("results", []) if data else []
+        except Exception:  # noqa: BLE001
+            res = []
+        if res and norm_title(res[0].get("title") or "")[:30] == norm_title(title)[:30]:
+            add(res[0], stem)
+    log(f"  refs: {len(by_doi)} paper digests by DOI, {len(by_title)} by title; {resolved} resolved, "
+        f"{empty} with no reference list; {len(counts)} distinct referenced works")
     ranked = sorted(((len(v), k) for k, v in counts.items() if len(v) >= min_digests), reverse=True)
     out: list[dict] = []
     for i in range(0, len(ranked), 50):
         chunk = [k for _, k in ranked[i:i + 50]]
-        time.sleep(1.0)
+        time.sleep(1.2)
         data = get("https://api.openalex.org/works?filter=openalex:" + "|".join(chunk)
-                   + "&per-page=50&select=id,title,doi,publication_date,ids,primary_location" + MAILTO, retries=1)
+                   + "&per-page=50&select=id,title,doi,publication_date,ids,primary_location" + MAILTO, retries=2)
         try:
             res = json.loads(data).get("results", []) if data else []
         except Exception:  # noqa: BLE001
@@ -483,10 +531,8 @@ def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> lis
             wid = r["id"].rsplit("/", 1)[-1]
             title = r.get("title") or ""
             doi = (r.get("doi") or "").replace("https://doi.org/", "")
-            ax = ""
-            m = re.search(r"(\d{4}\.\d{4,5})", json.dumps(r.get("ids") or {}) + json.dumps(r.get("primary_location") or {}))
-            if m:
-                ax = m.group(1)
+            m = re.search(r"(\d{4}\.\d{4,5})", doi + json.dumps(r.get("primary_location") or {}))
+            ax = m.group(1) if m else ""
             if known(idx, arxiv=ax, doi=doi, title=title):
                 continue
             by = sorted(counts[wid])
@@ -495,7 +541,7 @@ def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> lis
                         "url": loc, "n": len(by),
                         "why": f"cited by {len(by)} digests: " + ", ".join(by[:6]) + (" …" if len(by) > 6 else "")})
     out.sort(key=lambda c: -c["n"])
-    log(f"  refs: {len(out)} unindexed works cited by >= {min_digests} digests (top {top} kept)")
+    log(f"  refs: {len(ranked)} works cited by >= {min_digests} digests; {len(out)} not indexed (top {top} kept)")
     return out[:top]
 
 
@@ -1084,9 +1130,10 @@ def main() -> int:
         per[c["channel"]] = per.get(c["channel"], 0) + 1
     lines += ["## Channel diagnostics", "", f"Raw candidates per channel: {json.dumps(per)}", "",
               "Fetch log (failures and venue page sizes):", ""]
-    pri = [d for d in DIAG if "cites " in d or "refs:" in d or "proceedings " in d or "openalex" in d.lower()]
-    rest = [d for d in DIAG if d not in pri and any(t in d for t in DIAG_KEEP)]
-    lines += [f"- {d}" for d in (pri + rest)[:200]]
+    top = [d for d in DIAG if any(k in d for k in ("refs:", "proceedings ", "truncated", "openalex venue"))]
+    mid = [d for d in DIAG if d not in top and ("openalex" in d.lower() or "HTTP" in d)]
+    low = [d for d in DIAG if d not in top and d not in mid and ("cites " in d or any(t in d for t in DIAG_KEEP))]
+    lines += [f"- {d}" for d in (top + mid + low)[:400]]
     lines.append("")
     out.write_text("\n".join(lines) + "\n", encoding="utf-8")
     log(f"wrote {out} ({len(new)} new candidates)")
