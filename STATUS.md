@@ -6,6 +6,7 @@ Last updated: **2026-11-24**
 
 | Agent | Scope | Started | Status |
 |---|---|---|---|
+| Claude (maintainer session) | `claude/discovery-fix-2026-11-24`: `scripts/discover.py`, `.github/workflows/discover.yml` only — OpenAlex budget (keyless $0.10/day spent by ~136 venue `title.search` calls), 429 `reason`/`Retry-After` + breaker, optional key secret, refs → cites → venues order, provenance, per-channel known-positive diagnosis, BOM title bug, branch test runs | 2026-11-24 12:20 UTC | in progress |
 
 ## Review thread
 
