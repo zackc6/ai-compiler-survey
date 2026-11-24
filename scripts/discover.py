@@ -350,7 +350,7 @@ VENUE_TERMS = ["compiler", "superoptim", "autotun", "kernel", "megakernel", "tri
                "cost model", "cuda", "tile", "code generation", "accelerator", "scheduling", "agent"]
 
 
-VENUE_MAX_PAGES = 25  # 5,000 works per venue-year; NeurIPS/ICLR/ICML main tracks fit
+VENUE_MAX_PAGES = 50  # 10,000 works per venue-year (OpenAlex basic paging limit); ICML 2026 has 6,418
 # Venue-years whose listing is partial (a failed or unparsable page, or the page cap). Any entry
 # marks the venue channel DEGRADED even when other venue-years or proceedings returned rows.
 VENUE_INCOMPLETE: list[str] = []
@@ -572,7 +572,7 @@ KNOWN_POSITIVES = [
 REFS_CUT: set[str] = set()  # unindexed refs leads dropped by the top-N cap (for the regression)
 # Referenced works are ranked by citing-digest count and only this many are resolved to titles;
 # a work below the cut has no title, so the known-positive check cannot see it by name.
-REFS_RESOLVE_CAP = 1500
+REFS_RESOLVE_CAP = 4000  # test-32 (24 Nov): 2,668 distinct referenced works; 1,500 cut 1,168
 REFS_AUDIT: dict[str, int] = {}
 
 
