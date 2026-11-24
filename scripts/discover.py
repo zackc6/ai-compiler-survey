@@ -652,7 +652,7 @@ REFS_CUT: set[str] = set()  # unindexed refs leads dropped by the top-N cap (for
 # a work below the cut has no title, so the known-positive check cannot see it by name.
 REFS_RESOLVE_CAP = 4000  # test-32 (24 Nov): 2,668 distinct referenced works; 1,500 cut 1,168
 REFS_AUDIT: dict[str, int] = {}
-REFS_INCOMPLETE: list[str] = []  # failed or short metadata batches in the refs resolution step
+REFS_INCOMPLETE: list[str] = []  # unresolved seeds (with reason) and failed or short metadata batches
 
 
 def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> list[dict]:
@@ -666,6 +666,9 @@ def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> lis
     DOI (arXiv papers by their 10.48550 DOI); title search is a fallback for papers without one."""
     by_doi: dict[str, str] = {}
     by_title: dict[str, str] = {}
+    # ChatGPT 13:11: every seed that contributes no reference list is named with its reason, and
+    # a request failure is kept apart from a valid zero-hit answer; any entry marks refs DEGRADED.
+    seed_gaps: list[str] = []
     for p in sorted(PUBS.glob("*.md")):
         if p.name in ("INDEX.md", "_TEMPLATE.md"):
             continue
@@ -677,6 +680,8 @@ def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> lis
             by_doi[doi] = p.stem
         elif len(title) >= 12:
             by_title[title] = p.stem
+        else:
+            seed_gaps.append(f"{p.stem} unresolved (no DOI, no usable title)")
     counts: dict[str, set[str]] = {}
     resolved = empty = 0
     doi_hit: set[str] = set()       # digests matched by DOI, with or without a reference list
@@ -700,8 +705,12 @@ def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> lis
         data = get("https://api.openalex.org/works?filter=doi:" + "|".join(chunk)
                    + "&per-page=50&select=id,doi,title,referenced_works" + MAILTO, retries=2)
         try:
-            res = json.loads(data).get("results", []) if data else []
+            res = json.loads(data).get("results", []) if data else None
         except Exception:  # noqa: BLE001
+            res = None
+        if res is None:
+            seed_gaps.append(f"DOI batch {i // 40 + 1} ({len(chunk)} seeds) "
+                             + ("failed" if not data else "unparsable") + " -> title fallback")
             res = []
         for r in res:
             d = (r.get("doi") or "").replace("https://doi.org/", "").lower()
@@ -718,15 +727,27 @@ def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> lis
         title = _digest_title((PUBS / f"{stem}.md").read_text(encoding="utf-8", errors="ignore"))
         if len(title) >= 12:
             by_title.setdefault(title, stem)
+        else:
+            seed_gaps.append(f"{stem} unresolved (DOI miss, no usable title)")
+    title_failed: list[str] = []
+    title_zero: list[str] = []
     for title, stem in by_title.items():
         time.sleep(0.2)
         q = re.sub(r"[,:|]", " ", title)[:120]
         data = get("https://api.openalex.org/works?filter=title.search:" + urllib.parse.quote(q)
                    + "&per-page=5&select=id,title,referenced_works" + MAILTO, retries=2)
         try:
-            res = json.loads(data).get("results", []) if data else []
+            res = json.loads(data).get("results", []) if data else None
         except Exception:  # noqa: BLE001
-            res = []
+            res = None
+        if res is None:
+            title_failed.append(stem)
+            seed_gaps.append(f"{stem} title search " + ("failed" if not data else "unparsable"))
+            continue
+        if not res:
+            title_zero.append(stem)
+            seed_gaps.append(f"{stem} unresolved (title search: 0 hits)")
+            continue
         # ChatGPT 13:06: same identity standard as cites. A 30-character prefix let a different
         # paper with a shared opening supply the reference list; require exactly one record whose
         # full normalized title equals the digest title (same cost: one search call either way).
@@ -735,19 +756,24 @@ def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> lis
         if len({h.get("id") for h in exact}) == 1:
             title_hit.add(stem)
             add(exact[0], stem)
-        elif res:
+        else:
             title_unconfirmed.append(stem)
+            seed_gaps.append(f"{stem} title match unconfirmed ({len(res)} hits, no unique exact title)")
     log(f"  refs: {len(by_doi)} paper digests by DOI, {len(by_title)} by title; {resolved} resolved, "
         f"{empty} with no reference list; {len(counts)} distinct referenced works")
     REFS_AUDIT.update({"doi_seeds": len(by_doi), "doi_hit": len(doi_hit), "doi_hit_refs": len(doi_hit_refs),
                        "doi_miss": len(doi_miss), "title_only": title_only, "title_hit": len(title_hit),
-                       "title_unconfirmed": len(title_unconfirmed), "distinct": len(counts)})
+                       "title_unconfirmed": len(title_unconfirmed), "title_failed": len(title_failed),
+                       "title_zero": len(title_zero), "distinct": len(counts)})
     DIAG.append(f"refs: audit — DOI seeds {len(by_doi)}: {len(doi_hit)} matched ({len(doi_hit_refs)} with a "
                 f"reference list, {len(doi_hit) - len(doi_hit_refs)} empty), {len(doi_miss)} missed -> title "
                 f"fallback; title-only seeds {title_only}; title searches matched {len(title_hit)} "
-                f"(unique exact title), {len(title_unconfirmed)} with hits but no unique exact title"
+                f"(unique exact title), {len(title_unconfirmed)} with hits but no unique exact title, "
+                f"{len(title_zero)} with 0 hits, {len(title_failed)} failed requests"
                 + (": " + ", ".join(title_unconfirmed[:8]) + (" …" if len(title_unconfirmed) > 8 else "")
                    if title_unconfirmed else ""))
+    if seed_gaps:
+        DIAG.append(f"refs seeds unresolved: {len(seed_gaps)} — " + "; ".join(seed_gaps))
     ranked = sorted(((len(v), k) for k, v in counts.items() if len(v) >= 1), reverse=True)[:REFS_RESOLVE_CAP]
     REFS_AUDIT["precut"] = max(0, len(counts) - REFS_RESOLVE_CAP)
     if REFS_AUDIT["precut"]:
@@ -796,7 +822,7 @@ def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> lis
     # ChatGPT 12:50: report works actually returned, not works requested; a failed or short
     # metadata batch marks refs DEGRADED even when other batches returned candidates.
     REFS_AUDIT.update({"requested": len(ranked), "returned": returned, "failed_batches": len(failed_batches)})
-    REFS_INCOMPLETE[:] = failed_batches
+    REFS_INCOMPLETE[:] = seed_gaps + failed_batches
     if failed_batches:
         DIAG.append(f"refs incomplete: {returned} of {len(ranked)} requested works returned; "
                     + "; ".join(failed_batches[:6]) + (" …" if len(failed_batches) > 6 else ""))
@@ -1402,7 +1428,7 @@ def main() -> int:
         degraded.append(f"venue: {len(VENUE_INCOMPLETE)} venue-year listings incomplete ("
                         + "; ".join(VENUE_INCOMPLETE[:6]) + (" …" if len(VENUE_INCOMPLETE) > 6 else "") + ")")
     if "refs" in chans and REFS_INCOMPLETE:
-        degraded.append(f"refs: {len(REFS_INCOMPLETE)} metadata batches incomplete ("
+        degraded.append(f"refs: {len(REFS_INCOMPLETE)} seeds or metadata batches incomplete ("
                         + "; ".join(REFS_INCOMPLETE[:6]) + (" …" if len(REFS_INCOMPLETE) > 6 else "") + ")")
     if "cites" in chans and CITES_INCOMPLETE:
         degraded.append(f"cites: {len(CITES_INCOMPLETE)} seeds or batches incomplete ("
@@ -1422,7 +1448,7 @@ def main() -> int:
                 why = (f"possibly truncated before title resolution ({REFS_AUDIT['precut']} works below the "
                        f"{REFS_RESOLVE_CAP:,}-work cap are unnamed), or not cited by any resolved digest")
             elif ch == "refs" and REFS_INCOMPLETE:
-                why = f"possibly lost in {len(REFS_INCOMPLETE)} incomplete metadata batches"
+                why = f"possibly lost in {len(REFS_INCOMPLETE)} unresolved seeds or incomplete metadata batches"
             elif ch == "venue" and VENUE_INCOMPLETE:
                 why = f"possibly truncated ({len(VENUE_INCOMPLETE)} venue-year listings incomplete)"
             elif OA["skipped_in"].get({"venue": "venues"}.get(ch, ch)):

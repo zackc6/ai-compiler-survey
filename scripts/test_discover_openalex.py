@@ -151,6 +151,8 @@ class OpenAlexBudget(unittest.TestCase):
 
         def fake_get(url, timeout=0, retries=0):
             urls.append(url)
+            if callable(responses):
+                return responses(url)
             for k, v in responses.items():
                 if k in url:
                     return json.dumps({"results": v}).encode()
@@ -435,6 +437,28 @@ class OpenAlexBudget(unittest.TestCase):
                     "title.search": [wrong, {"id": "W3", "title": "Paper Missing From OpenAlex By DOI",
                                              "referenced_works": ["https://openalex.org/W9"]}]})
         self.assertEqual((d.REFS_AUDIT["title_hit"], d.REFS_AUDIT["title_unconfirmed"]), (1, 0))
+
+    def test_refs_failed_doi_batch_with_incomplete_fallback_is_degraded(self):
+        # ChatGPT 13:11: the DOI batch fails; one seed is recovered by title, the other's title
+        # search also fails. The DOI failure and the unrecovered seed are both named.
+        def responses(url):
+            if "title.search" in url and "Empty" in d.urllib.parse.unquote(url):
+                return json.dumps({"results": [{"id": "W1", "title": "Empty Reference List Paper Title",
+                                                "referenced_works": ["https://openalex.org/W9"]}]}).encode()
+            return None
+
+        d.REFS_INCOMPLETE.clear()
+        self._refs(responses)
+        self.assertEqual((d.REFS_AUDIT["title_hit"], d.REFS_AUDIT["title_failed"]), (1, 1))
+        self.assertIn("DOI batch 1 (2 seeds) failed -> title fallback", d.REFS_INCOMPLETE)
+        self.assertIn("miss title search failed", d.REFS_INCOMPLETE)
+        self.assertTrue(any(m.startswith("refs seeds unresolved: 2") for m in d.DIAG))
+
+    def test_refs_zero_hit_title_search_is_named_not_failed(self):
+        d.REFS_INCOMPLETE.clear()
+        self._refs({"filter=doi:": [{"id": "W1", "doi": "https://doi.org/10.1/a", "referenced_works": []}]})
+        self.assertEqual((d.REFS_AUDIT["title_zero"], d.REFS_AUDIT["title_failed"]), (1, 0))
+        self.assertEqual(d.REFS_INCOMPLETE, ["miss unresolved (title search: 0 hits)"])
 
     def test_bom_title(self):
         self.assertEqual(d._digest_title("﻿# Ansor: Generating High-Performance Tensor Programs (OSDI 2020)\n"),
