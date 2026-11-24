@@ -79,12 +79,18 @@ jobs:
           git add reference/discovery
           git commit -m "discovery: mechanical ledger $d ($n new source leads, $events repo events)"
           git push origin "$br"
+          # Announce with this run's helper and ledger: the loop below checks out main, where a
+          # test run's ledger is absent and the helper may be older.
+          cp scripts/announce_discovery.py "$RUNNER_TEMP/announce_discovery.py"
+          cp "$f" "$RUNNER_TEMP/ledger.md"
+          announced=0
           for i in 1 2 3 4; do
             git fetch origin main
             git checkout -B main origin/main
-            python3 scripts/announce_discovery.py "$f" "$n" "$events" "$br" "$d" "${{ github.ref_name }}@${GITHUB_SHA:0:12}"
+            LEDGER_FILE="$RUNNER_TEMP/ledger.md" python3 "$RUNNER_TEMP/announce_discovery.py" "$f" "$n" "$events" "$br" "$d" "${{ github.ref_name }}@${GITHUB_SHA:0:12}"
             git add STATUS.md
             git commit -m "status: discovery ledger $d announced ($n new source leads, $events indexed-repo events)"
-            if git push origin HEAD:main; then break; fi
+            if git push origin HEAD:main; then announced=1; break; fi
             echo "push raced, retry $i"; sleep 15
           done
+          test "$announced" = 1 || { echo "::error::ledger published on $br but the Review-thread notice was not pushed"; exit 1; }
