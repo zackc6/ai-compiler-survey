@@ -60,8 +60,10 @@ jobs:
           br="claude/discovery-$d"
           # Never rewrite a discovery branch being reviewed or triaged.
           if git ls-remote --exit-code --heads origin "$br" >/dev/null; then
-            echo "Existing discovery branch $br preserved; skip duplicate publication"
-            exit 0
+            # A same-day rerun (for example after a discovery fix) publishes beside the existing
+            # branch instead of being dropped, so its ledger can be compared with the first.
+            br="$br-r${{ github.run_number }}"
+            echo "Existing same-day discovery branch preserved; publishing rerun as $br"
           fi
           git checkout -b "$br"
           git add reference/discovery
