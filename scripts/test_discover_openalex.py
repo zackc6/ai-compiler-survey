@@ -504,5 +504,26 @@ class OpenAlexBudget(unittest.TestCase):
                          "Ansor: Generating High-Performance Tensor Programs")
 
 
+class ArxivPartialCoverage(unittest.TestCase):
+    """test-34: arXiv 429s cost three categories but the channel still returned rows."""
+
+    def test_failed_category_page_is_recorded(self):
+        d.ARXIV_INCOMPLETE.clear()
+        feed = (b'<feed xmlns="http://www.w3.org/2005/Atom"><entry><published>2026-11-20T00:00:00Z</published>'
+                b'<title>A Tensor Compiler for Kernels</title><summary>compiler kernel</summary>'
+                b'<id>http://arxiv.org/abs/2611.00001v1</id></entry></feed>')
+        calls = []
+
+        def fake_get(url, timeout=0, retries=0):
+            calls.append(url)
+            return None if "cs.LG" in url else feed
+
+        with mock.patch.object(d, "get", fake_get), mock.patch.object(d, "ARXIV_CATS", ["cs.PL", "cs.LG"]), \
+                mock.patch.object(d.time, "sleep", lambda s: None):
+            rows = d.arxiv_candidates(d.dt.date(2026, 11, 3), max_per_cat=100)
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(d.ARXIV_INCOMPLETE, ["cs.LG from offset 0 failed"])
+
+
 if __name__ == "__main__":
     unittest.main()

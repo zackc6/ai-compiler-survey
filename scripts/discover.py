@@ -159,6 +159,10 @@ def get(url: str, timeout: int = 40, retries: int = 2) -> bytes | None:
             log(f"  HTTP {e.code} ({attempt + 1}/{retries + 1}): {shown}")
             if e.code in (401, 403, 404):
                 return None
+            if e.code == 429 and "arxiv.org" in url:
+                ra = (e.headers.get("Retry-After") if e.headers else None) or ""
+                time.sleep(min(float(ra), 120) if ra.replace(".", "", 1).isdigit() else 20 * (attempt + 1))
+                continue
             time.sleep((8 if e.code == 429 else 2) * (attempt + 1))
         except Exception as e:  # noqa: BLE001
             log(f"  fetch failed ({attempt + 1}/{retries + 1}): {shown} -> {e}")
@@ -215,6 +219,12 @@ def known(idx: dict, *, arxiv: str = "", doi: str = "", gh: str = "", title: str
 
 
 # --------------------------------------------------------------------------- arxiv
+# Category pages that failed or did not parse. test-34 (24 Nov 2026, the fourth run that day from
+# runner IPs) lost cs.LG, cs.SE and cs.PF pages to arXiv 429s and fell from 123 to 74 raw rows, but
+# the channel still returned rows, so the ledger did not say DEGRADED. Any entry now does.
+ARXIV_INCOMPLETE: list[str] = []
+
+
 def arxiv_candidates(since: dt.date, max_per_cat: int = 400) -> list[dict]:
     out = []
     ns = {"a": "http://www.w3.org/2005/Atom"}
@@ -224,10 +234,15 @@ def arxiv_candidates(since: dt.date, max_per_cat: int = 400) -> list[dict]:
             q = urllib.parse.quote(f"cat:{cat}")
             url = (f"https://export.arxiv.org/api/query?search_query={q}&sortBy=submittedDate"
                    f"&sortOrder=descending&start={start}&max_results=100")
-            data = get(url)
+            data = get(url, timeout=60, retries=4)
             if not data:
+                ARXIV_INCOMPLETE.append(f"{cat} from offset {start} failed")
                 break
-            root = ET.fromstring(data)
+            try:
+                root = ET.fromstring(data)
+            except ET.ParseError:
+                ARXIV_INCOMPLETE.append(f"{cat} offset {start} unparsable")
+                break
             entries = root.findall("a:entry", ns)
             if not entries:
                 break
@@ -1472,6 +1487,9 @@ def main() -> int:
         label = {"venues": "venue (OpenAlex listings)"}.get(ch, ch)
         if ch and ch not in degraded and label not in degraded:
             degraded.append(f"{label}: {n} OpenAlex calls skipped by the budget breaker or search cap")
+    if "arxiv" in chans and ARXIV_INCOMPLETE:
+        degraded.append(f"arxiv: {len(ARXIV_INCOMPLETE)} category pages incomplete ("
+                        + "; ".join(ARXIV_INCOMPLETE[:6]) + (" …" if len(ARXIV_INCOMPLETE) > 6 else "") + ")")
     if "venues" in chans and VENUE_INCOMPLETE:
         degraded.append(f"venue: {len(VENUE_INCOMPLETE)} venue-year listings incomplete ("
                         + "; ".join(VENUE_INCOMPLETE[:6]) + (" …" if len(VENUE_INCOMPLETE) > 6 else "") + ")")
