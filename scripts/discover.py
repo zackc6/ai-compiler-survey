@@ -89,7 +89,7 @@ DIAG: list[str] = []
 # Diagnostic categories rendered into the ledger's fetch log (failures, venue sizes, and the
 # recall limits of the blogs/HN/GitHub channels: truncation, star-threshold drops, unparsable pages).
 DIAG_KEEP = ("HTTP", "refs:", "proceedings ", "failed", "venue ", "usenix ", "feed ", "truncated", "threshold", "unparsable",
-             "repoevent ")
+             "repoevent ", "cites incomplete")
 
 
 def log(msg: str) -> None:
@@ -477,6 +477,16 @@ def venue_candidates(years: list[int]) -> list[dict]:
 
 
 # --------------------------------------------------------------------------- citations
+# Seeds whose cited-by results are missing or partial (ChatGPT 12:56, 24 Nov 2026): a failed DOI
+# batch, a seed resolved by neither DOI nor title, a failed or unparsable cited-by page, or more
+# in-window citing works than the page cap reads. Any entry marks `cites` DEGRADED even when
+# other seeds returned candidates. Calls skipped by the budget breaker are not repeated here:
+# the breaker already counts them against the channel.
+CITES_INCOMPLETE: list[str] = []
+CITES_PER_PAGE = 100
+CITES_MAX_PAGES = 5  # 500 in-window citing works per seed; beyond that the seed is logged as truncated
+
+
 def cited_by_candidates(idx: dict, since: dt.date, max_seeds: int = 60) -> list[dict]:
     """OpenAlex: works citing our Tier A arXiv seeds. Citation indexing lags, so the
     window is widened to 180 days; dedupe against the index removes known works."""
@@ -499,13 +509,17 @@ def cited_by_candidates(idx: dict, since: dt.date, max_seeds: int = 60) -> list[
         chunk = ["10.48550/arxiv." + a for a in seeds[i:i + 40]]
         data = get("https://api.openalex.org/works?filter=doi:" + "|".join(chunk)
                    + "&per-page=50&select=id,doi,title,cited_by_count" + MAILTO, retries=3)
+        if not data:
+            if not OA["breaker"]:
+                CITES_INCOMPLETE.append(f"DOI batch {i // 40 + 1} ({len(chunk)} seeds) failed")
+            continue
         try:
-            for r in (json.loads(data).get("results", []) if data else []):
+            for r in json.loads(data).get("results", []):
                 m = re.search(r"arxiv\.(\d{4}\.\d{4,5})", (r.get("doi") or "").lower())
                 if m:
                     works[m.group(1)] = r
         except Exception:  # noqa: BLE001
-            pass
+            CITES_INCOMPLETE.append(f"DOI batch {i // 40 + 1} ({len(chunk)} seeds) unparsable")
     log(f"  cites: {len(seeds)} Tier A arXiv seeds, {len(works)} resolved by DOI")
     for aid in seeds:
         w = works.get(aid)
@@ -519,6 +533,7 @@ def cited_by_candidates(idx: dict, since: dt.date, max_seeds: int = 60) -> list[
                     h1 = _digest_title(t2)
                     break
             if not h1:
+                CITES_INCOMPLETE.append(f"{aid} unresolved (no DOI match, no digest title)")
                 continue
             sq = get("https://api.openalex.org/works?filter=title.search:" + urllib.parse.quote(re.sub(r"[,:|]", " ", h1)[:120])
                      + "&per-page=1&select=id,title,cited_by_count" + MAILTO, retries=2)
@@ -528,18 +543,42 @@ def cited_by_candidates(idx: dict, since: dt.date, max_seeds: int = 60) -> list[
                 res0 = []
             if not res0:
                 log(f"  cites {aid}: not found in OpenAlex by DOI or title ({h1[:50]})" + (" (breaker)" if OA["breaker"] else ""))
+                if not OA["breaker"]:
+                    CITES_INCOMPLETE.append(f"{aid} unresolved by DOI or title")
                 continue
             w = res0[0]
         wid = w["id"].rsplit("/", 1)[-1]
         time.sleep(0.2)
-        data = get(f"https://api.openalex.org/works?filter=cites:{wid},from_publication_date:{since.isoformat()}&per-page=100&select=id,title,doi,publication_date,primary_location" + MAILTO, retries=1)
-        if not data:
-            continue
-        try:
-            res = json.loads(data).get("results", [])
-        except Exception:  # noqa: BLE001
-            continue
-        log(f"  cites {aid} ({(w.get('title') or '')[:40]}, {w.get('cited_by_count', '?')} total): {len(res)} citing works since {since}")
+        res: list[dict] = []
+        total = None
+        for page in range(1, CITES_MAX_PAGES + 1):
+            data = get(f"https://api.openalex.org/works?filter=cites:{wid},from_publication_date:{since.isoformat()}"
+                       f"&per-page={CITES_PER_PAGE}&page={page}&select=id,title,doi,publication_date,primary_location"
+                       + MAILTO, retries=1)
+            if not data:
+                if not OA["breaker"]:
+                    CITES_INCOMPLETE.append(f"{aid} page {page} failed after {len(res)} citing works")
+                break
+            try:
+                j = json.loads(data)
+                batch = j.get("results", [])
+                total = (j.get("meta") or {}).get("count", total)
+            except Exception:  # noqa: BLE001
+                CITES_INCOMPLETE.append(f"{aid} page {page} unparsable after {len(res)} citing works")
+                break
+            res += batch
+            if total is not None and len(res) >= total:
+                break
+            if len(batch) < CITES_PER_PAGE:
+                if total is not None and len(res) < total:
+                    CITES_INCOMPLETE.append(f"{aid} short page {page} at {len(res)} of {total} citing works")
+                break
+            time.sleep(0.2)
+        else:
+            if total is not None and len(res) < total:
+                CITES_INCOMPLETE.append(f"{aid} truncated at {len(res)} of {total} citing works")
+        log(f"  cites {aid} ({(w.get('title') or '')[:40]}, {w.get('cited_by_count', '?')} total): {len(res)}"
+            + (f" of {total}" if total is not None else "") + f" citing works since {since}")
         for r in res:
             title = r.get("title") or ""
             loc = (r.get("primary_location") or {}).get("landing_page_url") or ""
@@ -547,6 +586,9 @@ def cited_by_candidates(idx: dict, since: dt.date, max_seeds: int = 60) -> list[
                         "title": title, "date": r.get("publication_date", ""), "url": loc or r.get("id", ""),
                         "why": f"cites {aid} ({(w.get('title') or '')[:50]})"})
         time.sleep(0.5)
+    if CITES_INCOMPLETE:
+        log(f"  cites incomplete: {len(CITES_INCOMPLETE)} seeds or batches missing or partial: "
+            + "; ".join(CITES_INCOMPLETE[:6]) + (" …" if len(CITES_INCOMPLETE) > 6 else ""))
     return out
 
 
@@ -1327,6 +1369,9 @@ def main() -> int:
     if "refs" in chans and REFS_INCOMPLETE:
         degraded.append(f"refs: {len(REFS_INCOMPLETE)} metadata batches incomplete ("
                         + "; ".join(REFS_INCOMPLETE[:6]) + (" …" if len(REFS_INCOMPLETE) > 6 else "") + ")")
+    if "cites" in chans and CITES_INCOMPLETE:
+        degraded.append(f"cites: {len(CITES_INCOMPLETE)} seeds or batches incomplete ("
+                        + "; ".join(CITES_INCOMPLETE[:6]) + (" …" if len(CITES_INCOMPLETE) > 6 else "") + ")")
     regress = []
     for t, ch in KNOWN_POSITIVES:
         key = norm_title(t)[:50]

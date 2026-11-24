@@ -281,6 +281,66 @@ class OpenAlexBudget(unittest.TestCase):
         self.assertEqual(d.REFS_INCOMPLETE, ["batch 2 (10 works) failed"])
         self.assertTrue(any("refs incomplete: 50 of 60 requested works returned" in m for m in d.DIAG))
 
+    def _cites_run(self, cites_get):
+        import datetime
+        import pathlib
+        import tempfile
+        tmp = pathlib.Path(tempfile.mkdtemp())
+        for n, aid in (("a", "2601.00001"), ("b", "2601.00002")):
+            (tmp / f"{n}.md").write_text(f"# Seed {n} paper title\n\n| **Evidence tier** | A |\n"
+                                         f"| **Link** | https://arxiv.org/abs/{aid} |\n", encoding="utf-8")
+
+        def fake_get(url, timeout=0, retries=0):
+            if "filter=doi:" in url:
+                return json.dumps({"results": [
+                    {"id": "https://openalex.org/WA", "doi": "https://doi.org/10.48550/arxiv.2601.00001", "title": "Seed a"},
+                    {"id": "https://openalex.org/WB", "doi": "https://doi.org/10.48550/arxiv.2601.00002", "title": "Seed b"},
+                ]}).encode()
+            return cites_get(url)
+
+        d.CITES_INCOMPLETE.clear()
+        with mock.patch.object(d, "PUBS", tmp), mock.patch.object(d, "get", fake_get), \
+                mock.patch.object(d.time, "sleep", lambda s: None), mock.patch.dict(d.OA, {"breaker": ""}):
+            return d.cited_by_candidates({}, datetime.date.today())
+
+    def test_cites_one_seed_ok_one_failed_is_incomplete(self):
+        # ChatGPT 12:56: a failed seed must mark cites incomplete even when another seed returned rows.
+        def cites_get(url):
+            if "cites:WA" in url:
+                return json.dumps({"meta": {"count": 2}, "results": [
+                    {"id": "W1", "title": "Citer 1"}, {"id": "W2", "title": "Citer 2"}]}).encode()
+            return None
+
+        out = self._cites_run(cites_get)
+        self.assertEqual(len(out), 2)
+        self.assertEqual(d.CITES_INCOMPLETE, ["2601.00002 page 1 failed after 0 citing works"])
+
+    def test_cites_count_above_page_cap_is_truncated(self):
+        # ChatGPT 12:56: more in-window citing works than the pages read must be reported, not silently cut.
+        def cites_get(url):
+            if "cites:WA" in url:
+                page = int(url.split("&page=")[1].split("&")[0])
+                return json.dumps({"meta": {"count": 750}, "results": [
+                    {"id": f"W{page}-{i}", "title": f"Citer {page}-{i}"} for i in range(d.CITES_PER_PAGE)]}).encode()
+            return json.dumps({"meta": {"count": 1}, "results": [{"id": "WX", "title": "Only citer"}]}).encode()
+
+        out = self._cites_run(cites_get)
+        self.assertEqual(len(out), d.CITES_PER_PAGE * d.CITES_MAX_PAGES + 1)
+        self.assertEqual(d.CITES_INCOMPLETE, [f"2601.00001 truncated at {d.CITES_PER_PAGE * d.CITES_MAX_PAGES} of 750 citing works"])
+
+    def test_cites_failed_doi_batch_is_recorded(self):
+        import datetime
+        import pathlib
+        import tempfile
+        tmp = pathlib.Path(tempfile.mkdtemp())
+        d.CITES_INCOMPLETE.clear()
+        with mock.patch.object(d, "PUBS", tmp), mock.patch.object(d, "get", lambda u, timeout=0, retries=0: None), \
+                mock.patch.dict(d.OA, {"breaker": ""}):
+            (tmp / "a.md").write_text("# Seed\n\n| **Evidence tier** | A |\n| **Link** | https://arxiv.org/abs/2601.00001 |\n",
+                                      encoding="utf-8")
+            d.cited_by_candidates({}, datetime.date.today())
+        self.assertEqual(d.CITES_INCOMPLETE[0], "DOI batch 1 (1 seeds) failed")
+
     def test_bom_title(self):
         self.assertEqual(d._digest_title("﻿# Ansor: Generating High-Performance Tensor Programs (OSDI 2020)\n"),
                          "Ansor: Generating High-Performance Tensor Programs")
