@@ -229,6 +229,58 @@ class OpenAlexBudget(unittest.TestCase):
         self.assertIn("LIVE TEST", s)
         self.assertIn("**Status: all enumerated channels returned candidates.**", s)
 
+    def test_venue_unresolved_source_is_recorded(self):
+        # ChatGPT 12:50: an unresolved venue source must not vanish silently.
+        d.VENUE_INCOMPLETE.clear()
+        with mock.patch.object(d, "_openalex_sources", lambda t: []), mock.patch.dict(d.OA, {"breaker": ""}):
+            self.assertEqual(d._openalex_venue("CC", "Compiler Construction", 2026), [])
+        self.assertEqual(d.VENUE_INCOMPLETE, ["CC 2026 source unresolved"])
+
+    def test_venue_short_page_below_count_is_incomplete(self):
+        # ChatGPT 12:50: a short page while meta.count says records remain is a premature stop.
+        page1 = [{"title": f"Paper {i}", "doi": ""} for i in range(120)]
+
+        def fake_get(url, timeout=0, retries=0):
+            return json.dumps({"meta": {"count": 450}, "results": page1}).encode()
+
+        d.VENUE_INCOMPLETE.clear()
+        with mock.patch.object(d, "get", fake_get), mock.patch.object(d, "_openalex_sources", lambda t: ["S1"]):
+            d._openalex_venue("ICLR", "International Conference on Learning Representations", 2026)
+        self.assertEqual(d.VENUE_INCOMPLETE, ["ICLR 2026 short page 1 at 120 of 450 works"])
+
+    def test_refs_second_metadata_batch_failure_is_counted(self):
+        # ChatGPT 12:50: one successful metadata batch, then a failed one -> returned < requested, DEGRADED input.
+        refs = [f"https://openalex.org/W{i}" for i in range(60)]
+        calls = {"n": 0}
+
+        def responses_get(url, timeout=0, retries=0):
+            if "filter=doi:" in url:
+                return json.dumps({"results": [{"id": "W1", "doi": "https://doi.org/10.1/a",
+                                                "referenced_works": refs}]}).encode()
+            if "filter=openalex:" in url:
+                calls["n"] += 1
+                if calls["n"] == 1:
+                    ids = url.split("filter=openalex:")[1].split("&")[0].split("|")
+                    return json.dumps({"results": [{"id": f"https://openalex.org/{w}", "title": f"Work {w}"}
+                                                   for w in ids]}).encode()
+                return None
+            return json.dumps({"results": []}).encode()
+
+        import pathlib
+        import tempfile
+        tmp = pathlib.Path(tempfile.mkdtemp())
+        (tmp / "hit.md").write_text("# Some Paper Title Here\n\n| **Type** | paper |\n| **DOI** | 10.1/a |\n",
+                                    encoding="utf-8")
+        d.REFS_AUDIT.clear()
+        d.REFS_INCOMPLETE.clear()
+        with mock.patch.object(d, "PUBS", tmp), mock.patch.object(d, "get", responses_get), \
+                mock.patch.object(d, "_digest_keys", lambda t: ("10.1/a", d._digest_title(t))):
+            d.references_candidates({"arxiv": set(), "doi": set(), "github": set(), "titles": set()}, min_digests=2)
+        self.assertEqual((d.REFS_AUDIT["requested"], d.REFS_AUDIT["returned"], d.REFS_AUDIT["failed_batches"]),
+                         (60, 50, 1))
+        self.assertEqual(d.REFS_INCOMPLETE, ["batch 2 (10 works) failed"])
+        self.assertTrue(any("refs incomplete: 50 of 60 requested works returned" in m for m in d.DIAG))
+
     def test_bom_title(self):
         self.assertEqual(d._digest_title("﻿# Ansor: Generating High-Performance Tensor Programs (OSDI 2020)\n"),
                          "Ansor: Generating High-Performance Tensor Programs")

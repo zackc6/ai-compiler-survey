@@ -367,6 +367,11 @@ def _openalex_venue(name: str, term: str, y: int) -> list[dict]:
     venue-year larger than VENUE_MAX_PAGES pages is logged as truncated."""
     ids = _openalex_sources(term)
     if not ids:
+        # ChatGPT 12:50: an unresolved venue source used to return [] silently, so a whole
+        # venue-year vanished without a trace. Record it (breaker skips are counted separately).
+        if not OA["breaker"]:
+            log(f"  openalex venue {name} {y}: source unresolved for '{term[:40]}'")
+            VENUE_INCOMPLETE.append(f"{name} {y} source unresolved")
         return []
     res: list[dict] = []
     total = None
@@ -391,7 +396,14 @@ def _openalex_venue(name: str, term: str, y: int) -> list[dict]:
         total = (js.get("meta") or {}).get("count", total)
         batch = js.get("results", [])
         res += batch
-        if len(batch) < 200 or (total is not None and len(res) >= total):
+        if total is not None and len(res) >= total:
+            break
+        if len(batch) < 200:
+            # A short page normally ends the listing; if meta.count says records remain, the
+            # listing stopped early and is recorded as incomplete (ChatGPT 12:50).
+            if total is not None and len(res) < total:
+                log(f"  openalex venue {name} {y}: short page {page} ({len(batch)} works) at {len(res)} of {total}")
+                VENUE_INCOMPLETE.append(f"{name} {y} short page {page} at {len(res)} of {total} works")
             break
     else:
         if total and len(res) < total:
@@ -574,6 +586,7 @@ REFS_CUT: set[str] = set()  # unindexed refs leads dropped by the top-N cap (for
 # a work below the cut has no title, so the known-positive check cannot see it by name.
 REFS_RESOLVE_CAP = 4000  # test-32 (24 Nov): 2,668 distinct referenced works; 1,500 cut 1,168
 REFS_AUDIT: dict[str, int] = {}
+REFS_INCOMPLETE: list[str] = []  # failed or short metadata batches in the refs resolution step
 
 
 def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> list[dict]:
@@ -664,15 +677,23 @@ def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> lis
         DIAG.append(f"refs truncated: {REFS_AUDIT['precut']} referenced works ranked below the "
                     f"{REFS_RESOLVE_CAP:,}-work cap were never resolved to titles")
     out: list[dict] = []
+    returned = 0
+    failed_batches: list[str] = []
     for i in range(0, len(ranked), 50):
         chunk = [k for _, k in ranked[i:i + 50]]
         time.sleep(0.2)
         data = get("https://api.openalex.org/works?filter=openalex:" + "|".join(chunk)
                    + "&per-page=50&select=id,title,doi,publication_date,ids,primary_location" + MAILTO, retries=2)
         try:
-            res = json.loads(data).get("results", []) if data else []
+            res = json.loads(data).get("results", []) if data else None
         except Exception:  # noqa: BLE001
+            res = None
+        if res is None:
+            failed_batches.append(f"batch {i // 50 + 1} ({len(chunk)} works) failed")
             res = []
+        elif len(res) < len(chunk):
+            failed_batches.append(f"batch {i // 50 + 1} returned {len(res)} of {len(chunk)}")
+        returned += len(res)
         for r in res:
             wid = r["id"].rsplit("/", 1)[-1]
             title = r.get("title") or ""
@@ -695,7 +716,14 @@ def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> lis
     # regression can see what the channel recovers; only unindexed leads are capped.
     fresh = [c for c in out if not c["indexed"]]
     REFS_CUT.update(norm_title(c["title"])[:50] for c in fresh[top:])
-    log(f"  refs: {len(ranked)} referenced works resolved; {len(out) - len(fresh)} already indexed; "
+    # ChatGPT 12:50: report works actually returned, not works requested; a failed or short
+    # metadata batch marks refs DEGRADED even when other batches returned candidates.
+    REFS_AUDIT.update({"requested": len(ranked), "returned": returned, "failed_batches": len(failed_batches)})
+    REFS_INCOMPLETE[:] = failed_batches
+    if failed_batches:
+        DIAG.append(f"refs incomplete: {returned} of {len(ranked)} requested works returned; "
+                    + "; ".join(failed_batches[:6]) + (" …" if len(failed_batches) > 6 else ""))
+    log(f"  refs: {returned} of {len(ranked)} requested referenced works resolved; {len(out) - len(fresh)} already indexed; "
         f"{len(fresh)} unindexed leads (top {top} kept)")
     return [c for c in out if c["indexed"]] + fresh[:top]
 
@@ -1296,6 +1324,9 @@ def main() -> int:
     if "venues" in chans and VENUE_INCOMPLETE:
         degraded.append(f"venue: {len(VENUE_INCOMPLETE)} venue-year listings incomplete ("
                         + "; ".join(VENUE_INCOMPLETE[:6]) + (" …" if len(VENUE_INCOMPLETE) > 6 else "") + ")")
+    if "refs" in chans and REFS_INCOMPLETE:
+        degraded.append(f"refs: {len(REFS_INCOMPLETE)} metadata batches incomplete ("
+                        + "; ".join(REFS_INCOMPLETE[:6]) + (" …" if len(REFS_INCOMPLETE) > 6 else "") + ")")
     regress = []
     for t, ch in KNOWN_POSITIVES:
         key = norm_title(t)[:50]
@@ -1310,6 +1341,8 @@ def main() -> int:
             elif ch == "refs" and REFS_AUDIT.get("precut"):
                 why = (f"possibly truncated before title resolution ({REFS_AUDIT['precut']} works below the "
                        f"{REFS_RESOLVE_CAP:,}-work cap are unnamed), or not cited by any resolved digest")
+            elif ch == "refs" and REFS_INCOMPLETE:
+                why = f"possibly lost in {len(REFS_INCOMPLETE)} incomplete metadata batches"
             elif ch == "venue" and VENUE_INCOMPLETE:
                 why = f"possibly truncated ({len(VENUE_INCOMPLETE)} venue-year listings incomplete)"
             elif OA["skipped_in"].get({"venue": "venues"}.get(ch, ch)):
