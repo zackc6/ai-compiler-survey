@@ -107,7 +107,7 @@ def get(url: str, timeout: int = 40, retries: int = 2) -> bytes | None:
             log(f"  HTTP {e.code} ({attempt + 1}/{retries + 1}): {url[:110]}")
             if e.code in (401, 403, 404):
                 return None
-            time.sleep((15 if e.code == 429 else 2) * (attempt + 1))
+            time.sleep((8 if e.code == 429 else 2) * (attempt + 1))
         except Exception as e:  # noqa: BLE001
             log(f"  fetch failed ({attempt + 1}/{retries + 1}): {url[:110]} -> {e}")
             time.sleep(2 + 3 * attempt)
@@ -1054,22 +1054,37 @@ def main() -> int:
         f"{len(idx['titles'])} titles, {len(idx['orgs'])} orgs")
 
     cands: list[dict] = []
+    _t0 = time.time()
+
+    def _lap(name: str) -> None:
+        nonlocal _t0
+        log(f"  timing {name}: {time.time() - _t0:.0f}s, {len(cands)} raw so far")
+        _t0 = time.time()
+
     if "arxiv" in chans:
         cands += arxiv_candidates(since)
+        _lap("arxiv")
     if "venues" in chans:
         cands += venue_candidates([today.year, today.year - 1])
+        _lap("venues")
     if "cites" in chans:
         cands += cited_by_candidates(idx, since)
+        _lap("cites")
     if "refs" in chans:
         cands += references_candidates(idx)
+        _lap("refs")
     if "github" in chans:
         cands += github_candidates(idx, since)
+        _lap("github")
     if "ghsearch" in chans:
         cands += ghsearch_candidates(idx, since)
+        _lap("ghsearch")
     if "blogs" in chans:
         cands += blog_candidates(since)
+        _lap("blogs")
     if "repoevent" in chans:
         cands += dedupe_repo_events(indexed_repo_event_candidates(idx, since))
+        _lap("repoevent")
 
     seen = set()
     new, already = [], 0
@@ -1130,7 +1145,7 @@ def main() -> int:
         per[c["channel"]] = per.get(c["channel"], 0) + 1
     lines += ["## Channel diagnostics", "", f"Raw candidates per channel: {json.dumps(per)}", "",
               "Fetch log (failures and venue page sizes):", ""]
-    top = [d for d in DIAG if any(k in d for k in ("refs:", "proceedings ", "truncated", "openalex venue"))]
+    top = [d for d in DIAG if any(k in d for k in ("timing ", "refs:", "proceedings ", "truncated", "openalex venue"))]
     mid = [d for d in DIAG if d not in top and ("openalex" in d.lower() or "HTTP" in d)]
     low = [d for d in DIAG if d not in top and d not in mid and ("cites " in d or any(t in d for t in DIAG_KEEP))]
     lines += [f"- {d}" for d in (top + mid + low)[:400]]
