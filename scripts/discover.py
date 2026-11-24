@@ -97,19 +97,71 @@ def log(msg: str) -> None:
     DIAG.append(msg)
 
 
+# OpenAlex meters usage in US dollars per day (help.openalex.org/api/authentication, read
+# 24 November 2026): keyless clients get about $0.10 a day per IP, a free key $1; a list or filter
+# request costs $0.0001 and any search (including a title.search filter) $0.001. Until 24 November
+# the venue listings spent ~136 searches, so the budget was gone before cites and refs ran and
+# both returned nothing. OA tracks estimated spend, and a daily_budget 429 trips a breaker that
+# skips every later OpenAlex call and marks the dependent channels DEGRADED.
+OPENALEX_KEY = os.environ.get("OPENALEX_API_KEY", "").strip()
+OA_SOFT_CAP = 0.8 if OPENALEX_KEY else 0.08  # USD; below the daily budget, leaving room for lists
+OA = {"lists": 0, "searches": 0, "skipped": 0, "breaker": "", "per_second_429": 0, "channel": "", "skipped_in": {}}
+
+
+def _oa_cost() -> float:
+    return OA["lists"] * 0.0001 + OA["searches"] * 0.001
+
+
 def get(url: str, timeout: int = 40, retries: int = 2) -> bytes | None:
+    oa = "api.openalex.org" in url
+    if oa:
+        if OA["breaker"]:
+            OA["skipped"] += 1
+            OA["skipped_in"][OA["channel"]] = OA["skipped_in"].get(OA["channel"], 0) + 1
+            return None
+        is_search = ("search=" in url or "search:" in url)
+        if is_search and _oa_cost() + 0.001 > OA_SOFT_CAP:
+            # Searches cost 10x a list; keep the remaining budget for the cheap list requests.
+            if not OA.get("capped"):
+                OA["capped"] = True
+                log(f"  openalex search cap: estimated spend ${_oa_cost():.4f} reached the ${OA_SOFT_CAP:.2f} "
+                    f"soft cap; further searches skipped (list requests continue)")
+            OA["skipped"] += 1
+            OA["skipped_in"][OA["channel"]] = OA["skipped_in"].get(OA["channel"], 0) + 1
+            return None
+        if OPENALEX_KEY and "/rate-limit" not in url:
+            url += ("&" if "?" in url else "?") + "api_key=" + urllib.parse.quote(OPENALEX_KEY)
+    shown = re.sub(r"api_key=[^&]+", "api_key=***", url)[:110]
     for attempt in range(retries + 1):
         try:
             req = urllib.request.Request(url, headers=UA)
             with urllib.request.urlopen(req, timeout=timeout) as r:
-                return r.read()
+                body = r.read()
+            if oa and "/rate-limit" not in url:
+                OA["searches" if ("search=" in url or "search:" in url) else "lists"] += 1
+            return body
         except urllib.error.HTTPError as e:  # noqa: PERF203
-            log(f"  HTTP {e.code} ({attempt + 1}/{retries + 1}): {url[:110]}")
+            if oa and e.code == 429:
+                try:
+                    reason = json.loads(e.read() or b"{}").get("reason", "")
+                except Exception:  # noqa: BLE001
+                    reason = ""
+                if reason == "daily_budget":
+                    OA["skipped_in"][OA["channel"]] = OA["skipped_in"].get(OA["channel"], 0) + 1
+                    OA["breaker"] = f"daily_budget in {OA['channel'] or '?'} after ~${_oa_cost():.4f} ({OA['lists']} lists, {OA['searches']} searches)"
+                    log(f"  openalex breaker tripped: {OA['breaker']}; remaining OpenAlex calls skipped: {shown}")
+                    return None
+                OA["per_second_429"] += 1
+                wait = float(e.headers.get("Retry-After") or 1) if e.headers else 1.0
+                log(f"  HTTP 429 reason={reason or '?'} retry-after={wait:g}s ({attempt + 1}/{retries + 1}): {shown}")
+                time.sleep(min(wait, 30) + attempt)
+                continue
+            log(f"  HTTP {e.code} ({attempt + 1}/{retries + 1}): {shown}")
             if e.code in (401, 403, 404):
                 return None
             time.sleep((8 if e.code == 429 else 2) * (attempt + 1))
         except Exception as e:  # noqa: BLE001
-            log(f"  fetch failed ({attempt + 1}/{retries + 1}): {url[:110]} -> {e}")
+            log(f"  fetch failed ({attempt + 1}/{retries + 1}): {shown} -> {e}")
             time.sleep(2 + 3 * attempt)
     return None
 
@@ -298,36 +350,54 @@ VENUE_TERMS = ["compiler", "superoptim", "autotun", "kernel", "megakernel", "tri
                "cost model", "cuda", "tile", "code generation", "accelerator", "scheduling", "agent"]
 
 
-def _openalex_venue(name: str, term: str, y: int) -> list[dict]:
-    """Venue-year works whose title matches the compiler vocabulary, filtered server-side.
+VENUE_MAX_PAGES = 25  # 5,000 works per venue-year; NeurIPS/ICLR/ICML main tracks fit
 
-    Until 24 November 2026 this listed every work and kept the first 200, silently truncating
-    ICLR, NeurIPS, ICML and MLSys (AccelOpt was lost that way). Cursor pagination answers 401
-    without an API key, so the title filter runs in OpenAlex instead, one OR-group per request,
-    and a full page is reported as truncated."""
+
+def _openalex_venue(name: str, term: str, y: int) -> list[dict]:
+    """Every work of a venue-year, paged as plain list requests and filtered on titles locally.
+
+    History: until 24 November 2026 the first 200 works were kept, silently truncating ICLR,
+    NeurIPS, ICML and MLSys (AccelOpt was lost that way). The 24 November replacement pushed the
+    title filter into OpenAlex as title.search OR-groups, but each of those is a $0.001 search and
+    a "broad boolean" query (1 request/s), so ~136 of them spent the keyless daily budget. Basic
+    page= paging costs $0.0001 per 200 works and needs no key (cursor paging answered 401). A
+    venue-year larger than VENUE_MAX_PAGES pages is logged as truncated."""
     ids = _openalex_sources(term)
     if not ids:
         return []
     res: list[dict] = []
-    for i in range(0, len(VENUE_TERMS), 6):
-        group = "|".join(urllib.parse.quote(t) for t in VENUE_TERMS[i:i + 6])
+    total = None
+    for page in range(1, VENUE_MAX_PAGES + 1):
         url = (f"https://api.openalex.org/works?filter=primary_location.source.id:{'|'.join(ids)},"
-               f"publication_year:{y},title.search:{group}&per-page=200"
+               f"publication_year:{y}&per-page=200&page={page}"
                f"&select=title,doi,publication_date,primary_location{MAILTO}")
-        time.sleep(1.2)
-        data = get(url, timeout=40, retries=2)
+        time.sleep(0.2)
+        data = get(url, timeout=60, retries=3)
         if not data:
-            continue
+            log(f"  openalex venue {name} {y}: truncated, page {page} failed after {len(res)} works"
+                + (f" of {total}" if total else "") + (" (breaker)" if OA["breaker"] else ""))
+            return [] if not res and OA["breaker"] else _venue_filter(res)
         try:
-            page = json.loads(data).get("results", [])
+            js = json.loads(data)
         except Exception as e:  # noqa: BLE001
             log(f"  openalex venue parse failed {name} {y}: {e}")
-            continue
-        if len(page) >= 200:
-            log(f"  openalex venue {name} {y}: truncated at 200 for terms {VENUE_TERMS[i:i + 6]}")
-        res += page
-    log(f"  openalex venue {name} {y}: {len(res)} title-matched works")
-    return res
+            break
+        total = (js.get("meta") or {}).get("count", total)
+        batch = js.get("results", [])
+        res += batch
+        if len(batch) < 200 or (total is not None and len(res) >= total):
+            break
+    else:
+        if total and len(res) < total:
+            log(f"  openalex venue {name} {y}: truncated at {len(res)} of {total} works")
+    kept = _venue_filter(res)
+    log(f"  openalex venue {name} {y}: {len(res)} works listed" + (f" of {total}" if total is not None else "")
+        + f", {len(kept)} title-matched")
+    return kept
+
+
+def _venue_filter(works: list[dict]) -> list[dict]:
+    return [w for w in works if any(t in (w.get("title") or "").lower() for t in VENUE_TERMS)]
 
 
 # Proceedings sites that publish complete title lists (same software for MLSys and NeurIPS).
@@ -399,29 +469,46 @@ def cited_by_candidates(idx: dict, since: dt.date, max_seeds: int = 60) -> list[
             if m:
                 seeds.append(m.group(1))
     seeds = seeds[:max_seeds]
-    for aid in seeds:
-        h1 = ""
-        for p2 in PUBS.glob("*.md"):
-            if p2.name in ("INDEX.md", "_TEMPLATE.md"):
-                continue
-            t2 = p2.read_text(encoding="utf-8", errors="ignore")
-            if aid in t2:
-                h1 = t2.splitlines()[0].lstrip("# ").split(" (")[0].split(": ")[-1].strip() or t2.splitlines()[0].lstrip("# ").strip()
-                break
-        if not h1:
-            continue
-        time.sleep(1.2)
-        sq = get("https://api.openalex.org/works?filter=title.search:" + urllib.parse.quote(h1[:120]) + "&per-page=1&select=id,title,cited_by_count" + MAILTO, retries=1)
+    # Resolve seeds by their arXiv DOI in batched list requests ($0.0001 each). Title search
+    # ($0.001 each) was the only route until 24 November 2026 and helped spend the daily budget.
+    works: dict[str, dict] = {}
+    for i in range(0, len(seeds), 40):
+        chunk = ["10.48550/arxiv." + a for a in seeds[i:i + 40]]
+        data = get("https://api.openalex.org/works?filter=doi:" + "|".join(chunk)
+                   + "&per-page=50&select=id,doi,title,cited_by_count" + MAILTO, retries=3)
         try:
-            res0 = json.loads(sq).get("results", []) if sq else []
+            for r in (json.loads(data).get("results", []) if data else []):
+                m = re.search(r"arxiv\.(\d{4}\.\d{4,5})", (r.get("doi") or "").lower())
+                if m:
+                    works[m.group(1)] = r
         except Exception:  # noqa: BLE001
-            res0 = []
-        if not res0:
-            log(f"  cites {aid}: title not found in OpenAlex ({h1[:50]})")
-            continue
-        w = res0[0]
+            pass
+    log(f"  cites: {len(seeds)} Tier A arXiv seeds, {len(works)} resolved by DOI")
+    for aid in seeds:
+        w = works.get(aid)
+        if not w:
+            h1 = ""
+            for p2 in PUBS.glob("*.md"):
+                if p2.name in ("INDEX.md", "_TEMPLATE.md"):
+                    continue
+                t2 = p2.read_text(encoding="utf-8", errors="ignore")
+                if aid in t2:
+                    h1 = _digest_title(t2)
+                    break
+            if not h1:
+                continue
+            sq = get("https://api.openalex.org/works?filter=title.search:" + urllib.parse.quote(re.sub(r"[,:|]", " ", h1)[:120])
+                     + "&per-page=1&select=id,title,cited_by_count" + MAILTO, retries=2)
+            try:
+                res0 = json.loads(sq).get("results", []) if sq else []
+            except Exception:  # noqa: BLE001
+                res0 = []
+            if not res0:
+                log(f"  cites {aid}: not found in OpenAlex by DOI or title ({h1[:50]})" + (" (breaker)" if OA["breaker"] else ""))
+                continue
+            w = res0[0]
         wid = w["id"].rsplit("/", 1)[-1]
-        time.sleep(1.2)
+        time.sleep(0.2)
         data = get(f"https://api.openalex.org/works?filter=cites:{wid},from_publication_date:{since.isoformat()}&per-page=100&select=id,title,doi,publication_date,primary_location" + MAILTO, retries=1)
         if not data:
             continue
@@ -442,7 +529,8 @@ def cited_by_candidates(idx: dict, since: dt.date, max_seeds: int = 60) -> list[
 
 # --------------------------------------------------------------------------- references
 def _digest_title(t: str) -> str:
-    return t.splitlines()[0].lstrip("# ").split(" (")[0].strip()
+    # Some digests start with a UTF-8 BOM; it used to leak into title searches ("\ufeff# Ansor").
+    return t.lstrip("\ufeff").splitlines()[0].lstrip("# ").split(" (")[0].strip()
 
 
 def _digest_keys(t: str) -> tuple[str, str]:
@@ -468,6 +556,9 @@ KNOWN_POSITIVES = [
     ("TASO: Optimizing Deep Learning Computation with Automatic Generation of Graph Substitutions", "refs"),
     ("Ansor: Generating High-Performance Tensor Programs for Deep Learning", "refs"),
 ]
+
+
+REFS_CUT: set[str] = set()  # unindexed refs leads dropped by the top-N cap (for the regression)
 
 
 def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> list[dict]:
@@ -507,7 +598,7 @@ def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> lis
     dois = list(by_doi)
     for i in range(0, len(dois), 40):
         chunk = dois[i:i + 40]
-        time.sleep(1.2)
+        time.sleep(0.2)
         data = get("https://api.openalex.org/works?filter=doi:" + "|".join(chunk)
                    + "&per-page=50&select=id,doi,title,referenced_works" + MAILTO, retries=2)
         try:
@@ -526,7 +617,7 @@ def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> lis
             if len(title) >= 12:
                 by_title.setdefault(title, stem)
     for title, stem in by_title.items():
-        time.sleep(1.2)
+        time.sleep(0.2)
         q = re.sub(r"[,:|]", " ", title)[:120]
         data = get("https://api.openalex.org/works?filter=title.search:" + urllib.parse.quote(q)
                    + "&per-page=1&select=id,title,referenced_works" + MAILTO, retries=2)
@@ -542,7 +633,7 @@ def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> lis
     out: list[dict] = []
     for i in range(0, len(ranked), 50):
         chunk = [k for _, k in ranked[i:i + 50]]
-        time.sleep(1.2)
+        time.sleep(0.2)
         data = get("https://api.openalex.org/works?filter=openalex:" + "|".join(chunk)
                    + "&per-page=50&select=id,title,doi,publication_date,ids,primary_location" + MAILTO, retries=2)
         try:
@@ -570,6 +661,7 @@ def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> lis
     # Indexed works are returned too (the index dedupe in main drops them) so the known-positive
     # regression can see what the channel recovers; only unindexed leads are capped.
     fresh = [c for c in out if not c["indexed"]]
+    REFS_CUT.update(norm_title(c["title"])[:50] for c in fresh[top:])
     log(f"  refs: {len(ranked)} referenced works resolved; {len(out) - len(fresh)} already indexed; "
         f"{len(fresh)} unindexed leads (top {top} kept)")
     return [c for c in out if c["indexed"]] + fresh[:top]
@@ -1070,6 +1162,9 @@ def ghsearch_candidates(idx: dict, since: dt.date) -> list[dict]:
 
 
 # --------------------------------------------------------------------------- main
+RUN_START = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--since", help="YYYY-MM-DD; default: 21 days ago")
@@ -1092,27 +1187,44 @@ def main() -> int:
         _t0 = time.time()
 
     if "arxiv" in chans:
+        OA["channel"] = "arxiv"
         cands += arxiv_candidates(since)
         _lap("arxiv")
-    if "venues" in chans:
-        cands += venue_candidates([today.year, today.year - 1])
-        _lap("venues")
-    if "cites" in chans:
-        cands += cited_by_candidates(idx, since)
-        _lap("cites")
+    # OpenAlex channels run in order of what nothing else can replace: refs has no date window and
+    # no keyword filter; cites follows; venue listings last (proceedings sites and arXiv overlap them).
+    if OPENALEX_KEY or "refs" in chans or "cites" in chans or "venues" in chans:
+        rl = get("https://api.openalex.org/rate-limit" + (f"?api_key={urllib.parse.quote(OPENALEX_KEY)}" if OPENALEX_KEY else ""), retries=0)
+        try:
+            r0 = json.loads(rl).get("rate_limit", {}) if rl else {}
+            log(f"  openalex budget at start: {r0.get('daily_remaining_usd', '?')} of {r0.get('daily_budget_usd', '?')} USD remaining")
+        except Exception:  # noqa: BLE001
+            log("  openalex budget at start: unknown (rate-limit endpoint unreadable)")
     if "refs" in chans:
+        OA["channel"] = "refs"
         cands += references_candidates(idx)
         _lap("refs")
+    if "cites" in chans:
+        OA["channel"] = "cites"
+        cands += cited_by_candidates(idx, since)
+        _lap("cites")
+    if "venues" in chans:
+        OA["channel"] = "venues"
+        cands += venue_candidates([today.year, today.year - 1])
+        _lap("venues")
     if "github" in chans:
+        OA["channel"] = "github"
         cands += github_candidates(idx, since)
         _lap("github")
     if "ghsearch" in chans:
+        OA["channel"] = "ghsearch"
         cands += ghsearch_candidates(idx, since)
         _lap("ghsearch")
     if "blogs" in chans:
+        OA["channel"] = "blogs"
         cands += blog_candidates(since)
         _lap("blogs")
     if "repoevent" in chans:
+        OA["channel"] = "repoevent"
         cands += dedupe_repo_events(indexed_repo_event_candidates(idx, since))
         _lap("repoevent")
 
@@ -1135,18 +1247,36 @@ def main() -> int:
             continue
         new.append(c)
 
-    raw_titles = {}
+    raw_titles: dict[str, set[str]] = {}
     for c in cands:
-        raw_titles.setdefault(norm_title(c["title"])[:50], c["channel"])
-    regress = []
-    for t, ch in KNOWN_POSITIVES:
-        got = raw_titles.get(norm_title(t)[:50])
-        regress.append(f"{t.split(':')[0]}: " + (f"recovered by {got}" if got else f"MISSED (expected {ch})"))
+        raw_titles.setdefault(norm_title(c["title"])[:50], set()).add(c["channel"])
     per_raw = {}
     for c in cands:
         per_raw[c["channel"]] = per_raw.get(c["channel"], 0) + 1
     expected = {"arxiv": "arxiv", "venues": "venue", "cites": "cites", "refs": "refs"}
-    degraded = [v for k, v in expected.items() if k in chans and per_raw.get(v, 0) == 0]
+    degraded = [f"{v}: zero raw candidates" for k, v in expected.items() if k in chans and per_raw.get(v, 0) == 0]
+    # A channel that lost OpenAlex calls to the budget breaker is degraded even if it returned rows.
+    for ch, n in OA["skipped_in"].items():
+        label = {"venues": "venue (OpenAlex listings)"}.get(ch, ch)
+        if ch and ch not in degraded and label not in degraded:
+            degraded.append(f"{label}: {n} OpenAlex calls skipped by the budget breaker or search cap")
+    regress = []
+    for t, ch in KNOWN_POSITIVES:
+        key = norm_title(t)[:50]
+        got = sorted(raw_titles.get(key, set()))
+        if ch in got:
+            verdict = "recovered by " + ", ".join(got)
+        else:
+            if key in REFS_CUT:
+                why = "truncated (ranked below the refs top-N cap)"
+            elif OA["skipped_in"].get({"venue": "venues"}.get(ch, ch)):
+                why = "fetch failure (OpenAlex budget breaker)"
+            elif per_raw.get(ch, 0) == 0:
+                why = f"fetch failure ({ch} returned nothing)"
+            else:
+                why = f"not surfaced by {ch} although it returned {per_raw.get(ch, 0)} rows"
+            verdict = f"MISSED via expected {ch}: {why}" + (f"; seen only in {', '.join(got)}" if got else "")
+        regress.append(f"{t.split(':')[0]}: {verdict}")
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     out = Path(args.out) if args.out else OUT_DIR / f"{today.isoformat()}.md"
     by = {}
@@ -1154,11 +1284,24 @@ def main() -> int:
         by.setdefault(c["channel"], []).append(c)
     source_count = sum(c["channel"] != "repoevent" for c in new)
     event_count = len(new) - source_count
+    sha = os.environ.get("GITHUB_SHA", "")
+    if not sha:
+        try:
+            import subprocess
+            sha = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True, cwd=ROOT).stdout.strip()
+        except Exception:  # noqa: BLE001
+            sha = "unknown"
     lines = [f"# Discovery ledger — {today.isoformat()}", "",
+             f"Provenance: script `{sha[:12] or 'unknown'}` ({os.environ.get('GITHUB_REF_NAME', 'local')}), "
+             f"run started {RUN_START} UTC. OpenAlex: key {'present' if OPENALEX_KEY else 'absent (keyless, about $0.10/day per IP)'}; "
+             f"{OA['lists']} lists + {OA['searches']} searches = about ${_oa_cost():.4f}; "
+             f"{OA['per_second_429']} per-second 429s; breaker: {OA['breaker'] or 'not tripped'}"
+             + ("; search soft cap reached" if OA.get("capped") else "")
+             + (f", {OA['skipped']} calls skipped" if OA["skipped"] else "") + ".", "",
              f"Window: since {since.isoformat()}. Channels: {', '.join(sorted(chans))}. "
              f"Candidates: {len(cands)} raw, {already} already indexed, "
              f"**{source_count} new source leads**, **{event_count} indexed-repo events**.", "",
-             ("**Status: DEGRADED** — channels with zero raw candidates: " + ", ".join(degraded) + ". "
+             ("**Status: DEGRADED** — " + "; ".join(degraded) + ". "
               "Read the diagnostics before trusting this ledger's coverage." if degraded else "**Status: all enumerated channels returned candidates.**"),
              "",
              "Known-positive regression (sources the method once missed; checked before the index dedupe): "
@@ -1192,7 +1335,8 @@ def main() -> int:
         per[c["channel"]] = per.get(c["channel"], 0) + 1
     lines += ["## Channel diagnostics", "", f"Raw candidates per channel: {json.dumps(per)}", "",
               "Fetch log (failures and venue page sizes):", ""]
-    top = [d for d in DIAG if any(k in d for k in ("timing ", "refs:", "proceedings ", "truncated", "openalex venue"))]
+    top = [d for d in DIAG if any(k in d for k in ("timing ", "refs:", "cites:", "proceedings ", "truncated", "openalex venue",
+                                                   "openalex budget", "openalex breaker", "openalex search cap"))]
     mid = [d for d in DIAG if d not in top and ("openalex" in d.lower() or "HTTP" in d)]
     low = [d for d in DIAG if d not in top and d not in mid and ("cites " in d or any(t in d for t in DIAG_KEEP))]
     lines += [f"- {d}" for d in (top + mid + low)[:400]]

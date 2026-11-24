@@ -16,9 +16,12 @@ on:
         description: "Start date YYYY-MM-DD (default: 21 days ago)"
         required: false
   push:
-    # Only reviewed code from main may publish a discovery ledger.
+    # Reviewed code on main publishes the weekly ledger. A claude/discovery-fix-* branch may run
+    # the same job as a live test of unmerged discovery code; its ledger goes to a -test- branch,
+    # is labelled as a test in the Review thread, and is never a merge candidate.
     branches:
       - main
+      - "claude/discovery-fix-*"
     paths:
       - scripts/discover.py
       - .github/workflows/discover.yml
@@ -35,6 +38,9 @@ jobs:
       - name: Run discovery
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Optional. Without it OpenAlex allows about $0.10/day per IP; the ledger records only
+          # whether a key was present, never its value.
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
         run: |
           set -e
           SINCE="${{ github.event.inputs.since }}"
@@ -58,6 +64,10 @@ jobs:
           git config user.name "Claude (discovery)"
           git config user.email "claude-action@users.noreply.github.com"
           br="claude/discovery-$d"
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            br="claude/discovery-$d-test-${{ github.run_number }}"
+            echo "Live test of unmerged discovery code from ${{ github.ref_name }} @ ${{ github.sha }}"
+          fi
           # Never rewrite a discovery branch being reviewed or triaged.
           if git ls-remote --exit-code --heads origin "$br" >/dev/null; then
             # A same-day rerun (for example after a discovery fix) publishes beside the existing
@@ -72,7 +82,7 @@ jobs:
           for i in 1 2 3 4; do
             git fetch origin main
             git checkout -B main origin/main
-            python3 scripts/announce_discovery.py "$f" "$n" "$events" "$br" "$d"
+            python3 scripts/announce_discovery.py "$f" "$n" "$events" "$br" "$d" "${{ github.ref_name }}@${GITHUB_SHA:0:12}"
             git add STATUS.md
             git commit -m "status: discovery ledger $d announced ($n new source leads, $events indexed-repo events)"
             if git push origin HEAD:main; then break; fi
