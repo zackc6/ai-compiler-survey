@@ -455,6 +455,21 @@ def _digest_keys(t: str) -> tuple[str, str]:
     return "", _digest_title(t)
 
 
+MECHANISM_TERMS = ["memory", "reflect", "skill", "self-improv", "self-evolv", "experience", "agent",
+                   "harness", "workflow", "superoptim", "autotun", "search", "compiler", "kernel"]
+
+# Sources the method once missed. Each run must recover them from the raw candidates (before the
+# index dedupe) or say which ones it missed: a regression test for the channels themselves.
+KNOWN_POSITIVES = [
+    ("AccelOpt: A Self-Improving LLM Agentic System for AI Accelerator Kernel Optimization", "venue"),
+    ("Reflexion: Language Agents with Verbal Reinforcement Learning", "refs"),
+    ("Voyager: An Open-Ended Embodied Agent with Large Language Models", "refs"),
+    ("MemGPT: Towards LLMs as Operating Systems", "refs"),
+    ("TASO: Optimizing Deep Learning Computation with Automatic Generation of Graph Substitutions", "refs"),
+    ("Ansor: Generating High-Performance Tensor Programs for Deep Learning", "refs"),
+]
+
+
 def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> list[dict]:
     """Backward references: works that several of our digests cite but the index lacks.
 
@@ -503,6 +518,13 @@ def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> lis
             d = (r.get("doi") or "").replace("https://doi.org/", "").lower()
             if d in by_doi:
                 add(r, by_doi[d])
+    resolved_stems = set().union(*counts.values()) if counts else set()
+    for doi, stem in by_doi.items():  # DOI not found in OpenAlex: fall back to the digest title
+        if stem not in resolved_stems:
+            t = (PUBS / f"{stem}.md").read_text(encoding="utf-8", errors="ignore")
+            title = _digest_title(t)
+            if len(title) >= 12:
+                by_title.setdefault(title, stem)
     for title, stem in by_title.items():
         time.sleep(1.2)
         q = re.sub(r"[,:|]", " ", title)[:120]
@@ -516,7 +538,7 @@ def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> lis
             add(res[0], stem)
     log(f"  refs: {len(by_doi)} paper digests by DOI, {len(by_title)} by title; {resolved} resolved, "
         f"{empty} with no reference list; {len(counts)} distinct referenced works")
-    ranked = sorted(((len(v), k) for k, v in counts.items() if len(v) >= min_digests), reverse=True)
+    ranked = sorted(((len(v), k) for k, v in counts.items() if len(v) >= 1), reverse=True)[:1500]
     out: list[dict] = []
     for i in range(0, len(ranked), 50):
         chunk = [k for _, k in ranked[i:i + 50]]
@@ -533,16 +555,24 @@ def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> lis
             doi = (r.get("doi") or "").replace("https://doi.org/", "")
             m = re.search(r"(\d{4}\.\d{4,5})", doi + json.dumps(r.get("primary_location") or {}))
             ax = m.group(1) if m else ""
-            if known(idx, arxiv=ax, doi=doi, title=title):
-                continue
+            indexed = known(idx, arxiv=ax, doi=doi, title=title)
             by = sorted(counts[wid])
+            # Two or more citing digests: always a lead. One: only if the title names an agent or
+            # optimizer mechanism, so single-citation foundations (a memory or reflection paper
+            # cited once) still surface without flooding the ledger with every reference.
+            if not indexed and len(by) < min_digests and not any(k in title.lower() for k in MECHANISM_TERMS):
+                continue
             loc = (r.get("primary_location") or {}).get("landing_page_url") or (f"https://doi.org/{doi}" if doi else r["id"])
             out.append({"channel": "refs", "id": doi, "title": title, "date": r.get("publication_date", ""),
-                        "url": loc, "n": len(by),
+                        "url": loc, "n": len(by), "indexed": indexed,
                         "why": f"cited by {len(by)} digests: " + ", ".join(by[:6]) + (" …" if len(by) > 6 else "")})
     out.sort(key=lambda c: -c["n"])
-    log(f"  refs: {len(ranked)} works cited by >= {min_digests} digests; {len(out)} not indexed (top {top} kept)")
-    return out[:top]
+    # Indexed works are returned too (the index dedupe in main drops them) so the known-positive
+    # regression can see what the channel recovers; only unindexed leads are capped.
+    fresh = [c for c in out if not c["indexed"]]
+    log(f"  refs: {len(ranked)} referenced works resolved; {len(out) - len(fresh)} already indexed; "
+        f"{len(fresh)} unindexed leads (top {top} kept)")
+    return [c for c in out if c["indexed"]] + fresh[:top]
 
 
 # --------------------------------------------------------------------------- github / pypi
@@ -1105,6 +1135,18 @@ def main() -> int:
             continue
         new.append(c)
 
+    raw_titles = {}
+    for c in cands:
+        raw_titles.setdefault(norm_title(c["title"])[:50], c["channel"])
+    regress = []
+    for t, ch in KNOWN_POSITIVES:
+        got = raw_titles.get(norm_title(t)[:50])
+        regress.append(f"{t.split(':')[0]}: " + (f"recovered by {got}" if got else f"MISSED (expected {ch})"))
+    per_raw = {}
+    for c in cands:
+        per_raw[c["channel"]] = per_raw.get(c["channel"], 0) + 1
+    expected = {"arxiv": "arxiv", "venues": "venue", "cites": "cites", "refs": "refs"}
+    degraded = [v for k, v in expected.items() if k in chans and per_raw.get(v, 0) == 0]
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     out = Path(args.out) if args.out else OUT_DIR / f"{today.isoformat()}.md"
     by = {}
@@ -1116,6 +1158,11 @@ def main() -> int:
              f"Window: since {since.isoformat()}. Channels: {', '.join(sorted(chans))}. "
              f"Candidates: {len(cands)} raw, {already} already indexed, "
              f"**{source_count} new source leads**, **{event_count} indexed-repo events**.", "",
+             ("**Status: DEGRADED** — channels with zero raw candidates: " + ", ".join(degraded) + ". "
+              "Read the diagnostics before trusting this ledger's coverage." if degraded else "**Status: all enumerated channels returned candidates.**"),
+             "",
+             "Known-positive regression (sources the method once missed; checked before the index dedupe): "
+             + "; ".join(regress) + ".", "",
              "Triage source rows as INCLUDE (digest it), EXCLUDE (reason), or PENDING "
              "(what is missing). For indexed-repo events use UPDATE-DIGEST, "
              "NOTE-IN-REPOS or IGNORE with a reason. Mark every Decision cell "
