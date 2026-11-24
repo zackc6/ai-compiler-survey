@@ -506,14 +506,16 @@ def cited_by_candidates(idx: dict, since: dt.date, max_seeds: int = 60) -> list[
     since = min(since, dt.date.today() - dt.timedelta(days=180))
     out = []
     seeds = []
+    owner_title: dict[str, str] = {}  # seed arXiv ID -> title of the Tier A digest it came from
     for p in sorted(PUBS.glob("*.md")):
         if p.name in ("INDEX.md", "_TEMPLATE.md"):
             continue
         t = p.read_text(encoding="utf-8", errors="ignore")
         if re.search(r"\| \*\*Evidence tier\*\* \| (\*\*)?A\b", t):
             m = re.search(r"arxiv\.org/abs/(\d{4}\.\d{4,5})", t)
-            if m:
+            if m and m.group(1) not in owner_title:
                 seeds.append(m.group(1))
+                owner_title[m.group(1)] = _digest_title(t)
     seeds = seeds[:max_seeds]
     # Resolve seeds by their arXiv DOI in batched list requests ($0.0001 each). Title search
     # ($0.001 each) was the only route until 24 November 2026 and helped spend the daily budget.
@@ -537,14 +539,9 @@ def cited_by_candidates(idx: dict, since: dt.date, max_seeds: int = 60) -> list[
     for aid in seeds:
         w = works.get(aid)
         if not w:
-            h1 = ""
-            for p2 in PUBS.glob("*.md"):
-                if p2.name in ("INDEX.md", "_TEMPLATE.md"):
-                    continue
-                t2 = p2.read_text(encoding="utf-8", errors="ignore")
-                if aid in t2:
-                    h1 = _digest_title(t2)
-                    break
+            # ChatGPT 13:06: use the title of the digest that owns the seed, never the first digest
+            # that merely mentions its arXiv ID (a citing digest would validate the wrong paper).
+            h1 = owner_title.get(aid, "")
             if not h1:
                 CITES_INCOMPLETE.append(f"{aid} unresolved (no DOI match, no digest title)")
                 continue
@@ -685,6 +682,7 @@ def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> lis
     doi_hit: set[str] = set()       # digests matched by DOI, with or without a reference list
     doi_hit_refs: set[str] = set()  # ... of which OpenAlex returned a non-empty reference list
     title_hit: set[str] = set()
+    title_unconfirmed: list[str] = []  # title searches with hits but no unique exact-title record
 
     def add(work: dict, stem: str) -> None:
         nonlocal resolved, empty
@@ -724,22 +722,32 @@ def references_candidates(idx: dict, min_digests: int = 2, top: int = 80) -> lis
         time.sleep(0.2)
         q = re.sub(r"[,:|]", " ", title)[:120]
         data = get("https://api.openalex.org/works?filter=title.search:" + urllib.parse.quote(q)
-                   + "&per-page=1&select=id,title,referenced_works" + MAILTO, retries=2)
+                   + "&per-page=5&select=id,title,referenced_works" + MAILTO, retries=2)
         try:
             res = json.loads(data).get("results", []) if data else []
         except Exception:  # noqa: BLE001
             res = []
-        if res and norm_title(res[0].get("title") or "")[:30] == norm_title(title)[:30]:
+        # ChatGPT 13:06: same identity standard as cites. A 30-character prefix let a different
+        # paper with a shared opening supply the reference list; require exactly one record whose
+        # full normalized title equals the digest title (same cost: one search call either way).
+        want = norm_title(title)
+        exact = [h for h in res if want and norm_title(h.get("title") or "") == want]
+        if len({h.get("id") for h in exact}) == 1:
             title_hit.add(stem)
-            add(res[0], stem)
+            add(exact[0], stem)
+        elif res:
+            title_unconfirmed.append(stem)
     log(f"  refs: {len(by_doi)} paper digests by DOI, {len(by_title)} by title; {resolved} resolved, "
         f"{empty} with no reference list; {len(counts)} distinct referenced works")
     REFS_AUDIT.update({"doi_seeds": len(by_doi), "doi_hit": len(doi_hit), "doi_hit_refs": len(doi_hit_refs),
                        "doi_miss": len(doi_miss), "title_only": title_only, "title_hit": len(title_hit),
-                       "distinct": len(counts)})
+                       "title_unconfirmed": len(title_unconfirmed), "distinct": len(counts)})
     DIAG.append(f"refs: audit — DOI seeds {len(by_doi)}: {len(doi_hit)} matched ({len(doi_hit_refs)} with a "
                 f"reference list, {len(doi_hit) - len(doi_hit_refs)} empty), {len(doi_miss)} missed -> title "
-                f"fallback; title-only seeds {title_only}; title searches matched {len(title_hit)}")
+                f"fallback; title-only seeds {title_only}; title searches matched {len(title_hit)} "
+                f"(unique exact title), {len(title_unconfirmed)} with hits but no unique exact title"
+                + (": " + ", ".join(title_unconfirmed[:8]) + (" …" if len(title_unconfirmed) > 8 else "")
+                   if title_unconfirmed else ""))
     ranked = sorted(((len(v), k) for k, v in counts.items() if len(v) >= 1), reverse=True)[:REFS_RESOLVE_CAP]
     REFS_AUDIT["precut"] = max(0, len(counts) - REFS_RESOLVE_CAP)
     if REFS_AUDIT["precut"]:
@@ -1475,15 +1483,31 @@ def main() -> int:
             lines.append("Existing evidence-family updates only; decide UPDATE-DIGEST, "
                          "NOTE-IN-REPOS or IGNORE. These rows never count as new sources.")
             lines.append("")
+        groups = [("", rows)]
         if ch == "refs":
-            lines.append("No date window and no compiler-keyword filter. Each row is cited by two or more "
-                         "digests; INCLUDE as background, or EXCLUDE with the reason it is outside scope.")
+            # ChatGPT 13:06: the foundational-gap table holds only works cited by two or more digests,
+            # as documented; single-digest mechanism-term leads are a separate, labelled table.
+            multi = [c for c in rows if c.get("n", 0) >= 2]
+            single = [c for c in rows if c.get("n", 0) < 2]
+            lines.append("No date window and no compiler-keyword filter. Each row in the first table is cited "
+                         f"by two or more digests ({len(multi)} rows); INCLUDE as background, or EXCLUDE with "
+                         "the reason it is outside scope.")
             lines.append("")
-        lines += ["| Date | Candidate | Why it surfaced | Decision |", "|---|---|---|---|"]
-        for c in sorted(rows, key=lambda r: (r["date"], r["title"], r["url"]), reverse=True):
-            t = c["title"].replace("|", "/")
-            lines.append(f"| {c['date']} | [{t}]({c['url']}) | {c['why']} | |")
-        lines.append("")
+            groups = [("", multi)]
+            if single:
+                groups.append(("Single-digest leads (cited by one digest; admitted only because the title names "
+                               f"an agent or optimizer mechanism; weaker signal than a foundational gap) ({len(single)})",
+                               single))
+        for sub, grp in groups:
+            if sub:
+                lines += [f"### {sub}", ""]
+            if not grp:
+                continue
+            lines += ["| Date | Candidate | Why it surfaced | Decision |", "|---|---|---|---|"]
+            for c in sorted(grp, key=lambda r: (r["date"], r["title"], r["url"]), reverse=True):
+                t = c["title"].replace("|", "/")
+                lines.append(f"| {c['date']} | [{t}]({c['url']}) | {c['why']} | |")
+            lines.append("")
     per = {}
     for c in cands:
         per[c["channel"]] = per.get(c["channel"], 0) + 1

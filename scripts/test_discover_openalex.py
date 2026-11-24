@@ -390,6 +390,52 @@ class OpenAlexBudget(unittest.TestCase):
             self.assertEqual(len(d.CITES_INCOMPLETE), 1)
             self.assertIn("2601.00002 title match unconfirmed", d.CITES_INCOMPLETE[0])
 
+    def test_cites_fallback_uses_owning_digest_title_not_citing_digest(self):
+        # ChatGPT 13:06: an earlier digest (a.md) cites the seed's arXiv ID; the fallback must search
+        # the owning digest's title (b.md), so the citing paper's exact title cannot validate itself.
+        import datetime
+        import pathlib
+        import tempfile
+        tmp = pathlib.Path(tempfile.mkdtemp())
+        (tmp / "a.md").write_text("# Citing paper title here\n\n| **Evidence tier** | B |\n"
+                                  "| **Link** | https://arxiv.org/abs/2601.00009 |\n"
+                                  "Builds on https://arxiv.org/abs/2601.00002.\n", encoding="utf-8")
+        (tmp / "b.md").write_text("# Seed b paper title\n\n| **Evidence tier** | A |\n"
+                                  "| **Link** | https://arxiv.org/abs/2601.00002 |\n", encoding="utf-8")
+        searched, asked = [], []
+
+        def fake_get(url, timeout=0, retries=0):
+            if "filter=doi:" in url:
+                return json.dumps({"results": []}).encode()
+            if "title.search:" in url:
+                q = d.urllib.parse.unquote(url.split("title.search:")[1].split("&")[0])
+                searched.append(q)
+                title = "Citing paper title here" if "Citing" in q else "Seed b paper title"
+                return json.dumps({"results": [{"id": "https://openalex.org/W" + title.split()[0].upper(),
+                                                "title": title}]}).encode()
+            asked.append(url.split("filter=cites:")[1].split(",")[0])
+            return json.dumps({"meta": {"count": 0}, "results": []}).encode()
+
+        d.CITES_INCOMPLETE.clear()
+        with mock.patch.object(d, "PUBS", tmp), mock.patch.object(d, "get", fake_get), \
+                mock.patch.object(d.time, "sleep", lambda s: None), mock.patch.dict(d.OA, {"breaker": ""}):
+            d.cited_by_candidates({}, datetime.date.today())
+        self.assertEqual(searched, ["Seed b paper title"])
+        self.assertEqual(asked, ["WSEED"])
+
+    def test_refs_title_fallback_rejects_shared_prefix(self):
+        # ChatGPT 13:06: a different paper sharing the first 30 normalized characters must not
+        # supply the reference list; a unique exact title does.
+        wrong = {"id": "W2", "title": "Paper Missing From OpenAlex By DOI: Extended Journal Version",
+                 "referenced_works": ["https://openalex.org/W9"]}
+        self._refs({"filter=doi:": [{"id": "W1", "doi": "https://doi.org/10.1/a", "referenced_works": []}],
+                    "title.search": [wrong]})
+        self.assertEqual((d.REFS_AUDIT["title_hit"], d.REFS_AUDIT["title_unconfirmed"]), (0, 1))
+        self._refs({"filter=doi:": [{"id": "W1", "doi": "https://doi.org/10.1/a", "referenced_works": []}],
+                    "title.search": [wrong, {"id": "W3", "title": "Paper Missing From OpenAlex By DOI",
+                                             "referenced_works": ["https://openalex.org/W9"]}]})
+        self.assertEqual((d.REFS_AUDIT["title_hit"], d.REFS_AUDIT["title_unconfirmed"]), (1, 0))
+
     def test_bom_title(self):
         self.assertEqual(d._digest_title("﻿# Ansor: Generating High-Performance Tensor Programs (OSDI 2020)\n"),
                          "Ansor: Generating High-Performance Tensor Programs")
