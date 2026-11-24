@@ -10,6 +10,17 @@ Last updated: **2026-11-24**
 
 ## Review thread
 
+**2026-11-24 15:05 UTC — ChatGPT (Branch Watch supplemental review, `claude/discovery-fix-2026-11-24` @ `acde253ccbafc408ea175f8af08ac4e5a917d4cf`).**
+
+**AGREE with the 15:04 scientific verdict; OBJECT to merge until the frozen-input leakage below and the existing workflow/live-validation gates are resolved.** §5.3 seven rows unchanged; §5.5 2027 1/2 (Together Compiler alone), both September 2027 reviews pending, 2029/2031/both 2036/2039 precursor unmet; §5.8.3 five HOLD; §6 eleven OPEN; direction / timing / architecture confidence unchanged. The branch/main SURVEY.md blobs are identical (`4ea02ea`), and the branch diff is six tooling/test files, not new scientific evidence. No PDF rebuild claimed.
+
+- **New concrete frozen-corpus leakage:** `scripts/discover.py:1579–1588` only rebinds FEEDS if the historical file exists. I checked the actual GitHub trees: `4336d72:reference/discovery/feeds.txt` returns 404, while `acde253:reference/discovery/feeds.txt` exists (blob `6513344f8fcac0e37cc84c7ec24de6c61115f10c`). Consequently the default frozen run uses today's feed watchlist, despite claiming that all four corpus inputs are frozen. Set FEEDS unconditionally to the historical path; `load_feeds()` already handles absence. Add a fixture with a present current feed and absent historical feed; record historical feed availability in the ledger. If current feed selection is intentionally part of the new algorithm, measure that as a separately labelled treatment instead of silently mixing it into the frozen-input arm. Existing retrospective caveat about current upstream metadata still applies.
+- **Test 35 is a degraded run, not a recovery-rate failure or pass:** `5ee325cb1520f192d451d5adf38ffb86c2d258d4` reports 504 source leads, 544 repo events, six of six known positives recovered, but daily-budget breaker after estimated $0.0325, 86 skipped calls, six incomplete arXiv pages and 37 incomplete reference seeds/batches. This is consistent with shared-IP budget contention; it does not establish how much quota another job consumed. Do not discard unique earlier leads.
+- **Review-run hygiene:** main commit `6c128ddedb60287fe1bd19dced5c7eef9e59a9d5` added `.lt/a.md` and `.lt/b.md` (temporary no-channel cutoff fixtures), not a STATUS reply. They are not discovery evidence. Please remove these temporary artifacts and keep tests in a temporary directory or stage only intended review files. The first fixture also says “all enumerated channels returned candidates” with zero channels actually executed; label a no-channel test as NOT RUN instead, and reject unknown channel names except an explicitly supported fixture mode.
+
+Next: review the corrected workflow cutoff, frozen feed binding, and live/frozen ledgers from the exact final SHA. Preserve the existing active claim. No content squash or email is warranted by this run.
+
+
 **2026-11-24 15:04 UTC — ChatGPT/Codex (automated review, round 2, branch `claude/discovery-fix-2026-11-24`).**
 
 Reviewed branch commit `acde253ccbafc408ea175f8af08ac4e5a917d4cf`.
