@@ -16,7 +16,8 @@ on:
         description: "Start date YYYY-MM-DD (default: 21 days ago)"
         required: false
   push:
-    # Only reviewed code from main may publish a discovery ledger.
+    # Only reviewed code on main publishes a ledger. Unmerged discovery code is tested by
+    # discover-test.yml, which is read-only (ChatGPT 13:49, Action 13:52, 24 November 2026).
     branches:
       - main
     paths:
@@ -28,6 +29,8 @@ permissions:
 
 jobs:
   discover:
+    # Refuse a manual dispatch from any other ref: the job holds a write token and the API secret.
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 120
     steps:
@@ -35,14 +38,36 @@ jobs:
       - name: Run discovery
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Optional. The keyless daily budget is estimated at $0.10. OpenAlex does not document
+          # the accounting unit. The ledger records only whether a key was present, never its value.
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
+          # Manual input enters as data, never as shell source (Codex 14:13/14:19/14:23).
+          INPUT_SINCE: ${{ github.event.inputs.since }}
         run: |
           set -e
-          SINCE="${{ github.event.inputs.since }}"
-          if [ -n "$SINCE" ]; then python3 scripts/discover.py --since "$SINCE"; else python3 scripts/discover.py; fi
+          # One UTC run date and one ledger path for generation, staging and announcement
+          # (ChatGPT/Codex 00:22, ChatGPT 00:46): never re-derive the date, never pick a ledger by
+          # listing the directory, so a newer checked-in ledger or a UTC-midnight rollover cannot
+          # swap in another run's file. Routing only: discover.py's windows are unchanged.
+          d=$(date -u +%Y-%m-%d)
+          f="reference/discovery/$d.md"
+          echo "RUN_DATE=$d" >> "$GITHUB_ENV"
+          echo "LEDGER=$f" >> "$GITHUB_ENV"
+          if [ -n "$INPUT_SINCE" ]; then
+            python3 -c 'import datetime,sys; datetime.date.fromisoformat(sys.argv[1])' "$INPUT_SINCE" \
+              || { echo "::error::since must be an ISO date YYYY-MM-DD"; exit 1; }
+            python3 scripts/discover.py --since "$INPUT_SINCE" --out "$f"
+          else
+            python3 scripts/discover.py --out "$f"
+          fi
+          test -f "$f" || { echo "::error::discover.py did not write $f"; exit 1; }
+          head -n 1 "$f" | grep -qF "$d" \
+            || echo "::warning::ledger header date differs from run date $d (UTC midnight rollover); path and announcement use $d"
       - name: Publish ledger on a branch and announce in the Review thread
         run: |
           set -e
-          f=$(ls reference/discovery/*.md | tail -1)
+          f="$LEDGER"; d="$RUN_DATE"
+          test -n "$f" && test -n "$d" && test -f "$f" || { echo "::error::run ledger path or date missing"; exit 1; }
           # Accept the published legacy ledger and the staged event-aware header.
           if grep -qE '\*\*[0-9]+ new source leads\*\*' "$f"; then
             n=$(grep -oE '\*\*[0-9]+ new source leads\*\*' "$f" | grep -oE '[0-9]+' | head -1)
@@ -52,7 +77,6 @@ jobs:
             events=0  # Legacy discovery has no indexed-repository event channel.
           fi
           test -n "$n" && test -n "$events"
-          d=$(date -u +%Y-%m-%d)
           echo "ledger=$f new_source_leads=$n indexed_repo_events=$events"
           { echo "## Discovery $d"; echo; head -c 6000 "$f"; } >> "$GITHUB_STEP_SUMMARY"
           git config user.name "Claude (discovery)"
@@ -66,15 +90,21 @@ jobs:
             echo "Existing same-day discovery branch preserved; publishing rerun as $br"
           fi
           git checkout -b "$br"
-          git add reference/discovery
+          git add -- "$f"
           git commit -m "discovery: mechanical ledger $d ($n new source leads, $events repo events)"
           git push origin "$br"
+          # Announce with this run's helper and ledger: the loop below checks out main, where a
+          # test run's ledger is absent and the helper may be older.
+          cp scripts/announce_discovery.py "$RUNNER_TEMP/announce_discovery.py"
+          cp "$f" "$RUNNER_TEMP/ledger.md"
+          announced=0
           for i in 1 2 3 4; do
             git fetch origin main
             git checkout -B main origin/main
-            python3 scripts/announce_discovery.py "$f" "$n" "$events" "$br" "$d"
+            LEDGER_FILE="$RUNNER_TEMP/ledger.md" python3 "$RUNNER_TEMP/announce_discovery.py" "$f" "$n" "$events" "$br" "$d" "${GITHUB_REF_NAME}@${GITHUB_SHA:0:12}"
             git add STATUS.md
             git commit -m "status: discovery ledger $d announced ($n new source leads, $events indexed-repo events)"
-            if git push origin HEAD:main; then break; fi
+            if git push origin HEAD:main; then announced=1; break; fi
             echo "push raced, retry $i"; sleep 15
           done
+          test "$announced" = 1 || { echo "::error::ledger published on $br but the Review-thread notice was not pushed"; exit 1; }

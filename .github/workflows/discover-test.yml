@@ -1,0 +1,123 @@
+name: Discovery live test (read-only)
+
+# Live test of unmerged discovery code on claude/discovery-fix-* branches. Read-only by design
+# (ChatGPT 13:49 and the Action 13:52, 24 November 2026): contents: read, checkout credentials not
+# persisted, no OpenAlex secret, no branch or STATUS.md push. Ledgers are uploaded as artifacts and
+# their headers written to the job summary; an agent posts the result in the Review thread.
+#
+# Two jobs:
+#   live   - the normal discovery run on the branch's own corpus (21-day window).
+#   frozen - the same code over the corpus as of 23 September 2026 (main @ 4336d72, the cut-off of
+#            the survey's forecast window), with every digest added since held out; reports which
+#            held-out sources the channels recover. A retrospective known-set recovery estimate,
+#            not a historical replay (OpenAlex metadata and citations are current).
+
+on:
+  push:
+    branches:
+      - "claude/discovery-fix-*"
+    paths:
+      - scripts/discover.py
+      - scripts/announce_discovery.py
+      - scripts/ledger_notices.py
+      - scripts/test_discover_*.py
+      - .github/workflows/discover-test.yml
+      - .github/workflows/discover.yml
+  workflow_dispatch:
+    inputs:
+      frozen_sha:
+        description: "Frozen-corpus SHA (default: 4336d72, last main commit before 24 Sep 2026)"
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: discovery-test-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - run: |
+          set -e
+          for t in scripts/test_discover_*.py; do python3 -m unittest -q "scripts.$(basename "${t%.py}")" || python3 "$t"; done
+          python3 scripts/validate_survey.py
+
+  live:
+    needs: unit
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Run discovery (keyless, read-only)
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 scripts/discover.py --out "$RUNNER_TEMP/ledger-live.md"
+      - name: Summary
+        if: always()
+        run: |
+          f="$RUNNER_TEMP/ledger-live.md"
+          if [ -f "$f" ]; then
+            { echo "## Live test ledger (${GITHUB_SHA:0:12})"; echo; head -n 12 "$f"; echo; sed -n '/^## Channel diagnostics/,$p' "$f" | head -c 20000; } >> "$GITHUB_STEP_SUMMARY"
+          fi
+          python3 scripts/ledger_notices.py "$f" "live ledger"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ledger-live-${{ github.sha }}
+          path: ${{ runner.temp }}/ledger-live.md
+          if-no-files-found: warn
+
+  frozen:
+    # Runs after live, not beside it: two keyless OpenAlex clients at once drew 155
+    # per-second 429s and an empty cites channel in run 45419826954.
+    needs: [unit, live]
+    if: ${{ !cancelled() && needs.unit.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Frozen corpus worktree
+        # Manual input enters as data and is resolved to a full commit before use (Codex 14:13).
+        env:
+          INPUT_FROZEN: ${{ github.event.inputs.frozen_sha }}
+        run: |
+          set -e
+          ref="${INPUT_FROZEN:-4336d72}"
+          sha=$(git rev-parse --verify --quiet "${ref}^{commit}") || { echo "::error::frozen_sha is not a commit"; exit 1; }
+          echo "FROZEN_SHA=$sha" >> "$GITHUB_ENV"
+          git worktree add --detach "$RUNNER_TEMP/frozen" "$sha"
+      # No --since: the cutoff is derived from the corpus commit (the day after it), so any
+      # frozen_sha gets its own window (ChatGPT 16:08; discover.py since acde253).
+      - name: Run discovery over the frozen corpus (keyless, read-only)
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python3 scripts/discover.py --corpus-root "$RUNNER_TEMP/frozen" \
+            --recall-against . --out "$RUNNER_TEMP/ledger-frozen.md"
+      - name: Summary
+        if: always()
+        run: |
+          f="$RUNNER_TEMP/ledger-frozen.md"
+          if [ -f "$f" ]; then
+            { echo "## Frozen-corpus ledger (${GITHUB_SHA:0:12}, corpus ${FROZEN_SHA:0:12})"; echo; head -n 12 "$f"; echo;
+              sed -n '/^## Frozen-corpus recovery estimate/,/^## Channel diagnostics/p' "$f" | head -c 30000; } >> "$GITHUB_STEP_SUMMARY"
+          fi
+          python3 scripts/ledger_notices.py "$f" "frozen ledger (corpus ${FROZEN_SHA:0:12})"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ledger-frozen-${{ github.sha }}
+          path: ${{ runner.temp }}/ledger-frozen.md
+          if-no-files-found: warn
