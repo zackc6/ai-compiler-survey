@@ -81,6 +81,13 @@ Disambiguate TritorX, TVM TIRx, and Triton Low-level Language Extensions. Likewi
 
 For agent skills, distinguish vendor optimization packs, the Agent Skills packaging specification, skill compilation, and explicit runtime-state systems. These are adjacent infrastructure until evaluated in a compiler context. Foundational agent-mechanism work that a narrative section relies on (for example the memory, reflection and skill-library papers behind §4.6) still gets a Tier C background digest, so readers can see what the compiler evidence builds on; it never counts as compiler evidence. Do not promote generic coding, customer-service, or security-challenge benchmarks into evidence of compiler optimization.
 
+**Controller-improvement sources are in scope even without a compiler task (maintainer, 25 November 2026).** The controller row in §4.6 and §5.3 is evidenced from outside compilers, so "general agent or self-improvement work, no compiler task" is **not** an exclusion reason by itself. Before writing EXCLUDE on a self-improvement, harness-evolution, prompt-optimization, agent-memory or self-modifying-agent lead, check the §4.6 table and the Controller-improvement group in `reference/publications/INDEX.md`, then apply:
+- **Tier B** if it measures whether controller changes hold up: held-out or out-of-distribution transfer, gain attribution (overfitting, test-time compute), selection noise, grader or verifier validity, poisoning of self-evaluation sets, regression on older tasks. These decide how the survey reads every controller result, compiler ones included.
+- **Tier B** if it is a new controller mechanism with a held-out evaluation (harness editing at runtime, harness-versus-weights choice, editable improvement procedure).
+- **Tier C** for taxonomies, surveys and environments of recursive self-improvement, and for production loops outside compilers.
+- **EXCLUDE** only with a named reason why it bears on no §4.6 row, for example training-recipe automation with no controller change.
+An EXCLUDE that contradicts an indexed digest of the same family (for example excluding a Meta-Harness successor while Meta-Harness is indexed) is a triage error. The 2026-11-08 and 2026-11-15 ledgers excluded *The Last AI Built by Humans* this way.
+
 Include hardware research when executable workloads, representations, simulation, or compiler feedback connect it to co-design. Keep general chip-design automation outside the main survey unless that connection is demonstrated.
 
 ## Update the narrative before the presentation

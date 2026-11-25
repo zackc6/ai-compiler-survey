@@ -111,6 +111,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | ongoing | code | Source control & review agents | LLVM Foundation / community | GitHub | [llvm/llvm-project (host repository)](llvm-project-github.md) | [source](https://github.com/llvm/llvm-project) |
 
 | 2026 | paper | Surveys & vision | BAAI · PKU · HKUST(GZ) et al. | arXiv | [Towards Automated Kernel Generation in the Era of LLMs](automated-kernel-generation-survey.md) | [source](https://arxiv.org/abs/2601.15727) |
+| 2026 | paper | Surveys & vision | SJTU · Tsinghua · ByteDance · Shanghai AI Lab and others | arXiv | [The Last AI Built by Humans: Toward Genuine Recursive Self-Improvement](last-ai-built-by-humans.md) | [source](https://arxiv.org/abs/2609.11873) |
 | 2025+ | code | GPU kernels & inference compilers | FlagOpen / flagos-ai | GitHub | [flagos-ai/awesome-LLM-driven-kernel-generation](awesome-llm-kernel-generation.md) | [source](https://github.com/flagos-ai/awesome-LLM-driven-kernel-generation) |
 | 2026 | code | Commercial products & proposals | Magnitude | GitHub · HN linked launch | [Magnitude: Hardware-Specific Local Inference Tuning](magnitude.md) | [source](https://github.com/magnitudedev/magnitude) |
 | 2026 | company | Commercial products & proposals | AMD | AMD ROCm blog | [AMD ROCm: GEAK v3 kernel optimization agent](geak-v3-rocm-blog.md) | [source](https://rocm.blogs.amd.com/artificial-intelligence/kernel-optimization-agent/README.html) |
@@ -201,6 +202,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | company | GPU kernels & inference compilers | NVIDIA (Agentic CUDA Effort) · CMU/MLC | NVLabs project blog | [KDA²: Kernel Design Agents (KDA) optimize Kimi Delta Attention (KDA)](kda2.md) ★ acceptance contract | [source](https://nvlabs.github.io/kda/blog/2026-09-27-kda-for-kda/) |
 | 2026 | code | GPU kernels & inference compilers | AMD (AMD-AGI) | GitHub | [AKLR: Agentic Kernel Library for ROCm (knowledge-base on/off kernel-search study)](aklr.md) ★ A | [source](https://github.com/AMD-AGI/AKLR) |
 | 2026 | code | MLGO & RL gyms | AMD (AMD-AGI) | GitHub · arXiv | [AgentKernelArena: An RL-Ready Environment for GPU Kernel Agents (Generalization-Aware Benchmarking of GPU Kernel Optimization Agents)](agentkernelarena.md) ★ A | [source](https://github.com/AMD-AGI/AgentKernelArena) |
+| 2026 | paper | MLGO & RL gyms | CMU · NVIDIA · UT Austin · HKUST · Amazon AGI · Together AI · Meta and others | arXiv | [Singularity-Bench: Can Agents Build Agents?](singularity-bench.md) | [source](https://arxiv.org/abs/2611.16591) |
 | 2026 | code | GPU kernels & inference compilers | Intel Labs | GitHub · arXiv | [Xe-Forge: Multi-Stage LLM-Powered Kernel Optimization for Intel GPU](xe-forge.md) | [source](https://github.com/IntelLabs/Xe-Forge) |
 | 2026 | code | Agentic & RL compilers | tile-ai (TileLang organization) | GitHub · PyPI | [TileFoundry: a tile-based agentic program-generation platform with whole-model prefill and decode results against SGLang](tilefoundry.md) ★ A | [source](https://github.com/tile-ai/TileFoundry) |
 | 2026 | paper | GPU kernels & inference compilers | Red Hat (PyTorch team) | arXiv | [KernelOPT: Dispatch-Aware Agentic Search for GPU Kernel Optimization](kernelopt.md) | [source](https://arxiv.org/abs/2609.30059) |
@@ -233,8 +235,16 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2023 | paper | Controller improvement | NVIDIA · Caltech · UT Austin · Stanford University · UW–Madison | arXiv | [Voyager: An Open-Ended Embodied Agent with Large Language Models](voyager.md) | [source](https://arxiv.org/abs/2305.16291) |
 | 2023/25 | paper | Controller improvement | UC Berkeley · Letta | arXiv | [MemGPT: Towards LLMs as Operating Systems (with Sleep-time Compute)](memgpt.md) | [source](https://arxiv.org/abs/2310.08560) |
 | 2025 | paper | Controller improvement | Zep AI | arXiv | [Zep: A Temporal Knowledge Graph Architecture for Agent Memory](zep.md) | [source](https://arxiv.org/abs/2501.13956) |
+| 2026 | paper | Controller improvement | Amazon · New York University | arXiv | [Harness-Delta Attribution: Dissecting Gains from Harness Evolution](harness-delta-attribution.md) ★ controller counterevidence | [source](https://arxiv.org/abs/2610.22466) |
+| 2026 | paper | Controller improvement | Meta · Microsoft | arXiv | [The Winner's Curse in LLM Self-Improvement Loops: Selection Noise, Lock-in, and Acceptance Rules](winners-curse-self-improvement.md) ★ controller counterevidence | [source](https://arxiv.org/abs/2610.09239) |
+| 2026 | paper | Controller improvement | Xing Zhang et al. (affiliations not listed) | arXiv | [Who Grades the Grader? Co-Evolving Evaluation Metrics and Skills for Self-Improving LLM Agents](who-grades-the-grader.md) | [source](https://arxiv.org/abs/2607.12790) |
+| 2026 | paper | Controller improvement | Independent · UC Berkeley · Purdue · Stanford | arXiv | [Harness Evolution Hits a Ceiling: When Weight Training Should Begin](harness-evolution-ceiling.md) | [source](https://arxiv.org/abs/2610.11655) |
+| 2026 | paper | Controller improvement | UC Berkeley · Andreessen Horowitz · Braintrust | arXiv | [Exo: An Architecture for Self-Improving Systems at Runtime](exo-runtime-harness.md) | [source](https://arxiv.org/abs/2611.00463) |
+| 2026 | paper | Controller improvement | University of Washington · Georgetown University | arXiv | [Reflections on Trusting Trust, Revisited: Contaminating Self-Modifying AI Coding Agents with Poisoned Benchmarks](trusting-trust-poisoned-benchmarks.md) ★ controller counterevidence | [source](https://arxiv.org/abs/2609.17817) |
+| 2026 | paper | Controller improvement | Zheng et al. (affiliations not listed) | arXiv | [SEAGym: An Evaluation Environment for Self-Evolving LLM Agents](seagym.md) | [source](https://arxiv.org/abs/2606.17546) |
+| 2026 | paper | Controller improvement | Spotify | RecSys 2026 · arXiv | [Bootstrapping Conversational Recommendation Agents At Spotify: Synthetic Data Generation and Self-Improvement Loops](spotify-self-improvement-loop.md) | [source](https://arxiv.org/abs/2609.30297) |
 
-**Total:** 221 digests
+**Total:** 231 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 

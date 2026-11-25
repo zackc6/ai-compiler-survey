@@ -8,7 +8,8 @@ CIRBench and TileFoundry. Eight channels:
   arxiv   - arXiv API listings by category and keyword, over a date window
   venues  - DBLP tables of contents for a fixed venue set (OSDI, SOSP, ASPLOS,
             PLDI, CGO, MLSys, ISCA, MICRO, ICML, NeurIPS, ICLR, EMNLP)
-  cites   - OpenAlex "cited by" for the Tier A digests (forward citation expansion)
+  cites   - OpenAlex "cited by" for the seed digests: every Tier A digest plus every
+            Controller-improvement digest (forward citation expansion; see SEED_GROUPS)
   refs    - OpenAlex references of every digest (backward expansion; no date window, no
             keyword filter): foundational and mechanism-layer works our sources build on
   repoevent - commit updates in already-indexed repositories (event-level, no popularity filter)
@@ -67,13 +68,36 @@ KEYWORDS = [
     "harness", "self-improv", "agentic", "coding agent", "benchmark",
     "verification", "equivalence", "translation validation", "alive2",
 ]
+# Controller-improvement vocabulary (25 November 2026). The survey's controller row (sections 4.6
+# and 5.3) is evidenced by work outside compilers: harness search, prompt evolution, self-modifying
+# agents, agent memory, and the methodology that checks whether such gains hold up. None of it says
+# "compiler", so the CORE gate below dropped the whole 2026 recursive-self-improvement wave
+# (Harness-Delta Attribution, The Winner's Curse in Self-Improvement Loops, Who Grades the Grader?,
+# Exo, Harness Evolution Hits a Ceiling, Trusting Trust Revisited). A title with one of these terms,
+# or an abstract with two, is admitted as a controller-lane lead; triage decides relevance.
+CONTROLLER = [
+    "self-improv", "self improv", "self-evolv", "self evolv", "recursive self",
+    "harness evolution", "harness optimi", "harness search", "agent harness", "evolving harness",
+    "evolved harness", "self-modif", "prompt optimi", "prompt evolution", "instruction optimi",
+    "agent memory", "memory mechanism", "skill library", "experience replay for agent",
+    "agentic system design", "automated design of agent", "improvement loop",
+]
+
+
+def controller_hit(text: str) -> list[str]:
+    low = text.lower()
+    return [k for k in CONTROLLER if k in low]
+
+
 CORE = [
     "compiler", "superoptim", "autotun", "auto-tun", "autoschedul", "kernel", "megakernel",
     "mega-kernel", "triton", "mlir", "llvm", "ptx", "tensor program", "tensor compiler",
     "equality saturation", "e-graph", "egraph", "lowering", "scheduling language", "halide",
     "tvm", "xla", "inductor", "torch.compile", "cost model", "cuda", "tile",
 ]
-ARXIV_CATS = ["cs.PL", "cs.DC", "cs.AR", "cs.LG", "cs.SE", "cs.PF"]
+# cs.AI added 25 November 2026: most 2026 self-improvement / harness-evolution papers (Harness-Delta
+# Attribution, Who Grades the Grader?, SEAGym, Exo) are filed there, not under cs.LG alone.
+ARXIV_CATS = ["cs.PL", "cs.DC", "cs.AR", "cs.LG", "cs.SE", "cs.PF", "cs.AI"]
 # DBLP venue keys (stream keys), checked for the current and previous year.
 VENUES = {
     "OSDI": "conf/osdi", "SOSP": "conf/sosp", "ASPLOS": "conf/asplos",
@@ -342,10 +366,12 @@ def arxiv_candidates(since: dt.date, max_per_cat: int = 20000, page: int = 500) 
                 hits = keyword_hit(title + " " + summ[:1500])
                 core_title = [k for k in CORE if k in title.lower()]
                 core_abs = [k for k in CORE if k in summ[:1500].lower()]
-                if core_title or (len(core_abs) >= 2 and len(hits) >= 3):
+                ctl = controller_hit(title) or ([] if len(controller_hit(summ[:1500])) < 2 else controller_hit(summ[:1500]))
+                if core_title or (len(core_abs) >= 2 and len(hits) >= 3) or ctl:
+                    why = ", ".join(hits[:6]) if (core_title or len(core_abs) >= 2) else "controller lane: " + ", ".join(ctl[:4])
                     out.append({"channel": "arxiv", "id": aid, "title": title, "date": pub,
                                 "url": f"https://arxiv.org/abs/{aid.split('v')[0]}",
-                                "why": ", ".join(hits[:6]), "cat": cat})
+                                "why": why, "cat": cat})
             if reached_boundary:
                 break
             start += len(entries)
@@ -683,7 +709,7 @@ def venue_candidates(years: list[int]) -> list[dict]:
     for name in PROCEEDINGS:
         for y in years:
             for title, url in _proceedings_titles(name, y):
-                kh = [k for k in CORE if k in title.lower()]
+                kh = [k for k in CORE if k in title.lower()] or ["controller lane: " + k for k in controller_hit(title)]
                 if kh:
                     out.append({"channel": "venue", "id": "", "title": title, "date": str(y), "url": url,
                                 "why": f"{name} {y} (proceedings site): " + ", ".join(kh[:5])})
@@ -691,7 +717,7 @@ def venue_candidates(years: list[int]) -> list[dict]:
         for y in years:
             for r in _openalex_venue(name, term, y):
                 title = (r.get("title") or "").strip()
-                kh = [k for k in CORE if k in title.lower()]
+                kh = [k for k in CORE if k in title.lower()] or ["controller lane: " + k for k in controller_hit(title)]
                 if not kh:
                     continue
                 doi = (r.get("doi") or "").replace("https://doi.org/", "")
@@ -727,23 +753,49 @@ def _confirm_seed(aid: str, title: str, hits: list[dict]) -> dict | None:
     return exact[0] if len({h.get("id") for h in exact}) == 1 else None
 
 
-def cited_by_candidates(idx: dict, since: dt.date, max_seeds: int = 60) -> list[dict]:
-    """OpenAlex: works citing our Tier A arXiv seeds. Citation indexing lags, so the
-    window is widened to 180 days; dedupe against the index removes known works."""
+# Which digests seed forward-citation expansion. Until 25 November 2026 only Tier A digests did, so the
+# Controller-improvement family (Meta-Harness, Hyperagents, Darwin Godel Machine, ADAS, SICA, Harmony
+# Harness, all Tier B) never had its citers listed: the 2026 RSI papers that cite them were invisible.
+# A digest seeds when it is Tier A, or when its Group is one whose evidence the survey takes from
+# outside compilers. Tier A seeds come first, so a cap never drops one for a group seed; an arXiv ID
+# that both a Tier A and a group digest carry is a Tier A seed whatever the filename order.
+SEED_GROUPS = ("Controller improvement",)
+
+
+def cited_by_candidates(idx: dict, since: dt.date, max_seeds: int = 100) -> list[dict]:
+    """OpenAlex: works citing our seed digests (Tier A, plus SEED_GROUPS). Citation indexing
+    lags, so the window is widened to 180 days; dedupe against the index removes known works."""
     since = min(since, dt.date.today() - dt.timedelta(days=180))
     out = []
     seeds = []
     owner_title: dict[str, str] = {}  # seed arXiv ID -> title of the Tier A digest it came from
+    group_seeds: list[str] = []
     for p in sorted(PUBS.glob("*.md")):
         if p.name in ("INDEX.md", "_TEMPLATE.md"):
             continue
         t = p.read_text(encoding="utf-8", errors="ignore")
-        if re.search(r"\| \*\*Evidence tier\*\* \| (\*\*)?A\b", t):
+        tier_a = bool(re.search(r"\| \*\*Evidence tier\*\* \| (\*\*)?A\b", t))
+        grp = re.search(r"\| \*\*Group\*\* \| ([^|]+?) \|", t)
+        in_group = bool(grp and grp.group(1).strip() in SEED_GROUPS)
+        if tier_a or in_group:
             m = re.search(r"arxiv\.org/abs/(\d{4}\.\d{4,5})", t)
-            if m and m.group(1) not in owner_title:
-                seeds.append(m.group(1))
-                owner_title[m.group(1)] = _digest_title(t)
-    seeds = seeds[:max_seeds]
+            if not m:
+                continue
+            aid = m.group(1)
+            # ChatGPT/Codex round 2 (25 Nov): resolve a shared arXiv ID by highest priority, not by
+            # filename order. A Tier A digest claims an ID even when a group digest sorted first, so
+            # the seed is ranked (and survives the cap) as Tier A, with the Tier A digest's title.
+            if tier_a and aid in group_seeds:
+                group_seeds.remove(aid)
+                seeds.append(aid)
+                owner_title[aid] = _digest_title(t)
+            elif aid not in owner_title:
+                (seeds if tier_a else group_seeds).append(aid)
+                owner_title[aid] = _digest_title(t)
+    n_a = len(seeds)
+    seeds = (seeds + group_seeds)[:max_seeds]
+    if n_a + len(group_seeds) > max_seeds:
+        CITES_INCOMPLETE.append(f"seed cap {max_seeds} dropped {n_a + len(group_seeds) - max_seeds} seeds")
     # Resolve seeds by their arXiv DOI in batched list requests ($0.0001 each). Title search
     # ($0.001 each) was the only route until 24 November 2026 and helped spend the daily budget.
     works: dict[str, dict] = {}
@@ -762,7 +814,8 @@ def cited_by_candidates(idx: dict, since: dt.date, max_seeds: int = 60) -> list[
                     works[m.group(1)] = r
         except Exception:  # noqa: BLE001
             CITES_INCOMPLETE.append(f"DOI batch {i // 40 + 1} ({len(chunk)} seeds) unparsable")
-    log(f"  cites: {len(seeds)} Tier A arXiv seeds, {len(works)} resolved by DOI")
+    log(f"  cites: {len(seeds)} arXiv seeds ({min(n_a, len(seeds))} Tier A, {max(0, len(seeds) - n_a)} from "
+        f"{', '.join(SEED_GROUPS)}), {len(works)} resolved by DOI")
     for aid in seeds:
         w = works.get(aid)
         if not w:
@@ -871,6 +924,12 @@ KNOWN_POSITIVES = [
     ("MemGPT: Towards LLMs as Operating Systems", "refs"),
     ("TASO: Optimizing Deep Learning Computation with Automatic Generation of Graph Substitutions", "refs"),
     ("Ansor: Generating High-Performance Tensor Programs for Deep Learning", "refs"),
+    # 25 November 2026: the 2026 recursive-self-improvement wave, missed because cites seeded only
+    # Tier A digests and arXiv/venue titles needed a compiler term. Each cites a Controller-
+    # improvement digest (Meta-Harness, GEPA, Hyperagents, Darwin Godel Machine).
+    ("Harness-Delta Attribution: Dissecting Gains from Harness Evolution", "cites"),
+    ("The Winner's Curse in LLM Self-Improvement Loops: Selection Noise, Lock-in, and Acceptance Rules", "cites"),
+    ("Reflections on Trusting Trust, Revisited: Contaminating Self-Modifying AI Coding Agents with Poisoned Benchmarks", "cites"),
 ]
 
 
@@ -1661,7 +1720,7 @@ def _cand_ids(c: dict) -> dict:
 # eligibility rule, because only arxiv, blogs and new-repo listings are bounded by `since`.
 CHANNEL_WINDOWS = (
     "arxiv: submissions since the window start; "
-    "refs: no date window (references of indexed Tier A digests); "
+    "refs: no date window (references of every indexed paper digest); "
     "cites: citing works published since the earlier of the window start and 180 days ago; "
     "venues: listings for the current and preceding calendar years, with no window filter; "
     "github: tracked-org repos created since the window start, or older repos pushed since it, plus PyPI releases since it; "

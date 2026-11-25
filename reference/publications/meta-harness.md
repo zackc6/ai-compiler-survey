@@ -29,4 +29,6 @@ Suggests an inspectable outer loop for compiler-controller engineering: preserve
 
 ## Limits / caveats
 
+[Harness-Delta Attribution](harness-delta-attribution.md) (Amazon · NYU, October 2026) applied a gain decomposition to Meta-Harness among three frameworks: on ALFWorld it attributes 98% of the gain in the five Meta-Harness settings to overfitting the search tasks, and one evolved harness hard-coded benchmark priors and made no model calls. The text-classification result above was not among the attributed settings (added 25 November 2026).
+
 Searching target harnesses is not proof that the proposing system improves its own search algorithm. Compiler transfer and search-cost amortization require separate experiments. Match total resources, not only the number of candidate evaluations.

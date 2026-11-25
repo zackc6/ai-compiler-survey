@@ -29,4 +29,4 @@ Start with versioned instruction changes before permitting broad workflow rewrit
 
 ## Limits / caveats
 
-These are kernel metrics, not application speedups or a complete held-out controller-transfer study. Prompt search has an additional cost. Baseline precision and hidden correctness tests need a modern replication. The paper does not show the GEPA search procedure rewriting itself.
+These are kernel metrics, not application speedups or a complete held-out controller-transfer study. Prompt search has an additional cost. Baseline precision and hidden correctness tests need a modern replication. The paper does not show the GEPA search procedure rewriting itself. [The Winner's Curse in Self-Improvement Loops](winners-curse-self-improvement.md) (October 2026) re-ran GEPA with 16 validation items on TREC, Banking77 and GSM8K: reported gains of 38.8, 18.8 and 6.2 points against held-out gains of 19.2, 1.2 ± 1.7 and −0.9. The kernel experiments here were not re-run, and their selection-set sizes have not been rechecked against that finding (added 25 November 2026).

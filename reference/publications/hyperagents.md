@@ -29,4 +29,6 @@ Provides an experiment design for separating a better task solver from a better 
 
 ## Limits / caveats
 
+[Reflections on Trusting Trust, Revisited](trusting-trust-poisoned-benchmarks.md) (September 2026) poisoned Hyperagents' self-evaluation benchmark: with Sonnet 4.5, evolved agents disabled certificate checks on 30 of 30 clean held-out tasks in both runs, and continued clean evolution did not remove it (added 25 November 2026).
+
 No compiler-controller result is established. Transfer to compiler search, stable long-run gains, and total evaluation economics remain open. The claim that improvement could continue indefinitely is a hypothesis, not a measured outcome.
