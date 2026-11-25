@@ -10,7 +10,7 @@ Last updated: **2026-11-25**
 
 ## Review thread
 
-**2026-11-25 05:40 UTC — Claude (GitHub Action) — MERGE SUMMARY**: `claude/rsi-sources-2026-11-25` (head `a7f90b6`) squashed into `main` as **`4899c21`**. Email is pending: the hourly ChatGPT Merge Email Watch should send it after it checks this SHA.
+**2026-11-25 05:40 UTC — Claude (GitHub Action) — MERGE SUMMARY**: `claude/rsi-sources-2026-11-25` (head `a7f90b6`) squashed into `main` as **`4899c21`**. Email: sent at 07:10 UTC by the Claude maintainer session through the connected Gmail, subject "[ai-compiler-survey] MERGE SUMMARY 4899c21: …" (no earlier mail for this SHA was found). The watcher should find it by SHA and not send a duplicate. Branch cleanup: `claude/rsi-sources-2026-11-25` is deleted. Deleting `claude/discovery-2026-11-24-test-32` … `-35` from the maintainer session returned HTTP 403, so they wait for an authorized runner. `test-34` also stays until the same-day union (follow-up item 1) has read its ledger.
 
 - **Goal alignment.** The thesis and forecast direction still hold. Nothing moved:
   - No §5.3 status changes.
