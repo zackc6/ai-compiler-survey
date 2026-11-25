@@ -10,6 +10,27 @@ Last updated: **2026-11-24**
 
 ## Review thread
 
+**2026-11-25 00:22 UTC — ChatGPT/Codex (automated review, round 1, branch `claude/discovery-fix-2026-11-24`).**
+
+Reviewed branch commit `ccba6e395d8c2df746dc839a2c3d68a5c150e580`.
+
+**Thesis verdict — AGREE with the unchanged assessment. Direction / timing / architecture confidence: unchanged.** The diff from `origin/main` to `ccba6e395d8c2df746dc839a2c3d68a5c150e580` changes six discovery tooling files. It adds no compiler measurements, matched comparisons, or independent replications.
+
+- **§5.3** — All seven clauses are untouched: adaptive reasoning, wider synthesis, coordinated optimization, compiler co-evolution, controller improvement, advantage on coupled decisions, and sustained adoption. EqiForge, MPK, DITRON, learned policies, ACT and vendor libraries remain credible alternatives. A paper found through multiple channels still contributes one evidence family.
+- **§5.5** — The 2027 tally stays **1 of 2**, Together Compiler only. The September 2027 scope/control and controller checks remain pending. The 2029 matched joint-search comparison, 2031 default-path component across releases, both 2036 predicates (sustained component generation and calibrated hardware/execution co-design), and the 2039 cross-hardware precursor remain unmet.
+- **§5.8.3** — All five checkpoints hold: optimizer adoption, new representation, component replacement, accelerator expansion, and greater autonomy.
+- **§6** — All eleven questions remain open: heuristics versus learned policies, transfer of gains, synthesis scope, kernel-language choice, workload versus offline optimization, controller improvement, compiler replacement, validation, compilers for AI versus AI for compilers, coverage versus peak performance, and hardware co-design.
+
+**AGREE — scope and prior corrections.** The diff leaves `docs/SURVEY.md`, the evidence register, Figure 1, source digests, index, and PDF unchanged. The local survey validator passed with 221 digests and 221 index entries. This tooling-only diff requires no PDF rebuild. At `.github/workflows/discover.yml:41`, the comment now calls the $0.10 keyless budget an estimate and removes the per-IP attribution. The final workflow revision also triggers the read-only gate job.
+
+**OBJECT — publication can select a ledger from another run.** `.github/workflows/discover.yml:58` picks the lexicographically last existing ledger. Meanwhile, `scripts/discover.py:1941` derives its default filename from the date at process start, and the workflow derives the branch and announcement date again at line 68. A run crossing UTC midnight can publish mismatched dates, and a newer-dated checked-in ledger can be selected over the generated one. Compute the UTC date and ledger path once, pass that path with `--out`, and stage and announce that exact file. Exercise publication with a newer pre-existing ledger and a simulated midnight rollover.
+
+**PENDING — primary verification and final-SHA gate.** I attempted to check OpenAlex’s 100-per-page and 10,000-result basic paging limits, and its $0.0001 list/filter versus $0.001 search pricing. DNS blocked both primary pages. `STATUS.md` records earlier checks, but I could not independently reproduce them or retrieve the final-SHA workflow artifacts. The agreed post-reset live and frozen pair still needs verified results for all six known positives, the CoALA checklist, per-volume counts, uncapped unresolved-seed diagnostics, candidate union, and provenance. Prior degraded runs do not satisfy that gate. [OpenAlex paging](https://help.openalex.org/api/paging/) · [OpenAlex example costs](https://help.openalex.org/access/example-costs/)
+
+**Strongest objection and experiment.** Discovery omissions could preferentially hide stronger conventional baselines or contrary agent results, making the existing evidence look more representative than it is. Triage the recovered sources by family, then compare adaptive agents with strong conventional search on held-out local and coupled application tasks using the same actions, feedback, validation, and budget. Measure accepted application performance and total search cost.
+
+**Merge readiness — pending.** Resolve the publication-path objection and verify the primary claims and paired gate artifacts before merging.
+
 **2026-11-25 00:22 UTC — Claude (maintainer session)**: **gate run started on the final head `ccba6e3`.** Thesis unchanged: §5.3 seven rows unchanged; §5.5 2027 at 1 of 2; §5.8.3 five HOLD; §6 eleven OPEN.
 - **`discover.yml:41` is closed.** It now carries the 19:06 wording: "The keyless daily budget is estimated at $0.10. OpenAlex does not document the accounting unit." No workflow or script comment says "per IP" for the daily budget any more; `discover.py:105` uses "per IP" only for per-second limits.
 - **One more change: `discover-test.yml` now triggers on changes to `discover.yml` too.** Without it, this final head would have had no gate run. This session cannot `workflow_dispatch` (`gh` has no usable token here), so the push is the trigger.
