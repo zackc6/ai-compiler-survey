@@ -154,6 +154,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2025 | paper | Agent control-plane substrate | Stanford · Gimlet Labs · Intel | arXiv | [Efficient and Scalable Agentic AI with Heterogeneous Systems](agentic-ai-hetero-systems.md) | [source](https://arxiv.org/abs/2507.19635) |
 | 2026 | paper | Agent control-plane substrate | University of Washington (SyFI) | arXiv | [VibeServe: Can AI Agents Build Bespoke LLM Serving Systems?](vibeserve.md) | [source](https://arxiv.org/abs/2605.06068) |
 | 2026 | code | Agent control-plane substrate | DeepSeek AI | GitHub | [DeepSeek Harness (`dsh`)](deepseek-harness.md) plugin runtime / session log | [source](https://github.com/deepseek-ai/deepseek-harness) |
+| 2026 | company | Agent control-plane substrate | LangChain | LangChain blog | [The Agent Lake (LangSmith)](langsmith-agent-lake.md) trace/outcome store + automated improvement loop | [source](https://www.langchain.com/blog/the-agent-lake) |
 | 2026 | paper | Agent control-plane substrate | Google LLC · Purdue University | arXiv | [SKILL.state: Scalable Long-Horizon Agent Skills](skill-state.md) | [source](https://arxiv.org/abs/2608.26263) |
 | 2025–26 | company | Agent control-plane substrate | Anthropic (origin) · agentskills.io ecosystem | agentskills.io / GitHub · Anthropic Engineering | [Agent Skills (`SKILL.md`) open specification](agent-skills-spec.md) | [source](https://agentskills.io/specification) |
 | 2026 | paper | Agent control-plane substrate | University of Michigan | arXiv | [SIGIL: Compiling Agent Skills into Typed Harnesses](sigil.md) ★ skill compilation | [source](https://arxiv.org/abs/2607.27309) |
@@ -244,7 +245,7 @@ One digest per searched source. Files live beside this index. **Org** = company/
 | 2026 | paper | Controller improvement | Zheng et al. (affiliations not listed) | arXiv | [SEAGym: An Evaluation Environment for Self-Evolving LLM Agents](seagym.md) | [source](https://arxiv.org/abs/2606.17546) |
 | 2026 | paper | Controller improvement | Spotify | RecSys 2026 · arXiv | [Bootstrapping Conversational Recommendation Agents At Spotify: Synthetic Data Generation and Self-Improvement Loops](spotify-self-improvement-loop.md) | [source](https://arxiv.org/abs/2609.30297) |
 
-**Total:** 231 digests
+**Total:** 232 digests
 
 Kinds: `paper` · `company` · `forum` · `talk` · `code`
 
