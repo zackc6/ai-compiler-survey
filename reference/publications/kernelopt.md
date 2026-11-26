@@ -8,29 +8,38 @@
 | **Type** | paper |
 | **Group** | GPU kernels & inference compilers |
 | **Link** | [arXiv 2609.30059](https://arxiv.org/abs/2609.30059) |
-| **Evidence tier** | **A** — integration-aware optimization of compiled models with fallbacks counted in the headline |
-| **Version / reviewed** | v1 24 September 2026, v2 6 October 2026; reviewed 15 October 2026 |
+| **Evidence tier** | **A** — directly relevant integration-aware optimization with fallback-inclusive outcomes; the experiment does not isolate the causal contribution of dispatch awareness or agent reasoning |
+| **Version / reviewed** | v1 24 September, v2 6 October, [v3 19 November 2026](https://arxiv.org/html/2609.30059v3); v3 reviewed 26 November 2026. Same evidence family, not a new source. |
 
 ## Key contributions
 
-Treats a `torch.compile` output as a structured artifact: vendor-library calls (cuBLAS, cuDNN) are kept, and only the generated Triton sub-kernels are rewritten. Acceptance is a four-gate cascade—static validation, multi-seed numerical correctness, model-level verification against a float64 fallback on the re-stitched model, and a performance gate at 1.03×. Candidates that fail keep the `torch.compile` baseline. Search: five iterations, four plans per iteration, up to four executor retries, beam width four, about 20 LLM-driven candidates per problem, with Claude Sonnet 4.6.
+The compiler's generated artifacts and library dispatch guide the optimization. The agent can synthesize an alternative model implementation or rewrite generated Triton kernels, while preserving existing vendor-library calls in the artifact route. Profiling-guided beam search uses the reported settings T=5, N=4, K=4, B=4 per isolated target, with early stopping and additional synthesis/model-level retries. A static, numerical, assembled-model correctness and performance cascade controls candidate acceptance; a 1.03x performance threshold defines optimization. The cross-run strategy tracker and supplied benchmark-derived guidelines are documented mechanisms, not demonstrated controller improvement.
 
 ## Summary
 
-On 250 KernelBench problems on one NVIDIA H200, geometric-mean speedup over `torch.compile` **including fallbacks**: 1.40× (Level 1, 100 problems), 1.15× (Level 2, 100), 1.07× (Level 3, 50). Over optimized problems only: 2.54× (36 of 100), 1.84× (23 of 100), 1.37× (11 of 50). Against eager: 1.72×, 1.79×, 1.56×. Of 250 problems, 70 were optimized, 95 matched the baseline, and 85 fell back.
+v3 clarifies the interpretation of the original 250-problem KernelBench study. Each problem runs on an H200, with Claude Sonnet 4.6 and a warmed-up Inductor max_autotune baseline. There is one terminal outcome per problem, not a repeated-search experiment.
+
+| Level | Total | Optimized | Matched | Fallback | Baseline-substituted geomean | Median | Opt-only geomean |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| 1 | 100 | 36 | 48 | 16 | 1.40x | 1.01x | 2.54x |
+| 2 | 100 | 23 | 43 | 34 | 1.15x | 1.00x | 1.84x |
+| 3 | 50 | 11 | 4 | 35 | 1.07x | 1.00x | 1.37x |
+
+The total is 70 optimized, 95 matched and 85 fallback-labelled cases (73 performance regressions, five final verification failures, seven with no generated kernel). Fallback-labelled cases are assigned 1x in the aggregate; three L1 cases retain generated Triton final-model files, and two L3 cases have ambiguous saved-artifact provenance. Therefore the geomeans describe the stated aggregation convention, not a remeasurement of every saved final model. Against eager the reported geomeans are 1.72x, 1.79x and 1.56x on 99, 100 and 39 timed cases respectively.
 
 ## Key takeaways
 
-- Reporting the fallback-inclusive geometric mean is the honest denominator for an integrated optimizer; the optimized-only figures are what most kernel papers report.
-- Total compute about 1,100 GPU-hours (Level 1 about 145 h on one GPU; Level 2 about 210 h on two; Level 3 about 730 h on up to eight). Monetary cost not reported.
-- The largest single end-to-end gain is 88.63× on one Level 1 problem; such outliers dominate arithmetic means, which is why the geometric mean matters.
+- **Arithmetic contract matters.** Sixteen optimized matrix-product cases explicitly use lower-precision inputs or TF32 and one leaves dot precision to defaults/environment. Assigning 1x to these 17 cases produces level geomeans 1.14x, 1.07x and 1.04x; they account for 57.4% of the summed log-speedup. This is a sensitivity analysis, not matched-precision re-timing or an attribution of the residual gain.
+- **Headroom is heterogeneous.** The largest factor, 88.63x, comes from replacing dense diagonal matrix multiplication by row scaling; it is not a generic GEMM result. Omitting the five factors at least 10x gives geomeans 1.245x, 1.112x and 1.072x over 96/99/50 problems. Isolated kernel gains may disappear in the assembled model.
+- **Search costs.** The authors report approximately 1,100 H200 GPU-hours and 115 million LLM tokens, not a monetary cost. Individual L3 jobs range from six minutes to 66 hours. The timing harness uses separate processes and input generators, with 25 ms warmup and 100 ms repetition; one outcome per problem leaves search variability unmeasured.
+- **Acceptance is not equal precision.** The model-level numerical test and performance gate are valuable but tolerances do not establish that the baseline and optimized code perform the same arithmetic. Report precision and model-quality contracts independently of the search procedure.
 
 ## Why it matters for this survey
 
-A measured example of the recommended integration pattern: preserve what the compiler and libraries already do well, optimize the residual, and count the whole workload. The coverage result (70 of 250 improved) is as informative as the speedup. Compare with [KernelBench-Verified](kernelbench-verified.md) on baseline strength and with [KernelEvolve](kernelevolve.md) on production integration.
+The work is direct evidence for testing integrated application-aware search rather than treating standalone kernels as the final target. It is also a useful negative constraint: the benchmark-wide median is nearly unchanged and performance/verification fallbacks are common. A conventional algebraic rewrite pass could capture structured simplifications without agent search. Compare agents with symbolic simplification plus Inductor max_autotune, a deterministic profiling-guided search and a learned policy, controlling action spaces, precision, feedback and total cost. Cross dispatch context and synthesis availability, repeat on sealed workload families, retain the accepted artifact hash and report every failure. Compare both runtime gain and development payback; do not conflate cached experience with a changed controller.
 
 ## Limits / caveats
 
-- KernelBench problems, not production serving; no application A/B.
-- One GPU, one model; the 1.03× gate and the float64 fallback define what "correct" and "better" mean here.
-- Search cost per accepted kernel is high relative to the per-kernel gains at Levels 2–3; reuse must justify it.
+Fixed-shape KernelBench workloads, one GPU type and one LLM; overlap with model training data unassessed. No matched-precision rerun, repeated per-problem search or matched conventional search-policy arm; no production application integration or A/B evidence. The main results remain author-reported, not independently reproduced. v3 does not qualify the 2027 integration predicate or the 2027 controller checkpoint, and does not change the thesis verdict. The revised claims should replace, not add to, the v2 evidence family.
+
+First seen in the 2026-11-26 independent version audit; the source identity was already indexed. Proposed narrative change, subject to review: preserve the fallback-inclusive aggregate but label it baseline-substituted, add medians, precision sensitivity and provenance caveat; keep the 2027 tally unchanged.
